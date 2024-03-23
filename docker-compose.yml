@@ -1,0 +1,43 @@
+services:
+  apihub:
+    build: ./backend/
+    container_name: apiHub
+    command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=80 --host=0.0.0.0"
+    ports:
+      - 80:80
+    volumes:
+      - .:/app
+    depends_on:
+      - mysqldb
+  
+  mysqldb:
+    #build: ./database/
+    image: mysql
+    container_name: mysqlDB
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'testdb'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./database:/var/lib/mysql
+        
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - mysqldb
+    environment:
+      PMA_HOST: mysqlDB
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+  frontend:
+      build:
+        context: ./Frontend/patient_manager
+      ports:
+        - "8080:9000"
