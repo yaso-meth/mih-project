@@ -145,9 +145,8 @@ async def insertPatient(itemRequest : patientInsertRequest):
     return {"message": "Successfully Created Record"}
 
 # Update Patient on table
-@router.put("/patients/update/{idpatient}", tags="patients")
-async def UpdatePatient(idpatient: int,
-                        itemRequest : patientUpdateRequest):
+@router.put("/patients/update/", tags="patients")
+async def UpdatePatient(itemRequest : patientUpdateRequest):
     db = dbConnect()
     cursor = db.cursor()
     query = "update patients "
@@ -164,7 +163,7 @@ async def UpdatePatient(idpatient: int,
                    itemRequest.medical_aid_scheme,
                    itemRequest.address,
                    itemRequest.doc_office_id,
-                   idpatient)
+                   itemRequest.idpatients)
     try:
        cursor.execute(query, patientData) 
     except Exception as error:

@@ -1,6 +1,7 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from datetime import date
 
 router = APIRouter()
 
@@ -15,6 +16,17 @@ def dbConnect():
 class fileRequest(BaseModel):
     DocOfficeID: int
     patientID: int
+
+class patientNoteInsertRequest(BaseModel):
+    note_name: str
+    note_text: str
+    patient_id: int
+
+class patientNoteUpdateRequest(BaseModel):
+    idpatient_notes: int
+    note_name: str
+    note_text: str
+    patient_id: int
 
 # Get List of all notes
 @router.get("/notes/patients/", tags="patients_notes")
@@ -80,3 +92,49 @@ async def read_all_patientsby(itemRequest: fileRequest):
     db.close()
     return items
 
+# Insert Patient note into table
+@router.post("/notes/insert/", tags="patients_notes", status_code=201)
+async def insertPatientNotes(itemRequest : patientNoteInsertRequest):
+    today = date.today()
+    db = dbConnect()
+    cursor = db.cursor()
+    query = "insert into patient_notes "
+    query += "(note_name, note_text, patient_id, insert_date) "
+    query += "values (%s, %s, %s, %s)"
+    notetData = (itemRequest.note_name, 
+                   itemRequest.note_text,
+                   itemRequest.patient_id,
+                   today)
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        #raise HTTPException(status_code=404, detail="Failed to Create Record")
+        return {"message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created Record"}
+
+# Update Patient note on table
+@router.put("/notes/update/", tags="patients_notes")
+async def UpdatePatient(itemRequest : patientNoteUpdateRequest):
+    today = date.today()
+    db = dbConnect()
+    cursor = db.cursor()
+    query = "update patient_notes "
+    query += "set note_name=%s, note_text=%s, patient_id=%s, insert_date=%s "
+    query += "where idpatient_notes=%s"
+    notetData = (itemRequest.note_name, 
+                    itemRequest.note_text,
+                    itemRequest.patient_id,
+                    today,
+                    itemRequest.idpatient_notes)
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Update Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
