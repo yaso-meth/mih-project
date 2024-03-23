@@ -1,6 +1,7 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from ..database import dbConnection
 
 router = APIRouter()
 
@@ -29,18 +30,11 @@ class patientUpdateRequest(BaseModel):
     address: str
     doc_office_id: int
 
-def dbConnect():
-    return mysql.connector.connect(
-        host="mysqldb",
-        user="root",
-        passwd="C@rtoon1995",
-        database="patient_manager"
-    )
 
 # Get Patient By ID Number
 @router.get("/patients/{id_no}", tags="patients")
 async def read_patientByID(id_no: str):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE id_no=%s"
     cursor.execute(query, (id_no,))
@@ -64,7 +58,7 @@ async def read_patientByID(id_no: str):
 # Get List of all patients
 @router.get("/patients/", tags="patients")
 async def read_all_patients():
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients"
     cursor.execute(query)
@@ -91,7 +85,7 @@ async def read_all_patients():
 # Get List of all patients by Doctors Office
 @router.get("/patients/docOffice/{docoff_id}", tags="patients")
 async def read_all_patientsby(docoff_id: str):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients where doc_office_id=%s"
     cursor.execute(query, (docoff_id,))
@@ -118,7 +112,7 @@ async def read_all_patientsby(docoff_id: str):
 # Insert Patient into table
 @router.post("/patients/insert/", tags="patients", status_code=201)
 async def insertPatient(itemRequest : patientInsertRequest):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patients "
     query += "(id_no, first_name, last_name, email, cell_no, medical_aid_name, "
@@ -147,7 +141,7 @@ async def insertPatient(itemRequest : patientInsertRequest):
 # Update Patient on table
 @router.put("/patients/update/", tags="patients")
 async def UpdatePatient(itemRequest : patientUpdateRequest):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patients "
     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid_name=%s, "

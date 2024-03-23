@@ -1,20 +1,13 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
+from ..database import dbConnection
 
 router = APIRouter()
-
-def dbConnect():
-    return mysql.connector.connect(
-        host="mysqldb",
-        user="root",
-        passwd="C@rtoon1995",
-        database="patient_manager"
-    )
 
 # Get Doctors Office By ID
 @router.get("/docOffices/{docOffic_id}", tags="DocOffice")
 async def read_docOfficeByID(docOffic_id: int):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices WHERE iddoctor_offices=%s"
     cursor.execute(query, (docOffic_id,))
@@ -29,7 +22,7 @@ async def read_docOfficeByID(docOffic_id: int):
 # Get List of all Doctors Office
 @router.get("/docOffices/", tags="DocOffice")
 async def read_All_DoctorsOffice():
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices"
     cursor.execute(query)

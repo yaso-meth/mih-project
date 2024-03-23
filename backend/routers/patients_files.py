@@ -1,6 +1,7 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from ..database import dbConnection
 
 router = APIRouter()
 
@@ -8,18 +9,10 @@ class fileRequest(BaseModel):
     DocOfficeID: int
     patientID: int
 
-def dbConnect():
-    return mysql.connector.connect(
-        host="mysqldb",
-        user="root",
-        passwd="C@rtoon1995",
-        database="patient_manager"
-    )
-
 # Get List of all files
 @router.get("/files/patients/", tags="patients_files")
 async def read_all_files():
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files"
     cursor.execute(query)
@@ -40,7 +33,7 @@ async def read_all_files():
 # Get List of all files by patient
 @router.get("/files/patients/{patientID}", tags="patients_files")
 async def read_all_files_by_patient(patientID: int):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files where patient_id = %s"
     cursor.execute(query, (patientID,))
@@ -61,7 +54,7 @@ async def read_all_files_by_patient(patientID: int):
 # Get List of all files by patient & DocOffice
 @router.get("/files/patients-docOffice/", tags="patients_files")
 async def read_all_files_by_patient(itemRequest: fileRequest):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "select patient_files.idpatient_files, patient_files.file_path, patient_files.file_name, patient_files.patient_id, patient_files.insert_date, patients.doc_office_id "
     query += "from patient_manager.patient_files "

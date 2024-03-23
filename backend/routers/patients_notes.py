@@ -2,16 +2,9 @@ import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date
+from ..database import dbConnection
 
 router = APIRouter()
-
-def dbConnect():
-    return mysql.connector.connect(
-        host="mysqldb",
-        user="root",
-        passwd="C@rtoon1995",
-        database="patient_manager"
-    )
 
 class fileRequest(BaseModel):
     DocOfficeID: int
@@ -31,7 +24,7 @@ class patientNoteUpdateRequest(BaseModel):
 # Get List of all notes
 @router.get("/notes/patients/", tags="patients_notes")
 async def read_all_notes():
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes"
     cursor.execute(query)
@@ -51,7 +44,7 @@ async def read_all_notes():
 # Get List of all notes by patient
 @router.get("/notes/patients/{patientID}", tags="patients_notes")
 async def read_all_patientsby(patientID: int):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes where patient_id = %s"
     cursor.execute(query, (patientID,))
@@ -71,7 +64,7 @@ async def read_all_patientsby(patientID: int):
 # Get List of all notes by patient
 @router.get("/notes/patients-docOffice/", tags="patients_notes")
 async def read_all_patientsby(itemRequest: fileRequest):
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "select patient_notes.idpatient_notes, patient_notes.note_name, patient_notes.note_text, patient_notes.patient_id, patient_notes.insert_date, patients.doc_office_id "
     query += "from patient_manager.patient_notes "
@@ -96,7 +89,7 @@ async def read_all_patientsby(itemRequest: fileRequest):
 @router.post("/notes/insert/", tags="patients_notes", status_code=201)
 async def insertPatientNotes(itemRequest : patientNoteInsertRequest):
     today = date.today()
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patient_notes "
     query += "(note_name, note_text, patient_id, insert_date) "
@@ -119,7 +112,7 @@ async def insertPatientNotes(itemRequest : patientNoteInsertRequest):
 @router.put("/notes/update/", tags="patients_notes")
 async def UpdatePatient(itemRequest : patientNoteUpdateRequest):
     today = date.today()
-    db = dbConnect()
+    db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patient_notes "
     query += "set note_name=%s, note_text=%s, patient_id=%s, insert_date=%s "
