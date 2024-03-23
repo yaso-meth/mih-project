@@ -15,6 +15,7 @@ def read_root():
 
 
 def serverRunning():
+    #git test
     return {"Status": "Server is Up and Running"}
 
 
