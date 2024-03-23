@@ -33,7 +33,7 @@ def dbConnect():
     return mysql.connector.connect(
         host="mysqldb",
         user="root",
-        passwd="root",
+        passwd="C@rtoon1995",
         database="patient_manager"
     )
 
