@@ -41,7 +41,9 @@ services:
     build:
       context: ./Frontend/patient_manager
     ports:
-        - "8080:9000"
+      - "8080:9000"
+    # volumes:
+    #   - ./Frontend/patient_manager:/app
 
   minio:
     container_name: MIH-minio
