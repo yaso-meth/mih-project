@@ -11,7 +11,7 @@ class MzanziInnovationHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'MyFlutterAp',
+      title: 'Mzanzi Innovation Hub',
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
