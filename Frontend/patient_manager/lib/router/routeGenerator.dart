@@ -1,9 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
-import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/pages/home.dart';
-import 'package:patient_manager/pages/signin.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
