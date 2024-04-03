@@ -4,15 +4,15 @@ import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function()? onTap;
-  const SignIn({super.key, required this.onTap});
+  const Register({super.key, required this.onTap});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -65,7 +65,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 10),
                 //Heading
                 const Text(
-                  'Sign In',
+                  'Register',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class _SignInState extends State<SignIn> {
                   width: 500.0,
                   child: MyButton(
                     onTap: signUserIn,
-                    buttonText: "Sign In",
+                    buttonText: "Sign Up",
                   ),
                 ),
                 //spacer
@@ -128,7 +128,7 @@ class _SignInState extends State<SignIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'New User?',
+                      'Already a User?',
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     const SizedBox(
@@ -137,7 +137,7 @@ class _SignInState extends State<SignIn> {
                     GestureDetector(
                       onTap: widget.onTap,
                       child: const Text(
-                        'Register Now',
+                        'Sign In',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.blueAccent,

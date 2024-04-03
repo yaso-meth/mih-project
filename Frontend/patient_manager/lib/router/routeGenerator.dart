@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
+import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/signin.dart';
 
@@ -13,8 +14,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => AuthCheck());
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
-      case '/signin':
-        return MaterialPageRoute(builder: (_) => const SignIn());
+      // case '/signin':
+      //   return MaterialPageRoute(builder: (_) => const SignInOrRegister());
       // //case '/signIn':
       // //  return MaterialPageRoute(builder: (_) => SignIn());
       // case '/auth':

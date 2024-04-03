@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/pages/home.dart';
-import 'package:patient_manager/pages/signin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthCheck extends StatelessWidget {
@@ -14,10 +14,10 @@ class AuthCheck extends StatelessWidget {
           final user = snapshot.data?.session;
           if (user == null) {
             // User not authenticated, show login screen
-            return SignIn();
+            return const SignInOrRegister();
           } else {
             // User authenticated, show home screen
-            return Home();
+            return const Home();
           }
         }
 
