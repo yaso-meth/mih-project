@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/myTextField.dart';
+import 'package:patient_manager/components/myPassInput.dart';
+import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
@@ -15,6 +16,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  //bool _obscureText = true;
 
   //sign user in
   Future<void> signUserIn() async {
@@ -80,7 +82,6 @@ class _SignInState extends State<SignIn> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    obscureText: false,
                   ),
                 ),
                 //spacer
@@ -88,10 +89,9 @@ class _SignInState extends State<SignIn> {
                 //password input
                 SizedBox(
                   width: 500.0,
-                  child: MyTextField(
+                  child: MyPassField(
                     controller: passwordController,
                     hintText: 'Password',
-                    obscureText: true,
                   ),
                 ),
                 //spacer

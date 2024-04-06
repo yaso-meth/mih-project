@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/myTextField.dart';
+import 'package:patient_manager/components/myPassInput.dart';
+import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
@@ -15,11 +16,12 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final confirmPasswordController = TextEditingController();
+  bool _obscureText = true;
   //sign user in
-  Future<void> signUserIn() async {
+  Future<void> signUserUp() async {
     try {
-      final response = await client.auth.signInWithPassword(
+      final response = await client.auth.signUp(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -42,6 +44,12 @@ class _RegisterState extends State<Register> {
         );
       },
     );
+  }
+
+  void toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
@@ -80,7 +88,6 @@ class _RegisterState extends State<Register> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    obscureText: false,
                   ),
                 ),
                 //spacer
@@ -88,10 +95,19 @@ class _RegisterState extends State<Register> {
                 //password input
                 SizedBox(
                   width: 500.0,
-                  child: MyTextField(
+                  child: MyPassField(
                     controller: passwordController,
                     hintText: 'Password',
-                    obscureText: true,
+                  ),
+                ),
+                //spacer
+                const SizedBox(height: 25),
+                //password input
+                SizedBox(
+                  width: 500.0,
+                  child: MyPassField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm Password',
                   ),
                 ),
                 //spacer
@@ -113,11 +129,11 @@ class _RegisterState extends State<Register> {
                 ),
                 //spacer
                 const SizedBox(height: 50),
-                // sign in button
+                // sign up button
                 SizedBox(
                   width: 500.0,
                   child: MyButton(
-                    onTap: signUserIn,
+                    onTap: signUserUp,
                     buttonText: "Sign Up",
                   ),
                 ),

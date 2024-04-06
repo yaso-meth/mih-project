@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+class MyTextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+
+  const MyTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: TextField(
+        controller: controller,
+        obscureText: false,
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueAccent,
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+}
