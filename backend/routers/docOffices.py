@@ -19,6 +19,23 @@ async def read_docOfficeByID(docOffic_id: int):
     return {"iddoctor_offices": item[0],
             "office_name": item[1]}
 
+# Get Doctors Office By user
+@router.get("/docOffices/user/{user}", tags="DocOffice")
+async def read_docOfficeByID(user: str):
+    db = dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM users WHERE email=%s"
+    cursor.execute(query, (user,))
+    item = cursor.fetchone()
+    cursor.close()
+    db.close()
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"idusers": item[0],
+            "email": item[1],
+            "docOffice_id": item[2],
+            }
+
 # Get List of all Doctors Office
 @router.get("/docOffices/", tags="DocOffice")
 async def read_All_DoctorsOffice():
