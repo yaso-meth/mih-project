@@ -20,9 +20,9 @@ class _HomeState extends State<Home> {
   Future<void> getUserEmail() async {
     final res = await client.auth.getUser();
     if (res.user!.email != null) {
-      print("emai not null");
+      //print("emai not null");
       useremail = res.user!.email!;
-      print(useremail);
+      //print(useremail);
     }
   }
 
@@ -32,18 +32,19 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return Scaffold(
+      appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
+      body: HomeTileGrid(),
+      drawer: FutureBuilder(
         future: getUserEmail(),
-        builder: (context, snapshot) {
+        builder: (contexts, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Scaffold(
-              appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
-              body: HomeTileGrid(),
-              drawer: MyAppDrawer(drawerTitle: useremail),
-            );
+            return MyAppDrawer(drawerTitle: useremail);
           } else {
             return Center(child: CircularProgressIndicator());
           }
-        });
+        },
+      ),
+    );
   }
 }

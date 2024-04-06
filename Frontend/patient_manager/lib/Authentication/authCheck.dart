@@ -5,6 +5,8 @@ import 'package:patient_manager/pages/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthCheck extends StatelessWidget {
+  const AuthCheck({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
@@ -15,9 +17,11 @@ class AuthCheck extends StatelessWidget {
           if (user == null) {
             // User not authenticated, show login screen
             return const SignInOrRegister();
+            //Navigator.of(context).pushNamed('/signin');
           } else {
             // User authenticated, show home screen
             return const Home();
+            //Navigator.of(context).pushNamed('/homme');
           }
         }
 

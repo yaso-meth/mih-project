@@ -19,20 +19,22 @@ class HomeTileGrid extends StatelessWidget {
           crossAxisCount: 3,
           children: [
             HomeTile(
-              onTap: navigateToPage,
+              onTap: () {
+                Navigator.of(context).pushNamed('/patient-manager');
+              },
               tileName: "Patient Manager",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",
             ),
             HomeTile(
               onTap: navigateToPage,
-              tileName: "Patient Manager",
+              tileName: "Test",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",
             ),
             HomeTile(
               onTap: navigateToPage,
-              tileName: "Patient Manager",
+              tileName: "Test 1",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",
             ),
