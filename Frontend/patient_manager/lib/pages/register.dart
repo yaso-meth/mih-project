@@ -17,21 +17,28 @@ class _RegisterState extends State<Register> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final officeID = TextEditingController();
+
   bool _obscureText = true;
   //sign user in
   Future<void> signUserUp() async {
-    try {
-      final response = await client.auth.signUp(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (response.session != null) {
-        Navigator.of(context).pushNamed('/homme');
+    if (passwordController.text != confirmPasswordController.text) {
+      loginError("Passwords do not match");
+    } else {
+      try {
+        final response = await client.auth.signUp(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        if (response.session != null) {
+          Navigator.of(context).pushNamed('/homme');
+        }
+      } on AuthException catch (error) {
+        loginError(error.message);
+        emailController.clear();
+        passwordController.clear();
+        confirmPasswordController.clear();
       }
-    } on AuthException catch (error) {
-      loginError(error.message);
-      emailController.clear();
-      passwordController.clear();
     }
   }
 
@@ -86,6 +93,16 @@ class _RegisterState extends State<Register> {
                 SizedBox(
                   width: 500.0,
                   child: MyTextField(
+                    controller: officeID,
+                    hintText: 'OfficeID',
+                  ),
+                ),
+                //spacer
+                const SizedBox(height: 25),
+                //email input
+                SizedBox(
+                  width: 500.0,
+                  child: MyTextField(
                     controller: emailController,
                     hintText: 'Email',
                   ),
@@ -128,7 +145,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 //spacer
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
                 // sign up button
                 SizedBox(
                   width: 500.0,

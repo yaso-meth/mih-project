@@ -5,13 +5,18 @@ import 'package:patient_manager/pages/home.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => AuthCheck());
       case '/home':
-        return MaterialPageRoute(builder: (_) => const Home());
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => const Home(),
+          );
+        }
+
       // case '/signin':
       //   return MaterialPageRoute(builder: (_) => const SignInOrRegister());
       // //case '/signIn':

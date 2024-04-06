@@ -26,7 +26,7 @@ class _SignInState extends State<SignIn> {
         password: passwordController.text,
       );
       if (response.session != null) {
-        Navigator.of(context).pushNamed('/homme');
+        Navigator.of(context).pushNamed('/homme', arguments: "Yaso");
       }
     } on AuthException catch (error) {
       loginError(error.message);

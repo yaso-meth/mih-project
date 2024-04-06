@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyAppBar extends StatelessWidget {
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
+
   final String barTitle;
 
   const MyAppBar({super.key, required this.barTitle});
