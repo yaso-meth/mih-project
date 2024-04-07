@@ -56,4 +56,8 @@ class Patient {
       _ => throw const FormatException('Failed to load album.'),
     };
   }
+
+  String getIDNum() {
+    return id_no;
+  }
 }

@@ -48,14 +48,6 @@ class _PatientManagerState extends State<PatientManager> {
     super.initState();
   }
 
-  // void filterSearchResults(String query) {
-  //   setState(() {
-  //     futurePatients = futurePatientsList
-  //         .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-  //         .toList();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,27 +61,33 @@ class _PatientManagerState extends State<PatientManager> {
           } else if (snapshot.hasData) {
             final patientsList = snapshot.data!;
 
-            return Column(children: [
-              //spacer
-              const SizedBox(height: 10),
-              MySearchField(
-                controller: searchController,
-                hintText: "ID Search",
-                onChanged: (value) {
-                  setState(() {
-                    searchString = value;
-                  });
-                },
-              ),
-              //spacer
-              const SizedBox(height: 10),
-              Expanded(
-                child: BuildPatientsList(
-                  patients: patientsList,
-                  searchString: searchString,
+            return Row(
+              children: [
+                Expanded(
+                  child: Column(children: [
+                    //spacer
+                    const SizedBox(height: 10),
+                    MySearchField(
+                      controller: searchController,
+                      hintText: "ID Search",
+                      onChanged: (value) {
+                        setState(() {
+                          searchString = value;
+                        });
+                      },
+                    ),
+                    //spacer
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: BuildPatientsList(
+                        patients: patientsList,
+                        searchString: searchString,
+                      ),
+                    ),
+                  ]),
                 ),
-              ),
-            ]);
+              ],
+            );
           } else {
             return const MyAppDrawer(drawerTitle: "Error pulling email");
           }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
+import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientManager.dart';
+import 'package:patient_manager/pages/patientView.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,6 +22,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (_) => PatientManager(
               userEmail: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      case '/patient-manager/patient':
+        if (args is Patient) {
+          return MaterialPageRoute(
+            builder: (_) => PatientView(
+              selectedPatient: args,
             ),
           );
         }

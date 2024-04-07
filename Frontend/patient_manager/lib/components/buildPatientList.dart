@@ -14,10 +14,15 @@ class BuildPatientsList extends StatefulWidget {
   State<BuildPatientsList> createState() => _BuildPatientsListState();
 }
 
+int indexOn = 0;
+
 class _BuildPatientsListState extends State<BuildPatientsList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (BuildContext context, int index) {
+        return Divider();
+      },
       itemCount: widget.patients.length,
       itemBuilder: (context, index) {
         //final patient = widget.patients[index].id_no.contains(widget.searchString);
@@ -27,6 +32,13 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                     " " +
                     widget.patients[index].last_name),
                 subtitle: Text(widget.patients[index].id_no),
+                onTap: () {
+                  setState(() {
+                    Navigator.of(context).pushNamed('/patient-manager/patient',
+                        arguments: widget.patients[index]);
+                  });
+                },
+                trailing: Icon(Icons.arrow_forward),
               )
             : Container();
       },
