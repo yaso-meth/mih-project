@@ -1,7 +1,33 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/myAppDrawer.dart';
 import 'package:patient_manager/main.dart';
+import 'package:http/http.dart' as http;
+import 'package:mysql_client/mysql_client.dart';
+import 'package:patient_manager/objects/patients.dart';
+
+Future<List<Patient>> fetchPatients() async {
+  print("fetch patients");
+  final response = await http.get(Uri.parse('http://localhost:80/patients/'));
+  //print("Status Code: " + response.statusCode.toString());
+  if (response.statusCode == 200) {
+    Iterable l = jsonDecode(response.body);
+    List<Patient> patients =
+        List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+    print("convert response to json");
+    //print(response.body);
+    // final patientsData =
+    //     Patient.fromJson(jsonDecode(response.body)[0] as Map<String, dynamic>);
+    print(patients);
+    return patients;
+  } else {
+    throw Exception('failed to load patients');
+  }
+}
 
 class PatientManager extends StatefulWidget {
   const PatientManager({super.key});
@@ -12,35 +38,77 @@ class PatientManager extends StatefulWidget {
 
 class _PatientManagerState extends State<PatientManager> {
   String useremail = "";
+  String endpoint = "http://localhost:80/patients/";
+  late MySQLConnection conn;
+  String resultsofDB = "";
+  late Future<List<Patient>> futurePatients;
 
-  Future<void> getUserEmail() async {
+  Future<void> getuserEmail() async {
     final res = await client.auth.getUser();
+    //final response = await http.get(Uri.parse(endpoint));
+    //print(json.decode(response.body));
     if (res.user!.email != null) {
-      //print("emai not null");
+      print("User: " + res.user!.email.toString());
       useremail = res.user!.email!;
-      //print(useremail);
+      print(useremail);
     }
   }
 
-  String getEmail() {
-    return useremail;
+  @override
+  void initState() {
+    print("init now");
+    getuserEmail();
+    futurePatients = fetchPatients();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getUserEmail(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: const MyAppBar(barTitle: "Patient Manager"),
-            body: Center(child: Text(useremail)),
-            drawer: MyAppDrawer(drawerTitle: useremail),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
+    return Scaffold(
+      appBar: const MyAppBar(barTitle: "Patient Manager"),
+      drawer: FutureBuilder(
+        future: getuserEmail(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MyAppDrawer(drawerTitle: useremail);
+          } else {
+            return const MyAppDrawer(drawerTitle: "Error pulling email");
+          }
+        },
+      ),
+      body: FutureBuilder(
+        future: futurePatients,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasData) {
+            final patientsList = snapshot.data!;
+            return BuildPatientsList(
+              patients: patientsList,
+            );
+          } else {
+            return const MyAppDrawer(drawerTitle: "Error pulling email");
+          }
+        },
+      ),
     );
+
+    // FutureBuilder<Patient>(
+    //   future: futurePatients,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       return Scaffold(
+    //         appBar: const MyAppBar(barTitle: "Patient Manager"),
+    //         body: Center(child: Text(snapshot.data.toString())),
+    //         drawer: MyAppDrawer(drawerTitle: useremail),
+    //       );
+    //     } else if (snapshot.hasError) {
+    //       print('${snapshot.error}');
+    //       return Text('${snapshot.error}');
+    //     } else {
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //   },
+    // );
   }
 }

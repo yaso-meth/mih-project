@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   supabase_auth_ui: ^0.4.1
   supabase_flutter: ^2.4.0
+  http: ^1.2.0
+  mysql_client: ^0.0.27
 
 dev_dependencies:
   flutter_test:

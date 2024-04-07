@@ -22,6 +22,12 @@ class _MyAppDrawerState extends State<MyAppDrawer> {
               color: Colors.blueAccent,
             ),
           ),
+          ListTile(
+            title: Text("Home"),
+            onTap: () {
+              Navigator.of(context).pushNamed('/home');
+            },
+          )
         ],
       ),
     );
