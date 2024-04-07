@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTile.dart';
 
 class HomeTileGrid extends StatelessWidget {
-  void navigateToPage() {}
-
-  const HomeTileGrid({super.key});
+  final String userEmail;
+  const HomeTileGrid({super.key, required this.userEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +19,21 @@ class HomeTileGrid extends StatelessWidget {
           children: [
             HomeTile(
               onTap: () {
-                Navigator.of(context).pushNamed('/patient-manager');
+                Navigator.of(context)
+                    .pushNamed('/patient-manager', arguments: userEmail);
               },
               tileName: "Patient Manager",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",
             ),
             HomeTile(
-              onTap: navigateToPage,
+              onTap: () {},
               tileName: "Test",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",
             ),
             HomeTile(
-              onTap: navigateToPage,
+              onTap: () {},
               tileName: "Test 1",
               tileDescription:
                   "This is a digital solution for doctors Offices to manage their patients",

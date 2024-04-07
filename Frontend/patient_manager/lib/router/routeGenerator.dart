@@ -1,13 +1,14 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
+import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case '/':
@@ -15,7 +16,14 @@ class RouteGenerator {
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
       case '/patient-manager':
-        return MaterialPageRoute(builder: (_) => const PatientManager());
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => PatientManager(
+              userEmail: args,
+            ),
+          );
+        }
+        return _errorRoute();
       case '/signin':
         return MaterialPageRoute(builder: (_) => const SignInOrRegister());
       // //case '/signIn':
@@ -25,4 +33,15 @@ class RouteGenerator {
     }
     throw '';
   }
+}
+
+Route<dynamic> _errorRoute() {
+  return MaterialPageRoute(builder: (_) {
+    return const Scaffold(
+      appBar: MyAppBar(barTitle: "Error"),
+      body: Center(
+        child: Text("Error"),
+      ),
+    );
+  });
 }

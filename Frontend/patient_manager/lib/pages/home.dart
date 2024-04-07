@@ -32,19 +32,38 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
-      body: HomeTileGrid(),
-      drawer: FutureBuilder(
-        future: getUserEmail(),
-        builder: (contexts, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return MyAppDrawer(drawerTitle: useremail);
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+    return FutureBuilder(
+      future: getUserEmail(),
+      builder: (contexts, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
+            drawer: MyAppDrawer(
+              drawerTitle: useremail,
+            ),
+            body: HomeTileGrid(
+              userEmail: useremail,
+            ),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
+
+    // Scaffold(
+    //   appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
+    //   body: HomeTileGrid(),
+    //   drawer: FutureBuilder(
+    //     future: getUserEmail(),
+    //     builder: (contexts, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.done) {
+    //         return MyAppDrawer(drawerTitle: useremail);
+    //       } else {
+    //         return Center(child: CircularProgressIndicator());
+    //       }
+    //     },
+    //   ),
+    // );
   }
 }
