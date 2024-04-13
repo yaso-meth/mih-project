@@ -46,14 +46,15 @@ async def read_all_notes():
 async def read_all_patientsby(patientID: int):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM patient_notes where patient_id = %s"
+    query = "SELECT * FROM patient_notes where patient_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (patientID,))
     items = [
         {
             "idpatient_notes": item[0],
             "note_name": item[1],
             "note_text": item[2],
-            "insert_date": item[3],
+            "patient_id": item[3],
+            "insert_date": item[4]
         }
         for item in cursor.fetchall()
     ]
