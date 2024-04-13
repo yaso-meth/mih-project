@@ -6,7 +6,6 @@ import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/myAppDrawer.dart';
 import 'package:http/http.dart' as http;
-import 'package:mysql_client/mysql_client.dart';
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/objects/patients.dart';
 
@@ -37,8 +36,6 @@ class PatientManager extends StatefulWidget {
 class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
   String endpoint = "http://localhost:80/patients/user/";
-  late MySQLConnection conn;
-  String resultsofDB = "";
   late Future<List<Patient>> futurePatients;
   String searchString = "";
 

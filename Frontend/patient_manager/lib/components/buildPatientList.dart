@@ -28,9 +28,8 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         //final patient = widget.patients[index].id_no.contains(widget.searchString);
         return widget.patients[index].id_no.contains(widget.searchString)
             ? ListTile(
-                title: Text(widget.patients[index].first_name +
-                    " " +
-                    widget.patients[index].last_name),
+                title: Text(
+                    "${widget.patients[index].first_name} ${widget.patients[index].last_name}"),
                 subtitle: Text(widget.patients[index].id_no),
                 onTap: () {
                   setState(() {

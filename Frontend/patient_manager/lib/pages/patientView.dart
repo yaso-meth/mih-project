@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/PatientDetails.dart';
 import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/objects/patients.dart';
 
 class PatientView extends StatefulWidget {
@@ -21,12 +22,22 @@ class _PatientViewState extends State<PatientView> {
         child: Column(
           children: [
             PatientDetails(selectedPatient: widget.selectedPatient),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              children: [
+                PatientNotes(
+                  patientIndex: widget.selectedPatient.idpatients,
+                ),
+                PatientNotes(
+                  patientIndex: widget.selectedPatient.idpatients,
+                )
+              ],
+            )
           ],
         ),
       ),
     );
-    // Center(
-    //   child: Text(widget.selectedPatient.first_name),
-    // ),
   }
 }

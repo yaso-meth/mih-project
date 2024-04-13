@@ -1,0 +1,90 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:patient_manager/components/buildNotesList.dart';
+import 'package:patient_manager/objects/notes.dart';
+import 'package:http/http.dart' as http;
+
+Future<List<Note>> fetchNotes(String endpoint) async {
+  final response = await http.get(Uri.parse(endpoint));
+  if (response.statusCode == 200) {
+    Iterable l = jsonDecode(response.body);
+    List<Note> notes = List<Note>.from(l.map((model) => Note.fromJson(model)));
+    return notes;
+  } else {
+    throw Exception('failed to load patients');
+  }
+}
+
+class PatientNotes extends StatefulWidget {
+  final int patientIndex;
+  const PatientNotes({super.key, required this.patientIndex});
+
+  @override
+  State<PatientNotes> createState() => _PatientNotesState();
+}
+
+class _PatientNotesState extends State<PatientNotes> {
+  String endpoint = "http://localhost:80/notes/patients/";
+  late Future<List<Note>> futueNotes;
+
+  @override
+  void initState() {
+    futueNotes = fetchNotes(endpoint + widget.patientIndex.toString());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: futueNotes,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData) {
+          final notesList = snapshot.data!;
+          return Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Card(
+                elevation: 20.0,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 219, 218, 218),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Column(children: [
+                      const Text(
+                        "Notes",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(),
+                      ),
+                      const SizedBox(height: 10),
+                      BuildNotesList(notes: notesList),
+                    ]),
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Text("Error Loading Notes"),
+          );
+        }
+      },
+    );
+  }
+}
