@@ -18,6 +18,8 @@ class HomeTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: Colors.white,
+        elevation: 20,
         child: Column(
           //mainAxisSize: MainAxisSize.min,
           children: [
