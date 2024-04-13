@@ -30,7 +30,23 @@ class _BuildNotesListState extends State<BuildNotesList> {
           ),
           subtitle: Text(widget.notes[index].note_text),
           trailing: const Icon(Icons.arrow_forward),
-          onTap: () {},
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text(widget.notes[index].note_name),
+                content: Text(
+                    "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Close"))
+                ],
+              ),
+            );
+          },
         );
       },
     );

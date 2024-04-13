@@ -50,6 +50,18 @@ class _PatientManagerState extends State<PatientManager> {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
       drawer: MyAppDrawer(drawerTitle: widget.userEmail),
+      //floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text(
+          "Create",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.blueAccent,
+        onPressed: () {},
+        icon: const Icon(Icons.add),
+      ),
       body: FutureBuilder(
         future: futurePatients,
         builder: (context, snapshot) {
