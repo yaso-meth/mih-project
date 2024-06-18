@@ -21,7 +21,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
-        return Divider();
+        return const Divider();
       },
       itemCount: widget.patients.length,
       itemBuilder: (context, index) {
@@ -37,7 +37,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                         arguments: widget.patients[index]);
                   });
                 },
-                trailing: Icon(Icons.arrow_forward),
+                trailing: const Icon(Icons.arrow_forward),
               )
             : Container();
       },

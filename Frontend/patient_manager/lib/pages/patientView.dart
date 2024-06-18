@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/PatientDetails.dart';
+import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/objects/patients.dart';

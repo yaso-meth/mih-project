@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
       builder: (contexts, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
-            appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
+            appBar: const MyAppBar(barTitle: "Mzanzi Innovation Hub"),
             drawer: MyAppDrawer(
               drawerTitle: useremail,
             ),
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -66,7 +66,7 @@ class _PatientManagerState extends State<PatientManager> {
         future: futurePatients,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             final patientsList = snapshot.data!;
 

@@ -26,7 +26,7 @@ class AuthCheck extends StatelessWidget {
         }
 
         // Connection state not active, show loading indicator
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
   }

@@ -39,6 +39,7 @@ dependencies:
   supabase_flutter: ^2.4.0
   http: ^1.2.0
   mysql_client: ^0.0.27
+  args: 2.5.0
 
 dev_dependencies:
   flutter_test:

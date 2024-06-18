@@ -14,7 +14,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => AuthCheck());
+        return MaterialPageRoute(builder: (_) => const AuthCheck());
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
       case '/patient-manager':

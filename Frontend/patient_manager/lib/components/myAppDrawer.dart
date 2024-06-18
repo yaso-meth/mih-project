@@ -17,13 +17,13 @@ class _MyAppDrawerState extends State<MyAppDrawer> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Text(widget.drawerTitle as String),
             decoration: const BoxDecoration(
               color: Colors.blueAccent,
             ),
+            child: Text(widget.drawerTitle),
           ),
           ListTile(
-            title: Text("Home"),
+            title: const Text("Home"),
             onTap: () {
               Navigator.of(context).pushNamed('/home');
             },

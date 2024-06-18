@@ -21,8 +21,9 @@ class _MyPassFieldState extends State<MyPassField> {
   void _toggleObscured() {
     setState(() {
       _obscured = !_obscured;
-      if (textFieldFocusNode.hasPrimaryFocus)
+      if (textFieldFocusNode.hasPrimaryFocus) {
         return; // If focus is on text field, dont unfocus
+      }
       textFieldFocusNode.canRequestFocus =
           false; // Prevents focus if tap on eye
     });
