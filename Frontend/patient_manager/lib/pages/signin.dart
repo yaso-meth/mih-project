@@ -96,26 +96,10 @@ class _SignInState extends State<SignIn> {
                 ),
                 //spacer
                 const SizedBox(height: 10),
-                // forgot password
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //spacer
-                const SizedBox(height: 50),
                 // sign in button
                 SizedBox(
                   width: 500.0,
+                  height: 100.0,
                   child: MyButton(
                     onTap: signUserIn,
                     buttonText: "Sign In",

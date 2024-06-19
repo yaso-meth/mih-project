@@ -53,14 +53,21 @@ class _PatientManagerState extends State<PatientManager> {
       //floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text(
-          "Create",
+          "Add Patient",
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         backgroundColor: Colors.blueAccent,
-        onPressed: () {},
-        icon: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed('/patient-manager/add', arguments: widget.userEmail);
+        },
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: FutureBuilder(
         future: futurePatients,

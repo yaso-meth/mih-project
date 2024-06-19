@@ -17,25 +17,27 @@ class _PatientViewState extends State<PatientView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient View"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-        child: Column(
-          children: [
-            PatientDetails(selectedPatient: widget.selectedPatient),
-            const SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              children: [
-                PatientNotes(
-                  patientIndex: widget.selectedPatient.idpatients,
-                ),
-                PatientNotes(
-                  patientIndex: widget.selectedPatient.idpatients,
-                )
-              ],
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          child: Column(
+            children: [
+              PatientDetails(selectedPatient: widget.selectedPatient),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                children: [
+                  PatientNotes(
+                    patientIndex: widget.selectedPatient.idpatients,
+                  ),
+                  PatientNotes(
+                    patientIndex: widget.selectedPatient.idpatients,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

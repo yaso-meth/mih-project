@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
       builder: (contexts, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
-            appBar: const MyAppBar(barTitle: "Mzanzi Innovation Hub"),
+            appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
             drawer: MyAppDrawer(
               drawerTitle: useremail,
             ),

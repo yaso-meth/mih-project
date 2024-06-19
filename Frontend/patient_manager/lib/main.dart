@@ -20,7 +20,7 @@ class MzanziInnovationHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Mzanzi Innovation Hub',
+      title: 'Mzansi Innovation Hub',
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
