@@ -3,12 +3,22 @@ import 'package:flutter/material.dart';
 class MyTextField extends StatelessWidget {
   final controller;
   final String hintText;
+  final bool editable;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.editable,
   });
+
+  bool makeEditable() {
+    if (editable) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +26,7 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
         controller: controller,
+        readOnly: makeEditable(),
         obscureText: false,
         decoration: InputDecoration(
           fillColor: Colors.white,

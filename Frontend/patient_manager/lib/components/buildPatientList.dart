@@ -4,6 +4,7 @@ import 'package:patient_manager/objects/patients.dart';
 class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
   final searchString;
+
   const BuildPatientsList({
     super.key,
     required this.patients,

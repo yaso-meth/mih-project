@@ -82,6 +82,7 @@ class _SignInState extends State<SignIn> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: 'Email',
+                    editable: true,
                   ),
                 ),
                 //spacer

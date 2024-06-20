@@ -18,7 +18,6 @@ class patientInsertRequest(BaseModel):
     doc_office_id: int
 
 class patientUpdateRequest(BaseModel):
-    idpatients: int
     id_no: str
     first_name: str
     last_name: str
@@ -205,7 +204,7 @@ async def UpdatePatient(itemRequest : patientUpdateRequest):
     query = "update patients "
     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid_name=%s, "
     query += "medical_aid_no=%s, medical_aid_scheme=%s, address=%s, doc_office_id=%s "
-    query += "where idpatients=%s"
+    query += "where id_no=%s and doc_office_id=%s"
     patientData = (itemRequest.id_no, 
                    itemRequest.first_name,
                    itemRequest.last_name,
@@ -216,7 +215,8 @@ async def UpdatePatient(itemRequest : patientUpdateRequest):
                    itemRequest.medical_aid_scheme,
                    itemRequest.address,
                    itemRequest.doc_office_id,
-                   itemRequest.idpatients)
+                   itemRequest.id_no,
+                   itemRequest.doc_office_id)
     try:
        cursor.execute(query, patientData) 
     except Exception as error:

@@ -34,18 +34,11 @@ class _AddPatientState extends State<AddPatient> {
   late int futureDocOfficeId;
 
   Future getOfficeIdByUser(String endpoint) async {
-    print("here1.1");
     final response = await http.get(Uri.parse(endpoint));
-    print("here1.2");
     if (response.statusCode == 200) {
-      print("here1.3");
       String body = response.body;
-      print(body);
-      print("here1.4");
       var decodedData = jsonDecode(body);
-      print("here1.5");
       AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
-      print("here1.6");
       setState(() {
         futureDocOfficeId = u.docOffice_id;
         //print(futureDocOfficeId);
@@ -56,10 +49,8 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   Future<void> addPatientAPICall() async {
-    print("here1");
     await getOfficeIdByUser(docOfficeIdApiUrl + widget.userEmail);
     print(futureDocOfficeId.toString());
-    print("here2");
     var response = await http.post(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -78,14 +69,12 @@ class _AddPatientState extends State<AddPatient> {
         "doc_office_id": futureDocOfficeId,
       }),
     );
-    print("here3");
     if (response.statusCode == 201) {
       Navigator.of(context)
           .pushNamed('/patient-manager', arguments: widget.userEmail);
-      messagePopUp(fnameController.text +
-          " " +
-          lnameController.text +
-          " Successfully added");
+      String message =
+          "${fnameController.text} ${lnameController.text} Successfully added";
+      messagePopUp(message);
     } else {
       messagePopUp("error");
     }
@@ -124,8 +113,10 @@ class _AddPatientState extends State<AddPatient> {
                 children: [
                   Expanded(
                     child: MyTextField(
-                        controller: idController,
-                        hintText: "13 digit ID Number or Passport"),
+                      controller: idController,
+                      hintText: "13 digit ID Number or Passport",
+                      editable: true,
+                    ),
                   ),
                 ],
               ),
@@ -136,6 +127,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: fnameController,
                       hintText: "First Name",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -147,6 +139,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: lnameController,
                       hintText: "Last Name",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -158,6 +151,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: cellController,
                       hintText: "Cell Number",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -169,6 +163,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: emailController,
                       hintText: "Email",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -180,6 +175,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: addressController,
                       hintText: "Address",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -201,6 +197,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: medNoController,
                       hintText: "Medical Aid No.",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -212,6 +209,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: medNameController,
                       hintText: "Medical Aid Name",
+                      editable: true,
                     ),
                   ),
                 ],
@@ -223,6 +221,7 @@ class _AddPatientState extends State<AddPatient> {
                     child: MyTextField(
                       controller: medSchemeController,
                       hintText: "Medical Aid Scheme",
+                      editable: true,
                     ),
                   ),
                 ],

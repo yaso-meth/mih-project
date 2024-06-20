@@ -95,6 +95,7 @@ class _RegisterState extends State<Register> {
                   child: MyTextField(
                     controller: officeID,
                     hintText: 'OfficeID',
+                    editable: true,
                   ),
                 ),
                 //spacer
@@ -105,6 +106,7 @@ class _RegisterState extends State<Register> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: 'Email',
+                    editable: true,
                   ),
                 ),
                 //spacer

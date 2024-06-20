@@ -30,13 +30,27 @@ class _PatientDetailsState extends State<PatientDetails> {
         child: SelectionArea(
           child: Column(
             children: [
-              const Text(
-                "Patient Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Patient Details",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    alignment: Alignment.topRight,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                          '/patient-manager/patient/edit',
+                          arguments: widget.selectedPatient);
+                    },
+                  )
+                ],
               ),
               const Divider(),
               const SizedBox(height: 10),

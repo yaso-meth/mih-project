@@ -8,6 +8,7 @@ import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 import 'package:patient_manager/pages/patientView.dart';
+import '../pages/patientEdit.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +41,15 @@ class RouteGenerator {
         if (args is Patient) {
           return MaterialPageRoute(
             builder: (_) => PatientView(
+              selectedPatient: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      case '/patient-manager/patient/edit':
+        if (args is Patient) {
+          return MaterialPageRoute(
+            builder: (_) => EditPatient(
               selectedPatient: args,
             ),
           );
