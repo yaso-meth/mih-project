@@ -29,6 +29,10 @@ class patientUpdateRequest(BaseModel):
     address: str
     doc_office_id: int
 
+class patientDeleteRequest(BaseModel):
+    id_no: str
+    doc_office_id: int
+
 
 # Get Patient By ID Number
 @router.get("/patients/{id_no}", tags="patients")
@@ -226,3 +230,22 @@ async def UpdatePatient(itemRequest : patientUpdateRequest):
     cursor.close()
     db.close()
     return {"message": "Successfully Updated Record"}
+
+# delete Patient on table
+@router.delete("/patients/delete/", tags="patients")
+async def DeletePatient(itemRequest : patientDeleteRequest):
+    db = dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "delete from patients "
+    query += "where id_no=%s and doc_office_id=%s"
+    patientData = (itemRequest.id_no,
+                   itemRequest.doc_office_id)
+    try:
+       cursor.execute(query, patientData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to delete Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully delete Record"}

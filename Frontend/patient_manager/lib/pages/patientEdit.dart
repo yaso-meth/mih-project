@@ -32,7 +32,8 @@ class _EditPatientState extends State<EditPatient> {
   final medSchemeController = TextEditingController();
   final addressController = TextEditingController();
   final docOfficeIdApiUrl = "http://localhost:80/docOffices/user/";
-  final apiUrl = "http://localhost:80/patients/update/";
+  final apiUrlEdit = "http://localhost:80/patients/update/";
+  final apiUrlDelete = "http://localhost:80/patients/delete/";
   late int futureDocOfficeId;
   late String userEmail;
 
@@ -60,7 +61,7 @@ class _EditPatientState extends State<EditPatient> {
     print(futureDocOfficeId.toString());
     print("Here3");
     var response = await http.put(
-      Uri.parse(apiUrl),
+      Uri.parse(apiUrlEdit),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
@@ -83,6 +84,37 @@ class _EditPatientState extends State<EditPatient> {
       Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
       String message =
           "${fnameController.text} ${lnameController.text} Successfully Updated";
+      messagePopUp(message);
+    } else {
+      messagePopUp("error ${response.statusCode}");
+    }
+  }
+
+  Future<void> deletePatientApiCall() async {
+    print("Here1");
+    //userEmail = getLoginUserEmail() as String;
+    print(userEmail);
+    print("Here2");
+    await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
+    print("Office ID: ${futureDocOfficeId.toString()}");
+    print("OPatient ID No: ${idController.text}");
+    print("Here3");
+    var response = await http.delete(
+      Uri.parse(apiUrlDelete),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id_no": idController.text,
+        "doc_office_id": futureDocOfficeId,
+      }),
+    );
+    print("Here4");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
+      String message =
+          "${fnameController.text} ${lnameController.text} Successfully Deleted";
       messagePopUp(message);
     } else {
       messagePopUp("error ${response.statusCode}");
@@ -156,9 +188,36 @@ class _EditPatientState extends State<EditPatient> {
                     icon: const Icon(Icons.delete),
                     alignment: Alignment.topRight,
                     onPressed: () {
-                      // Navigator.of(context).pushNamed(
-                      //     '/patient-manager/patient/edit',
-                      //     arguments: widget.selectedPatient);
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.warning),
+                              Text("Warning"),
+                            ],
+                          ),
+                          content: Text(
+                              "You are trying to delete the patient ${fnameController.text} ${lnameController.text}.\n\n" +
+                                  "Please note that this patient will be deleted permenantly and can not be retored\n\n" +
+                                  "Would you like to delete patient?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                deletePatientApiCall();
+                              },
+                              child: const Text("Yes"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("No"),
+                            )
+                          ],
+                        ),
+                      );
                     },
                   )
                 ],
