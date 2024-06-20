@@ -17,38 +17,41 @@ int indexOn = 0;
 class _BuildNotesListState extends State<BuildNotesList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      separatorBuilder: (BuildContext context, int index) {
-        return const Divider();
-      },
-      itemCount: widget.notes.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(
-            widget.notes[index].note_name,
-          ),
-          subtitle: Text(widget.notes[index].note_text),
-          trailing: const Icon(Icons.arrow_forward),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(widget.notes[index].note_name),
-                content: Text(
-                    "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Close"))
-                ],
-              ),
-            );
-          },
-        );
-      },
+    return Container(
+      height: 290.0,
+      child: ListView.separated(
+        shrinkWrap: true,
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider();
+        },
+        itemCount: widget.notes.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              widget.notes[index].note_name,
+            ),
+            subtitle: Text(widget.notes[index].note_text),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(widget.notes[index].note_name),
+                  content: Text(
+                      "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Close"))
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

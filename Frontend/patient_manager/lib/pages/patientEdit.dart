@@ -207,7 +207,12 @@ class _EditPatientState extends State<EditPatient> {
                               onPressed: () {
                                 deletePatientApiCall();
                               },
-                              child: const Text("Yes"),
+                              child: const Text(
+                                "Yes",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                             TextButton(
                               onPressed: () {
