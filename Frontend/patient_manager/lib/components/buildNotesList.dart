@@ -17,7 +17,7 @@ int indexOn = 0;
 class _BuildNotesListState extends State<BuildNotesList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 290.0,
       child: ListView.separated(
         shrinkWrap: true,

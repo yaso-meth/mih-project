@@ -45,7 +45,7 @@ services:
     build:
       context: ./Frontend/patient_manager
     ports:
-      - "8080:9000"
+      - "8080:8080"
     # volumes:
     #   - ./Frontend/patient_manager:/app
 
@@ -53,8 +53,8 @@ services:
     container_name: MIH-minio
     image: docker.io/bitnami/minio:2022
     ports:
+      - '9000:9000'
       - '9001:9001'
-      - '9002:9002'
     networks:
       - minionetwork
     volumes:

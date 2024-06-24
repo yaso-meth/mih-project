@@ -85,6 +85,7 @@ class _PatientNotesState extends State<PatientNotes> {
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
           return Flexible(
+            flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Card(
@@ -99,88 +100,85 @@ class _PatientNotesState extends State<PatientNotes> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: Expanded(
-                      child: Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Notes",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Notes",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
                             ),
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Add Note"),
-                                      ],
-                                    ),
-                                    content: Column(
-                                      children: [
-                                        SizedBox(
-                                          width: 700,
-                                          child: MyTextField(
-                                            controller: titleController,
-                                            hintText: "Title of Note",
-                                            editable: true,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 25.0,
-                                        ),
-                                        Expanded(
-                                          child: MyMLTextField(
-                                            controller: noteTextController,
-                                            hintText: "Note Details",
-                                            editable: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          addPatientNoteAPICall();
-                                          Navigator.pop(context);
-                                          //print(widget.patientIndex);
-                                        },
-                                        child: const Text(
-                                          "Submit",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Cancel"),
-                                      )
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Add Note"),
                                     ],
                                   ),
-                                );
-                              },
-                              icon: const Icon(Icons.add),
-                            )
-                          ],
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Divider(),
-                        ),
-                        const SizedBox(height: 10),
-                        BuildNotesList(notes: notesList),
-                      ]),
-                    ),
+                                  content: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 700,
+                                        child: MyTextField(
+                                          controller: titleController,
+                                          hintText: "Title of Note",
+                                          editable: true,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 25.0,
+                                      ),
+                                      Expanded(
+                                        child: MyMLTextField(
+                                          controller: noteTextController,
+                                          hintText: "Note Details",
+                                          editable: true,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        addPatientNoteAPICall();
+                                        Navigator.pop(context);
+                                        //print(widget.patientIndex);
+                                      },
+                                      child: const Text(
+                                        "Submit",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Cancel"),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.add),
+                          )
+                        ],
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(),
+                      ),
+                      const SizedBox(height: 10),
+                      BuildNotesList(notes: notesList),
+                    ]),
                   ),
                 ),
               ),
