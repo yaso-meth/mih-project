@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/objects/patients.dart';
 
@@ -31,7 +32,7 @@ class _PatientViewState extends State<PatientView> {
                   PatientNotes(
                     patientIndex: widget.selectedPatient.idpatients,
                   ),
-                  PatientNotes(
+                  PatientFiles(
                     patientIndex: widget.selectedPatient.idpatients,
                   )
                 ],

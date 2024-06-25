@@ -30,15 +30,22 @@ class _BuildNotesListState extends State<BuildNotesList> {
             title: Text(
               widget.notes[index].note_name,
             ),
-            subtitle: Text(widget.notes[index].note_text),
+            subtitle: Text(
+                "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"), //Text(widget.notes[index].note_text),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text(widget.notes[index].note_name),
-                  content: Text(
-                      "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"),
+                  title: Center(child: Text(widget.notes[index].note_name)),
+                  content: SizedBox(
+                    width: 700,
+                    height: 250,
+                    child: Text(
+                      "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
                   actions: [
                     TextButton(
                         onPressed: () {

@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> {
       }
     } on AuthException catch (error) {
       loginError(error.message);
-      emailController.clear();
+      //emailController.clear();
       passwordController.clear();
     }
   }
