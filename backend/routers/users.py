@@ -21,6 +21,9 @@ async def read_all_users():
             "UserName": item[1],
             "Password": item[2],
             "docOffice_ID": item[3],
+            "fname": item[4],
+            "lname": item[5],
+            "title": item[6],
         }
         for item in cursor.fetchall()
     ]

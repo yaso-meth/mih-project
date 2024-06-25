@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from .routers import docOffices, patients, patients_files, patients_notes, users
+from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -9,6 +9,7 @@ app.include_router(patients.router)
 app.include_router(patients_files.router)
 app.include_router(patients_notes.router)
 app.include_router(users.router)
+app.include_router(fileStorage.router)
 
 origins = [
     "http://localhost",
