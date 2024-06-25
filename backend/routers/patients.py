@@ -33,6 +33,30 @@ class patientDeleteRequest(BaseModel):
     id_no: str
     doc_office_id: int
 
+# Get Patient By ID Number
+@router.get("/patients/id/{pat_id}", tags="patients")
+async def read_patientByID(pat_id: str):
+    db = dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM patients WHERE idpatients=%s"
+    cursor.execute(query, (pat_id,))
+    item = cursor.fetchone()
+    cursor.close()
+    db.close()
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"idpatients": item[0],
+    "id_no": item[1],
+    "first_name": item[2],
+    "last_name": item[3],
+    "email": item[4],
+    "cell_no": item[5],
+    "medical_aid_name": item[6],
+    "medical_aid_no": item[7],
+    "medical_aid_scheme": item[8],
+    "address": item[9],
+    "doc_office_id": item[10]}
+
 
 # Get Patient By ID Number
 @router.get("/patients/{id_no}", tags="patients")
