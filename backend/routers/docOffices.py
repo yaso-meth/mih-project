@@ -31,10 +31,14 @@ async def read_docOfficeByID(user: str):
     db.close()
     if item is None:
         raise HTTPException(status_code=404, detail="Item not found")
-    return {"idusers": item[0],
-            "email": item[1],
+    return {
+         "idUser": item[0],
+            "UserName": item[1],
             "docOffice_id": item[2],
-            }
+            "fname": item[3],
+            "lname": item[4],
+            "title": item[5],
+        }
 
 # Get List of all Doctors Office
 @router.get("/docOffices/", tags="DocOffice")
