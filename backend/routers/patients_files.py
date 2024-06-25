@@ -41,7 +41,7 @@ async def read_all_files():
 async def read_all_files_by_patient(patientID: int):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM patient_files where patient_id = %s"
+    query = "SELECT * FROM patient_files where patient_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (patientID,))
     items = [
         {
