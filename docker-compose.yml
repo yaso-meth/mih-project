@@ -55,18 +55,12 @@ services:
     ports:
       - '9000:9000'
       - '9001:9001'
-    networks:
-      - minionetwork
     volumes:
       - './File_Storage/Mzanzi_Innovation_Hub:/data'
     environment:
       - MINIO_ROOT_USER=yaso
       - MINIO_ROOT_PASSWORD=C@rtoon1995
-
-networks:
-  minionetwork:
-    driver: bridge
-
+      
 volumes:
   Mzanzi_Innovation_Hub:
     driver: local
