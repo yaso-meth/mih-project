@@ -3,62 +3,122 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
+import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/myDateInput.dart';
+import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/AppUser.dart';
+import 'package:patient_manager/objects/Patient2.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
 
-Future<List<PFile>> fetchNotes(String endpoint) async {
-  final response = await http.get(Uri.parse(endpoint));
-  print(response.statusCode);
-  //print(response.body);
-  if (response.statusCode == 200) {
-    Iterable l = jsonDecode(response.body);
-    List<PFile> files =
-        List<PFile>.from(l.map((model) => PFile.fromJson(model)));
-    return files;
-  } else {
-    throw Exception('failed to load patients');
-  }
-}
+import '../objects/patients.dart';
 
 class PatientFiles extends StatefulWidget {
   final int patientIndex;
-  const PatientFiles({super.key, required this.patientIndex});
+  final Patient selectedPatient;
+  const PatientFiles({
+    super.key,
+    required this.patientIndex,
+    required this.selectedPatient,
+  });
 
   @override
   State<PatientFiles> createState() => _PatientFilesState();
 }
 
 class _PatientFilesState extends State<PatientFiles> {
-  String endpoint = "http://localhost:80/files/patients/";
-  String apiUrlAddNote = "http://localhost:80/notes/insert/";
+  String endpointFiles = "http://localhost:80/files/patients/";
+  String endpointUser = "http://localhost:80/docOffices/user/";
+  String endpointGenFiles = "http://localhost:80/files/generate/";
+  String endpointInsertFiles = "http://localhost:80/files/insert/";
+
   final startDateController = TextEditingController();
   final endDateTextController = TextEditingController();
+  final retDateTextController = TextEditingController();
   late Future<List<PFile>> futueFiles;
+  late String userEmail = "";
+  late AppUser appUser;
 
-  Future<void> addPatientNoteAPICall() async {
-    var response = await http.post(
-      Uri.parse(apiUrlAddNote),
+  Future<void> generateMedCert() async {
+    var response1 = await http.post(
+      Uri.parse(endpointGenFiles),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "note_name": startDateController.text,
-        "note_text": endDateTextController.text,
-        "patient_id": widget.patientIndex,
+        "fullName":
+            "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+        "docfname": "${appUser.title} ${appUser.fname} ${appUser.lname}",
+        "startDate": startDateController.text,
+        "endDate": endDateTextController.text,
+        "returnDate": retDateTextController.text,
       }),
     );
-    if (response.statusCode == 201) {
-      setState(() {
-        futueFiles = fetchNotes(endpoint + widget.patientIndex.toString());
-      });
-      // Navigator.of(context)
-      //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-      String message = "Successfully added Files";
-      messagePopUp(message);
+    print(response1.statusCode);
+    String fileName =
+        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${startDateController.text}";
+    if (response1.statusCode == 200) {
+      var response2 = await http.post(
+        Uri.parse(endpointInsertFiles),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "file_path": fileName,
+          "file_name": fileName,
+          "patient_id": widget.patientIndex
+        }),
+      );
+      print(response2.statusCode);
+      if (response2.statusCode == 201) {
+        setState(() {
+          futueFiles =
+              fetchFiles(endpointFiles + widget.patientIndex.toString());
+        });
+        String message = "Successfully added file";
+        messagePopUp(message);
+      } else {
+        messagePopUp("error response 2");
+      }
     } else {
-      messagePopUp("error");
+      messagePopUp("error respose 1");
+    }
+  }
+
+  Future<void> getUserDetails() async {
+    await getUserEmail();
+    var response = await http.get(Uri.parse(endpointUser + userEmail));
+    //print(response.body);
+    if (response.statusCode == 200) {
+      appUser =
+          AppUser.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      throw Exception('Failed to load user');
+    }
+  }
+
+  Future<void> getUserEmail() async {
+    final res = await client.auth.getUser();
+    if (res.user!.email != null) {
+      //print("emai not null");
+      userEmail = res.user!.email!;
+      //print(userEmail);
+    }
+  }
+
+  Future<List<PFile>> fetchFiles(String endpoint) async {
+    final response = await http.get(Uri.parse(endpoint));
+
+    //print(response.statusCode);
+    //print(response.body);
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PFile> files =
+          List<PFile>.from(l.map((model) => PFile.fromJson(model)));
+      return files;
+    } else {
+      throw Exception('failed to load patients');
     }
   }
 
@@ -75,8 +135,9 @@ class _PatientFilesState extends State<PatientFiles> {
 
   @override
   void initState() {
-    futueFiles = fetchNotes(endpoint + widget.patientIndex.toString());
-
+    futueFiles = fetchFiles(endpointFiles + widget.patientIndex.toString());
+    //patientDetails = getPatientDetails() as Patient;
+    getUserDetails();
     super.initState();
   }
 
@@ -128,33 +189,18 @@ class _PatientFilesState extends State<PatientFiles> {
                                       Text("Create Medical Certificate"),
                                     ],
                                   ),
-                                  content: SizedBox(
-                                    height: 250,
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 50.0),
-                                        SizedBox(
-                                          width: 700,
-                                          child: MyDateField(
-                                            controller: startDateController,
-                                            LableText: "From",
-                                          ),
-                                        ),
-                                        const SizedBox(height: 25.0),
-                                        SizedBox(
-                                          width: 700,
-                                          child: MyDateField(
-                                            controller: endDateTextController,
-                                            LableText: "Up to Including",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  content: Medcertinput(
+                                    startDateController: startDateController,
+                                    endDateTextController:
+                                        endDateTextController,
+                                    retDateTextController:
+                                        retDateTextController,
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        //addPatientNoteAPICall();
+                                        //getPatientDetails();
+                                        generateMedCert();
                                         Navigator.pop(context);
                                         //print(widget.patientIndex);
                                       },

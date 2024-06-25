@@ -34,6 +34,7 @@ class _PatientViewState extends State<PatientView> {
                   ),
                   PatientFiles(
                     patientIndex: widget.selectedPatient.idpatients,
+                    selectedPatient: widget.selectedPatient,
                   )
                 ],
               )

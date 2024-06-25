@@ -12,7 +12,7 @@ Future<List<Note>> fetchNotes(String endpoint) async {
   if (response.statusCode == 200) {
     Iterable l = jsonDecode(response.body);
     List<Note> notes = List<Note>.from(l.map((model) => Note.fromJson(model)));
-    print("Here notes");
+    //print("Here notes");
     return notes;
   } else {
     throw Exception('failed to load patients');
