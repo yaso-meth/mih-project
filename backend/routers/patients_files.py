@@ -2,12 +2,18 @@ import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from ..database import dbConnection
+from datetime import date
 
 router = APIRouter()
 
 class fileRequest(BaseModel):
     DocOfficeID: int
     patientID: int
+
+class fileInsertRequest(BaseModel):
+    file_path: str
+    file_name: str
+    patient_id: int
 
 # Get List of all files
 @router.get("/files/patients/", tags="patients_files")
@@ -77,3 +83,26 @@ async def read_all_files_by_patient(itemRequest: fileRequest):
     cursor.close()
     db.close()
     return items
+
+# Insert Patient note into table
+@router.post("/files/insert/", tags="patients_notes", status_code=201)
+async def insertPatientFiles(itemRequest : fileInsertRequest):
+    today = date.today()
+    db = dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "insert into patient_files "
+    query += "(file_path, file_name, patient_id, insert_date) "
+    query += "values (%s, %s, %s, %s)"
+    notetData = (itemRequest.file_path, 
+                   itemRequest.file_name,
+                   itemRequest.patient_id,
+                   today)
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        #raise HTTPException(status_code=404, detail="Failed to Create Record")
+        return {"message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created file Record"}
