@@ -17,6 +17,7 @@ class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   //bool _obscureText = true;
+  bool successfulSignIn = false;
 
   //sign user in
   Future<void> signUserIn() async {
@@ -26,7 +27,10 @@ class _SignInState extends State<SignIn> {
         password: passwordController.text,
       );
       if (response.session != null) {
-        Navigator.of(context).pushNamed('/homme');
+        setState(() {
+          successfulSignIn = true;
+        });
+        //Navigator.of(context).pushNamed('/homme');
       }
     } on AuthException catch (error) {
       loginError(error.message);
@@ -102,7 +106,12 @@ class _SignInState extends State<SignIn> {
                   width: 500.0,
                   height: 100.0,
                   child: MyButton(
-                    onTap: signUserIn,
+                    onTap: () {
+                      signUserIn();
+                      if (successfulSignIn) {
+                        Navigator.of(context).pushNamed('/homme');
+                      }
+                    },
                     buttonText: "Sign In",
                   ),
                 ),
