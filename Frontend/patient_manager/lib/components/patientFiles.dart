@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
+import 'package:patient_manager/components/myTextInput.dart';
+import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/AppUser.dart';
 import 'package:patient_manager/objects/files.dart';
@@ -28,15 +32,19 @@ class PatientFiles extends StatefulWidget {
 class _PatientFilesState extends State<PatientFiles> {
   String endpointFiles = "http://localhost:80/files/patients/";
   String endpointUser = "http://localhost:80/docOffices/user/";
-  String endpointGenFiles = "http://localhost:80/files/generate/";
+  String endpointGenFiles = "http://localhost:80/files/generate/med-cert/";
+  String endpointFileUpload = "http://localhost:80/files/upload/file/";
   String endpointInsertFiles = "http://localhost:80/files/insert/";
 
   final startDateController = TextEditingController();
   final endDateTextController = TextEditingController();
   final retDateTextController = TextEditingController();
+  final selectedFileController = TextEditingController();
+
   late Future<List<PFile>> futueFiles;
   late String userEmail = "";
   late AppUser appUser;
+  late PlatformFile selected;
 
   Future<void> generateMedCert() async {
     var response1 = await http.post(
@@ -53,9 +61,9 @@ class _PatientFilesState extends State<PatientFiles> {
         "returnDate": retDateTextController.text,
       }),
     );
-    print(response1.statusCode);
+    //print(response1.statusCode);
     String fileName =
-        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${startDateController.text}";
+        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${startDateController.text}.pdf";
     if (response1.statusCode == 200) {
       var response2 = await http.post(
         Uri.parse(endpointInsertFiles),
@@ -71,6 +79,46 @@ class _PatientFilesState extends State<PatientFiles> {
       print(response2.statusCode);
       if (response2.statusCode == 201) {
         setState(() {
+          startDateController.clear();
+          endDateTextController.clear();
+          retDateTextController.clear();
+          futueFiles =
+              fetchFiles(endpointFiles + widget.patientIndex.toString());
+        });
+        String message = "Successfully added file";
+        messagePopUp(message);
+      } else {
+        messagePopUp("error response 2");
+      }
+    } else {
+      messagePopUp("error respose 1");
+    }
+  }
+
+  Future<void> uploadSelectedFile(PlatformFile file) async {
+    //var strem = new http.ByteStream.fromBytes(file.bytes.)
+    var request = http.MultipartRequest('POST', Uri.parse(endpointFileUpload));
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.files.add(await http.MultipartFile.fromBytes('file', file.bytes!,
+        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    var response1 = await request.send();
+    print(response1.statusCode);
+    if (response1.statusCode == 200) {
+      var response2 = await http.post(
+        Uri.parse(endpointInsertFiles),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "file_path": file.name.replaceAll(RegExp(r' '), '-'),
+          "file_name": file.name.replaceAll(RegExp(r' '), '-'),
+          "patient_id": widget.patientIndex
+        }),
+      );
+      print(response2.statusCode);
+      if (response2.statusCode == 201) {
+        setState(() {
+          selectedFileController.clear();
           futueFiles =
               fetchFiles(endpointFiles + widget.patientIndex.toString());
         });
@@ -131,6 +179,110 @@ class _PatientFilesState extends State<PatientFiles> {
     );
   }
 
+  void medCertPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Create Medical Certificate"),
+          ],
+        ),
+        content: Medcertinput(
+          startDateController: startDateController,
+          endDateTextController: endDateTextController,
+          retDateTextController: retDateTextController,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              generateMedCert();
+              Navigator.pop(context);
+            },
+            child: const Text(
+              "Generate",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          )
+        ],
+      ),
+    );
+  }
+
+  void uploudFilePopUp() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Upload File"),
+          ],
+        ),
+        content: SizedBox(
+          width: 700,
+          height: 250,
+          child: Column(
+            children: [
+              SizedBox(
+                width: 700,
+                child: MyButton(
+                    onTap: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles();
+                      if (result == null) return;
+                      final selectedFile = result.files.first;
+                      //selectedFile
+                      // print("Name: ${selectedFile.name}");
+                      // print("Extension: ${selectedFile.extension}");
+                      // print("Content: ${selectedFile.bytes}");
+
+                      setState(() {
+                        selected = selectedFile;
+                      });
+
+                      setState(() {
+                        selectedFileController.text = selectedFile.name;
+                      });
+                    },
+                    buttonText: "Select File"),
+              ),
+              MyTextField(
+                  controller: selectedFileController,
+                  hintText: "Selected FIle",
+                  editable: false)
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              uploadSelectedFile(selected);
+              Navigator.pop(context);
+            },
+            child: const Text(
+              "Upload",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     futueFiles = fetchFiles(endpointFiles + widget.patientIndex.toString());
@@ -178,51 +330,19 @@ class _PatientFilesState extends State<PatientFiles> {
                           ),
                           IconButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Create Medical Certificate"),
-                                    ],
-                                  ),
-                                  content: Medcertinput(
-                                    startDateController: startDateController,
-                                    endDateTextController:
-                                        endDateTextController,
-                                    retDateTextController:
-                                        retDateTextController,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        //getPatientDetails();
-                                        generateMedCert();
-                                        Navigator.pop(context);
-                                        //print(widget.patientIndex);
-                                      },
-                                      child: const Text(
-                                        "Generate",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("Cancel"),
-                                    )
-                                  ],
-                                ),
-                              );
+                              medCertPopUp();
                             },
                             icon: const Icon(Icons.sick_outlined),
                           ),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.medication_outlined),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              uploudFilePopUp();
+                            },
+                            icon: const Icon(Icons.add),
                           )
                         ],
                       ),

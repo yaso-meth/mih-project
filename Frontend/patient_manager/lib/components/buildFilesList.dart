@@ -45,16 +45,17 @@ class _BuildFilesListState extends State<BuildFilesList> {
                       IconButton(
                         onPressed: () {
                           js.context.callMethod('open', [
-                            'http://localhost:9000/mih/${widget.files[index].file_name}.pdf'
+                            'http://localhost:9000/mih/${widget.files[index].file_name}'
                           ]);
+                          //print(object)
                         },
-                        icon: Icon(Icons.download),
-                      )
+                        icon: const Icon(Icons.download),
+                      ),
                     ],
                   ),
                   content: BuildPDFView(
                       pdfLink:
-                          "http://localhost:9000/mih/${widget.files[index].file_name}.pdf"),
+                          "http://localhost:9000/mih/${widget.files[index].file_name}"),
                   actions: [
                     TextButton(
                         onPressed: () {
