@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, File, UploadFile
 import requests
 from pydantic import BaseModel
 from minio import Minio
@@ -12,26 +12,57 @@ from datetime import datetime
 
 router = APIRouter()
 
-class fileUploud(BaseModel):
+class medCertUploud(BaseModel):
     fullName: str 
     docfname: str 
     startDate: str 
     endDate: str 
     returnDate: str 
 
+
 # Get List of all files by patient
-@router.post("/files/generate/", tags="patients_files")
-async def read_all_files_by_patient(requestItem: fileUploud):
-    uploudFile(requestItem.fullName, 
+@router.post("/files/upload/file/", tags="patients_files")
+async def generateAndUploudMedCert( file: UploadFile = File(...)):
+    extension = file.filename.split(".")
+    print(file.file)
+    print(file.filename)
+    print(extension)
+    print(file.size)
+    uploudFile(file.filename, extension[1], file.file, file.size)
+    
+    return {"message": "Successfully Uploaded File"}
+
+# Get List of all files by patient
+@router.post("/files/generate/med-cert/", tags="patients_files")
+async def generateAndUploudMedCert(requestItem: medCertUploud):
+    uploudMedCert(requestItem.fullName, 
                requestItem.docfname,
                requestItem.startDate,
                requestItem.endDate,
                requestItem.returnDate)
     return {"message": "Successfully Generated File"}
 
-w,h = A4
+def uploudFile(fileName, extension, content, size):
+    client = Minio("minio:9000",   
+    access_key="user1",
+    secret_key="C@rtoon1995",
+    secure=False
+    )
+    found = client.bucket_exists("mih")
+    if not found:
+        client.make_bucket("mih")
+    else:
+        print("Bucket already exists")
+    client.put_object("mih", 
+                    fileName, 
+                    content, 
+                    length=size,
+                    content_type=f"application/{extension}",)
+        
+
+
 #"minio""localhost:9000"
-def uploudFile(fullName, docfname, startDate, endDate, returnDate):
+def uploudMedCert(fullName, docfname, startDate, endDate, returnDate):
     client = Minio("minio:9000",   
     access_key="user1",
     secret_key="C@rtoon1995",
@@ -40,13 +71,14 @@ def uploudFile(fullName, docfname, startDate, endDate, returnDate):
     generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate)
     found = client.bucket_exists("mih")
     if not found:
-       client.make_bucket("mih")
+        client.make_bucket("mih")
     else:
-       print("Bucket already exists")
+        print("Bucket already exists")
     fileName = f"Med-Cert-{fullName}-{startDate}.pdf"
     client.fput_object("mih", fileName, "temp.pdf")
 
 def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
+    w,h = A4
     today = datetime.today().strftime('%d-%m-%Y')
     myCanvas = canvas.Canvas("temp.pdf", pagesize=A4)
     myCanvas.setFont('Helvetica', 12)
