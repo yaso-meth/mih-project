@@ -43,7 +43,8 @@ RUN flutter config --enable-web
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
-RUN flutter pub add web:^0.5.0
+# RUN flutter pub add web:^0.5.0
+# RUN flutter pub run pdfx:install_web
 RUN flutter upgrade
 RUN flutter build web
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/BuildPdfView.dart';
 import 'package:patient_manager/objects/files.dart';
+import 'dart:js' as js;
 
 class BuildFilesList extends StatefulWidget {
   final List<PFile> files;
@@ -33,7 +35,35 @@ class _BuildFilesListState extends State<BuildFilesList> {
             subtitle: Text(widget.files[index].insert_date),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              //Insert Display function here
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(widget.files[index].file_name),
+                      IconButton(
+                        onPressed: () {
+                          js.context.callMethod('open', [
+                            'http://localhost:9000/mih/${widget.files[index].file_name}.pdf'
+                          ]);
+                        },
+                        icon: Icon(Icons.download),
+                      )
+                    ],
+                  ),
+                  content: BuildPDFView(
+                      pdfLink:
+                          "http://localhost:9000/mih/${widget.files[index].file_name}.pdf"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Close"))
+                  ],
+                ),
+              );
             },
           );
         },

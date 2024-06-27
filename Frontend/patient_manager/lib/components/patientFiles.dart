@@ -4,10 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
-import 'package:patient_manager/components/myDateInput.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/AppUser.dart';
-import 'package:patient_manager/objects/Patient2.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
