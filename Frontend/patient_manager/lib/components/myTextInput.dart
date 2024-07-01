@@ -29,10 +29,12 @@ class MyTextField extends StatelessWidget {
         readOnly: makeEditable(),
         obscureText: false,
         decoration: InputDecoration(
+          label: Text(hintText),
+          labelStyle: const TextStyle(color: Colors.blueAccent),
           fillColor: Colors.white,
           filled: true,
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          //hintText: hintText,
+          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.blueAccent,

@@ -39,8 +39,10 @@ class _MyPassFieldState extends State<MyPassField> {
         decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          label: Text(widget.hintText),
+          labelStyle: const TextStyle(color: Colors.blueAccent),
+          //hintText: widget.hintText,
+          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.blueAccent,

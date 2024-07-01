@@ -22,10 +22,15 @@ class MySearchField extends StatelessWidget {
         obscureText: false,
         decoration: InputDecoration(
           fillColor: Colors.white,
-          prefixIcon: const Icon(Icons.search),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: Colors.blueAccent,
+          ),
           filled: true,
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          label: Text(hintText),
+          labelStyle: const TextStyle(color: Colors.blueAccent),
+          //hintText: hintText,
+          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.blueAccent,
