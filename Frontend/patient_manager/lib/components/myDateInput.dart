@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class MyDateField extends StatefulWidget {
   final controller;
   final String LableText;
-  //final bool editable;
+  final bool required;
 
   const MyDateField({
     super.key,
     required this.controller,
     required this.LableText,
-    //required this.editable,
+    required this.required,
   });
 
   @override
@@ -17,6 +17,8 @@ class MyDateField extends StatefulWidget {
 }
 
 class _MyDateFieldState extends State<MyDateField> {
+  FocusNode _focus = FocusNode();
+  bool startup = true;
   // bool makeEditable() {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -33,6 +35,53 @@ class _MyDateFieldState extends State<MyDateField> {
     }
   }
 
+  Widget setRequiredText() {
+    if (widget.required) {
+      return Row(
+        children: [
+          const Text(
+            "*",
+            style: TextStyle(color: Colors.red),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          Text(widget.LableText,
+              style: const TextStyle(color: Colors.blueAccent)),
+        ],
+      );
+    } else {
+      return Text(widget.LableText,
+          style: const TextStyle(color: Colors.blueAccent));
+    }
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.LableText} is required";
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    _focus.addListener(_onFocusChange);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,9 +90,19 @@ class _MyDateFieldState extends State<MyDateField> {
         controller: widget.controller,
         readOnly: true,
         obscureText: false,
+        focusNode: _focus,
+        onChanged: (_) => setState(() {
+          startup = false;
+        }),
         decoration: InputDecoration(
-          labelText: widget.LableText,
-          prefixIcon: const Icon(Icons.calendar_today),
+          errorText: _errorText,
+          label: setRequiredText(),
+          //labelText: widget.LableText,
+          //labelStyle: const TextStyle(color: Colors.blueAccent),
+          prefixIcon: const Icon(
+            Icons.calendar_today,
+            color: Colors.blueAccent,
+          ),
           fillColor: Colors.white,
           filled: true,
           //hintText: hintText,

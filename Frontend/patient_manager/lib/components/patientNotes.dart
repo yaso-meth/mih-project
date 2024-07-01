@@ -132,6 +132,7 @@ class _PatientNotesState extends State<PatientNotes> {
                                           controller: titleController,
                                           hintText: "Title of Note",
                                           editable: true,
+                                          required: true,
                                         ),
                                       ),
                                       const SizedBox(
@@ -142,6 +143,7 @@ class _PatientNotesState extends State<PatientNotes> {
                                           controller: noteTextController,
                                           hintText: "Note Details",
                                           editable: true,
+                                          required: true,
                                         ),
                                       ),
                                     ],

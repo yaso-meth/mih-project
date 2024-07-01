@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MyPassField extends StatefulWidget {
   final controller;
   final String hintText;
+  final bool required;
 
   const MyPassField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.required,
   });
 
   @override
@@ -15,6 +17,7 @@ class MyPassField extends StatefulWidget {
 }
 
 class _MyPassFieldState extends State<MyPassField> {
+  bool startup = true;
   final textFieldFocusNode = FocusNode();
   bool _obscured = true;
 
@@ -29,6 +32,53 @@ class _MyPassFieldState extends State<MyPassField> {
     });
   }
 
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.hintText} is required";
+    }
+    return null;
+  }
+
+  Widget setRequiredText() {
+    if (widget.required) {
+      return Row(
+        children: [
+          const Text(
+            "*",
+            style: TextStyle(color: Colors.red),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          Text(widget.hintText,
+              style: const TextStyle(color: Colors.blueAccent)),
+        ],
+      );
+    } else {
+      return Text(widget.hintText,
+          style: const TextStyle(color: Colors.blueAccent));
+    }
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  @override
+  void initState() {
+    textFieldFocusNode.addListener(_onFocusChange);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,11 +86,16 @@ class _MyPassFieldState extends State<MyPassField> {
       child: TextField(
         controller: widget.controller,
         obscureText: _obscured,
+        focusNode: textFieldFocusNode,
+        onChanged: (_) => setState(() {
+          startup = false;
+        }),
         decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
-          label: Text(widget.hintText),
-          labelStyle: const TextStyle(color: Colors.blueAccent),
+          label: setRequiredText(),
+          //labelStyle: const TextStyle(color: Colors.blueAccent),
+          errorText: _errorText,
           //hintText: widget.hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: const OutlineInputBorder(

@@ -20,7 +20,7 @@ class _MedcertinputState extends State<Medcertinput> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 325,
       child: Column(
         children: [
           const SizedBox(height: 50.0),
@@ -29,6 +29,7 @@ class _MedcertinputState extends State<Medcertinput> {
             child: MyDateField(
               controller: widget.startDateController,
               LableText: "From",
+              required: true,
             ),
           ),
           const SizedBox(height: 25.0),
@@ -37,6 +38,7 @@ class _MedcertinputState extends State<Medcertinput> {
             child: MyDateField(
               controller: widget.endDateTextController,
               LableText: "Up to Including",
+              required: true,
             ),
           ),
           const SizedBox(height: 25.0),
@@ -45,6 +47,7 @@ class _MedcertinputState extends State<Medcertinput> {
             child: MyDateField(
               controller: widget.retDateTextController,
               LableText: "Return",
+              required: true,
             ),
           ),
         ],

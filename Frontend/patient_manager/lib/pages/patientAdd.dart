@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import '../components/myAppBar.dart';
 import 'package:http/http.dart' as http;
-import '../objects/AppUser.dart';
 
 class AddPatient extends StatefulWidget {
   final String userEmail;
@@ -116,6 +116,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: idController,
                       hintText: "13 digit ID Number or Passport",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -128,6 +129,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: fnameController,
                       hintText: "First Name",
                       editable: true,
+                      required: false,
                     ),
                   ),
                 ],
@@ -140,6 +142,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: lnameController,
                       hintText: "Last Name",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -152,6 +155,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: cellController,
                       hintText: "Cell Number",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -164,6 +168,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: emailController,
                       hintText: "Email",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -176,6 +181,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: addressController,
                       hintText: "Address",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -198,6 +204,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: medNoController,
                       hintText: "Medical Aid No.",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -210,6 +217,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: medNameController,
                       hintText: "Medical Aid Name",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],
@@ -222,6 +230,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: medSchemeController,
                       hintText: "Medical Aid Scheme",
                       editable: true,
+                      required: true,
                     ),
                   ),
                 ],

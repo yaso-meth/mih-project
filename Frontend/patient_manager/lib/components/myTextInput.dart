@@ -1,23 +1,80 @@
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
+class MyTextField extends StatefulWidget {
   final controller;
   final String hintText;
   final bool editable;
+  final bool required;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.editable,
+    required this.required,
   });
 
+  @override
+  State<MyTextField> createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  bool startup = true;
+  FocusNode _focus = FocusNode();
+
   bool makeEditable() {
-    if (editable) {
+    if (widget.editable) {
       return false;
     } else {
       return true;
     }
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.hintText} is required";
+    }
+    return null;
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  Widget setRequiredText() {
+    if (widget.required) {
+      return Row(
+        children: [
+          const Text(
+            "*",
+            style: TextStyle(color: Colors.red),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          Text(widget.hintText,
+              style: const TextStyle(color: Colors.blueAccent)),
+        ],
+      );
+    } else {
+      return Text(widget.hintText,
+          style: const TextStyle(color: Colors.blueAccent));
+    }
+  }
+
+  @override
+  void initState() {
+    _focus.addListener(_onFocusChange);
+    super.initState();
   }
 
   @override
@@ -25,14 +82,19 @@ class MyTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        controller: controller,
+        controller: widget.controller,
+        focusNode: _focus,
         readOnly: makeEditable(),
         obscureText: false,
+        onChanged: (_) => setState(() {
+          startup = false;
+        }),
         decoration: InputDecoration(
-          label: Text(hintText),
-          labelStyle: const TextStyle(color: Colors.blueAccent),
+          label: setRequiredText(),
+          //labelStyle: const TextStyle(color: Colors.blueAccent),
           fillColor: Colors.white,
           filled: true,
+          errorText: _errorText,
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: const OutlineInputBorder(

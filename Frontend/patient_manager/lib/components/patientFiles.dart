@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/AppUser.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
@@ -207,6 +206,9 @@ class _PatientFilesState extends State<PatientFiles> {
           ),
           TextButton(
             onPressed: () {
+              startDateController.clear();
+              endDateTextController.clear();
+              retDateTextController.clear();
               Navigator.pop(context);
             },
             child: const Text("Cancel"),
@@ -255,9 +257,11 @@ class _PatientFilesState extends State<PatientFiles> {
                     buttonText: "Select File"),
               ),
               MyTextField(
-                  controller: selectedFileController,
-                  hintText: "Selected FIle",
-                  editable: false)
+                controller: selectedFileController,
+                hintText: "Selected FIle",
+                editable: false,
+                required: true,
+              )
             ],
           ),
         ),

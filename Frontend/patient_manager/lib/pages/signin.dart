@@ -87,6 +87,7 @@ class _SignInState extends State<SignIn> {
                     controller: emailController,
                     hintText: 'Email',
                     editable: true,
+                    required: true,
                   ),
                 ),
                 //spacer
@@ -97,6 +98,7 @@ class _SignInState extends State<SignIn> {
                   child: MyPassField(
                     controller: passwordController,
                     hintText: 'Password',
+                    required: true,
                   ),
                 ),
                 //spacer

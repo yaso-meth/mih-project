@@ -96,6 +96,7 @@ class _RegisterState extends State<Register> {
                     controller: officeID,
                     hintText: 'OfficeID',
                     editable: true,
+                    required: true,
                   ),
                 ),
                 //spacer
@@ -107,6 +108,7 @@ class _RegisterState extends State<Register> {
                     controller: emailController,
                     hintText: 'Email',
                     editable: true,
+                    required: true,
                   ),
                 ),
                 //spacer
@@ -117,6 +119,7 @@ class _RegisterState extends State<Register> {
                   child: MyPassField(
                     controller: passwordController,
                     hintText: 'Password',
+                    required: true,
                   ),
                 ),
                 //spacer
@@ -127,6 +130,7 @@ class _RegisterState extends State<Register> {
                   child: MyPassField(
                     controller: confirmPasswordController,
                     hintText: 'Confirm Password',
+                    required: true,
                   ),
                 ),
                 //spacer
