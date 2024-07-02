@@ -49,6 +49,7 @@ class _MyPassFieldState extends State<MyPassField> {
   Widget setRequiredText() {
     if (widget.required) {
       return Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             "*",

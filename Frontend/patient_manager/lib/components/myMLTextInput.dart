@@ -53,6 +53,7 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
   Widget setRequiredText() {
     if (widget.required) {
       return Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             "*",

@@ -38,6 +38,7 @@ class _MyDateFieldState extends State<MyDateField> {
   Widget setRequiredText() {
     if (widget.required) {
       return Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             "*",
