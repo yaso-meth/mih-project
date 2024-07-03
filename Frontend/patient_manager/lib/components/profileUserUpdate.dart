@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -20,6 +21,16 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
   final titleController = TextEditingController();
+
+  bool isFieldsFilled() {
+    if (fnameController.text.isEmpty ||
+        lnameController.text.isEmpty ||
+        titleController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   void initState() {
@@ -70,24 +81,12 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           height: 100.0,
           child: MyButton(
               onTap: () {
-                if (fnameController.text == "") {
-                  showDialog<void>(
+                if (isFieldsFilled()) {
+                } else {
+                  showDialog(
                     context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Incomplete Field\\s'),
-                        content: const Text(
-                          'Please conplete all fields',
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Disable'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
+                    builder: (context) {
+                      return const MyErrorMessage(errorType: "Input Error");
                     },
                   );
                 }

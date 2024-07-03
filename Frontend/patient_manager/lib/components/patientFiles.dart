@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
@@ -87,10 +88,10 @@ class _PatientFilesState extends State<PatientFiles> {
         String message = "Successfully added file";
         messagePopUp(message);
       } else {
-        messagePopUp("error response 2");
+        internetConnectionPopUp();
       }
     } else {
-      messagePopUp("error respose 1");
+      internetConnectionPopUp();
     }
   }
 
@@ -124,10 +125,10 @@ class _PatientFilesState extends State<PatientFiles> {
         String message = "Successfully added file";
         messagePopUp(message);
       } else {
-        messagePopUp("error response 2");
+        internetConnectionPopUp();
       }
     } else {
-      messagePopUp("error respose 1");
+      internetConnectionPopUp();
     }
   }
 
@@ -139,6 +140,7 @@ class _PatientFilesState extends State<PatientFiles> {
       appUser =
           AppUser.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
     } else {
+      internetConnectionPopUp();
       throw Exception('Failed to load user');
     }
   }
@@ -163,6 +165,7 @@ class _PatientFilesState extends State<PatientFiles> {
           List<PFile>.from(l.map((model) => PFile.fromJson(model)));
       return files;
     } else {
+      internetConnectionPopUp();
       throw Exception('failed to load patients');
     }
   }
@@ -181,39 +184,76 @@ class _PatientFilesState extends State<PatientFiles> {
   void medCertPopUp() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      builder: (context) => Dialog(
+        child: Stack(
           children: [
-            Text("Create Medical Certificate"),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: 700.0,
+              //height: 475.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0),
+                border: Border.all(color: Colors.blueAccent, width: 5.0),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Create Medical Certificate",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+                  Medcertinput(
+                    startDateController: startDateController,
+                    endDateTextController: endDateTextController,
+                    retDateTextController: retDateTextController,
+                  ),
+                  SizedBox(
+                      width: 300,
+                      height: 100,
+                      child: MyButton(
+                          onTap: () {
+                            if (isMedCertFieldsFilled()) {
+                              generateMedCert();
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const MyErrorMessage(
+                                      errorType: "Input Error");
+                                },
+                              );
+                            }
+                          },
+                          buttonText: "Add Note"))
+                ],
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                  size: 35,
+                ),
+              ),
+            ),
           ],
         ),
-        content: Medcertinput(
-          startDateController: startDateController,
-          endDateTextController: endDateTextController,
-          retDateTextController: retDateTextController,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              generateMedCert();
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Generate",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              startDateController.clear();
-              endDateTextController.clear();
-              retDateTextController.clear();
-              Navigator.pop(context);
-            },
-            child: const Text("Cancel"),
-          )
-        ],
       ),
     );
   }
@@ -221,71 +261,124 @@ class _PatientFilesState extends State<PatientFiles> {
   void uploudFilePopUp() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      builder: (context) => Dialog(
+        child: Stack(
           children: [
-            Text("Upload File"),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: 700.0,
+              //height: 475.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0),
+                border: Border.all(color: Colors.blueAccent, width: 5.0),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Upload File",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+                  SizedBox(
+                    width: 700,
+                    child: MyButton(
+                        onTap: () async {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles();
+                          if (result == null) return;
+                          final selectedFile = result.files.first;
+                          setState(() {
+                            selected = selectedFile;
+                          });
+
+                          setState(() {
+                            selectedFileController.text = selectedFile.name;
+                          });
+                        },
+                        buttonText: "Select File"),
+                  ),
+                  MyTextField(
+                    controller: selectedFileController,
+                    hintText: "Selected FIle",
+                    editable: false,
+                    required: true,
+                  ),
+                  SizedBox(
+                      width: 300,
+                      height: 100,
+                      child: MyButton(
+                          onTap: () {
+                            if (isFileFieldsFilled()) {
+                              uploadSelectedFile(selected);
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const MyErrorMessage(
+                                      errorType: "Input Error");
+                                },
+                              );
+                            }
+                          },
+                          buttonText: "Add Note"))
+                ],
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                  size: 35,
+                ),
+              ),
+            ),
           ],
         ),
-        content: SizedBox(
-          width: 700,
-          height: 250,
-          child: Column(
-            children: [
-              SizedBox(
-                width: 700,
-                child: MyButton(
-                    onTap: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles();
-                      if (result == null) return;
-                      final selectedFile = result.files.first;
-                      //selectedFile
-                      // print("Name: ${selectedFile.name}");
-                      // print("Extension: ${selectedFile.extension}");
-                      // print("Content: ${selectedFile.bytes}");
-
-                      setState(() {
-                        selected = selectedFile;
-                      });
-
-                      setState(() {
-                        selectedFileController.text = selectedFile.name;
-                      });
-                    },
-                    buttonText: "Select File"),
-              ),
-              MyTextField(
-                controller: selectedFileController,
-                hintText: "Selected FIle",
-                editable: false,
-                required: true,
-              )
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              uploadSelectedFile(selected);
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Upload",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              selectedFileController.clear();
-              Navigator.pop(context);
-            },
-            child: const Text("Cancel"),
-          )
-        ],
       ),
     );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  bool isMedCertFieldsFilled() {
+    if (startDateController.text.isEmpty ||
+        endDateTextController.text.isEmpty ||
+        retDateTextController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool isFileFieldsFilled() {
+    if (selectedFileController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
