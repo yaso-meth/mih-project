@@ -19,6 +19,7 @@ class HomeTileGrid extends StatelessWidget {
           children: [
             HomeTile(
               onTap: () {
+                //print("Home Tiles: $userEmail");
                 Navigator.of(context)
                     .pushNamed('/patient-manager', arguments: userEmail);
               },

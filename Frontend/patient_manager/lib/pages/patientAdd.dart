@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -29,7 +30,7 @@ class _AddPatientState extends State<AddPatient> {
   final medNameController = TextEditingController();
   final medSchemeController = TextEditingController();
   final addressController = TextEditingController();
-  final docOfficeIdApiUrl = "http://localhost:80/docOffices/user/";
+  final docOfficeIdApiUrl = "http://localhost:80/users/profile/";
   final apiUrl = "http://localhost:80/patients/insert/";
   late int futureDocOfficeId;
 
@@ -44,7 +45,24 @@ class _AddPatientState extends State<AddPatient> {
         //print(futureDocOfficeId);
       });
     } else {
+      internetConnectionPopUp();
       throw Exception('failed to load patients');
+    }
+  }
+
+  bool isFieldsFilled() {
+    if (idController.text.isEmpty ||
+        fnameController.text.isEmpty ||
+        lnameController.text.isEmpty ||
+        cellController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        medNoController.text.isEmpty ||
+        medNameController.text.isEmpty ||
+        medSchemeController.text.isEmpty ||
+        addressController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -76,8 +94,17 @@ class _AddPatientState extends State<AddPatient> {
           "${fnameController.text} ${lnameController.text} Successfully added";
       messagePopUp(message);
     } else {
-      messagePopUp("error");
+      internetConnectionPopUp();
     }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
   }
 
   void messagePopUp(error) {
@@ -129,7 +156,7 @@ class _AddPatientState extends State<AddPatient> {
                       controller: fnameController,
                       hintText: "First Name",
                       editable: true,
-                      required: false,
+                      required: true,
                     ),
                   ),
                 ],
@@ -243,7 +270,19 @@ class _AddPatientState extends State<AddPatient> {
                     width: 500.0,
                     height: 100.0,
                     child: MyButton(
-                      onTap: addPatientAPICall,
+                      onTap: () {
+                        if (isFieldsFilled()) {
+                          addPatientAPICall();
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        }
+                      },
                       buttonText: "Add",
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -31,7 +32,7 @@ class _EditPatientState extends State<EditPatient> {
   final medNameController = TextEditingController();
   final medSchemeController = TextEditingController();
   final addressController = TextEditingController();
-  final docOfficeIdApiUrl = "http://localhost:80/docOffices/user/";
+  final docOfficeIdApiUrl = "http://localhost:80/users/profile/";
   final apiUrlEdit = "http://localhost:80/patients/update/";
   final apiUrlDelete = "http://localhost:80/patients/delete/";
   late int futureDocOfficeId;
@@ -48,18 +49,19 @@ class _EditPatientState extends State<EditPatient> {
         //print(futureDocOfficeId);
       });
     } else {
+      internetConnectionPopUp();
       throw Exception('failed to load patients');
     }
   }
 
   Future<void> updatePatientApiCall() async {
-    print("Here1");
+    //print("Here1");
     //userEmail = getLoginUserEmail() as String;
-    print(userEmail);
-    print("Here2");
+    //print(userEmail);
+    //print("Here2");
     await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    print(futureDocOfficeId.toString());
-    print("Here3");
+    //print(futureDocOfficeId.toString());
+    //print("Here3");
     var response = await http.put(
       Uri.parse(apiUrlEdit),
       headers: <String, String>{
@@ -78,27 +80,27 @@ class _EditPatientState extends State<EditPatient> {
         "doc_office_id": futureDocOfficeId,
       }),
     );
-    print("Here4");
-    print(response.statusCode);
+    //print("Here4");
+    //print(response.statusCode);
     if (response.statusCode == 200) {
       Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
       String message =
           "${fnameController.text} ${lnameController.text} Successfully Updated";
       messagePopUp(message);
     } else {
-      messagePopUp("error ${response.statusCode}");
+      internetConnectionPopUp();
     }
   }
 
   Future<void> deletePatientApiCall() async {
-    print("Here1");
+    //print("Here1");
     //userEmail = getLoginUserEmail() as String;
-    print(userEmail);
-    print("Here2");
+    //print(userEmail);
+    //print("Here2");
     await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    print("Office ID: ${futureDocOfficeId.toString()}");
-    print("OPatient ID No: ${idController.text}");
-    print("Here3");
+    //print("Office ID: ${futureDocOfficeId.toString()}");
+    //print("OPatient ID No: ${idController.text}");
+    //print("Here3");
     var response = await http.delete(
       Uri.parse(apiUrlDelete),
       headers: <String, String>{
@@ -109,15 +111,15 @@ class _EditPatientState extends State<EditPatient> {
         "doc_office_id": futureDocOfficeId,
       }),
     );
-    print("Here4");
-    print(response.statusCode);
+    //print("Here4");
+    //print(response.statusCode);
     if (response.statusCode == 200) {
       Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
       String message =
           "${fnameController.text} ${lnameController.text} Successfully Deleted";
       messagePopUp(message);
     } else {
-      messagePopUp("error ${response.statusCode}");
+      internetConnectionPopUp();
     }
   }
 
@@ -136,6 +138,131 @@ class _EditPatientState extends State<EditPatient> {
         );
       },
     );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  Widget deletePatientPopUp() {
+    return Dialog(
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            width: 500.0,
+            height: 475.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(color: Colors.blueAccent, width: 5.0),
+            ),
+            child: Column(
+              //mainAxisSize: MainAxisSize.max,
+              children: [
+                const Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: Colors.blueAccent,
+                ),
+                const SizedBox(height: 15),
+                const Text(
+                  "Are you sure you want to delete this?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Here's what you'll be deleting:",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: SizedBox(
+                    width: 450,
+                    child: Text(
+                      "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                    width: 300,
+                    height: 100,
+                    child: MyButton(
+                        onTap: deletePatientApiCall, buttonText: "Delete"))
+              ],
+            ),
+          ),
+          Positioned(
+            top: 5,
+            right: 5,
+            width: 50,
+            height: 50,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.close,
+                color: Colors.red,
+                size: 35,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool isFieldsFilled() {
+    if (idController.text.isEmpty ||
+        fnameController.text.isEmpty ||
+        lnameController.text.isEmpty ||
+        cellController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        medNoController.text.isEmpty ||
+        medNameController.text.isEmpty ||
+        medSchemeController.text.isEmpty ||
+        addressController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
@@ -190,38 +317,7 @@ class _EditPatientState extends State<EditPatient> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.warning),
-                              Text("Warning"),
-                            ],
-                          ),
-                          content: Text(
-                              "You are trying to delete the patient ${fnameController.text} ${lnameController.text}.\n\n" +
-                                  "Please note that this patient will be deleted permenantly and can not be retored\n\n" +
-                                  "Would you like to delete patient?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                deletePatientApiCall();
-                              },
-                              child: const Text(
-                                "Yes",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("No"),
-                            )
-                          ],
-                        ),
+                        builder: (context) => deletePatientPopUp(),
                       );
                     },
                   )
@@ -362,7 +458,17 @@ class _EditPatientState extends State<EditPatient> {
                     height: 100.0,
                     child: MyButton(
                       onTap: () {
-                        updatePatientApiCall();
+                        if (isFieldsFilled()) {
+                          updatePatientApiCall();
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        }
                       },
                       buttonText: "Update",
                     ),

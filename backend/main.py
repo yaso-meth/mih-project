@@ -14,6 +14,7 @@ app.include_router(fileStorage.router)
 origins = [
     "http://localhost",
     "http://localhost:80",
+    "api",
     "*"
 ]
 

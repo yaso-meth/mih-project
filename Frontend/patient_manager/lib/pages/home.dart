@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
-import 'package:patient_manager/components/myAppDrawer.dart';
+import 'package:patient_manager/components/homeAppDrawer.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/main.dart';
 
 class Home extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
     if (res.user!.email != null) {
       //print("emai not null");
       useremail = res.user!.email!;
-      //print(useremail);
+      //print("Home Page: $useremail");
     }
   }
 
@@ -38,8 +39,30 @@ class _HomeState extends State<Home> {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
             appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
-            drawer: MyAppDrawer(
-              drawerTitle: useremail,
+            drawer: HomeAppDrawer(userEmail: useremail),
+            floatingActionButton: FloatingActionButton.extended(
+              label: const Text(
+                "Test Allert",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: Colors.blueAccent,
+              onPressed: () {
+                // Navigator.of(context)
+                //     .pushNamed('/patient-manager/add', arguments: widget.userEmail);
+                showDialog(
+                  context: context,
+                  builder: (context) => const MyErrorMessage(
+                    errorType: "Internet Connection",
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.warning_amber_rounded,
+                color: Colors.white,
+              ),
             ),
             body: HomeTileGrid(
               userEmail: useremail,

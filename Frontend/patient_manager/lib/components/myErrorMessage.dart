@@ -191,6 +191,96 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     );
   }
 
+  void setInternetError() {
+    messageTypes["Internet Connection"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500.0,
+          height: 450.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(color: Colors.red, width: 5.0),
+          ),
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                size: 100,
+                color: Colors.red,
+              ),
+              SizedBox(height: 15),
+              Text(
+                "Internet Connection Lost!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  "We seem to be having some trouble connecting you to the internet. This could be due to a temporary outage or an issue with your device's connection.",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  "Here are a few things you can try:",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  "1) Check your Wi-Fi signal strength or try connecting to a different network.\n2) Restart your device (computer, phone, etc.) and your router/modem.\n3) If you're using cellular data, ensure you have a strong signal and haven't reached your data limit.",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.close,
+              color: Colors.red,
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget? getErrorMessage(String type) {
     return messageTypes[type];
   }
@@ -199,6 +289,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
   void initState() {
     setInputError();
     setinvalidCredError();
+    setInternetError();
     super.initState();
   }
 

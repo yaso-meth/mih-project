@@ -1,14 +1,15 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/myAppBar.dart';
-import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
+import 'package:patient_manager/pages/patientAdd.dart';
+import 'package:patient_manager/pages/patientEdit.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 import 'package:patient_manager/pages/patientView.dart';
-import '../pages/patientEdit.dart';
+import 'package:patient_manager/pages/profileUpdate.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,10 +18,13 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const AuthCheck());
+
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
+
       case '/patient-manager':
         if (args is String) {
+          //print("route generator: $args");
           return MaterialPageRoute(
             builder: (_) => PatientManager(
               userEmail: args,
@@ -28,6 +32,7 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
       case '/patient-manager/add':
         if (args is String) {
           return MaterialPageRoute(
@@ -37,6 +42,7 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
       case '/patient-manager/patient':
         if (args is Patient) {
           return MaterialPageRoute(
@@ -46,6 +52,7 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
       case '/patient-manager/patient/edit':
         if (args is Patient) {
           return MaterialPageRoute(
@@ -55,6 +62,15 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+
+      case '/patient-manager/profile':
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            builder: (_) => ProfileUpdate(signedInUser: args),
+          );
+        }
+        return _errorRoute();
+
       case '/signin':
         return MaterialPageRoute(builder: (_) => const SignInOrRegister());
       // //case '/signIn':

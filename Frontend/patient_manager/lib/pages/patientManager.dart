@@ -4,22 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/myAppBar.dart';
-import 'package:patient_manager/components/myAppDrawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
+import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/objects/patients.dart';
-
-Future<List<Patient>> fetchPatients(String endpoint) async {
-  final response = await http.get(Uri.parse(endpoint));
-  if (response.statusCode == 200) {
-    Iterable l = jsonDecode(response.body);
-    List<Patient> patients =
-        List<Patient>.from(l.map((model) => Patient.fromJson(model)));
-    return patients;
-  } else {
-    throw Exception('failed to load patients');
-  }
-}
 
 class PatientManager extends StatefulWidget {
   final String userEmail;
@@ -39,6 +27,20 @@ class _PatientManagerState extends State<PatientManager> {
   late Future<List<Patient>> futurePatients;
   String searchString = "";
 
+  Future<List<Patient>> fetchPatients(String endpoint) async {
+    //print("Patien manager page: $endpoint");
+    final response = await http.get(Uri.parse(endpoint));
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Patient> patients =
+          List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+      return patients;
+    } else {
+      throw Exception('failed to load patients');
+    }
+  }
+
   @override
   void initState() {
     futurePatients = fetchPatients(endpoint + widget.userEmail);
@@ -49,7 +51,7 @@ class _PatientManagerState extends State<PatientManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
-      drawer: MyAppDrawer(drawerTitle: widget.userEmail),
+      drawer: PatManAppDrawer(userEmail: widget.userEmail),
       //floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text(
@@ -105,7 +107,7 @@ class _PatientManagerState extends State<PatientManager> {
               ],
             );
           } else {
-            return const MyAppDrawer(drawerTitle: "Error pulling email");
+            return const PatManAppDrawer(userEmail: "Error pulling email");
           }
         },
       ),

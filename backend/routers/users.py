@@ -5,8 +5,30 @@ from ..database import dbConnection
 router = APIRouter()
 
 class userRequest(BaseModel):
+    email: str
     DocOfficeID: int
-    patientID: int
+    
+#get user by email & doc Office ID
+@router.get("/users/profile/{email}", tags="users")
+async def read_all_users(email: str):
+    db = dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM users where email = %s"
+    cursor.execute(query, (email.lower(),)) 
+    items = [
+        {"idusers": item[0],
+        "email": item[1],
+        "docOffice_id": item[2],
+        "fname":item[3],
+        "lname":item[4],
+        "title": item[5]
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items[0]
+    
 
 # Get List of all files
 @router.get("/users/", tags="users")
@@ -18,12 +40,11 @@ async def read_all_users():
     items = [
         {
             "idUser": item[0],
-            "UserName": item[1],
-            "Password": item[2],
-            "docOffice_ID": item[3],
-            "fname": item[4],
-            "lname": item[5],
-            "title": item[6],
+            "email": item[1],
+            "docOffice_ID": item[2],
+            "fname": item[3],
+            "lname": item[4],
+            "title": item[5],
         }
         for item in cursor.fetchall()
     ]

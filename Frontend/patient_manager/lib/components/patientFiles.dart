@@ -30,7 +30,7 @@ class PatientFiles extends StatefulWidget {
 
 class _PatientFilesState extends State<PatientFiles> {
   String endpointFiles = "http://localhost:80/files/patients/";
-  String endpointUser = "http://localhost:80/docOffices/user/";
+  String endpointUser = "http://localhost:80/users/profile/";
   String endpointGenFiles = "http://localhost:80/files/generate/med-cert/";
   String endpointFileUpload = "http://localhost:80/files/upload/file/";
   String endpointInsertFiles = "http://localhost:80/files/insert/";
@@ -278,6 +278,7 @@ class _PatientFilesState extends State<PatientFiles> {
           ),
           TextButton(
             onPressed: () {
+              selectedFileController.clear();
               Navigator.pop(context);
             },
             child: const Text("Cancel"),

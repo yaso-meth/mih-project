@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "MIH Dev",
+            "cwd": "Frontend/patient_manager",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "lib/main_dev.dart",
+            "toolArgs": [
+                //"--dart-define-from-file=config/config-dev.json",
+                "--dart-define",
+                "baseURL=url"
+                ],
+        },
+        {
+            "name": "MIH Prod",
+            "cwd": "Frontend\\patient_manager",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "lib/main_prod.dart",
+            "args": [
+                " — dart-define-from-file=config/config-prod.json"
+                ],
+        },
+    ]
+}

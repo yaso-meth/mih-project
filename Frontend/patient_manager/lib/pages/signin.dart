@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
@@ -32,20 +33,18 @@ class _SignInState extends State<SignIn> {
         });
         //Navigator.of(context).pushNamed('/homme');
       }
-    } on AuthException catch (error) {
-      loginError(error.message);
+    } on AuthException {
+      loginError();
       //emailController.clear();
       passwordController.clear();
     }
   }
 
-  void loginError(error) {
+  void loginError() {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(error),
-        );
+        return const MyErrorMessage(errorType: "Invalid Credentials");
       },
     );
   }
@@ -109,7 +108,19 @@ class _SignInState extends State<SignIn> {
                   height: 100.0,
                   child: MyButton(
                     onTap: () {
-                      signUserIn();
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const MyErrorMessage(
+                                errorType: "Input Error");
+                          },
+                        );
+                      } else {
+                        signUserIn();
+                      }
+
                       if (successfulSignIn) {
                         Navigator.of(context).pushNamed('/homme');
                       }

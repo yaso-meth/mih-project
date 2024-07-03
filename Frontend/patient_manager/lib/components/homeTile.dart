@@ -23,24 +23,28 @@ class HomeTile extends StatelessWidget {
         child: Column(
           //mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-              leading: const Icon(Icons.abc),
-              title: Text(
-                tileName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+            Expanded(
+              child: ListTile(
+                leading: const Icon(Icons.abc),
+                title: Text(
+                  tileName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                subtitle: Text(tileDescription),
               ),
-              subtitle: Text(tileDescription),
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.arrow_forward),
-                ),
-              ],
+            const Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(Icons.arrow_forward),
+                  ),
+                ],
+              ),
             )
           ],
         ),

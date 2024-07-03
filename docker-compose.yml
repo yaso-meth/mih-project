@@ -9,10 +9,10 @@ services:
       - .:/app
     depends_on:
       - mysqldb
-    networks:
-      default:
-        aliases:
-          - mih-api-hub
+    # networks:
+    #   default:
+    #     aliases:
+    #       - mih-api-hub
   
   mysqldb:
     #build: ./database/
