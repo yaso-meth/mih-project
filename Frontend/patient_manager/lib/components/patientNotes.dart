@@ -130,24 +130,28 @@ class _PatientNotesState extends State<PatientNotes> {
                     ),
                   ),
                   SizedBox(
-                      width: 300,
-                      height: 100,
-                      child: MyButton(
-                          onTap: () {
-                            if (isFieldsFilled()) {
-                              addPatientNoteAPICall();
-                              Navigator.pop(context);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MyErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
-                            }
-                          },
-                          buttonText: "Add Note"))
+                    width: 300,
+                    height: 100,
+                    child: MyButton(
+                      onTap: () {
+                        if (isFieldsFilled()) {
+                          addPatientNoteAPICall();
+                          Navigator.pop(context);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        }
+                      },
+                      buttonText: "Add Note",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),

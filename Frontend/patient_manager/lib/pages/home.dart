@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/main.dart';
 
 class Home extends StatefulWidget {
@@ -54,8 +54,10 @@ class _HomeState extends State<Home> {
                 //     .pushNamed('/patient-manager/add', arguments: widget.userEmail);
                 showDialog(
                   context: context,
-                  builder: (context) => const MyErrorMessage(
-                    errorType: "Internet Connection",
+                  builder: (context) => const MySuccessMessage(
+                    successType: "Success",
+                    successMessage:
+                        "This is the message when something successful happened.",
                   ),
                 );
               },

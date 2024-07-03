@@ -284,6 +284,8 @@ class _AddPatientState extends State<AddPatient> {
                         }
                       },
                       buttonText: "Add",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
                     ),
                   ),
                 ],

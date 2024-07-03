@@ -215,24 +215,28 @@ class _PatientFilesState extends State<PatientFiles> {
                     retDateTextController: retDateTextController,
                   ),
                   SizedBox(
-                      width: 300,
-                      height: 100,
-                      child: MyButton(
-                          onTap: () {
-                            if (isMedCertFieldsFilled()) {
-                              generateMedCert();
-                              Navigator.pop(context);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MyErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
-                            }
-                          },
-                          buttonText: "Add Note"))
+                    width: 300,
+                    height: 100,
+                    child: MyButton(
+                      onTap: () {
+                        if (isMedCertFieldsFilled()) {
+                          generateMedCert();
+                          Navigator.pop(context);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        }
+                      },
+                      buttonText: "Add Note",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -289,20 +293,23 @@ class _PatientFilesState extends State<PatientFiles> {
                   SizedBox(
                     width: 700,
                     child: MyButton(
-                        onTap: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles();
-                          if (result == null) return;
-                          final selectedFile = result.files.first;
-                          setState(() {
-                            selected = selectedFile;
-                          });
+                      onTap: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles();
+                        if (result == null) return;
+                        final selectedFile = result.files.first;
+                        setState(() {
+                          selected = selectedFile;
+                        });
 
-                          setState(() {
-                            selectedFileController.text = selectedFile.name;
-                          });
-                        },
-                        buttonText: "Select File"),
+                        setState(() {
+                          selectedFileController.text = selectedFile.name;
+                        });
+                      },
+                      buttonText: "Select File",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
+                    ),
                   ),
                   MyTextField(
                     controller: selectedFileController,
@@ -311,24 +318,28 @@ class _PatientFilesState extends State<PatientFiles> {
                     required: true,
                   ),
                   SizedBox(
-                      width: 300,
-                      height: 100,
-                      child: MyButton(
-                          onTap: () {
-                            if (isFileFieldsFilled()) {
-                              uploadSelectedFile(selected);
-                              Navigator.pop(context);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MyErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
-                            }
-                          },
-                          buttonText: "Add Note"))
+                    width: 300,
+                    height: 100,
+                    child: MyButton(
+                      onTap: () {
+                        if (isFileFieldsFilled()) {
+                          uploadSelectedFile(selected);
+                          Navigator.pop(context);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        }
+                      },
+                      buttonText: "Add Note",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),

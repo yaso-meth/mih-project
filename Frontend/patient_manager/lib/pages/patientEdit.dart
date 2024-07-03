@@ -226,7 +226,11 @@ class _EditPatientState extends State<EditPatient> {
                       width: 300,
                       height: 100,
                       child: MyButton(
-                          onTap: deletePatientApiCall, buttonText: "Delete"))
+                        onTap: deletePatientApiCall,
+                        buttonText: "Delete",
+                        buttonColor: Colors.blueAccent,
+                        textColor: Colors.white,
+                      ))
                 ],
               ),
             ),
@@ -471,6 +475,8 @@ class _EditPatientState extends State<EditPatient> {
                         }
                       },
                       buttonText: "Update",
+                      buttonColor: Colors.blueAccent,
+                      textColor: Colors.white,
                     ),
                   ),
                 ],

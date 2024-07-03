@@ -156,8 +156,10 @@ class _RegisterState extends State<Register> {
                 SizedBox(
                   width: 500.0,
                   child: MyButton(
-                    onTap: signUserUp,
+                    onTap: () {},
                     buttonText: "Sign Up",
+                    buttonColor: Colors.blueAccent,
+                    textColor: Colors.white,
                   ),
                 ),
                 //spacer

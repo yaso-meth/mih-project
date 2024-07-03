@@ -126,6 +126,8 @@ class _SignInState extends State<SignIn> {
                       }
                     },
                     buttonText: "Sign In",
+                    buttonColor: Colors.blueAccent,
+                    textColor: Colors.white,
                   ),
                 ),
                 //spacer

@@ -80,18 +80,21 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           width: 500.0,
           height: 100.0,
           child: MyButton(
-              onTap: () {
-                if (isFieldsFilled()) {
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MyErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
-              buttonText: "Update"),
+            onTap: () {
+              if (isFieldsFilled()) {
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const MyErrorMessage(errorType: "Input Error");
+                  },
+                );
+              }
+            },
+            buttonText: "Update",
+            buttonColor: Colors.blueAccent,
+            textColor: Colors.white,
+          ),
         ),
       ],
     );
