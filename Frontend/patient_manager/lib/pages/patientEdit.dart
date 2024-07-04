@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -85,8 +86,8 @@ class _EditPatientState extends State<EditPatient> {
     if (response.statusCode == 200) {
       Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
       String message =
-          "${fnameController.text} ${lnameController.text} Successfully Updated";
-      messagePopUp(message);
+          "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
+      successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -116,8 +117,8 @@ class _EditPatientState extends State<EditPatient> {
     if (response.statusCode == 200) {
       Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
       String message =
-          "${fnameController.text} ${lnameController.text} Successfully Deleted";
-      messagePopUp(message);
+          "${fnameController.text} ${lnameController.text}'s record has been deleted successfully. This means it will no longer be visible in patient manager and cannot be used for future appointments.";
+      successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -253,6 +254,18 @@ class _EditPatientState extends State<EditPatient> {
           ],
         ),
       ),
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MySuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
     );
   }
 

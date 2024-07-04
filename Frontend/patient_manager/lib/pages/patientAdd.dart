@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -91,8 +92,8 @@ class _AddPatientState extends State<AddPatient> {
       Navigator.of(context)
           .pushNamed('/patient-manager', arguments: widget.userEmail);
       String message =
-          "${fnameController.text} ${lnameController.text} Successfully added";
-      messagePopUp(message);
+          "${fnameController.text} ${lnameController.text} has been successfully added to the Patient Manager! You can now view their details, add notes & documents, and update their information.";
+      successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -113,6 +114,18 @@ class _AddPatientState extends State<AddPatient> {
       builder: (context) {
         return AlertDialog(
           title: Text(error),
+        );
+      },
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MySuccessMessage(
+          successType: "Success",
+          successMessage: message,
         );
       },
     );

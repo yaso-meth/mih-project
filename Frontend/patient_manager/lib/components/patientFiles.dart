@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
@@ -47,6 +48,16 @@ class _PatientFilesState extends State<PatientFiles> {
   late PlatformFile selected;
 
   Future<void> generateMedCert() async {
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
     var response1 = await http.post(
       Uri.parse(endpointGenFiles),
       headers: <String, String>{
@@ -85,8 +96,11 @@ class _PatientFilesState extends State<PatientFiles> {
           futueFiles =
               fetchFiles(endpointFiles + widget.patientIndex.toString());
         });
-        String message = "Successfully added file";
-        messagePopUp(message);
+        // end loading circle
+        Navigator.of(context).pop();
+        String message =
+            "The medical certificate $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+        successPopUp(message);
       } else {
         internetConnectionPopUp();
       }
@@ -97,12 +111,22 @@ class _PatientFilesState extends State<PatientFiles> {
 
   Future<void> uploadSelectedFile(PlatformFile file) async {
     //var strem = new http.ByteStream.fromBytes(file.bytes.)
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
     var request = http.MultipartRequest('POST', Uri.parse(endpointFileUpload));
     request.headers['Content-Type'] = 'multipart/form-data';
     request.files.add(await http.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response1 = await request.send();
-    print(response1.statusCode);
+    //print(response1.statusCode);
     if (response1.statusCode == 200) {
       var response2 = await http.post(
         Uri.parse(endpointInsertFiles),
@@ -115,15 +139,18 @@ class _PatientFilesState extends State<PatientFiles> {
           "patient_id": widget.patientIndex
         }),
       );
-      print(response2.statusCode);
+      //print(response2.statusCode);
       if (response2.statusCode == 201) {
         setState(() {
           selectedFileController.clear();
           futueFiles =
               fetchFiles(endpointFiles + widget.patientIndex.toString());
         });
-        String message = "Successfully added file";
-        messagePopUp(message);
+        // end loading circle
+        Navigator.of(context).pop();
+        String message =
+            "The medical certificate ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+        successPopUp(message);
       } else {
         internetConnectionPopUp();
       }
@@ -168,6 +195,18 @@ class _PatientFilesState extends State<PatientFiles> {
       internetConnectionPopUp();
       throw Exception('failed to load patients');
     }
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MySuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
   }
 
   void messagePopUp(error) {
@@ -232,7 +271,7 @@ class _PatientFilesState extends State<PatientFiles> {
                           );
                         }
                       },
-                      buttonText: "Add Note",
+                      buttonText: "Generate",
                       buttonColor: Colors.blueAccent,
                       textColor: Colors.white,
                     ),
@@ -295,7 +334,10 @@ class _PatientFilesState extends State<PatientFiles> {
                     child: MyButton(
                       onTap: () async {
                         FilePickerResult? result =
-                            await FilePicker.platform.pickFiles();
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'pdf'],
+                        );
                         if (result == null) return;
                         final selectedFile = result.files.first;
                         setState(() {
@@ -335,7 +377,7 @@ class _PatientFilesState extends State<PatientFiles> {
                           );
                         }
                       },
-                      buttonText: "Add Note",
+                      buttonText: "Add File",
                       buttonColor: Colors.blueAccent,
                       textColor: Colors.white,
                     ),

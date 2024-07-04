@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildNotesList.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myMLTextInput.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
@@ -56,11 +57,24 @@ class _PatientNotesState extends State<PatientNotes> {
       });
       // Navigator.of(context)
       //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-      String message = "Successfully added Note";
-      messagePopUp(message);
+      String message =
+          "Your note has been successfully added to the patients medical record. You can now view it alongside their other important information.";
+      successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MySuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
   }
 
   void internetConnectionPopUp() {
