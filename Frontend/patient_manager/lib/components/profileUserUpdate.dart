@@ -70,10 +70,13 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         MyDropdownField(
           controller: titleController,
           signedInUser: widget.signedInUser,
-          dropdownOptions: const <DropdownMenuEntry<String>>[
-            DropdownMenuEntry(value: "Dr.", label: "Doctor"),
-            DropdownMenuEntry(value: "Assistant", label: "Assistant"),
-          ],
+          hintText: "Title",
+          dropdownOptions: const <String>["Dr.", "Assistant"],
+          // const <DropdownMenuEntry<String>>[
+          //   DropdownMenuEntry(value: "Dr.", label: "Dr."),
+          //   DropdownMenuEntry(value: "Assistant", label: "Assistant"),
+          // ],
+          required: true,
         ),
         const SizedBox(height: 10.0),
         SizedBox(
