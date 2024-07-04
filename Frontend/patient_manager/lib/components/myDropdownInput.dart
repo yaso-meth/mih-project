@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:patient_manager/objects/appUser.dart';
 
 class MyDropdownField extends StatefulWidget {
-  final controller;
+  final TextEditingController controller;
   final AppUser signedInUser;
-  //final String hintText;
-  final List<DropdownMenuEntry<String>> dropdownOptions;
+  final String hintText;
+  final bool required;
+  final List<String> dropdownOptions;
 
   //final bool editable;
 
@@ -14,8 +14,9 @@ class MyDropdownField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.signedInUser,
-    //required this.hintText,
+    required this.hintText,
     required this.dropdownOptions,
+    required this.required,
   });
 
   @override
@@ -23,7 +24,68 @@ class MyDropdownField extends StatefulWidget {
 }
 
 class _MyDropdownFieldState extends State<MyDropdownField> {
-  var dropbownItems = ["Dr.", "Assistant"];
+  //var dropbownItems = ["Dr.", "Assistant"];
+  bool startup = true;
+  final FocusNode _focus = FocusNode();
+  late var menu;
+
+  Widget setRequiredText() {
+    if (widget.required) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            "*",
+            style: TextStyle(color: Colors.red),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          Text(widget.hintText,
+              style: const TextStyle(color: Colors.blueAccent)),
+        ],
+      );
+    } else {
+      return Text(widget.hintText,
+          style: const TextStyle(color: Colors.blueAccent));
+    }
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.hintText} is required";
+    }
+    return null;
+  }
+
+  List<DropdownMenuEntry<String>> buidMenueOptions(List<String> options) {
+    List<DropdownMenuEntry<String>> menueList = [];
+    for (final i in options) {
+      menueList.add(DropdownMenuEntry(value: i, label: i));
+    }
+    return menueList;
+  }
+
+  @override
+  void initState() {
+    menu = buidMenueOptions(widget.dropdownOptions);
+    _focus.addListener(_onFocusChange);
+    super.initState();
+  }
+
   // bool makeEditable() {
   @override
   Widget build(BuildContext context) {
@@ -32,7 +94,24 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
       child: DropdownMenu(
         controller: widget.controller,
         expandedInsets: EdgeInsets.zero,
-        label: const Text("Title", style: TextStyle(color: Colors.blueAccent)),
+        label: setRequiredText(),
+        errorText: _errorText,
+        focusNode: _focus,
+        onSelected: (_) => setState(() {
+          startup = false;
+        }),
+        leadingIcon: IconButton(
+          onPressed: () {
+            setState(() {
+              startup = false;
+            });
+            widget.controller.clear();
+          },
+          icon: const Icon(
+            Icons.delete_outline_rounded,
+            color: Colors.blueAccent,
+          ),
+        ),
         menuStyle: const MenuStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.white),
           side: WidgetStatePropertyAll(
@@ -50,7 +129,11 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
           ),
           outlineBorder: BorderSide(color: Colors.blue),
         ),
-        dropdownMenuEntries: widget.dropdownOptions,
+        dropdownMenuEntries: menu,
+        // const <DropdownMenuEntry<String>>[
+        //   DropdownMenuEntry(value: "Dr.", label: "Dr."),
+        //   DropdownMenuEntry(value: "Assistant", label: "Assistant"),
+        // ],
       ),
     );
   }
