@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import os
 import xlrd
-#from pathlib import Path
 
 
 router = APIRouter()
@@ -46,10 +45,7 @@ def getMedicineData():
         if t not in seen:
             seen.add(t)
             medlist_noDuplicates.append(d)
-
-    #medlist_noDuplicates[:] = [d for d in thelist if d.get('id') != 2]
-    
-
+            
     return sorted(medlist_noDuplicates, key=lambda d: d['name']) #qsort(medlist)
             
 
