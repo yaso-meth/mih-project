@@ -72,10 +72,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           signedInUser: widget.signedInUser,
           hintText: "Title",
           dropdownOptions: const <String>["Dr.", "Assistant"],
-          // const <DropdownMenuEntry<String>>[
-          //   DropdownMenuEntry(value: "Dr.", label: "Dr."),
-          //   DropdownMenuEntry(value: "Assistant", label: "Assistant"),
-          // ],
           required: true,
         ),
         const SizedBox(height: 10.0),
