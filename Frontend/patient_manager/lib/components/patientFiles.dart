@@ -9,6 +9,7 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/prescipInput.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
@@ -41,6 +42,13 @@ class _PatientFilesState extends State<PatientFiles> {
   final endDateTextController = TextEditingController();
   final retDateTextController = TextEditingController();
   final selectedFileController = TextEditingController();
+  final medicineController = TextEditingController();
+  final quantityController = TextEditingController();
+  final dosageController = TextEditingController();
+  final timesDailyController = TextEditingController();
+  final noDaysController = TextEditingController();
+  final noRepeatsController = TextEditingController();
+  final outputController = TextEditingController();
 
   late Future<List<PFile>> futueFiles;
   late String userEmail = "";
@@ -301,6 +309,70 @@ class _PatientFilesState extends State<PatientFiles> {
     );
   }
 
+  void prescritionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: 900.0,
+              //height: 475.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0),
+                border: Border.all(color: Colors.blueAccent, width: 5.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Create Precrition",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 25.0),
+                  PrescripInput(
+                    medicineController: medicineController,
+                    quantityController: quantityController,
+                    dosageController: dosageController,
+                    timesDailyController: timesDailyController,
+                    noDaysController: noDaysController,
+                    noRepeatsController: noRepeatsController,
+                    outputController: outputController,
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                  size: 35,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void uploudFilePopUp() {
     showDialog(
       context: context,
@@ -486,7 +558,9 @@ class _PatientFilesState extends State<PatientFiles> {
                             icon: const Icon(Icons.sick_outlined),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              prescritionPopUp();
+                            },
                             icon: const Icon(Icons.medication_outlined),
                           ),
                           IconButton(

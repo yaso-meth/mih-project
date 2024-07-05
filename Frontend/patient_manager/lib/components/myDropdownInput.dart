@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/objects/appUser.dart';
 
 class MyDropdownField extends StatefulWidget {
   final TextEditingController controller;
-  final AppUser signedInUser;
   final String hintText;
   final bool required;
   final List<String> dropdownOptions;
@@ -13,7 +11,6 @@ class MyDropdownField extends StatefulWidget {
   const MyDropdownField({
     super.key,
     required this.controller,
-    required this.signedInUser,
     required this.hintText,
     required this.dropdownOptions,
     required this.required,
@@ -92,6 +89,7 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: DropdownMenu(
+        menuHeight: 300,
         controller: widget.controller,
         expandedInsets: EdgeInsets.zero,
         label: setRequiredText(),

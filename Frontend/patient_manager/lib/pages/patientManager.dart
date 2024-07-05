@@ -88,6 +88,9 @@ class _PatientManagerState extends State<PatientManager> {
                     MySearchField(
                       controller: searchController,
                       hintText: "ID Search",
+                      required: false,
+                      editable: true,
+                      onTap: () {},
                       onChanged: (value) {
                         setState(() {
                           searchString = value;

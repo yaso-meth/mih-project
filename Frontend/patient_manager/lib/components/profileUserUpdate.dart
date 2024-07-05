@@ -69,7 +69,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         const SizedBox(height: 10.0),
         MyDropdownField(
           controller: titleController,
-          signedInUser: widget.signedInUser,
           hintText: "Title",
           dropdownOptions: const <String>["Dr.", "Assistant"],
           required: true,
