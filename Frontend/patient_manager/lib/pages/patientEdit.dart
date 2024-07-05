@@ -153,6 +153,7 @@ class _EditPatientState extends State<EditPatient> {
   void deletePatientPopUp() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [

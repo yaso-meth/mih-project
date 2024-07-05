@@ -100,13 +100,14 @@ class _PatientNotesState extends State<PatientNotes> {
   void addNotePopUp() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
             Container(
               padding: const EdgeInsets.all(10.0),
               width: 700.0,
-              //height: 475.0,
+              //height: 500.0,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25.0),

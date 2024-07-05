@@ -231,6 +231,7 @@ class _PatientFilesState extends State<PatientFiles> {
   void medCertPopUp() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
@@ -312,6 +313,7 @@ class _PatientFilesState extends State<PatientFiles> {
   void prescritionPopUp() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
@@ -382,6 +384,7 @@ class _PatientFilesState extends State<PatientFiles> {
   void uploudFilePopUp() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
