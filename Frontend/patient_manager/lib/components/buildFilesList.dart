@@ -90,27 +90,40 @@ class _BuildFilesListState extends State<BuildFilesList> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 290.0,
-      child: ListView.separated(
-        shrinkWrap: true,
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider();
-        },
-        itemCount: widget.files.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              widget.files[index].file_name,
-            ),
-            subtitle: Text(widget.files[index].insert_date),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              viewFilePopUp(widget.files[index].file_name);
-            },
-          );
-        },
-      ),
-    );
+    if (widget.files.isNotEmpty) {
+      return SizedBox(
+        height: 290.0,
+        child: ListView.separated(
+          shrinkWrap: true,
+          separatorBuilder: (BuildContext context, int index) {
+            return const Divider();
+          },
+          itemCount: widget.files.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                widget.files[index].file_name,
+              ),
+              subtitle: Text(widget.files[index].insert_date),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                viewFilePopUp(widget.files[index].file_name);
+              },
+            );
+          },
+        ),
+      );
+    } else {
+      return const SizedBox(
+        height: 290.0,
+        child: Center(
+          child: Text(
+            "No Files Available",
+            style: TextStyle(fontSize: 25, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
   }
 }

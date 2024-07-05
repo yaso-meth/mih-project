@@ -219,45 +219,42 @@ class _PatientNotesState extends State<PatientNotes> {
           final notesList = snapshot.data!;
           return Flexible(
             flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                //height: 300.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                  border: Border.all(color: Colors.blueAccent, width: 3.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Notes",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueAccent),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            addNotePopUp();
-                          },
-                          icon: const Icon(Icons.add, color: Colors.blueAccent),
-                        )
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Divider(color: Colors.blueAccent),
-                    ),
-                    const SizedBox(height: 10),
-                    BuildNotesList(notes: notesList),
-                  ]),
-                ),
+            child: Container(
+              //height: 300.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25.0),
+                border: Border.all(color: Colors.blueAccent, width: 3.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Notes",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          addNotePopUp();
+                        },
+                        icon: const Icon(Icons.add, color: Colors.blueAccent),
+                      )
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Divider(color: Colors.blueAccent),
+                  ),
+                  const SizedBox(height: 10),
+                  BuildNotesList(notes: notesList),
+                ]),
               ),
             ),
           );

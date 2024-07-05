@@ -32,6 +32,9 @@ class _PatientViewState extends State<PatientView> {
                   PatientNotes(
                     patientIndex: widget.selectedPatient.idpatients,
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   PatientFiles(
                     patientIndex: widget.selectedPatient.idpatients,
                     selectedPatient: widget.selectedPatient,

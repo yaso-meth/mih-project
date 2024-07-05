@@ -97,50 +97,42 @@ class _BuildNotesListState extends State<BuildNotesList> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 290.0,
-      child: ListView.separated(
-        shrinkWrap: true,
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider();
-        },
-        itemCount: widget.notes.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              widget.notes[index].note_name,
-            ),
-            subtitle: Text(
-                "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"), //Text(widget.notes[index].note_text),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              viewNotePopUp(widget.notes[index].note_name,
-                  "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}");
-              // showDialog(
-              //   context: context,
-              //   builder: (context) => AlertDialog(
-              //     title: Center(child: Text(widget.notes[index].note_name)),
-              //     content: SizedBox(
-              //       width: 700,
-              //       height: 250,
-              //       child: Text(
-              //         "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
-              //         style: TextStyle(fontSize: 16),
-              //       ),
-              //     ),
-              //     actions: [
-              //       TextButton(
-              //           onPressed: () {
-              //             Navigator.pop(context);
-              //           },
-              //           child: const Text("Close"))
-              //     ],
-              //   ),
-              // );
-            },
-          );
-        },
-      ),
-    );
+    if (widget.notes.isNotEmpty) {
+      return SizedBox(
+        height: 290.0,
+        child: ListView.separated(
+          shrinkWrap: true,
+          separatorBuilder: (BuildContext context, int index) {
+            return const Divider();
+          },
+          itemCount: widget.notes.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                widget.notes[index].note_name,
+              ),
+              subtitle: Text(
+                  "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"), //Text(widget.notes[index].note_text),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                viewNotePopUp(widget.notes[index].note_name,
+                    "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}");
+              },
+            );
+          },
+        ),
+      );
+    } else {
+      return const SizedBox(
+        height: 290.0,
+        child: Center(
+          child: Text(
+            "No Notes Available",
+            style: TextStyle(fontSize: 25, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
   }
 }
