@@ -358,6 +358,12 @@ class _PatientFilesState extends State<PatientFiles> {
               height: 50,
               child: IconButton(
                 onPressed: () {
+                  medicineController.clear();
+                  quantityController.clear();
+                  dosageController.clear();
+                  timesDailyController.clear();
+                  noDaysController.clear();
+                  noRepeatsController.clear();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
