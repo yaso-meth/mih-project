@@ -536,58 +536,64 @@ class _PatientFilesState extends State<PatientFiles> {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Card(
-                elevation: 20.0,
-                child: Container(
-                  //height: 300.0,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 219, 218, 218),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+              child: Container(
+                //height: 300.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(color: Colors.blueAccent, width: 3.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Files",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            medCertPopUp();
+                          },
+                          icon: const Icon(
+                            Icons.sick_outlined,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            prescritionPopUp();
+                          },
+                          icon: const Icon(
+                            Icons.medication_outlined,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            uploudFilePopUp();
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            color: Colors.blueAccent,
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Files",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              medCertPopUp();
-                            },
-                            icon: const Icon(Icons.sick_outlined),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              prescritionPopUp();
-                            },
-                            icon: const Icon(Icons.medication_outlined),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              uploudFilePopUp();
-                            },
-                            icon: const Icon(Icons.add),
-                          )
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Divider(),
-                      ),
-                      const SizedBox(height: 10),
-                      BuildFilesList(files: filesList),
-                    ]),
-                  ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Divider(),
+                    ),
+                    const SizedBox(height: 10),
+                    BuildFilesList(files: filesList),
+                  ]),
                 ),
               ),
             ),
