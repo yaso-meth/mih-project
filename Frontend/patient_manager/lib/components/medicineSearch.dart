@@ -84,18 +84,6 @@ class _MedicineSearchState extends State<MedicineSearch> {
                   ),
                 ),
                 const SizedBox(height: 25.0),
-                // MySearchField(
-                //   controller: searchController,
-                //   hintText: "Medicine",
-                //   onChanged: (value) {
-                //     setState(() {
-                //       searchString = value;
-                //     });
-                //   },
-                //   required: true,
-                //   editable: true,
-                //   onTap: () {},
-                // ),
                 FutureBuilder(
                   future: futueMeds,
                   builder: (context, snapshot) {
@@ -106,7 +94,7 @@ class _MedicineSearchState extends State<MedicineSearch> {
                           child: CircularProgressIndicator(),
                         ),
                       );
-                    } else if (snapshot.hasData) {
+                    } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       final medsList = snapshot.data!;
                       return SizedBox(
                         height: 400,
@@ -120,7 +108,11 @@ class _MedicineSearchState extends State<MedicineSearch> {
                       return const SizedBox(
                         height: 400,
                         child: const Center(
-                          child: Text("Error Loading Medicines"),
+                          child: Text(
+                            "No Match Found\nPlease close and manually capture medicine",
+                            style: TextStyle(fontSize: 25, color: Colors.grey),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       );
                     }

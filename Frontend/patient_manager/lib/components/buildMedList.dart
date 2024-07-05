@@ -17,9 +17,9 @@ class BuildMedicinesList extends StatefulWidget {
   State<BuildMedicinesList> createState() => _BuildMedicinesListState();
 }
 
-int indexOn = 0;
-
 class _BuildMedicinesListState extends State<BuildMedicinesList> {
+  int indexOn = 0;
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -35,7 +35,8 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
               "${widget.medicines[index].unit} - ${widget.medicines[index].form}"),
           onTap: () {
             setState(() {
-              widget.contoller.text = widget.medicines[index].name;
+              widget.contoller.text =
+                  "${widget.medicines[index].name}%t${widget.medicines[index].unit}%t${widget.medicines[index].form}";
               Navigator.of(context).pop();
             });
           },
