@@ -49,26 +49,25 @@ class _PatientManagerState extends State<PatientManager> {
         .toList();
   }
 
-  // Widget displayList(List<Patient> patientsList, String searchString) {
-  //   if (searchString.isNotEmpty && searchString != "") {
-  //     return BuildPatientsList(
-  //       patients: patientsList,
-  //       searchString: searchString,
-  //     );
-  //   }
-  //   return const Center(
-  //     child: Text(
-  //       "Please search for a Patient.",
-  //       style: TextStyle(fontSize: 25, color: Colors.grey),
-  //       textAlign: TextAlign.center,
-  //     ),
-  //   );
-  // }
+  Widget displayList(List<Patient> patientsList, String searchString) {
+    if (searchString.isNotEmpty && searchString != "") {
+      return BuildPatientsList(
+        patients: patientsList,
+        searchString: searchString,
+      );
+    }
+    return const Center(
+      child: Text(
+        "Please search for a Patient.",
+        style: TextStyle(fontSize: 25, color: Colors.grey),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
 
   @override
   void initState() {
     futurePatients = fetchPatients(endpoint + widget.userEmail);
-    //displayWidget = displayList(tempList, searchString);
     super.initState();
   }
 
@@ -116,7 +115,6 @@ class _PatientManagerState extends State<PatientManager> {
               ),
               //spacer
               const SizedBox(height: 10),
-              //Expanded(child: displayWidget),
               FutureBuilder(
                 future: futurePatients,
                 builder: (context, snapshot) {
@@ -124,7 +122,6 @@ class _PatientManagerState extends State<PatientManager> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData) {
                     List<Patient> patientsList;
-                    //print(patientsList);
                     if (searchString == "") {
                       patientsList = snapshot.data!;
                     } else {
@@ -133,10 +130,7 @@ class _PatientManagerState extends State<PatientManager> {
                     }
 
                     return Expanded(
-                      child: BuildPatientsList(
-                        patients: patientsList,
-                        searchString: searchString,
-                      ),
+                      child: displayList(patientsList, searchString),
                     );
                   } else {
                     return const PatManAppDrawer(
