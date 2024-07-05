@@ -100,6 +100,9 @@ class _MySearchFieldState extends State<MySearchField> {
               color: Colors.blueAccent,
             ),
             onPressed: () {
+              setState(() {
+                startup = false;
+              });
               if (widget.controller.text != "") {
                 widget.onTap();
               }
