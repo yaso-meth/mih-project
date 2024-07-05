@@ -10,13 +10,17 @@ class medicine(BaseModel):
     name: str
     unit: str
 
-#get user by email & doc Office ID
+#get all medicines
 @router.get("/users/medicine/all", tags="medicine")
 async def read_all_medicine():
-    
-    return getMedicineData()
+    return getMedicineData("")
 
-def getMedicineData():
+#get all medicines by search
+@router.get("/users/medicine/{medSearch}", tags="medicine")
+async def read_all_medicine(medSearch: str):
+    return getMedicineData(medSearch)
+
+def getMedicineData(medsearch: str):
     path = os.getcwd()
     parentDir = os.path.abspath(os.path.join(path, os.pardir))
     filePath = os.path.join(path, "backend/medicines", "Database-Of-Medicine-Prices-31-May-2024.xls")
@@ -24,7 +28,8 @@ def getMedicineData():
     sh = book.sheet_by_index(0)
     medlist = []
     for rx in range(1,sh.nrows):
-        if(str(sh.cell_value(rx, 6)).strip() != ""):
+        if(str(sh.cell_value(rx, 6)).strip() != "" and 
+           medsearch.lower() in str(sh.cell_value(rx, 6)).strip().lower()):
             medlist.append({
                 "name": str(sh.cell_value(rx, 6)).strip(),
                 "unit": str(sh.cell_value(rx, 9)).strip(),
