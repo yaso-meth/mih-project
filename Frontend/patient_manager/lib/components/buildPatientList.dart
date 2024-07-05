@@ -15,18 +15,17 @@ class BuildPatientsList extends StatefulWidget {
   State<BuildPatientsList> createState() => _BuildPatientsListState();
 }
 
-int indexOn = 0;
-
 class _BuildPatientsListState extends State<BuildPatientsList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (BuildContext context, int index) {
+      separatorBuilder: (BuildContext context, index) {
         return const Divider();
       },
       itemCount: widget.patients.length,
       itemBuilder: (context, index) {
         //final patient = widget.patients[index].id_no.contains(widget.searchString);
+        //print(index);
         return widget.patients[index].id_no.contains(widget.searchString)
             ? ListTile(
                 title: Text(
@@ -40,7 +39,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                 },
                 trailing: const Icon(Icons.arrow_forward),
               )
-            : Container();
+            : null;
       },
     );
   }

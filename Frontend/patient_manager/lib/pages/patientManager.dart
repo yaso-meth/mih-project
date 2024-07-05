@@ -25,6 +25,8 @@ class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
   String endpoint = "http://localhost:80/patients/user/";
   late Future<List<Patient>> futurePatients;
+  // late Widget displayWidget;
+  //List<Patient> tempList;
   String searchString = "";
 
   Future<List<Patient>> fetchPatients(String endpoint) async {
@@ -41,9 +43,32 @@ class _PatientManagerState extends State<PatientManager> {
     }
   }
 
+  List<Patient> filterSearchResults(List<Patient> mainList, String query) {
+    return mainList
+        .where((tempList) => tempList.id_no.contains(query.toLowerCase()))
+        .toList();
+  }
+
+  // Widget displayList(List<Patient> patientsList, String searchString) {
+  //   if (searchString.isNotEmpty && searchString != "") {
+  //     return BuildPatientsList(
+  //       patients: patientsList,
+  //       searchString: searchString,
+  //     );
+  //   }
+  //   return const Center(
+  //     child: Text(
+  //       "Please search for a Patient.",
+  //       style: TextStyle(fontSize: 25, color: Colors.grey),
+  //       textAlign: TextAlign.center,
+  //     ),
+  //   );
+  // }
+
   @override
   void initState() {
     futurePatients = fetchPatients(endpoint + widget.userEmail);
+    //displayWidget = displayList(tempList, searchString);
     super.initState();
   }
 
@@ -71,48 +96,57 @@ class _PatientManagerState extends State<PatientManager> {
           color: Colors.white,
         ),
       ),
-      body: FutureBuilder(
-        future: futurePatients,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            final patientsList = snapshot.data!;
+      body: Row(
+        children: [
+          Expanded(
+            child: Column(children: [
+              //spacer
+              const SizedBox(height: 10),
+              MySearchField(
+                controller: searchController,
+                hintText: "ID Search",
+                required: false,
+                editable: true,
+                onTap: () {},
+                onChanged: (value) {
+                  setState(() {
+                    searchString = value;
+                  });
+                },
+              ),
+              //spacer
+              const SizedBox(height: 10),
+              //Expanded(child: displayWidget),
+              FutureBuilder(
+                future: futurePatients,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasData) {
+                    List<Patient> patientsList;
+                    //print(patientsList);
+                    if (searchString == "") {
+                      patientsList = snapshot.data!;
+                    } else {
+                      patientsList =
+                          filterSearchResults(snapshot.data!, searchString);
+                    }
 
-            return Row(
-              children: [
-                Expanded(
-                  child: Column(children: [
-                    //spacer
-                    const SizedBox(height: 10),
-                    MySearchField(
-                      controller: searchController,
-                      hintText: "ID Search",
-                      required: false,
-                      editable: true,
-                      onTap: () {},
-                      onChanged: (value) {
-                        setState(() {
-                          searchString = value;
-                        });
-                      },
-                    ),
-                    //spacer
-                    const SizedBox(height: 10),
-                    Expanded(
+                    return Expanded(
                       child: BuildPatientsList(
                         patients: patientsList,
                         searchString: searchString,
                       ),
-                    ),
-                  ]),
-                ),
-              ],
-            );
-          } else {
-            return const PatManAppDrawer(userEmail: "Error pulling email");
-          }
-        },
+                    );
+                  } else {
+                    return const PatManAppDrawer(
+                        userEmail: "Error pulling email");
+                  }
+                },
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }
