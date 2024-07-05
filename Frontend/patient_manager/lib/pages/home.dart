@@ -40,32 +40,6 @@ class _HomeState extends State<Home> {
           return Scaffold(
             appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
             drawer: HomeAppDrawer(userEmail: useremail),
-            floatingActionButton: FloatingActionButton.extended(
-              label: const Text(
-                "Test Allert",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.blueAccent,
-              onPressed: () {
-                // Navigator.of(context)
-                //     .pushNamed('/patient-manager/add', arguments: widget.userEmail);
-                showDialog(
-                  context: context,
-                  builder: (context) => const MySuccessMessage(
-                    successType: "Success",
-                    successMessage:
-                        "This is the message when something successful happened.",
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.warning_amber_rounded,
-                color: Colors.white,
-              ),
-            ),
             body: HomeTileGrid(
               userEmail: useremail,
             ),
