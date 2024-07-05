@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/main.dart';
 
 class Home extends StatefulWidget {
