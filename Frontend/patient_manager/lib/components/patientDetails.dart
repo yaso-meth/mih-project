@@ -50,152 +50,151 @@ class _PatientDetailsState extends State<PatientDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(color: Colors.blueAccent, width: 3.0),
       ),
       //constraints: const BoxConstraints.expand(height: 250.0),
-      child: SelectionArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Patient Details",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  alignment: Alignment.topRight,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: ,
+            children: [
+              const Text(
+                "Patient Details",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                   color: Colors.blueAccent,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                        '/patient-manager/patient/edit',
-                        arguments: widget.selectedPatient);
-                  },
-                )
-              ],
-            ),
-            const Divider(color: Colors.blueAccent),
-            const SizedBox(height: 10),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: MyTextField(
-                          controller: idController,
-                          hintText: "ID No.",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: fnameController,
-                          hintText: "Name",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: lnameController,
-                          hintText: "Surname",
-                          editable: false,
-                          required: false),
-                    ),
-                  ],
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: MyTextField(
-                          controller: cellController,
-                          hintText: "Cell No.",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: emailController,
-                          hintText: "Email",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: addressController,
-                          hintText: "Address",
-                          editable: false,
-                          required: false),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Medical Aid Details",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
               ),
+              IconButton(
+                icon: const Icon(Icons.edit),
+                alignment: Alignment.topRight,
+                color: Colors.blueAccent,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                      '/patient-manager/patient/edit',
+                      arguments: widget.selectedPatient);
+                },
+              )
+            ],
+          ),
+          const Divider(color: Colors.blueAccent),
+          const SizedBox(height: 10),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: MyTextField(
+                        controller: idController,
+                        hintText: "ID No.",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: fnameController,
+                        hintText: "Name",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: lnameController,
+                        hintText: "Surname",
+                        editable: false,
+                        required: false),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: MyTextField(
+                        controller: cellController,
+                        hintText: "Cell No.",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: emailController,
+                        hintText: "Email",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: addressController,
+                        hintText: "Address",
+                        editable: false,
+                        required: false),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Medical Aid Details",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
             ),
-            const Divider(color: Colors.blueAccent),
-            const SizedBox(height: 10),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: MyTextField(
-                          controller: medNoController,
-                          hintText: "No.",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: medNameController,
-                          hintText: "Name",
-                          editable: false,
-                          required: false),
-                    ),
-                    Expanded(
-                      child: MyTextField(
-                          controller: medSchemeController,
-                          hintText: "Scheme",
-                          editable: false,
-                          required: false),
-                    ),
-                    // PatientDetailItem(
-                    //   category: "No. ",
-                    //   value: widget.selectedPatient.medical_aid_no,
-                    // ),
-                    // PatientDetailItem(
-                    //   category: "Name ",
-                    //   value: widget.selectedPatient.medical_aid_name,
-                    // ),
-                    // PatientDetailItem(
-                    //   category: "Scheme ",
-                    //   value: widget.selectedPatient.medical_aid_scheme,
-                    // ),
-                  ],
-                ),
-              ],
-            )
-          ],
-        ),
+          ),
+          const Divider(color: Colors.blueAccent),
+          const SizedBox(height: 10),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: MyTextField(
+                        controller: medNoController,
+                        hintText: "No.",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: medNameController,
+                        hintText: "Name",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: medSchemeController,
+                        hintText: "Scheme",
+                        editable: false,
+                        required: false),
+                  ),
+                  // PatientDetailItem(
+                  //   category: "No. ",
+                  //   value: widget.selectedPatient.medical_aid_no,
+                  // ),
+                  // PatientDetailItem(
+                  //   category: "Name ",
+                  //   value: widget.selectedPatient.medical_aid_name,
+                  // ),
+                  // PatientDetailItem(
+                  //   category: "Scheme ",
+                  //   value: widget.selectedPatient.medical_aid_scheme,
+                  // ),
+                ],
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

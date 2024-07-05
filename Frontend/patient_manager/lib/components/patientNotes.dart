@@ -238,7 +238,7 @@ class _PatientNotesState extends State<PatientNotes> {
                           "Notes",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 35,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Colors.blueAccent),
                         ),
@@ -252,7 +252,7 @@ class _PatientNotesState extends State<PatientNotes> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Divider(),
+                      child: Divider(color: Colors.blueAccent),
                     ),
                     const SizedBox(height: 10),
                     BuildNotesList(notes: notesList),
