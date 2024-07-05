@@ -25,8 +25,7 @@ class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
   String endpoint = "http://localhost:80/patients/user/";
   late Future<List<Patient>> futurePatients;
-  // late Widget displayWidget;
-  //List<Patient> tempList;
+
   String searchString = "";
 
   Future<List<Patient>> fetchPatients(String endpoint) async {
@@ -51,18 +50,88 @@ class _PatientManagerState extends State<PatientManager> {
 
   Widget displayList(List<Patient> patientsList, String searchString) {
     if (searchString.isNotEmpty && searchString != "") {
-      return BuildPatientsList(
-        patients: patientsList,
-        searchString: searchString,
+      return Padding(
+        padding: const EdgeInsets.only(
+          left: 25,
+          right: 25,
+          bottom: 25,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(color: Colors.blueAccent, width: 3.0),
+          ),
+          child: BuildPatientsList(
+            patients: patientsList,
+            searchString: searchString,
+          ),
+        ),
       );
     }
-    return const Center(
-      child: Text(
-        "Please search for a Patient.",
-        style: TextStyle(fontSize: 25, color: Colors.grey),
-        textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 25,
+        right: 25,
+        bottom: 25,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(color: Colors.blueAccent, width: 3.0),
+        ),
+        child: const Center(
+          child: Text(
+            "Enter ID of Patient",
+            style: TextStyle(fontSize: 25, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
+  }
+
+  Widget patientSearch() {
+    return Column(children: [
+      //spacer
+      const SizedBox(height: 10),
+      MySearchField(
+        controller: searchController,
+        hintText: "ID Search",
+        required: false,
+        editable: true,
+        onTap: () {},
+        onChanged: (value) {
+          setState(() {
+            searchString = value;
+          });
+        },
+      ),
+      //spacer
+      const SizedBox(height: 10),
+      FutureBuilder(
+        future: futurePatients,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            List<Patient> patientsList;
+            if (searchString == "") {
+              patientsList = snapshot.data!;
+            } else {
+              patientsList = filterSearchResults(snapshot.data!, searchString);
+            }
+
+            return Expanded(
+              child: displayList(patientsList, searchString),
+            );
+          } else {
+            return const PatManAppDrawer(userEmail: "Error pulling email");
+          }
+        },
+      ),
+    ]);
   }
 
   @override
@@ -76,69 +145,32 @@ class _PatientManagerState extends State<PatientManager> {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
       drawer: PatManAppDrawer(userEmail: widget.userEmail),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton.extended(
-        label: const Text(
-          "Add Patient",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 65, right: 5),
+        child: FloatingActionButton.extended(
+          label: const Text(
+            "Add Patient",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.blueAccent,
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed('/patient-manager/add', arguments: widget.userEmail);
+          },
+          icon: const Icon(
+            Icons.add,
             color: Colors.white,
           ),
-        ),
-        backgroundColor: Colors.blueAccent,
-        onPressed: () {
-          Navigator.of(context)
-              .pushNamed('/patient-manager/add', arguments: widget.userEmail);
-        },
-        icon: const Icon(
-          Icons.add,
-          color: Colors.white,
         ),
       ),
       body: Row(
         children: [
           Expanded(
-            child: Column(children: [
-              //spacer
-              const SizedBox(height: 10),
-              MySearchField(
-                controller: searchController,
-                hintText: "ID Search",
-                required: false,
-                editable: true,
-                onTap: () {},
-                onChanged: (value) {
-                  setState(() {
-                    searchString = value;
-                  });
-                },
-              ),
-              //spacer
-              const SizedBox(height: 10),
-              FutureBuilder(
-                future: futurePatients,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasData) {
-                    List<Patient> patientsList;
-                    if (searchString == "") {
-                      patientsList = snapshot.data!;
-                    } else {
-                      patientsList =
-                          filterSearchResults(snapshot.data!, searchString);
-                    }
-
-                    return Expanded(
-                      child: displayList(patientsList, searchString),
-                    );
-                  } else {
-                    return const PatManAppDrawer(
-                        userEmail: "Error pulling email");
-                  }
-                },
-              ),
-            ]),
+            child: patientSearch(),
           ),
         ],
       ),
