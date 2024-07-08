@@ -31,11 +31,17 @@ class _PatientManagerState extends State<PatientManager> {
   Future<List<Patient>> fetchPatients(String endpoint) async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(endpoint));
-    //print(response.statusCode);
+    // print("Here");
+    // print(response.body);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
+      //print("Here1");
       Iterable l = jsonDecode(response.body);
+      //print("Here2");
       List<Patient> patients =
           List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+      // print("Here3");
+      // print(patients);
       return patients;
     } else {
       throw Exception('failed to load patients');
@@ -43,9 +49,16 @@ class _PatientManagerState extends State<PatientManager> {
   }
 
   List<Patient> filterSearchResults(List<Patient> mainList, String query) {
-    return mainList
-        .where((tempList) => tempList.id_no.contains(query.toLowerCase()))
-        .toList();
+    List<Patient> templist = [];
+    //print(query);
+    for (var item in mainList) {
+      if (item.id_no.contains(searchString) ||
+          item.medical_aid_no.contains(searchString)) {
+        //print(item.medical_aid_no);
+        templist.add(item);
+      }
+    }
+    return templist;
   }
 
   Widget displayList(List<Patient> patientsList, String searchString) {
@@ -57,6 +70,7 @@ class _PatientManagerState extends State<PatientManager> {
           bottom: 25,
         ),
         child: Container(
+          height: 500,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(25.0),
@@ -64,7 +78,7 @@ class _PatientManagerState extends State<PatientManager> {
           ),
           child: BuildPatientsList(
             patients: patientsList,
-            searchString: searchString,
+            //searchString: searchString,
           ),
         ),
       );
@@ -76,6 +90,7 @@ class _PatientManagerState extends State<PatientManager> {
         bottom: 25,
       ),
       child: Container(
+        height: 500,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(25.0),
@@ -83,7 +98,7 @@ class _PatientManagerState extends State<PatientManager> {
         ),
         child: const Center(
           child: Text(
-            "Enter ID of Patient",
+            "Enter ID or Medical Aid No. of Patient",
             style: TextStyle(fontSize: 25, color: Colors.grey),
             textAlign: TextAlign.center,
           ),
@@ -92,46 +107,53 @@ class _PatientManagerState extends State<PatientManager> {
     );
   }
 
-  Widget patientSearch() {
-    return Column(children: [
-      //spacer
-      const SizedBox(height: 10),
-      MySearchField(
-        controller: searchController,
-        hintText: "ID Search",
-        required: false,
-        editable: true,
-        onTap: () {},
-        onChanged: (value) {
-          setState(() {
-            searchString = value;
-          });
-        },
-      ),
-      //spacer
-      const SizedBox(height: 10),
-      FutureBuilder(
-        future: futurePatients,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            List<Patient> patientsList;
-            if (searchString == "") {
-              patientsList = snapshot.data!;
-            } else {
-              patientsList = filterSearchResults(snapshot.data!, searchString);
-            }
+  Widget patientSearch(double w, double h) {
+    return SizedBox(
+      width: w,
+      height: h,
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        //spacer
+        const SizedBox(height: 10),
+        MySearchField(
+          controller: searchController,
+          hintText: "ID or Medical Aid No. Search",
+          required: false,
+          editable: true,
+          onTap: () {},
+          onChanged: (value) {
+            setState(() {
+              searchString = value;
+            });
+          },
+        ),
+        //spacer
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: futurePatients,
+          builder: (context, snapshot) {
+            //print("patient Liust  ${snapshot.data}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              List<Patient> patientsList;
+              if (searchString == "") {
+                patientsList = [];
+              } else {
+                patientsList =
+                    filterSearchResults(snapshot.data!, searchString);
+                //print(patientsList);
+              }
 
-            return Expanded(
-              child: displayList(patientsList, searchString),
-            );
-          } else {
-            return const PatManAppDrawer(userEmail: "Error pulling email");
-          }
-        },
-      ),
-    ]);
+              return Expanded(
+                child: displayList(patientsList, searchString),
+              );
+            } else {
+              return const Center(child: Text("Error pulling email"));
+            }
+          },
+        ),
+      ]),
+    );
   }
 
   @override
@@ -142,6 +164,8 @@ class _PatientManagerState extends State<PatientManager> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
       drawer: PatManAppDrawer(userEmail: widget.userEmail),
@@ -167,13 +191,7 @@ class _PatientManagerState extends State<PatientManager> {
           ),
         ),
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: patientSearch(),
-          ),
-        ],
-      ),
+      body: patientSearch(screenWidth, screenHeight),
     );
   }
 }

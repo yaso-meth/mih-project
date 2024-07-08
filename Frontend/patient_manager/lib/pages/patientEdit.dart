@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
@@ -33,11 +34,16 @@ class _EditPatientState extends State<EditPatient> {
   final medNameController = TextEditingController();
   final medSchemeController = TextEditingController();
   final addressController = TextEditingController();
+  final medAidController = TextEditingController();
+  final medMainMemController = TextEditingController();
+  final medAidCodeController = TextEditingController();
+
   final docOfficeIdApiUrl = "http://localhost:80/users/profile/";
   final apiUrlEdit = "http://localhost:80/patients/update/";
   final apiUrlDelete = "http://localhost:80/patients/delete/";
   late int futureDocOfficeId;
   late String userEmail;
+  late bool medRequired;
 
   Future getOfficeIdByUser(String endpoint) async {
     final response = await http.get(Uri.parse(endpoint));
@@ -74,8 +80,11 @@ class _EditPatientState extends State<EditPatient> {
         "last_name": lnameController.text,
         "email": emailController.text,
         "cell_no": cellController.text,
-        "medical_aid_name": medNameController.text,
+        "medical_aid": medAidController.text,
+        "medical_aid_main_member": medMainMemController.text,
         "medical_aid_no": medNoController.text,
+        "medical_aid_code": medAidCodeController.text,
+        "medical_aid_name": medNameController.text,
         "medical_aid_scheme": medSchemeController.text,
         "address": addressController.text,
         "doc_office_id": futureDocOfficeId,
@@ -271,24 +280,286 @@ class _EditPatientState extends State<EditPatient> {
   }
 
   bool isFieldsFilled() {
-    if (idController.text.isEmpty ||
-        fnameController.text.isEmpty ||
-        lnameController.text.isEmpty ||
-        cellController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        medNoController.text.isEmpty ||
-        medNameController.text.isEmpty ||
-        medSchemeController.text.isEmpty ||
-        addressController.text.isEmpty) {
-      return false;
+    if (medRequired) {
+      if (idController.text.isEmpty ||
+          fnameController.text.isEmpty ||
+          lnameController.text.isEmpty ||
+          cellController.text.isEmpty ||
+          emailController.text.isEmpty ||
+          medNoController.text.isEmpty ||
+          medNameController.text.isEmpty ||
+          medSchemeController.text.isEmpty ||
+          addressController.text.isEmpty ||
+          medAidController.text.isEmpty ||
+          medMainMemController.text.isEmpty ||
+          medAidCodeController.text.isEmpty) {
+        return false;
+      } else {
+        return true;
+      }
     } else {
-      return true;
+      if (idController.text.isEmpty ||
+          fnameController.text.isEmpty ||
+          lnameController.text.isEmpty ||
+          cellController.text.isEmpty ||
+          emailController.text.isEmpty ||
+          addressController.text.isEmpty ||
+          medAidController.text.isEmpty) {
+        return false;
+      } else {
+        return true;
+      }
     }
+  }
+
+  void isRequired() {
+    //print("listerner triggered");
+    if (medAidController.text == "Yes") {
+      setState(() {
+        medRequired = true;
+      });
+    } else {
+      setState(() {
+        medRequired = false;
+      });
+    }
+  }
+
+  Widget displayForm() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Personal Details",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                    //color: Colors.blueAccent,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  alignment: Alignment.topRight,
+                  onPressed: () {
+                    deletePatientPopUp();
+                  },
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: idController,
+                    hintText: "13 digit ID Number or Passport",
+                    editable: false,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: fnameController,
+                    hintText: "First Name",
+                    editable: true,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: lnameController,
+                    hintText: "Last Name",
+                    editable: true,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: cellController,
+                    hintText: "Cell Number",
+                    editable: true,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: emailController,
+                    hintText: "Email",
+                    editable: true,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: addressController,
+                    hintText: "Address",
+                    editable: true,
+                    required: true,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15.0),
+            const Text(
+              "Medical Aid Details",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
+                //color: Colors.blueAccent,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyDropdownField(
+                    controller: medAidController,
+                    hintText: "Has Medical Aid",
+                    onSelect: (_) {
+                      isRequired();
+                    },
+                    //editable: true,
+                    required: true,
+                    dropdownOptions: const ["Yes", "No"],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyDropdownField(
+                    controller: medMainMemController,
+                    hintText: "Main Member.",
+                    //editable: true,
+                    required: medRequired,
+                    dropdownOptions: const ["Yes", "No"],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: medNoController,
+                    hintText: "Medical Aid No.",
+                    editable: true,
+                    required: medRequired,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: medAidCodeController,
+                    hintText: "Medical Aid Code",
+                    editable: true,
+                    required: medRequired,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: medNameController,
+                    hintText: "Medical Aid Name",
+                    editable: true,
+                    required: medRequired,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    controller: medSchemeController,
+                    hintText: "Medical Aid Scheme",
+                    editable: true,
+                    required: medRequired,
+                  ),
+                ),
+              ],
+            ),
+            //const SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 500.0,
+                  height: 100.0,
+                  child: MyButton(
+                    onTap: () {
+                      if (isFieldsFilled()) {
+                        updatePatientApiCall();
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const MyErrorMessage(
+                                errorType: "Input Error");
+                          },
+                        );
+                      }
+                    },
+                    buttonText: "Update",
+                    buttonColor: Colors.blueAccent,
+                    textColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   void initState() {
     getLoginUserEmail();
+    medAidController.addListener(isRequired);
     setState(() {
       idController.value = TextEditingValue(text: widget.selectedPatient.id_no);
       fnameController.value =
@@ -307,7 +578,14 @@ class _EditPatientState extends State<EditPatient> {
           TextEditingValue(text: widget.selectedPatient.medical_aid_scheme);
       addressController.value =
           TextEditingValue(text: widget.selectedPatient.address);
+      medAidController.value =
+          TextEditingValue(text: widget.selectedPatient.medical_aid);
+      medMainMemController.value = TextEditingValue(
+          text: widget.selectedPatient.medical_aid_main_member);
+      medAidCodeController.value =
+          TextEditingValue(text: widget.selectedPatient.medical_aid_code);
     });
+
     super.initState();
   }
 
@@ -315,190 +593,7 @@ class _EditPatientState extends State<EditPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Edit Patient"),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Personal Details",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
-                      //color: Colors.blueAccent,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    alignment: Alignment.topRight,
-                    onPressed: () {
-                      deletePatientPopUp();
-                    },
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: idController,
-                      hintText: "13 digit ID Number or Passport",
-                      editable: false,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: fnameController,
-                      hintText: "First Name",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: lnameController,
-                      hintText: "Last Name",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: cellController,
-                      hintText: "Cell Number",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: emailController,
-                      hintText: "Email",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: addressController,
-                      hintText: "Address",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15.0),
-              const Text(
-                "Medical Aid Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  //color: Colors.blueAccent,
-                ),
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: medNoController,
-                      hintText: "Medical Aid No.",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: medNameController,
-                      hintText: "Medical Aid Name",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: medSchemeController,
-                      hintText: "Medical Aid Scheme",
-                      editable: true,
-                      required: true,
-                    ),
-                  ),
-                ],
-              ),
-              //const SizedBox(height: 10.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 500.0,
-                    height: 100.0,
-                    child: MyButton(
-                      onTap: () {
-                        if (isFieldsFilled()) {
-                          updatePatientApiCall();
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const MyErrorMessage(
-                                  errorType: "Input Error");
-                            },
-                          );
-                        }
-                      },
-                      buttonText: "Update",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: displayForm(),
     );
   }
 }

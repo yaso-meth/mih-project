@@ -5,7 +5,7 @@ class MyDropdownField extends StatefulWidget {
   final String hintText;
   final bool required;
   final List<String> dropdownOptions;
-
+  final void Function(String?)? onSelect;
   //final bool editable;
 
   const MyDropdownField({
@@ -14,6 +14,7 @@ class MyDropdownField extends StatefulWidget {
     required this.hintText,
     required this.dropdownOptions,
     required this.required,
+    this.onSelect,
   });
 
   @override
@@ -89,6 +90,7 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: DropdownMenu(
+        //onSelected: widget.onSelect,
         menuHeight: 300,
         controller: widget.controller,
         expandedInsets: EdgeInsets.zero,

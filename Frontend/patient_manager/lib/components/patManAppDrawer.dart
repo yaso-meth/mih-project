@@ -16,14 +16,14 @@ class PatManAppDrawer extends StatefulWidget {
 
 class _PatManAppDrawerState extends State<PatManAppDrawer> {
   String endpointUserData = "http://localhost:80/users/profile/";
-  late AppUser signedInUser;
+  late Future<AppUser> signedInUser;
 
   Future<AppUser> getUserDetails() async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
     var response =
         await http.get(Uri.parse(endpointUserData + widget.userEmail));
-    //print(response.statusCode);
-    //print(response.body);
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       return AppUser.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
@@ -34,14 +34,14 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
 
   @override
   void initState() {
-    //signedInUser = getUserDetails();
+    signedInUser = getUserDetails();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUserDetails(),
+      future: signedInUser,
       builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
         return Drawer(
           child: ListView(
@@ -51,61 +51,80 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                 decoration: const BoxDecoration(
                   color: Colors.blueAccent,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Signed Is As:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    Row(
+                child: SizedBox(
+                  height: 400,
+                  child: Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          "Name: ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          "Signed Is As:",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
-                        const SizedBox(width: 15),
-                        Text("${snapshot.data?.fname} ${snapshot.data?.lname}"),
+                        const SizedBox(
+                          height: 50.0,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Text(
+                                "Name: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 15),
+                              Text(
+                                  "${snapshot.data?.fname} ${snapshot.data?.lname}"),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Text(
+                                "Email: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 16),
+                              Text("${snapshot.data?.email}"),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        const Text(
-                          "Email: ",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 16),
-                        Text("${snapshot.data?.email}"),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
               ListTile(
-                title: const Row(
-                  children: [
-                    Icon(Icons.home_outlined),
-                    SizedBox(width: 25.0),
-                    Text("Home"),
-                  ],
+                title: const Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(Icons.home_outlined),
+                      SizedBox(width: 25.0),
+                      Text("Home"),
+                    ],
+                  ),
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed('/home');
                 },
               ),
               ListTile(
-                title: const Row(
-                  children: [
-                    Icon(Icons.perm_identity),
-                    SizedBox(width: 25.0),
-                    Text("Profile"),
-                  ],
+                title: const Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(Icons.perm_identity),
+                      SizedBox(width: 25.0),
+                      Text("Profile"),
+                    ],
+                  ),
                 ),
                 onTap: () {
                   //signedInUser = snapshot.data!;
@@ -115,12 +134,15 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                 },
               ),
               ListTile(
-                title: const Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(width: 25.0),
-                    Text("Sign Out"),
-                  ],
+                title: const Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(width: 25.0),
+                      Text("Sign Out"),
+                    ],
+                  ),
                 ),
                 onTap: () {
                   client.auth.signOut();

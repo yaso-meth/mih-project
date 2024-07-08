@@ -20,6 +20,9 @@ class _PatientDetailsState extends State<PatientDetails> {
   final medNameController = TextEditingController();
   final medSchemeController = TextEditingController();
   final addressController = TextEditingController();
+  final medAidController = TextEditingController();
+  final medMainMemController = TextEditingController();
+  final medAidCodeController = TextEditingController();
   double? headingFontSize = 35.0;
   double? bodyFonstSize = 20.0;
 
@@ -43,6 +46,12 @@ class _PatientDetailsState extends State<PatientDetails> {
           TextEditingValue(text: widget.selectedPatient.medical_aid_scheme);
       addressController.value =
           TextEditingValue(text: widget.selectedPatient.address);
+      medAidController.value =
+          TextEditingValue(text: widget.selectedPatient.medical_aid);
+      medMainMemController.value = TextEditingValue(
+          text: widget.selectedPatient.medical_aid_main_member);
+      medAidCodeController.value =
+          TextEditingValue(text: widget.selectedPatient.medical_aid_code);
     });
     super.initState();
   }
@@ -159,8 +168,34 @@ class _PatientDetailsState extends State<PatientDetails> {
                 children: [
                   Expanded(
                     child: MyTextField(
+                        controller: medAidController,
+                        hintText: "Has Medical Aid",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
+                        controller: medMainMemController,
+                        hintText: "Main Member",
+                        editable: false,
+                        required: false),
+                  ),
+                  Expanded(
+                    child: MyTextField(
                         controller: medNoController,
                         hintText: "No.",
+                        editable: false,
+                        required: false),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: MyTextField(
+                        controller: medAidCodeController,
+                        hintText: "Code",
                         editable: false,
                         required: false),
                   ),
@@ -178,18 +213,6 @@ class _PatientDetailsState extends State<PatientDetails> {
                         editable: false,
                         required: false),
                   ),
-                  // PatientDetailItem(
-                  //   category: "No. ",
-                  //   value: widget.selectedPatient.medical_aid_no,
-                  // ),
-                  // PatientDetailItem(
-                  //   category: "Name ",
-                  //   value: widget.selectedPatient.medical_aid_name,
-                  // ),
-                  // PatientDetailItem(
-                  //   category: "Scheme ",
-                  //   value: widget.selectedPatient.medical_aid_scheme,
-                  // ),
                 ],
               ),
             ],

@@ -5,8 +5,11 @@ class Patient {
   final String last_name;
   final String email;
   final String cell_no;
+  final String medical_aid;
   final String medical_aid_name;
   final String medical_aid_no;
+  final String medical_aid_main_member;
+  final String medical_aid_code;
   final String medical_aid_scheme;
   final String address;
   final int doc_office_id;
@@ -18,8 +21,11 @@ class Patient {
     required this.last_name,
     required this.email,
     required this.cell_no,
+    required this.medical_aid,
     required this.medical_aid_name,
     required this.medical_aid_no,
+    required this.medical_aid_main_member,
+    required this.medical_aid_code,
     required this.medical_aid_scheme,
     required this.address,
     required this.doc_office_id,
@@ -34,8 +40,11 @@ class Patient {
         'last_name': String last_name,
         'email': String email,
         'cell_no': String cell_no,
+        'medical_aid': String medical_aid,
         'medical_aid_name': String medical_aid_name,
         'medical_aid_no': String medical_aid_no,
+        'medical_aid_main_member': String medical_aid_main_member,
+        'medical_aid_code': String medical_aid_code,
         'medical_aid_scheme': String medical_aid_scheme,
         'address': String address,
         'doc_office_id': int doc_office_id,
@@ -47,8 +56,11 @@ class Patient {
           last_name: last_name,
           email: email,
           cell_no: cell_no,
+          medical_aid: medical_aid,
           medical_aid_name: medical_aid_name,
           medical_aid_no: medical_aid_no,
+          medical_aid_main_member: medical_aid_main_member,
+          medical_aid_code: medical_aid_code,
           medical_aid_scheme: medical_aid_scheme,
           address: address,
           doc_office_id: doc_office_id,
