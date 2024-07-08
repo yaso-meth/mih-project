@@ -11,8 +11,11 @@ class patientInsertRequest(BaseModel):
     last_name: str
     email: str
     cell_no: str
-    medical_aid_name: str
+    medical_aid: str
+    medical_aid_main_member: str
     medical_aid_no: str
+    medical_aid_code: str
+    medical_aid_name: str
     medical_aid_scheme: str
     address: str
     doc_office_id: int
@@ -23,8 +26,11 @@ class patientUpdateRequest(BaseModel):
     last_name: str
     email: str
     cell_no: str
-    medical_aid_name: str
+    medical_aid: str
+    medical_aid_main_member: str
     medical_aid_no: str
+    medical_aid_code: str
+    medical_aid_name: str
     medical_aid_scheme: str
     address: str
     doc_office_id: int
@@ -82,34 +88,6 @@ async def read_patientByID(id_no: str):
     "address": item[9],
     "doc_office_id": item[10]}
 
-# # Get Patient By ID Number
-# @router.get("/patients/user/{email}", tags="patients")
-# async def read_patientByID(email: str):
-#     db = dbConnection.dbConnect()
-#     cursor = db.cursor()
-#     #query = "SELECT * FROM patients WHERE id_no=%s"
-#     query = "Select * from patients " 
-#     query += "inner join users " 
-#     query += "on doc_office_id = docOffice_id "
-#     query += "where users.email= %s"
-#     cursor.execute(query, (email,))
-#     item = cursor.fetchone()
-#     cursor.close()
-#     db.close()
-#     if item is None:
-#         raise HTTPException(status_code=404, detail="Item not found")
-#     return {"idpatients": item[0],
-#     "id_no": item[1],
-#     "first_name": item[2],
-#     "last_name": item[3],
-#     "email": item[4],
-#     "cell_no": item[5],
-#     "medical_aid_name": item[6],
-#     "medical_aid_no": item[7],
-#     "medical_aid_scheme": item[8],
-#     "address": item[9],
-#     "doc_office_id": item[10]}
-
 # Get List of all patients
 @router.get("/patients/user/{email}", tags="patients")
 async def read_all_patientsByUser(email: str):
@@ -129,8 +107,11 @@ async def read_all_patientsByUser(email: str):
             "last_name": item[3],
             "email": item[4],
             "cell_no": item[5],
+            "medical_aid": item[11],
             "medical_aid_name": item[6],
             "medical_aid_no": item[7],
+            "medical_aid_main_member": item[12],
+            "medical_aid_code": item[13],  
             "medical_aid_scheme": item[8],
             "address": item[9],
             "doc_office_id": item[10]
@@ -201,16 +182,20 @@ async def insertPatient(itemRequest : patientInsertRequest):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patients "
-    query += "(id_no, first_name, last_name, email, cell_no, medical_aid_name, "
-    query += "medical_aid_no, medical_aid_scheme, address, doc_office_id) "
-    query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
+    query += "medical_aid_main_member, medical_aid_no, medical_aid_code, medical_aid_name, "
+    query += "medical_aid_scheme, address, doc_office_id) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     patientData = (itemRequest.id_no, 
                    itemRequest.first_name,
                    itemRequest.last_name,
                    itemRequest.email,
                    itemRequest.cell_no,
-                   itemRequest.medical_aid_name,
+                   itemRequest.medical_aid,
+                   itemRequest.medical_aid_main_member,
                    itemRequest.medical_aid_no,
+                   itemRequest.medical_aid_code,
+                   itemRequest.medical_aid_name,
                    itemRequest.medical_aid_scheme,
                    itemRequest.address,
                    itemRequest.doc_office_id)
@@ -230,16 +215,20 @@ async def UpdatePatient(itemRequest : patientUpdateRequest):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patients "
-    query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid_name=%s, "
-    query += "medical_aid_no=%s, medical_aid_scheme=%s, address=%s, doc_office_id=%s "
+    query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid=%s, "
+    query += "medical_aid_main_member=%s, medical_aid_no=%s, medical_aid_code=%s, medical_aid_name=%s, "
+    query += "medical_aid_scheme=%s, address=%s, doc_office_id=%s "
     query += "where id_no=%s and doc_office_id=%s"
     patientData = (itemRequest.id_no, 
                    itemRequest.first_name,
                    itemRequest.last_name,
                    itemRequest.email,
                    itemRequest.cell_no,
-                   itemRequest.medical_aid_name,
+                   itemRequest.medical_aid,
+                   itemRequest.medical_aid_main_member,
                    itemRequest.medical_aid_no,
+                   itemRequest.medical_aid_code,
+                   itemRequest.medical_aid_name,
                    itemRequest.medical_aid_scheme,
                    itemRequest.address,
                    itemRequest.doc_office_id,
