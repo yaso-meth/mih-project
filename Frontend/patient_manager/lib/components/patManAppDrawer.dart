@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatManAppDrawer extends StatefulWidget {
   final String userEmail;
@@ -22,8 +23,8 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
     var response =
         await http.get(Uri.parse(endpointUserData + widget.userEmail));
-    print(response.statusCode);
-    print(response.body);
+    // print(response.statusCode);
+    // print(response.body);
     if (response.statusCode == 200) {
       return AppUser.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
@@ -44,87 +45,113 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
       future: signedInUser,
       builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
         return Drawer(
+          backgroundColor: MyTheme().primaryColor(),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Colors.blueAccent,
+                decoration: BoxDecoration(
+                  color: MyTheme().secondaryColor(),
                 ),
                 child: SizedBox(
                   height: 400,
-                  child: Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Signed Is As:",
-                          style: TextStyle(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Signed Is As:",
+                        style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
+                            color: MyTheme().primaryColor()),
+                      ),
+                      const SizedBox(
+                        height: 50.0,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "Name: ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme().primaryColor(),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 50.0,
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              const Text(
-                                "Name: ",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(width: 15),
-                              Text(
-                                  "${snapshot.data?.fname} ${snapshot.data?.lname}"),
-                            ],
+                          const SizedBox(width: 15),
+                          Text(
+                            "${snapshot.data?.fname} ${snapshot.data?.lname}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme().primaryColor(),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              const Text(
-                                "Email: ",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(width: 16),
-                              Text("${snapshot.data?.email}"),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "Email: ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme().primaryColor(),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          const SizedBox(width: 16),
+                          Text(
+                            "${snapshot.data?.email}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: MyTheme().primaryColor(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
               ListTile(
-                title: const Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(Icons.home_outlined),
-                      SizedBox(width: 25.0),
-                      Text("Home"),
-                    ],
-                  ),
+                title: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.home_outlined,
+                      color: MyTheme().secondaryColor(),
+                    ),
+                    const SizedBox(width: 25.0),
+                    Text(
+                      "Home",
+                      style: TextStyle(
+                        //fontWeight: FontWeight.bold,
+                        color: MyTheme().secondaryColor(),
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed('/home');
                 },
               ),
               ListTile(
-                title: const Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(Icons.perm_identity),
-                      SizedBox(width: 25.0),
-                      Text("Profile"),
-                    ],
-                  ),
+                title: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.perm_identity,
+                      color: MyTheme().secondaryColor(),
+                    ),
+                    const SizedBox(width: 25.0),
+                    Text(
+                      "Profile",
+                      style: TextStyle(
+                        //fontWeight: FontWeight.bold,
+                        color: MyTheme().secondaryColor(),
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   //signedInUser = snapshot.data!;
@@ -134,15 +161,22 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                 },
               ),
               ListTile(
-                title: const Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(Icons.logout),
-                      SizedBox(width: 25.0),
-                      Text("Sign Out"),
-                    ],
-                  ),
+                title: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: MyTheme().secondaryColor(),
+                    ),
+                    const SizedBox(width: 25.0),
+                    Text(
+                      "Sign Out",
+                      style: TextStyle(
+                        //fontWeight: FontWeight.bold,
+                        color: MyTheme().secondaryColor(),
+                      ),
+                    ),
+                  ],
                 ),
                 onTap: () {
                   client.auth.signOut();
@@ -155,61 +189,4 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
       },
     );
   }
-
-  // Drawer(
-  //     child: ListView(
-  //       padding: EdgeInsets.zero,
-  //       children: [
-  //         DrawerHeader(
-  //           decoration: const BoxDecoration(
-  //             color: Colors.blueAccent,
-  //           ),
-  //           child: Column(
-  //             children: [
-  //               const Text("Signed Is As:"),
-  //               Text("Name: ${signedInUser.fname} ${signedInUser.lname}"),
-  //               Text("Email: ${signedInUser.email}"),
-  //             ],
-  //           ),
-  //         ),
-  //         ListTile(
-  //           title: const Row(
-  //             children: [
-  //               Icon(Icons.home_outlined),
-  //               SizedBox(width: 25.0),
-  //               Text("Home"),
-  //             ],
-  //           ),
-  //           onTap: () {
-  //             Navigator.of(context).pushNamed('/home');
-  //           },
-  //         ),
-  //         ListTile(
-  //           title: const Row(
-  //             children: [
-  //               Icon(Icons.perm_identity),
-  //               SizedBox(width: 25.0),
-  //               Text("Profile"),
-  //             ],
-  //           ),
-  //           onTap: () {
-  //             //Navigator.of(context).pushNamed('/home');
-  //           },
-  //         ),
-  //         ListTile(
-  //           title: const Row(
-  //             children: [
-  //               Icon(Icons.logout),
-  //               SizedBox(width: 25.0),
-  //               Text("Sign Out"),
-  //             ],
-  //           ),
-  //           onTap: () {
-  //             client.auth.signOut();
-  //             Navigator.of(context).pushNamed('/');
-  //           },
-  //         )
-  //       ],
-  //     ),
-  //   );
 }

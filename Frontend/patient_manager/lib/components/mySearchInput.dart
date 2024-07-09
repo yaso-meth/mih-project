@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MySearchField extends StatefulWidget {
   final TextEditingController controller;
@@ -59,20 +60,24 @@ class _MySearchFieldState extends State<MySearchField> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "*",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: MyTheme().errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
-          Text(widget.hintText,
-              style: const TextStyle(color: Colors.blueAccent)),
+          Text(
+            widget.hintText,
+            style: TextStyle(
+              color: MyTheme().secondaryColor(),
+            ),
+          ),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: const TextStyle(color: Colors.blueAccent));
+          style: TextStyle(color: MyTheme().secondaryColor()));
     }
   }
 
@@ -87,17 +92,19 @@ class _MySearchFieldState extends State<MySearchField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
+        style: TextStyle(color: MyTheme().secondaryColor()),
         onChanged: widget.onChanged,
         controller: widget.controller,
+        //style: TextStyle(color: MyTheme().secondaryColor()),
         readOnly: makeEditable(),
         focusNode: _focus,
         obscureText: false,
         decoration: InputDecoration(
-          fillColor: Colors.white,
+          fillColor: MyTheme().primaryColor(),
           prefixIcon: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.search,
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
             ),
             onPressed: () {
               setState(() {
@@ -111,14 +118,28 @@ class _MySearchFieldState extends State<MySearchField> {
           filled: true,
           label: setRequiredText(),
           errorText: _errorText,
-          enabledBorder: const OutlineInputBorder(
+          errorStyle: TextStyle(
+              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
               width: 2.0,
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyTheme().secondaryColor()),
           ),
         ),
       ),

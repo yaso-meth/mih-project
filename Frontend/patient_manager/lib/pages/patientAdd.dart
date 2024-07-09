@@ -7,6 +7,7 @@ import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 import '../components/myAppBar.dart';
 import 'package:http/http.dart' as http;
 
@@ -176,13 +177,13 @@ class _AddPatientState extends State<AddPatient> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
+            Text(
               "Personal Details",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                //color: Colors.blueAccent,
+                color: MyTheme().secondaryColor(),
               ),
             ),
             Row(
@@ -263,13 +264,13 @@ class _AddPatientState extends State<AddPatient> {
               ],
             ),
             const SizedBox(height: 15.0),
-            const Text(
+            Text(
               "Medical Aid Details",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                //color: Colors.blueAccent,
+                color: MyTheme().secondaryColor(),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -377,8 +378,8 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     },
                     buttonText: "Add",
-                    buttonColor: Colors.blueAccent,
-                    textColor: Colors.white,
+                    buttonColor: MyTheme().secondaryColor(),
+                    textColor: MyTheme().primaryColor(),
                   ),
                 ),
               ],

@@ -4,6 +4,7 @@ import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class SignIn extends StatefulWidget {
@@ -52,7 +53,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -61,20 +62,20 @@ class _SignInState extends State<SignIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //logo
-                const Icon(
+                Icon(
                   Icons.lock,
                   size: 100,
-                  color: Colors.blueAccent,
+                  color: MyTheme().secondaryColor(),
                 ),
                 //spacer
                 const SizedBox(height: 10),
                 //Heading
-                const Text(
+                Text(
                   'Sign In',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: MyTheme().secondaryColor(),
                   ),
                 ),
                 //spacer
@@ -107,6 +108,9 @@ class _SignInState extends State<SignIn> {
                   width: 500.0,
                   height: 100.0,
                   child: MyButton(
+                    buttonText: "Sign In",
+                    buttonColor: MyTheme().secondaryColor(),
+                    textColor: MyTheme().primaryColor(),
                     onTap: () {
                       if (emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
@@ -125,36 +129,39 @@ class _SignInState extends State<SignIn> {
                         Navigator.of(context).pushNamed('/homme');
                       }
                     },
-                    buttonText: "Sign In",
-                    buttonColor: Colors.blueAccent,
-                    textColor: Colors.white,
                   ),
                 ),
                 //spacer
-                const SizedBox(height: 30),
+                //const SizedBox(height: 30),
                 //register text
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'New User?',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: const Text(
-                        'Register Now',
+                SizedBox(
+                  width: 450.0,
+                  height: 100.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Text(
+                        'New User?',
                         style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.blueAccent,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 201, 200, 200)),
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: Text(
+                          'Register Now',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: MyTheme().secondaryColor(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

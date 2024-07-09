@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MySuccessMessage extends StatefulWidget {
   final String successType;
@@ -26,24 +27,24 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
           width: 500.0,
           // height: 375.0,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: MyTheme().primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(color: Colors.green, width: 5.0),
+            border: Border.all(color: MyTheme().successColor(), width: 5.0),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle_outline_rounded,
                 size: 100,
-                color: Colors.green,
+                color: MyTheme().successColor(),
               ),
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.green,
+                  color: MyTheme().successColor(),
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -53,8 +54,8 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Text(
                   message,
-                  style: const TextStyle(
-                    color: Colors.black,
+                  style: TextStyle(
+                    color: MyTheme().secondaryColor(),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -69,8 +70,8 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
                     Navigator.pop(context);
                   },
                   buttonText: "Dismiss",
-                  buttonColor: Colors.green,
-                  textColor: Colors.white,
+                  buttonColor: MyTheme().successColor(),
+                  textColor: MyTheme().primaryColor(),
                 ),
               ),
             ],

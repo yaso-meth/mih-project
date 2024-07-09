@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
+//import 'package:patient_manager/components/myErrorMessage.dart';
+//import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/main.dart';
+//import 'package:patient_manager/theme/mihTheme.dart';
 
 class Home extends StatefulWidget {
   //final String userEmail;
@@ -42,6 +45,32 @@ class _HomeState extends State<Home> {
             body: HomeTileGrid(
               userEmail: useremail,
             ),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+            // floatingActionButton: Padding(
+            //   padding: const EdgeInsets.only(top: 65, right: 5),
+            //   child: FloatingActionButton.extended(
+            //     label: Text(
+            //       "Add Patient",
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.bold,
+            //         color: MyTheme().primaryColor(),
+            //       ),
+            //     ),
+            //     //backgroundColor: Colors.blueAccent,
+            //     onPressed: () {
+            //       showDatePicker(
+            //         context: context,
+            //         initialDate: DateTime.now(),
+            //         firstDate: DateTime(2000),
+            //         lastDate: DateTime(2100),
+            //       );
+            //     },
+            //     icon: Icon(
+            //       Icons.add,
+            //       color: MyTheme().primaryColor(),
+            //     ),
+            //   ),
+            // ),
           );
         } else {
           return const Center(child: CircularProgressIndicator());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class HomeTile extends StatelessWidget {
   final String tileName;
@@ -18,30 +19,39 @@ class HomeTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        color: MyTheme().secondaryColor(),
         elevation: 20,
         child: Column(
           //mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               child: ListTile(
-                leading: const Icon(Icons.abc),
-                title: Text(
-                  tileName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                  leading: Icon(
+                    Icons.abc,
+                    color: MyTheme().primaryColor(),
                   ),
-                ),
-                subtitle: Text(tileDescription),
-              ),
+                  title: Text(
+                    tileName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: MyTheme().primaryColor(),
+                    ),
+                  ),
+                  subtitle: Text(
+                    tileDescription,
+                    style: TextStyle(color: MyTheme().primaryColor()),
+                  )),
             ),
-            const Expanded(
+            Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(Icons.arrow_forward),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: MyTheme().secondaryColor(),
+                    ),
                   ),
                 ],
               ),

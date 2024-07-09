@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientManager extends StatefulWidget {
   final String userEmail;
@@ -72,9 +73,12 @@ class _PatientManagerState extends State<PatientManager> {
         child: Container(
           height: 500,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: MyTheme().primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(color: Colors.blueAccent, width: 3.0),
+            border: Border.all(
+              color: MyTheme().secondaryColor(),
+              width: 3.0,
+            ),
           ),
           child: BuildPatientsList(
             patients: patientsList,
@@ -92,14 +96,14 @@ class _PatientManagerState extends State<PatientManager> {
       child: Container(
         height: 500,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: MyTheme().primaryColor(),
           borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(color: Colors.blueAccent, width: 3.0),
+          border: Border.all(color: MyTheme().secondaryColor(), width: 3.0),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             "Enter ID or Medical Aid No. of Patient",
-            style: TextStyle(fontSize: 25, color: Colors.grey),
+            style: TextStyle(fontSize: 25, color: MyTheme().messageTextColor()),
             textAlign: TextAlign.center,
           ),
         ),
@@ -173,21 +177,21 @@ class _PatientManagerState extends State<PatientManager> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 65, right: 5),
         child: FloatingActionButton.extended(
-          label: const Text(
+          label: Text(
             "Add Patient",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: MyTheme().primaryColor(),
             ),
           ),
-          backgroundColor: Colors.blueAccent,
+          //backgroundColor: Colors.blueAccent,
           onPressed: () {
             Navigator.of(context)
                 .pushNamed('/patient-manager/add', arguments: widget.userEmail);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.add,
-            color: Colors.white,
+            color: MyTheme().primaryColor(),
           ),
         ),
       ),

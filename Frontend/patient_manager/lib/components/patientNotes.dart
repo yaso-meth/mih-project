@@ -9,6 +9,7 @@ import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
 import 'package:http/http.dart' as http;
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientNotes extends StatefulWidget {
   final int patientIndex;
@@ -109,18 +110,19 @@ class _PatientNotesState extends State<PatientNotes> {
               width: 700.0,
               //height: 500.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 //mainAxisSize: MainAxisSize.max,
                 children: [
-                  const Text(
+                  Text(
                     "Add Note",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -163,8 +165,8 @@ class _PatientNotesState extends State<PatientNotes> {
                         }
                       },
                       buttonText: "Add Note",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
+                      buttonColor: MyTheme().secondaryColor(),
+                      textColor: MyTheme().primaryColor(),
                     ),
                   )
                 ],
@@ -181,9 +183,9 @@ class _PatientNotesState extends State<PatientNotes> {
                   titleController.clear();
                   noteTextController.clear();
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -222,9 +224,10 @@ class _PatientNotesState extends State<PatientNotes> {
             child: Container(
               //height: 300.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 3.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 3.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 5.0),
@@ -232,25 +235,26 @@ class _PatientNotesState extends State<PatientNotes> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Notes",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent),
+                            color: MyTheme().secondaryColor()),
                       ),
                       IconButton(
                         onPressed: () {
                           addNotePopUp();
                         },
-                        icon: const Icon(Icons.add, color: Colors.blueAccent),
+                        icon:
+                            Icon(Icons.add, color: MyTheme().secondaryColor()),
                       )
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(color: Colors.blueAccent),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Divider(color: MyTheme().secondaryColor()),
                   ),
                   const SizedBox(height: 10),
                   BuildNotesList(notes: notesList),

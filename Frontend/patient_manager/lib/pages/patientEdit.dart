@@ -7,6 +7,7 @@ import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../components/myAppBar.dart';
 import 'package:http/http.dart' as http;
@@ -171,24 +172,25 @@ class _EditPatientState extends State<EditPatient> {
               width: 500.0,
               height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 //mainAxisSize: MainAxisSize.max,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.warning_amber_rounded,
                     size: 100,
-                    color: Colors.blueAccent,
+                    color: MyTheme().secondaryColor(),
                   ),
                   const SizedBox(height: 15),
-                  const Text(
+                  Text(
                     "Are you sure you want to delete this?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: MyTheme().secondaryColor(),
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -198,35 +200,35 @@ class _EditPatientState extends State<EditPatient> {
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Text(
                       "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
-                      style: const TextStyle(
-                        color: Colors.black,
+                      style: TextStyle(
+                        color: MyTheme().secondaryColor(),
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Text(
                       "Here's what you'll be deleting:",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: MyTheme().secondaryColor(),
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: SizedBox(
                       width: 450,
                       child: Text(
                         "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: MyTheme().secondaryColor(),
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -239,8 +241,8 @@ class _EditPatientState extends State<EditPatient> {
                       child: MyButton(
                         onTap: deletePatientApiCall,
                         buttonText: "Delete",
-                        buttonColor: Colors.blueAccent,
-                        textColor: Colors.white,
+                        buttonColor: MyTheme().secondaryColor(),
+                        textColor: MyTheme().primaryColor(),
                       ))
                 ],
               ),
@@ -254,9 +256,9 @@ class _EditPatientState extends State<EditPatient> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -334,17 +336,18 @@ class _EditPatientState extends State<EditPatient> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Personal Details",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25.0,
-                    //color: Colors.blueAccent,
+                    color: MyTheme().secondaryColor(),
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
+                  color: MyTheme().secondaryColor(),
                   alignment: Alignment.topRight,
                   onPressed: () {
                     deletePatientPopUp();
@@ -430,13 +433,13 @@ class _EditPatientState extends State<EditPatient> {
               ],
             ),
             const SizedBox(height: 15.0),
-            const Text(
+            Text(
               "Medical Aid Details",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                //color: Colors.blueAccent,
+                color: MyTheme().secondaryColor(),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -544,8 +547,8 @@ class _EditPatientState extends State<EditPatient> {
                       }
                     },
                     buttonText: "Update",
-                    buttonColor: Colors.blueAccent,
-                    textColor: Colors.white,
+                    buttonColor: MyTheme().secondaryColor(),
+                    textColor: MyTheme().primaryColor(),
                   ),
                 ),
               ],

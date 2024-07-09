@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/router/routeGenerator.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -19,9 +20,9 @@ class MzanziInnovationHub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Mzansi Innovation Hub',
-      themeMode: ThemeMode.system,
+      theme: MyTheme().data,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myMLTextInput.dart';
 //import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildNotesList extends StatefulWidget {
   final List<Note> notes;
@@ -24,6 +25,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
     });
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
@@ -32,9 +34,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 //mainAxisSize: MainAxisSize.max,
@@ -42,8 +45,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.blueAccent,
+                    style: TextStyle(
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -82,9 +85,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -103,17 +106,29 @@ class _BuildNotesListState extends State<BuildNotesList> {
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
-            return const Divider();
+            return Divider(
+              color: MyTheme().secondaryColor(),
+            );
           },
           itemCount: widget.notes.length,
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
                 widget.notes[index].note_name,
+                style: TextStyle(
+                  color: MyTheme().secondaryColor(),
+                ),
               ),
               subtitle: Text(
-                  "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}"), //Text(widget.notes[index].note_text),
-              trailing: const Icon(Icons.arrow_forward),
+                "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
+                style: TextStyle(
+                  color: MyTheme().secondaryColor(),
+                ),
+              ), //Text(widget.notes[index].note_text),
+              trailing: Icon(
+                Icons.arrow_forward,
+                color: MyTheme().secondaryColor(),
+              ),
               onTap: () {
                 viewNotePopUp(widget.notes[index].note_name,
                     "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}");

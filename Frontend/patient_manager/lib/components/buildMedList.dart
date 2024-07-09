@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/objects/medicine.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildMedicinesList extends StatefulWidget {
   final TextEditingController contoller;
@@ -24,15 +25,26 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
-        return const Divider();
+        return Divider(
+          color: MyTheme().secondaryColor(),
+        );
       },
       itemCount: widget.medicines.length,
       itemBuilder: (context, index) {
         //final patient = widget.patients[index].id_no.contains(widget.searchString);
         return ListTile(
-          title: Text(widget.medicines[index].name),
+          title: Text(
+            widget.medicines[index].name,
+            style: TextStyle(
+              color: MyTheme().secondaryColor(),
+            ),
+          ),
           subtitle: Text(
-              "${widget.medicines[index].unit} - ${widget.medicines[index].form}"),
+            "${widget.medicines[index].unit} - ${widget.medicines[index].form}",
+            style: TextStyle(
+              color: MyTheme().secondaryColor(),
+            ),
+          ),
           onTap: () {
             setState(() {
               widget.contoller.text =
@@ -40,7 +52,10 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
               Navigator.of(context).pop();
             });
           },
-          trailing: const Icon(Icons.arrow_forward),
+          trailing: Icon(
+            Icons.arrow_forward,
+            color: MyTheme().secondaryColor(),
+          ),
         );
       },
     );

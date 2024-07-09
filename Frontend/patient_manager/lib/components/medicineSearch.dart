@@ -5,6 +5,7 @@ import 'package:patient_manager/components/buildMedList.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/objects/medicine.dart';
 import 'package:http/http.dart' as http;
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MedicineSearch extends StatefulWidget {
   final TextEditingController searchVlaue;
@@ -65,20 +66,20 @@ class _MedicineSearchState extends State<MedicineSearch> {
             width: 700.0,
             //height: 475.0,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: MyTheme().primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(color: Colors.blueAccent, width: 5.0),
+              border: Border.all(color: MyTheme().secondaryColor(), width: 5.0),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   "Select Medicine",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.blueAccent,
+                    color: MyTheme().secondaryColor(),
                     fontSize: 35.0,
                     fontWeight: FontWeight.bold,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
@@ -21,14 +22,25 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
       return Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          const Icon(Icons.star_border_rounded),
+          Icon(
+            Icons.star_border_rounded,
+            color: MyTheme().secondaryColor(),
+          ),
           Text(
-              "${widget.patients[index].first_name} ${widget.patients[index].last_name}"),
+            "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+            style: TextStyle(
+              color: MyTheme().secondaryColor(),
+            ),
+          ),
         ],
       );
     } else {
       return Text(
-          "${widget.patients[index].first_name} ${widget.patients[index].last_name}");
+        "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+        style: TextStyle(
+          color: MyTheme().secondaryColor(),
+        ),
+      );
     }
   }
 
@@ -36,7 +48,9 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, index) {
-        return const Divider();
+        return Divider(
+          color: MyTheme().secondaryColor(),
+        );
       },
       itemCount: widget.patients.length,
       itemBuilder: (context, index) {
@@ -45,14 +59,21 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         return ListTile(
           title: isMainMember(index),
           subtitle: Text(
-              "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: ${widget.patients[index].medical_aid_no}"),
+            "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: ${widget.patients[index].medical_aid_no}",
+            style: TextStyle(
+              color: MyTheme().secondaryColor(),
+            ),
+          ),
           onTap: () {
             setState(() {
               Navigator.of(context).pushNamed('/patient-manager/patient',
                   arguments: widget.patients[index]);
             });
           },
-          trailing: const Icon(Icons.arrow_forward),
+          trailing: Icon(
+            Icons.arrow_forward,
+            color: MyTheme().secondaryColor(),
+          ),
         );
       },
     );

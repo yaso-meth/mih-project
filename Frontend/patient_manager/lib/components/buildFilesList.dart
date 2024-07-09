@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/BuildFileView.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/files.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 //import 'dart:js' as js;
 import "package:universal_html/html.dart" as html;
 
@@ -22,6 +23,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
   void viewFilePopUp(String filename) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Dialog(
         child: Stack(
           children: [
@@ -30,9 +32,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
               width: 800.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -40,8 +43,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   Text(
                     filename,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.blueAccent,
+                    style: TextStyle(
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -59,8 +62,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
                             'http://localhost:9000/mih/$filename', 'download');
                       },
                       buttonText: "Dowload",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
+                      buttonColor: MyTheme().secondaryColor(),
+                      textColor: MyTheme().primaryColor(),
                     ),
                   )
                 ],
@@ -75,9 +78,9 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -96,16 +99,29 @@ class _BuildFilesListState extends State<BuildFilesList> {
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
-            return const Divider();
+            return Divider(
+              color: MyTheme().secondaryColor(),
+            );
           },
           itemCount: widget.files.length,
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
                 widget.files[index].file_name,
+                style: TextStyle(
+                  color: MyTheme().secondaryColor(),
+                ),
               ),
-              subtitle: Text(widget.files[index].insert_date),
-              trailing: const Icon(Icons.arrow_forward),
+              subtitle: Text(
+                widget.files[index].insert_date,
+                style: TextStyle(
+                  color: MyTheme().secondaryColor(),
+                ),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward,
+                color: MyTheme().secondaryColor(),
+              ),
               onTap: () {
                 viewFilePopUp(widget.files[index].file_name);
               },

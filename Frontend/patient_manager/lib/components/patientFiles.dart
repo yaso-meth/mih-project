@@ -15,6 +15,7 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:patient_manager/theme/mihTheme.dart';
 
 import '../objects/patients.dart';
 
@@ -240,18 +241,19 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     "Create Medical Certificate",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -266,6 +268,9 @@ class _PatientFilesState extends State<PatientFiles> {
                     width: 300,
                     height: 100,
                     child: MyButton(
+                      buttonText: "Generate",
+                      buttonColor: MyTheme().secondaryColor(),
+                      textColor: MyTheme().primaryColor(),
                       onTap: () {
                         if (isMedCertFieldsFilled()) {
                           generateMedCert();
@@ -280,9 +285,6 @@ class _PatientFilesState extends State<PatientFiles> {
                           );
                         }
                       },
-                      buttonText: "Generate",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
                     ),
                   )
                 ],
@@ -297,9 +299,9 @@ class _PatientFilesState extends State<PatientFiles> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -322,20 +324,21 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 900.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     "Create Precrition",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -368,9 +371,9 @@ class _PatientFilesState extends State<PatientFiles> {
                   noRepeatsController.clear();
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -393,18 +396,19 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 5.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     "Upload File",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: MyTheme().secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -413,11 +417,14 @@ class _PatientFilesState extends State<PatientFiles> {
                   SizedBox(
                     width: 700,
                     child: MyButton(
+                      buttonText: "Select File",
+                      buttonColor: MyTheme().secondaryColor(),
+                      textColor: MyTheme().primaryColor(),
                       onTap: () async {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles(
                           type: FileType.custom,
-                          allowedExtensions: ['jpg', 'pdf'],
+                          allowedExtensions: ['jpg', 'png', 'pdf'],
                         );
                         if (result == null) return;
                         final selectedFile = result.files.first;
@@ -429,9 +436,6 @@ class _PatientFilesState extends State<PatientFiles> {
                           selectedFileController.text = selectedFile.name;
                         });
                       },
-                      buttonText: "Select File",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
                     ),
                   ),
                   MyTextField(
@@ -444,6 +448,9 @@ class _PatientFilesState extends State<PatientFiles> {
                     width: 300,
                     height: 100,
                     child: MyButton(
+                      buttonText: "Add File",
+                      buttonColor: MyTheme().secondaryColor(),
+                      textColor: MyTheme().primaryColor(),
                       onTap: () {
                         if (isFileFieldsFilled()) {
                           uploadSelectedFile(selected);
@@ -458,9 +465,6 @@ class _PatientFilesState extends State<PatientFiles> {
                           );
                         }
                       },
-                      buttonText: "Add File",
-                      buttonColor: Colors.blueAccent,
-                      textColor: Colors.white,
                     ),
                   )
                 ],
@@ -475,9 +479,9 @@ class _PatientFilesState extends State<PatientFiles> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.close,
-                  color: Colors.red,
+                  color: MyTheme().errorColor(),
                   size: 35,
                 ),
               ),
@@ -537,9 +541,10 @@ class _PatientFilesState extends State<PatientFiles> {
             child: Container(
               //height: 300.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyTheme().primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(color: Colors.blueAccent, width: 3.0),
+                border:
+                    Border.all(color: MyTheme().secondaryColor(), width: 3.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 5.0),
@@ -547,47 +552,47 @@ class _PatientFilesState extends State<PatientFiles> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Files",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
+                          color: MyTheme().secondaryColor(),
                         ),
                       ),
                       IconButton(
                         onPressed: () {
                           medCertPopUp();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.sick_outlined,
-                          color: Colors.blueAccent,
+                          color: MyTheme().secondaryColor(),
                         ),
                       ),
                       IconButton(
                         onPressed: () {
                           prescritionPopUp();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.medication_outlined,
-                          color: Colors.blueAccent,
+                          color: MyTheme().secondaryColor(),
                         ),
                       ),
                       IconButton(
                         onPressed: () {
                           uploudFilePopUp();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.add,
-                          color: Colors.blueAccent,
+                          color: MyTheme().secondaryColor(),
                         ),
                       )
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(color: Colors.blueAccent),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Divider(color: MyTheme().secondaryColor()),
                   ),
                   const SizedBox(height: 10),
                   BuildFilesList(files: filesList),

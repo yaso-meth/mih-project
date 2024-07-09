@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MyMLTextField extends StatefulWidget {
   final controller;
@@ -55,20 +56,20 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "*",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: MyTheme().errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: const TextStyle(color: Colors.blueAccent)),
+              style: TextStyle(color: MyTheme().secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: const TextStyle(color: Colors.blueAccent));
+          style: TextStyle(color: MyTheme().secondaryColor()));
     }
   }
 
@@ -83,6 +84,7 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
+        style: TextStyle(color: MyTheme().secondaryColor()),
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.top,
         expands: true,
@@ -97,20 +99,34 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
         decoration: InputDecoration(
           label: setRequiredText(),
           errorText: _errorText,
-          labelStyle: const TextStyle(color: Colors.blueAccent),
+          errorStyle: TextStyle(
+              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(color: MyTheme().secondaryColor()),
           alignLabelWithHint: true,
-          fillColor: Colors.white,
+          fillColor: MyTheme().primaryColor(),
           filled: true,
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
               width: 2.0,
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyTheme().secondaryColor()),
           ),
         ),
       ),

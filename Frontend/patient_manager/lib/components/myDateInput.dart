@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MyDateField extends StatefulWidget {
   final controller;
@@ -40,20 +41,20 @@ class _MyDateFieldState extends State<MyDateField> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "*",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: MyTheme().errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.LableText,
-              style: const TextStyle(color: Colors.blueAccent)),
+              style: TextStyle(color: MyTheme().secondaryColor())),
         ],
       );
     } else {
       return Text(widget.LableText,
-          style: const TextStyle(color: Colors.blueAccent));
+          style: TextStyle(color: MyTheme().secondaryColor()));
     }
   }
 
@@ -88,6 +89,7 @@ class _MyDateFieldState extends State<MyDateField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
+        style: TextStyle(color: MyTheme().secondaryColor()),
         controller: widget.controller,
         readOnly: true,
         obscureText: false,
@@ -97,25 +99,39 @@ class _MyDateFieldState extends State<MyDateField> {
         }),
         decoration: InputDecoration(
           errorText: _errorText,
+          errorStyle: TextStyle(
+              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
           label: setRequiredText(),
           //labelText: widget.LableText,
           //labelStyle: const TextStyle(color: Colors.blueAccent),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.calendar_today,
-            color: Colors.blueAccent,
+            color: MyTheme().secondaryColor(),
           ),
-          fillColor: Colors.white,
+          fillColor: MyTheme().primaryColor(),
           filled: true,
           //hintText: hintText,
-          hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          enabledBorder: const OutlineInputBorder(
+          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
               width: 2.0,
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyTheme().secondaryColor()),
           ),
         ),
         onTap: () {

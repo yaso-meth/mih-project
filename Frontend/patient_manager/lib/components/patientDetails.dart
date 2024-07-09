@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientDetails extends StatefulWidget {
   final Patient selectedPatient;
@@ -61,9 +62,9 @@ class _PatientDetailsState extends State<PatientDetails> {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: MyTheme().primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(color: Colors.blueAccent, width: 3.0),
+        border: Border.all(color: MyTheme().secondaryColor(), width: 3.0),
       ),
       //constraints: const BoxConstraints.expand(height: 250.0),
       child: Column(
@@ -72,19 +73,19 @@ class _PatientDetailsState extends State<PatientDetails> {
             mainAxisAlignment: MainAxisAlignment.center,
             //crossAxisAlignment: ,
             children: [
-              const Text(
+              Text(
                 "Patient Details",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: MyTheme().secondaryColor(),
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.edit),
                 alignment: Alignment.topRight,
-                color: Colors.blueAccent,
+                color: MyTheme().secondaryColor(),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                       '/patient-manager/patient/edit',
@@ -93,7 +94,7 @@ class _PatientDetailsState extends State<PatientDetails> {
               )
             ],
           ),
-          const Divider(color: Colors.blueAccent),
+          Divider(color: MyTheme().secondaryColor()),
           const SizedBox(height: 10),
           Column(
             children: [
@@ -151,16 +152,16 @@ class _PatientDetailsState extends State<PatientDetails> {
             ],
           ),
           const SizedBox(height: 10),
-          const Text(
+          Text(
             "Medical Aid Details",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
             ),
           ),
-          const Divider(color: Colors.blueAccent),
+          Divider(color: MyTheme().secondaryColor()),
           const SizedBox(height: 10),
           Column(
             children: [

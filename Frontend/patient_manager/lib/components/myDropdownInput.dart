@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MyDropdownField extends StatefulWidget {
   final TextEditingController controller;
@@ -32,20 +33,20 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "*",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: MyTheme().errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: const TextStyle(color: Colors.blueAccent)),
+              style: TextStyle(color: MyTheme().secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: const TextStyle(color: Colors.blueAccent));
+          style: TextStyle(color: MyTheme().secondaryColor()));
     }
   }
 
@@ -72,7 +73,12 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
   List<DropdownMenuEntry<String>> buidMenueOptions(List<String> options) {
     List<DropdownMenuEntry<String>> menueList = [];
     for (final i in options) {
-      menueList.add(DropdownMenuEntry(value: i, label: i));
+      menueList.add(DropdownMenuEntry(
+          value: i,
+          label: i,
+          style: ButtonStyle(
+              foregroundColor:
+                  WidgetStatePropertyAll(MyTheme().secondaryColor()))));
     }
     return menueList;
   }
@@ -90,12 +96,21 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: DropdownMenu(
-        //onSelected: widget.onSelect,
+        trailingIcon: Icon(
+          Icons.arrow_drop_down,
+          color: MyTheme().secondaryColor(),
+        ),
+        selectedTrailingIcon: Icon(
+          Icons.arrow_drop_up,
+          color: MyTheme().secondaryColor(),
+        ),
+        textStyle: TextStyle(color: MyTheme().secondaryColor()),
         menuHeight: 300,
         controller: widget.controller,
         expandedInsets: EdgeInsets.zero,
         label: setRequiredText(),
         errorText: _errorText,
+
         focusNode: _focus,
         onSelected: (_) => setState(() {
           startup = false;
@@ -107,27 +122,44 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
             });
             widget.controller.clear();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.delete_outline_rounded,
-            color: Colors.blueAccent,
+            color: MyTheme().secondaryColor(),
           ),
         ),
-        menuStyle: const MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(Colors.white),
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(MyTheme().primaryColor()),
           side: WidgetStatePropertyAll(
-            BorderSide(color: Colors.blueAccent, width: 2.0),
+            BorderSide(color: MyTheme().secondaryColor(), width: 2.0),
           ),
         ),
-        inputDecorationTheme: const InputDecorationTheme(
+
+        inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
+          errorStyle: TextStyle(
+              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+          fillColor: MyTheme().primaryColor(),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: MyTheme().secondaryColor())),
+          focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueAccent,
+              color: MyTheme().errorColor(),
               width: 2.0,
             ),
           ),
-          outlineBorder: BorderSide(color: Colors.blue),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().secondaryColor(),
+              width: 2.0,
+            ),
+          ),
+          outlineBorder: BorderSide(color: MyTheme().secondaryColor()),
         ),
         dropdownMenuEntries: menu,
         // const <DropdownMenuEntry<String>>[

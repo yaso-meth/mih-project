@@ -3,6 +3,7 @@ import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class Register extends StatefulWidget {
@@ -62,7 +63,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -71,20 +72,20 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //logo
-                const Icon(
+                Icon(
                   Icons.lock,
                   size: 100,
-                  color: Colors.blueAccent,
+                  color: MyTheme().secondaryColor(),
                 ),
                 //spacer
                 const SizedBox(height: 10),
                 //Heading
-                const Text(
+                Text(
                   'Register',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: MyTheme().secondaryColor(),
                   ),
                 ),
                 //spacer
@@ -135,58 +136,44 @@ class _RegisterState extends State<Register> {
                 ),
                 //spacer
                 const SizedBox(height: 10),
-                // forgot password
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //spacer
-                const SizedBox(height: 30),
                 // sign up button
                 SizedBox(
                   width: 500.0,
+                  height: 100.0,
                   child: MyButton(
                     onTap: () {},
                     buttonText: "Sign Up",
-                    buttonColor: Colors.blueAccent,
-                    textColor: Colors.white,
+                    buttonColor: MyTheme().secondaryColor(),
+                    textColor: MyTheme().primaryColor(),
                   ),
                 ),
-                //spacer
-                const SizedBox(height: 30),
                 //register text
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Already a User?',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.blueAccent,
-                          fontWeight: FontWeight.bold,
-                        ),
+                SizedBox(
+                  width: 450.0,
+                  height: 100.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Text(
+                        'Already a User?',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: MyTheme().secondaryColor(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

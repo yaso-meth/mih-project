@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/theme/mihTheme.dart';
 
 class MyPassField extends StatefulWidget {
   final controller;
@@ -51,20 +52,20 @@ class _MyPassFieldState extends State<MyPassField> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             "*",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: MyTheme().errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: const TextStyle(color: Colors.blueAccent)),
+              style: TextStyle(color: MyTheme().secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: const TextStyle(color: Colors.blueAccent));
+          style: TextStyle(color: MyTheme().secondaryColor()));
     }
   }
 
@@ -86,27 +87,42 @@ class _MyPassFieldState extends State<MyPassField> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
         controller: widget.controller,
+        style: TextStyle(color: MyTheme().secondaryColor()),
         obscureText: _obscured,
         focusNode: textFieldFocusNode,
         onChanged: (_) => setState(() {
           startup = false;
         }),
         decoration: InputDecoration(
-          fillColor: Colors.white,
+          fillColor: MyTheme().primaryColor(),
           filled: true,
           label: setRequiredText(),
           //labelStyle: const TextStyle(color: Colors.blueAccent),
           errorText: _errorText,
+          errorStyle: TextStyle(
+              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
           //hintText: widget.hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueAccent,
+              color: MyTheme().secondaryColor(),
               width: 2.0,
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MyTheme().errorColor(),
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyTheme().secondaryColor()),
           ),
           suffixIcon: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
@@ -117,7 +133,7 @@ class _MyPassFieldState extends State<MyPassField> {
                     ? Icons.visibility_rounded
                     : Icons.visibility_off_rounded,
                 size: 24,
-                color: Colors.blue,
+                color: MyTheme().secondaryColor(),
               ),
             ),
           ),
