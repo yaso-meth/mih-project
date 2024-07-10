@@ -3,7 +3,6 @@ import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class Register extends StatefulWidget {
@@ -75,7 +74,8 @@ class _RegisterState extends State<Register> {
                 Icon(
                   Icons.lock,
                   size: 100,
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //spacer
                 const SizedBox(height: 10),
@@ -85,7 +85,8 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 //spacer
@@ -143,8 +144,10 @@ class _RegisterState extends State<Register> {
                   child: MyButton(
                     onTap: () {},
                     buttonText: "Sign Up",
-                    buttonColor: MyTheme().secondaryColor(),
-                    textColor: MyTheme().primaryColor(),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
                 //register text
@@ -167,7 +170,9 @@ class _RegisterState extends State<Register> {
                           'Sign In',
                           style: TextStyle(
                             fontSize: 18,
-                            color: MyTheme().secondaryColor(),
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
@@ -24,12 +24,12 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         children: [
           Icon(
             Icons.star_border_rounded,
-            color: MyTheme().secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
           Text(
             "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ],
@@ -38,7 +38,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
       return Text(
         "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
         style: TextStyle(
-          color: MyTheme().secondaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
     }
@@ -49,7 +49,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
     return ListView.separated(
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MyTheme().secondaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.patients.length,
@@ -61,7 +61,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           subtitle: Text(
             "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: ${widget.patients[index].medical_aid_no}",
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {
@@ -72,7 +72,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           },
           trailing: Icon(
             Icons.arrow_forward,
-            color: MyTheme().secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         );
       },

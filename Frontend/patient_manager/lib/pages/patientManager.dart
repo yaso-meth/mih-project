@@ -7,8 +7,8 @@ import 'package:patient_manager/components/myAppBar.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/patManAppDrawer.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientManager extends StatefulWidget {
   final String userEmail;
@@ -73,10 +73,10 @@ class _PatientManagerState extends State<PatientManager> {
         child: Container(
           height: 500,
           decoration: BoxDecoration(
-            color: MyTheme().primaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 3.0,
             ),
           ),
@@ -96,14 +96,19 @@ class _PatientManagerState extends State<PatientManager> {
       child: Container(
         height: 500,
         decoration: BoxDecoration(
-          color: MyTheme().primaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(color: MyTheme().secondaryColor(), width: 3.0),
+          border: Border.all(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              width: 3.0),
         ),
         child: Center(
           child: Text(
             "Enter ID or Medical Aid No. of Patient",
-            style: TextStyle(fontSize: 25, color: MyTheme().messageTextColor()),
+            style: TextStyle(
+                fontSize: 25,
+                color:
+                    MzanziInnovationHub.of(context)!.theme.messageTextColor()),
             textAlign: TextAlign.center,
           ),
         ),
@@ -181,7 +186,7 @@ class _PatientManagerState extends State<PatientManager> {
             "Add Patient",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: MyTheme().primaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
           ),
           //backgroundColor: Colors.blueAccent,
@@ -191,7 +196,7 @@ class _PatientManagerState extends State<PatientManager> {
           },
           icon: Icon(
             Icons.add,
-            color: MyTheme().primaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
         ),
       ),

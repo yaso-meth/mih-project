@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyDropdownField extends StatefulWidget {
   final TextEditingController controller;
@@ -35,18 +35,22 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: TextStyle(color: MyTheme().secondaryColor())),
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -77,8 +81,8 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
           value: i,
           label: i,
           style: ButtonStyle(
-              foregroundColor:
-                  WidgetStatePropertyAll(MyTheme().secondaryColor()))));
+              foregroundColor: WidgetStatePropertyAll(
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor()))));
     }
     return menueList;
   }
@@ -98,13 +102,14 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
       child: DropdownMenu(
         trailingIcon: Icon(
           Icons.arrow_drop_down,
-          color: MyTheme().secondaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
         selectedTrailingIcon: Icon(
           Icons.arrow_drop_up,
-          color: MyTheme().secondaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
-        textStyle: TextStyle(color: MyTheme().secondaryColor()),
+        textStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         menuHeight: 300,
         controller: widget.controller,
         expandedInsets: EdgeInsets.zero,
@@ -124,42 +129,49 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
           },
           icon: Icon(
             Icons.delete_outline_rounded,
-            color: MyTheme().secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
         menuStyle: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(MyTheme().primaryColor()),
+          backgroundColor: WidgetStatePropertyAll(
+              MzanziInnovationHub.of(context)!.theme.primaryColor()),
           side: WidgetStatePropertyAll(
-            BorderSide(color: MyTheme().secondaryColor(), width: 2.0),
+            BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 2.0),
           ),
         ),
 
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
-          fillColor: MyTheme().primaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: MyTheme().secondaryColor())),
+              borderSide: BorderSide(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
-          outlineBorder: BorderSide(color: MyTheme().secondaryColor()),
+          outlineBorder: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
         dropdownMenuEntries: menu,
         // const <DropdownMenuEntry<String>>[

@@ -15,14 +15,57 @@ void main() async {
 
 final client = Supabase.instance.client;
 
-class MzanziInnovationHub extends StatelessWidget {
+class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({super.key});
+
+  @override
+  State<MzanziInnovationHub> createState() => _MzanziInnovationHubState();
+
+  static _MzanziInnovationHubState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MzanziInnovationHubState>();
+}
+
+class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
+  late ThemeMode _themeMode;
+  late MyTheme theme;
+
+  Color getPrimany() {
+    return theme.primaryColor();
+  }
+
+  void changeTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+      //print(_themeMode);
+      if (_themeMode == ThemeMode.light) {
+        setState(() {
+          theme.mode = "Light";
+        });
+        //print(theme.mode);
+      } else {
+        setState(() {
+          theme.mode = "Dark";
+        });
+        //print(theme.mode);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _themeMode = ThemeMode.dark;
+    theme = MyTheme();
+    theme.mode = "Dark";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mzansi Innovation Hub',
-      theme: MyTheme().data,
+      themeMode: _themeMode,
+      theme: theme.darkMode(),
+      darkTheme: theme.lightMode(),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildMedList.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
 import 'package:http/http.dart' as http;
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class MedicineSearch extends StatefulWidget {
   final TextEditingController searchVlaue;
@@ -66,9 +66,12 @@ class _MedicineSearchState extends State<MedicineSearch> {
             width: 700.0,
             //height: 475.0,
             decoration: BoxDecoration(
-              color: MyTheme().primaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+              border: Border.all(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 5.0),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +82,8 @@ class _MedicineSearchState extends State<MedicineSearch> {
                   "Select Medicine",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: 35.0,
                     fontWeight: FontWeight.bold,
                   ),

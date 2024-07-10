@@ -15,7 +15,6 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:patient_manager/theme/mihTheme.dart';
 
 import '../objects/patients.dart';
 
@@ -241,10 +240,12 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -253,7 +254,9 @@ class _PatientFilesState extends State<PatientFiles> {
                     "Create Medical Certificate",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -269,8 +272,11 @@ class _PatientFilesState extends State<PatientFiles> {
                     height: 100,
                     child: MyButton(
                       buttonText: "Generate",
-                      buttonColor: MyTheme().secondaryColor(),
-                      textColor: MyTheme().primaryColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                       onTap: () {
                         if (isMedCertFieldsFilled()) {
                           generateMedCert();
@@ -301,7 +307,7 @@ class _PatientFilesState extends State<PatientFiles> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -324,10 +330,12 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 900.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -338,7 +346,9 @@ class _PatientFilesState extends State<PatientFiles> {
                     "Create Precrition",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -373,7 +383,7 @@ class _PatientFilesState extends State<PatientFiles> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -396,10 +406,12 @@ class _PatientFilesState extends State<PatientFiles> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -408,7 +420,9 @@ class _PatientFilesState extends State<PatientFiles> {
                     "Upload File",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -418,8 +432,11 @@ class _PatientFilesState extends State<PatientFiles> {
                     width: 700,
                     child: MyButton(
                       buttonText: "Select File",
-                      buttonColor: MyTheme().secondaryColor(),
-                      textColor: MyTheme().primaryColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                       onTap: () async {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles(
@@ -449,8 +466,11 @@ class _PatientFilesState extends State<PatientFiles> {
                     height: 100,
                     child: MyButton(
                       buttonText: "Add File",
-                      buttonColor: MyTheme().secondaryColor(),
-                      textColor: MyTheme().primaryColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                       onTap: () {
                         if (isFileFieldsFilled()) {
                           uploadSelectedFile(selected);
@@ -481,7 +501,7 @@ class _PatientFilesState extends State<PatientFiles> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -541,10 +561,12 @@ class _PatientFilesState extends State<PatientFiles> {
             child: Container(
               //height: 300.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 3.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 3.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 5.0),
@@ -558,7 +580,9 @@ class _PatientFilesState extends State<PatientFiles> {
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: MyTheme().secondaryColor(),
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
                         ),
                       ),
                       IconButton(
@@ -567,7 +591,9 @@ class _PatientFilesState extends State<PatientFiles> {
                         },
                         icon: Icon(
                           Icons.sick_outlined,
-                          color: MyTheme().secondaryColor(),
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
                         ),
                       ),
                       IconButton(
@@ -576,7 +602,9 @@ class _PatientFilesState extends State<PatientFiles> {
                         },
                         icon: Icon(
                           Icons.medication_outlined,
-                          color: MyTheme().secondaryColor(),
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
                         ),
                       ),
                       IconButton(
@@ -585,14 +613,19 @@ class _PatientFilesState extends State<PatientFiles> {
                         },
                         icon: Icon(
                           Icons.add,
-                          color: MyTheme().secondaryColor(),
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
                         ),
                       )
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(color: MyTheme().secondaryColor()),
+                    child: Divider(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor()),
                   ),
                   const SizedBox(height: 10),
                   BuildFilesList(files: filesList),

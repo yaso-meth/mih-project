@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
-//import 'package:patient_manager/components/myErrorMessage.dart';
 //import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/main.dart';
-//import 'package:patient_manager/theme/mihTheme.dart';
+
+bool darkm = false;
 
 class Home extends StatefulWidget {
   //final String userEmail;
+
   const Home({
     super.key,
   });
@@ -49,28 +50,38 @@ class _HomeState extends State<Home> {
             // floatingActionButton: Padding(
             //   padding: const EdgeInsets.only(top: 65, right: 5),
             //   child: FloatingActionButton.extended(
-            //     label: Text(
-            //       "Add Patient",
+            //     label: const Text(
+            //       "Test Pop Up",
             //       style: TextStyle(
             //         fontWeight: FontWeight.bold,
-            //         color: MyTheme().primaryColor(),
             //       ),
             //     ),
             //     //backgroundColor: Colors.blueAccent,
             //     onPressed: () {
-            //       showDatePicker(
-            //         context: context,
-            //         initialDate: DateTime.now(),
-            //         firstDate: DateTime(2000),
-            //         lastDate: DateTime(2100),
-            //       );
+            //       setState(() {
+            //         if (darkm) {
+            //           darkm = !darkm;
+            //           MzanziInnovationHub.of(context)!
+            //               .changeTheme(ThemeMode.light);
+            //           //print("Dark Mode: $darkm");
+            //         } else {
+            //           darkm = !darkm;
+            //           MzanziInnovationHub.of(context)!
+            //               .changeTheme(ThemeMode.dark);
+            //           //print("Dark Mode: $darkm");
+            //         }
+            //       });
+            //       // showDialog(
+            //       //   context: context,
+            //       //   builder: (context) =>
+            //       //       const MyErrorMessage(errorType: "Input Error"),
+            //       // );
             //     },
-            //     icon: Icon(
-            //       Icons.add,
-            //       color: MyTheme().primaryColor(),
+            //     icon: const Icon(
+            //       Icons.warning,
+            //       //color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             //     ),
             //   ),
-            // ),
           );
         } else {
           return const Center(child: CircularProgressIndicator());

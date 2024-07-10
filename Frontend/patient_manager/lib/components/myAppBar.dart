@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -12,27 +12,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      //backgroundColor: Colors.blueAccent,
       elevation: 8,
-      shadowColor: MyTheme().secondaryColor(),
-      iconTheme: IconThemeData(color: MyTheme().primaryColor()),
-      // actions: [
-      //   IconButton(
-      //     onPressed: () {
-      //       client.auth.signOut();
-      //       Navigator.of(context).pushNamed('/');
-      //     },
-      //     icon: const Icon(Icons.logout),
-      //     iconSize: 35,
-      //     color: Colors.black,
-      //   ),
-      // ],
+      shadowColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       title: Text(
         barTitle,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: MyTheme().primaryColor(),
-        ),
       ),
       centerTitle: true,
     );

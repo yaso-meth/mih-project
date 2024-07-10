@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildMedicinesList extends StatefulWidget {
   final TextEditingController contoller;
@@ -26,7 +26,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
-          color: MyTheme().secondaryColor(),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.medicines.length,
@@ -36,13 +36,13 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           title: Text(
             widget.medicines[index].name,
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           subtitle: Text(
             "${widget.medicines[index].unit} - ${widget.medicines[index].form}",
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {
@@ -54,7 +54,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           },
           trailing: Icon(
             Icons.arrow_forward,
-            color: MyTheme().secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         );
       },

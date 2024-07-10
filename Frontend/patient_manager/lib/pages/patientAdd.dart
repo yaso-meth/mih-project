@@ -6,8 +6,8 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 import '../components/myAppBar.dart';
 import 'package:http/http.dart' as http;
 
@@ -183,7 +183,7 @@ class _AddPatientState extends State<AddPatient> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             Row(
@@ -270,7 +270,7 @@ class _AddPatientState extends State<AddPatient> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -361,7 +361,7 @@ class _AddPatientState extends State<AddPatient> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 500.0,
+                  width: 400.0,
                   height: 100.0,
                   child: MyButton(
                     onTap: () {
@@ -378,8 +378,10 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     },
                     buttonText: "Add",
-                    buttonColor: MyTheme().secondaryColor(),
-                    textColor: MyTheme().primaryColor(),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
               ],

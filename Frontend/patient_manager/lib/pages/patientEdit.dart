@@ -6,8 +6,8 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../components/myAppBar.dart';
 import 'package:http/http.dart' as http;
@@ -45,6 +45,9 @@ class _EditPatientState extends State<EditPatient> {
   late int futureDocOfficeId;
   late String userEmail;
   late bool medRequired;
+
+  late double width;
+  late double height;
 
   Future getOfficeIdByUser(String endpoint) async {
     final response = await http.get(Uri.parse(endpoint));
@@ -169,82 +172,100 @@ class _EditPatientState extends State<EditPatient> {
           children: [
             Container(
               padding: const EdgeInsets.all(10.0),
-              width: 500.0,
-              height: 475.0,
+              width: width / 3,
+              height: height / 2,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
-              child: Column(
-                //mainAxisSize: MainAxisSize.max,
-                children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    size: 100,
-                    color: MyTheme().secondaryColor(),
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    "Are you sure you want to delete this?",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MyTheme().secondaryColor(),
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  //mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: 100,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text(
-                      "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
+                    const SizedBox(height: 15),
+                    Text(
+                      "Are you sure you want to delete this?",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MyTheme().secondaryColor(),
-                        fontSize: 15.0,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text(
-                      "Here's what you'll be deleting:",
-                      style: TextStyle(
-                        color: MyTheme().secondaryColor(),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: SizedBox(
-                      width: 450,
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Text(
-                        "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
-                        textAlign: TextAlign.left,
+                        "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
                         style: TextStyle(
-                          color: MyTheme().secondaryColor(),
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                      width: 300,
-                      height: 100,
-                      child: MyButton(
-                        onTap: deletePatientApiCall,
-                        buttonText: "Delete",
-                        buttonColor: MyTheme().secondaryColor(),
-                        textColor: MyTheme().primaryColor(),
-                      ))
-                ],
+                    const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text(
+                        "Here's what you'll be deleting:",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: SizedBox(
+                        width: 450,
+                        child: Text(
+                          "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                        width: 300,
+                        height: 100,
+                        child: MyButton(
+                          onTap: deletePatientApiCall,
+                          buttonText: "Delete",
+                          buttonColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          textColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ))
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -258,7 +279,7 @@ class _EditPatientState extends State<EditPatient> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -342,12 +363,14 @@ class _EditPatientState extends State<EditPatient> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25.0,
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   alignment: Alignment.topRight,
                   onPressed: () {
                     deletePatientPopUp();
@@ -439,7 +462,7 @@ class _EditPatientState extends State<EditPatient> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -530,7 +553,7 @@ class _EditPatientState extends State<EditPatient> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 500.0,
+                  width: 400.0,
                   height: 100.0,
                   child: MyButton(
                     onTap: () {
@@ -547,8 +570,10 @@ class _EditPatientState extends State<EditPatient> {
                       }
                     },
                     buttonText: "Update",
-                    buttonColor: MyTheme().secondaryColor(),
-                    textColor: MyTheme().primaryColor(),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
               ],
@@ -594,6 +619,12 @@ class _EditPatientState extends State<EditPatient> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
+
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Edit Patient"),
       body: displayForm(),

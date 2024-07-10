@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyTextField extends StatefulWidget {
   final controller;
@@ -58,18 +58,22 @@ class _MyTextFieldState extends State<MyTextField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: TextStyle(color: MyTheme().secondaryColor())),
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -84,7 +88,8 @@ class _MyTextFieldState extends State<MyTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        style: TextStyle(color: MyTheme().secondaryColor()),
+        style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         controller: widget.controller,
         focusNode: _focus,
         readOnly: makeEditable(),
@@ -94,35 +99,37 @@ class _MyTextFieldState extends State<MyTextField> {
         }),
         decoration: InputDecoration(
           label: setRequiredText(),
-          //labelStyle: TextStyle(color: MyTheme().primaryColor()),
-          fillColor: MyTheme().primaryColor(),
+          //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           filled: true,
           errorText: _errorText,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
           //errorBorder: const InputBorder(),
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MyTheme().secondaryColor()),
+            borderSide: BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           ),
         ),
       ),

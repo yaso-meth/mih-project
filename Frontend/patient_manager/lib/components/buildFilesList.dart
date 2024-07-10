@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/BuildFileView.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/files.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 //import 'dart:js' as js;
 import "package:universal_html/html.dart" as html;
 
@@ -32,10 +32,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
               width: 800.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -44,7 +46,9 @@ class _BuildFilesListState extends State<BuildFilesList> {
                     filename,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -62,8 +66,11 @@ class _BuildFilesListState extends State<BuildFilesList> {
                             'http://localhost:9000/mih/$filename', 'download');
                       },
                       buttonText: "Dowload",
-                      buttonColor: MyTheme().secondaryColor(),
-                      textColor: MyTheme().primaryColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                     ),
                   )
                 ],
@@ -80,7 +87,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -100,7 +107,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
             return Divider(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             );
           },
           itemCount: widget.files.length,
@@ -109,18 +116,20 @@ class _BuildFilesListState extends State<BuildFilesList> {
               title: Text(
                 widget.files[index].file_name,
                 style: TextStyle(
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               subtitle: Text(
                 widget.files[index].insert_date,
                 style: TextStyle(
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               trailing: Icon(
                 Icons.arrow_forward,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               onTap: () {
                 viewFilePopUp(widget.files[index].file_name);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MySearchField extends StatefulWidget {
   final TextEditingController controller;
@@ -62,7 +62,8 @@ class _MySearchFieldState extends State<MySearchField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
@@ -70,14 +71,15 @@ class _MySearchFieldState extends State<MySearchField> {
           Text(
             widget.hintText,
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -92,19 +94,20 @@ class _MySearchFieldState extends State<MySearchField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        style: TextStyle(color: MyTheme().secondaryColor()),
+        style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         onChanged: widget.onChanged,
         controller: widget.controller,
-        //style: TextStyle(color: MyTheme().secondaryColor()),
+        //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         readOnly: makeEditable(),
         focusNode: _focus,
         obscureText: false,
         decoration: InputDecoration(
-          fillColor: MyTheme().primaryColor(),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           prefixIcon: IconButton(
             icon: Icon(
               Icons.search,
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
             onPressed: () {
               setState(() {
@@ -119,27 +122,29 @@ class _MySearchFieldState extends State<MySearchField> {
           label: setRequiredText(),
           errorText: _errorText,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MyTheme().secondaryColor()),
+            borderSide: BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           ),
         ),
       ),

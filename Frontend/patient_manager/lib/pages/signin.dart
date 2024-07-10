@@ -4,7 +4,6 @@ import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class SignIn extends StatefulWidget {
@@ -65,7 +64,8 @@ class _SignInState extends State<SignIn> {
                 Icon(
                   Icons.lock,
                   size: 100,
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //spacer
                 const SizedBox(height: 10),
@@ -75,7 +75,8 @@ class _SignInState extends State<SignIn> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 //spacer
@@ -109,8 +110,10 @@ class _SignInState extends State<SignIn> {
                   height: 100.0,
                   child: MyButton(
                     buttonText: "Sign In",
-                    buttonColor: MyTheme().secondaryColor(),
-                    textColor: MyTheme().primaryColor(),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                     onTap: () {
                       if (emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
@@ -155,7 +158,9 @@ class _SignInState extends State<SignIn> {
                           'Register Now',
                           style: TextStyle(
                             fontSize: 18,
-                            color: MyTheme().secondaryColor(),
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

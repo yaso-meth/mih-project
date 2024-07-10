@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mybutton.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MySuccessMessage extends StatefulWidget {
   final String successType;
@@ -27,9 +27,11 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
           width: 500.0,
           // height: 375.0,
           decoration: BoxDecoration(
-            color: MyTheme().primaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(color: MyTheme().successColor(), width: 5.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                width: 5.0),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -37,14 +39,14 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
               Icon(
                 Icons.check_circle_outline_rounded,
                 size: 100,
-                color: MyTheme().successColor(),
+                color: MzanziInnovationHub.of(context)!.theme.successColor(),
               ),
               const SizedBox(height: 15),
               Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MyTheme().successColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.successColor(),
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -55,7 +57,8 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
                 child: Text(
                   message,
                   style: TextStyle(
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -70,8 +73,10 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
                     Navigator.pop(context);
                   },
                   buttonText: "Dismiss",
-                  buttonColor: MyTheme().successColor(),
-                  textColor: MyTheme().primaryColor(),
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
               ),
             ],

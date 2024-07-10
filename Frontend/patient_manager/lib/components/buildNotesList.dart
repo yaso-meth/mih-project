@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myMLTextInput.dart';
+import 'package:patient_manager/main.dart';
 //import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class BuildNotesList extends StatefulWidget {
   final List<Note> notes;
@@ -34,10 +34,12 @@ class _BuildNotesListState extends State<BuildNotesList> {
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 //mainAxisSize: MainAxisSize.max,
@@ -46,7 +48,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -87,7 +91,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -107,7 +111,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
             return Divider(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             );
           },
           itemCount: widget.notes.length,
@@ -116,18 +120,20 @@ class _BuildNotesListState extends State<BuildNotesList> {
               title: Text(
                 widget.notes[index].note_name,
                 style: TextStyle(
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               subtitle: Text(
                 "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
                 style: TextStyle(
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ), //Text(widget.notes[index].note_text),
               trailing: Icon(
                 Icons.arrow_forward,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               onTap: () {
                 viewNotePopUp(widget.notes[index].note_name,

@@ -7,9 +7,9 @@ import 'package:patient_manager/components/myMLTextInput.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/notes.dart';
 import 'package:http/http.dart' as http;
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientNotes extends StatefulWidget {
   final int patientIndex;
@@ -110,10 +110,12 @@ class _PatientNotesState extends State<PatientNotes> {
               width: 700.0,
               //height: 500.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 5.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 5.0),
               ),
               child: Column(
                 //mainAxisSize: MainAxisSize.max,
@@ -122,7 +124,9 @@ class _PatientNotesState extends State<PatientNotes> {
                     "Add Note",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MyTheme().secondaryColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 35.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -165,8 +169,11 @@ class _PatientNotesState extends State<PatientNotes> {
                         }
                       },
                       buttonText: "Add Note",
-                      buttonColor: MyTheme().secondaryColor(),
-                      textColor: MyTheme().primaryColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                     ),
                   )
                 ],
@@ -185,7 +192,7 @@ class _PatientNotesState extends State<PatientNotes> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MyTheme().errorColor(),
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
                 ),
               ),
@@ -224,10 +231,12 @@ class _PatientNotesState extends State<PatientNotes> {
             child: Container(
               //height: 300.0,
               decoration: BoxDecoration(
-                color: MyTheme().primaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
-                border:
-                    Border.all(color: MyTheme().secondaryColor(), width: 3.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 3.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 5.0),
@@ -241,20 +250,27 @@ class _PatientNotesState extends State<PatientNotes> {
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: MyTheme().secondaryColor()),
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor()),
                       ),
                       IconButton(
                         onPressed: () {
                           addNotePopUp();
                         },
-                        icon:
-                            Icon(Icons.add, color: MyTheme().secondaryColor()),
+                        icon: Icon(Icons.add,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor()),
                       )
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(color: MyTheme().secondaryColor()),
+                    child: Divider(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor()),
                   ),
                   const SizedBox(height: 10),
                   BuildNotesList(notes: notesList),

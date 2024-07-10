@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyPassField extends StatefulWidget {
   final controller;
@@ -54,18 +54,22 @@ class _MyPassFieldState extends State<MyPassField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: TextStyle(color: MyTheme().secondaryColor())),
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -87,42 +91,45 @@ class _MyPassFieldState extends State<MyPassField> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
         controller: widget.controller,
-        style: TextStyle(color: MyTheme().secondaryColor()),
+        style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         obscureText: _obscured,
         focusNode: textFieldFocusNode,
         onChanged: (_) => setState(() {
           startup = false;
         }),
         decoration: InputDecoration(
-          fillColor: MyTheme().primaryColor(),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           filled: true,
           label: setRequiredText(),
           //labelStyle: const TextStyle(color: Colors.blueAccent),
           errorText: _errorText,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
           //hintText: widget.hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MyTheme().secondaryColor()),
+            borderSide: BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           ),
           suffixIcon: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
@@ -133,7 +140,7 @@ class _MyPassFieldState extends State<MyPassField> {
                     ? Icons.visibility_rounded
                     : Icons.visibility_off_rounded,
                 size: 24,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
           ),

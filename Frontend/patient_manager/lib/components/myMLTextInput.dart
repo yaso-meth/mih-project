@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyMLTextField extends StatefulWidget {
   final controller;
@@ -58,18 +58,22 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.hintText,
-              style: TextStyle(color: MyTheme().secondaryColor())),
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
       return Text(widget.hintText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -84,7 +88,8 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        style: TextStyle(color: MyTheme().secondaryColor()),
+        style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.top,
         expands: true,
@@ -100,33 +105,36 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
           label: setRequiredText(),
           errorText: _errorText,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
-          labelStyle: TextStyle(color: MyTheme().secondaryColor()),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           alignLabelWithHint: true,
-          fillColor: MyTheme().primaryColor(),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           filled: true,
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MyTheme().secondaryColor()),
+            borderSide: BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           ),
         ),
       ),

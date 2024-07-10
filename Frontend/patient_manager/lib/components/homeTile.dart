@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class HomeTile extends StatefulWidget {
   final String tileName;
@@ -26,8 +26,8 @@ class _HomeTileState extends State<HomeTile> {
 
   @override
   void initState() {
-    mainC = MyTheme().secondaryColor();
-    secondC = MyTheme().primaryColor();
+    mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
     super.initState();
   }
 
@@ -41,14 +41,15 @@ class _HomeTileState extends State<HomeTile> {
             onTap: widget.onTap,
             onTapDown: (_) {
               setState(() {
-                mainC = MyTheme().primaryColor();
-                secondC = MyTheme().secondaryColor();
+                mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
+                secondC =
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor();
               });
             },
             onTapUp: (_) {
               setState(() {
-                mainC = MyTheme().secondaryColor();
-                secondC = MyTheme().primaryColor();
+                mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+                secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
               });
             },
             child: Container(
@@ -56,7 +57,7 @@ class _HomeTileState extends State<HomeTile> {
               decoration: BoxDecoration(
                 color: mainC,
                 borderRadius: BorderRadius.circular(10.0),
-                //border: Border.all(color: MyTheme().secondaryColor(), width: 1.0),
+                //border: Border.all(color: MzanziInnovationHub.of(context)!.theme.secondaryColor(), width: 1.0),
               ),
               child: Icon(
                 widget.tileIcon,
@@ -69,7 +70,7 @@ class _HomeTileState extends State<HomeTile> {
             widget.tileName,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               fontSize: 5.0,
               fontWeight: FontWeight.bold,
             ),
@@ -83,7 +84,7 @@ class _HomeTileState extends State<HomeTile> {
   Widget build(BuildContext context) {
     return displayTile();
     // child: Card(
-    //   color: MyTheme().secondaryColor(),
+    //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
     //   elevation: 20,
     //   child: Column(
     //     //mainAxisSize: MainAxisSize.min,
@@ -92,18 +93,18 @@ class _HomeTileState extends State<HomeTile> {
     //         child: ListTile(
     //             leading: Icon(
     //               widget.tileIcon,
-    //               color: MyTheme().primaryColor(),
+    //               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     //             ),
     //             title: Text(
     //               widget.tileName,
     //               style: TextStyle(
     //                 fontWeight: FontWeight.bold,
-    //                 color: MyTheme().primaryColor(),
+    //                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     //               ),
     //             ),
     //             subtitle: Text(
     //               widget.tileDescription,
-    //               style: TextStyle(color: MyTheme().primaryColor()),
+    //               style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
     //             )),
     //       ),
     //       Expanded(
@@ -114,7 +115,7 @@ class _HomeTileState extends State<HomeTile> {
     //               padding: const EdgeInsets.symmetric(horizontal: 10),
     //               child: Icon(
     //                 Icons.arrow_forward,
-    //                 color: MyTheme().secondaryColor(),
+    //                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
     //               ),
     //             ),
     //           ],

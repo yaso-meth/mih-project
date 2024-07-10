@@ -4,7 +4,7 @@ import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class PrescripInput extends StatefulWidget {
   final TextEditingController medicineController;
@@ -189,8 +189,9 @@ class _PrescripInputState extends State<PrescripInput> {
           width: 300,
           child: MyButton(
             buttonText: "Add",
-            buttonColor: MyTheme().secondaryColor(),
-            textColor: MyTheme().primaryColor(),
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             onTap: () {
               if (isFieldsFilled()) {
                 setState(() {
@@ -226,9 +227,11 @@ class _PrescripInputState extends State<PrescripInput> {
           width: 550,
           height: 400,
           decoration: BoxDecoration(
-            color: MyTheme().primaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(color: MyTheme().secondaryColor(), width: 3.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 3.0),
           ),
           child: ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
@@ -241,20 +244,23 @@ class _PrescripInputState extends State<PrescripInput> {
                 title: Text(
                   getPerscTitle(index),
                   style: TextStyle(
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 subtitle: Text(
                   getPerscSubtitle(index),
                   style: TextStyle(
-                    color: MyTheme().secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 //onTap: () {},
                 trailing: IconButton(
                   icon: Icon(
                     Icons.delete_forever_outlined,
-                    color: MyTheme().primaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   onPressed: () {
                     setState(() {
@@ -285,8 +291,8 @@ class _PrescripInputState extends State<PrescripInput> {
               // }
             },
             buttonText: "Generate",
-            buttonColor: MyTheme().successColor(),
-            textColor: MyTheme().primaryColor(),
+            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
         )
       ],

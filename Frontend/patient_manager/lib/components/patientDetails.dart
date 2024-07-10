@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/myTextInput.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
 
 class PatientDetails extends StatefulWidget {
   final Patient selectedPatient;
@@ -62,9 +62,11 @@ class _PatientDetailsState extends State<PatientDetails> {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       decoration: BoxDecoration(
-        color: MyTheme().primaryColor(),
+        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(color: MyTheme().secondaryColor(), width: 3.0),
+        border: Border.all(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 3.0),
       ),
       //constraints: const BoxConstraints.expand(height: 250.0),
       child: Column(
@@ -79,13 +81,14 @@ class _PatientDetailsState extends State<PatientDetails> {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: MyTheme().secondaryColor(),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.edit),
                 alignment: Alignment.topRight,
-                color: MyTheme().secondaryColor(),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                       '/patient-manager/patient/edit',
@@ -94,7 +97,8 @@ class _PatientDetailsState extends State<PatientDetails> {
               )
             ],
           ),
-          Divider(color: MyTheme().secondaryColor()),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10),
           Column(
             children: [
@@ -158,10 +162,11 @@ class _PatientDetailsState extends State<PatientDetails> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          Divider(color: MyTheme().secondaryColor()),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10),
           Column(
             children: [

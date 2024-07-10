@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:patient_manager/main.dart';
 
 class MyDateField extends StatefulWidget {
   final controller;
@@ -43,18 +43,22 @@ class _MyDateFieldState extends State<MyDateField> {
         children: [
           Text(
             "*",
-            style: TextStyle(color: MyTheme().errorColor()),
+            style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor()),
           ),
           const SizedBox(
             width: 8.0,
           ),
           Text(widget.LableText,
-              style: TextStyle(color: MyTheme().secondaryColor())),
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
       return Text(widget.LableText,
-          style: TextStyle(color: MyTheme().secondaryColor()));
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
   }
 
@@ -89,7 +93,8 @@ class _MyDateFieldState extends State<MyDateField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        style: TextStyle(color: MyTheme().secondaryColor()),
+        style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         controller: widget.controller,
         readOnly: true,
         obscureText: false,
@@ -100,38 +105,40 @@ class _MyDateFieldState extends State<MyDateField> {
         decoration: InputDecoration(
           errorText: _errorText,
           errorStyle: TextStyle(
-              color: MyTheme().errorColor(), fontWeight: FontWeight.bold),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              fontWeight: FontWeight.bold),
           label: setRequiredText(),
           //labelText: widget.LableText,
           //labelStyle: const TextStyle(color: Colors.blueAccent),
           prefixIcon: Icon(
             Icons.calendar_today,
-            color: MyTheme().secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          fillColor: MyTheme().primaryColor(),
+          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           filled: true,
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().secondaryColor(),
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: MyTheme().errorColor(),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               width: 2.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MyTheme().secondaryColor()),
+            borderSide: BorderSide(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           ),
         ),
         onTap: () {

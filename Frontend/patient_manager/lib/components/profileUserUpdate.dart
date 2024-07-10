@@ -3,6 +3,7 @@ import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 
 class ProfileUserUpdate extends StatefulWidget {
@@ -78,6 +79,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           width: 500.0,
           height: 100.0,
           child: MyButton(
+            buttonText: "Update",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             onTap: () {
               if (isFieldsFilled()) {
               } else {
@@ -89,9 +94,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                 );
               }
             },
-            buttonText: "Update",
-            buttonColor: Colors.blueAccent,
-            textColor: Colors.white,
           ),
         ),
       ],
