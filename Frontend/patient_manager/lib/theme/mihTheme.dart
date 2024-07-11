@@ -6,8 +6,6 @@ class MyTheme {
   late int _errColor;
   late int _succColor;
   late int _mesColor;
-  // late ThemeData _dark;
-  // late ThemeData _light;
   late String mode;
 
   // Options:-
@@ -19,39 +17,31 @@ class MyTheme {
   // 70f8ba = green
   // F7F3EA = white
   // a63446 = red
+  //747474
 
   MyTheme() {
-    mode = "Light";
-    // _mainColor = 0XFF3A4454;
-    // _secondColor = 0XFFbedcfe;
+    mode = "Dark";
     _errColor = 0xffD87E8B;
     _succColor = 0xffB0F2B4;
-    _mesColor = 0xffc8c8c8d9;
-    // _dark = darkMode();
-    // _light = lightMode();
+    //_mesColor = 0xffc8c8c8d9;
   }
 
   ThemeData getData() {
     return ThemeData(
         scaffoldBackgroundColor: primaryColor(),
-        colorScheme: ColorScheme.dark(
-          primary: messageTextColor(),
+        colorScheme: ColorScheme(
+          brightness: getBritness(),
+          primary: secondaryColor(),
           onPrimary: primaryColor(),
+          secondary: primaryColor(),
+          onSecondary: secondaryColor(),
+          error: errorColor(),
+          onError: primaryColor(),
+          surface: primaryColor(),
           onSurface: secondaryColor(),
         ),
         datePickerTheme: DatePickerThemeData(
           backgroundColor: primaryColor(),
-
-          //------------------------------
-          cancelButtonStyle: ButtonStyle(
-            foregroundColor: WidgetStatePropertyAll(secondaryColor()),
-            overlayColor: WidgetStatePropertyAll(messageTextColor()),
-          ),
-          //------------------------------
-          confirmButtonStyle: ButtonStyle(
-            foregroundColor: WidgetStatePropertyAll(secondaryColor()),
-            overlayColor: WidgetStatePropertyAll(messageTextColor()),
-          ),
           headerBackgroundColor: secondaryColor(),
           headerForegroundColor: primaryColor(),
         ),
@@ -79,20 +69,27 @@ class MyTheme {
   }
 
   ThemeData darkMode() {
-    //mode = "Dark";
-    // _mainColor = 0XFF3A4454;
-    // _secondColor = 0XFFbedcfe;
     return getData();
   }
 
   ThemeData lightMode() {
-    //mode = "Light";
-    // _secondColor = 0XFF3A4454;
-    // _mainColor = 0XFFbedcfe;
     return getData();
   }
 
+  Brightness getBritness() {
+    if (mode == "Dark") {
+      return Brightness.dark;
+    } else {
+      return Brightness.light;
+    }
+  }
+
   Color messageTextColor() {
+    if (mode == "Dark") {
+      _mesColor = 0XFFc8c8c8;
+    } else {
+      _mesColor = 0XFF747474;
+    }
     return Color(_mesColor);
   }
 
@@ -107,9 +104,7 @@ class MyTheme {
   Color primaryColor() {
     if (mode == "Dark") {
       _mainColor = 0XFF3A4454;
-      //_secondColor = 0XFFbedcfe;
     } else {
-      //_secondColor = 0XFF3A4454;
       _mainColor = 0XFFbedcfe;
     }
     return Color(_mainColor);
@@ -117,11 +112,9 @@ class MyTheme {
 
   Color secondaryColor() {
     if (mode == "Dark") {
-      //_mainColor = 0XFF3A4454;
       _secondColor = 0XFFbedcfe;
     } else {
       _secondColor = 0XFF3A4454;
-      //_mainColor = 0XFFbedcfe;
     }
     return Color(_secondColor);
   }
