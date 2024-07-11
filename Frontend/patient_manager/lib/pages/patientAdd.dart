@@ -6,6 +6,7 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import '../components/myAppBar.dart';
@@ -37,8 +38,8 @@ class _AddPatientState extends State<AddPatient> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
 
-  final docOfficeIdApiUrl = "http://localhost:80/users/profile/";
-  final apiUrl = "http://localhost:80/patients/insert/";
+  final docOfficeIdApiUrl = "${AppEnviroment.baseApiUrl}/users/profile/";
+  final apiUrl = "${AppEnviroment.baseApiUrl}/patients/insert/";
   late int futureDocOfficeId;
   late bool medRequired;
 

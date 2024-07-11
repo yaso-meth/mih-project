@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/BuildFileView.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/files.dart';
 //import 'dart:js' as js;
@@ -56,14 +57,16 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   const SizedBox(height: 25.0),
                   Expanded(
                       child: BuildFileView(
-                          pdfLink: "http://localhost:9000/mih/$filename")),
+                          pdfLink:
+                              "${AppEnviroment.baseFileUrl}/mih/$filename")),
                   SizedBox(
                     width: 300,
                     height: 100,
                     child: MyButton(
                       onTap: () {
                         html.window.open(
-                            'http://localhost:9000/mih/$filename', 'download');
+                            '${AppEnviroment.baseFileUrl}/mih/$filename',
+                            'download');
                       },
                       buttonText: "Dowload",
                       buttonColor: MzanziInnovationHub.of(context)!

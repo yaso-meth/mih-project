@@ -7,6 +7,7 @@ import 'package:patient_manager/components/myAppBar.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/patManAppDrawer.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
 
@@ -24,7 +25,7 @@ class PatientManager extends StatefulWidget {
 
 class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
-  String endpoint = "http://localhost:80/patients/user/";
+  String endpoint = "${AppEnviroment.baseApiUrl}/patients/user/";
   late Future<List<Patient>> futurePatients;
 
   String searchString = "";

@@ -10,6 +10,7 @@ import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/components/prescipInput.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
@@ -32,11 +33,12 @@ class PatientFiles extends StatefulWidget {
 }
 
 class _PatientFilesState extends State<PatientFiles> {
-  String endpointFiles = "http://localhost:80/files/patients/";
-  String endpointUser = "http://localhost:80/users/profile/";
-  String endpointGenFiles = "http://localhost:80/files/generate/med-cert/";
-  String endpointFileUpload = "http://localhost:80/files/upload/file/";
-  String endpointInsertFiles = "http://localhost:80/files/insert/";
+  String endpointFiles = "${AppEnviroment.baseApiUrl}/files/patients/";
+  String endpointUser = "${AppEnviroment.baseApiUrl}/users/profile/";
+  String endpointGenFiles =
+      "${AppEnviroment.baseApiUrl}/files/generate/med-cert/";
+  String endpointFileUpload = "${AppEnviroment.baseApiUrl}/files/upload/file/";
+  String endpointInsertFiles = "${AppEnviroment.baseApiUrl}/files/insert/";
 
   final startDateController = TextEditingController();
   final endDateTextController = TextEditingController();

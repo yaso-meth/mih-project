@@ -7,6 +7,7 @@ import 'package:patient_manager/components/myMLTextInput.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/notes.dart';
 import 'package:http/http.dart' as http;
@@ -20,8 +21,8 @@ class PatientNotes extends StatefulWidget {
 }
 
 class _PatientNotesState extends State<PatientNotes> {
-  String endpoint = "http://localhost:80/notes/patients/";
-  String apiUrlAddNote = "http://localhost:80/notes/insert/";
+  String endpoint = "${AppEnviroment.baseApiUrl}/notes/patients/";
+  String apiUrlAddNote = "${AppEnviroment.baseApiUrl}/notes/insert/";
   final titleController = TextEditingController();
   final noteTextController = TextEditingController();
   late Future<List<Note>> futueNotes;

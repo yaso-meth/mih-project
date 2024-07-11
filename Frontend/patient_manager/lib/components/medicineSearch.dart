@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildMedList.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,7 @@ class MedicineSearch extends StatefulWidget {
 }
 
 class _MedicineSearchState extends State<MedicineSearch> {
-  final String endpointMeds = "http://localhost:80/users/medicine/";
+  final String endpointMeds = "${AppEnviroment.baseApiUrl}/users/medicine/";
 
   //TextEditingController searchController = TextEditingController();
 

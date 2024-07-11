@@ -89,20 +89,5 @@ class _HomeState extends State<Home> {
         }
       },
     );
-
-    // Scaffold(
-    //   appBar: MyAppBar(barTitle: "Mzanzi Innovation Hub"),
-    //   body: HomeTileGrid(),
-    //   drawer: FutureBuilder(
-    //     future: getUserEmail(),
-    //     builder: (contexts, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.done) {
-    //         return MyAppDrawer(drawerTitle: useremail);
-    //       } else {
-    //         return Center(child: CircularProgressIndicator());
-    //       }
-    //     },
-    //   ),
-    // );
   }
 }

@@ -6,6 +6,7 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -39,9 +40,9 @@ class _EditPatientState extends State<EditPatient> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
 
-  final docOfficeIdApiUrl = "http://localhost:80/users/profile/";
-  final apiUrlEdit = "http://localhost:80/patients/update/";
-  final apiUrlDelete = "http://localhost:80/patients/delete/";
+  final docOfficeIdApiUrl = "${AppEnviroment.baseApiUrl}/users/profile/";
+  final apiUrlEdit = "${AppEnviroment.baseApiUrl}/patients/update/";
+  final apiUrlDelete = "${AppEnviroment.baseApiUrl}/patients/delete/";
   late int futureDocOfficeId;
   late String userEmail;
   late bool medRequired;

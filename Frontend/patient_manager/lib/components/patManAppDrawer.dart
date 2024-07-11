@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/objects/appUser.dart';
@@ -15,7 +16,7 @@ class PatManAppDrawer extends StatefulWidget {
 }
 
 class _PatManAppDrawerState extends State<PatManAppDrawer> {
-  String endpointUserData = "http://localhost:80/users/profile/";
+  String endpointUserData = "${AppEnviroment.baseApiUrl}/users/profile/";
   late Future<AppUser> signedInUser;
 
   Future<AppUser> getUserDetails() async {
