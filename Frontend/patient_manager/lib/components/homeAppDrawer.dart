@@ -12,6 +12,12 @@ class HomeAppDrawer extends StatefulWidget {
 
 class _HomeAppDrawerState extends State<HomeAppDrawer> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //print(MzanziInnovationHub.of(context)?.theme.mode);
     return Drawer(
@@ -73,6 +79,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                   MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
                   //print("Dark Mode: $darkm");
                 }
+                Navigator.of(context).pushNamed('/home');
               });
             },
             icon: Icon(

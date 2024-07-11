@@ -556,81 +556,78 @@ class _PatientFilesState extends State<PatientFiles> {
           return const CircularProgressIndicator();
         } else if (snapshot.hasData) {
           final filesList = snapshot.data!;
-          return Flexible(
-            flex: 1,
-            child: Container(
-              //height: 300.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 3.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Files",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          medCertPopUp();
-                        },
-                        icon: Icon(
-                          Icons.sick_outlined,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          prescritionPopUp();
-                        },
-                        icon: Icon(
-                          Icons.medication_outlined,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          uploudFilePopUp();
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(
+          return Container(
+            //height: 300.0,
+            decoration: BoxDecoration(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 3.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Files",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                         color: MzanziInnovationHub.of(context)!
                             .theme
-                            .secondaryColor()),
-                  ),
-                  const SizedBox(height: 10),
-                  BuildFilesList(files: filesList),
-                ]),
-              ),
+                            .secondaryColor(),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        medCertPopUp();
+                      },
+                      icon: Icon(
+                        Icons.sick_outlined,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        prescritionPopUp();
+                      },
+                      icon: Icon(
+                        Icons.medication_outlined,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        uploudFilePopUp();
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                ),
+                const SizedBox(height: 10),
+                BuildFilesList(files: filesList),
+              ]),
             ),
           );
         } else {

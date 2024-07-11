@@ -226,56 +226,53 @@ class _PatientNotesState extends State<PatientNotes> {
           return const CircularProgressIndicator();
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
-          return Flexible(
-            flex: 1,
-            child: Container(
-              //height: 300.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 3.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Notes",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor()),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          addNotePopUp();
-                        },
-                        icon: Icon(Icons.add,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor()),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Divider(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor()),
-                  ),
-                  const SizedBox(height: 10),
-                  BuildNotesList(notes: notesList),
-                ]),
-              ),
+          return Container(
+            //height: 300.0,
+            decoration: BoxDecoration(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 3.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Notes",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor()),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        addNotePopUp();
+                      },
+                      icon: Icon(Icons.add,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor()),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                ),
+                const SizedBox(height: 10),
+                BuildNotesList(notes: notesList),
+              ]),
             ),
           );
         } else {

@@ -172,8 +172,8 @@ class _EditPatientState extends State<EditPatient> {
           children: [
             Container(
               padding: const EdgeInsets.all(10.0),
-              width: width / 3,
-              height: height / 2,
+              width: 700.0,
+              height: (height / 3) * 2,
               decoration: BoxDecoration(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
@@ -553,7 +553,7 @@ class _EditPatientState extends State<EditPatient> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 400.0,
+                  width: 450.0,
                   height: 100.0,
                   child: MyButton(
                     onTap: () {

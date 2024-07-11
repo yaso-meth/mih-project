@@ -33,6 +33,8 @@ class PrescripInput extends StatefulWidget {
 class _PrescripInputState extends State<PrescripInput> {
   //String perscriptionOutput = "";
   List<List<String>> perscriptionOutput = [];
+  late double width;
+  late double height;
 
   final numberOptions = [
     "0",
@@ -260,7 +262,7 @@ class _PrescripInputState extends State<PrescripInput> {
                   icon: Icon(
                     Icons.delete_forever_outlined,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                   onPressed: () {
                     setState(() {
@@ -307,15 +309,26 @@ class _PrescripInputState extends State<PrescripInput> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          displayMedInput(),
-          displayPerscList(),
-        ],
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
+    return Container(
+      //width: ,
+      height: (height / 3) * 2,
+      child: SingleChildScrollView(
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            displayMedInput(),
+            displayPerscList(),
+          ],
+        ),
       ),
     );
   }

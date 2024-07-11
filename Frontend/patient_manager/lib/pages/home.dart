@@ -3,13 +3,8 @@ import 'package:patient_manager/main.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
-//import 'package:patient_manager/components/mySuccessMessage.dart';
-
-bool darkm = false;
 
 class Home extends StatefulWidget {
-  //final String userEmail;
-
   const Home({
     super.key,
   });
@@ -32,6 +27,18 @@ class _HomeState extends State<Home> {
 
   String getEmail() {
     return useremail;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -58,19 +65,12 @@ class _HomeState extends State<Home> {
             //     ),
             //     //backgroundColor: Colors.blueAccent,
             //     onPressed: () {
-            //       setState(() {
-            //         if (darkm) {
-            //           darkm = !darkm;
-            //           MzanziInnovationHub.of(context)!
-            //               .changeTheme(ThemeMode.light);
-            //           //print("Dark Mode: $darkm");
-            //         } else {
-            //           darkm = !darkm;
-            //           MzanziInnovationHub.of(context)!
-            //               .changeTheme(ThemeMode.dark);
-            //           //print("Dark Mode: $darkm");
-            //         }
-            //       });
+            //       showDatePicker(
+            //         context: context,
+            //         initialDate: DateTime.now(),
+            //         firstDate: DateTime(2000),
+            //         lastDate: DateTime(2100),
+            //       );
             //       // showDialog(
             //       //   context: context,
             //       //   builder: (context) =>
@@ -83,6 +83,7 @@ class _HomeState extends State<Home> {
             //     ),
             //   ),
           );
+          //);
         } else {
           return const Center(child: CircularProgressIndicator());
         }

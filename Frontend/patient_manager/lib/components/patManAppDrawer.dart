@@ -147,7 +147,8 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed('/home');
+                    //Navigator.of(context).pushNamed('/home');
+                    Navigator.popAndPushNamed(context, '/home');
                   },
                 ),
                 ListTile(
@@ -203,7 +204,8 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                   ),
                   onTap: () {
                     client.auth.signOut();
-                    Navigator.of(context).pushNamed('/');
+                    Navigator.popAndPushNamed(context, '/');
+                    //Navigator.of(context).pushNamed('/');
                   },
                 )
               ],

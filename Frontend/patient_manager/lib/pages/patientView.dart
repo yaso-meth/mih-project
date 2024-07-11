@@ -27,17 +27,24 @@ class _PatientViewState extends State<PatientView> {
               const SizedBox(
                 height: 10.0,
               ),
-              Row(
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
                 children: [
-                  PatientNotes(
-                    patientIndex: widget.selectedPatient.idpatients,
+                  SizedBox(
+                    width: 725,
+                    child: PatientNotes(
+                      patientIndex: widget.selectedPatient.idpatients,
+                    ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  PatientFiles(
-                    patientIndex: widget.selectedPatient.idpatients,
-                    selectedPatient: widget.selectedPatient,
+                  SizedBox(
+                    width: 725,
+                    child: PatientFiles(
+                      patientIndex: widget.selectedPatient.idpatients,
+                      selectedPatient: widget.selectedPatient,
+                    ),
                   )
                 ],
               )

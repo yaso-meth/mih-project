@@ -361,7 +361,7 @@ class _AddPatientState extends State<AddPatient> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 400.0,
+                  width: 450.0,
                   height: 100.0,
                   child: MyButton(
                     onTap: () {
