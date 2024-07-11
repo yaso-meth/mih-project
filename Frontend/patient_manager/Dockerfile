@@ -46,7 +46,7 @@ WORKDIR /app/
 # RUN flutter pub add web:^0.5.0
 # RUN flutter pub run pdfx:install_web
 RUN flutter upgrade
-RUN flutter build web
+RUN flutter build web -t ./lib/main_prod.dart
 
 # Record the exposed port
 EXPOSE 8080
