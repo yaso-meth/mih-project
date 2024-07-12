@@ -27,6 +27,8 @@ class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
   String endpoint = "${AppEnviroment.baseApiUrl}/patients/user/";
   late Future<List<Patient>> futurePatients;
+  String errorCode = "";
+  String errorBody = "";
 
   String searchString = "";
 
@@ -36,6 +38,9 @@ class _PatientManagerState extends State<PatientManager> {
     // print("Here");
     // print(response.body);
     // print(response.statusCode);
+    errorCode = response.statusCode.toString();
+    errorBody = response.body;
+
     if (response.statusCode == 200) {
       //print("Here1");
       Iterable l = jsonDecode(response.body);
@@ -143,7 +148,29 @@ class _PatientManagerState extends State<PatientManager> {
           builder: (context, snapshot) {
             //print("patient Liust  ${snapshot.data}");
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 25,
+                  right: 25,
+                  bottom: 25,
+                ),
+                child: Container(
+                  height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: const Center(
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+              );
             } else if (snapshot.hasData) {
               List<Patient> patientsList;
               if (searchString == "") {
@@ -158,7 +185,37 @@ class _PatientManagerState extends State<PatientManager> {
                 child: displayList(patientsList, searchString),
               );
             } else {
-              return const Center(child: Text("Error pulling email"));
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 25,
+                  right: 25,
+                  bottom: 25,
+                ),
+                child: Container(
+                  height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "$errorCode: Error pulling Patients Data\n$endpoint\n$errorBody",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor()),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              );
             }
           },
         ),
@@ -168,6 +225,8 @@ class _PatientManagerState extends State<PatientManager> {
 
   @override
   void initState() {
+    // errorCode = "";
+    // errorBody = "";
     futurePatients = fetchPatients(endpoint + widget.userEmail);
     super.initState();
   }

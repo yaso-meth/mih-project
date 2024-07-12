@@ -16,8 +16,8 @@ abstract class AppEnviroment {
         }
       case Enviroment.prod:
         {
-          baseApiUrl = "api";
-          baseFileUrl = "minio";
+          baseApiUrl = "http://MIH_API_Hub:80";
+          baseFileUrl = "http://MIH_Minio:9000";
           break;
         }
     }

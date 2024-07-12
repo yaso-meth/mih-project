@@ -9,10 +9,6 @@ services:
       - .:/app
     depends_on:
       - mysqldb
-    # networks:
-    #   default:
-    #     aliases:
-    #       - mih-api-hub
   
   mysqldb:
     #build: ./database/
@@ -30,8 +26,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: MIH-phpmyadmin
-    links:
-      - mysqldb
     environment:
       PMA_HOST: mysqlDB
       PMA_PORT: 3306
@@ -39,6 +33,8 @@ services:
     restart: always
     ports:
       - 8081:80
+    depends_on:
+      - mysqldb
 
   user-interface:
     container_name: MIH-UX
@@ -46,11 +42,11 @@ services:
       context: ./Frontend/patient_manager
     ports:
       - "8080:8080"
-    # volumes:
-    #   - ./Frontend/patient_manager:/app
+    depends_on:
+      - api
 
   minio:
-    container_name: MIH-minio
+    container_name: MIH-Minio
     image: docker.io/bitnami/minio:2022
     ports:
       - '9000:9000'
@@ -64,3 +60,8 @@ services:
 volumes:
   Mzanzi_Innovation_Hub:
     driver: local
+
+# networks:
+#   default:
+#     external:
+#       name: MIH_Network
