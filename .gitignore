@@ -2,3 +2,8 @@
 *database/binlog.index
 *database/mysql.sock
 *File_Storage/Mzanzi_Innovation_Hub/mih/minio-test.txt/xl.meta
+*database/
+database/ibdata1
+database/mysql.ibd
+database/undo*
+database/#innodb_redo/#ib_redo*
