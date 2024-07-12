@@ -2,9 +2,9 @@ services:
   api:
     build: ./backend/
     container_name: MIH-API-Hub
-    command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=80 --host=0.0.0.0"
+    command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=81 --host=0.0.0.0"
     ports:
-      - 80:80
+      - 81:81
     volumes:
       - .:/app
     depends_on:
