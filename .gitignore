@@ -1,10 +1,14 @@
-*database/auto.cnf
-*database/binlog.index
-*database/mysql.sock
+# *database/auto.cnf
+# *database/binlog.index
+# *database/mysql.sock
 *File_Storage/Mzanzi_Innovation_Hub/mih/minio-test.txt/xl.meta
 *File_Storage/
-*database/
-database/ibdata1
-database/mysql.ibd
-database/undo*
-database/#innodb_redo/#ib_redo*
+database/#innodb_temp/*
+database/#innodb_redo/*
+database/*.dblwr
+database/binlig.*
+database/mysql.sock
+# database/ibdata1
+# database/mysql.ibd
+# database/undo*
+# database/#innodb_redo/#ib_redo*
