@@ -1,7 +1,6 @@
 # *database/auto.cnf
 # *database/binlog.index
 # *database/mysql.sock
-*File_Storage/Mzanzi_Innovation_Hub/mih/minio-test.txt/xl.meta
 File_Storage/
 database/
 # database/ibdata1
