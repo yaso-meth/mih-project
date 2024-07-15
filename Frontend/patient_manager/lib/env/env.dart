@@ -11,13 +11,13 @@ abstract class AppEnviroment {
     switch (env) {
       case Enviroment.dev:
         {
-          baseApiUrl = "http://localhost:81";
+          baseApiUrl = "http://localhost:8080";
           baseFileUrl = "http://localhost:9000";
           break;
         }
       case Enviroment.prod:
         {
-          baseApiUrl = "http://MIH_API_Hub:81";
+          baseApiUrl = "http://mzansi-innovation-hub.co.za:8080";
           baseFileUrl = "http://MIH_Minio:9000";
           break;
         }
