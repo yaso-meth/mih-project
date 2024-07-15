@@ -10,6 +10,7 @@ origins = [
     "http://localhost:8080",
     "http://MIH-API-Hub:80",
     "http://MIH-API-Hub",
+    "http://mzansi-innovation-hub.co.za",
     "*",
 ]
 
