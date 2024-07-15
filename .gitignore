@@ -1,7 +1,7 @@
 # *database/auto.cnf
 # *database/binlog.index
 # *database/mysql.sock
-File_Storage/
+File_Storage
 database/
 # database/ibdata1
 # database/mysql.ibd
