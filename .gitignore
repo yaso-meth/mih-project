@@ -3,11 +3,6 @@
 # *database/mysql.sock
 *File_Storage/Mzanzi_Innovation_Hub/mih/minio-test.txt/xl.meta
 *File_Storage/
-database/#innodb_temp/*
-database/#innodb_redo/*
-database/*.dblwr
-database/binlig.*
-database/mysql.sock
 # database/ibdata1
 # database/mysql.ibd
 # database/undo*
