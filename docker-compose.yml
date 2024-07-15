@@ -4,7 +4,7 @@ services:
     container_name: MIH-API-Hub
     command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=80 --host=0.0.0.0"
     ports:
-      - 80:80
+      - 8080:8080
     volumes:
       - .:/app
     depends_on:
@@ -41,7 +41,7 @@ services:
     build:
       context: ./Frontend/patient_manager
     ports:
-      - "443:443"
+      - "80:80"
     depends_on:
       - api
 
