@@ -45,7 +45,6 @@ services:
         - 443:443
     volumes:
         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        - webApp:/usr/share/nginx/html
         - certbotConf:/etc/letsencrypt
         - certbotChall:/var/www/certbot
     depends_on:
@@ -57,21 +56,19 @@ services:
       context: ./Frontend/patient_manager
     ports:
       - "83:83"
-    volumes:
-      - webApp:/app/build/web
     depends_on:
       - api
   
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes: 
-      - certbotConf:/etc/letsencrypt
-      - certbotChall:/var/www/certbot
-    #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
-    depends_on:
-      - nginx
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes: 
+  #     - certbotConf:/etc/letsencrypt
+  #     - certbotChall:/var/www/certbot
+  #   #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
+  #   depends_on:
+  #     - nginx
     
   minio:
     container_name: MIH-Minio
@@ -86,7 +83,6 @@ services:
       - MINIO_ROOT_PASSWORD=C@rtoon1995
       
 volumes:
-  webApp:
   certbotConf:
   certbotChall:
 #     driver: local
