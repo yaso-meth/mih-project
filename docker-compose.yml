@@ -36,15 +36,48 @@ services:
     depends_on:
       - mysqldb
 
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: nginx
+    ports:
+        - 80:80
+        - 443:443
+    volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        - webApp:/usr/share/nginx/html
+    depends_on:
+      - user-interface
+
   user-interface:
     container_name: MIH-UX
     build:
       context: ./Frontend/patient_manager
     ports:
-      - "80:80"
+      - "83:83"
+    volumes:
+      - webApp:/app/build/web
+      # - ./certbot/www:/var/www/certbot
     depends_on:
       - api
-
+  
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes: 
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  #   depends_on:
+  #     - user-interface
+  #   #command: certonly --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za --agree-tos --manual --preferred-challenges dns
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za --agree-tos
+  #   # command: >-
+  #   #         certonly --test-cert --reinstall --webroot --webroot-path=/var/www/certbot
+  #   #         --email yasienmeth@gmail.com --agree-tos --no-eff-email
+  #   #         -d mzansi-innovation-hub.co.za
+  #   # depends_on:
+  #   #   - user-interface
+    
   minio:
     container_name: MIH-Minio
     image: docker.io/bitnami/minio:2022
@@ -58,8 +91,14 @@ services:
       - MINIO_ROOT_PASSWORD=C@rtoon1995
       
 volumes:
-  Mzanzi_Innovation_Hub:
-    driver: local
+  webApp:
+  certbotConf:
+  certbotChall:
+#     driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./webapp1
+    #   o: bind
 
 # networks:
 #   default:

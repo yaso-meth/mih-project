@@ -3,6 +3,7 @@
 # *database/mysql.sock
 File_Storage
 database/
+certbot/
 # database/ibdata1
 # database/mysql.ibd
 # database/undo*
