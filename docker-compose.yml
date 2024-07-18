@@ -85,13 +85,3 @@ services:
 volumes:
   certbotConf:
   certbotChall:
-#     driver: local
-    # driver_opts:
-    #   type: none
-    #   device: ./webapp1
-    #   o: bind
-
-# networks:
-#   default:
-#     external:
-#       name: MIH_Network
