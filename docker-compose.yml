@@ -49,6 +49,7 @@ services:
         - certbotChall:/var/www/certbot
     depends_on:
       - user-interface
+    profiles: ['prod']
 
   user-interface:
     container_name: MIH-UX
@@ -74,7 +75,7 @@ services:
   minio:
     container_name: MIH-Minio
     hostname: minio
-    image: bitnami/minio:latest
+    image: docker.io/bitnami/minio:2022
     ports:
       - '9000:9000'
       - '9001:9001'
