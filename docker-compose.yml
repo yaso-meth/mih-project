@@ -69,9 +69,11 @@ services:
     command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
     depends_on:
       - nginx
+    profiles: ['withCert']
     
   minio:
     container_name: MIH-Minio
+    hostname: minio
     image: docker.io/bitnami/minio:2022
     ports:
       - '9000:9000'
