@@ -81,8 +81,6 @@ services:
     volumes:
       - './File_Storage:/data'
     environment:
-      - MINIO_SERVER_URL="https://mzansi-innovation-hub.co.za/files/"
-      - MINIO_BROWSER_REDIRECT_URL="https://mzansi-innovation-hub.co.za/files/ui/"
       - MINIO_ROOT_USER=yaso
       - MINIO_ROOT_PASSWORD=C@rtoon1995
       
