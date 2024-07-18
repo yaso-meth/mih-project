@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
       future: getUserEmail(),
       builder: (contexts, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          //print("home page: $useremail");
           return Scaffold(
             appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
             drawer: HomeAppDrawer(userEmail: useremail),

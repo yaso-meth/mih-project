@@ -37,8 +37,8 @@ class _PatientManagerState extends State<PatientManager> {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(endpoint));
     // print("Here");
-    // print(response.body);
-    // print(response.statusCode);
+    // print("Body: ${response.body}");
+    // print("Code: {response.statusCode}");
     errorCode = response.statusCode.toString();
     errorBody = response.body;
 
@@ -206,7 +206,7 @@ class _PatientManagerState extends State<PatientManager> {
                   ),
                   child: Center(
                     child: Text(
-                      "$errorCode: Error pulling Patients Data\n$endpoint\n$errorBody",
+                      "$errorCode: Error pulling Patients Data\n$endpoint${widget.userEmail}\n$errorBody",
                       style: TextStyle(
                           fontSize: 25,
                           color: MzanziInnovationHub.of(context)!
@@ -228,6 +228,7 @@ class _PatientManagerState extends State<PatientManager> {
   void initState() {
     // errorCode = "";
     // errorBody = "";
+    //print("patient manager page: ${widget.userEmail}");
     futurePatients = fetchPatients(endpoint + widget.userEmail);
     super.initState();
   }

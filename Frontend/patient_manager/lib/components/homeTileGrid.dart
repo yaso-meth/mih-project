@@ -15,6 +15,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   void initState() {
+    //print("Home tile gird widget: ${widget.userEmail}");
     tileList = [
       [
         Icons.medication,
