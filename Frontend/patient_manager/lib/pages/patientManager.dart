@@ -168,7 +168,7 @@ class _PatientManagerState extends State<PatientManager> {
                         width: 3.0),
                   ),
                   child: const Center(
-                    child: Center(child: CircularProgressIndicator()),
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               );

@@ -555,7 +555,9 @@ class _PatientFilesState extends State<PatientFiles> {
       future: futueFiles,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasData) {
           final filesList = snapshot.data!;
           return Container(

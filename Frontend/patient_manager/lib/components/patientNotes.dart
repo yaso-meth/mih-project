@@ -224,7 +224,9 @@ class _PatientNotesState extends State<PatientNotes> {
       future: futueNotes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
           return Container(

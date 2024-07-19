@@ -34,13 +34,13 @@ class _PatientViewState extends State<PatientView> {
                 alignment: WrapAlignment.center,
                 children: [
                   SizedBox(
-                    width: 725,
+                    width: 650,
                     child: PatientNotes(
                       patientIndex: widget.selectedPatient.idpatients,
                     ),
                   ),
                   SizedBox(
-                    width: 725,
+                    width: 650,
                     child: PatientFiles(
                       patientIndex: widget.selectedPatient.idpatients,
                       selectedPatient: widget.selectedPatient,
