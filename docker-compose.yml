@@ -1,4 +1,5 @@
 services:
+#============== API Hub ====================================================================
   api:
     build: ./backend/
     container_name: MIH-API-Hub
@@ -7,35 +8,66 @@ services:
       - 8080:8080
     volumes:
       - .:/app
+    networks:
+      - MIH-network
     depends_on:
       - mysqldb
-  
+#============== My SQL DB ==================================================================== 
   mysqldb:
     #build: ./database/
-    image: mysql
+    image: mysql:5.7
     container_name: MIH-Database
     restart: always
     environment:
-      MYSQL_DATABASE: 'testdb'
       MYSQL_ROOT_PASSWORD: 'C@rtoon1995'
+      MYSQL_USER: 'yaso'
+      MYSQL_PASSWORD: 'C@rtoon1995'
+      MYSQL_DATABASE: 'supertokens'
+    networks:
+      - MIH-network
     ports:
       - '3306:3306'
     volumes:
       - ./database:/var/lib/mysql
-        
+#============== Super Token Auth ====================================================================
+  supertokens:
+    container_name: MIH-SuperTokens
+    image: registry.supertokens.io/supertokens/supertokens-mysql
+    depends_on:
+      - mysqldb
+    ports:
+      - 3567:3567
+    environment:
+      MYSQL_USER: 'yaso'
+      MYSQL_PASSWORD: 'C@rtoon1995'
+      MYSQL_HOST: mysqldb
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE_NAME: supertokens
+    networks:
+      - MIH-network
+    restart: unless-stopped
+    healthcheck:
+      test: >
+        bash -c 'exec 3<>/dev/tcp/127.0.0.1/3567 && echo -e "GET /hello HTTP/1.1\r\nhost: 127.0.0.1:3567\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "Hello"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+#============== PHP My Admin ====================================================================        
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: MIH-phpmyadmin
     environment:
       PMA_HOST: mysqlDB
       PMA_PORT: 3306
-      PMA_ARBITRARY: 1
+      PMA_ARBITRARY: 
+    networks:
+      - MIH-network
     restart: always
     ports:
       - 8081:80
     depends_on:
       - mysqldb
-
+#============== Nginx Proxy Server ====================================================================
   nginx:
     container_name: nginx
     restart: unless-stopped
@@ -49,17 +81,21 @@ services:
         - certbotChall:/var/www/certbot
     depends_on:
       - user-interface
+    networks:
+      - MIH-network
     profiles: ['prod']
-
+#============== Flutter App ====================================================================
   user-interface:
     container_name: MIH-UX
     build:
       context: ./Frontend/patient_manager
     ports:
       - "83:83"
+    networks:
+      - MIH-network
     depends_on:
       - api
-  
+ #============== Cert Not ==================================================================== 
   certbot:
     image: certbot/certbot
     container_name: certbot
@@ -68,10 +104,12 @@ services:
       - certbotChall:/var/www/certbot
     #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
     command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
+    networks:
+      - MIH-network
     depends_on:
       - nginx
     profiles: ['withCert']
-    
+#============== Minio File Storage ====================================================================  
   minio:
     container_name: MIH-Minio
     hostname: minio
@@ -84,7 +122,15 @@ services:
     environment:
       - MINIO_ROOT_USER=yaso
       - MINIO_ROOT_PASSWORD=C@rtoon1995
-      
+    networks:
+      - MIH-network
+#============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
   certbotChall:
+#============== MIH Network ====================================================================
+networks:
+  MIH-network:
+    driver: bridge
+
+    
