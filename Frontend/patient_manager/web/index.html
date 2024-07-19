@@ -31,12 +31,59 @@
 
   <title>Mzansi Innovation Hub</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    .main {
+      width: 100%;
+      height: 100vh;
+      background-color: #3A4454;
+      display: flex; /* Default Axis is X*/
+      flex-direction: column;
+      justify-content: center; /* Main Axis */
+      align-items: center; /* Cross Axis */
+      
+    }
+    .indicator{
+      width: 100px;
+    }
+    .writting{
+      font-size: 15px;
+      font-family: fantasy;
+      color: #bedcfe;
+      position: absolute;
+      bottom: 0;
+      padding-bottom: 3%
+    }
+    .bg{
+      background-color: #3A4454;
+      overflow: hidden
+      
+    }
+</style>
 </head>
-<body>
+<body class="bg">
   <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
   <script type="text/javascript">
     pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
   </script>
   <script src="flutter_bootstrap.js" async></script>
+  <div id="loading_indicator" class="main">
+    <div><img class="indicator" src="loading.gif" /></div>  
+    
+
+      <div class="writting">
+        Prowered by Mzanzi Innovation Hub
+      </div>
+  </div>
+  <script>
+    window.onload = function () {
+        setTimeout(function () {
+          var loadingIndicator =                 document.getElementById("loading_indicator");
+          if (loadingIndicator) {
+            loadingIndicator.remove();
+          }
+        }, 10000);
+    };
+  </script>
+ 
 </body>
 </html>
