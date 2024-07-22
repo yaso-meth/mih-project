@@ -7,3 +7,4 @@ requests
 watchfiles==0.21.0
 python-multipart
 xlrd
+supertokens-python

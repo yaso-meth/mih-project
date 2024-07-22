@@ -3,6 +3,11 @@ from pydantic import BaseModel
 from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
+from supertokens_python import get_all_cors_headers
+from supertokens_python.framework.fastapi import get_middleware
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 origins = [
     "http://localhost",
@@ -14,17 +19,25 @@ origins = [
     "*",
 ]
 
-middleware = [
-    Middleware(
+# middleware = [
+#     Middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
+#     allow_headers=["Content-Type"] + get_all_cors_headers(),
+#     )
+# ]
+
+app = FastAPI()#middleware=middleware)
+app.add_middleware(get_middleware())
+app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    )
-]
-
-app = FastAPI(middleware=middleware)
+    allow_methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type"] + get_all_cors_headers()
+)
 app.include_router(docOffices.router)
 app.include_router(patients.router)
 app.include_router(patients_files.router)
@@ -39,6 +52,13 @@ app.include_router(medicine.router)
 def read_root():
     return serverRunning()
 
+# Check if server is up
+@app.get("/session")
+def read_root():
+    async def like_comment(session: SessionContainer = Depends(verify_session())):
+        user_id = session.get_user_id()
+
+        return {"Session id": user_id}
 
 def serverRunning():
     return {"Status": "Server is Up and Running"}
