@@ -43,6 +43,7 @@ services:
       MYSQL_HOST: mysqldb
       MYSQL_PORT: 3306
       MYSQL_DATABASE_NAME: supertokens
+      API_KEYS: 'leatucczyixqwkqqdrhayiwzeofkltds'
     networks:
       - MIH-network
     restart: unless-stopped
