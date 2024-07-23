@@ -27,7 +27,10 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="logo.png"/>
+  <!-- <link rel="icon" type="image/png" href="logo.png"/> -->
+  <link rel="icon" href="favicon.png">
+  <!-- <link href="Logo-01.png" rel="icon" media="(prefers-color-scheme: light)">
+  <link href="Logo-02.png"  rel="icon" media="(prefers-color-scheme: dark)"> -->
 
   <title>Mzansi Innovation Hub</title>
   <link rel="manifest" href="manifest.json">
@@ -74,6 +77,20 @@
         Prowered by Mzanzi Innovation Hub
       </div>
   </div>
+  <script>
+    // window
+    // .matchMedia('(prefers-color-scheme: dark)')
+    // .addEventListener('change', setFavicon);
+
+    const setFavicon = () => {
+    const favicon = document.querySelector('link[rel="icon"]');
+    favicon.href = (window.matchMedia('(prefers-color-scheme: dark)').matches)
+                    ? 'Logo-02.png'
+                    : 'Logo-01.png';
+      };
+
+    setFavicon();
+  </script>
   <script>
     window.onload = function () {
         setTimeout(function () {
