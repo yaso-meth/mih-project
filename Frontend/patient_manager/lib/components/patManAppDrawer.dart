@@ -44,7 +44,9 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
   }
 
   Future<bool> signOut() async {
-    await SuperTokens.signOut();
+    await SuperTokens.signOut(completionHandler: (error) {
+      // handle error if any
+    });
     return true;
   }
 
@@ -220,7 +222,10 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                       ],
                     ),
                     onTap: () async {
-                      if (await signOut()) {
+                      await SuperTokens.signOut(completionHandler: (error) {
+                        print(error);
+                      });
+                      if (await SuperTokens.doesSessionExist() == false) {
                         Navigator.of(context).pushNamed('/');
                       }
                     },

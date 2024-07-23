@@ -7,7 +7,7 @@ void main() async {
   AppEnviroment.setupEnv(Enviroment.prod);
   SuperTokens.init(
     apiDomain: AppEnviroment.baseApiUrl,
-    apiBasePath: "/auth",
+    apiBasePath: "/api/auth",
   );
   runApp(const MzanziInnovationHub());
 }

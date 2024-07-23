@@ -11,7 +11,3 @@ void main() async {
   );
   runApp(const MzanziInnovationHub());
 }
-
-Future<bool> doesSessionExist() async {
-  return await SuperTokens.doesSessionExist();
-}
