@@ -5,6 +5,7 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 class PatManAppDrawer extends StatefulWidget {
   final String userEmail;
@@ -31,6 +32,11 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
     } else {
       throw Exception("Error: GetUserData status code ${response.statusCode}");
     }
+  }
+
+  Future<bool> signOut() async {
+    await SuperTokens.signOut();
+    return true;
   }
 
   @override
@@ -203,10 +209,10 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                       ),
                     ],
                   ),
-                  onTap: () {
-                    client.auth.signOut();
-                    Navigator.popAndPushNamed(context, '/');
-                    //Navigator.of(context).pushNamed('/');
+                  onTap: () async {
+                    if (await signOut()) {
+                      Navigator.of(context).pushNamed('/');
+                    }
                   },
                 )
               ],

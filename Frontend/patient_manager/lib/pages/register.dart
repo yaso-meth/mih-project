@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myPassInput.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+//import 'package:patient_manager/objects/sessionST.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+//import 'package:supertokens_flutter/supertokens.dart';
+import 'package:supertokens_flutter/http.dart' as http;
+import 'package:supertokens_flutter/supertokens.dart';
 
 class Register extends StatefulWidget {
   final Function()? onTap;
@@ -18,20 +28,125 @@ class _RegisterState extends State<Register> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final officeID = TextEditingController();
-
+  final baseAPI = AppEnviroment.baseApiUrl;
+  final FocusNode _focusNode = FocusNode();
   bool _obscureText = true;
+
+  bool successfulSignUp = false;
+
+  Future<void> addUserAPICall(String email, String uid) async {
+    //await getOfficeIdByUser(docOfficeIdApiUrl + widget.userEmail);
+    //print(futureDocOfficeId.toString());
+    var response = await http.post(
+      Uri.parse("$baseAPI/user/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "email": email,
+        "app_id": uid,
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pushNamed('/home');
+      signUpSuccess();
+      setState(() {
+        successfulSignUp = true;
+      });
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
   //sign user in
   Future<void> signUserUp() async {
     if (passwordController.text != confirmPasswordController.text) {
-      loginError("Passwords do not match");
+      passwordError();
     } else {
+      var _backgroundColor = Colors.transparent;
+
+      showDialog(
+        context: context,
+        barrierColor: _backgroundColor,
+        builder: (BuildContext dialogContext) {
+          return AlertDialog(
+            backgroundColor: _backgroundColor,
+            content: Container(
+              child: Center(
+                child: MzanziInnovationHub.of(context)!
+                    .theme
+                    .loadingImage(), // Put your gif into the assets folder
+              ),
+            ),
+          );
+        },
+      );
       try {
-        final response = await client.auth.signUp(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        if (response.session != null) {
-          Navigator.of(context).pushNamed('/homme');
+        Uri uri = Uri.parse(
+            "$baseAPI/auth/emailpassword/email/exists?email=${emailController.text}");
+        //print("Here");
+        var response = await http.get(uri);
+        //print(response.body);
+        //print("response 1: ${response.statusCode}");
+        if (response.statusCode == 200) {
+          var userExists = jsonDecode(response.body);
+          if (userExists["exists"]) {
+            signUpError();
+          } else {
+            var response2 = await http.post(
+              Uri.parse("$baseAPI/auth/signup"),
+              body:
+                  '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
+              headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
+              },
+            );
+            //print("response 2: ${response2.statusCode}");
+            if (response2.statusCode == 200) {
+              //print(response2.body);
+              var userCreated = jsonDecode(response2.body);
+              //print(userCreated);
+              if (userCreated["status"] == "OK") {
+                //print("Here");
+                //Creat user in db
+                var response2 = await http.post(
+                  Uri.parse("$baseAPI/auth/signup"),
+                  body:
+                      '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
+                  headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
+                  },
+                );
+                String uid = await SuperTokens.getUserId();
+                if (response2.statusCode == 200) {
+                  addUserAPICall(emailController.text, uid);
+                } else {
+                  internetConnectionPopUp();
+                }
+              }
+            }
+          }
+          Navigator.of(context).pop();
+          // final response = await client.auth.signUp(
+          //   email: emailController.text,
+          //   password: passwordController.text,
+          // );
+          // if (response.session != null) {
+          //   Navigator.of(context).pushNamed('/homme');
+          // }
         }
       } on AuthException catch (error) {
         loginError(error.message);
@@ -40,6 +155,36 @@ class _RegisterState extends State<Register> {
         confirmPasswordController.clear();
       }
     }
+  }
+
+  void signUpSuccess() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MySuccessMessage(
+            successType: "Success",
+            successMessage:
+                "Congratulations! Your account has been created successfully. You are log in and start exploring.");
+      },
+    );
+  }
+
+  void signUpError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "User Exists");
+      },
+    );
+  }
+
+  void passwordError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Password");
+      },
+    );
   }
 
   void loginError(error) {
@@ -61,126 +206,154 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //logo
-                Icon(
-                  Icons.lock,
-                  size: 100,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-                //spacer
-                const SizedBox(height: 10),
-                //Heading
-                Text(
-                  'Register',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (event) async {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.enter) {
+          if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const MyErrorMessage(errorType: "Input Error");
+              },
+            );
+          } else {
+            await signUserUp();
+            if (successfulSignUp) {
+              Navigator.of(context).pushNamed('/home');
+            }
+          }
+        }
+      },
+      child: Scaffold(
+        //backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //logo
+                  Icon(
+                    Icons.lock,
+                    size: 100,
                     color:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
-                ),
-                //spacer
-                const SizedBox(height: 25),
-                //email input
-                SizedBox(
-                  width: 500.0,
-                  child: MyTextField(
-                    controller: officeID,
-                    hintText: 'OfficeID',
-                    editable: true,
-                    required: true,
+                  //spacer
+                  const SizedBox(height: 10),
+                  //Heading
+                  Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
-                ),
-                //spacer
-                const SizedBox(height: 25),
-                //email input
-                SizedBox(
-                  width: 500.0,
-                  child: MyTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    editable: true,
-                    required: true,
+                  //spacer
+                  const SizedBox(height: 25),
+                  //email input
+                  SizedBox(
+                    width: 500.0,
+                    child: MyTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      editable: true,
+                      required: true,
+                    ),
                   ),
-                ),
-                //spacer
-                const SizedBox(height: 25),
-                //password input
-                SizedBox(
-                  width: 500.0,
-                  child: MyPassField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    required: true,
+                  //spacer
+                  const SizedBox(height: 25),
+                  //password input
+                  SizedBox(
+                    width: 500.0,
+                    child: MyPassField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      required: true,
+                    ),
                   ),
-                ),
-                //spacer
-                const SizedBox(height: 25),
-                //password input
-                SizedBox(
-                  width: 500.0,
-                  child: MyPassField(
-                    controller: confirmPasswordController,
-                    hintText: 'Confirm Password',
-                    required: true,
+                  //spacer
+                  const SizedBox(height: 25),
+                  //password input
+                  SizedBox(
+                    width: 500.0,
+                    child: MyPassField(
+                      controller: confirmPasswordController,
+                      hintText: 'Confirm Password',
+                      required: true,
+                    ),
                   ),
-                ),
-                //spacer
-                const SizedBox(height: 10),
-                // sign up button
-                SizedBox(
-                  width: 500.0,
-                  height: 100.0,
-                  child: MyButton(
-                    onTap: () {},
-                    buttonText: "Sign Up",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  //spacer
+                  const SizedBox(height: 10),
+                  // sign up button
+                  SizedBox(
+                    width: 500.0,
+                    height: 100.0,
+                    child: MyButton(
+                      buttonText: "Sign Up",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onTap: () async {
+                        if (emailController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const MyErrorMessage(
+                                  errorType: "Input Error");
+                            },
+                          );
+                        } else {
+                          await signUserUp();
+                          if (successfulSignUp) {
+                            Navigator.of(context).pushNamed('/homme');
+                          }
+                        }
+                      },
+                    ),
                   ),
-                ),
-                //register text
-                SizedBox(
-                  width: 450.0,
-                  height: 100.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text(
-                        'Already a User?',
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            fontWeight: FontWeight.bold,
-                          ),
+                  //register text
+                  SizedBox(
+                    width: 450.0,
+                    height: 100.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text(
+                          'Already a User?',
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        GestureDetector(
+                          onTap: widget.onTap,
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

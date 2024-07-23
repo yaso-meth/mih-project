@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 class HomeAppDrawer extends StatefulWidget {
   final String userEmail;
@@ -15,6 +16,11 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  Future<bool> signOut() async {
+    await SuperTokens.signOut();
+    return true;
   }
 
   @override
@@ -55,9 +61,11 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                   ),
                 ],
               ),
-              onTap: () {
-                client.auth.signOut();
-                Navigator.of(context).pushNamed('/');
+              onTap: () async {
+                //client.auth.signOut();
+                if (await signOut()) {
+                  Navigator.of(context).pushNamed('/');
+                }
               },
             )
           ],

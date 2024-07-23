@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:patient_manager/main.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/homeAppDrawer.dart';
+import 'package:supertokens_flutter/supertokens.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({
@@ -15,13 +19,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String useremail = "";
+  final baseAPI = AppEnviroment.baseApiUrl;
 
   Future<void> getUserEmail() async {
-    final res = await client.auth.getUser();
-    if (res.user!.email != null) {
-      //print("emai not null");
-      useremail = res.user!.email!;
-      //print("Home Page: $useremail");
+    var uid = await SuperTokens.getUserId();
+    var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+    if (response.statusCode == 200) {
+      var user = jsonDecode(response.body);
+      useremail = user["email"];
     }
   }
 

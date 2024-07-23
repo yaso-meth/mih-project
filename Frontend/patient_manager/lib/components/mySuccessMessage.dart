@@ -54,13 +54,16 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Text(
+                    message,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

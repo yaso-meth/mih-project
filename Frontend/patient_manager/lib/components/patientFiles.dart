@@ -16,6 +16,7 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/supertokens.dart';
 
 import '../objects/patients.dart';
 
@@ -56,6 +57,7 @@ class _PatientFilesState extends State<PatientFiles> {
   late String userEmail = "";
   late AppUser appUser;
   late PlatformFile selected;
+  final baseAPI = AppEnviroment.baseApiUrl;
 
   Future<void> generateMedCert() async {
     //start loading circle
@@ -183,11 +185,12 @@ class _PatientFilesState extends State<PatientFiles> {
   }
 
   Future<void> getUserEmail() async {
-    final res = await client.auth.getUser();
-    if (res.user!.email != null) {
-      //print("emai not null");
-      userEmail = res.user!.email!;
-      //print(userEmail);
+    // Add method to get user email
+    var uid = await SuperTokens.getUserId();
+    var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+    if (response.statusCode == 200) {
+      var user = jsonDecode(response.body);
+      userEmail = user["email"];
     }
   }
 

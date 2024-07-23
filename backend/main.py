@@ -9,6 +9,14 @@ from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.thirdparty.asyncio import (
+    get_user_by_id as get_user_by_id_thirdparty,
+)
+from supertokens_python.recipe.passwordless.asyncio import (
+    get_user_by_id as get_user_by_id_passwordless,
+)
+
 origins = [
     "http://localhost",
     "http://localhost:80",
@@ -59,6 +67,18 @@ def read_root():
         user_id = session.get_user_id()
 
         return {"Session id": user_id}
+
+@app.post('/get_user_info_api') 
+async def get_user_info_api(session: SessionContainer = Depends(verify_session())):
+    user_id = session.get_user_id()
+
+    thirdparty_user = await get_user_by_id_thirdparty(user_id)
+    if thirdparty_user is None:
+        passwordless_user = await get_user_by_id_passwordless(user_id)
+        if passwordless_user is not None:
+            print(passwordless_user)
+    else:
+        print(thirdparty_user)
 
 def serverRunning():
     return {"Status": "Server is Up and Running"}

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/router/routeGenerator.dart';
 import 'package:patient_manager/theme/mihTheme.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-final client = Supabase.instance.client;
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({

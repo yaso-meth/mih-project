@@ -240,26 +240,23 @@ class _PatientManagerState extends State<PatientManager> {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
       drawer: PatManAppDrawer(userEmail: widget.userEmail),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 65, right: 5),
-        child: FloatingActionButton.extended(
-          label: Text(
-            "Add Patient",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          ),
-          //backgroundColor: Colors.blueAccent,
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed('/patient-manager/add', arguments: widget.userEmail);
-          },
-          icon: Icon(
-            Icons.add,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.,
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text(
+          "Add Patient",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
+        ),
+        //backgroundColor: Colors.blueAccent,
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed('/patient-manager/add', arguments: widget.userEmail);
+        },
+        icon: Icon(
+          Icons.add,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         ),
       ),
       body: patientSearch(screenWidth, screenHeight),

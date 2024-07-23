@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 
 class HomeTileGrid extends StatefulWidget {
@@ -12,6 +13,42 @@ class HomeTileGrid extends StatefulWidget {
 
 class _HomeTileGridState extends State<HomeTileGrid> {
   late List<List<dynamic>> tileList;
+
+  List<List<dynamic>> setApps() {
+    if (AppEnviroment.getEnv() == "Dev") {
+      return [
+        [
+          Icons.medication,
+          "Patient Manager",
+          () {
+            // Navigator.of(context)
+            //     .pushNamed('/patient-manager', arguments: widget.userEmail);
+            Navigator.popAndPushNamed(context, '/patient-manager',
+                arguments: widget.userEmail);
+          }
+        ],
+        [Icons.abc, "Test 1", () {}],
+        [Icons.abc, "Test 2", () {}],
+        [Icons.abc, "Test 3", () {}],
+        [Icons.abc, "Test 4", () {}],
+        [Icons.abc, "Test 5", () {}],
+        [Icons.abc, "Test 6", () {}],
+      ];
+    } else {
+      return [
+        [
+          Icons.medication,
+          "Patient Manager",
+          () {
+            // Navigator.of(context)
+            //     .pushNamed('/patient-manager', arguments: widget.userEmail);
+            Navigator.popAndPushNamed(context, '/patient-manager',
+                arguments: widget.userEmail);
+          }
+        ],
+      ];
+    }
+  }
 
   @override
   void initState() {

@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class SignIn extends StatefulWidget {
   final Function()? onTap;
@@ -23,24 +27,54 @@ class _SignInState extends State<SignIn> {
   // focus node to capture keyboard events
   final FocusNode _focusNode = FocusNode();
 
+  final baseAPI = AppEnviroment.baseApiUrl;
+
   //sign user in
   Future<void> signUserIn() async {
+    var _backgroundColor = Colors.transparent;
+
+    showDialog(
+      context: context,
+      barrierColor: _backgroundColor,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          backgroundColor: _backgroundColor,
+          content: Container(
+            child: Center(
+              child: MzanziInnovationHub.of(context)!
+                  .theme
+                  .loadingImage(), // Put your gif into the assets folder
+            ),
+          ),
+        );
+      },
+    );
     try {
-      final response = await client.auth.signInWithPassword(
-        email: emailController.text,
-        password: passwordController.text,
+      var response = await http.post(
+        Uri.parse("$baseAPI/auth/signin"),
+        body:
+            '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
+        },
       );
-      if (response.session != null) {
-        setState(() {
-          successfulSignIn = true;
-        });
-        //Navigator.of(context).pushNamed('/homme');
+      if (response.statusCode == 200) {
+        var userSignedin = jsonDecode(response.body);
+        if (userSignedin["status"] == "OK") {
+          setState(() {
+            successfulSignIn = true;
+          });
+        } else {
+          loginError();
+        }
       }
     } on AuthException {
       loginError();
-      //emailController.clear();
       passwordController.clear();
     }
+    Navigator.of(context).pop();
   }
 
   void loginError() {
@@ -57,7 +91,7 @@ class _SignInState extends State<SignIn> {
     return KeyboardListener(
       focusNode: _focusNode,
       autofocus: true,
-      onKeyEvent: (event) {
+      onKeyEvent: (event) async {
         if (event is KeyDownEvent &&
             event.logicalKey == LogicalKeyboardKey.enter) {
           if (emailController.text.isEmpty || passwordController.text.isEmpty) {
@@ -68,11 +102,10 @@ class _SignInState extends State<SignIn> {
               },
             );
           } else {
-            signUserIn();
-          }
-
-          if (successfulSignIn) {
-            Navigator.of(context).pushNamed('/homme');
+            await signUserIn();
+            if (successfulSignIn) {
+              Navigator.of(context).pushNamed('/home');
+            }
           }
         }
       },
@@ -141,7 +174,7 @@ class _SignInState extends State<SignIn> {
                           .secondaryColor(),
                       textColor:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () {
+                      onTap: () async {
                         if (emailController.text.isEmpty ||
                             passwordController.text.isEmpty) {
                           showDialog(
@@ -152,11 +185,11 @@ class _SignInState extends State<SignIn> {
                             },
                           );
                         } else {
-                          signUserIn();
-                        }
-
-                        if (successfulSignIn) {
-                          Navigator.of(context).pushNamed('/homme');
+                          await signUserIn();
+                          //print(successfulSignIn);
+                          if (successfulSignIn) {
+                            Navigator.of(context).pushNamed('/home');
+                          }
                         }
                       },
                     ),

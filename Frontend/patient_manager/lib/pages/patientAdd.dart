@@ -50,7 +50,7 @@ class _AddPatientState extends State<AddPatient> {
       var decodedData = jsonDecode(body);
       AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
       setState(() {
-        futureDocOfficeId = u.docOffice_id;
+        futureDocOfficeId = u.docOffice_ID;
         //print(futureDocOfficeId);
       });
     } else {

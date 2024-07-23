@@ -123,6 +123,206 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     );
   }
 
+  void setUserExistsError() {
+    messageTypes["User Exists"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500,
+          height: 450,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Email Already Exists",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "An account is already registered with this email address. Please try logging in or use a different email.",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Here are some things to keep in mind:",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "1) Are you sure you're using the correct email address associated with your account?\n2) Is your caps lock key on? Passwords are case-sensitive.\n3) If you've forgotten your password, no worries! Click on \"Forgot Password?\" to reset it.",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void setPwdMatchError() {
+    messageTypes["Password"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500,
+          height: 450,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Passwords Don't Match",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "The password and confirm password fields do not match. Please make sure they are identical.",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Here are some things to keep in mind:",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "1) Are you sure you're using the correct email address associated with your account?\n2) Is your caps lock key on? Passwords are case-sensitive.\n3) If you've forgotten your password, no worries! Click on \"Forgot Password?\" to reset it.",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setinvalidCredError() {
     messageTypes["Invalid Credentials"] = Stack(
       children: [
@@ -347,6 +547,8 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     setInputError();
     setinvalidCredError();
     setInternetError();
+    setUserExistsError();
+    setPwdMatchError();
     //print(size);
     // setState(() {
     //   width = size.width;

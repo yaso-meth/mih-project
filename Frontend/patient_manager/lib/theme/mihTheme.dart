@@ -7,6 +7,7 @@ class MyTheme {
   late int _succColor;
   late int _mesColor;
   late String mode;
+  late Image loading;
 
   // Options:-
   // f3f9d2 = Cream
@@ -99,6 +100,21 @@ class MyTheme {
 
   Color successColor() {
     return Color(_succColor);
+  }
+
+  Image loadingImage() {
+    if (mode == "Dark") {
+      loading = Image.asset(
+        'images/Logo-loading.gif',
+        width: 100,
+      );
+    } else {
+      loading = Image.asset(
+        'images/Logo-loading.gif',
+        width: 100,
+      );
+    }
+    return loading;
   }
 
   Color primaryColor() {
