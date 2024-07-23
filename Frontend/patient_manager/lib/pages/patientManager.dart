@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/myAppBar.dart';
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/env/env.dart';
@@ -36,9 +37,9 @@ class _PatientManagerState extends State<PatientManager> {
   Future<List<Patient>> fetchPatients(String endpoint) async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(endpoint));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: {response.statusCode}");
+    print("Here");
+    print("Body: ${response.body}");
+    print("Code: ${response.statusCode}");
     errorCode = response.statusCode.toString();
     errorBody = response.body;
 
@@ -239,7 +240,10 @@ class _PatientManagerState extends State<PatientManager> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Patient Manager"),
-      drawer: PatManAppDrawer(userEmail: widget.userEmail),
+      drawer: PatManAppDrawer(
+        userEmail: widget.userEmail,
+        logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
+      ),
       //floatingActionButtonLocation: FloatingActionButtonLocation.,
       floatingActionButton: FloatingActionButton.extended(
         label: Text(

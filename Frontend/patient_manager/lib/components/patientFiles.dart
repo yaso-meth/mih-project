@@ -78,7 +78,7 @@ class _PatientFilesState extends State<PatientFiles> {
       body: jsonEncode(<String, dynamic>{
         "fullName":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
-        "docfname": "${appUser.title} ${appUser.fname} ${appUser.lname}",
+        "docfname": "${appUser.type} ${appUser.fname} ${appUser.lname}",
         "startDate": startDateController.text,
         "endDate": endDateTextController.text,
         "returnDate": retDateTextController.text,

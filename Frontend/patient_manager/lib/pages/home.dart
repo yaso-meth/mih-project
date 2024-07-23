@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
-import 'package:patient_manager/components/homeAppDrawer.dart';
+import 'package:patient_manager/main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -20,6 +21,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String useremail = "";
   final baseAPI = AppEnviroment.baseApiUrl;
+  //late Image logo;
+
+  Future<void> loadImage() async {
+    try {
+      // load network image example
+      var t = MzanziInnovationHub.of(context)!.theme.logoImage();
+      await precacheImage(t.image, context);
+      // setState(() {
+      //return MzanziInnovationHub.of(context)!.theme.logoImage();
+      // });
+
+      // or
+      // Load assets image example
+      // await precacheImage(AssetImage(imagePath), context);
+      //print('Image loaded and cached successfully!');
+    } catch (e) {
+      //return null;
+      print('Failed to load and cache the image: $e');
+    }
+  }
 
   Future<void> getUserEmail() async {
     var uid = await SuperTokens.getUserId();
@@ -42,12 +63,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    loadImage();
+    var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return FutureBuilder(
       future: getUserEmail(),
       builder: (contexts, snapshot) {
@@ -55,7 +77,10 @@ class _HomeState extends State<Home> {
           //print("home page: $useremail");
           return Scaffold(
             appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
-            drawer: HomeAppDrawer(userEmail: useremail),
+            drawer: PatManAppDrawer(
+              userEmail: useremail,
+              logo: logo,
+            ), //HomeAppDrawer(userEmail: useremail),
             body: HomeTileGrid(
               userEmail: useremail,
             ),

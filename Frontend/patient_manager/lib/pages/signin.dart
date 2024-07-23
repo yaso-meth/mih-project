@@ -40,10 +40,9 @@ class _SignInState extends State<SignIn> {
         return AlertDialog(
           backgroundColor: _backgroundColor,
           content: Container(
-            child: Center(
-              child: MzanziInnovationHub.of(context)!
-                  .theme
-                  .loadingImage(), // Put your gif into the assets folder
+            child: const Center(
+              child:
+                  CircularProgressIndicator(), // Put your gif into the assets folder
             ),
           ),
         );

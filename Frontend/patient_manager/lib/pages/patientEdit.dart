@@ -57,7 +57,7 @@ class _EditPatientState extends State<EditPatient> {
       var decodedData = jsonDecode(body);
       AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
       setState(() {
-        futureDocOfficeId = u.docOffice_ID;
+        futureDocOfficeId = u.docOffice_id;
         //print(futureDocOfficeId);
       });
     } else {

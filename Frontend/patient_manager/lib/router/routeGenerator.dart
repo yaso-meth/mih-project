@@ -63,7 +63,7 @@ class RouteGenerator {
         }
         return _errorRoute();
 
-      case '/patient-manager/profile':
+      case '/profile':
         if (args is AppUser) {
           return MaterialPageRoute(
             builder: (_) => ProfileUpdate(signedInUser: args),

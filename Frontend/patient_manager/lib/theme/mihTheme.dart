@@ -102,15 +102,27 @@ class MyTheme {
     return Color(_succColor);
   }
 
+  Image logoImage() {
+    if (mode == "Dark") {
+      return Image.asset(
+        'images/Logo-01.png',
+      );
+    } else {
+      return Image.asset(
+        'images/Logo-02.png',
+      );
+    }
+  }
+
   Image loadingImage() {
     if (mode == "Dark") {
       loading = Image.asset(
-        'images/Logo-loading.gif',
+        'images/loading2.gif',
         width: 100,
       );
     } else {
       loading = Image.asset(
-        'images/Logo-loading.gif',
+        'images/loading1.gif',
         width: 100,
       );
     }

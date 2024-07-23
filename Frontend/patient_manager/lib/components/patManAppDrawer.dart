@@ -9,8 +9,12 @@ import 'package:supertokens_flutter/supertokens.dart';
 
 class PatManAppDrawer extends StatefulWidget {
   final String userEmail;
-
-  const PatManAppDrawer({super.key, required this.userEmail});
+  final Image logo;
+  const PatManAppDrawer({
+    super.key,
+    required this.userEmail,
+    required this.logo,
+  });
 
   @override
   State<PatManAppDrawer> createState() => _PatManAppDrawerState();
@@ -19,16 +23,21 @@ class PatManAppDrawer extends StatefulWidget {
 class _PatManAppDrawerState extends State<PatManAppDrawer> {
   String endpointUserData = "${AppEnviroment.baseApiUrl}/users/profile/";
   late Future<AppUser> signedInUser;
+  //late Image logo;
 
   Future<AppUser> getUserDetails() async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
     var response =
         await http.get(Uri.parse(endpointUserData + widget.userEmail));
     // print(response.statusCode);
-    // print(response.body);
+    //print(response.body);
     if (response.statusCode == 200) {
-      return AppUser.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
+      //print("here");
+      String body = response.body;
+      var decodedData = jsonDecode(body);
+      AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
+      //print(u.email);
+      return u;
     } else {
       throw Exception("Error: GetUserData status code ${response.statusCode}");
     }
@@ -47,206 +56,215 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    // precacheImage(
+    //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
     return FutureBuilder(
       future: signedInUser,
       builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
-        return Drawer(
-          //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          child: Stack(children: [
-            ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasData) {
+          return Drawer(
+            //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            child: Stack(children: [
+              ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                    child: SizedBox(
+                      height: 400,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            child: widget.logo,
+                          ),
+                          const SizedBox(height: 25),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Name: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              Text(
+                                "${snapshot.data?.fname} ${snapshot.data?.lname}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Email: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Text(
+                                "${snapshot.data?.email}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: SizedBox(
-                    height: 400,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                  ListTile(
+                    title: Row(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
+                        Icon(
+                          Icons.home_outlined,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                        const SizedBox(width: 25.0),
                         Text(
-                          "Signed Is As:",
+                          "Home",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor()),
-                        ),
-                        const SizedBox(
-                          height: 50.0,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "Name: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            Text(
-                              "${snapshot.data?.fname} ${snapshot.data?.lname}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "Email: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              "${snapshot.data?.email}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                              ),
-                            ),
-                          ],
+                            //fontWeight: FontWeight.bold,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
                         ),
                       ],
                     ),
+                    onTap: () {
+                      //Navigator.of(context).pushNamed('/home');
+                      Navigator.popAndPushNamed(context, '/home');
+                    },
                   ),
-                ),
-                ListTile(
-                  title: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(
-                        Icons.home_outlined,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                      const SizedBox(width: 25.0),
-                      Text(
-                        "Home",
-                        style: TextStyle(
-                          //fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Icon(
+                          Icons.perm_identity,
                           color: MzanziInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 25.0),
+                        Text(
+                          "Profile",
+                          style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      //signedInUser = snapshot.data!;
+                      //print("PatManAppDrawer: ${signedInUser.runtimeType}");
+                      Navigator.of(context)
+                          .pushNamed('/profile', arguments: snapshot.data);
+                    },
                   ),
-                  onTap: () {
-                    //Navigator.of(context).pushNamed('/home');
-                    Navigator.popAndPushNamed(context, '/home');
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(
-                        Icons.perm_identity,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                      const SizedBox(width: 25.0),
-                      Text(
-                        "Profile",
-                        style: TextStyle(
-                          //fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Icon(
+                          Icons.logout,
                           color: MzanziInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
                         ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    //signedInUser = snapshot.data!;
-                    //print("PatManAppDrawer: ${signedInUser.runtimeType}");
-                    Navigator.of(context).pushNamed('/patient-manager/profile',
-                        arguments: snapshot.data);
-                  },
-                ),
-                ListTile(
-                  title: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                      const SizedBox(width: 25.0),
-                      Text(
-                        "Sign Out",
-                        style: TextStyle(
-                          //fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                        const SizedBox(width: 25.0),
+                        Text(
+                          "Sign Out",
+                          style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  onTap: () async {
-                    if (await signOut()) {
-                      Navigator.of(context).pushNamed('/');
-                    }
+                      ],
+                    ),
+                    onTap: () async {
+                      if (await signOut()) {
+                        Navigator.of(context).pushNamed('/');
+                      }
+                    },
+                  )
+                ],
+              ),
+              Positioned(
+                top: 1,
+                right: 1,
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (MzanziInnovationHub.of(context)?.theme.mode ==
+                          "Dark") {
+                        //darkm = !darkm;
+                        MzanziInnovationHub.of(context)!
+                            .changeTheme(ThemeMode.light);
+                        //print("Dark Mode: $darkm");
+                      } else {
+                        //darkm = !darkm;
+                        MzanziInnovationHub.of(context)!
+                            .changeTheme(ThemeMode.dark);
+                        //print("Dark Mode: $darkm");
+                      }
+                      Navigator.of(context).pushNamed('/home');
+                    });
                   },
-                )
-              ],
-            ),
-            Positioned(
-              top: 1,
-              right: 1,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
-                      //darkm = !darkm;
-                      MzanziInnovationHub.of(context)!
-                          .changeTheme(ThemeMode.light);
-                      //print("Dark Mode: $darkm");
-                    } else {
-                      //darkm = !darkm;
-                      MzanziInnovationHub.of(context)!
-                          .changeTheme(ThemeMode.dark);
-                      //print("Dark Mode: $darkm");
-                    }
-                  });
-                },
-                icon: Icon(
-                  Icons.light_mode,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  size: 35,
+                  icon: Icon(
+                    Icons.light_mode,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    size: 35,
+                  ),
                 ),
               ),
-            ),
-          ]),
-        );
+            ]),
+          );
+        } else {
+          return const Center(
+            child: Text("Error Loading profile"),
+          );
+        }
       },
     );
   }
