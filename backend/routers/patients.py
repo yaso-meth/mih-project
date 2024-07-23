@@ -97,8 +97,8 @@ async def read_all_patientsByUser(email: str):
     query = "Select * from patients " 
     query += "inner join users " 
     query += "on doc_office_id = docOffice_id "
-    query += "where users.email= %s"
-    cursor.execute(query, (email,))
+    query += "where lower(users.email)= %s"
+    cursor.execute(query, (email.lower(),))
     items = [
         {
             "idpatients": item[0],
