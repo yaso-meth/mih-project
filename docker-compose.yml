@@ -110,7 +110,7 @@ services:
       - certbotConf:/etc/letsencrypt
       - certbotChall:/var/www/certbot
     #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d app.mzansi-innovation-hub.co.za -d api.mzansi-innovation-hub.co.za --agree-tos
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d app.mzansi-innovation-hub.co.za -d api.mzansi-innovation-hub.co.za -d minio.mzansi-innovation-hub.co.za --agree-tos
     networks:
       - MIH-network
     depends_on:
