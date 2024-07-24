@@ -3,6 +3,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date
 from ..database import dbConnection
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 router = APIRouter()
 
@@ -23,7 +27,7 @@ class patientNoteUpdateRequest(BaseModel):
 
 # Get List of all notes
 @router.get("/notes/patients/", tags="patients_notes")
-async def read_all_notes():
+async def read_all_notes(session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes"
@@ -43,7 +47,7 @@ async def read_all_notes():
 
 # Get List of all notes by patient
 @router.get("/notes/patients/{patientID}", tags="patients_notes")
-async def read_all_patientsby(patientID: int):
+async def read_all_patientsby(patientID: int, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes where patient_id = %s ORDER BY insert_date DESC"
@@ -64,7 +68,7 @@ async def read_all_patientsby(patientID: int):
 
 # Get List of all notes by patient
 @router.get("/notes/patients-docOffice/", tags="patients_notes")
-async def read_all_patientsby(itemRequest: fileRequest):
+async def read_all_patientsby(itemRequest: fileRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "select patient_notes.idpatient_notes, patient_notes.note_name, patient_notes.note_text, patient_notes.patient_id, patient_notes.insert_date, patients.doc_office_id "
@@ -88,7 +92,7 @@ async def read_all_patientsby(itemRequest: fileRequest):
 
 # Insert Patient note into table
 @router.post("/notes/insert/", tags="patients_notes", status_code=201)
-async def insertPatientNotes(itemRequest : patientNoteInsertRequest):
+async def insertPatientNotes(itemRequest : patientNoteInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
     db = dbConnection.dbConnect()
     cursor = db.cursor()
@@ -111,7 +115,7 @@ async def insertPatientNotes(itemRequest : patientNoteInsertRequest):
 
 # Update Patient note on table
 @router.put("/notes/update/", tags="patients_notes")
-async def UpdatePatient(itemRequest : patientNoteUpdateRequest):
+async def UpdatePatient(itemRequest : patientNoteUpdateRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
     db = dbConnection.dbConnect()
     cursor = db.cursor()

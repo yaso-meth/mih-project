@@ -7,7 +7,10 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 import io
 from datetime import datetime
-#from minioConnect import minioConnection
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 
 router = APIRouter()
@@ -19,7 +22,7 @@ class medCertUploud(BaseModel):
     endDate: str 
     returnDate: str 
 
-
+#=================understand Supertoken multirequest for file submission================================
 # Get List of all files by patient
 @router.post("/files/upload/file/", tags="patients_files")
 async def generateAndUploudMedCert( file: UploadFile = File(...)):
@@ -34,7 +37,7 @@ async def generateAndUploudMedCert( file: UploadFile = File(...)):
 
 # Get List of all files by patient
 @router.post("/files/generate/med-cert/", tags="patients_files")
-async def generateAndUploudMedCert(requestItem: medCertUploud):
+async def generateAndUploudMedCert(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
     uploudMedCert(requestItem.fullName, 
                requestItem.docfname,
                requestItem.startDate,

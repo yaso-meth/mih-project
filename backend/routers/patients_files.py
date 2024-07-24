@@ -3,6 +3,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from ..database import dbConnection
 from datetime import date
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 router = APIRouter()
 
@@ -17,7 +21,7 @@ class fileInsertRequest(BaseModel):
 
 # Get List of all files
 @router.get("/files/patients/", tags="patients_files")
-async def read_all_files():
+async def read_all_files(session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files"
@@ -38,7 +42,7 @@ async def read_all_files():
 
 # Get List of all files by patient
 @router.get("/files/patients/{patientID}", tags="patients_files")
-async def read_all_files_by_patient(patientID: int):
+async def read_all_files_by_patient(patientID: int, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files where patient_id = %s ORDER BY insert_date DESC"
@@ -59,7 +63,7 @@ async def read_all_files_by_patient(patientID: int):
 
 # Get List of all files by patient & DocOffice
 @router.get("/files/patients-docOffice/", tags="patients_files")
-async def read_all_files_by_patient(itemRequest: fileRequest):
+async def read_all_files_by_patient(itemRequest: fileRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "select patient_files.idpatient_files, patient_files.file_path, patient_files.file_name, patient_files.patient_id, patient_files.insert_date, patients.doc_office_id "
@@ -86,7 +90,7 @@ async def read_all_files_by_patient(itemRequest: fileRequest):
 
 # Insert Patient note into table
 @router.post("/files/insert/", tags="patients_notes", status_code=201)
-async def insertPatientFiles(itemRequest : fileInsertRequest):
+async def insertPatientFiles(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
     db = dbConnection.dbConnect()
     cursor = db.cursor()

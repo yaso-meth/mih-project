@@ -2,6 +2,10 @@ import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from ..database import dbConnection
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 router = APIRouter()
 
@@ -41,7 +45,7 @@ class patientDeleteRequest(BaseModel):
 
 # Get Patient By ID Number
 @router.get("/patients/id/{pat_id}", tags="patients")
-async def read_patientByID(pat_id: str):
+async def read_patientByID(pat_id: str, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE idpatients=%s"
@@ -90,7 +94,7 @@ async def read_patientByID(id_no: str):
 
 # Get List of all patients
 @router.get("/patients/user/{email}", tags="patients")
-async def read_all_patientsByUser(email: str):
+async def read_all_patientsByUser(email: str, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     #query = "SELECT * FROM patients"
@@ -124,7 +128,7 @@ async def read_all_patientsByUser(email: str):
 
 # Get List of all patients
 @router.get("/patients/", tags="patients")
-async def read_all_patients():
+async def read_all_patients(session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients"
@@ -151,7 +155,7 @@ async def read_all_patients():
 
 # Get List of all patients by Doctors Office
 @router.get("/patients/docOffice/{docoff_id}", tags="patients")
-async def read_all_patientsby(docoff_id: str):
+async def read_all_patientsby(docoff_id: str, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients where doc_office_id=%s"
@@ -178,7 +182,7 @@ async def read_all_patientsby(docoff_id: str):
 
 # Insert Patient into table
 @router.post("/patients/insert/", tags="patients", status_code=201)
-async def insertPatient(itemRequest : patientInsertRequest):
+async def insertPatient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patients "
@@ -211,7 +215,7 @@ async def insertPatient(itemRequest : patientInsertRequest):
 
 # Update Patient on table
 @router.put("/patients/update/", tags="patients")
-async def UpdatePatient(itemRequest : patientUpdateRequest):
+async def UpdatePatient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patients "
@@ -246,7 +250,7 @@ async def UpdatePatient(itemRequest : patientUpdateRequest):
 
 # delete Patient on table
 @router.delete("/patients/delete/", tags="patients")
-async def DeletePatient(itemRequest : patientDeleteRequest):
+async def DeletePatient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "delete from patients "

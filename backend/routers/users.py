@@ -1,6 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from ..database import dbConnection
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 router = APIRouter()
 
@@ -20,7 +24,7 @@ class userUpdateRequest(BaseModel):
     
 #get user by email & doc Office ID
 @router.get("/users/profile/{email}", tags="users")
-async def read_all_users(email: str):
+async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where email = %s"
@@ -44,7 +48,7 @@ async def read_all_users(email: str):
 
 # Get List of all files
 @router.get("/users/", tags="users")
-async def read_all_users():
+async def read_all_users(session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users"
@@ -68,7 +72,7 @@ async def read_all_users():
 
 # Get List of all files
 @router.get("/user/{uid}", tags="users")
-async def read_all_users(uid: str):
+async def read_all_users(uid: str, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where app_id = %s"
@@ -92,7 +96,7 @@ async def read_all_users(uid: str):
 
 # Insert Patient into table
 @router.post("/user/insert/", tags="user", status_code=201)
-async def insertPatient(itemRequest : userInsertRequest):
+async def insertPatient(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into users "
@@ -112,7 +116,7 @@ async def insertPatient(itemRequest : userInsertRequest):
 
 # Update User on table
 @router.put("/user/update/", tags="user")
-async def UpdateUser(itemRequest : userUpdateRequest):
+async def UpdateUser(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
     db = dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update users "

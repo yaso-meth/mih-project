@@ -2,7 +2,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import os
 import xlrd
-
+#SuperToken Auth from front end
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.session import SessionContainer
+from fastapi import Depends
 
 router = APIRouter()
 
@@ -12,12 +15,12 @@ class medicine(BaseModel):
 
 #get all medicines
 @router.get("/users/medicine/all", tags="medicine")
-async def read_all_medicine():
+async def read_all_medicine(session: SessionContainer = Depends(verify_session())):
     return getMedicineData("")
 
 #get all medicines by search
 @router.get("/users/medicine/{medSearch}", tags="medicine")
-async def read_all_medicine(medSearch: str):
+async def read_all_medicine(medSearch: str, session: SessionContainer = Depends(verify_session())):
     return getMedicineData(medSearch)
 
 def getMedicineData(medsearch: str):
