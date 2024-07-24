@@ -10,7 +10,7 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import '../components/myAppBar.dart';
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
 
 class AddPatient extends StatefulWidget {
   final String userEmail;

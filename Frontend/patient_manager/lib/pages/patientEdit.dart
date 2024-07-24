@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
@@ -9,10 +10,9 @@ import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../components/myAppBar.dart';
-import 'package:http/http.dart' as http;
-import '../objects/patients.dart';
+import 'package:patient_manager/objects/patients.dart';
+import 'package:supertokens_flutter/supertokens.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class EditPatient extends StatefulWidget {
   final Patient selectedPatient;
@@ -39,10 +39,11 @@ class _EditPatientState extends State<EditPatient> {
   final medAidController = TextEditingController();
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
-
+  final baseAPI = AppEnviroment.baseApiUrl;
   final docOfficeIdApiUrl = "${AppEnviroment.baseApiUrl}/users/profile/";
   final apiUrlEdit = "${AppEnviroment.baseApiUrl}/patients/update/";
   final apiUrlDelete = "${AppEnviroment.baseApiUrl}/patients/delete/";
+
   late int futureDocOfficeId;
   late String userEmail;
   late bool medRequired;
@@ -139,9 +140,12 @@ class _EditPatientState extends State<EditPatient> {
   }
 
   Future<void> getLoginUserEmail() async {
-    userEmail =
-        (await Supabase.instance.client.auth.currentUser?.email.toString())!;
-    //print(userEmail);
+    var uid = await SuperTokens.getUserId();
+    var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+    if (response.statusCode == 200) {
+      var user = jsonDecode(response.body);
+      userEmail = user["email"];
+    }
   }
 
   void messagePopUp(error) {

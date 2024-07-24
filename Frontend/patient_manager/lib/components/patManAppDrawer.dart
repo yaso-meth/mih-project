@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 

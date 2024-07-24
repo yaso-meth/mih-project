@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-//import 'package:http/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/env/env.dart';

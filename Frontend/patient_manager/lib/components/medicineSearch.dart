@@ -6,7 +6,7 @@ import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
 
 class MedicineSearch extends StatefulWidget {
   final TextEditingController searchVlaue;

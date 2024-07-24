@@ -10,7 +10,7 @@ import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/notes.dart';
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientNotes extends StatefulWidget {
   final int patientIndex;
