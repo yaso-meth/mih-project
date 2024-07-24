@@ -24,8 +24,7 @@ origins = [
     "http://localhost:8080",
     "http://MIH-API-Hub:80",
     "http://MIH-API-Hub",
-    "http://mzansi-innovation-hub.co.za",
-    "http://mzansi-innovation-hub.co.za/api/",
+    "http://api.mzansi-innovation-hub.co.za",
     "*",
 ]
 
