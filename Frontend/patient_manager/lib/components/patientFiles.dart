@@ -14,8 +14,8 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
+import 'package:http/http.dart' as http2;
 import 'package:supertokens_flutter/supertokens.dart';
 
 import '../objects/patients.dart';
@@ -133,9 +133,9 @@ class _PatientFilesState extends State<PatientFiles> {
       },
     );
 
-    var request = http.MultipartRequest('POST', Uri.parse(endpointFileUpload));
+    var request = http2.MultipartRequest('POST', Uri.parse(endpointFileUpload));
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.files.add(await http.MultipartFile.fromBytes('file', file.bytes!,
+    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response1 = await request.send();
     //print(response1.statusCode);
