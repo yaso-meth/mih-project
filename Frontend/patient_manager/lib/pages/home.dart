@@ -25,19 +25,9 @@ class _HomeState extends State<Home> {
 
   Future<void> loadImage() async {
     try {
-      // load network image example
       var t = MzanziInnovationHub.of(context)!.theme.logoImage();
       await precacheImage(t.image, context);
-      // setState(() {
-      //return MzanziInnovationHub.of(context)!.theme.logoImage();
-      // });
-
-      // or
-      // Load assets image example
-      // await precacheImage(AssetImage(imagePath), context);
-      //print('Image loaded and cached successfully!');
     } catch (e) {
-      //return null;
       print('Failed to load and cache the image: $e');
     }
   }
