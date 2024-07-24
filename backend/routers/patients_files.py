@@ -1,7 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from ..database import dbConnection
+#from ..database import dbConnection
+import database
 from datetime import date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -22,7 +23,7 @@ class fileInsertRequest(BaseModel):
 # Get List of all files
 @router.get("/files/patients/", tags="patients_files")
 async def read_all_files(session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files"
     cursor.execute(query)
@@ -43,7 +44,7 @@ async def read_all_files(session: SessionContainer = Depends(verify_session())):
 # Get List of all files by patient
 @router.get("/files/patients/{patientID}", tags="patients_files")
 async def read_all_files_by_patient(patientID: int, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files where patient_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (patientID,))
@@ -64,7 +65,7 @@ async def read_all_files_by_patient(patientID: int, session: SessionContainer = 
 # Get List of all files by patient & DocOffice
 @router.get("/files/patients-docOffice/", tags="patients_files")
 async def read_all_files_by_patient(itemRequest: fileRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "select patient_files.idpatient_files, patient_files.file_path, patient_files.file_name, patient_files.patient_id, patient_files.insert_date, patients.doc_office_id "
     query += "from patient_manager.patient_files "
@@ -92,7 +93,7 @@ async def read_all_files_by_patient(itemRequest: fileRequest, session: SessionCo
 @router.post("/files/insert/", tags="patients_notes", status_code=201)
 async def insertPatientFiles(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patient_files "
     query += "(file_path, file_name, patient_id, insert_date) "

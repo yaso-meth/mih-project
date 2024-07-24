@@ -1,7 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from ..database import dbConnection
+#from ..database import dbConnection
+import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -46,7 +47,7 @@ class patientDeleteRequest(BaseModel):
 # Get Patient By ID Number
 @router.get("/patients/id/{pat_id}", tags="patients")
 async def read_patientByID(pat_id: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE idpatients=%s"
     cursor.execute(query, (pat_id,))
@@ -71,7 +72,7 @@ async def read_patientByID(pat_id: str, session: SessionContainer = Depends(veri
 # Get Patient By ID Number
 @router.get("/patients/{id_no}", tags="patients")
 async def read_patientByID(id_no: str):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE id_no=%s"
     cursor.execute(query, (id_no,))
@@ -95,7 +96,7 @@ async def read_patientByID(id_no: str):
 # Get List of all patients
 @router.get("/patients/user/{email}", tags="patients")
 async def read_all_patientsByUser(email: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     #query = "SELECT * FROM patients"
     query = "Select * from patients " 
@@ -129,7 +130,7 @@ async def read_all_patientsByUser(email: str, session: SessionContainer = Depend
 # Get List of all patients
 @router.get("/patients/", tags="patients")
 async def read_all_patients(session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients"
     cursor.execute(query)
@@ -156,7 +157,7 @@ async def read_all_patients(session: SessionContainer = Depends(verify_session()
 # Get List of all patients by Doctors Office
 @router.get("/patients/docOffice/{docoff_id}", tags="patients")
 async def read_all_patientsby(docoff_id: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients where doc_office_id=%s"
     cursor.execute(query, (docoff_id,))
@@ -183,7 +184,7 @@ async def read_all_patientsby(docoff_id: str, session: SessionContainer = Depend
 # Insert Patient into table
 @router.post("/patients/insert/", tags="patients", status_code=201)
 async def insertPatient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patients "
     query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
@@ -216,7 +217,7 @@ async def insertPatient(itemRequest : patientInsertRequest, session: SessionCont
 # Update Patient on table
 @router.put("/patients/update/", tags="patients")
 async def UpdatePatient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patients "
     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid=%s, "
@@ -251,7 +252,7 @@ async def UpdatePatient(itemRequest : patientUpdateRequest, session: SessionCont
 # delete Patient on table
 @router.delete("/patients/delete/", tags="patients")
 async def DeletePatient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "delete from patients "
     query += "where id_no=%s and doc_office_id=%s"

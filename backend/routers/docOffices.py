@@ -1,17 +1,20 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
-from ..database import dbConnection
+#from ..database import dbConnection
+import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
+
+import database.dbConnection
 
 router = APIRouter()
 
 # Get Doctors Office By ID
 @router.get("/docOffices/{docOffic_id}", tags="DocOffice")
 async def read_docOfficeByID(docOffic_id: int, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices WHERE iddoctor_offices=%s"
     cursor.execute(query, (docOffic_id,))
@@ -26,7 +29,7 @@ async def read_docOfficeByID(docOffic_id: int, session: SessionContainer = Depen
 # Get Doctors Office By user
 @router.get("/docOffices/user/{user}", tags="DocOffice")
 async def read_docOfficeByID(user: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users WHERE email=%s"
     cursor.execute(query, (user,))
@@ -47,7 +50,7 @@ async def read_docOfficeByID(user: str, session: SessionContainer = Depends(veri
 # Get List of all Doctors Office
 @router.get("/docOffices/", tags="DocOffice")
 async def read_All_DoctorsOffice(session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices"
     cursor.execute(query)

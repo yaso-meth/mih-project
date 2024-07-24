@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from ..database import dbConnection
+#from ..database import dbConnection
+import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -25,7 +26,7 @@ class userUpdateRequest(BaseModel):
 #get user by email & doc Office ID
 @router.get("/users/profile/{email}", tags="users")
 async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where email = %s"
     cursor.execute(query, (email.lower(),)) 
@@ -49,7 +50,7 @@ async def read_all_users(email: str, session: SessionContainer = Depends(verify_
 # Get List of all files
 @router.get("/users/", tags="users")
 async def read_all_users(session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users"
     cursor.execute(query)
@@ -73,7 +74,7 @@ async def read_all_users(session: SessionContainer = Depends(verify_session())):
 # Get List of all files
 @router.get("/user/{uid}", tags="users")
 async def read_all_users(uid: str, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where app_id = %s"
     cursor.execute(query, (uid,))
@@ -97,7 +98,7 @@ async def read_all_users(uid: str, session: SessionContainer = Depends(verify_se
 # Insert Patient into table
 @router.post("/user/insert/", tags="user", status_code=201)
 async def insertPatient(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into users "
     query += "(email, docOffice_id, fname, lname, type, app_id, username) "
@@ -117,7 +118,7 @@ async def insertPatient(itemRequest : userInsertRequest, session: SessionContain
 # Update User on table
 @router.put("/user/update/", tags="user")
 async def UpdateUser(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = dbConnection.dbConnect()
+    db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update users "
     query += "set username=%s, fname=%s, lname=%s "

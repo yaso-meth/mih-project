@@ -1,13 +1,19 @@
 services:
 #============== API Hub ====================================================================
   api:
-    build: ./backend/
+    build:
+      context: ./backend
+      target: builder
     container_name: MIH-API-Hub
-    command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=8080 --host=0.0.0.0"
+    #command: sh -c "sleep 10s; uvicorn backend.main:app --reload --port=8080 --host=0.0.0.0"
+    #============Dev=================
+    # command: sh -c "sleep 10s; fastapi dev main.py --port 8080"
+    #============prod=================
+    #command: sh -c "sleep 10s; fastapi run backend/main.py --proxy-headers --port 8080"
     ports:
-      - 8080:8080
+      - 8080:80
     volumes:
-      - .:/app
+      - ./backend:/app
     networks:
       - MIH-network
     depends_on:

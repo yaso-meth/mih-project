@@ -1,21 +1,22 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
+# from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
+import routers.docOffices as docOffices
+import routers.patients as patients
+import routers.patients_files as patients_files
+import routers.patients_notes as patients_notes
+import routers.users as users
+import routers.fileStorage as fileStorage
+import routers.medicine as medicine
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
 from supertokens_python import get_all_cors_headers
 from supertokens_python.framework.fastapi import get_middleware
-from supertokens_python.recipe.session.framework.fastapi import verify_session
-from supertokens_python.recipe.session import SessionContainer
-from fastapi import Depends
 
-from supertokens_python.recipe.session.framework.fastapi import verify_session
-from supertokens_python.recipe.thirdparty.asyncio import (
-    get_user_by_id as get_user_by_id_thirdparty,
-)
-from supertokens_python.recipe.passwordless.asyncio import (
-    get_user_by_id as get_user_by_id_passwordless,
-)
+from supertokens_python import init, InputAppInfo, SupertokensConfig
+from supertokens_python.recipe import emailpassword, session, dashboard
+
 
 origins = [
     "http://localhost",
@@ -27,15 +28,31 @@ origins = [
     "*",
 ]
 
-# middleware = [
-#     Middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-#     allow_headers=["Content-Type"] + get_all_cors_headers(),
-#     )
-# ]
+init(
+    app_info=InputAppInfo(
+        app_name="MIH_API_HUB",
+        api_domain="http://localhost:8080/",
+        website_domain="http://mzansi-innovation-hub.co.za",
+        api_base_path="/auth",
+        website_base_path="/auth"
+    ),
+    supertokens_config=SupertokensConfig(
+        # https://try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
+        connection_uri="http://MIH-SuperTokens:3567/",
+        api_key="leatucczyixqwkqqdrhayiwzeofkltds"
+    ),
+    framework='fastapi',
+    recipe_list=[
+        # SuperTokens.init(),
+        session.init(), # initializes session features
+        emailpassword.init(),
+        dashboard.init(admins=[
+            "yasienmeth@gmail.com",
+          ],
+        )
+    ],
+    mode='wsgi' # use wsgi instead of asgi if you are running using gunicorn
+)
 
 app = FastAPI()#middleware=middleware)
 app.add_middleware(get_middleware())
@@ -81,6 +98,6 @@ def read_root():
 #         print(thirdparty_user)
 
 def serverRunning():
-    return {"Status": "Server is Up and Running"}
+    return {"Status": "Server is Up and Running. whats good in the hood"}
 
 
