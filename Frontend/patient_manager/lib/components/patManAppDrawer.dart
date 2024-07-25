@@ -90,12 +90,12 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                             height: 60,
                             child: widget.logo,
                           ),
-                          const SizedBox(height: 25),
+                          const SizedBox(height: 50),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                "Name: ",
+                                "Username: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: MzanziInnovationHub.of(context)!
@@ -105,31 +105,7 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                               ),
                               const SizedBox(width: 15),
                               Text(
-                                "${snapshot.data?.fname} ${snapshot.data?.lname}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MzanziInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                "Email: ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MzanziInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Text(
-                                "${snapshot.data?.email}",
+                                "${snapshot.data?.username}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: MzanziInnovationHub.of(context)!
