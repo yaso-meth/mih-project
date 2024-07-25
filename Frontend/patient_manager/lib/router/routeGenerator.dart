@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
+import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -21,6 +22,16 @@ class RouteGenerator {
 
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
+      case '/patient-profile':
+        if (args is AppUser) {
+          //print("route generator: $args");
+          return MaterialPageRoute(
+            builder: (_) => AddOrViewPatient(
+              signedInUser: args,
+            ),
+          );
+        }
+        return _errorRoute();
 
       case '/patient-manager':
         if (args is String) {
