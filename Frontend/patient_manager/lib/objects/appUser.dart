@@ -1,18 +1,16 @@
 // ignore: file_names
 class AppUser {
-  final int idusers;
+  final int idUser;
   final String email;
-  // ignore: non_constant_identifier_names
   final int docOffice_id;
   final String fname;
   final String lname;
   final String type;
-  // ignore: non_constant_identifier_names
   final String app_id;
   final String username;
 
   const AppUser(
-    this.idusers,
+    this.idUser,
     this.email,
     this.docOffice_id,
     this.fname,
@@ -24,7 +22,7 @@ class AppUser {
 
   factory AppUser.fromJson(dynamic json) {
     return AppUser(
-      json['idusers'],
+      json['idUser'],
       json['email'],
       json['docOffice_id'],
       json['fname'],
