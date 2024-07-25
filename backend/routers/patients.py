@@ -71,7 +71,7 @@ async def read_patientByID(pat_id: str, session: SessionContainer = Depends(veri
 
 # Get Patient By ID Number
 @router.get("/patients/{id_no}", tags="patients")
-async def read_patientByID(id_no: str):
+async def read_patientByID(id_no: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE id_no=%s"
@@ -95,11 +95,11 @@ async def read_patientByID(id_no: str):
 
 # Get Patient By ID Number
 @router.get("/patients/{email}", tags="patients")
-async def read_patientByID(id_no: str):
+async def read_patientByID(email: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM patients WHERE email=%s"
-    cursor.execute(query, (id_no,))
+    query = "SELECT * FROM patients WHERE lower(email)=%s"
+    cursor.execute(query, (email.lower(),))
     item = cursor.fetchone()
     cursor.close()
     db.close()
