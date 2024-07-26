@@ -58,7 +58,7 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
             return PatientView(selectedPatient: snapshot.data!);
           }
         }
-        return AddPatient(userEmail: widget.signedInUser.email);
+        return AddPatient(signedInUser: widget.signedInUser);
       },
     );
   }

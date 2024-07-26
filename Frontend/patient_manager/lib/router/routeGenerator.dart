@@ -45,10 +45,10 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/patient-manager/add':
-        if (args is String) {
+        if (args is AppUser) {
           return MaterialPageRoute(
             builder: (_) => AddPatient(
-              userEmail: args,
+              signedInUser: args,
             ),
           );
         }
