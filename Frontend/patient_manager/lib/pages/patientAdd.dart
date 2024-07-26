@@ -13,11 +13,11 @@ import '../components/myAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class AddPatient extends StatefulWidget {
-  final String userEmail;
+  final AppUser signedInUser;
 
   const AddPatient({
     super.key,
-    required this.userEmail,
+    required this.signedInUser,
   });
 
   @override
@@ -38,26 +38,9 @@ class _AddPatientState extends State<AddPatient> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
 
-  final docOfficeIdApiUrl = "${AppEnviroment.baseApiUrl}/users/profile/";
-  final apiUrl = "${AppEnviroment.baseApiUrl}/patients/insert/";
+  final baseAPI = AppEnviroment.baseApiUrl;
   late int futureDocOfficeId;
   late bool medRequired;
-
-  Future getOfficeIdByUser(String endpoint) async {
-    final response = await http.get(Uri.parse(endpoint));
-    if (response.statusCode == 200) {
-      String body = response.body;
-      var decodedData = jsonDecode(body);
-      AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
-      setState(() {
-        futureDocOfficeId = u.docOffice_id;
-        //print(futureDocOfficeId);
-      });
-    } else {
-      internetConnectionPopUp();
-      throw Exception('failed to load patients');
-    }
-  }
 
   bool isFieldsFilled() {
     if (medRequired) {
@@ -93,10 +76,8 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   Future<void> addPatientAPICall() async {
-    await getOfficeIdByUser(docOfficeIdApiUrl + widget.userEmail);
-    print(futureDocOfficeId.toString());
     var response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse("$baseAPI/patients/insert/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
@@ -113,14 +94,14 @@ class _AddPatientState extends State<AddPatient> {
         "medical_aid_name": medNameController.text,
         "medical_aid_scheme": medSchemeController.text,
         "address": addressController.text,
-        "doc_office_id": futureDocOfficeId,
+        "app_id": widget.signedInUser.app_id,
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context)
-          .pushNamed('/patient-manager', arguments: widget.userEmail);
+      Navigator.pushNamed(context, '/patient-manager/patient',
+          arguments: widget.signedInUser);
       String message =
-          "${fnameController.text} ${lnameController.text} has been successfully added to the Patient Manager! You can now view their details, add notes & documents, and update their information.";
+          "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
       successPopUp(message);
     } else {
       internetConnectionPopUp();
@@ -206,7 +187,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: fnameController,
                     hintText: "First Name",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
@@ -219,7 +200,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: lnameController,
                     hintText: "Last Name",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
@@ -245,7 +226,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: "Email",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
@@ -397,6 +378,9 @@ class _AddPatientState extends State<AddPatient> {
   void initState() {
     medAidController.addListener(isRequired);
     setState(() {
+      fnameController.text = widget.signedInUser.fname;
+      lnameController.text = widget.signedInUser.lname;
+      emailController.text = widget.signedInUser.email;
       medAidController.text = "No";
     });
     super.initState();
