@@ -16,17 +16,18 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
-import 'package:supertokens_flutter/supertokens.dart';
 
 import '../objects/patients.dart';
 
 class PatientFiles extends StatefulWidget {
   final int patientIndex;
   final Patient selectedPatient;
+  final AppUser signedInUser;
   const PatientFiles({
     super.key,
     required this.patientIndex,
     required this.selectedPatient,
+    required this.signedInUser,
   });
 
   @override
@@ -71,7 +72,7 @@ class _PatientFilesState extends State<PatientFiles> {
     );
 
     var response1 = await http.post(
-      Uri.parse(endpointGenFiles),
+      Uri.parse("${AppEnviroment.baseApiUrl}/files/generate/med-cert/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
@@ -543,6 +544,70 @@ class _PatientFilesState extends State<PatientFiles> {
     }
   }
 
+  List<Widget> setIcons() {
+    if (widget.signedInUser.type == "personal") {
+      return [
+        Text(
+          "Files",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            uploudFilePopUp();
+          },
+          icon: Icon(
+            Icons.add,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        )
+      ];
+    } else {
+      return [
+        Text(
+          "Files",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            medCertPopUp();
+          },
+          icon: Icon(
+            Icons.sick_outlined,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            prescritionPopUp();
+          },
+          icon: Icon(
+            Icons.medication_outlined,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            uploudFilePopUp();
+          },
+          icon: Icon(
+            Icons.add,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        )
+      ];
+    }
+  }
+
   @override
   void initState() {
     futueFiles = fetchFiles();
@@ -577,52 +642,7 @@ class _PatientFilesState extends State<PatientFiles> {
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Files",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        medCertPopUp();
-                      },
-                      icon: Icon(
-                        Icons.sick_outlined,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        prescritionPopUp();
-                      },
-                      icon: Icon(
-                        Icons.medication_outlined,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        uploudFilePopUp();
-                      },
-                      icon: Icon(
-                        Icons.add,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                    )
-                  ],
+                  children: setIcons(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
