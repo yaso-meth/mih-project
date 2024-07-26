@@ -105,8 +105,7 @@ class _PatientFilesState extends State<PatientFiles> {
           startDateController.clear();
           endDateTextController.clear();
           retDateTextController.clear();
-          futueFiles =
-              fetchFiles(endpointFiles + widget.patientIndex.toString());
+          futueFiles = fetchFiles();
         });
         // end loading circle
         Navigator.of(context).pop();
@@ -155,8 +154,7 @@ class _PatientFilesState extends State<PatientFiles> {
       if (response2.statusCode == 201) {
         setState(() {
           selectedFileController.clear();
-          futueFiles =
-              fetchFiles(endpointFiles + widget.patientIndex.toString());
+          futueFiles = fetchFiles();
         });
         // end loading circle
         Navigator.of(context).pop();
@@ -171,31 +169,32 @@ class _PatientFilesState extends State<PatientFiles> {
     }
   }
 
-  Future<void> getUserDetails() async {
-    await getUserEmail();
-    var response = await http.get(Uri.parse(endpointUser + userEmail));
-    //print(response.body);
-    if (response.statusCode == 200) {
-      appUser =
-          AppUser.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-    } else {
-      internetConnectionPopUp();
-      throw Exception('Failed to load user');
-    }
-  }
+  // Future<void> getUserDetails() async {
+  //   await getUserEmail();
+  //   var response = await http.get(Uri.parse(endpointUser + userEmail));
+  //   //print(response.body);
+  //   if (response.statusCode == 200) {
+  //     appUser =
+  //         AppUser.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  //   } else {
+  //     internetConnectionPopUp();
+  //     throw Exception('Failed to load user');
+  //   }
+  // }
 
-  Future<void> getUserEmail() async {
-    // Add method to get user email
-    var uid = await SuperTokens.getUserId();
-    var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
-    if (response.statusCode == 200) {
-      var user = jsonDecode(response.body);
-      userEmail = user["email"];
-    }
-  }
+  // Future<void> getUserEmail() async {
+  //   // Add method to get user email
+  //   var uid = await SuperTokens.getUserId();
+  //   var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+  //   if (response.statusCode == 200) {
+  //     var user = jsonDecode(response.body);
+  //     userEmail = user["email"];
+  //   }
+  // }
 
-  Future<List<PFile>> fetchFiles(String endpoint) async {
-    final response = await http.get(Uri.parse(endpoint));
+  Future<List<PFile>> fetchFiles() async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/files/patients/${widget.selectedPatient.app_id}"));
 
     //print(response.statusCode);
     //print(response.body);
@@ -546,9 +545,9 @@ class _PatientFilesState extends State<PatientFiles> {
 
   @override
   void initState() {
-    futueFiles = fetchFiles(endpointFiles + widget.patientIndex.toString());
+    futueFiles = fetchFiles();
     //patientDetails = getPatientDetails() as Patient;
-    getUserDetails();
+    //getUserDetails();
     super.initState();
   }
 
