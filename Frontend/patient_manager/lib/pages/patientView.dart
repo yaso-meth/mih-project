@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/patManAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -44,8 +46,19 @@ class _PatientViewState extends State<PatientView> {
     return null;
   }
 
+  Future<void> loadImage() async {
+    try {
+      var t = MzanziInnovationHub.of(context)!.theme.logoImage();
+      await precacheImage(t.image, context);
+    } catch (e) {
+      print('Failed to load and cache the image: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    loadImage();
+    var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return FutureBuilder(
       future: fetchPatient(),
       builder: (ctx, snapshot) {
@@ -57,6 +70,8 @@ class _PatientViewState extends State<PatientView> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MyAppBar(barTitle: "Patient View"),
+              drawer: PatManAppDrawer(
+                  signedInUser: widget.signedInUser, logo: logo),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -84,6 +99,7 @@ class _PatientViewState extends State<PatientView> {
                             child: PatientFiles(
                               patientIndex: snapshot.data!.idpatients,
                               selectedPatient: snapshot.data!,
+                              signedInUser: widget.signedInUser,
                             ),
                           )
                         ],
