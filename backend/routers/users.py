@@ -109,7 +109,7 @@ async def insertPatient(itemRequest : userInsertRequest, session: SessionContain
     try:
        cursor.execute(query, userData) 
     except Exception as error:
-        raise HTTPException(status_code=404, detail="Failed to Create Record")
+        raise HTTPException(status_code=404, detail="Failed to Create Record - " + error)
         #return {"message": "Failed to Create Record"}
     db.commit()
     cursor.close()
