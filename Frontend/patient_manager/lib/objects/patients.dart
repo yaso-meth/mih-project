@@ -12,7 +12,7 @@ class Patient {
   final String medical_aid_code;
   final String medical_aid_scheme;
   final String address;
-  final int doc_office_id;
+  final String app_id;
 
   const Patient({
     required this.idpatients,
@@ -28,7 +28,7 @@ class Patient {
     required this.medical_aid_code,
     required this.medical_aid_scheme,
     required this.address,
-    required this.doc_office_id,
+    required this.app_id,
   });
 
   factory Patient.fromJson(Map<String, dynamic> json) {
@@ -47,7 +47,7 @@ class Patient {
         'medical_aid_code': String medical_aid_code,
         'medical_aid_scheme': String medical_aid_scheme,
         'address': String address,
-        'doc_office_id': int doc_office_id,
+        'app_id': String app_id,
       } =>
         Patient(
           idpatients: idpatients,
@@ -63,7 +63,7 @@ class Patient {
           medical_aid_code: medical_aid_code,
           medical_aid_scheme: medical_aid_scheme,
           address: address,
-          doc_office_id: doc_office_id,
+          app_id: app_id,
         ),
       _ => throw const FormatException('Failed to load album.'),
     };
