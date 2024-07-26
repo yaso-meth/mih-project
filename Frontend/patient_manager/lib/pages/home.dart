@@ -6,6 +6,7 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -19,6 +20,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  //late Future<AppUser> signedInUser;
   String useremail = "";
   final baseAPI = AppEnviroment.baseApiUrl;
   //late Image logo;
@@ -32,27 +34,45 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> getUserEmail() async {
+  Future<AppUser> getUserDetails() async {
+    //print("pat man drawer: " + endpointUserData + widget.userEmail);
     var uid = await SuperTokens.getUserId();
     var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+    // print(response.statusCode);
+    // print(response.body);
     if (response.statusCode == 200) {
-      var user = jsonDecode(response.body);
-      useremail = user["email"];
+      // print("here");
+      String body = response.body;
+      var decodedData = jsonDecode(body);
+      AppUser u = AppUser.fromJson(decodedData);
+      // print(u.email);
+      return u;
+    } else {
+      throw Exception("Error: GetUserData status code ${response.statusCode}");
     }
   }
 
-  String getEmail() {
-    return useremail;
-  }
+  // Future<void> getUser() async {
+  //   var uid = await SuperTokens.getUserId();
+  //   var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+  //   if (response.statusCode == 200) {
+  //     var user = jsonDecode(response.body);
+  //     print(user);
+  //     signedInUser = AppUser.fromJson(user as Map<String, dynamic>);
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  //     //useremail = user["email"];
+  //   }
+  // }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   void initState() {
+    //signedInUser = getUserDetails();
     super.initState();
   }
 
@@ -61,54 +81,64 @@ class _HomeState extends State<Home> {
     loadImage();
     var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return FutureBuilder(
-      future: getUserEmail(),
-      builder: (contexts, snapshot) {
+      future: getUserDetails(),
+      builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          //print("home page: $useremail");
-          return Scaffold(
-            appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
-            drawer: PatManAppDrawer(
-              userEmail: useremail,
-              logo: logo,
-            ), //HomeAppDrawer(userEmail: useremail),
-            body: HomeTileGrid(
-              userEmail: useremail,
-            ),
-            // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-            // floatingActionButton: Padding(
-            //   padding: const EdgeInsets.only(top: 65, right: 5),
-            //   child: FloatingActionButton.extended(
-            //     label: const Text(
-            //       "Test Pop Up",
-            //       style: TextStyle(
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //     //backgroundColor: Colors.blueAccent,
-            //     onPressed: () {
-            //       showDatePicker(
-            //         context: context,
-            //         initialDate: DateTime.now(),
-            //         firstDate: DateTime(2000),
-            //         lastDate: DateTime(2100),
-            //       );
-            //       // showDialog(
-            //       //   context: context,
-            //       //   builder: (context) =>
-            //       //       const MyErrorMessage(errorType: "Input Error"),
-            //       // );
-            //     },
-            //     icon: const Icon(
-            //       Icons.warning,
-            //       //color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //     ),
-            //   ),
-          );
-          //);
-        } else {
-          return const Center(child: CircularProgressIndicator());
+          if (snapshot.hasData) {
+            return Scaffold(
+              appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
+              drawer: PatManAppDrawer(
+                signedInUser: snapshot.data!,
+                logo: logo,
+              ), //HomeAppDrawer(userEmail: useremail),
+              body: HomeTileGrid(
+                signedInUser: snapshot.data!,
+              ),
+              // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+              // floatingActionButton: Padding(
+              //   padding: const EdgeInsets.only(top: 65, right: 5),
+              //   child: FloatingActionButton.extended(
+              //     label: const Text(
+              //       "Test Pop Up",
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     //backgroundColor: Colors.blueAccent,
+              //     onPressed: () {
+              //       showDatePicker(
+              //         context: context,
+              //         initialDate: DateTime.now(),
+              //         firstDate: DateTime(2000),
+              //         lastDate: DateTime(2100),
+              //       );
+              //       // showDialog(
+              //       //   context: context,
+              //       //   builder: (context) =>
+              //       //       const MyErrorMessage(errorType: "Input Error"),
+              //       // );
+              //     },
+              //     icon: const Icon(
+              //       Icons.warning,
+              //       //color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //     ),
+              //   ),
+            );
+          } else {
+            return Center(
+              child: Text(
+                '${snapshot.error} occurred',
+                style: TextStyle(fontSize: 18),
+              ),
+            );
+          }
         }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
+
+    //);
   }
 }
