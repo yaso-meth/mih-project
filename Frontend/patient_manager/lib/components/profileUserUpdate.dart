@@ -51,7 +51,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "idusers": widget.signedInUser.idusers,
+        "idusers": widget.signedInUser.idUser,
         "username": usernameController.text,
         "fnam": fnameController.text,
         "lname": lnameController.text,
