@@ -104,7 +104,7 @@ async def insertPatient(itemRequest : userInsertRequest, session: SessionContain
     query = "insert into users "
     query += "(email, fname, lname, type, app_id, username) "
     query += "values (%s, %s, %s, %s, %s, %s)"
-    userData = (itemRequest.email, "12345","","","personal",
+    userData = (itemRequest.email,"","","personal",
                    itemRequest.app_id, "")
     try:
        cursor.execute(query, userData) 
