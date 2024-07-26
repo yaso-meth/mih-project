@@ -26,19 +26,19 @@ class _PatientViewState extends State<PatientView> {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/patients/${widget.signedInUser.app_id}"));
-    print("Here");
-    print("Body: ${response.body}");
-    print("Code: ${response.statusCode}");
+    // print("Here");
+    // print("Body: ${response.body}");
+    // print("Code: ${response.statusCode}");
     // var errorCode = response.statusCode.toString();
     // var errorBody = response.body;
 
     if (response.statusCode == 200) {
-      print("Here1");
+      //print("Here1");
       var decodedData = jsonDecode(response.body);
-      print("Here2");
+      // print("Here2");
       Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-      print("Here3");
-      print(patients);
+      // print("Here3");
+      // print(patients);
       return patients;
     }
     return null;
