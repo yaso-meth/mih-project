@@ -55,10 +55,10 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/patient-manager/patient':
-        if (args is Patient) {
+        if (args is AppUser) {
           return MaterialPageRoute(
             builder: (_) => PatientView(
-              selectedPatient: args,
+              signedInUser: args,
             ),
           );
         }
