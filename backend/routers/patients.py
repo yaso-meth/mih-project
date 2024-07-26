@@ -23,7 +23,7 @@ class patientInsertRequest(BaseModel):
     medical_aid_name: str
     medical_aid_scheme: str
     address: str
-    doc_office_id: int
+    app_id: str
 
 class patientUpdateRequest(BaseModel):
     id_no: str
@@ -38,11 +38,11 @@ class patientUpdateRequest(BaseModel):
     medical_aid_name: str
     medical_aid_scheme: str
     address: str
-    doc_office_id: int
+    app_id: str
 
 class patientDeleteRequest(BaseModel):
     id_no: str
-    doc_office_id: int
+    app_id: str
 
 # # Get Patient By ID Number
 # @router.get("/patients/id/{pat_id}", tags="patients")
@@ -69,7 +69,7 @@ class patientDeleteRequest(BaseModel):
 #     "doc_office_id": item[10]}
 
 
-# Get Patient By ID Number
+# Get Patient By app ID
 @router.get("/patients/{app_id}", tags="patients")
 async def read_patientByID(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
@@ -211,38 +211,38 @@ async def read_patientByID(app_id: str, session: SessionContainer = Depends(veri
 #     db.close()
 #     return items
 
-# # Insert Patient into table
-# @router.post("/patients/insert/", tags="patients", status_code=201)
-# async def insertPatient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
-#     cursor = db.cursor()
-#     query = "insert into patients "
-#     query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
-#     query += "medical_aid_main_member, medical_aid_no, medical_aid_code, medical_aid_name, "
-#     query += "medical_aid_scheme, address, doc_office_id) "
-#     query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-#     patientData = (itemRequest.id_no, 
-#                    itemRequest.first_name,
-#                    itemRequest.last_name,
-#                    itemRequest.email,
-#                    itemRequest.cell_no,
-#                    itemRequest.medical_aid,
-#                    itemRequest.medical_aid_main_member,
-#                    itemRequest.medical_aid_no,
-#                    itemRequest.medical_aid_code,
-#                    itemRequest.medical_aid_name,
-#                    itemRequest.medical_aid_scheme,
-#                    itemRequest.address,
-#                    itemRequest.doc_office_id)
-#     try:
-#        cursor.execute(query, patientData) 
-#     except Exception as error:
-#         raise HTTPException(status_code=404, detail="Failed to Create Record")
-#         #return {"message": "Failed to Create Record"}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Created Record"}
+# Insert Patient into table
+@router.post("/patients/insert/", tags="patients", status_code=201)
+async def insertPatient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
+    db = database.dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "insert into patients "
+    query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
+    query += "medical_aid_main_member, medical_aid_no, medical_aid_code, medical_aid_name, "
+    query += "medical_aid_scheme, address, app_id) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    patientData = (itemRequest.id_no, 
+                   itemRequest.first_name,
+                   itemRequest.last_name,
+                   itemRequest.email,
+                   itemRequest.cell_no,
+                   itemRequest.medical_aid,
+                   itemRequest.medical_aid_main_member,
+                   itemRequest.medical_aid_no,
+                   itemRequest.medical_aid_code,
+                   itemRequest.medical_aid_name,
+                   itemRequest.medical_aid_scheme,
+                   itemRequest.address,
+                   itemRequest.app_id)
+    try:
+       cursor.execute(query, patientData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Create Record")
+        #return {"message": "Failed to Create Record"}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created Record"}
 
 # # Update Patient on table
 # @router.put("/patients/update/", tags="patients")
