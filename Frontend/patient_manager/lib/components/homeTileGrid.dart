@@ -2,75 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTile.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
 
 class HomeTileGrid extends StatefulWidget {
-  final String userEmail;
-  const HomeTileGrid({super.key, required this.userEmail});
+  final AppUser signedInUser;
+  const HomeTileGrid({
+    super.key,
+    required this.signedInUser,
+  });
 
   @override
   State<HomeTileGrid> createState() => _HomeTileGridState();
 }
 
 class _HomeTileGridState extends State<HomeTileGrid> {
-  late List<List<dynamic>> tileList;
+  late List<List<dynamic>> tileList = [];
 
-  List<List<dynamic>> setApps() {
-    if (AppEnviroment.getEnv() == "Dev") {
-      return [
+  void setApps(List<List<dynamic>> tileList) {
+    if (widget.signedInUser.type == "personal") {
+      tileList.add(
         [
           Icons.medication,
-          "Patient Manager",
+          "Patient Profile",
           () {
-            // Navigator.of(context)
-            //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-            Navigator.popAndPushNamed(context, '/patient-manager',
-                arguments: widget.userEmail);
+            Navigator.of(context)
+                .pushNamed('/patient-profile', arguments: widget.signedInUser);
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
           }
         ],
-        [Icons.abc, "Test 1", () {}],
-        [Icons.abc, "Test 2", () {}],
-        [Icons.abc, "Test 3", () {}],
-        [Icons.abc, "Test 4", () {}],
-        [Icons.abc, "Test 5", () {}],
-        [Icons.abc, "Test 6", () {}],
-      ];
+      );
     } else {
-      return [
+      //business
+      tileList.add(
         [
           Icons.medication,
           "Patient Manager",
           () {
-            // Navigator.of(context)
-            //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-            Navigator.popAndPushNamed(context, '/patient-manager',
-                arguments: widget.userEmail);
+            Navigator.of(context).pushNamed('/patient-manager',
+                arguments: widget.signedInUser.email);
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
           }
         ],
-      ];
+      );
+    }
+
+    if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add([Icons.abc, "Test 1", () {}]);
+      tileList.add([Icons.abc, "Test 2", () {}]);
+      tileList.add([Icons.abc, "Test 3", () {}]);
+      tileList.add([Icons.abc, "Test 4", () {}]);
+      tileList.add([Icons.abc, "Test 5", () {}]);
+      tileList.add([Icons.abc, "Test 6", () {}]);
     }
   }
 
   @override
   void initState() {
     //print("Home tile gird widget: ${widget.userEmail}");
-    tileList = [
-      [
-        Icons.medication,
-        "Patient Manager",
-        () {
-          // Navigator.of(context)
-          //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-          Navigator.popAndPushNamed(context, '/patient-manager',
-              arguments: widget.userEmail);
-        }
-      ],
-      [Icons.abc, "Test 1", () {}],
-      [Icons.abc, "Test 2", () {}],
-      [Icons.abc, "Test 3", () {}],
-      [Icons.abc, "Test 4", () {}],
-      [Icons.abc, "Test 5", () {}],
-      [Icons.abc, "Test 6", () {}],
-    ];
+    setApps(tileList);
     super.initState();
   }
 
