@@ -9,7 +9,6 @@ import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -51,28 +50,28 @@ class _EditPatientState extends State<EditPatient> {
   late double width;
   late double height;
 
-  Future getOfficeIdByUser(String endpoint) async {
-    final response = await http.get(Uri.parse(endpoint));
-    if (response.statusCode == 200) {
-      String body = response.body;
-      var decodedData = jsonDecode(body);
-      AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
-      setState(() {
-        futureDocOfficeId = u.docOffice_id;
-        //print(futureDocOfficeId);
-      });
-    } else {
-      internetConnectionPopUp();
-      throw Exception('failed to load patients');
-    }
-  }
+  // Future getOfficeIdByUser(String endpoint) async {
+  //   final response = await http.get(Uri.parse(endpoint));
+  //   if (response.statusCode == 200) {
+  //     String body = response.body;
+  //     var decodedData = jsonDecode(body);
+  //     AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
+  //     setState(() {
+  //       //futureDocOfficeId = u.docOffice_id;
+  //       //print(futureDocOfficeId);
+  //     });
+  //   } else {
+  //     internetConnectionPopUp();
+  //     throw Exception('failed to load patients');
+  //   }
+  // }
 
   Future<void> updatePatientApiCall() async {
     //print("Here1");
     //userEmail = getLoginUserEmail() as String;
     //print(userEmail);
     //print("Here2");
-    await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
+    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
     //print(futureDocOfficeId.toString());
     //print("Here3");
     var response = await http.put(
@@ -93,13 +92,13 @@ class _EditPatientState extends State<EditPatient> {
         "medical_aid_name": medNameController.text,
         "medical_aid_scheme": medSchemeController.text,
         "address": addressController.text,
-        "doc_office_id": futureDocOfficeId,
+        "app_id": widget.selectedPatient.app_id,
       }),
     );
-    //print("Here4");
-    //print(response.statusCode);
+    // print("Here4");
+    // print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
+      Navigator.of(context).pushNamed('/home');
       String message =
           "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
       successPopUp(message);
@@ -113,7 +112,7 @@ class _EditPatientState extends State<EditPatient> {
     //userEmail = getLoginUserEmail() as String;
     //print(userEmail);
     //print("Here2");
-    await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
+    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
     //print("Office ID: ${futureDocOfficeId.toString()}");
     //print("OPatient ID No: ${idController.text}");
     //print("Here3");
@@ -122,15 +121,13 @@ class _EditPatientState extends State<EditPatient> {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-      body: jsonEncode(<String, dynamic>{
-        "id_no": idController.text,
-        "doc_office_id": futureDocOfficeId,
-      }),
+      body: jsonEncode(
+          <String, dynamic>{"app_id": widget.selectedPatient.app_id}),
     );
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushNamed('/patient-manager', arguments: userEmail);
+      Navigator.of(context).pushNamed('/home');
       String message =
           "${fnameController.text} ${lnameController.text}'s record has been deleted successfully. This means it will no longer be visible in patient manager and cannot be used for future appointments.";
       successPopUp(message);
@@ -402,7 +399,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: fnameController,
                     hintText: "First Name",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
@@ -415,7 +412,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: lnameController,
                     hintText: "Last Name",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
@@ -441,7 +438,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: emailController,
                     hintText: "Email",
-                    editable: true,
+                    editable: false,
                     required: true,
                   ),
                 ),
