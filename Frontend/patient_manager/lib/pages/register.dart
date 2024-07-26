@@ -79,15 +79,10 @@ class _RegisterState extends State<Register> {
         barrierColor: _backgroundColor,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
-            backgroundColor: _backgroundColor,
-            content: Container(
-              child: Center(
-                child: MzanziInnovationHub.of(context)!
-                    .theme
-                    .loadingImage(), // Put your gif into the assets folder
-              ),
-            ),
-          );
+              backgroundColor: _backgroundColor,
+              content: const Center(
+                child: CircularProgressIndicator(),
+              ));
         },
       );
       try {
