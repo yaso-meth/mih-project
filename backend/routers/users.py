@@ -7,6 +7,8 @@ from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 
+import database.dbConnection
+
 router = APIRouter()
 
 class userRequest(BaseModel):
@@ -23,58 +25,58 @@ class userUpdateRequest(BaseModel):
     fnam: str
     lname: str
     
-#get user by email & doc Office ID
-@router.get("/users/profile/{email}", tags="users")
-async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
-    cursor = db.cursor()
-    query = "SELECT * FROM users where email = %s"
-    cursor.execute(query, (email.lower(),)) 
-    items = [
-        {"idusers": item[0],
-        "email": item[1],
-        "docOffice_id": item[2],
-        "fname":item[3],
-        "lname":item[4],
-        "type": item[5],
-        "app_id": item[6],
-        "username": item[7],
-        }
-        for item in cursor.fetchall()
-    ]#
-    cursor.close()
-    db.close()
-    return items[0]
+# #get user by email & doc Office ID
+# @router.get("/users/profile/{email}", tags="users")
+# async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
+#     db = database.dbConnection.dbAppDataConnect()
+#     cursor = db.cursor()
+#     query = "SELECT * FROM users where email = %s"
+#     cursor.execute(query, (email.lower(),)) 
+#     items = [
+#         {"idusers": item[0],
+#         "email": item[1],
+#         "docOffice_id": item[2],
+#         "fname":item[3],
+#         "lname":item[4],
+#         "type": item[5],
+#         "app_id": item[6],
+#         "username": item[7],
+#         }
+#         for item in cursor.fetchall()
+#     ]#
+#     cursor.close()
+#     db.close()
+#     return items[0]
     
 
-# Get List of all files
-@router.get("/users/", tags="users")
-async def read_all_users(session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
-    cursor = db.cursor()
-    query = "SELECT * FROM users"
-    cursor.execute(query)
-    items = [
-        {
-            "idUser": item[0],
-            "email": item[1],
-            "docOffice_id": item[2],
-            "fname": item[3],
-            "lname": item[4],
-            "type": item[5],
-            "app_id": item[6],
-            "username": item[7],
-        }
-        for item in cursor.fetchall()
-    ]
-    cursor.close()
-    db.close()
-    return items
+# # Get List of all files
+# @router.get("/users/", tags="users")
+# async def read_all_users(session: SessionContainer = Depends(verify_session())):
+#     db = database.dbConnection.dbAppDataConnect()
+#     cursor = db.cursor()
+#     query = "SELECT * FROM users"
+#     cursor.execute(query)
+#     items = [
+#         {
+#             "idUser": item[0],
+#             "email": item[1],
+#             "docOffice_id": item[2],
+#             "fname": item[3],
+#             "lname": item[4],
+#             "type": item[5],
+#             "app_id": item[6],
+#             "username": item[7],
+#         }
+#         for item in cursor.fetchall()
+#     ]
+#     cursor.close()
+#     db.close()
+#     return items
 
 # Get List of all files
 @router.get("/user/{uid}", tags="users")
 async def read_all_users(uid: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where app_id = %s"
     cursor.execute(query, (uid,))
@@ -82,12 +84,11 @@ async def read_all_users(uid: str, session: SessionContainer = Depends(verify_se
         {
             "idUser": item[0],
             "email": item[1],
-            "docOffice_id": item[2],
-            "fname": item[3],
-            "lname": item[4],
-            "type": item[5],
-            "app_id": item[6],
-            "username": item[7],
+            "fname": item[2],
+            "lname": item[3],
+            "type": item[4],
+            "app_id": item[5],
+            "username": item[6],
         }
         for item in cursor.fetchall()
     ]
@@ -98,11 +99,11 @@ async def read_all_users(uid: str, session: SessionContainer = Depends(verify_se
 # Insert Patient into table
 @router.post("/user/insert/", tags="user", status_code=201)
 async def insertPatient(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into users "
-    query += "(email, docOffice_id, fname, lname, type, app_id, username) "
-    query += "values (%s, %s, %s, %s,%s, %s, %s)"
+    query += "(email, fname, lname, type, app_id, username) "
+    query += "values (%s, %s, %s, %s, %s, %s)"
     userData = (itemRequest.email, "12345","","","personal",
                    itemRequest.app_id, "")
     try:
@@ -118,7 +119,7 @@ async def insertPatient(itemRequest : userInsertRequest, session: SessionContain
 # Update User on table
 @router.put("/user/update/", tags="user")
 async def UpdateUser(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
     query += "set username=%s, fname=%s, lname=%s "
