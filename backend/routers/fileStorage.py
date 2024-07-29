@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 import requests
 from pydantic import BaseModel
 from minio import Minio
-import file_Storage
+import Minio_Storage
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -13,7 +13,7 @@ from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 
-import file_Storage.minioConnection
+import Minio_Storage.minioConnection
 
 
 router = APIRouter()
@@ -70,7 +70,7 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
 
 
 def uploudFile(app_id, fileName, extension, content):
-    client = file_Storage.minioConnection.minioConnect()
+    client = Minio_Storage.minioConnection.minioConnect()
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
@@ -88,7 +88,7 @@ def uploudFile(app_id, fileName, extension, content):
 
 #"minio""localhost:9000"
 def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
-    client = file_Storage.minioConnection.minioConnect()
+    client = Minio_Storage.minioConnection.minioConnect()
     generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate)
     found = client.bucket_exists("mih")
     if not found:
