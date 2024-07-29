@@ -293,7 +293,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: medNoController,
                     hintText: "Medical Aid No.",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -306,7 +306,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: medAidCodeController,
                     hintText: "Medical Aid Code",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -319,7 +319,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: medNameController,
                     hintText: "Medical Aid Name",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -332,7 +332,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyTextField(
                     controller: medSchemeController,
                     hintText: "Medical Aid Scheme",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
