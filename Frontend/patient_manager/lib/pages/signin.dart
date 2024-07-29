@@ -59,21 +59,27 @@ class _SignInState extends State<SignIn> {
           "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
         },
       );
+      //print(response.body[])
       if (response.statusCode == 200) {
+        print(response.body);
         var userSignedin = jsonDecode(response.body);
         if (userSignedin["status"] == "OK") {
+          print("here");
           setState(() {
             successfulSignIn = true;
           });
+          Navigator.of(context).pop();
         } else {
+          Navigator.of(context).pop();
           loginError();
+          passwordController.clear();
         }
       }
     } on AuthException {
+      Navigator.of(context).pop();
       loginError();
       passwordController.clear();
     }
-    Navigator.of(context).pop();
   }
 
   void loginError() {

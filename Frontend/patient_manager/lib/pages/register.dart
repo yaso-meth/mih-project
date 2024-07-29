@@ -144,6 +144,7 @@ class _RegisterState extends State<Register> {
           // }
         }
       } on AuthException catch (error) {
+        Navigator.of(context).pop();
         loginError(error.message);
         emailController.clear();
         passwordController.clear();
