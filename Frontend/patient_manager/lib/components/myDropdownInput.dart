@@ -7,7 +7,7 @@ class MyDropdownField extends StatefulWidget {
   final bool required;
   final List<String> dropdownOptions;
   final void Function(String?)? onSelect;
-  //final bool editable;
+  final bool editable;
 
   const MyDropdownField({
     super.key,
@@ -15,6 +15,7 @@ class MyDropdownField extends StatefulWidget {
     required this.hintText,
     required this.dropdownOptions,
     required this.required,
+    required this.editable,
     this.onSelect,
   });
 
@@ -100,6 +101,7 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: DropdownMenu(
+        enabled: widget.editable,
         trailingIcon: Icon(
           Icons.arrow_drop_down,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -117,9 +119,14 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
         errorText: _errorText,
 
         focusNode: _focus,
-        onSelected: (_) => setState(() {
-          startup = false;
-        }),
+        onSelected: (_) {
+          setState(() {
+            startup = false;
+          });
+          // if (widget.editable == false) {
+          //   return false;
+          // }
+        },
         leadingIcon: IconButton(
           onPressed: () {
             setState(() {
@@ -149,9 +156,10 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
               fontWeight: FontWeight.bold),
           fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
+            borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
@@ -165,6 +173,12 @@ class _MyDropdownFieldState extends State<MyDropdownField> {
             ),
           ),
           enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              width: 2.0,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 2.0,
