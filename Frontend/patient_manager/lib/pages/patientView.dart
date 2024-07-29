@@ -26,8 +26,10 @@ class PatientView extends StatefulWidget {
 class _PatientViewState extends State<PatientView> {
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/patients/${widget.signedInUser.app_id}"));
+    var patientAppId = widget.signedInUser.app_id;
+
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/$patientAppId"));
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
@@ -91,7 +93,8 @@ class _PatientViewState extends State<PatientView> {
                           SizedBox(
                             width: 650,
                             child: PatientNotes(
-                              patientIndex: snapshot.data!.idpatients,
+                              patientAppId: snapshot.data!.app_id,
+                              signedInUser: widget.signedInUser,
                             ),
                           ),
                           SizedBox(

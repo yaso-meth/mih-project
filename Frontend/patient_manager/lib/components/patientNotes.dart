@@ -9,12 +9,15 @@ import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/notes.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientNotes extends StatefulWidget {
-  final int patientIndex;
-  const PatientNotes({super.key, required this.patientIndex});
+  final String patientAppId;
+  final AppUser signedInUser;
+  const PatientNotes(
+      {super.key, required this.patientAppId, required this.signedInUser});
 
   @override
   State<PatientNotes> createState() => _PatientNotesState();
@@ -28,7 +31,8 @@ class _PatientNotesState extends State<PatientNotes> {
   late Future<List<Note>> futueNotes;
 
   Future<List<Note>> fetchNotes(String endpoint) async {
-    final response = await http.get(Uri.parse(endpoint));
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/notes/patients/${widget.patientAppId}"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<Note> notes =
@@ -50,12 +54,12 @@ class _PatientNotesState extends State<PatientNotes> {
       body: jsonEncode(<String, dynamic>{
         "note_name": titleController.text,
         "note_text": noteTextController.text,
-        "patient_id": widget.patientIndex,
+        "patient_id": widget.patientAppId,
       }),
     );
     if (response.statusCode == 201) {
       setState(() {
-        futueNotes = fetchNotes(endpoint + widget.patientIndex.toString());
+        futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
       });
       // Navigator.of(context)
       //     .pushNamed('/patient-manager', arguments: widget.userEmail);
@@ -212,9 +216,42 @@ class _PatientNotesState extends State<PatientNotes> {
     }
   }
 
+  List<Widget> setIcons() {
+    if (widget.signedInUser.type == "personal") {
+      return [
+        Text(
+          "Notes",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        ),
+      ];
+    } else {
+      return [
+        Text(
+          "Notes",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        ),
+        IconButton(
+          onPressed: () {
+            addNotePopUp();
+          },
+          icon: Icon(Icons.add,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        )
+      ];
+    }
+  }
+
   @override
   void initState() {
-    futueNotes = fetchNotes(endpoint + widget.patientIndex.toString());
+    futueNotes = fetchNotes(endpoint + widget.patientAppId);
     super.initState();
   }
 
@@ -244,27 +281,7 @@ class _PatientNotesState extends State<PatientNotes> {
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Notes",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor()),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        addNotePopUp();
-                      },
-                      icon: Icon(Icons.add,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor()),
-                    )
-                  ],
+                  children: setIcons(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
