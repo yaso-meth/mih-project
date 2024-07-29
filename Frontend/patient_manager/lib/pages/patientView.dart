@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/patManAppDrawer.dart';
+import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/myAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
@@ -72,8 +72,8 @@ class _PatientViewState extends State<PatientView> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MyAppBar(barTitle: "Patient View"),
-              drawer: PatManAppDrawer(
-                  signedInUser: widget.signedInUser, logo: logo),
+              drawer:
+                  MIHAppDrawer(signedInUser: widget.signedInUser, logo: logo),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

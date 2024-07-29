@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/patManAppDrawer.dart';
+import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/components/myAppBar.dart';
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
-              drawer: PatManAppDrawer(
+              drawer: MIHAppDrawer(
                 signedInUser: snapshot.data!,
                 logo: logo,
               ), //HomeAppDrawer(userEmail: useremail),

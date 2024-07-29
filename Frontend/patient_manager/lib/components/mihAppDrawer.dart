@@ -3,20 +3,20 @@ import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
-class PatManAppDrawer extends StatefulWidget {
+class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
   final Image logo;
-  const PatManAppDrawer({
+  const MIHAppDrawer({
     super.key,
     required this.signedInUser,
     required this.logo,
   });
 
   @override
-  State<PatManAppDrawer> createState() => _PatManAppDrawerState();
+  State<MIHAppDrawer> createState() => _MIHAppDrawerState();
 }
 
-class _PatManAppDrawerState extends State<PatManAppDrawer> {
+class _MIHAppDrawerState extends State<MIHAppDrawer> {
   //String endpointUserData = "${AppEnviroment.baseApiUrl}/users/profile/";
   //late Future<AppUser> signedInUser;
   //late Image logo;
@@ -76,30 +76,34 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
                       height: 60,
                       child: widget.logo,
                     ),
-                    const SizedBox(height: 50),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          "Username: ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Text(
-                          widget.signedInUser.username,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                    Text(
+                      "@${widget.signedInUser.username}",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                    Text(
+                      widget.signedInUser.type,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
                     ),
                   ],
                 ),
@@ -154,7 +158,7 @@ class _PatManAppDrawerState extends State<PatManAppDrawer> {
               ),
               onTap: () {
                 //signedInUser = snapshot.data!;
-                //print("PatManAppDrawer: ${signedInUser.runtimeType}");
+                //print("MIHAppDrawer: ${signedInUser.runtimeType}");
                 Navigator.of(context)
                     .pushNamed('/profile', arguments: widget.signedInUser);
               },
