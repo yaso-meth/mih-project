@@ -14,13 +14,13 @@ class medicine(BaseModel):
     unit: str
 
 #get all medicines
-@router.get("/users/medicine/all", tags="medicine")
+@router.get("/users/medicine/all", tags=["Medicine"])
 async def read_all_medicine(session: SessionContainer = Depends(verify_session())):
     return getMedicineData("")
 
 #get all medicines by search
-@router.get("/users/medicine/{medSearch}", tags="medicine")
-async def read_all_medicine(medSearch: str, session: SessionContainer = Depends(verify_session())):
+@router.get("/users/medicine/{medSearch}", tags=["Medicine"])
+async def read_medicineby_search(medSearch: str, session: SessionContainer = Depends(verify_session())):
     return getMedicineData(medSearch)
 
 def getMedicineData(medsearch: str):

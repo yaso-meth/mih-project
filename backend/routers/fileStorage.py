@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 import requests
 from pydantic import BaseModel
 from minio import Minio
@@ -22,10 +22,20 @@ class medCertUploud(BaseModel):
     endDate: str 
     returnDate: str 
 
-#=================understand Supertoken multirequest for file submission================================
+@router.post("/minio/upload/file/", tags=["Minio"])
+async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...)):
+    extension = file.filename.split(".")
+    return {
+        "app_id": app_id,
+        "file_name": file.filename,
+        "file_extension": extension,
+        "file_size": file.size,
+        "content":file
+    }
+
 # Get List of all files by patient
-@router.post("/files/upload/file/", tags="patients_files")
-async def generateAndUploudMedCert( file: UploadFile = File(...)):
+@router.post("/files/upload/file/", tags=["Minio"])
+async def upload_File_to_user( file: UploadFile = File(...)):
     extension = file.filename.split(".")
     print(file.file)
     print(file.filename)
@@ -35,15 +45,21 @@ async def generateAndUploudMedCert( file: UploadFile = File(...)):
     
     return {"message": "Successfully Uploaded File"}
 
+
+
 # Get List of all files by patient
-@router.post("/files/generate/med-cert/", tags="patients_files")
-async def generateAndUploudMedCert(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
+@router.post("/files/generate/med-cert/", tags=["Minio"])
+async def upload_File_to_user(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
     uploudMedCert(requestItem.fullName, 
                requestItem.docfname,
                requestItem.startDate,
                requestItem.endDate,
                requestItem.returnDate)
     return {"message": "Successfully Generated File"}
+
+
+
+
 
 def uploudFile(fileName, extension, content, size):
     client = Minio("minio:9000",   

@@ -47,8 +47,8 @@ class patientNoteUpdateRequest(BaseModel):
 #     return items
 
 # Get List of all notes by patient
-@router.get("/notes/patients/{app_id}", tags="patients_notes")
-async def read_all_patientsby(app_id: str, session: SessionContainer = Depends(verify_session())):
+@router.get("/notes/patients/{app_id}", tags=["Patients Notes"])
+async def read_all_patient_notes_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes where app_id = %s ORDER BY insert_date DESC"
@@ -92,8 +92,8 @@ async def read_all_patientsby(app_id: str, session: SessionContainer = Depends(v
 #     return items
 
 # Insert Patient note into table
-@router.post("/notes/insert/", tags="patients_notes", status_code=201)
-async def insertPatientNotes(itemRequest : patientNoteInsertRequest, session: SessionContainer = Depends(verify_session())):
+@router.post("/notes/insert/", tags=["Patients Notes"], status_code=201)
+async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()

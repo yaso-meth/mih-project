@@ -69,8 +69,8 @@ class patientDeleteRequest(BaseModel):
 
 
 # Get Patient By app ID
-@router.get("/patients/{app_id}", tags="patients")
-async def read_patientByID(app_id: str, session: SessionContainer = Depends(verify_session())):
+@router.get("/patients/{app_id}", tags=["Patients"])
+async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE app_id=%s"
@@ -211,8 +211,8 @@ async def read_patientByID(app_id: str, session: SessionContainer = Depends(veri
 #     return items
 
 # Insert Patient into table
-@router.post("/patients/insert/", tags="patients", status_code=201)
-async def insertPatient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
+@router.post("/patients/insert/", tags=["Patients"], status_code=201)
+async def insert_Patient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "insert into patients "
@@ -244,8 +244,8 @@ async def insertPatient(itemRequest : patientInsertRequest, session: SessionCont
     return {"message": "Successfully Created Record"}
 
 # Update Patient on table
-@router.put("/patients/update/", tags="patients")
-async def UpdatePatient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
+@router.put("/patients/update/", tags=["Patients"])
+async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "update patients "
@@ -278,8 +278,8 @@ async def UpdatePatient(itemRequest : patientUpdateRequest, session: SessionCont
     return {"message": "Successfully Updated Record"}
 
 # delete Patient on table
-@router.delete("/patients/delete/", tags="patients")
-async def DeletePatient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
+@router.delete("/patients/delete/", tags=["Patients"])
+async def Delete_Patient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "delete from patients "

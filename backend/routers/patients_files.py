@@ -42,8 +42,8 @@ class fileInsertRequest(BaseModel):
 #     return items
 
 # Get List of all files by patient
-@router.get("/files/patients/{app_id}", tags="patients_files")
-async def read_all_files_by_patient(app_id: str, session: SessionContainer = Depends(verify_session())):
+@router.get("/files/patients/{app_id}", tags=["Patients Files"])
+async def read_all_patient_files_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files where app_id = %s ORDER BY insert_date DESC"

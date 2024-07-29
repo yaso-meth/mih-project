@@ -74,12 +74,12 @@ class userUpdateRequest(BaseModel):
 #     return items
 
 # Get List of all files
-@router.get("/user/{uid}", tags="users")
-async def read_all_users(uid: str, session: SessionContainer = Depends(verify_session())):
+@router.get("/user/{app_id}", tags=["MIH Users"])
+async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where app_id = %s"
-    cursor.execute(query, (uid,))
+    cursor.execute(query, (app_id,))
     items = [
         {
             "idUser": item[0],
@@ -97,8 +97,8 @@ async def read_all_users(uid: str, session: SessionContainer = Depends(verify_se
     return items[0]
 
 # Insert Patient into table
-@router.post("/user/insert/", tags="user", status_code=201)
-async def insertPatient(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
+@router.post("/user/insert/", tags=["MIH Users"], status_code=201)
+async def insert_User_details(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into users "
@@ -117,8 +117,8 @@ async def insertPatient(itemRequest : userInsertRequest, session: SessionContain
     return {"message": "Successfully Created Record"}
 
 # Update User on table
-@router.put("/user/update/", tags="user")
-async def UpdateUser(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
+@router.put("/user/update/", tags=["MIH Users"])
+async def Update_User_details(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
