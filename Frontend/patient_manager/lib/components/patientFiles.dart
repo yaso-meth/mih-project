@@ -132,8 +132,68 @@ class _PatientFilesState extends State<PatientFiles> {
         );
       },
     );
+    //print("here1");
+    var request = http2.MultipartRequest(
+        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
+    request.headers['accept'] = 'application/json';
+    request.fields['app_id'] = widget.selectedPatient.app_id;
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
+        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    //print("here2");
+    var response1 = await request.send();
+    //print("here3");
+    //print(response1.statusCode);
+    if (response1.statusCode == 200) {
+      //print("here3");
+      var fname = file.name.replaceAll(RegExp(r' '), '-');
+      var filePath = "${widget.selectedPatient.app_id}/$fname";
+      var response2 = await http.post(
+        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "file_path": filePath,
+          "file_name": fname,
+          "app_id": widget.selectedPatient.app_id
+        }),
+      );
+      //print("here5");
+      //print(response2.statusCode);
+      if (response2.statusCode == 201) {
+        setState(() {
+          selectedFileController.clear();
+          futueFiles = fetchFiles();
+        });
+        // end loading circle
+        Navigator.of(context).pop();
+        String message =
+            "The medical certificate ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+        successPopUp(message);
+      } else {
+        internetConnectionPopUp();
+      }
+    } else {
+      internetConnectionPopUp();
+    }
+  }
 
-    var request = http2.MultipartRequest('POST', Uri.parse(endpointFileUpload));
+  Future<void> uploadSelectedFilev1(PlatformFile file) async {
+    //var strem = new http.ByteStream.fromBytes(file.bytes.)
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    var request = http2.MultipartRequest(
+        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/files/upload/file/"));
+    request.fields['app_id'] = widget.selectedPatient.app_id;
     request.headers['Content-Type'] = 'multipart/form-data';
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));

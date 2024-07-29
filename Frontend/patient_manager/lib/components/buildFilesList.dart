@@ -21,7 +21,7 @@ class BuildFilesList extends StatefulWidget {
 class _BuildFilesListState extends State<BuildFilesList> {
   int indexOn = 0;
 
-  void viewFilePopUp(String filename) {
+  void viewFilePopUp(String fileName, String filePath) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -44,7 +44,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    filename,
+                    fileName,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: MzanziInnovationHub.of(context)!
@@ -58,14 +58,14 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   Expanded(
                       child: BuildFileView(
                           pdfLink:
-                              "${AppEnviroment.baseFileUrl}/mih/$filename")),
+                              "${AppEnviroment.baseFileUrl}/mih/$filePath")),
                   SizedBox(
                     width: 300,
                     height: 100,
                     child: MyButton(
                       onTap: () {
                         html.window.open(
-                            '${AppEnviroment.baseFileUrl}/mih/$filename',
+                            '${AppEnviroment.baseFileUrl}/mih/$filePath',
                             'download');
                       },
                       buttonText: "Dowload",
@@ -135,7 +135,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               onTap: () {
-                viewFilePopUp(widget.files[index].file_name);
+                viewFilePopUp(
+                  widget.files[index].file_name,
+                  widget.files[index].file_path,
+                );
               },
             );
           },
