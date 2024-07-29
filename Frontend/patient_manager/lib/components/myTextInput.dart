@@ -93,6 +93,7 @@ class _MyTextFieldState extends State<MyTextField> {
         controller: widget.controller,
         focusNode: _focus,
         readOnly: makeEditable(),
+        enabled: !makeEditable(),
         obscureText: false,
         onChanged: (_) => setState(() {
           startup = false;
@@ -109,6 +110,12 @@ class _MyTextFieldState extends State<MyTextField> {
           //errorBorder: const InputBorder(),
           //hintText: hintText,
           //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              width: 2.0,
+            ),
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
