@@ -18,7 +18,7 @@ class fileRequest(BaseModel):
 class fileInsertRequest(BaseModel):
     file_path: str
     file_name: str
-    patient_id: int
+    app_id: str
 
 # # Get List of all files
 # @router.get("/files/patients/", tags="patients_files")
@@ -89,25 +89,26 @@ async def read_all_patient_files_by_app_id(app_id: str, session: SessionContaine
 #     db.close()
 #     return items
 
-# # Insert Patient note into table
-# @router.post("/files/insert/", tags="patients_notes", status_code=201)
-# async def insertPatientFiles(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
-#     today = date.today()
-#     db = database.dbConnection.dbConnect()
-#     cursor = db.cursor()
-#     query = "insert into patient_files "
-#     query += "(file_path, file_name, patient_id, insert_date) "
-#     query += "values (%s, %s, %s, %s)"
-#     notetData = (itemRequest.file_path, 
-#                    itemRequest.file_name,
-#                    itemRequest.patient_id,
-#                    today)
-#     try:
-#        cursor.execute(query, notetData) 
-#     except Exception as error:
-#         #raise HTTPException(status_code=404, detail="Failed to Create Record")
-#         return {"message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Created file Record"}
+# Insert Patient note into table
+@router.post("/files/insert/", tags=["Patients Files"], status_code=201)
+async def insert_Patient_Files(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
+    today = date.today()
+    db = database.dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "insert into patient_files "
+    query += "(file_path, file_name, insert_date, app_id) "
+    query += "values (%s, %s, %s, %s)"
+    notetData = (itemRequest.file_path, 
+                   itemRequest.file_name,
+                   today,
+                   itemRequest.app_id,
+                   )
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        #raise HTTPException(status_code=404, detail="Failed to Create Record")
+        return {"message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created file Record"}

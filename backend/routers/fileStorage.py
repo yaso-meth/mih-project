@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 import requests
 from pydantic import BaseModel
 from minio import Minio
+import file_Storage
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -12,10 +13,13 @@ from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 
+import file_Storage.minioConnection
+
 
 router = APIRouter()
 
 class medCertUploud(BaseModel):
+    app_id: str
     fullName: str 
     docfname: str 
     startDate: str 
@@ -25,32 +29,36 @@ class medCertUploud(BaseModel):
 @router.post("/minio/upload/file/", tags=["Minio"])
 async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...)):
     extension = file.filename.split(".")
-    return {
-        "app_id": app_id,
-        "file_name": file.filename,
-        "file_extension": extension,
-        "file_size": file.size,
-        "content":file
-    }
-
-# Get List of all files by patient
-@router.post("/files/upload/file/", tags=["Minio"])
-async def upload_File_to_user( file: UploadFile = File(...)):
-    extension = file.filename.split(".")
-    print(file.file)
-    print(file.filename)
-    print(extension)
-    print(file.size)
-    uploudFile(file.filename, extension[1], file.file, file.size)
-    
+    content = file.file #.read()
+    # fs = await file.read()
+    uploudFile(app_id, file.filename, extension[1], content)
     return {"message": "Successfully Uploaded File"}
+    # return {
+    #     "app_id": app_id,
+    #     "file name": file.filename,
+    #     "extension": extension[0],
+    #     "file contents": file.file.read(),
+    # }
+
+# # Get List of all files by patient
+# @router.post("/minio/upload/file2/", tags=["Minio"])
+# async def upload_File_to_user( file: UploadFile = File(...)):
+#     extension = file.filename.split(".")
+#     # print(file.file)
+#     # print(file.filename)
+#     # print(extension[1])
+#     # print(file.size)
+#     uploudFile(file.filename, extension[1], file.file, file.size)
+    
+#     return {"message": "Successfully Uploaded File"}
 
 
 
 # Get List of all files by patient
-@router.post("/files/generate/med-cert/", tags=["Minio"])
+@router.post("/minio/generate/med-cert/", tags=["Minio"])
 async def upload_File_to_user(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
-    uploudMedCert(requestItem.fullName, 
+    uploudMedCert(requestItem.app_id,
+                requestItem.fullName, 
                requestItem.docfname,
                requestItem.startDate,
                requestItem.endDate,
@@ -61,39 +69,33 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
 
 
 
-def uploudFile(fileName, extension, content, size):
-    client = Minio("minio:9000",   
-    access_key="user1",
-    secret_key="C@rtoon1995",
-    secure=False
-    )
+def uploudFile(app_id, fileName, extension, content):
+    client = file_Storage.minioConnection.minioConnect()
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
+    fname = app_id + "/" + fileName
     client.put_object("mih", 
-                    fileName, 
+                    fname, 
                     content, 
-                    length=size,
-                    content_type=f"application/{extension}",)
+                    length=-1,
+                    part_size=10*1024*1024,
+                    content_type=f"application/{extension}")
         
 
 
 #"minio""localhost:9000"
-def uploudMedCert(fullName, docfname, startDate, endDate, returnDate):
-    client = Minio("minio:9000",   
-    access_key="user1",
-    secret_key="C@rtoon1995",
-    secure=False
-    )
+def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
+    client = file_Storage.minioConnection.minioConnect()
     generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate)
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"Med-Cert-{fullName}-{startDate}.pdf"
+    fileName = f"{app_id}/Med-Cert-{fullName}-{startDate}.pdf"
     client.fput_object("mih", fileName, "temp.pdf")
 
 def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
@@ -132,3 +134,10 @@ def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
     
 #Def get
 #uploudFile("Yasien Meth","Dr D Oct","18-06-2024","20-06-2024","21-06-2024")
+
+def byteToMb(size):
+    sizekb = size /1000
+    sizemb = sizekb / 1000
+    return sizemb
+
+# print(byteToMb(229574))
