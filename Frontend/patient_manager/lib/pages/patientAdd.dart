@@ -261,8 +261,8 @@ class _AddPatientState extends State<AddPatient> {
                 Expanded(
                   child: MyDropdownField(
                     controller: medAidController,
-                    hintText: "Has Medical Aid",
-                    //editable: true,
+                    hintText: "Medical Aid",
+                    editable: true,
                     onSelect: (_) {
                       isRequired();
                     },
@@ -279,7 +279,7 @@ class _AddPatientState extends State<AddPatient> {
                   child: MyDropdownField(
                     controller: medMainMemController,
                     hintText: "Main Member",
-                    //editable: true,
+                    editable: medRequired,
                     required: medRequired,
                     dropdownOptions: const ["Yes", "No"],
                   ),

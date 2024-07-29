@@ -473,11 +473,19 @@ class _EditPatientState extends State<EditPatient> {
                 Expanded(
                   child: MyDropdownField(
                     controller: medAidController,
-                    hintText: "Has Medical Aid",
-                    onSelect: (_) {
-                      isRequired();
+                    hintText: "Medical Aid",
+                    onSelect: (selected) {
+                      if (selected == "Yes") {
+                        setState(() {
+                          medRequired = true;
+                        });
+                      } else {
+                        setState(() {
+                          medRequired = false;
+                        });
+                      }
                     },
-                    //editable: true,
+                    editable: true,
                     required: true,
                     dropdownOptions: const ["Yes", "No"],
                   ),
@@ -491,7 +499,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyDropdownField(
                     controller: medMainMemController,
                     hintText: "Main Member.",
-                    //editable: true,
+                    editable: medRequired,
                     required: medRequired,
                     dropdownOptions: const ["Yes", "No"],
                   ),
@@ -505,7 +513,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: medNoController,
                     hintText: "Medical Aid No.",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -518,7 +526,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: medAidCodeController,
                     hintText: "Medical Aid Code",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -531,7 +539,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: medNameController,
                     hintText: "Medical Aid Name",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
@@ -544,7 +552,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MyTextField(
                     controller: medSchemeController,
                     hintText: "Medical Aid Scheme",
-                    editable: true,
+                    editable: medRequired,
                     required: medRequired,
                   ),
                 ),
