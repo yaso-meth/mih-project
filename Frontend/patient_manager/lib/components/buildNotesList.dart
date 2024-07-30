@@ -30,7 +30,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
         child: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(15.0),
               width: 700.0,
               //height: 475.0,
               decoration: BoxDecoration(
@@ -64,7 +64,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                       required: false,
                     ),
                   ),
-                  const SizedBox(height: 25.0),
+                  //const SizedBox(height: 25.0),
                   // SizedBox(
                   //   width: 300,
                   //   height: 100,
