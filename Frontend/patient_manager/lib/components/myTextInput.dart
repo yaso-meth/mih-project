@@ -85,59 +85,56 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        controller: widget.controller,
-        focusNode: _focus,
-        readOnly: makeEditable(),
-        enabled: !makeEditable(),
-        obscureText: false,
-        onChanged: (_) => setState(() {
-          startup = false;
-        }),
-        decoration: InputDecoration(
-          label: setRequiredText(),
-          //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
-          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          filled: true,
-          errorText: _errorText,
-          errorStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              fontWeight: FontWeight.bold),
-          //errorBorder: const InputBorder(),
-          //hintText: hintText,
-          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 2.0,
-            ),
+    return TextField(
+      style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      controller: widget.controller,
+      focusNode: _focus,
+      readOnly: makeEditable(),
+      enabled: !makeEditable(),
+      obscureText: false,
+      onChanged: (_) => setState(() {
+        startup = false;
+      }),
+      decoration: InputDecoration(
+        label: setRequiredText(),
+        //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
+        errorText: _errorText,
+        errorStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            fontWeight: FontWeight.bold),
+        //errorBorder: const InputBorder(),
+        //hintText: hintText,
+        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 2.0,
-            ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
           ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
           ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
       ),
     );

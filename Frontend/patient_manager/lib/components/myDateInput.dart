@@ -90,61 +90,58 @@ class _MyDateFieldState extends State<MyDateField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        controller: widget.controller,
-        readOnly: true,
-        obscureText: false,
-        focusNode: _focus,
-        onChanged: (_) => setState(() {
-          startup = false;
-        }),
-        decoration: InputDecoration(
-          errorText: _errorText,
-          errorStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              fontWeight: FontWeight.bold),
-          label: setRequiredText(),
-          //labelText: widget.LableText,
-          //labelStyle: const TextStyle(color: Colors.blueAccent),
-          prefixIcon: Icon(
-            Icons.calendar_today,
+    return TextField(
+      style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      controller: widget.controller,
+      readOnly: true,
+      obscureText: false,
+      focusNode: _focus,
+      onChanged: (_) => setState(() {
+        startup = false;
+      }),
+      decoration: InputDecoration(
+        errorText: _errorText,
+        errorStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            fontWeight: FontWeight.bold),
+        label: setRequiredText(),
+        //labelText: widget.LableText,
+        //labelStyle: const TextStyle(color: Colors.blueAccent),
+        prefixIcon: Icon(
+          Icons.calendar_today,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
+        //hintText: hintText,
+        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          filled: true,
-          //hintText: hintText,
-          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 2.0,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            width: 2.0,
           ),
         ),
-        onTap: () {
-          _selectDate(context);
-        },
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        ),
       ),
+      onTap: () {
+        _selectDate(context);
+      },
     );
   }
 }

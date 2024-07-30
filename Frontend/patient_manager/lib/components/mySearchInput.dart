@@ -91,61 +91,58 @@ class _MySearchFieldState extends State<MySearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        onChanged: widget.onChanged,
-        controller: widget.controller,
-        //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        readOnly: makeEditable(),
-        focusNode: _focus,
-        obscureText: false,
-        decoration: InputDecoration(
-          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          prefixIcon: IconButton(
-            icon: Icon(
-              Icons.search,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-            onPressed: () {
-              setState(() {
-                startup = false;
-              });
-              if (widget.controller.text != "") {
-                widget.onTap();
-              }
-            },
+    return TextField(
+      style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      onChanged: widget.onChanged,
+      controller: widget.controller,
+      //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      readOnly: makeEditable(),
+      focusNode: _focus,
+      obscureText: false,
+      decoration: InputDecoration(
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        prefixIcon: IconButton(
+          icon: Icon(
+            Icons.search,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          filled: true,
-          label: setRequiredText(),
-          errorText: _errorText,
-          errorStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              fontWeight: FontWeight.bold),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 2.0,
-            ),
+          onPressed: () {
+            setState(() {
+              startup = false;
+            });
+            if (widget.controller.text != "") {
+              widget.onTap();
+            }
+          },
+        ),
+        filled: true,
+        label: setRequiredText(),
+        errorText: _errorText,
+        errorStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            fontWeight: FontWeight.bold),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
           ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
           ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
       ),
     );

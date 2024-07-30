@@ -85,57 +85,54 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        style: TextStyle(
+    return TextField(
+      style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.top,
+      expands: true,
+      maxLines: null,
+      controller: widget.controller,
+      readOnly: makeEditable(),
+      obscureText: false,
+      focusNode: _focus,
+      onChanged: (_) => setState(() {
+        startup = false;
+      }),
+      decoration: InputDecoration(
+        label: setRequiredText(),
+        errorText: _errorText,
+        errorStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            fontWeight: FontWeight.bold),
+        labelStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        textAlign: TextAlign.start,
-        textAlignVertical: TextAlignVertical.top,
-        expands: true,
-        maxLines: null,
-        controller: widget.controller,
-        readOnly: makeEditable(),
-        obscureText: false,
-        focusNode: _focus,
-        onChanged: (_) => setState(() {
-          startup = false;
-        }),
-        decoration: InputDecoration(
-          label: setRequiredText(),
-          errorText: _errorText,
-          errorStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              fontWeight: FontWeight.bold),
-          labelStyle: TextStyle(
+        alignLabelWithHint: true,
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
+        //hintText: hintText,
+        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          alignLabelWithHint: true,
-          fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          filled: true,
-          //hintText: hintText,
-          //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 2.0,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          ),
         ),
       ),
     );
