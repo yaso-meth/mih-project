@@ -322,30 +322,33 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     width: 450.0,
                     height: 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Already a User?',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text(
+                            'Already a User?',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
-                        )
-                      ],
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],

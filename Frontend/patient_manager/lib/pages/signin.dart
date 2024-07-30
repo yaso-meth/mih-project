@@ -205,35 +205,38 @@ class _SignInState extends State<SignIn> {
                   SizedBox(
                     width: 450.0,
                     height: 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'New User?',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 201, 200, 200)),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: Text(
-                            'Register Now',
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text(
+                            'New User?',
                             style: TextStyle(
-                              fontSize: 18,
-                              color: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Color.fromARGB(255, 201, 200, 200)),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: Text(
+                              'Register Now',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 15,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
