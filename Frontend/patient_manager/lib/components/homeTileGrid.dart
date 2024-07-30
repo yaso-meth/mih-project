@@ -49,7 +49,14 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
 
     if (AppEnviroment.getEnv() == "Dev") {
-      tileList.add([Icons.abc, "Test 1", () {}]);
+      tileList.add([
+        Icons.add,
+        "Add Test",
+        () {
+          Navigator.of(context).pushNamed('/patient-manager/add',
+              arguments: widget.signedInUser);
+        }
+      ]);
       tileList.add([Icons.abc, "Test 2", () {}]);
       tileList.add([Icons.abc, "Test 3", () {}]);
       tileList.add([Icons.abc, "Test 4", () {}]);
