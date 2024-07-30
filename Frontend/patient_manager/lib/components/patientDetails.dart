@@ -26,6 +26,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   final medAidCodeController = TextEditingController();
   double? headingFontSize = 35.0;
   double? bodyFonstSize = 20.0;
+  double textFieldWidth = 400.0;
 
   @override
   void initState() {
@@ -60,7 +61,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
@@ -100,58 +101,57 @@ class _PatientDetailsState extends State<PatientDetails> {
           Divider(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10),
-          Column(
+          Wrap(
+            spacing: 15,
+            runSpacing: 10,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                        controller: idController,
-                        hintText: "ID No.",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: fnameController,
-                        hintText: "Name",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: lnameController,
-                        hintText: "Surname",
-                        editable: false,
-                        required: false),
-                  ),
-                ],
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: idController,
+                    hintText: "ID No.",
+                    editable: false,
+                    required: false),
               ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                        controller: cellController,
-                        hintText: "Cell No.",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: emailController,
-                        hintText: "Email",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: addressController,
-                        hintText: "Address",
-                        editable: false,
-                        required: false),
-                  ),
-                ],
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: fnameController,
+                    hintText: "Name",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: lnameController,
+                    hintText: "Surname",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: cellController,
+                    hintText: "Cell No.",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: emailController,
+                    hintText: "Email",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: addressController,
+                    hintText: "Address",
+                    editable: false,
+                    required: false),
               ),
             ],
           ),
@@ -168,61 +168,60 @@ class _PatientDetailsState extends State<PatientDetails> {
           Divider(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10),
-          Column(
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                        controller: medAidController,
-                        hintText: "Has Medical Aid",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: medMainMemController,
-                        hintText: "Main Member",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: medNoController,
-                        hintText: "No.",
-                        editable: false,
-                        required: false),
-                  ),
-                ],
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medAidController,
+                    hintText: "Has Medical Aid",
+                    editable: false,
+                    required: false),
               ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyTextField(
-                        controller: medAidCodeController,
-                        hintText: "Code",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: medNameController,
-                        hintText: "Name",
-                        editable: false,
-                        required: false),
-                  ),
-                  Expanded(
-                    child: MyTextField(
-                        controller: medSchemeController,
-                        hintText: "Scheme",
-                        editable: false,
-                        required: false),
-                  ),
-                ],
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medMainMemController,
+                    hintText: "Main Member",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medNoController,
+                    hintText: "No.",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medAidCodeController,
+                    hintText: "Code",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medNameController,
+                    hintText: "Name",
+                    editable: false,
+                    required: false),
+              ),
+              SizedBox(
+                width: textFieldWidth,
+                child: MyTextField(
+                    controller: medSchemeController,
+                    hintText: "Scheme",
+                    editable: false,
+                    required: false),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

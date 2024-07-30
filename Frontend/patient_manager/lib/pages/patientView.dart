@@ -91,14 +91,14 @@ class _PatientViewState extends State<PatientView> {
                         alignment: WrapAlignment.center,
                         children: [
                           SizedBox(
-                            width: 650,
+                            width: 660,
                             child: PatientNotes(
                               patientAppId: snapshot.data!.app_id,
                               signedInUser: widget.signedInUser,
                             ),
                           ),
                           SizedBox(
-                            width: 650,
+                            width: 660,
                             child: PatientFiles(
                               patientIndex: snapshot.data!.idpatients,
                               selectedPatient: snapshot.data!,
