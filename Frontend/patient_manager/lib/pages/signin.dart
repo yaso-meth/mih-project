@@ -120,93 +120,95 @@ class _SignInState extends State<SignIn> {
           child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //logo
-                  Icon(
-                    Icons.lock,
-                    size: 100,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                  //spacer
-                  const SizedBox(height: 10),
-                  //Heading
-                  Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //logo
+                    Icon(
+                      Icons.lock,
+                      size: 100,
                       color: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
-                  ),
-                  //spacer
-                  const SizedBox(height: 25),
-                  //email input
-                  SizedBox(
-                    width: 500.0,
-                    child: MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      editable: true,
-                      required: true,
+                    //spacer
+                    const SizedBox(height: 10),
+                    //Heading
+                    Text(
+                      'Sign In',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
                     ),
-                  ),
-                  //spacer
-                  const SizedBox(height: 25),
-                  //password input
-                  SizedBox(
-                    width: 500.0,
-                    child: MyPassField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      required: true,
+                    //spacer
+                    const SizedBox(height: 25),
+                    //email input
+                    SizedBox(
+                      width: 500.0,
+                      child: MyTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        editable: true,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  //spacer
-                  const SizedBox(height: 10),
-                  // sign in button
-                  SizedBox(
-                    width: 500.0,
-                    height: 100.0,
-                    child: MyButton(
-                      buttonText: "Sign In",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () async {
-                        if (emailController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const MyErrorMessage(
-                                  errorType: "Input Error");
-                            },
-                          );
-                        } else {
-                          await signUserIn();
-                          //print(successfulSignIn);
-                          if (successfulSignIn) {
-                            Navigator.of(context).pushNamed('/home');
+                    //spacer
+                    const SizedBox(height: 10),
+                    //password input
+                    SizedBox(
+                      width: 500.0,
+                      child: MyPassField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        required: true,
+                      ),
+                    ),
+                    //spacer
+                    const SizedBox(height: 10),
+                    // sign in button
+                    SizedBox(
+                      width: 500.0,
+                      height: 100.0,
+                      child: MyButton(
+                        buttonText: "Sign In",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () async {
+                          if (emailController.text.isEmpty ||
+                              passwordController.text.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MyErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          } else {
+                            await signUserIn();
+                            //print(successfulSignIn);
+                            if (successfulSignIn) {
+                              Navigator.of(context).pushNamed('/home');
+                            }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                  //spacer
-                  //const SizedBox(height: 30),
-                  //register text
-                  SizedBox(
-                    width: 450.0,
-                    height: 100.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                    //spacer
+                    //const SizedBox(height: 30),
+                    //register text
+                    SizedBox(
+                      width: 500.0,
+                      //height: 100.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -237,9 +239,9 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
