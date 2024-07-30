@@ -60,7 +60,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushNamed('/', arguments: widget.signedInUser);
+      Navigator.of(context)
+          .popAndPushNamed('/', arguments: widget.signedInUser);
       String message =
           "${widget.signedInUser.email}'s information has been updated successfully!";
       successPopUp(message);

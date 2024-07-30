@@ -218,7 +218,7 @@ class _RegisterState extends State<Register> {
           } else {
             await signUserUp();
             if (successfulSignUp) {
-              Navigator.of(context).pushNamed('/home');
+              Navigator.of(context).popAndPushNamed('/profile');
             }
           }
         }
