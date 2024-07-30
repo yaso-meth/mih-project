@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
-import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/env/env.dart';
@@ -237,7 +237,7 @@ class _PatientManagerState extends State<PatientManager> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const MyAppBar(barTitle: "Patient Manager"),
+      appBar: const MIHAppBar(barTitle: "Patient Manager"),
       // drawer: PatManAppDrawer(
       //   userEmail: widget.userEmail,
       //   logo: MzanziInnovationHub.of(context)!.theme.logoImage(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
-import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/patients.dart';
@@ -96,7 +96,7 @@ class RouteGenerator {
 Route<dynamic> _errorRoute() {
   return MaterialPageRoute(builder: (_) {
     return const Scaffold(
-      appBar: MyAppBar(barTitle: "Error"),
+      appBar: MIHAppBar(barTitle: "Error"),
       body: Center(
         child: Text("Error"),
       ),

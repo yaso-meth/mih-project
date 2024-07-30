@@ -9,7 +9,7 @@ import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
-import '../components/myAppBar.dart';
+import '../components/mihAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class AddPatient extends StatefulWidget {
@@ -389,7 +389,7 @@ class _AddPatientState extends State<AddPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(barTitle: "Add Patient"),
+      appBar: const MIHAppBar(barTitle: "Add Patient"),
       body: displayForm(),
     );
   }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
-import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
@@ -71,7 +71,7 @@ class _PatientViewState extends State<PatientView> {
         else if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return Scaffold(
-              appBar: const MyAppBar(barTitle: "Patient View"),
+              appBar: const MIHAppBar(barTitle: "Patient View"),
               drawer:
                   MIHAppDrawer(signedInUser: widget.signedInUser, logo: logo),
               body: SingleChildScrollView(

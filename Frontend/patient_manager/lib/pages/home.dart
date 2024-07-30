@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
-import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return Scaffold(
-              appBar: const MyAppBar(barTitle: "Mzansi Innovation Hub"),
+              appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
               drawer: MIHAppDrawer(
                 signedInUser: snapshot.data!,
                 logo: logo,

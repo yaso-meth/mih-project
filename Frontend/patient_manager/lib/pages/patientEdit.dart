@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/myAppBar.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
@@ -571,7 +571,7 @@ class _EditPatientState extends State<EditPatient> {
     });
 
     return Scaffold(
-      appBar: const MyAppBar(barTitle: "Edit Patient"),
+      appBar: const MIHAppBar(barTitle: "Edit Patient"),
       body: displayForm(),
     );
   }
