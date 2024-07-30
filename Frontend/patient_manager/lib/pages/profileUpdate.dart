@@ -39,8 +39,11 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(barTitle: "Update Profile"),
-      body: Center(
-        child: _widgetOptions.elementAt(0),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Center(
+          child: _widgetOptions.elementAt(0),
+        ),
       ),
       // bottomNavigationBar: GNav(
       //   //hoverColor: Colors.lightBlueAccent,

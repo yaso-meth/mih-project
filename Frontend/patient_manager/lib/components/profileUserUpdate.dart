@@ -102,7 +102,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 15.0),
         const Text(
           "Update User profile:",
           style: TextStyle(
