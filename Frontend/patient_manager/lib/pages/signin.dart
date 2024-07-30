@@ -61,10 +61,10 @@ class _SignInState extends State<SignIn> {
       );
       //print(response.body[])
       if (response.statusCode == 200) {
-        print(response.body);
+        //print(response.body);
         var userSignedin = jsonDecode(response.body);
         if (userSignedin["status"] == "OK") {
-          print("here");
+          //print("here");
           setState(() {
             successfulSignIn = true;
           });
