@@ -147,7 +147,7 @@ class _RegisterState extends State<Register> {
         return const MySuccessMessage(
             successType: "Success",
             successMessage:
-                "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
+                "Congratulations! Your account has been created successfully. You are logged in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
       },
     );
   }
