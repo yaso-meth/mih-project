@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -19,7 +20,20 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   late List<List<dynamic>> tileList = [];
 
   void setApps(List<List<dynamic>> tileList) {
-    if (widget.signedInUser.type == "personal") {
+    if (widget.signedInUser.fname == "") {
+      tileList.add(
+        [
+          Icons.perm_identity,
+          "Update Profie",
+          () {
+            Navigator.of(context)
+                .pushNamed('/profile', arguments: widget.signedInUser);
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
+          }
+        ],
+      );
+    } else if (widget.signedInUser.type == "personal") {
       tileList.add(
         [
           Icons.medication,
@@ -51,13 +65,24 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     if (AppEnviroment.getEnv() == "Dev") {
       tileList.add([
         Icons.add,
-        "Add Test",
+        "Add Pat - Dev",
         () {
           Navigator.of(context).pushNamed('/patient-manager/add',
               arguments: widget.signedInUser);
         }
       ]);
-      tileList.add([Icons.abc, "Test 2", () {}]);
+      tileList.add([
+        Icons.password,
+        "Pass Req - Dev",
+        () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const MyErrorMessage(errorType: "Password Requirements");
+            },
+          );
+        }
+      ]);
       tileList.add([Icons.abc, "Test 3", () {}]);
       tileList.add([Icons.abc, "Test 4", () {}]);
       tileList.add([Icons.abc, "Test 5", () {}]);
