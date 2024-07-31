@@ -291,7 +291,10 @@ class _PatientNotesState extends State<PatientNotes> {
                           .secondaryColor()),
                 ),
                 const SizedBox(height: 10),
-                BuildNotesList(notes: notesList),
+                BuildNotesList(
+                  notes: notesList,
+                  signedInUser: widget.signedInUser,
+                ),
               ]),
             ),
           );
