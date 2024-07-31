@@ -123,6 +123,77 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     );
   }
 
+  void setPasswordRequirementsError() {
+    messageTypes["Password Requirements"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500,
+          height: 450,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Password Doesn't Meet Requirements",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Your password doesn't meet our security standards. Please ensure that your password contain at least one letter.\n\nFor added security please try again using a combination of letters, numbers, and special characters for a stronger password.",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setUserExistsError() {
     messageTypes["User Exists"] = Stack(
       children: [
@@ -549,6 +620,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     setInternetError();
     setUserExistsError();
     setPwdMatchError();
+    setPasswordRequirementsError();
     //print(size);
     // setState(() {
     //   width = size.width;
