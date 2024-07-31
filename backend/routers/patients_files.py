@@ -11,9 +11,8 @@ from fastapi import Depends
 
 router = APIRouter()
 
-class fileRequest(BaseModel):
-    DocOfficeID: int
-    patientID: int
+class fileDeleteRequest(BaseModel):
+    idpatient_files: int
 
 class fileInsertRequest(BaseModel):
     file_path: str
@@ -88,6 +87,25 @@ async def read_all_patient_files_by_app_id(app_id: str, session: SessionContaine
 #     cursor.close()
 #     db.close()
 #     return items
+
+# Delete Patient note on table
+@router.delete("/files/delete/", tags=["Patients Files"])
+async def Delete_Patient_File(itemRequest : fileDeleteRequest, session: SessionContainer = Depends(verify_session())): #session: SessionContainer = Depends(verify_session())
+    # today = date.today()
+    db = database.dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "delete from patient_files "
+    query += "where idpatient_files=%s"
+    # notetData = (itemRequest.idpatient_notes)
+    try:
+       cursor.execute(query, (str(itemRequest.idpatient_files),)) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Delete Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully deleted Record"}
 
 # Insert Patient note into table
 @router.post("/files/insert/", tags=["Patients Files"], status_code=201)
