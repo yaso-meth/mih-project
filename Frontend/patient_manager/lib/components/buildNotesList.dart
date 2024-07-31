@@ -31,14 +31,6 @@ class _BuildNotesListState extends State<BuildNotesList> {
   final baseAPI = AppEnviroment.baseApiUrl;
 
   Future<void> deleteNoteApiCall(int NoteId) async {
-    //print("Here1");
-    //userEmail = getLoginUserEmail() as String;
-    //print(userEmail);
-    //print("Here2");
-    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    //print("Office ID: ${futureDocOfficeId.toString()}");
-    //print("OPatient ID No: ${idController.text}");
-    //print("Here3");
     var response = await http.delete(
       Uri.parse("$baseAPI/notes/delete/"),
       headers: <String, String>{
