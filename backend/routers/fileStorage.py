@@ -18,6 +18,9 @@ import Minio_Storage.minioConnection
 
 router = APIRouter()
 
+class minioDeleteRequest(BaseModel):
+    file_path: str
+
 class medCertUploud(BaseModel):
     app_id: str
     fullName: str 
@@ -29,10 +32,13 @@ class medCertUploud(BaseModel):
 @router.post("/minio/upload/file/", tags=["Minio"])
 async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...)):
     extension = file.filename.split(".")
-    content = file.file #.read()
-    # fs = await file.read()
-    uploudFile(app_id, file.filename, extension[1], content)
-    return {"message": "Successfully Uploaded File"}
+    content = file.file 
+    try:
+        uploudFile(app_id, file.filename, extension[1], content)
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Uploud Record")
+    return {"message": "Successfully Delete File"}
+    
     # return {
     #     "app_id": app_id,
     #     "file name": file.filename,
@@ -40,17 +46,24 @@ async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(..
     #     "file contents": file.file.read(),
     # }
 
-# # Get List of all files by patient
-# @router.post("/minio/upload/file2/", tags=["Minio"])
-# async def upload_File_to_user( file: UploadFile = File(...)):
-#     extension = file.filename.split(".")
-#     # print(file.file)
-#     # print(file.filename)
-#     # print(extension[1])
-#     # print(file.size)
-#     uploudFile(file.filename, extension[1], file.file, file.size)
+@router.delete("/minio/delete/file/", tags=["Minio"])
+async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    path = requestItem.file_path
+    try:
+        # uploudFile(app_id, file.filename, extension[1], content)
+        client = Minio_Storage.minioConnection.minioConnect()
     
-#     return {"message": "Successfully Uploaded File"}
+        minioError = client.remove_object("mih", path)
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=minioError)
+        # return {"message": error}
+    return {"message": "Successfully deleted File"}
+    # return {
+    #     "app_id": app_id,
+    #     "file name": file.filename,
+    #     "extension": extension[0],
+    #     "file contents": file.file.read(),
+    # }
 
 
 
@@ -64,11 +77,7 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
                requestItem.endDate,
                requestItem.returnDate)
     return {"message": "Successfully Generated File"}
-
-
-
-
-
+    
 def uploudFile(app_id, fileName, extension, content):
     client = Minio_Storage.minioConnection.minioConnect()
     found = client.bucket_exists("mih")
