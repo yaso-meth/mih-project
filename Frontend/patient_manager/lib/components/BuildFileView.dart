@@ -14,12 +14,13 @@ class _BuildFileViewState extends State<BuildFileView> {
 
   String getExtType(String pdfLink) {
     //print(pdfLink.split(".")[1]);
-    return pdfLink.split(".")[1];
+    return pdfLink.split(".").last;
   }
 
   @override
   Widget build(BuildContext context) {
     if (getExtType(widget.pdfLink).toLowerCase() == "pdf") {
+      //print(widget.pdfLink);
       return SizedBox(
         width: 700,
         child: Column(
@@ -34,6 +35,7 @@ class _BuildFileViewState extends State<BuildFileView> {
         ),
       );
     } else {
+      print("Image");
       return InteractiveViewer(
         maxScale: 5.0,
         //minScale: 0.,
