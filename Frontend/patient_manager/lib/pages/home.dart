@@ -52,24 +52,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // Future<void> getUser() async {
-  //   var uid = await SuperTokens.getUserId();
-  //   var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
-  //   if (response.statusCode == 200) {
-  //     var user = jsonDecode(response.body);
-  //     print(user);
-  //     signedInUser = AppUser.fromJson(user as Map<String, dynamic>);
-
-  //     //useremail = user["email"];
-  //   }
-  // }
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  // }
-
   @override
   void initState() {
     //signedInUser = getUserDetails();
