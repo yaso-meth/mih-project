@@ -29,6 +29,7 @@ class MyTheme {
 
   ThemeData getData() {
     return ThemeData(
+        fontFamily: 'Segoe UI',
         scaffoldBackgroundColor: primaryColor(),
         colorScheme: ColorScheme(
           brightness: getBritness(),
