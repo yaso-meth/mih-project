@@ -1,17 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/BuildFileView.dart';
+import 'package:patient_manager/components/mihDeleteMessage.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
-//import 'dart:js' as js;
+import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
 class BuildFilesList extends StatefulWidget {
+  final AppUser signedInUser;
   final List<PFile> files;
   const BuildFilesList({
     super.key,
     required this.files,
+    required this.signedInUser,
   });
 
   @override
@@ -20,8 +28,80 @@ class BuildFilesList extends StatefulWidget {
 
 class _BuildFilesListState extends State<BuildFilesList> {
   int indexOn = 0;
+  final baseAPI = AppEnviroment.baseApiUrl;
 
-  void viewFilePopUp(String fileName, String filePath) {
+  Future<void> deleteFileApiCall(String filePath, int fileID) async {
+    // delete file from minio
+    var response = await http.delete(
+      Uri.parse("$baseAPI/minio/delete/file/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+    );
+    //print("Here4");
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
+      //SQL delete
+      var response2 = await http.delete(
+        Uri.parse("$baseAPI/files/delete/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{"idpatient_files": fileID}),
+      );
+      if (response2.statusCode == 200) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context)
+            .pushNamed('/patient-profile', arguments: widget.signedInUser);
+        setState(() {});
+        String message =
+            "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
+        successPopUp(message);
+      } else {
+        internetConnectionPopUp();
+      }
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MySuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
+
+  void deleteFilePopUp(String filePath, int fileID) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MIHDeleteMessage(
+        deleteType: "File",
+        onTap: () {
+          deleteFileApiCall(filePath, fileID);
+        },
+      ),
+    );
+  }
+
+  void viewFilePopUp(String fileName, String filePath, int fileID) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -43,16 +123,33 @@ class _BuildFilesListState extends State<BuildFilesList> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    fileName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        fileName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          deleteFilePopUp(filePath, fileID);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 25.0),
                   Expanded(
@@ -138,6 +235,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 viewFilePopUp(
                   widget.files[index].file_name,
                   widget.files[index].file_path,
+                  widget.files[index].idpatient_files,
                 );
               },
             );

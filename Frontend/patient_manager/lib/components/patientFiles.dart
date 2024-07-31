@@ -169,58 +169,7 @@ class _PatientFilesState extends State<PatientFiles> {
         // end loading circle
         Navigator.of(context).pop();
         String message =
-            "The medical certificate ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> uploadSelectedFilev1(PlatformFile file) async {
-    //var strem = new http.ByteStream.fromBytes(file.bytes.)
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/files/upload/file/"));
-    request.fields['app_id'] = widget.selectedPatient.app_id;
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    var response1 = await request.send();
-    //print(response1.statusCode);
-    if (response1.statusCode == 200) {
-      var response2 = await http.post(
-        Uri.parse(endpointInsertFiles),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path": file.name.replaceAll(RegExp(r' '), '-'),
-          "file_name": file.name.replaceAll(RegExp(r' '), '-'),
-          "patient_id": widget.patientIndex
-        }),
-      );
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        setState(() {
-          selectedFileController.clear();
-          futueFiles = fetchFiles();
-        });
-        // end loading circle
-        Navigator.of(context).pop();
-        String message =
-            "The medical certificate ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+            "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
         successPopUp(message);
       } else {
         internetConnectionPopUp();
@@ -712,7 +661,10 @@ class _PatientFilesState extends State<PatientFiles> {
                           .secondaryColor()),
                 ),
                 const SizedBox(height: 10),
-                BuildFilesList(files: filesList),
+                BuildFilesList(
+                  files: filesList,
+                  signedInUser: widget.signedInUser,
+                ),
               ]),
             ),
           );
