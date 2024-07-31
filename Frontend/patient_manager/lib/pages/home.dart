@@ -23,21 +23,21 @@ class _HomeState extends State<Home> {
   //late Future<AppUser> signedInUser;
   String useremail = "";
   final baseAPI = AppEnviroment.baseApiUrl;
-  //late Image logo;
 
-  Future<void> loadImage() async {
-    try {
-      var t = MzanziInnovationHub.of(context)!.theme.logoImage();
-      await precacheImage(t.image, context);
-    } catch (e) {
-      print('Failed to load and cache the image: $e');
-    }
-  }
+  // Future<void> loadImage() async {
+  //   try {
+  //     var t = MzanziInnovationHub.of(context)!.theme.logoImage();
+  //     await precacheImage(t.image, context);
+  //   } catch (e) {
+  //     print('Failed to load and cache the image: $e');
+  //   }
+  // }
 
   Future<AppUser> getUserDetails() async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
     var uid = await SuperTokens.getUserId();
     var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
+
     // print(response.statusCode);
     // print(response.body);
     if (response.statusCode == 200) {
@@ -56,12 +56,20 @@ class _HomeState extends State<Home> {
   void initState() {
     //signedInUser = getUserDetails();
     super.initState();
+
+    //precacheImage(logo, context);
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   precacheImage(logo, context);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    loadImage();
-    var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    //loadImage();
+
     return FutureBuilder(
       future: getUserDetails(),
       builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
@@ -71,7 +79,8 @@ class _HomeState extends State<Home> {
               appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
               drawer: MIHAppDrawer(
                 signedInUser: snapshot.data!,
-                logo: logo,
+                logo:
+                    MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
               ), //HomeAppDrawer(userEmail: useremail),
               body: HomeTileGrid(
                 signedInUser: snapshot.data!,

@@ -48,19 +48,19 @@ class _PatientViewState extends State<PatientView> {
     return null;
   }
 
-  Future<void> loadImage() async {
-    try {
-      var t = MzanziInnovationHub.of(context)!.theme.logoImage();
-      await precacheImage(t.image, context);
-    } catch (e) {
-      print('Failed to load and cache the image: $e');
-    }
-  }
+  // Future<void> loadImage() async {
+  //   try {
+  //     var t = MzanziInnovationHub.of(context)!.theme.logoImage();
+  //     await precacheImage(t.image, context);
+  //   } catch (e) {
+  //     print('Failed to load and cache the image: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    loadImage();
-    var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    // loadImage();
+    // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return FutureBuilder(
       future: fetchPatient(),
       builder: (ctx, snapshot) {
@@ -72,8 +72,10 @@ class _PatientViewState extends State<PatientView> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MIHAppBar(barTitle: "Patient View"),
-              drawer:
-                  MIHAppDrawer(signedInUser: widget.signedInUser, logo: logo),
+              drawer: MIHAppDrawer(
+                signedInUser: widget.signedInUser,
+                logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
+              ),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

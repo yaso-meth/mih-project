@@ -57,6 +57,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(theme.logoImage(), context);
     return MaterialApp(
       title: getTitle(),
       themeMode: _themeMode,

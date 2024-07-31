@@ -103,13 +103,13 @@ class MyTheme {
     return Color(_succColor);
   }
 
-  Image logoImage() {
+  AssetImage logoImage() {
     if (mode == "Dark") {
-      return Image.asset(
+      return const AssetImage(
         'images/Logo-01.png',
       );
     } else {
-      return Image.asset(
+      return const AssetImage(
         'images/Logo-02.png',
       );
     }

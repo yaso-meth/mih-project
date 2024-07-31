@@ -5,7 +5,7 @@ import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
-  final Image logo;
+  final AssetImage logo;
   const MIHAppDrawer({
     super.key,
     required this.signedInUser,
@@ -74,7 +74,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   children: [
                     SizedBox(
                       height: 60,
-                      child: widget.logo,
+                      child: Image(image: widget.logo),
                     ),
                     Text(
                       "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
