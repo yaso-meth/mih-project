@@ -48,11 +48,11 @@ class _RegisterState extends State<Register> {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).popAndPushNamed('/home');
       signUpSuccess();
-      setState(() {
-        successfulSignUp = true;
-      });
+      // setState(() {
+      //   successfulSignUp = true;
+      // });
     } else {
       internetConnectionPopUp();
     }
@@ -109,39 +109,26 @@ class _RegisterState extends State<Register> {
             );
             //print("response 2: ${response2.statusCode}");
             if (response2.statusCode == 200) {
-              //print(response2.body);
+              //print("response 2: ${response2.body}");
               var userCreated = jsonDecode(response2.body);
-              //print(userCreated);
+              //print("Created user $userCreated");
               if (userCreated["status"] == "OK") {
-                //print("Here");
+                //print("Here1");
                 //Creat user in db
-                var response2 = await http.post(
-                  Uri.parse("$baseAPI/auth/signup"),
-                  body:
-                      '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
-                  headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                    "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
-                  },
-                );
                 String uid = await SuperTokens.getUserId();
-                if (response2.statusCode == 200) {
-                  addUserAPICall(emailController.text, uid);
-                } else {
-                  internetConnectionPopUp();
-                }
+                //print("uid: $uid");
+                addUserAPICall(emailController.text, uid);
+                Navigator.of(context).pop();
+                //print("Here1");
+              } else if (userCreated["status"] == "FIELD_ERROR") {
+                Navigator.of(context).pop();
+                passwordError();
+              } else {
+                Navigator.of(context).pop();
+                internetConnectionPopUp();
               }
             }
           }
-          Navigator.of(context).pop();
-          // final response = await client.auth.signUp(
-          //   email: emailController.text,
-          //   password: passwordController.text,
-          // );
-          // if (response.session != null) {
-          //   Navigator.of(context).pushNamed('/homme');
-          // }
         }
       } on AuthException catch (error) {
         Navigator.of(context).pop();
@@ -160,7 +147,7 @@ class _RegisterState extends State<Register> {
         return const MySuccessMessage(
             successType: "Success",
             successMessage:
-                "Congratulations! Your account has been created successfully. You are log in and start exploring.");
+                "Congratulations! Your account has been created successfully. You are log in and can start exploring.");
       },
     );
   }
@@ -178,7 +165,7 @@ class _RegisterState extends State<Register> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Password");
+        return const MyErrorMessage(errorType: "Password Requirements");
       },
     );
   }
@@ -217,9 +204,6 @@ class _RegisterState extends State<Register> {
             );
           } else {
             await signUserUp();
-            if (successfulSignUp) {
-              Navigator.of(context).popAndPushNamed('/profile');
-            }
           }
         }
       },
@@ -315,9 +299,6 @@ class _RegisterState extends State<Register> {
                             );
                           } else {
                             await signUserUp();
-                            if (successfulSignUp) {
-                              Navigator.of(context).pushNamed('/homme');
-                            }
                           }
                         },
                       ),
