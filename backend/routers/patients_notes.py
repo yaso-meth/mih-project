@@ -114,7 +114,7 @@ async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: S
     db.close()
     return {"message": "Successfully Created Record"}
 
-# Update Patient note on table
+# Delete Patient note on table
 @router.delete("/notes/delete/", tags=["Patients Notes"])
 async def Delete_Patient_note(itemRequest : noteDeleteRequest, session: SessionContainer = Depends(verify_session()) ): #session: SessionContainer = Depends(verify_session())
     # today = date.today()
