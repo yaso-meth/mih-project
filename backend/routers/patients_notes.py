@@ -11,9 +11,8 @@ from fastapi import Depends
 
 router = APIRouter()
 
-class noteRequest(BaseModel):
-    DocOfficeID: int
-    patientID: int
+class noteDeleteRequest(BaseModel):
+    idpatient_notes: int
 
 class patientNoteInsertRequest(BaseModel):
     note_name: str
@@ -114,6 +113,25 @@ async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: S
     cursor.close()
     db.close()
     return {"message": "Successfully Created Record"}
+
+# Update Patient note on table
+@router.delete("/notes/delete/", tags=["Patients Notes"])
+async def Delete_Patient_note(itemRequest : noteDeleteRequest ): #session: SessionContainer = Depends(verify_session())
+    # today = date.today()
+    db = database.dbConnection.dbConnect()
+    cursor = db.cursor()
+    query = "delete from patient_notes "
+    query += "where idpatient_notes=%s"
+    # notetData = (itemRequest.idpatient_notes)
+    try:
+       cursor.execute(query, (str(itemRequest.idpatient_notes),)) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Delete Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully deleted Record"}
 
 # Update Patient note on table
 # @router.put("/notes/update/", tags="patients_notes")
