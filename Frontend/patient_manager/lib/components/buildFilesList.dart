@@ -29,6 +29,36 @@ class BuildFilesList extends StatefulWidget {
 class _BuildFilesListState extends State<BuildFilesList> {
   int indexOn = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
+  String fileUrl = "";
+
+  Future<String> getFileUrlApiCall(String filePath) async {
+    var url;
+    if (AppEnviroment.getEnv() == "Dev") {
+      url = "$baseAPI/minio/pull/file/$filePath/dev";
+    } else {
+      url = "$baseAPI/minio/pull/file/$filePath/prod";
+    }
+    //print(url);
+    var response = await http.get(Uri.parse(url));
+    // print("here1");
+    //print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      //print("here2");
+      String body = response.body;
+      //print(body);
+      //print("here3");
+      var decodedData = jsonDecode(body);
+      //print("Dedoced: ${decodedData['minioURL']}");
+
+      return decodedData['minioURL'];
+      //AppUser u = AppUser.fromJson(decodedData);
+      // print(u.email);
+      //return "AlometThere";
+    } else {
+      throw Exception("Error: GetUserData status code ${response.statusCode}");
+    }
+  }
 
   Future<void> deleteFileApiCall(String filePath, int fileID) async {
     // delete file from minio
@@ -101,7 +131,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
     );
   }
 
-  void viewFilePopUp(String fileName, String filePath, int fileID) {
+  void viewFilePopUp(String fileName, String filePath, int fileID, String url) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -154,15 +184,18 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   const SizedBox(height: 25.0),
                   Expanded(
                       child: BuildFileView(
-                          pdfLink:
-                              "${AppEnviroment.baseFileUrl}/mih/$filePath")),
+                    link: url,
+                    path: filePath,
+                    //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                  )),
                   SizedBox(
                     width: 300,
                     height: 100,
                     child: MyButton(
                       onTap: () {
                         html.window.open(
-                            '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                            url,
+                            // '${AppEnviroment.baseFileUrl}/mih/$filePath',
                             'download');
                       },
                       buttonText: "Dowload",
@@ -231,12 +264,20 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 Icons.arrow_forward,
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
-              onTap: () {
+              onTap: () async {
+                await getFileUrlApiCall(widget.files[index].file_path)
+                    .then((urlHere) {
+                  //print(url);
+                  setState(() {
+                    fileUrl = urlHere;
+                  });
+                });
+
                 viewFilePopUp(
-                  widget.files[index].file_name,
-                  widget.files[index].file_path,
-                  widget.files[index].idpatient_files,
-                );
+                    widget.files[index].file_name,
+                    widget.files[index].file_path,
+                    widget.files[index].idpatient_files,
+                    fileUrl);
               },
             );
           },

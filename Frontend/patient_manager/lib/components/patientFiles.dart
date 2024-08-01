@@ -16,6 +16,7 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/files.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
+import 'package:supertokens_flutter/supertokens.dart';
 
 import '../objects/patients.dart';
 
@@ -132,18 +133,23 @@ class _PatientFilesState extends State<PatientFiles> {
         );
       },
     );
+
+    var token = await SuperTokens.getAccessToken();
+    //print(t);
     //print("here1");
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
     request.headers['accept'] = 'application/json';
-    request.fields['app_id'] = widget.selectedPatient.app_id;
+    request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields['app_id'] = widget.selectedPatient.app_id;
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     //print("here2");
     var response1 = await request.send();
     //print("here3");
-    //print(response1.statusCode);
+    print(response1.statusCode);
+    print(response1.toString());
     if (response1.statusCode == 200) {
       //print("here3");
       var fname = file.name.replaceAll(RegExp(r' '), '-');

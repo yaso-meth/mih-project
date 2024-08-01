@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class BuildFileView extends StatefulWidget {
-  final String pdfLink;
-  const BuildFileView({super.key, required this.pdfLink});
+  final String link;
+  final String path;
+  const BuildFileView({
+    super.key,
+    required this.link,
+    required this.path,
+  });
 
   @override
   State<BuildFileView> createState() => _BuildFileViewState();
@@ -12,14 +17,16 @@ class BuildFileView extends StatefulWidget {
 class _BuildFileViewState extends State<BuildFileView> {
   late PdfViewerController pdfViewerController = PdfViewerController();
 
-  String getExtType(String pdfLink) {
+  String getExtType(String path) {
     //print(pdfLink.split(".")[1]);
-    return pdfLink.split(".").last;
+    return path.split(".").last;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (getExtType(widget.pdfLink).toLowerCase() == "pdf") {
+    print(
+        "${widget.link} ================================================================");
+    if (getExtType(widget.path).toLowerCase() == "pdf") {
       //print(widget.pdfLink);
       return SizedBox(
         width: 700,
@@ -27,7 +34,7 @@ class _BuildFileViewState extends State<BuildFileView> {
           children: [
             Expanded(
               child: SfPdfViewer.network(
-                widget.pdfLink,
+                widget.link,
                 controller: pdfViewerController,
               ),
             ),
@@ -39,7 +46,7 @@ class _BuildFileViewState extends State<BuildFileView> {
       return InteractiveViewer(
         maxScale: 5.0,
         //minScale: 0.,
-        child: Image.network(widget.pdfLink),
+        child: Image.network(widget.link),
       );
     }
   }
