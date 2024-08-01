@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
+from fastapi.responses import FileResponse, JSONResponse
 import requests
 from pydantic import BaseModel
 from minio import Minio
@@ -18,6 +19,9 @@ import Minio_Storage.minioConnection
 
 router = APIRouter()
 
+class minioPullRequest(BaseModel):
+    file_path: str
+
 class minioDeleteRequest(BaseModel):
     file_path: str
 
@@ -29,8 +33,28 @@ class medCertUploud(BaseModel):
     endDate: str 
     returnDate: str 
 
+@router.get("/minio/pull/file/{app_id}/{file_name}", tags=["Minio"])
+async def pull_File_from_user(app_id: str, file_name: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    path = app_id + "/" + file_name
+    try:
+        # uploudFile(app_id, file.filename, extension[1], content)
+        client = Minio_Storage.minioConnection.minioConnect()
+    
+        miniourl = client.presigned_get_object("mih", path)
+        # temp = minioResponse.data#.encode('utf-8').strip()
+        # print(temp)
+        # print("=======================================================================")
+        # temp = temp.decode('utf-8')
+        #print(miniourl)
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=miniourl)
+        # return {"message": error}
+    return {
+        "minioURL": miniourl,
+    }
+
 @router.post("/minio/upload/file/", tags=["Minio"])
-async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...)):
+async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), session: SessionContainer = Depends(verify_session())):
     extension = file.filename.split(".")
     content = file.file 
     try:
