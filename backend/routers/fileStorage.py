@@ -33,12 +33,12 @@ class medCertUploud(BaseModel):
     endDate: str 
     returnDate: str 
 
-@router.get("/minio/pull/file/{app_id}/{file_name}", tags=["Minio"])
-async def pull_File_from_user(app_id: str, file_name: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+@router.get("/minio/pull/file/{app_id}/{file_name}/{env}", tags=["Minio"])
+async def pull_File_from_user(app_id: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     path = app_id + "/" + file_name
     try:
         # uploudFile(app_id, file.filename, extension[1], content)
-        client = Minio_Storage.minioConnection.minioConnect()
+        client = Minio_Storage.minioConnection.minioConnect(env)
     
         miniourl = client.presigned_get_object("mih", path)
         # temp = minioResponse.data#.encode('utf-8').strip()
