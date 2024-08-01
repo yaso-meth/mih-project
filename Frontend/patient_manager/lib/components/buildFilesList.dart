@@ -174,33 +174,19 @@ class _BuildFilesListState extends State<BuildFilesList> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        fileName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deleteFilePopUp(filePath, fileID);
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    fileName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 25.0),
                   Expanded(
@@ -243,6 +229,22 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   Icons.close,
                   color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 5,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  deleteFilePopUp(filePath, fileID);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),

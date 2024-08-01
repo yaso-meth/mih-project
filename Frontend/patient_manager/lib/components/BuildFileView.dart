@@ -24,8 +24,6 @@ class _BuildFileViewState extends State<BuildFileView> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "${widget.link} ================================================================");
     if (getExtType(widget.path).toLowerCase() == "pdf") {
       //print(widget.pdfLink);
       return SizedBox(
@@ -42,7 +40,6 @@ class _BuildFileViewState extends State<BuildFileView> {
         ),
       );
     } else {
-      print("Image");
       return InteractiveViewer(
         maxScale: 5.0,
         //minScale: 0.,
