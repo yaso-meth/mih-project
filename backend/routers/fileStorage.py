@@ -75,7 +75,7 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
     path = requestItem.file_path
     try:
         # uploudFile(app_id, file.filename, extension[1], content)
-        client = Minio_Storage.minioConnection.minioConnect()
+        client = Minio_Storage.minioConnection.minioConnect("dev")
     
         minioError = client.remove_object("mih", path)
     except Exception as error:
@@ -103,7 +103,7 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
     return {"message": "Successfully Generated File"}
     
 def uploudFile(app_id, fileName, extension, content):
-    client = Minio_Storage.minioConnection.minioConnect()
+    client = Minio_Storage.minioConnection.minioConnect("dev")
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
@@ -121,7 +121,7 @@ def uploudFile(app_id, fileName, extension, content):
 
 #"minio""localhost:9000"
 def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
-    client = Minio_Storage.minioConnection.minioConnect()
+    client = Minio_Storage.minioConnection.minioConnect("dev")
     generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate)
     found = client.bucket_exists("mih")
     if not found:

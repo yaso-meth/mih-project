@@ -29,35 +29,56 @@ class BuildFilesList extends StatefulWidget {
 class _BuildFilesListState extends State<BuildFilesList> {
   int indexOn = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
+  final basefile = AppEnviroment.baseFileUrl;
   String fileUrl = "";
 
   Future<String> getFileUrlApiCall(String filePath) async {
-    var url;
     if (AppEnviroment.getEnv() == "Dev") {
-      url = "$baseAPI/minio/pull/file/$filePath/dev";
+      return "$basefile/mih/$filePath";
     } else {
-      url = "$baseAPI/minio/pull/file/$filePath/prod";
+      var url = "$baseAPI/minio/pull/file/$filePath/prod";
+      //print(url);
+      var response = await http.get(Uri.parse(url));
+      // print("here1");
+      //print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        //print("here2");
+        String body = response.body;
+        //print(body);
+        //print("here3");
+        var decodedData = jsonDecode(body);
+        //print("Dedoced: ${decodedData['minioURL']}");
+
+        return decodedData['minioURL'];
+        //AppUser u = AppUser.fromJson(decodedData);
+        // print(u.email);
+        //return "AlometThere";
+      } else {
+        throw Exception(
+            "Error: GetUserData status code ${response.statusCode}");
+      }
     }
     //print(url);
-    var response = await http.get(Uri.parse(url));
-    // print("here1");
-    //print(response.statusCode);
+    // var response = await http.get(Uri.parse(url));
+    // // print("here1");
+    // //print(response.statusCode);
 
-    if (response.statusCode == 200) {
-      //print("here2");
-      String body = response.body;
-      //print(body);
-      //print("here3");
-      var decodedData = jsonDecode(body);
-      //print("Dedoced: ${decodedData['minioURL']}");
+    // if (response.statusCode == 200) {
+    //   //print("here2");
+    //   String body = response.body;
+    //   //print(body);
+    //   //print("here3");
+    //   var decodedData = jsonDecode(body);
+    //   //print("Dedoced: ${decodedData['minioURL']}");
 
-      return decodedData['minioURL'];
-      //AppUser u = AppUser.fromJson(decodedData);
-      // print(u.email);
-      //return "AlometThere";
-    } else {
-      throw Exception("Error: GetUserData status code ${response.statusCode}");
-    }
+    //   return decodedData['minioURL'];
+    //   //AppUser u = AppUser.fromJson(decodedData);
+    //   // print(u.email);
+    //   //return "AlometThere";
+    // } else {
+    //   throw Exception("Error: GetUserData status code ${response.statusCode}");
+    // }
   }
 
   Future<void> deleteFileApiCall(String filePath, int fileID) async {
