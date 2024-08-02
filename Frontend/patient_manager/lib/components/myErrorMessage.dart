@@ -259,7 +259,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
                   size: 100,
                   color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
                 Text(
                   "Oops! Invalid Email",
                   textAlign: TextAlign.center,
@@ -269,7 +269,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Text(
