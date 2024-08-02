@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
 class MyPassField extends StatefulWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final bool required;
+  final bool signIn;
 
   const MyPassField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.required,
+    required this.signIn,
   });
 
   @override
@@ -21,6 +23,7 @@ class _MyPassFieldState extends State<MyPassField> {
   bool startup = true;
   final textFieldFocusNode = FocusNode();
   bool _obscured = true;
+  //bool valid = false;
 
   void _toggleObscured() {
     setState(() {
@@ -35,6 +38,7 @@ class _MyPassFieldState extends State<MyPassField> {
 
   String? get _errorText {
     final text = widget.controller.text;
+    String _errorMessage = '';
     if (startup) {
       return null;
     }
@@ -44,7 +48,37 @@ class _MyPassFieldState extends State<MyPassField> {
     if (text.isEmpty) {
       return "${widget.hintText} is required";
     }
-    return null;
+    // Password length greater than 8
+    if (text.length <= 8 && !widget.signIn) {
+      _errorMessage += '• Password must contain at least 8 characters.\n';
+    }
+
+    // Contains at least one uppercase letter
+    if (!text.contains(RegExp(r'[A-Z]')) && !widget.signIn) {
+      _errorMessage += '• Uppercase letter is missing.\n';
+    }
+
+    // Contains at least one lowercase letter
+    if (!text.contains(RegExp(r'[a-z]')) && !widget.signIn) {
+      _errorMessage += '• Lowercase letter is missing.\n';
+    }
+
+    // Contains at least one digit
+    if (!text.contains(RegExp(r'[0-9]')) && !widget.signIn) {
+      _errorMessage += '• number is missing.\n';
+    }
+
+    // Contains at least one special character
+    if (!text.contains(RegExp(r'!@#$%^&*')) && !widget.signIn) {
+      _errorMessage += '• Special character is missing - !@#\$%^&*\n';
+    }
+
+    // Contains no errors
+    if (_errorMessage.isEmpty) {
+      return null;
+    }
+    // If there are no error messages, the password is valid
+    return _errorMessage;
   }
 
   Widget setRequiredText() {

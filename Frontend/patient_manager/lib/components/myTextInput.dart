@@ -39,8 +39,7 @@ class _MyTextFieldState extends State<MyTextField> {
       return null;
     } else if (text.isEmpty) {
       return "${widget.hintText} is required";
-    } else if (widget.hintText == "Email" &&
-        !isEmailValid(widget.controller.text)) {
+    } else if (widget.hintText == "Email" && !isEmailValid(text)) {
       return "Enter a valid email address";
     }
     return null;
