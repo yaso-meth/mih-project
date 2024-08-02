@@ -58,18 +58,11 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
   //sign user in
   Future<void> signUserUp() async {
-    if (passwordController.text != confirmPasswordController.text) {
+    if (!validEmail()) {
+      emailError();
+    } else if (passwordController.text != confirmPasswordController.text) {
       passwordError();
     } else {
       var _backgroundColor = Colors.transparent;
@@ -140,6 +133,20 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  bool validEmail() {
+    String text = emailController.text;
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(text);
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
   void signUpSuccess() {
     showDialog(
       context: context,
@@ -166,6 +173,15 @@ class _RegisterState extends State<Register> {
       context: context,
       builder: (context) {
         return const MyErrorMessage(errorType: "Password Match");
+      },
+    );
+  }
+
+  void emailError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Invalid Email");
       },
     );
   }
