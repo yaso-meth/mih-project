@@ -457,46 +457,48 @@ class _EditPatientState extends State<EditPatient> {
               required: true,
               dropdownOptions: const ["Yes", "No"],
             ),
-
-            const SizedBox(height: 10.0),
-            MyDropdownField(
-              controller: medMainMemController,
-              hintText: "Main Member.",
-              editable: medRequired,
-              required: medRequired,
-              dropdownOptions: const ["Yes", "No"],
-            ),
-
-            const SizedBox(height: 10.0),
-            MyTextField(
-              controller: medNoController,
-              hintText: "Medical Aid No.",
-              editable: medRequired,
-              required: medRequired,
-            ),
-
-            const SizedBox(height: 10.0),
-            MyTextField(
-              controller: medAidCodeController,
-              hintText: "Medical Aid Code",
-              editable: medRequired,
-              required: medRequired,
-            ),
-
-            const SizedBox(height: 10.0),
-            MyTextField(
-              controller: medNameController,
-              hintText: "Medical Aid Name",
-              editable: medRequired,
-              required: medRequired,
-            ),
-
-            const SizedBox(height: 10.0),
-            MyTextField(
-              controller: medSchemeController,
-              hintText: "Medical Aid Scheme",
-              editable: medRequired,
-              required: medRequired,
+            Visibility(
+              visible: medRequired,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10.0),
+                  MyDropdownField(
+                    controller: medMainMemController,
+                    hintText: "Main Member.",
+                    editable: medRequired,
+                    required: medRequired,
+                    dropdownOptions: const ["Yes", "No"],
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: medNoController,
+                    hintText: "Medical Aid No.",
+                    editable: medRequired,
+                    required: medRequired,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: medAidCodeController,
+                    hintText: "Medical Aid Code",
+                    editable: medRequired,
+                    required: medRequired,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: medNameController,
+                    hintText: "Medical Aid Name",
+                    editable: medRequired,
+                    required: medRequired,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: medSchemeController,
+                    hintText: "Medical Aid Scheme",
+                    editable: medRequired,
+                    required: medRequired,
+                  ),
+                ],
+              ),
             ),
 
             //const SizedBox(height: 10.0),
