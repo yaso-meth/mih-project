@@ -236,6 +236,77 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     );
   }
 
+  void setInvalidEmailError() {
+    messageTypes["Invalid Email"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500,
+          height: 450,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                const SizedBox(height: 25),
+                Text(
+                  "Oops! Invalid Email",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Looks like there's a little hiccup with that email address. Please double-check that you've entered it correctly, including the \"@\" symbol and a domain (like example@email.com).",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setUserExistsError() {
     messageTypes["User Exists"] = Stack(
       children: [
@@ -663,6 +734,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     setUserExistsError();
     setPwdMatchError();
     setPasswordRequirementsError();
+    setInvalidEmailError();
     //print(size);
     // setState(() {
     //   width = size.width;
