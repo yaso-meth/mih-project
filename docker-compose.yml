@@ -44,6 +44,8 @@ services:
     ports:
       - 3567:3567
     environment:
+      REFRESH_TOKEN_VALIDITY: '1440'
+      ACCESS_TOKEN_VALIDITY: '3600'
       MYSQL_USER: 'yaso'
       MYSQL_PASSWORD: 'C@rtoon1995'
       MYSQL_HOST: mysqldb
@@ -131,6 +133,16 @@ services:
       - MINIO_ROOT_PASSWORD=C@rtoon1995
     networks:
       - MIH-network
+#============== Minio File Storage ==================================================================== 
+  portainer:
+    container_name: MIH-Monitor
+    image: portainer/portainer-ce:2.20.3
+    ports:
+      - 9443:9443
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
 #============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
