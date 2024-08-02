@@ -78,8 +78,8 @@ app.include_router(medicine.router)
 
 
 # Check if server is up
-@app.get("/")
-def read_root():
+@app.get("/", tags=["Server Check"])
+def check_server():
     return serverRunning()
 
 # # Check if server is up
