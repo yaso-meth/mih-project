@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
 class MyTextField extends StatefulWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final bool editable;
   final bool required;
@@ -35,14 +35,19 @@ class _MyTextFieldState extends State<MyTextField> {
     final text = widget.controller.text;
     if (startup) {
       return null;
-    }
-    if (!widget.required) {
+    } else if (!widget.required) {
       return null;
-    }
-    if (text.isEmpty) {
+    } else if (text.isEmpty) {
       return "${widget.hintText} is required";
+    } else if (widget.hintText == "Email" &&
+        !isEmailValid(widget.controller.text)) {
+      return "Enter a valid email address";
     }
     return null;
+  }
+
+  bool isEmailValid(String email) {
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
   }
 
   void _onFocusChange() {
