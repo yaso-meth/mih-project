@@ -26,6 +26,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final usernameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
+  late bool businessUser;
 
   bool isFieldsFilled() {
     if (fnameController.text.isEmpty ||
@@ -45,6 +46,13 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
     //print(futureDocOfficeId.toString());
     //print("Here3");
+    var profileType;
+    if (businessUser) {
+      profileType = "business";
+    } else {
+      profileType = "personal";
+    }
+
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
       headers: <String, String>{
@@ -55,6 +63,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         "username": usernameController.text,
         "fnam": fnameController.text,
         "lname": lnameController.text,
+        "type": profileType,
       }),
     );
     //print("Here4");
@@ -67,6 +76,14 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       successPopUp(message);
     } else {
       internetConnectionPopUp();
+    }
+  }
+
+  bool isBusinessUser() {
+    if (widget.signedInUser.type == "personal") {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -93,9 +110,13 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   void initState() {
-    fnameController.text = widget.signedInUser.fname;
-    lnameController.text = widget.signedInUser.lname;
-    usernameController.text = widget.signedInUser.username;
+    setState(() {
+      fnameController.text = widget.signedInUser.fname;
+      lnameController.text = widget.signedInUser.lname;
+      usernameController.text = widget.signedInUser.username;
+      businessUser = isBusinessUser();
+    });
+
     super.initState();
   }
 
@@ -104,7 +125,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     return Column(
       children: [
         const Text(
-          "Update User profile:",
+          "Personal profile:",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,
@@ -130,6 +151,31 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           hintText: "Last Name",
           editable: true,
           required: true,
+        ),
+        const SizedBox(height: 10.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Activate Business",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            Switch(
+              value: businessUser,
+              onChanged: (bool value) {
+                setState(() {
+                  businessUser = value;
+                });
+              },
+            ),
+          ],
         ),
         const SizedBox(height: 10.0),
         SizedBox(
