@@ -147,6 +147,7 @@ services:
 volumes:
   certbotConf:
   certbotChall:
+  data:
 #============== MIH Network ====================================================================
 networks:
   MIH-network:
