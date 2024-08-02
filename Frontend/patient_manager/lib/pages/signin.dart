@@ -91,6 +91,22 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  void validateInput() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    } else {
+      await signUserIn();
+      if (successfulSignIn) {
+        Navigator.of(context).pushNamed('/home');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
@@ -99,19 +115,7 @@ class _SignInState extends State<SignIn> {
       onKeyEvent: (event) async {
         if (event is KeyDownEvent &&
             event.logicalKey == LogicalKeyboardKey.enter) {
-          if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const MyErrorMessage(errorType: "Input Error");
-              },
-            );
-          } else {
-            await signUserIn();
-            if (successfulSignIn) {
-              Navigator.of(context).pushNamed('/home');
-            }
-          }
+          validateInput();
         }
       },
       child: Scaffold(
@@ -167,6 +171,7 @@ class _SignInState extends State<SignIn> {
                         controller: passwordController,
                         hintText: 'Password',
                         required: true,
+                        signIn: true,
                       ),
                     ),
                     //spacer
@@ -184,22 +189,7 @@ class _SignInState extends State<SignIn> {
                             .theme
                             .primaryColor(),
                         onTap: () async {
-                          if (emailController.text.isEmpty ||
-                              passwordController.text.isEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MyErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
-                          } else {
-                            await signUserIn();
-                            //print(successfulSignIn);
-                            if (successfulSignIn) {
-                              Navigator.of(context).pushNamed('/home');
-                            }
-                          }
+                          validateInput();
                         },
                       ),
                     ),

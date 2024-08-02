@@ -122,7 +122,7 @@ class _RegisterState extends State<Register> {
                 //print("Here1");
               } else if (userCreated["status"] == "FIELD_ERROR") {
                 Navigator.of(context).pop();
-                passwordError();
+                passwordReqError();
               } else {
                 Navigator.of(context).pop();
                 internetConnectionPopUp();
@@ -165,6 +165,15 @@ class _RegisterState extends State<Register> {
     showDialog(
       context: context,
       builder: (context) {
+        return const MyErrorMessage(errorType: "Password Match");
+      },
+    );
+  }
+
+  void passwordReqError() {
+    showDialog(
+      context: context,
+      builder: (context) {
         return const MyErrorMessage(errorType: "Password Requirements");
       },
     );
@@ -181,6 +190,21 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  void validateInput() async {
+    if (emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    } else {
+      await signUserUp();
+    }
+  }
+
   void toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -195,16 +219,7 @@ class _RegisterState extends State<Register> {
       onKeyEvent: (event) async {
         if (event is KeyDownEvent &&
             event.logicalKey == LogicalKeyboardKey.enter) {
-          if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const MyErrorMessage(errorType: "Input Error");
-              },
-            );
-          } else {
-            await signUserUp();
-          }
+          validateInput();
         }
       },
       child: Scaffold(
@@ -260,6 +275,7 @@ class _RegisterState extends State<Register> {
                         controller: passwordController,
                         hintText: 'Password',
                         required: true,
+                        signIn: false,
                       ),
                     ),
                     //spacer
@@ -271,6 +287,7 @@ class _RegisterState extends State<Register> {
                         controller: confirmPasswordController,
                         hintText: 'Confirm Password',
                         required: true,
+                        signIn: false,
                       ),
                     ),
                     //spacer
@@ -288,18 +305,7 @@ class _RegisterState extends State<Register> {
                             .theme
                             .primaryColor(),
                         onTap: () async {
-                          if (emailController.text.isEmpty ||
-                              passwordController.text.isEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MyErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
-                          } else {
-                            await signUserUp();
-                          }
+                          validateInput();
                         },
                       ),
                     ),
