@@ -69,7 +69,7 @@ class _MyPassFieldState extends State<MyPassField> {
     }
 
     // Contains at least one special character
-    if (!text.contains(RegExp(r'!@#$%^&*')) && !widget.signIn) {
+    if (!text.contains(RegExp(r'[!@#$%^&*]')) && !widget.signIn) {
       _errorMessage += '• Special character is missing - !@#\$%^&*\n';
     }
 
