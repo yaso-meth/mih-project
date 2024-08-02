@@ -160,13 +160,55 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25.0),
                   child: Text(
-                    "Your password doesn't meet our security standards. Please ensure that your password contain at least one letter.\n\nFor added security please try again using a combination of letters, numbers, and special characters for a stronger password.",
+                    "Oops! Your password doesn't quite meet our standards. To keep your account secure, please make sure your password meets the following requirements",
                     style: TextStyle(
                       color: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: "Requirements:\n",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .errorColor())),
+                        const TextSpan(
+                          text: "1) Contailes at least 8 characters\n",
+                        ),
+                        const TextSpan(
+                          text:
+                              "2) Contains at least 1 uppercase letter (A-Z)\n",
+                        ),
+                        const TextSpan(
+                          text:
+                              "3) Contains at least 1 lowercase letter (a-z)\n",
+                        ),
+                        const TextSpan(
+                          text: "4) Contains at least 1 number (0-9)\n",
+                        ),
+                        const TextSpan(
+                          text:
+                              "5) Contains at least 1 special character (!@#\$%^&*)\n",
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -295,7 +337,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
   }
 
   void setPwdMatchError() {
-    messageTypes["Password"] = Stack(
+    messageTypes["Password Match"] = Stack(
       children: [
         Container(
           padding: const EdgeInsets.all(10.0),
