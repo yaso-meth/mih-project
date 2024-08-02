@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 # from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
 import routers.docOffices as docOffices
@@ -15,8 +15,12 @@ from supertokens_python import get_all_cors_headers
 from supertokens_python.framework.fastapi import get_middleware
 
 from supertokens_python import init, InputAppInfo, SupertokensConfig
-from supertokens_python.recipe import emailpassword, session, dashboard
+from supertokens_python.recipe import emailpassword, session, dashboard, emailverification
 
+
+from supertokens_python.recipe.session.framework.fastapi import verify_session
+from supertokens_python.recipe.emailverification import EmailVerificationClaim
+from supertokens_python.recipe.session import SessionContainer
 
 origins = [
     "http://localhost",
@@ -46,6 +50,7 @@ init(
         # SuperTokens.init(),
         session.init(), # initializes session features
         emailpassword.init(),
+        # emailverification.init(mode='REQUIRED'),
         dashboard.init(admins=[
             "yasienmeth@gmail.com",
           ],

@@ -24,6 +24,7 @@ class userUpdateRequest(BaseModel):
     username: str
     fnam: str
     lname: str
+    type: str
     
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
@@ -122,11 +123,12 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
-    query += "set username=%s, fname=%s, lname=%s "
+    query += "set username=%s, fname=%s, lname=%s, type=%s "
     query += "where idusers=%s"
     userData = (itemRequest.username, 
                    itemRequest.fnam,
                    itemRequest.lname,
+                   itemRequest.type,
                    itemRequest.idusers,
                    )
     try:
