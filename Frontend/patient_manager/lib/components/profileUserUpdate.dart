@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
@@ -27,6 +28,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
   late bool businessUser;
+  final FocusNode _focusNode = FocusNode();
 
   bool isFieldsFilled() {
     if (fnameController.text.isEmpty ||
@@ -52,30 +54,34 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     } else {
       profileType = "personal";
     }
-
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "idusers": widget.signedInUser.idUser,
-        "username": usernameController.text,
-        "fnam": fnameController.text,
-        "lname": lnameController.text,
-        "type": profileType,
-      }),
-    );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      Navigator.of(context)
-          .popAndPushNamed('/', arguments: widget.signedInUser);
-      String message =
-          "${widget.signedInUser.email}'s information has been updated successfully!";
-      successPopUp(message);
+    print("is username valid ${isUsernameValid(usernameController.text)}");
+    if (isUsernameValid(usernameController.text) == false) {
+      usernamePopUp();
     } else {
-      internetConnectionPopUp();
+      var response = await http.put(
+        Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "idusers": widget.signedInUser.idUser,
+          "username": usernameController.text,
+          "fnam": fnameController.text,
+          "lname": lnameController.text,
+          "type": profileType,
+        }),
+      );
+      //print("Here4");
+      //print(response.statusCode);
+      if (response.statusCode == 200) {
+        Navigator.of(context)
+            .popAndPushNamed('/', arguments: widget.signedInUser);
+        String message =
+            "${widget.signedInUser.email}'s information has been updated successfully!";
+        successPopUp(message);
+      } else {
+        internetConnectionPopUp();
+      }
     }
   }
 
@@ -108,6 +114,33 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     );
   }
 
+  void usernamePopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MyErrorMessage(errorType: "Invalid Username");
+      },
+    );
+  }
+
+  bool isUsernameValid(String username) {
+    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
+        .hasMatch(username);
+  }
+
+  void submitForm() {
+    if (isFieldsFilled()) {
+      updateUserApiCall();
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
+  }
+
   @override
   void initState() {
     setState(() {
@@ -122,85 +155,86 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          "Personal profile:",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (event) async {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.enter) {
+          submitForm();
+        }
+      },
+      child: Column(
+        children: [
+          const Text(
+            "Personal profile:",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
           ),
-        ),
-        const SizedBox(height: 15.0),
-        MyTextField(
-          controller: usernameController,
-          hintText: "Username",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        MyTextField(
-          controller: fnameController,
-          hintText: "First Name",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        MyTextField(
-          controller: lnameController,
-          hintText: "Last Name",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Activate Business",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+          const SizedBox(height: 15.0),
+          MyTextField(
+            controller: usernameController,
+            hintText: "Username",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MyTextField(
+            controller: fnameController,
+            hintText: "First Name",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MyTextField(
+            controller: lnameController,
+            hintText: "Last Name",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Activate Business Account",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 25,
-            ),
-            Switch(
-              value: businessUser,
-              onChanged: (bool value) {
-                setState(() {
-                  businessUser = value;
-                });
+              const SizedBox(
+                width: 25,
+              ),
+              Switch(
+                value: businessUser,
+                onChanged: (bool value) {
+                  setState(() {
+                    businessUser = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 10.0),
+          SizedBox(
+            width: 500.0,
+            height: 100.0,
+            child: MyButton(
+              buttonText: "Update",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onTap: () {
+                submitForm();
               },
             ),
-          ],
-        ),
-        const SizedBox(height: 10.0),
-        SizedBox(
-          width: 500.0,
-          height: 100.0,
-          child: MyButton(
-            buttonText: "Update",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onTap: () {
-              if (isFieldsFilled()) {
-                updateUserApiCall();
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const MyErrorMessage(errorType: "Input Error");
-                  },
-                );
-              }
-            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -33,16 +33,35 @@ class _MyTextFieldState extends State<MyTextField> {
 
   String? get _errorText {
     final text = widget.controller.text;
+    String _errorMessage = '';
     if (startup) {
       return null;
-    } else if (!widget.required) {
-      return null;
-    } else if (text.isEmpty) {
-      return "${widget.hintText} is required";
-    } else if (widget.hintText == "Email" && !isEmailValid(text)) {
-      return "Enter a valid email address";
     }
-    return null;
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.hintText} is required";
+    }
+    if (widget.hintText == "Email" && !isEmailValid(text)) {
+      _errorMessage += "Enter a valid email address\n";
+    }
+    if (widget.hintText == "Username" && text.length < 8) {
+      _errorMessage += "• Username must contain at least 8 characters.\n";
+    }
+    if (widget.hintText == "Username" && !isUsernameValid(text)) {
+      _errorMessage += "• Username can only contain '_' special Chracters.\n";
+    }
+    if (_errorMessage.isEmpty) {
+      return null;
+    }
+    // If there are no error messages, the password is valid
+    return _errorMessage;
+  }
+
+  bool isUsernameValid(String Username) {
+    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
+        .hasMatch(Username);
   }
 
   bool isEmailValid(String email) {
