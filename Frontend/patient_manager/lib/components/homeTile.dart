@@ -38,7 +38,7 @@ class _HomeTileState extends State<HomeTile> {
   Widget displayTile() {
     return FittedBox(
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           GestureDetector(
@@ -70,14 +70,22 @@ class _HomeTileState extends State<HomeTile> {
             ),
           ),
           const SizedBox(height: 1),
-          Text(
-            widget.tileName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: mainC,
-              fontSize: 5.0,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  widget.tileName,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                    color: mainC,
+                    fontSize: 5.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       ),

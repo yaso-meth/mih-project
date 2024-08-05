@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/mihAppBar.dart';
+import 'package:patient_manager/components/mihAppDrawer.dart';
+import 'package:patient_manager/components/mihDeleteMessage.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -17,9 +22,13 @@ class HomeTileGrid extends StatefulWidget {
 }
 
 class _HomeTileGridState extends State<HomeTileGrid> {
-  late List<List<dynamic>> tileList = [];
+  late List<List<dynamic>> personalTileList = [];
+  late List<List<dynamic>> businessTileList = [];
+  late List<List<dynamic>> devTileList = [];
+  List<List<List<dynamic>>> pbswitch = [];
+  int _selectedIndex = 0;
 
-  void setApps(List<List<dynamic>> tileList) {
+  void setAppsNewPersonal(List<List<dynamic>> tileList) {
     if (widget.signedInUser.fname == "") {
       tileList.add(
         [
@@ -33,68 +42,122 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           }
         ],
       );
-    } else if (widget.signedInUser.type == "personal") {
-      tileList.add(
-        [
-          Icons.medication,
-          "Patient Profile",
-          () {
-            Navigator.of(context)
-                .pushNamed('/patient-profile', arguments: widget.signedInUser);
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
-    } else {
-      //business
-      tileList.add(
-        [
-          Icons.medication,
-          "Patient Manager",
-          () {
-            Navigator.of(context).pushNamed('/patient-manager',
-                arguments: widget.signedInUser.email);
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
     }
+  }
 
+  void setAppsPersonal(List<List<dynamic>> tileList) {
+    tileList.add(
+      [
+        Icons.medication,
+        "Patient Profile",
+        () {
+          Navigator.of(context)
+              .pushNamed('/patient-profile', arguments: widget.signedInUser);
+          // Navigator.popAndPushNamed(context, '/patient-manager',
+          //     arguments: widget.userEmail);
+        }
+      ],
+    );
+  }
+
+  void setAppsBusiness(List<List<dynamic>> tileList) {
+    tileList.add(
+      [
+        Icons.medication,
+        "Manage Patient",
+        () {
+          Navigator.of(context).pushNamed('/patient-manager',
+              arguments: widget.signedInUser.email);
+          // Navigator.popAndPushNamed(context, '/patient-manager',
+          //     arguments: widget.userEmail);
+        }
+      ],
+    );
+  }
+
+  void setAppsDev(List<List<dynamic>> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
       tileList.add([
-        Icons.add,
+        Icons.add_circle_outline,
         "Add Pat - Dev",
         () {
           Navigator.of(context).pushNamed('/patient-manager/add',
               arguments: widget.signedInUser);
         }
       ]);
+      tileList.add(
+        [
+          Icons.perm_identity,
+          "Upd Prof - Dev",
+          () {
+            Navigator.of(context)
+                .pushNamed('/profile', arguments: widget.signedInUser);
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
+          }
+        ],
+      );
       tileList.add([
-        Icons.password,
-        "Pass Req - Dev",
+        Icons.error_outline_outlined,
+        "Error - Dev",
         () {
           showDialog(
             context: context,
             builder: (context) {
-              return const MyErrorMessage(errorType: "Password Requirements");
+              return const MyErrorMessage(errorType: "Invalid Email");
             },
           );
         }
       ]);
-      tileList.add([Icons.abc, "Test 3", () {}]);
-      tileList.add([Icons.abc, "Test 4", () {}]);
+      tileList.add([
+        Icons.check_circle_outline_outlined,
+        "Success - Dev",
+        () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const MySuccessMessage(
+                  successType: "Success",
+                  successMessage:
+                      "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
+            },
+          );
+        }
+      ]);
+      tileList.add([
+        Icons.delete_forever_outlined,
+        "Delete - Dev",
+        () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return MIHDeleteMessage(deleteType: "File", onTap: () {});
+            },
+          );
+        }
+      ]);
       tileList.add([Icons.abc, "Test 5", () {}]);
       tileList.add([Icons.abc, "Test 6", () {}]);
     }
   }
 
-  @override
-  void initState() {
-    //print("Home tile gird widget: ${widget.userEmail}");
-    setApps(tileList);
-    super.initState();
+  void setApps(List<List<dynamic>> personalTileList,
+      List<List<dynamic>> businessTileList) {
+    if (widget.signedInUser.fname == "") {
+      setAppsNewPersonal(personalTileList);
+    } else if (widget.signedInUser.type == "personal") {
+      setAppsPersonal(personalTileList);
+    } else {
+      //business
+      setAppsPersonal(personalTileList);
+      setAppsBusiness(businessTileList);
+    }
+    if (AppEnviroment.getEnv() == "Dev") {
+      setAppsDev(personalTileList);
+      setAppsDev(businessTileList);
+    }
+    pbswitch.add(personalTileList);
+    pbswitch.add(businessTileList);
   }
 
   Color getPrim() {
@@ -119,27 +182,85 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     );
   }
 
+  bool isBusinessUser(AppUser signedInUser) {
+    if (signedInUser.type == "personal") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @override
+  void initState() {
+    setApps(personalTileList, businessTileList);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
 
-    return Container(
-      width: width,
-      height: height,
-      child: GridView.builder(
-        padding: EdgeInsets.fromLTRB(width / 6, height / 16, width / 6,
-            0), //EdgeInsets.symmetric(horizontal: width / 6),
-        itemCount: tileList.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200),
-        //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-        itemBuilder: (context, index) {
-          var tile = tileList[index];
-          //setState(() {});
-          return buildtile(tile);
-        },
+    return Scaffold(
+      appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
+      drawer: MIHAppDrawer(
+        signedInUser: widget.signedInUser,
+        logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
+      ),
+      body: Container(
+        width: width,
+        height: height,
+        child: GridView.builder(
+          padding: EdgeInsets.fromLTRB(width / 6, height / 16, width / 6,
+              0), //EdgeInsets.symmetric(horizontal: width / 6),
+          itemCount: pbswitch[_selectedIndex].length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200),
+          //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          itemBuilder: (context, index) {
+            var tile = pbswitch[_selectedIndex][index];
+            //setState(() {});
+            return buildtile(tile);
+          },
+        ),
+      ),
+      bottomNavigationBar: Visibility(
+        visible: isBusinessUser(widget.signedInUser),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GNav(
+            //hoverColor: Colors.lightBlueAccent,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            iconSize: 35.0,
+            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            tabBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //gap: 20,
+            //padding: EdgeInsets.all(15),
+            tabs: [
+              GButton(
+                icon: Icons.perm_identity,
+                text: "Personal",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.business,
+                text: "Business",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+            ],
+            selectedIndex: _selectedIndex,
+          ),
+        ),
       ),
     );
   }
