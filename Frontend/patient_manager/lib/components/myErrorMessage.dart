@@ -236,6 +236,77 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     );
   }
 
+  void setInvalidUsernameError() {
+    messageTypes["Invalid Username"] = Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10.0),
+          width: 500,
+          height: 450,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "Let's Fix That Username",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    "Your username needs a little adjustment. To make sure everyone has a unique username, please start your username with a letter or number and use only letters, numbers or underscores. Let's try that again!",
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setInvalidEmailError() {
     messageTypes["Invalid Email"] = Stack(
       children: [
@@ -735,6 +806,7 @@ class _MyErrorMessageState extends State<MyErrorMessage> {
     setPwdMatchError();
     setPasswordRequirementsError();
     setInvalidEmailError();
+    setInvalidUsernameError();
     //print(size);
     // setState(() {
     //   width = size.width;
