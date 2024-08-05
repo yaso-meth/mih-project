@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/profileOfficeUpdate.dart';
 import 'package:patient_manager/components/profileUserUpdate.dart';
 import 'package:patient_manager/objects/appUser.dart';
 
@@ -19,19 +18,18 @@ class ProfileUpdate extends StatefulWidget {
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
   //int _selectedIndex = 0;
-  late List<Widget> _widgetOptions;
 
   @override
   void initState() {
-    _widgetOptions = <Widget>[
-      //Center(child: Text("User profile")),
-      ProfileUserUpdate(
-        signedInUser: widget.signedInUser,
-      ),
-      ProfileOfficeUpdate(
-        signedInUser: widget.signedInUser,
-      ),
-    ];
+    // _widgetOptions = <Widget>[
+    //   //Center(child: Text("User profile")),
+    //   ProfileUserUpdate(
+    //     signedInUser: widget.signedInUser,
+    //   ),
+    //   ProfileOfficeUpdate(
+    //     signedInUser: widget.signedInUser,
+    //   ),
+    // ];
     super.initState();
   }
 
@@ -42,7 +40,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Center(
-          child: _widgetOptions.elementAt(0),
+          child: ProfileUserUpdate(
+            signedInUser: widget.signedInUser,
+          ),
         ),
       ),
       // bottomNavigationBar: GNav(
