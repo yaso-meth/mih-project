@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
@@ -41,6 +42,7 @@ class _AddPatientState extends State<AddPatient> {
   final baseAPI = AppEnviroment.baseApiUrl;
   late int futureDocOfficeId;
   late bool medRequired;
+  final FocusNode _focusNode = FocusNode();
 
   bool isFieldsFilled() {
     if (medRequired) {
@@ -292,16 +294,7 @@ class _AddPatientState extends State<AddPatient> {
               height: 100.0,
               child: MyButton(
                 onTap: () {
-                  if (isFieldsFilled()) {
-                    addPatientAPICall();
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MyErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
+                  submitForm();
                 },
                 buttonText: "Add",
                 buttonColor:
@@ -314,6 +307,19 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ),
     );
+  }
+
+  void submitForm() {
+    if (isFieldsFilled()) {
+      addPatientAPICall();
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
   }
 
   @override
@@ -332,7 +338,17 @@ class _AddPatientState extends State<AddPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Add Patient"),
-      body: displayForm(),
+      body: KeyboardListener(
+        focusNode: _focusNode,
+        autofocus: true,
+        onKeyEvent: (event) async {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.enter) {
+            submitForm();
+          }
+        },
+        child: displayForm(),
+      ),
     );
   }
 }

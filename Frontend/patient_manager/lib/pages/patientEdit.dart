@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
@@ -49,6 +50,8 @@ class _EditPatientState extends State<EditPatient> {
 
   late double width;
   late double height;
+
+  final FocusNode _focusNode = FocusNode();
 
   // Future getOfficeIdByUser(String endpoint) async {
   //   final response = await http.get(Uri.parse(endpoint));
@@ -507,16 +510,7 @@ class _EditPatientState extends State<EditPatient> {
               height: 100.0,
               child: MyButton(
                 onTap: () {
-                  if (isFieldsFilled()) {
-                    updatePatientApiCall();
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MyErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
+                  submitForm();
                 },
                 buttonText: "Update",
                 buttonColor:
@@ -529,6 +523,19 @@ class _EditPatientState extends State<EditPatient> {
         ),
       ),
     );
+  }
+
+  void submitForm() {
+    if (isFieldsFilled()) {
+      updatePatientApiCall();
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
   }
 
   @override
@@ -574,7 +581,17 @@ class _EditPatientState extends State<EditPatient> {
 
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Edit Patient"),
-      body: displayForm(),
+      body: KeyboardListener(
+        focusNode: _focusNode,
+        autofocus: true,
+        onKeyEvent: (event) async {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.enter) {
+            submitForm();
+          }
+        },
+        child: displayForm(),
+      ),
     );
   }
 }
