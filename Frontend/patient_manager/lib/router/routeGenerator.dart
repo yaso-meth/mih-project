@@ -10,7 +10,8 @@ import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/pages/patientEdit.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 import 'package:patient_manager/pages/patientView.dart';
-import 'package:patient_manager/pages/profileUpdate.dart';
+import 'package:patient_manager/pages/profileBusinessUpdate.dart';
+import 'package:patient_manager/pages/profileUserUpdate.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -77,7 +78,15 @@ class RouteGenerator {
       case '/profile':
         if (args is AppUser) {
           return MaterialPageRoute(
-            builder: (_) => ProfileUpdate(signedInUser: args),
+            builder: (_) => ProfileUserUpdate(signedInUser: args),
+          );
+        }
+        return _errorRoute();
+
+      case '/business-profile':
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            builder: (_) => ProfileBusinessUpdate(signedInUser: args),
           );
         }
         return _errorRoute();
