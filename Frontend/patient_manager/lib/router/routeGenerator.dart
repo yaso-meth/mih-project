@@ -25,6 +25,7 @@ class RouteGenerator {
 
       case '/home':
         return MaterialPageRoute(builder: (_) => const Home());
+
       case '/patient-profile':
         if (args is AppUser) {
           //print("route generator: $args");
@@ -99,11 +100,10 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/business/add':
-        if (args is BusinessUserScreenArguments) {
+        if (args is AppUser) {
           return MaterialPageRoute(
             builder: (_) => ProfileBusinessAdd(
-              signedInUser: args.signedInUser,
-              businessUser: args.businessUser,
+              signedInUser: args,
             ),
           );
         }
