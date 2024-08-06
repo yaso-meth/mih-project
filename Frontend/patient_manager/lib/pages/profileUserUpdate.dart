@@ -173,7 +173,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
             child: Column(
               children: [
                 const Text(
-                  "Personal profile:",
+                  "Personal Profile:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
