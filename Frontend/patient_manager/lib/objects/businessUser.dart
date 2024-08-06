@@ -4,7 +4,6 @@ class BusinessUser {
   final String business_id;
   final String app_id;
   final String signature;
-  final String type;
   final String title;
 
   const BusinessUser(
@@ -12,7 +11,6 @@ class BusinessUser {
     this.business_id,
     this.app_id,
     this.signature,
-    this.type,
     this.title,
   );
 
@@ -22,7 +20,6 @@ class BusinessUser {
       json['business_id'],
       json['app_id'],
       json['signature'],
-      json['type'],
       json['title'],
     );
   }
