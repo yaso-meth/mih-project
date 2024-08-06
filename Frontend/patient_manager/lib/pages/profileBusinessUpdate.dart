@@ -1,17 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/businessUser.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class ProfileBusinessUpdate extends StatefulWidget {
+  //final BusinessUserScreenArguments arguments;
   final AppUser signedInUser;
-  //final String userEmail;
+  final BusinessUser? businessUser;
   const ProfileBusinessUpdate({
     super.key,
     required this.signedInUser,
+    required this.businessUser,
   });
 
   @override
@@ -20,11 +27,42 @@ class ProfileBusinessUpdate extends StatefulWidget {
 
 class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   final FocusNode _focusNode = FocusNode();
+  final baseAPI = AppEnviroment.baseApiUrl;
   final tempController = TextEditingController();
+
+  Future<AppUser> getUserDetails() async {
+    //print("pat man drawer: " + endpointUserData + widget.userEmail);
+    var response = await http
+        .get(Uri.parse("$baseAPI/user/${widget.signedInUser.app_id}"));
+
+    // print(response.statusCode);
+    // print(response.body);
+    if (response.statusCode == 200) {
+      // print("here");
+      String body = response.body;
+      var decodedData = jsonDecode(body);
+      AppUser u = AppUser.fromJson(decodedData);
+      // print(u.email);
+      //setState(() {
+      //_widgetOptions = setLayout(u);
+      //});
+      return u;
+    } else {
+      throw Exception("Error: GetUserData status code ${response.statusCode}");
+    }
+  }
+
+  @override
+  void initState() {
+    print("signed in user: ${widget.signedInUser.app_id}");
+    print("business User: ${widget.businessUser}");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Update Profile"),
+      appBar: const MIHAppBar(barTitle: "Update Business"),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Center(
@@ -40,7 +78,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
             child: Column(
               children: [
                 const Text(
-                  "Personal profile:",
+                  "Business profile:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
