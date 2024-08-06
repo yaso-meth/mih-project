@@ -8,6 +8,8 @@ import routers.patients_notes as patients_notes
 import routers.users as users
 import routers.fileStorage as fileStorage
 import routers.medicine as medicine
+import routers.business_user as business_user
+import routers.business as business
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
@@ -75,7 +77,8 @@ app.include_router(patients_notes.router)
 app.include_router(users.router)
 app.include_router(fileStorage.router)
 app.include_router(medicine.router)
-
+app.include_router(business_user.router)
+app.include_router(business.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])
