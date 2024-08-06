@@ -4,12 +4,14 @@ import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/pages/patientEdit.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 import 'package:patient_manager/pages/patientView.dart';
+import 'package:patient_manager/pages/profileBusinessAdd.dart';
 import 'package:patient_manager/pages/profileBusinessUpdate.dart';
 import 'package:patient_manager/pages/profileUserUpdate.dart';
 
@@ -78,19 +80,34 @@ class RouteGenerator {
       case '/profile':
         if (args is AppUser) {
           return MaterialPageRoute(
-            builder: (_) => ProfileUserUpdate(signedInUser: args),
+            builder: (_) => ProfileUserUpdate(
+              signedInUser: args,
+            ),
           );
         }
         return _errorRoute();
 
       case '/business-profile':
-        if (args is AppUser) {
+        if (args is BusinessUserScreenArguments) {
           return MaterialPageRoute(
-            builder: (_) => ProfileBusinessUpdate(signedInUser: args),
+            builder: (_) => ProfileBusinessUpdate(
+              signedInUser: args.signedInUser,
+              businessUser: args.businessUser,
+            ),
           );
         }
         return _errorRoute();
 
+      case '/business/add':
+        if (args is BusinessUserScreenArguments) {
+          return MaterialPageRoute(
+            builder: (_) => ProfileBusinessAdd(
+              signedInUser: args.signedInUser,
+              businessUser: args.businessUser,
+            ),
+          );
+        }
+        return _errorRoute();
       case '/signin':
         return MaterialPageRoute(builder: (_) => const SignInOrRegister());
       // //case '/signIn':
