@@ -114,8 +114,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.business,
         "Manage Bus",
         () {
-          Navigator.of(context)
-              .pushNamed('/business-profile', arguments: widget.signedInUser);
+          // Navigator.of(context)
+          //     .pushNamed('/business-profile', arguments: widget.signedInUser);
           // Navigator.popAndPushNamed(context, '/patient-manager',
           //     arguments: widget.userEmail);
         }
