@@ -4,6 +4,7 @@ class BusinessUser {
   final String business_id;
   final String app_id;
   final String signature;
+  final String sig_path;
   final String title;
   final String access;
 
@@ -12,6 +13,7 @@ class BusinessUser {
     this.business_id,
     this.app_id,
     this.signature,
+    this.sig_path,
     this.title,
     this.access,
   );
@@ -22,6 +24,7 @@ class BusinessUser {
       json['business_id'],
       json['app_id'],
       json['signature'],
+      json['sig_path'],
       json['title'],
       json['access'],
     );
