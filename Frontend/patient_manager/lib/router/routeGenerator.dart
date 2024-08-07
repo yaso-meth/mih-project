@@ -89,7 +89,7 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/business-profile':
-        if (args is BusinessUserScreenArguments) {
+        if (args is BusinessUpdateArguments) {
           return MaterialPageRoute(
             builder: (_) => ProfileBusinessUpdate(
               signedInUser: args.signedInUser,
