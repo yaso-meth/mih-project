@@ -23,60 +23,14 @@ class businessInsertRequest(BaseModel):
     logo_name: str
     logo_path: str
 
-# class userUpdateRequest(BaseModel):
-#     idusers: int
-#     username: str
-#     fnam: str
-#     lname: str
-#     type: str
+class businessUpdateRequest(BaseModel):
+    business_id: str
+    Name: str
+    type: str
+    registration_no: str
+    logo_name: str
+    logo_path: str
     
-# #get user by email & doc Office ID
-# @router.get("/users/profile/{email}", tags="users")
-# async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "SELECT * FROM users where email = %s"
-#     cursor.execute(query, (email.lower(),)) 
-#     items = [
-#         {"idusers": item[0],
-#         "email": item[1],
-#         "docOffice_id": item[2],
-#         "fname":item[3],
-#         "lname":item[4],
-#         "type": item[5],
-#         "app_id": item[6],
-#         "username": item[7],
-#         }
-#         for item in cursor.fetchall()
-#     ]#
-#     cursor.close()
-#     db.close()
-#     return items[0]
-    
-
-# # Get List of all files
-# @router.get("/users/", tags="users")
-# async def read_all_users(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "SELECT * FROM users"
-#     cursor.execute(query)
-#     items = [
-#         {
-#             "idUser": item[0],
-#             "email": item[1],
-#             "docOffice_id": item[2],
-#             "fname": item[3],
-#             "lname": item[4],
-#             "type": item[5],
-#             "app_id": item[6],
-#             "username": item[7],
-#         }
-#         for item in cursor.fetchall()
-#     ]
-#     cursor.close()
-#     db.close()
-#     return items
 
 # Get List of all files
 @router.get("/business/business_id/{business_id}", tags=["MIH Business"])
@@ -108,7 +62,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
     cursor.close()
     db.close()
     if(len(items)!= 0):
-        return items
+        return items[0]
     else:
         raise HTTPException(status_code=404, detail="No record found")
 
@@ -171,26 +125,25 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
     db.close()
     return {"business_id": uuidString}
 
-# Update User on table
-# @router.put("/user/update/", tags=["MIH Users"])
-# async def Update_User_details(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "update users "
-#     query += "set username=%s, fname=%s, lname=%s, type=%s "
-#     query += "where idusers=%s"
-#     userData = (itemRequest.username, 
-#                    itemRequest.fnam,
-#                    itemRequest.lname,
-#                    itemRequest.type,
-#                    itemRequest.idusers,
-#                    )
-#     try:
-#        cursor.execute(query, userData) 
-#     except Exception as error:
-#         raise HTTPException(status_code=404, detail=error)
-#         #return {"query": query, "message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Updated Record"}
+@router.put("/business/update/", tags=["MIH Business"])
+async def Update_Business_details(itemRequest : businessUpdateRequest): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "update business "
+    query += "set Name=%s, type=%s, registration_no=%s, logo_name=%s, logo_path=%s "
+    query += "where business_id=%s"
+    userData = (itemRequest.Name, 
+                itemRequest.type,
+                itemRequest.registration_no,
+                itemRequest.logo_name,
+                itemRequest.logo_path,
+                itemRequest.business_id)
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
