@@ -33,9 +33,9 @@ class medCertUploud(BaseModel):
     endDate: str 
     returnDate: str 
 
-@router.get("/minio/pull/file/{app_id}/{file_name}/{env}", tags=["Minio"])
-async def pull_File_from_user(app_id: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    path = app_id + "/" + file_name
+@router.get("/minio/pull/file/{app_id}/{folder}/{file_name}/{env}", tags=["Minio"])
+async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    path = app_id + "/" + folder + "/" + file_name
     try:
         # uploudFile(app_id, file.filename, extension[1], content)
         client = Minio_Storage.minioConnection.minioConnect(env)
@@ -54,11 +54,11 @@ async def pull_File_from_user(app_id: str, file_name: str, env: str, session: Se
     }
 
 @router.post("/minio/upload/file/", tags=["Minio"])
-async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), session: SessionContainer = Depends(verify_session())):
+async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), folder: str= Form(...), session: SessionContainer = Depends(verify_session())):
     extension = file.filename.split(".")
     content = file.file 
     try:
-        uploudFile(app_id, file.filename, extension[1], content)
+        uploudFile(app_id, folder, file.filename, extension[1], content)
     except Exception as error:
         raise HTTPException(status_code=404, detail="Failed to Uploud Record")
     return {"message": "Successfully Delete File"}
@@ -102,14 +102,14 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
                requestItem.returnDate)
     return {"message": "Successfully Generated File"}
     
-def uploudFile(app_id, fileName, extension, content):
+def uploudFile(app_id, folder, fileName, extension, content):
     client = Minio_Storage.minioConnection.minioConnect("dev")
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fname = app_id + "/" + fileName
+    fname = app_id + "/" + folder + "/" + fileName
     client.put_object("mih", 
                     fname, 
                     content, 
