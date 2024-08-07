@@ -22,12 +22,12 @@ class businessUserInsertRequest(BaseModel):
     title: str
     access: str
 
-# class userUpdateRequest(BaseModel):
-#     idusers: int
-#     username: str
-#     fnam: str
-#     lname: str
-#     type: str
+class BusinessUserUpdateRequest(BaseModel):
+    business_id: str
+    app_id: str
+    signature: str
+    title: str
+    access: str
     
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
@@ -128,26 +128,26 @@ async def insert_User_details(itemRequest : businessUserInsertRequest, session: 
     db.close()
     return {"message": "Successfully Created Record"}
 
-# # Update User on table
-# @router.put("/user/update/", tags=["MIH Users"])
-# async def Update_User_details(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "update users "
-#     query += "set username=%s, fname=%s, lname=%s, type=%s "
-#     query += "where idusers=%s"
-#     userData = (itemRequest.username, 
-#                    itemRequest.fnam,
-#                    itemRequest.lname,
-#                    itemRequest.type,
-#                    itemRequest.idusers,
-#                    )
-#     try:
-#        cursor.execute(query, userData) 
-#     except Exception as error:
-#         raise HTTPException(status_code=404, detail=error)
-#         #return {"query": query, "message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Updated Record"}
+# Update User on table
+@router.put("/business-user/update/", tags=["MIH Business_User"])
+async def Update_User_details(itemRequest : BusinessUserUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "update business_users "
+    query += "set signature=%s, title=%s, access=%s"
+    query += "where app_id=%s and business_id=%s"
+    userData = (itemRequest.signature, 
+                itemRequest.title,
+                itemRequest.access,
+                itemRequest.app_id,
+                itemRequest.business_id,
+                )
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
