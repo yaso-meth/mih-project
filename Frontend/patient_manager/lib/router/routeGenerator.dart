@@ -4,7 +4,6 @@ import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
@@ -89,11 +88,10 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/business-profile':
-        if (args is BusinessUpdateArguments) {
+        if (args is AppUser) {
           return MaterialPageRoute(
             builder: (_) => ProfileBusinessUpdate(
-              signedInUser: args.signedInUser,
-              businessUser: args.businessUser,
+              signedInUser: args,
             ),
           );
         }
