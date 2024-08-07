@@ -47,8 +47,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   Future<void> uploadSelectedFile(
       PlatformFile file, TextEditingController controller) async {
-    //var strem = new http.ByteStream.fromBytes(file.bytes.)
-    //start loading circle
     showDialog(
       context: context,
       builder: (context) {
@@ -59,8 +57,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
 
     var token = await SuperTokens.getAccessToken();
-    //print(t);
-    //print("here1");
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
     request.headers['accept'] = 'application/json';
@@ -69,13 +65,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     request.fields['app_id'] = widget.signedInUser.app_id;
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
-    //print("here2");
     var response1 = await request.send();
-    //print("here3");
-    //print(response1.statusCode);
-    //print(response1.toString());
     if (response1.statusCode == 200) {
-      //print("here3");
       var fname = file.name.replaceAll(RegExp(r' '), '-');
       var filePath = "${widget.signedInUser.app_id}/$fname";
       var response2 = await http.post(
@@ -89,19 +80,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
           "app_id": widget.signedInUser.app_id
         }),
       );
-      //print("here5");
-      //print(response2.statusCode);
       if (response2.statusCode == 201) {
-        print("Successful file uploud: ${controller.text}");
-        // setState(() {
-        //   controller.clear();
-        //   futueFiles = fetchFiles();
-        // });
-        // end loading circle
-        //Navigator.of(context).pop();
-        // String message =
-        //     "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        // successPopUp(message);
       } else {
         internetConnectionPopUp();
       }
