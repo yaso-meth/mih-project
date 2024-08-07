@@ -36,23 +36,12 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   BusinessUser? businessUser;
 
   Future<BusinessUser?> getBusinessUserDetails() async {
-    //print("pat man drawer: " + endpointUserData + widget.userEmail);
-    //var uid = await SuperTokens.getUserId();
     var response = await http
         .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
-
-    // print(response.statusCode);
-    // print(response.body);
     if (response.statusCode == 200) {
-      // print("here");
       String body = response.body;
       var decodedData = jsonDecode(body);
       BusinessUser business_User = BusinessUser.fromJson(decodedData);
-      // print(u.email);
-      //setState(() {
-      //_widgetOptions = setLayout(u);
-      //});
-      print("in api call: $business_User");
       return business_User;
     } else {
       return null;
@@ -86,8 +75,6 @@ class _HomeTileGridState extends State<HomeTileGrid> {
             '/business/add',
             arguments: widget.signedInUser,
           );
-          // Navigator.popAndPushNamed(context, '/patient-manager',
-          //     arguments: widget.userEmail);
         }
       ],
     );
@@ -112,10 +99,12 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     tileList.add(
       [
         Icons.business,
-        "Manage Bus",
+        "Business Profile",
         () {
-          // Navigator.of(context)
-          //     .pushNamed('/business-profile', arguments: widget.signedInUser);
+          Navigator.of(context).pushNamed(
+            '/business-profile',
+            arguments: widget.signedInUser,
+          );
           // Navigator.popAndPushNamed(context, '/patient-manager',
           //     arguments: widget.userEmail);
         }
@@ -137,6 +126,18 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   void setAppsDev(List<List<dynamic>> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(
+        [
+          Icons.add_business_outlined,
+          "Setup Bus - Dev",
+          () {
+            Navigator.of(context).pushNamed(
+              '/business/add',
+              arguments: widget.signedInUser,
+            );
+          }
+        ],
+      );
       tileList.add([
         Icons.add_circle_outline,
         "Add Pat - Dev",
@@ -196,6 +197,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         }
       ]);
+
       tileList.add([Icons.abc, "Test 5", () {}]);
       tileList.add([Icons.abc, "Test 6", () {}]);
     }
@@ -203,25 +205,25 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   Future<void> setApps(List<List<dynamic>> personalTileList,
       List<List<dynamic>> businessTileList) async {
-    print(businessUser);
+    //print(businessUser);
     if (widget.signedInUser.fname == "") {
-      print("New personal user");
+      //print("New personal user");
       setAppsNewPersonal(personalTileList);
     } else if (widget.signedInUser.type == "personal") {
-      print("existing personal user");
+      //print("existing personal user");
       setAppsPersonal(personalTileList);
     } else if (businessUser == null) {
-      print("new business user");
+      //print("new business user");
       setAppsPersonal(personalTileList);
       setAppsNewBusiness(businessTileList);
     } else {
       //business
-      print("existing business user");
+      //print("existing business user");
       setAppsPersonal(personalTileList);
       setAppsBusiness(businessTileList);
     }
     if (AppEnviroment.getEnv() == "Dev") {
-      print("Dev Enviroment");
+      //print("Dev Enviroment");
       setAppsDev(personalTileList);
       setAppsDev(businessTileList);
     }
