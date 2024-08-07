@@ -143,17 +143,18 @@ class _PatientFilesState extends State<PatientFiles> {
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
     request.fields['app_id'] = widget.selectedPatient.app_id;
+    request.fields['folder'] = "patient_files";
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     //print("here2");
     var response1 = await request.send();
     //print("here3");
-    print(response1.statusCode);
-    print(response1.toString());
+    //print(response1.statusCode);
+    //print(response1.toString());
     if (response1.statusCode == 200) {
       //print("here3");
       var fname = file.name.replaceAll(RegExp(r' '), '-');
-      var filePath = "${widget.selectedPatient.app_id}/$fname";
+      var filePath = "${widget.selectedPatient.app_id}/patient_files/$fname";
       var response2 = await http.post(
         Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
         headers: <String, String>{
