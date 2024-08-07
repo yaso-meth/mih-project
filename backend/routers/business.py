@@ -126,7 +126,7 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
     return {"business_id": uuidString}
 
 @router.put("/business/update/", tags=["MIH Business"])
-async def Update_Business_details(itemRequest : businessUpdateRequest): #, session: SessionContainer = Depends(verify_session())
+async def Update_Business_details(itemRequest : businessUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update business "
