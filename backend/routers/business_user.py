@@ -20,6 +20,7 @@ class businessUserInsertRequest(BaseModel):
     app_id: str
     signature: str
     title: str
+    access: str
 
 # class userUpdateRequest(BaseModel):
 #     idusers: int
@@ -93,6 +94,7 @@ async def read_business_users_by_app_id(app_id: str, session: SessionContainer =
             "app_id": item[2],
             "signature": item[3],
             "title": item[4],
+            "access": item[5],
         }
         for item in cursor.fetchall()
     ]
@@ -109,12 +111,13 @@ async def insert_User_details(itemRequest : businessUserInsertRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business_users "
-    query += "(business_id, app_id, signature, title) "
-    query += "values (%s, %s, %s, %s)"
+    query += "(business_id, app_id, signature, title, access) "
+    query += "values (%s, %s, %s, %s, %s)"
     userData = (itemRequest.business_id,
                 itemRequest.app_id,
                 itemRequest.signature,
-                itemRequest.title)
+                itemRequest.title,
+                itemRequest.access)
     try:
        cursor.execute(query, userData) 
     except Exception as error:
