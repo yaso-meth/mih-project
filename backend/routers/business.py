@@ -97,13 +97,14 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
             "business_id": item[0],
             "Name": item[1],
             "type": item[2],
-            "tregistration_noitle": item[3],
+            "registration_no": item[3],
             "logo_name": item[4],
             "logo_path": item[5],
             "app_id": item[6],
         }
         for item in cursor.fetchall()
     ]
+    #
     cursor.close()
     db.close()
     if(len(items)!= 0):
@@ -131,7 +132,7 @@ async def read_business_by_app_id(app_id: str, session: SessionContainer = Depen
             "business_id": item[0],
             "Name": item[1],
             "type": item[2],
-            "tregistration_noitle": item[3],
+            "registration_no": item[3],
             "logo_name": item[4],
             "logo_path": item[5],
             "app_id": item[6],
