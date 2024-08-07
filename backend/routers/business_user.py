@@ -29,53 +29,6 @@ class BusinessUserUpdateRequest(BaseModel):
     title: str
     access: str
     
-# #get user by email & doc Office ID
-# @router.get("/users/profile/{email}", tags="users")
-# async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "SELECT * FROM users where email = %s"
-#     cursor.execute(query, (email.lower(),)) 
-#     items = [
-#         {"idusers": item[0],
-#         "email": item[1],
-#         "docOffice_id": item[2],
-#         "fname":item[3],
-#         "lname":item[4],
-#         "type": item[5],
-#         "app_id": item[6],
-#         "username": item[7],
-#         }
-#         for item in cursor.fetchall()
-#     ]#
-#     cursor.close()
-#     db.close()
-#     return items[0]
-    
-
-# # Get List of all files
-# @router.get("/users/", tags="users")
-# async def read_all_users(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "SELECT * FROM users"
-#     cursor.execute(query)
-#     items = [
-#         {
-#             "idUser": item[0],
-#             "email": item[1],
-#             "docOffice_id": item[2],
-#             "fname": item[3],
-#             "lname": item[4],
-#             "type": item[5],
-#             "app_id": item[6],
-#             "username": item[7],
-#         }
-#         for item in cursor.fetchall()
-#     ]
-#     cursor.close()
-#     db.close()
-#     return items
 
 # Get List of all files
 @router.get("/business-user/{app_id}", tags=["MIH Business_User"])
