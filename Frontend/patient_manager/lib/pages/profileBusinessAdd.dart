@@ -12,6 +12,9 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/http.dart' as http;
+import 'package:supertokens_flutter/supertokens.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http2;
 
 class ProfileBusinessAdd extends StatefulWidget {
   //final BusinessUserScreenArguments arguments;
@@ -28,10 +31,84 @@ class ProfileBusinessAdd extends StatefulWidget {
 class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final FocusNode _focusNode = FocusNode();
   final baseAPI = AppEnviroment.baseApiUrl;
+
   final nameController = TextEditingController();
   final typeController = TextEditingController();
   final regController = TextEditingController();
   final logonameController = TextEditingController();
+  final fnameController = TextEditingController();
+  final lnameController = TextEditingController();
+  final titleController = TextEditingController();
+  final signtureController = TextEditingController();
+  final accessController = TextEditingController();
+
+  late PlatformFile selectedLogo;
+  late PlatformFile selectedSignature;
+
+  Future<void> uploadSelectedFile(
+      PlatformFile file, TextEditingController controller) async {
+    //var strem = new http.ByteStream.fromBytes(file.bytes.)
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    var token = await SuperTokens.getAccessToken();
+    //print(t);
+    //print("here1");
+    var request = http2.MultipartRequest(
+        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
+    request.headers['accept'] = 'application/json';
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields['app_id'] = widget.signedInUser.app_id;
+    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
+        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    //print("here2");
+    var response1 = await request.send();
+    //print("here3");
+    //print(response1.statusCode);
+    //print(response1.toString());
+    if (response1.statusCode == 200) {
+      //print("here3");
+      var fname = file.name.replaceAll(RegExp(r' '), '-');
+      var filePath = "${widget.signedInUser.app_id}/$fname";
+      var response2 = await http.post(
+        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "file_path": filePath,
+          "file_name": fname,
+          "app_id": widget.signedInUser.app_id
+        }),
+      );
+      //print("here5");
+      //print(response2.statusCode);
+      if (response2.statusCode == 201) {
+        print("Successful file uploud: ${controller.text}");
+        // setState(() {
+        //   controller.clear();
+        //   futueFiles = fetchFiles();
+        // });
+        // end loading circle
+        //Navigator.of(context).pop();
+        // String message =
+        //     "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+        // successPopUp(message);
+      } else {
+        internetConnectionPopUp();
+      }
+    } else {
+      internetConnectionPopUp();
+    }
+  }
 
   Future<void> createBusinessUserAPICall(String business_id) async {
     var response = await http.post(
@@ -42,18 +119,13 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
         "app_id": widget.signedInUser.app_id,
-        "signature": "",
-        "title": ""
+        "signature": signtureController.text,
+        "title": titleController.text,
+        "access": accessController.text,
       }),
     );
     if (response.statusCode == 201) {
-      // var businessResponse = jsonDecode(response.body);
-      // print(businessResponse);
-
-      // create business profile
-      // setState(() {
-      //   futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
-      // });
+      uploadSelectedFile(selectedSignature, signtureController);
       Navigator.of(context).pushNamed('/home');
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
@@ -79,16 +151,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
     if (response.statusCode == 201) {
       var businessResponse = jsonDecode(response.body);
-      //print(businessResponse);
       createBusinessUserAPICall(businessResponse['business_id']);
-      // create business profile
-      // setState(() {
-      //   futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
-      // });
-      // Navigator.of(context).pushNamed('/home', arguments: widget.signedInUser);
-      // String message =
-      //     "Your business profile is now live! You can now start connecting with customers and growing your business.";
-      // successPopUp(message);
+      uploadSelectedFile(selectedLogo, logonameController);
     } else {
       internetConnectionPopUp();
     }
@@ -121,6 +185,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   @override
   void initState() {
+    setState(() {
+      fnameController.text = widget.signedInUser.fname;
+      lnameController.text = widget.signedInUser.lname;
+      accessController.text = "Full";
+    });
     super.initState();
   }
 
@@ -172,13 +241,129 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   editable: true,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
-                  controller: logonameController,
-                  hintText: "Logo",
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 19,
+                      child: MyTextField(
+                        controller: logonameController,
+                        hintText: "Logo",
+                        editable: false,
+                        required: true,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: IconButton(
+                          icon: const Icon(Icons.attach_file),
+                          onPressed: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'pdf'],
+                            );
+                            if (result == null) return;
+                            final selectedFile = result.files.first;
+                            setState(() {
+                              selectedLogo = selectedFile;
+                            });
+                            setState(() {
+                              logonameController.text = selectedFile.name;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15.0),
+                Divider(
+                  color:
+                      MzanziInnovationHub.of(context)?.theme.secondaryColor(),
+                ),
+                const SizedBox(height: 15.0),
+                const Text(
+                  "My Business User:",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(height: 15.0),
+                MyDropdownField(
+                  controller: titleController,
+                  hintText: "Title",
+                  dropdownOptions: const ["Doctor", "Assistant"],
+                  required: true,
                   editable: true,
+                ),
+                const SizedBox(height: 10.0),
+                MyTextField(
+                  controller: fnameController,
+                  hintText: "Name",
+                  editable: false,
                   required: true,
                 ),
                 const SizedBox(height: 10.0),
+                MyTextField(
+                  controller: lnameController,
+                  hintText: "Surname",
+                  editable: false,
+                  required: true,
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 19,
+                      child: MyTextField(
+                        controller: signtureController,
+                        hintText: "Signature",
+                        editable: false,
+                        required: true,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: IconButton(
+                          icon: const Icon(Icons.attach_file),
+                          onPressed: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'pdf'],
+                            );
+                            if (result == null) return;
+                            final selectedFile = result.files.first;
+                            setState(() {
+                              selectedSignature = selectedFile;
+                            });
+                            setState(() {
+                              signtureController.text = selectedFile.name;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15.0),
+                MyDropdownField(
+                  controller: accessController,
+                  hintText: "Access",
+                  dropdownOptions: const ["Full", "Partial"],
+                  required: true,
+                  editable: false,
+                ),
+                const SizedBox(height: 15.0),
                 SizedBox(
                   width: 500.0,
                   height: 100.0,
