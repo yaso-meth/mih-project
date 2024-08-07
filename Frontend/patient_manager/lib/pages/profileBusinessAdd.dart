@@ -47,15 +47,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   Future<void> uploadSelectedFile(
       PlatformFile file, TextEditingController controller) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
     var token = await SuperTokens.getAccessToken();
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
@@ -63,27 +54,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
     request.fields['app_id'] = widget.signedInUser.app_id;
+    request.fields['folder'] = "business_files";
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response1 = await request.send();
     if (response1.statusCode == 200) {
-      var fname = file.name.replaceAll(RegExp(r' '), '-');
-      var filePath = "${widget.signedInUser.app_id}/$fname";
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path": filePath,
-          "file_name": fname,
-          "app_id": widget.signedInUser.app_id
-        }),
-      );
-      if (response2.statusCode == 201) {
-      } else {
-        internetConnectionPopUp();
-      }
     } else {
       internetConnectionPopUp();
     }
@@ -99,6 +74,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         "business_id": business_id,
         "app_id": widget.signedInUser.app_id,
         "signature": signtureController.text,
+        "sig_path":
+            "${widget.signedInUser.app_id}/business_files/${signtureController.text}",
         "title": titleController.text,
         "access": accessController.text,
       }),
@@ -115,6 +92,14 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   }
 
   Future<void> createBusinessProfileAPICall() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
     var response = await http.post(
       Uri.parse("$baseAPI/business/insert/"),
       headers: <String, String>{
@@ -125,7 +110,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         "type": typeController.text,
         "registration_no": regController.text,
         "logo_name": logonameController.text,
-        "logo_path": "${widget.signedInUser.app_id}/${logonameController.text}",
+        "logo_path":
+            "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
       }),
     );
     if (response.statusCode == 201) {
