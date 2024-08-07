@@ -5,6 +5,7 @@ class BusinessUser {
   final String app_id;
   final String signature;
   final String title;
+  final String access;
 
   const BusinessUser(
     this.idbusiness_users,
@@ -12,6 +13,7 @@ class BusinessUser {
     this.app_id,
     this.signature,
     this.title,
+    this.access,
   );
 
   factory BusinessUser.fromJson(dynamic json) {
@@ -21,6 +23,7 @@ class BusinessUser {
       json['app_id'],
       json['signature'],
       json['title'],
+      json['access'],
     );
   }
 }
