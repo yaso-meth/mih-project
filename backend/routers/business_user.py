@@ -19,6 +19,7 @@ class businessUserInsertRequest(BaseModel):
     business_id: str
     app_id: str
     signature: str
+    sig_path: str
     title: str
     access: str
 
@@ -26,6 +27,7 @@ class BusinessUserUpdateRequest(BaseModel):
     business_id: str
     app_id: str
     signature: str
+    sig_path: str
     title: str
     access: str
     
@@ -46,8 +48,9 @@ async def read_business_users_by_app_id(app_id: str, session: SessionContainer =
             "business_id": item[1],
             "app_id": item[2],
             "signature": item[3],
-            "title": item[4],
-            "access": item[5],
+            "sig_path": item[4],
+            "title": item[5],
+            "access": item[6],
         }
         for item in cursor.fetchall()
     ]
@@ -64,11 +67,12 @@ async def insert_User_details(itemRequest : businessUserInsertRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business_users "
-    query += "(business_id, app_id, signature, title, access) "
-    query += "values (%s, %s, %s, %s, %s)"
+    query += "(business_id, app_id, signature, sig_path, title, access) "
+    query += "values (%s, %s, %s, %s, %s, %s)"
     userData = (itemRequest.business_id,
                 itemRequest.app_id,
                 itemRequest.signature,
+                itemRequest.sig_path,
                 itemRequest.title,
                 itemRequest.access)
     try:
@@ -87,9 +91,10 @@ async def Update_User_details(itemRequest : BusinessUserUpdateRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update business_users "
-    query += "set signature=%s, title=%s, access=%s"
+    query += "set signature=%s,sig_path=%s, title=%s, access=%s"
     query += "where app_id=%s and business_id=%s"
     userData = (itemRequest.signature, 
+                itemRequest.sig_path,
                 itemRequest.title,
                 itemRequest.access,
                 itemRequest.app_id,
