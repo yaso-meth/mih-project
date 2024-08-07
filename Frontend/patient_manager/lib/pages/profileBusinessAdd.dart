@@ -79,7 +79,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
     if (response.statusCode == 201) {
       var businessResponse = jsonDecode(response.body);
-      print(businessResponse);
+      //print(businessResponse);
       createBusinessUserAPICall(businessResponse['business_id']);
       // create business profile
       // setState(() {
