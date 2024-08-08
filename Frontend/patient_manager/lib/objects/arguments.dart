@@ -7,3 +7,10 @@ class BusinessUpdateArguments {
 
   BusinessUpdateArguments(this.signedInUser, this.businessUser);
 }
+
+class PatientViewArguments {
+  final AppUser signedInUser;
+  final String type;
+
+  PatientViewArguments(this.signedInUser, this.type);
+}
