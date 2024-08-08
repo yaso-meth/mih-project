@@ -32,6 +32,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   double? headingFontSize = 35.0;
   double? bodyFonstSize = 20.0;
   double textFieldWidth = 400.0;
+  late String medAid;
 
   Widget getPatientDetailsField() {
     return Wrap(
@@ -100,52 +101,65 @@ class _PatientDetailsState extends State<PatientDetails> {
           editable: false,
           required: false),
     ));
-    if (medAidCodeController.text == "Yes") {
-      medAidDet.addAll(
-        [
-          SizedBox(
-            width: textFieldWidth,
-            child: MyTextField(
-                controller: medMainMemController,
-                hintText: "Main Member",
-                editable: false,
-                required: false),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MyTextField(
-                controller: medNoController,
-                hintText: "No.",
-                editable: false,
-                required: false),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MyTextField(
-                controller: medAidCodeController,
-                hintText: "Code",
-                editable: false,
-                required: false),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MyTextField(
-                controller: medNameController,
-                hintText: "Name",
-                editable: false,
-                required: false),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MyTextField(
-                controller: medSchemeController,
-                hintText: "Scheme",
-                editable: false,
-                required: false),
-          ),
-        ],
-      );
+    bool req;
+    if (medAid == "Yes") {
+      req = true;
+    } else {
+      req = false;
     }
+    medAidDet.addAll([
+      Visibility(
+        visible: req,
+        child: Column(
+          children: [
+            SizedBox(
+              width: textFieldWidth,
+              child: MyTextField(
+                  controller: medMainMemController,
+                  hintText: "Main Member",
+                  editable: false,
+                  required: false),
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              width: textFieldWidth,
+              child: MyTextField(
+                  controller: medNoController,
+                  hintText: "No.",
+                  editable: false,
+                  required: false),
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              width: textFieldWidth,
+              child: MyTextField(
+                  controller: medAidCodeController,
+                  hintText: "Code",
+                  editable: false,
+                  required: false),
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              width: textFieldWidth,
+              child: MyTextField(
+                  controller: medNameController,
+                  hintText: "Name",
+                  editable: false,
+                  required: false),
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              width: textFieldWidth,
+              child: MyTextField(
+                  controller: medSchemeController,
+                  hintText: "Scheme",
+                  editable: false,
+                  required: false),
+            ),
+          ],
+        ),
+      ),
+    ]);
 
     return Wrap(
       spacing: 10,
@@ -217,6 +231,7 @@ class _PatientDetailsState extends State<PatientDetails> {
           text: widget.selectedPatient.medical_aid_main_member);
       medAidCodeController.value =
           TextEditingValue(text: widget.selectedPatient.medical_aid_code);
+      medAid = widget.selectedPatient.medical_aid;
     });
     super.initState();
   }
