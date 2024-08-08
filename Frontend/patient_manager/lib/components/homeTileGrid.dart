@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
@@ -12,14 +10,18 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class HomeTileGrid extends StatefulWidget {
   final AppUser signedInUser;
+  final BusinessUser? businessUser;
+  final Business? business;
   const HomeTileGrid({
     super.key,
     required this.signedInUser,
+    required this.businessUser,
+    required this.business,
   });
 
   @override
@@ -30,24 +32,39 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   late List<List<dynamic>> personalTileList = [];
   late List<List<dynamic>> businessTileList = [];
   late List<List<dynamic>> devTileList = [];
-  List<List<List<dynamic>>> pbswitch = [];
+  late Future<List<List<List<dynamic>>>> pbswitch;
   int _selectedIndex = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
-  late Future<BusinessUser?> futureBusinessUser;
-  BusinessUser? businessUser;
+  // late Future<BusinessUser?> futureBusinessUser;
+  // late Future<Business?> futureBusiness;
+  // late BusinessUser? businessUser;
+  // late Business? business;
 
-  Future<BusinessUser?> getBusinessUserDetails() async {
-    var response = await http
-        .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
-    if (response.statusCode == 200) {
-      String body = response.body;
-      var decodedData = jsonDecode(body);
-      BusinessUser business_User = BusinessUser.fromJson(decodedData);
-      return business_User;
-    } else {
-      return null;
-    }
-  }
+  // Future<BusinessUser?> getBusinessUserDetails() async {
+  //   var response = await http
+  //       .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
+  //   if (response.statusCode == 200) {
+  //     String body = response.body;
+  //     var decodedData = jsonDecode(body);
+  //     BusinessUser business_User = BusinessUser.fromJson(decodedData);
+  //     return business_User;
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  // Future<Business?> getBusinessDetails() async {
+  //   var response = await http.get(
+  //       Uri.parse("$baseAPI/business/app_id/${widget.signedInUser.app_id}"));
+  //   if (response.statusCode == 200) {
+  //     String body = response.body;
+  //     var decodedData = jsonDecode(body);
+  //     Business business = Business.fromJson(decodedData);
+  //     return business;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   void setAppsNewPersonal(List<List<dynamic>> tileList) {
     if (widget.signedInUser.fname == "") {
@@ -97,32 +114,36 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   }
 
   void setAppsBusiness(List<List<dynamic>> tileList) {
-    tileList.add(
-      [
-        Icons.business,
-        "Business Profile",
-        () {
-          Navigator.of(context).pushNamed(
-            '/business-profile',
-            arguments: widget.signedInUser,
-          );
-          // Navigator.popAndPushNamed(context, '/patient-manager',
-          //     arguments: widget.userEmail);
-        }
-      ],
-    );
-    tileList.add(
-      [
-        Icons.medication,
-        "Manage Patient",
-        () {
-          Navigator.of(context).pushNamed('/patient-manager',
-              arguments: widget.signedInUser.email);
-          // Navigator.popAndPushNamed(context, '/patient-manager',
-          //     arguments: widget.userEmail);
-        }
-      ],
-    );
+    if (widget.businessUser!.access == "Full") {
+      tileList.add(
+        [
+          Icons.business,
+          "Business Profile",
+          () {
+            Navigator.of(context).pushNamed(
+              '/business-profile',
+              arguments: widget.signedInUser,
+            );
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
+          }
+        ],
+      );
+    }
+    if (widget.business!.type == "Doctors Office") {
+      tileList.add(
+        [
+          Icons.medication,
+          "Manage Patient",
+          () {
+            Navigator.of(context).pushNamed('/patient-manager',
+                arguments: widget.signedInUser.email);
+            // Navigator.popAndPushNamed(context, '/patient-manager',
+            //     arguments: widget.userEmail);
+          }
+        ],
+      );
+    }
   }
 
   void setAppsDev(List<List<dynamic>> tileList) {
@@ -204,16 +225,17 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  Future<void> setApps(List<List<dynamic>> personalTileList,
+  Future<List<List<List<dynamic>>>> setApps(
+      List<List<dynamic>> personalTileList,
       List<List<dynamic>> businessTileList) async {
-    //print(businessUser);
+    //print(widget.businessUser);
     if (widget.signedInUser.fname == "") {
       //print("New personal user");
       setAppsNewPersonal(personalTileList);
     } else if (widget.signedInUser.type == "personal") {
       //print("existing personal user");
       setAppsPersonal(personalTileList);
-    } else if (businessUser == null) {
+    } else if (widget.businessUser == null) {
       //print("new business user");
       setAppsPersonal(personalTileList);
       setAppsNewBusiness(businessTileList);
@@ -228,8 +250,9 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       setAppsDev(personalTileList);
       setAppsDev(businessTileList);
     }
-    pbswitch.add(personalTileList);
-    pbswitch.add(businessTileList);
+    return [personalTileList, businessTileList];
+    // pbswitch.add(personalTileList);
+    // pbswitch.add(businessTileList);
   }
 
   Color getPrim() {
@@ -264,15 +287,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   void initState() {
-    futureBusinessUser = getBusinessUserDetails().then((results) {
-      //print(results);
-      setState(() {
-        businessUser = results;
-        setApps(personalTileList, businessTileList);
-      });
-      return null;
-    });
-
+    pbswitch = setApps(personalTileList, businessTileList);
     super.initState();
   }
 
@@ -282,78 +297,88 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     double width = size.width;
     double height = size.height;
 
-    return FutureBuilder(
-      future: futureBusinessUser,
-      builder: (BuildContext context, AsyncSnapshot<BusinessUser?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
-            drawer: MIHAppDrawer(
-              signedInUser: widget.signedInUser,
-              logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
-            ),
-            body: Container(
+    // return FutureBuilder(
+    //   future: getBusinessDetails(),
+    //   builder: (BuildContext context, AsyncSnapshot<Business?> snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.done &&
+    //         pbswitch.isNotEmpty) {
+    return Scaffold(
+      appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
+      drawer: MIHAppDrawer(
+        signedInUser: widget.signedInUser,
+        logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
+      ),
+      body: FutureBuilder(
+        future: pbswitch,
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            var apps = snapshot.requireData;
+            return Container(
               width: width,
               height: height,
               child: GridView.builder(
                 padding: EdgeInsets.fromLTRB(width / 6, height / 16, width / 6,
                     0), //EdgeInsets.symmetric(horizontal: width / 6),
-                itemCount: pbswitch[_selectedIndex].length,
+                itemCount: apps[_selectedIndex].length,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200),
                 //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                 itemBuilder: (context, index) {
-                  var tile = pbswitch[_selectedIndex][index];
+                  var tile = apps[_selectedIndex][index];
                   //setState(() {});
                   return buildtile(tile);
                 },
               ),
-            ),
-            bottomNavigationBar: Visibility(
-              visible: isBusinessUser(widget.signedInUser),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: GNav(
-                  //hoverColor: Colors.lightBlueAccent,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  iconSize: 35.0,
-                  activeColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  tabBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  //gap: 20,
-                  //padding: EdgeInsets.all(15),
-                  tabs: [
-                    GButton(
-                      icon: Icons.perm_identity,
-                      text: "Personal",
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 0;
-                        });
-                      },
-                    ),
-                    GButton(
-                      icon: Icons.business_center,
-                      text: "Business",
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 1;
-                        });
-                      },
-                    ),
-                  ],
-                  selectedIndex: _selectedIndex,
-                ),
-              ),
-            ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+        },
+      ),
+      bottomNavigationBar: Visibility(
+        visible: isBusinessUser(widget.signedInUser),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GNav(
+            //hoverColor: Colors.lightBlueAccent,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            iconSize: 35.0,
+            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            tabBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //gap: 20,
+            //padding: EdgeInsets.all(15),
+            tabs: [
+              GButton(
+                icon: Icons.perm_identity,
+                text: "Personal",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.business_center,
+                text: "Business",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+            ],
+            selectedIndex: _selectedIndex,
+          ),
+        ),
+      ),
     );
+    //     }
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
   }
 }
