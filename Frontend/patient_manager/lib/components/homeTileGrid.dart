@@ -122,7 +122,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           () {
             Navigator.of(context).pushNamed(
               '/business-profile',
-              arguments: widget.signedInUser,
+              arguments: BusinessUpdateArguments(
+                widget.signedInUser,
+                widget.businessUser,
+                widget.business,
+              ),
             );
             // Navigator.popAndPushNamed(context, '/patient-manager',
             //     arguments: widget.userEmail);
