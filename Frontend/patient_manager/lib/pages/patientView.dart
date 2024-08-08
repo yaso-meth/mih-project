@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
-import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -27,7 +25,7 @@ class PatientView extends StatefulWidget {
 class _PatientViewState extends State<PatientView> {
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
-    var patientAppId = widget.arguments.signedInUser.app_id;
+    var patientAppId = widget.arguments.selectedPatient!.app_id;
 
     final response = await http
         .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/$patientAppId"));
@@ -73,10 +71,10 @@ class _PatientViewState extends State<PatientView> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MIHAppBar(barTitle: "Patient View"),
-              drawer: MIHAppDrawer(
-                signedInUser: widget.arguments.signedInUser,
-                logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
-              ),
+              // drawer: MIHAppDrawer(
+              //   signedInUser: widget.arguments.signedInUser,
+              //   logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
+              // ),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
