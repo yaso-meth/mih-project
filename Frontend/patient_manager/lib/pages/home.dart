@@ -85,14 +85,14 @@ class _HomeState extends State<Home> {
           if (snapshot.hasData) {
             return HomeTileGrid(
               signedInUser: snapshot.data![0] as AppUser,
-              businessUser: snapshot.data![1] as BusinessUser,
-              business: snapshot.data![2] as Business,
+              businessUser: snapshot.data![1] as BusinessUser?,
+              business: snapshot.data![2] as Business?,
             );
           } else {
             return Center(
               child: Text(
                 '${snapshot.error} occurred',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             );
           }
