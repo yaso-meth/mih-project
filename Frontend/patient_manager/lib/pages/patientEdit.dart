@@ -523,6 +523,15 @@ class _EditPatientState extends State<EditPatient> {
 
   void submitForm() {
     if (isFieldsFilled()) {
+      if (!medRequired) {
+        setState(() {
+          medMainMemController.text = "";
+          medNoController.text = "";
+          medAidCodeController.text = "";
+          medNameController.text = "";
+          medSchemeController.text = "";
+        });
+      }
       updatePatientApiCall();
     } else {
       showDialog(
