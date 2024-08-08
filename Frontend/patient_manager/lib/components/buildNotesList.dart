@@ -111,35 +111,21 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     width: 5.0),
               ),
               child: Column(
-                //mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deletePatientPopUp(noteId);
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 25.0),
                   Expanded(
@@ -179,6 +165,22 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   Icons.close,
                   color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                   size: 35,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 5,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  deletePatientPopUp(noteId);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),
