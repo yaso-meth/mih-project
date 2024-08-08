@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
+//import 'package:patient_manager/pages/patientView.dart';
 
 class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
-  //final searchString;
+  final AppUser signedInUser;
 
   const BuildPatientsList({
     super.key,
     required this.patients,
-    //required this.searchString,
+    required this.signedInUser,
   });
 
   @override
@@ -67,7 +70,8 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           onTap: () {
             setState(() {
               Navigator.of(context).pushNamed('/patient-manager/patient',
-                  arguments: widget.patients[index]);
+                  arguments: PatientViewArguments(
+                      widget.signedInUser, widget.patients[index], "business"));
             });
           },
           trailing: Icon(
