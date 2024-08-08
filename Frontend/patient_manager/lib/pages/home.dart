@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return HomeTileGrid(
-              signedInUser: snapshot.data![0] as AppUser,
+              signedInUser: snapshot.requireData[0] as AppUser,
               businessUser: snapshot.data![1] as BusinessUser?,
               business: snapshot.data![2] as Business?,
             );
