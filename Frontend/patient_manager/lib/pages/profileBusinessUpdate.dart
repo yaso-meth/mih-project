@@ -12,24 +12,24 @@ import 'package:patient_manager/components/myTextInput.dart';
 import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/business.dart';
-import 'package:patient_manager/objects/businessUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:http/http.dart' as http2;
 
 class ProfileBusinessUpdate extends StatefulWidget {
-  //final BusinessUserScreenArguments arguments;
-  final AppUser signedInUser;
+  final BusinessUpdateArguments arguments;
+  //final AppUser signedInUser;
   const ProfileBusinessUpdate({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
   });
 
   @override
   State<ProfileBusinessUpdate> createState() => _ProfileBusinessUpdateState();
 }
+
+class BusinessUserScreenArguments {}
 
 class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   final FocusNode _focusNode = FocusNode();
@@ -48,10 +48,10 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
 
-  late Future<BusinessUser?> futureBusinessUser;
-  BusinessUser? businessUser;
-  late Future<Business?> futureBusiness;
-  Business? business;
+  // late Future<BusinessUser?> futureBusinessUser;
+  // BusinessUser? businessUser;
+  // late Future<Business?> futureBusiness;
+  // Business? business;
 
   late String business_id;
   late String oldLogoPath;
@@ -75,31 +75,31 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
     }
   }
 
-  Future<BusinessUser?> getBusinessUserDetails() async {
-    var response = await http
-        .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
-    if (response.statusCode == 200) {
-      String body = response.body;
-      var decodedData = jsonDecode(body);
-      BusinessUser business_User = BusinessUser.fromJson(decodedData);
-      return business_User;
-    } else {
-      return null;
-    }
-  }
+  // Future<BusinessUser?> getBusinessUserDetails() async {
+  //   var response = await http
+  //       .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
+  //   if (response.statusCode == 200) {
+  //     String body = response.body;
+  //     var decodedData = jsonDecode(body);
+  //     BusinessUser business_User = BusinessUser.fromJson(decodedData);
+  //     return business_User;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  Future<Business?> getBusinessDetails() async {
-    var response = await http.get(
-        Uri.parse("$baseAPI/business/app_id/${widget.signedInUser.app_id}"));
-    if (response.statusCode == 200) {
-      String body = response.body;
-      var decodedData = jsonDecode(body);
-      Business business = Business.fromJson(decodedData);
-      return business;
-    } else {
-      return null;
-    }
-  }
+  // Future<Business?> getBusinessDetails() async {
+  //   var response = await http.get(
+  //       Uri.parse("$baseAPI/business/app_id/${widget.signedInUser.app_id}"));
+  //   if (response.statusCode == 200) {
+  //     String body = response.body;
+  //     var decodedData = jsonDecode(body);
+  //     Business business = Business.fromJson(decodedData);
+  //     return business;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   Future<void> uploadSelectedFile(
       PlatformFile? file, TextEditingController controller) async {
@@ -113,7 +113,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
     request.headers['accept'] = 'application/json';
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.signedInUser.app_id;
+    request.fields['app_id'] = widget.arguments.signedInUser.app_id;
     request.fields['folder'] = "business_files";
     request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
@@ -132,10 +132,10 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
       },
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
-        "app_id": widget.signedInUser.app_id,
+        "app_id": widget.arguments.signedInUser.app_id,
         "signature": signtureController.text,
         "sig_path":
-            "${widget.signedInUser.app_id}/business_files/${signtureController.text}",
+            "${widget.arguments.signedInUser.app_id}/business_files/${signtureController.text}",
         "title": titleController.text,
         "access": accessController.text,
       }),
@@ -176,7 +176,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         "registration_no": regController.text,
         "logo_name": logonameController.text,
         "logo_path":
-            "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
+            "${widget.arguments.signedInUser.app_id}/business_files/${logonameController.text}",
       }),
     );
     if (response.statusCode == 200) {
@@ -220,33 +220,23 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
 
   @override
   void initState() {
-    futureBusinessUser = getBusinessUserDetails().then((results) {
-      //print(results);
-      setState(() {
-        businessUser = results;
-        titleController.text = businessUser!.title;
-        fnameController.text = widget.signedInUser.fname;
-        lnameController.text = widget.signedInUser.lname;
-        signtureController.text = businessUser!.signature;
-        titleController.text = businessUser!.title;
-        accessController.text = businessUser!.access;
-        oldSigPath = businessUser!.sig_path;
-      });
-      return null;
-    });
+    setState(() {
+      //businessUser = results;
+      titleController.text = widget.arguments.businessUser!.title;
+      fnameController.text = widget.arguments.signedInUser.fname;
+      lnameController.text = widget.arguments.signedInUser.lname;
+      signtureController.text = widget.arguments.businessUser!.signature;
+      titleController.text = widget.arguments.businessUser!.title;
+      accessController.text = widget.arguments.businessUser!.access;
+      oldSigPath = widget.arguments.businessUser!.sig_path;
 
-    futureBusiness = getBusinessDetails().then((results) {
-      //print(results);
-      setState(() {
-        business = results;
-        business_id = business!.business_id;
-        regController.text = business!.registration_no;
-        nameController.text = business!.Name;
-        typeController.text = business!.type;
-        logonameController.text = business!.logo_name;
-        oldLogoPath = business!.logo_path;
-      });
-      return null;
+      //business = results;
+      business_id = widget.arguments.business!.business_id;
+      regController.text = widget.arguments.business!.registration_no;
+      nameController.text = widget.arguments.business!.Name;
+      typeController.text = widget.arguments.business!.type;
+      logonameController.text = widget.arguments.business!.logo_name;
+      oldLogoPath = widget.arguments.business!.logo_path;
     });
 
     super.initState();
@@ -270,136 +260,146 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
           padding: EdgeInsets.all(25),
           child: Column(
             children: [
-              const Text(
-                "Update Business Profile:",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
+              Column(
+                children: [
+                  const Text(
+                    "Update Business Profile:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  MyTextField(
+                    controller: regController,
+                    hintText: "Registration No.",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: nameController,
+                    hintText: "Business Name",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyDropdownField(
+                    controller: typeController,
+                    hintText: "Business Type",
+                    dropdownOptions: const ["Doctors Office", "Other"],
+                    required: true,
+                    editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyFileField(
+                    controller: logonameController,
+                    hintText: "Logo",
+                    editable: false,
+                    required: true,
+                    onPressed: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'png', 'pdf'],
+                      );
+                      if (result == null) return;
+                      final selectedFile = result.files.first;
+                      setState(() {
+                        selectedLogo = selectedFile;
+                      });
+                      setState(() {
+                        logonameController.text = selectedFile.name;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 15.0),
+                  Divider(
+                    color:
+                        MzanziInnovationHub.of(context)?.theme.secondaryColor(),
+                  ),
+                ],
               ),
-              const SizedBox(height: 15.0),
-              MyTextField(
-                controller: regController,
-                hintText: "Registration No.",
-                editable: true,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyTextField(
-                controller: nameController,
-                hintText: "Business Name",
-                editable: true,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyDropdownField(
-                controller: typeController,
-                hintText: "Business Type",
-                dropdownOptions: const ["Doctors Office", "Other"],
-                required: true,
-                editable: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyFileField(
-                controller: logonameController,
-                hintText: "Logo",
-                editable: false,
-                required: true,
-                onPressed: () async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ['jpg', 'png', 'pdf'],
-                  );
-                  if (result == null) return;
-                  final selectedFile = result.files.first;
-                  setState(() {
-                    selectedLogo = selectedFile;
-                  });
-                  setState(() {
-                    logonameController.text = selectedFile.name;
-                  });
-                },
-              ),
-              const SizedBox(height: 15.0),
-              Divider(
-                color: MzanziInnovationHub.of(context)?.theme.secondaryColor(),
-              ),
-              const SizedBox(height: 15.0),
-              const Text(
-                "My Business User:",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
-              const SizedBox(height: 15.0),
-              MyDropdownField(
-                controller: titleController,
-                hintText: "Title",
-                dropdownOptions: const ["Doctor", "Assistant"],
-                required: true,
-                editable: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyTextField(
-                controller: fnameController,
-                hintText: "Name",
-                editable: false,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyTextField(
-                controller: lnameController,
-                hintText: "Surname",
-                editable: false,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MyFileField(
-                controller: signtureController,
-                hintText: "Signature",
-                editable: false,
-                required: true,
-                onPressed: () async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ['jpg', 'png', 'pdf'],
-                  );
-                  if (result == null) return;
-                  final selectedFile = result.files.first;
-                  setState(() {
-                    selectedSignature = selectedFile;
-                  });
-                  setState(() {
-                    signtureController.text = selectedFile.name;
-                  });
-                },
-              ),
-              const SizedBox(height: 15.0),
-              MyDropdownField(
-                controller: accessController,
-                hintText: "Access",
-                dropdownOptions: const ["Full", "Partial"],
-                required: true,
-                editable: false,
-              ),
-              const SizedBox(height: 15.0),
-              SizedBox(
-                width: 500.0,
-                height: 100.0,
-                child: MyButton(
-                  buttonText: "Add",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    //print(business_id);
-                    submitForm(business_id);
-                  },
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 15.0),
+                  const Text(
+                    "My Business User:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  MyDropdownField(
+                    controller: titleController,
+                    hintText: "Title",
+                    dropdownOptions: const ["Doctor", "Assistant"],
+                    required: true,
+                    editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: fnameController,
+                    hintText: "Name",
+                    editable: false,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyTextField(
+                    controller: lnameController,
+                    hintText: "Surname",
+                    editable: false,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MyFileField(
+                    controller: signtureController,
+                    hintText: "Signature",
+                    editable: false,
+                    required: true,
+                    onPressed: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'png', 'pdf'],
+                      );
+                      if (result == null) return;
+                      final selectedFile = result.files.first;
+                      setState(() {
+                        selectedSignature = selectedFile;
+                      });
+                      setState(() {
+                        signtureController.text = selectedFile.name;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 15.0),
+                  MyDropdownField(
+                    controller: accessController,
+                    hintText: "Access",
+                    dropdownOptions: const ["Full", "Partial"],
+                    required: true,
+                    editable: false,
+                  ),
+                  const SizedBox(height: 15.0),
+                  SizedBox(
+                    width: 500.0,
+                    height: 100.0,
+                    child: MyButton(
+                      buttonText: "Add",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onTap: () {
+                        //print(business_id);
+                        submitForm(business_id);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
