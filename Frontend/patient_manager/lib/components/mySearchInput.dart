@@ -102,7 +102,7 @@ class _MySearchFieldState extends State<MySearchField> {
       obscureText: false,
       decoration: InputDecoration(
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        prefixIcon: IconButton(
+        suffixIcon: IconButton(
           icon: Icon(
             Icons.search,
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
