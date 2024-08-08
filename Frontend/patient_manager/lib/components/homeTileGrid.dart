@@ -104,8 +104,10 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.medication,
         "Patient Profile",
         () {
+          //comeback here
           Navigator.of(context).pushNamed('/patient-profile',
-              arguments: PatientViewArguments(widget.signedInUser, "personal"));
+              arguments:
+                  PatientViewArguments(widget.signedInUser, null, "personal"));
           // Navigator.popAndPushNamed(context, '/patient-manager',
           //     arguments: widget.userEmail);
         }
@@ -140,8 +142,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           Icons.medication,
           "Manage Patient",
           () {
-            Navigator.of(context).pushNamed('/patient-manager',
-                arguments: widget.signedInUser.email);
+            Navigator.of(context)
+                .pushNamed('/patient-manager', arguments: widget.signedInUser);
             // Navigator.popAndPushNamed(context, '/patient-manager',
             //     arguments: widget.userEmail);
           }

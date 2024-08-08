@@ -38,11 +38,11 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/patient-manager':
-        if (args is String) {
+        if (args is AppUser) {
           //print("route generator: $args");
           return MaterialPageRoute(
             builder: (_) => PatientManager(
-              userEmail: args,
+              signedInUser: args,
             ),
           );
         }

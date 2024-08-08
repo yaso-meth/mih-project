@@ -1,6 +1,7 @@
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
+import 'package:patient_manager/objects/patients.dart';
 
 class BusinessUpdateArguments {
   final AppUser signedInUser;
@@ -16,10 +17,12 @@ class BusinessUpdateArguments {
 
 class PatientViewArguments {
   final AppUser signedInUser;
+  final Patient? selectedPatient;
   final String type;
 
   PatientViewArguments(
     this.signedInUser,
+    this.selectedPatient,
     this.type,
   );
 }

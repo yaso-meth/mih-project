@@ -56,7 +56,12 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
           if (snapshot.hasData) {
             // Extracting data from snapshot object
             //final data = snapshot.data as String;
-            return PatientView(arguments: widget.arguments);
+            return PatientView(
+                arguments: PatientViewArguments(
+              widget.arguments.signedInUser,
+              snapshot.requireData,
+              widget.arguments.type,
+            ));
           }
         }
         return AddPatient(signedInUser: widget.arguments.signedInUser);
