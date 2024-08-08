@@ -175,7 +175,8 @@ class _PatientManagerState extends State<PatientManager> {
                       child: CircularProgressIndicator(),
                     ),
                   );
-                } else if (snapshot.hasData) {
+                } else if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
                   List<Patient> patientsList;
                   if (searchString == "") {
                     patientsList = [];
