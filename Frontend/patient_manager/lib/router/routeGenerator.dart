@@ -4,6 +4,7 @@ import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
@@ -26,11 +27,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const Home());
 
       case '/patient-profile':
-        if (args is AppUser) {
+        if (args is PatientViewArguments) {
           //print("route generator: $args");
           return MaterialPageRoute(
             builder: (_) => AddOrViewPatient(
-              signedInUser: args,
+              arguments: args,
             ),
           );
         }
@@ -58,10 +59,10 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/patient-manager/patient':
-        if (args is AppUser) {
+        if (args is PatientViewArguments) {
           return MaterialPageRoute(
             builder: (_) => PatientView(
-              signedInUser: args,
+              arguments: args,
             ),
           );
         }

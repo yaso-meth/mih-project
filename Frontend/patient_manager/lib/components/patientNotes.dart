@@ -16,8 +16,13 @@ import 'package:supertokens_flutter/http.dart' as http;
 class PatientNotes extends StatefulWidget {
   final String patientAppId;
   final AppUser signedInUser;
-  const PatientNotes(
-      {super.key, required this.patientAppId, required this.signedInUser});
+  final String type;
+  const PatientNotes({
+    super.key,
+    required this.patientAppId,
+    required this.signedInUser,
+    required this.type,
+  });
 
   @override
   State<PatientNotes> createState() => _PatientNotesState();
@@ -217,7 +222,7 @@ class _PatientNotesState extends State<PatientNotes> {
   }
 
   List<Widget> setIcons() {
-    if (widget.signedInUser.type == "personal") {
+    if (widget.type == "personal") {
       return [
         Text(
           "Notes",

@@ -11,6 +11,7 @@ import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/businessUser.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -86,8 +87,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.medication,
         "Patient Profile",
         () {
-          Navigator.of(context)
-              .pushNamed('/patient-profile', arguments: widget.signedInUser);
+          Navigator.of(context).pushNamed('/patient-profile',
+              arguments: PatientViewArguments(widget.signedInUser, "personal"));
           // Navigator.popAndPushNamed(context, '/patient-manager',
           //     arguments: widget.userEmail);
         }

@@ -24,11 +24,13 @@ class PatientFiles extends StatefulWidget {
   final int patientIndex;
   final Patient selectedPatient;
   final AppUser signedInUser;
+  final String type;
   const PatientFiles({
     super.key,
     required this.patientIndex,
     required this.selectedPatient,
     required this.signedInUser,
+    required this.type,
   });
 
   @override
@@ -561,7 +563,7 @@ class _PatientFilesState extends State<PatientFiles> {
   }
 
   List<Widget> setIcons() {
-    if (widget.signedInUser.type == "personal") {
+    if (widget.type == "personal") {
       return [
         Text(
           "Files",

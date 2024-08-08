@@ -5,7 +5,12 @@ import 'package:patient_manager/objects/patients.dart';
 
 class PatientDetails extends StatefulWidget {
   final Patient selectedPatient;
-  const PatientDetails({super.key, required this.selectedPatient});
+  final String type;
+  const PatientDetails({
+    super.key,
+    required this.selectedPatient,
+    required this.type,
+  });
 
   @override
   State<PatientDetails> createState() => _PatientDetailsState();
@@ -149,6 +154,43 @@ class _PatientDetailsState extends State<PatientDetails> {
     );
   }
 
+  List<Widget> setIcons() {
+    if (widget.type == "personal") {
+      return [
+        Text(
+          "Patient Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.edit),
+          alignment: Alignment.topRight,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/patient-manager/patient/edit',
+                arguments: widget.selectedPatient);
+          },
+        )
+      ];
+    } else {
+      return [
+        Text(
+          "Patient Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+      ];
+    }
+  }
+
   @override
   void initState() {
     setState(() {
@@ -196,28 +238,7 @@ class _PatientDetailsState extends State<PatientDetails> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             //crossAxisAlignment: ,
-            children: [
-              Text(
-                "Patient Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.edit),
-                alignment: Alignment.topRight,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                      '/patient-manager/patient/edit',
-                      arguments: widget.selectedPatient);
-                },
-              )
-            ],
+            children: setIcons(),
           ),
           Divider(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),

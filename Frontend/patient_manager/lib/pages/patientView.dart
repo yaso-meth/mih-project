@@ -8,15 +8,16 @@ import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientView extends StatefulWidget {
-  final AppUser signedInUser;
+  //final AppUser signedInUser;
+  final PatientViewArguments arguments;
   const PatientView({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
   });
 
   @override
@@ -26,7 +27,7 @@ class PatientView extends StatefulWidget {
 class _PatientViewState extends State<PatientView> {
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
-    var patientAppId = widget.signedInUser.app_id;
+    var patientAppId = widget.arguments.signedInUser.app_id;
 
     final response = await http
         .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/$patientAppId"));
@@ -73,7 +74,7 @@ class _PatientViewState extends State<PatientView> {
             return Scaffold(
               appBar: const MIHAppBar(barTitle: "Patient View"),
               drawer: MIHAppDrawer(
-                signedInUser: widget.signedInUser,
+                signedInUser: widget.arguments.signedInUser,
                 logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
               ),
               body: SingleChildScrollView(
@@ -82,7 +83,10 @@ class _PatientViewState extends State<PatientView> {
                       vertical: 10.0, horizontal: 15.0),
                   child: Column(
                     children: [
-                      PatientDetails(selectedPatient: snapshot.data!),
+                      PatientDetails(
+                        selectedPatient: snapshot.data!,
+                        type: widget.arguments.type,
+                      ),
                       const SizedBox(
                         height: 10.0,
                       ),
@@ -96,7 +100,8 @@ class _PatientViewState extends State<PatientView> {
                             width: 660,
                             child: PatientNotes(
                               patientAppId: snapshot.data!.app_id,
-                              signedInUser: widget.signedInUser,
+                              signedInUser: widget.arguments.signedInUser,
+                              type: widget.arguments.type,
                             ),
                           ),
                           SizedBox(
@@ -104,7 +109,8 @@ class _PatientViewState extends State<PatientView> {
                             child: PatientFiles(
                               patientIndex: snapshot.data!.idpatients,
                               selectedPatient: snapshot.data!,
-                              signedInUser: widget.signedInUser,
+                              signedInUser: widget.arguments.signedInUser,
+                              type: widget.arguments.type,
                             ),
                           )
                         ],
@@ -119,7 +125,7 @@ class _PatientViewState extends State<PatientView> {
         return Center(
           child: Text(
             '${snapshot.error} occurred',
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
         );
       },
