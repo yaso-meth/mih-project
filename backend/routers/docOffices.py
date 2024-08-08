@@ -14,7 +14,7 @@ router = APIRouter()
 # Get Doctors Office By ID
 @router.get("/docOffices/{docOffic_id}", tags=["Doctor Office"])
 async def read_docOffice_By_ID(docOffic_id: int, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices WHERE iddoctor_offices=%s"
     cursor.execute(query, (docOffic_id,))
@@ -29,7 +29,7 @@ async def read_docOffice_By_ID(docOffic_id: int, session: SessionContainer = Dep
 # Get Doctors Office By user
 @router.get("/docOffices/user/{user}", tags=["Doctor Office"])
 async def read_docOffice_By_ID(user: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users WHERE email=%s"
     cursor.execute(query, (user,))
@@ -50,7 +50,7 @@ async def read_docOffice_By_ID(user: str, session: SessionContainer = Depends(ve
 # Get List of all Doctors Office
 @router.get("/docOffices/", tags=["Doctor Office"])
 async def read_All_Doctors_Office(session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices"
     cursor.execute(query)

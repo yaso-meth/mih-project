@@ -1,6 +1,6 @@
 import mysql.connector
 
-def dbConnect():
+def dbPatientManagerConnect():
     return mysql.connector.connect(
         host="mysqldb",
         user="root",

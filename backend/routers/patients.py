@@ -44,11 +44,12 @@ class patientDeleteRequest(BaseModel):
     app_id: str
 
 # # Get Patient By ID Number
-# @router.get("/patients/id/{pat_id}", tags="patients")
-# async def read_patientByID(pat_id: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
+# @router.get("/patients/search/{search}", tags=["Patients"])
+# async def read_patientByID(search: str): #, session: SessionContainer = Depends(verify_session())
+#     db = database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
-#     query = "SELECT * FROM patients WHERE idpatients=%s"
+#     query = "SELECT * FROM patients WHERE idpatients like %%%s%%" % search
+#     #return {"query": query}
 #     cursor.execute(query, (pat_id,))
 #     item = cursor.fetchone()
 #     cursor.close()
@@ -71,7 +72,7 @@ class patientDeleteRequest(BaseModel):
 # Get Patient By app ID
 @router.get("/patients/{app_id}", tags=["Patients"])
 async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE app_id=%s"
     cursor.execute(query, (app_id,))
@@ -98,7 +99,7 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 # # Get Patient By ID Number
 # @router.get("/patients/email/{email}", tags="patients")
 # async def read_patientByID(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
+#     db = database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients WHERE lower(email)=%s"
 #     cursor.execute(query, (email.lower(),))
@@ -122,44 +123,44 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 #     "medical_aid_code": item[12],}
 
 
-# # Get List of all patients
-# @router.get("/patients/user/{email}", tags="patients")
-# async def read_all_patientsByUser(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
-#     cursor = db.cursor()
-#     #query = "SELECT * FROM patients"
-#     query = "Select * from patients " 
-#     query += "inner join users " 
-#     query += "on doc_office_id = docOffice_id "
-#     query += "where lower(users.email)= %s"
-#     cursor.execute(query, (email.lower(),))
-#     items = [
-#         {
-#             "idpatients": item[0],
-#             "id_no": item[1],
-#             "first_name": item[2],
-#             "last_name": item[3],
-#             "email": item[4],
-#             "cell_no": item[5],
-#             "medical_aid": item[11],
-#             "medical_aid_name": item[6],
-#             "medical_aid_no": item[7],
-#             "medical_aid_main_member": item[12],
-#             "medical_aid_code": item[13],  
-#             "medical_aid_scheme": item[8],
-#             "address": item[9],
-#             "doc_office_id": item[10]
-#         }
-#         for item in cursor.fetchall()
-#     ]
-#     cursor.close()
-#     db.close()
-#     return items
+# Get List of all patients
+@router.get("/patients/search/{search}", tags=["Patients"])
+async def read_all_patientsByUser(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbPatientManagerConnect()
+    cursor = db.cursor()
+    #query = "SELECT * FROM patients"
+    query = "Select * from patients " 
+    query += "where id_no like '%%%s%%' " % search
+    query += "or medical_aid_no like '%%%s%%'" % search
+    # return {"query": query}
+    cursor.execute(query)
+    items = [
+        {
+            "idpatients": item[0],
+            "id_no": item[1],
+            "first_name": item[2],
+            "last_name": item[3],
+            "email": item[4],
+            "cell_no": item[5],
+            "medical_aid": item[10],
+            "medical_aid_name": item[6],
+            "medical_aid_no": item[7],
+            "medical_aid_main_member": item[11],
+            "medical_aid_code": item[12],  
+            "medical_aid_scheme": item[8],
+            "address": item[9],
+            "app_id": item[13],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items
 
 # # Get List of all patients
 # @router.get("/patients/", tags="patients")
 # async def read_all_patients(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
+#     db = database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients"
 #     cursor.execute(query)
@@ -186,7 +187,7 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 # # Get List of all patients by Doctors Office
 # @router.get("/patients/docOffice/{docoff_id}", tags="patients")
 # async def read_all_patientsby(docoff_id: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbConnect()
+#     db = database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients where doc_office_id=%s"
 #     cursor.execute(query, (docoff_id,))
@@ -213,7 +214,7 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 # Insert Patient into table
 @router.post("/patients/insert/", tags=["Patients"], status_code=201)
 async def insert_Patient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patients "
     query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
@@ -246,7 +247,7 @@ async def insert_Patient(itemRequest : patientInsertRequest, session: SessionCon
 # Update Patient on table
 @router.put("/patients/update/", tags=["Patients"])
 async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "update patients "
     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid=%s, "
@@ -280,7 +281,7 @@ async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionCon
 # delete Patient on table
 @router.delete("/patients/delete/", tags=["Patients"])
 async def Delete_Patient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbConnect()
+    db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "delete from patients "
     query += "where app_id=%s"

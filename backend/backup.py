@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-def dbConnect():
+def dbPatientManagerConnect():
     return mysql.connector.connect(
         host="mysqldb",
         user="root",
@@ -26,7 +26,7 @@ def read_root():
 # Get Doctors Office By ID
 @app.get("/docOffices/{docOffic_id}")
 def read_docOfficeByID(docOffic_id: int):
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices WHERE iddoctor_offices=%s"
     cursor.execute(query, (docOffic_id,))
@@ -41,7 +41,7 @@ def read_docOfficeByID(docOffic_id: int):
 # Get List of all Doctors Office
 @app.get("/docOffices/")
 def read_All_DoctorsOffice():
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM doctor_offices"
     cursor.execute(query)
@@ -59,7 +59,7 @@ def read_All_DoctorsOffice():
 # Get Patient By ID Number
 @app.get("/patients/{id_no}")
 def read_patientByID(id_no: str):
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE id_no=%s"
     cursor.execute(query, (id_no,))
@@ -83,7 +83,7 @@ def read_patientByID(id_no: str):
 # Get List of all patients
 @app.get("/patients/")
 def read_all_patients():
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients"
     cursor.execute(query)
@@ -110,7 +110,7 @@ def read_all_patients():
 # Get List of all patients by Doctors Office
 @app.get("/docOffice/patients/{docoff_id}")
 def read_all_patientsby(docoff_id: str):
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients where doc_office_id=%s"
     cursor.execute(query, (docoff_id,))
@@ -137,7 +137,7 @@ def read_all_patientsby(docoff_id: str):
 # Get List of all files
 @app.get("/patients/files/")
 def read_all_files():
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files"
     cursor.execute(query)
@@ -158,7 +158,7 @@ def read_all_files():
 # Get List of all files by patient
 @app.get("/patients/files/{patientID}")
 def read_all_files_by_patient(patientID: int):
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_files where patient_id = %s"
     cursor.execute(query, (patientID,))
@@ -179,7 +179,7 @@ def read_all_files_by_patient(patientID: int):
 # Get List of all notes
 @app.get("/patients/notes/")
 def read_all_notes():
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes"
     cursor.execute(query)
@@ -199,7 +199,7 @@ def read_all_notes():
 # Get List of all notes by patient
 @app.get("/patients/notes/{patientID}")
 def read_all_patientsby(patientID: int):
-    db = dbConnect()
+    db = dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes where patient_id = %s"
     cursor.execute(query, (patientID,))
