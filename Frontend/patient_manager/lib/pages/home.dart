@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -42,6 +44,32 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<BusinessUser?> getBusinessUserDetails() async {
+    var uid = await SuperTokens.getUserId();
+    var response = await http.get(Uri.parse("$baseAPI/business-user/$uid"));
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var decodedData = jsonDecode(body);
+      BusinessUser business_User = BusinessUser.fromJson(decodedData);
+      return business_User;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Business?> getBusinessDetails() async {
+    var uid = await SuperTokens.getUserId();
+    var response = await http.get(Uri.parse("$baseAPI/business/app_id/$uid"));
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var decodedData = jsonDecode(body);
+      Business business = Business.fromJson(decodedData);
+      return business;
+    } else {
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,12 +78,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUserDetails(),
-      builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
+      future: Future.wait(
+          [getUserDetails(), getBusinessUserDetails(), getBusinessDetails()]),
+      builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return HomeTileGrid(
-              signedInUser: snapshot.data!,
+              signedInUser: snapshot.data![0] as AppUser,
+              businessUser: snapshot.data![1] as BusinessUser,
+              business: snapshot.data![2] as Business,
             );
           } else {
             return Center(
