@@ -125,7 +125,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           () {
             Navigator.of(context).pushNamed(
               '/business-profile',
-              arguments: BusinessUpdateArguments(
+              arguments: BusinessArguments(
                 widget.signedInUser,
                 widget.businessUser,
                 widget.business,
@@ -143,8 +143,14 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           Icons.medication,
           "Manage Patient",
           () {
-            Navigator.of(context)
-                .pushNamed('/patient-manager', arguments: widget.signedInUser);
+            Navigator.of(context).pushNamed(
+              '/patient-manager',
+              arguments: BusinessArguments(
+                widget.signedInUser,
+                widget.businessUser,
+                widget.business,
+              ),
+            );
             // Navigator.popAndPushNamed(context, '/patient-manager',
             //     arguments: widget.userEmail);
           }

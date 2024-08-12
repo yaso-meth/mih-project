@@ -19,7 +19,7 @@ import 'package:supertokens_flutter/supertokens.dart';
 import 'package:http/http.dart' as http2;
 
 class ProfileBusinessUpdate extends StatefulWidget {
-  final BusinessUpdateArguments arguments;
+  final BusinessArguments arguments;
   //final AppUser signedInUser;
   const ProfileBusinessUpdate({
     super.key,

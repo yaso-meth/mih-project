@@ -38,11 +38,11 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/patient-manager':
-        if (args is AppUser) {
+        if (args is BusinessArguments) {
           //print("route generator: $args");
           return MaterialPageRoute(
             builder: (_) => PatientManager(
-              signedInUser: args,
+              arguments: args,
             ),
           );
         }
@@ -89,7 +89,7 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/business-profile':
-        if (args is BusinessUpdateArguments) {
+        if (args is BusinessArguments) {
           return MaterialPageRoute(
             builder: (_) => ProfileBusinessUpdate(
               arguments: args,

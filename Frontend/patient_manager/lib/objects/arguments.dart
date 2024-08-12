@@ -3,12 +3,12 @@ import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
 import 'package:patient_manager/objects/patients.dart';
 
-class BusinessUpdateArguments {
+class BusinessArguments {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
 
-  BusinessUpdateArguments(
+  BusinessArguments(
     this.signedInUser,
     this.businessUser,
     this.business,

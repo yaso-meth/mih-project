@@ -21,26 +21,82 @@ class BuildPatientsList extends StatefulWidget {
 
 class _BuildPatientsListState extends State<BuildPatientsList> {
   Widget isMainMember(int index) {
+    //var matchRE = RegExp(r'^[a-z]+$');
+    var firstLetterFName = widget.patients[index].first_name[0];
+    var firstLetterLName = widget.patients[index].last_name[0];
+    var fnameStar = '*' * 8;
+    var lnameStar = '*' * 8;
+
     if (widget.patients[index].medical_aid_main_member == "Yes") {
       return Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Icon(
-            Icons.star_border_rounded,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
           Text(
-            "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+            "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
             style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Icon(
+            Icons.star_border_rounded,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ],
       );
     } else {
       return Text(
-        "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+        "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
         style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
+      );
+    }
+  }
+
+  Widget hasMedicalAid(int index) {
+    var medAidNoStar = '*' * 8;
+    if (widget.patients[index].medical_aid == "Yes") {
+      return ListTile(
+        title: isMainMember(index),
+        subtitle: Text(
+          "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
+          style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            Navigator.of(context).pushNamed('/patient-manager/patient',
+                arguments: PatientViewArguments(
+                    widget.signedInUser, widget.patients[index], "business"));
+          });
+        },
+        trailing: Icon(
+          Icons.arrow_forward,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
+      );
+    } else {
+      return ListTile(
+        title: isMainMember(index),
+        subtitle: Text(
+          "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
+          style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            Navigator.of(context).pushNamed('/patient-manager/patient',
+                arguments: PatientViewArguments(
+                    widget.signedInUser, widget.patients[index], "business"));
+          });
+        },
+        trailing: Icon(
+          Icons.arrow_forward,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
@@ -59,26 +115,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
       itemBuilder: (context, index) {
         //final patient = widget.patients[index].id_no.contains(widget.searchString);
         //print(index);
-        return ListTile(
-          title: isMainMember(index),
-          subtitle: Text(
-            "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: ${widget.patients[index].medical_aid_no}",
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          onTap: () {
-            setState(() {
-              Navigator.of(context).pushNamed('/patient-manager/patient',
-                  arguments: PatientViewArguments(
-                      widget.signedInUser, widget.patients[index], "business"));
-            });
-          },
-          trailing: Icon(
-            Icons.arrow_forward,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        );
+        return hasMedicalAid(index);
       },
     );
   }
