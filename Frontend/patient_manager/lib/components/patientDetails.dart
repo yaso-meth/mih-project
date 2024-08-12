@@ -257,32 +257,34 @@ class _PatientDetailsState extends State<PatientDetails> {
             width: 3.0),
       ),
       //constraints: const BoxConstraints.expand(height: 250.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: ,
-            children: setIcons(),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          getPatientDetailsField(),
-          const SizedBox(height: 10),
-          Text(
-            "Medical Aid Details",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      child: SelectionArea(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: ,
+              children: setIcons(),
             ),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          getMedAidDetailsFields(),
-        ],
+            Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            const SizedBox(height: 10),
+            getPatientDetailsField(),
+            const SizedBox(height: 10),
+            Text(
+              "Medical Aid Details",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            const SizedBox(height: 10),
+            getMedAidDetailsFields(),
+          ],
+        ),
       ),
     );
   }

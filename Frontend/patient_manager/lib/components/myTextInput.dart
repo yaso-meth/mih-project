@@ -110,11 +110,12 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      ),
       controller: widget.controller,
       focusNode: _focus,
       readOnly: makeEditable(),
-      enabled: !makeEditable(),
+      //enabled: !makeEditable(),
       obscureText: false,
       onChanged: (_) => setState(() {
         startup = false;
