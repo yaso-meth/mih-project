@@ -309,7 +309,7 @@ class _PatientManagerState extends State<PatientManager> {
         FutureBuilder(
           future: fetchPatientQueue(queueDateController.text),
           builder: (context, snapshot) {
-            print("patient Queue List  ${snapshot.hasData}");
+            //print("patient Queue List  ${snapshot.hasData}");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
                 //height: 500,
