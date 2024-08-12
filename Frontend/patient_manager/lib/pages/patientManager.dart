@@ -9,6 +9,7 @@ import 'package:patient_manager/components/buildPatientQueueList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myDateInput.dart';
+import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -373,10 +374,19 @@ class _PatientManagerState extends State<PatientManager> {
   }
 
   void submitPatientForm() {
-    setState(() {
-      searchString = searchController.text;
-      patientSearchResults = fetchPatients(searchString);
-    });
+    if (searchController.text != "") {
+      setState(() {
+        searchString = searchController.text;
+        patientSearchResults = fetchPatients(searchString);
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MyErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
   }
 
   void checkforchange() {
