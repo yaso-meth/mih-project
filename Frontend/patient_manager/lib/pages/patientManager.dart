@@ -41,6 +41,10 @@ class _PatientManagerState extends State<PatientManager> {
   String errorBody = "";
 
   String searchString = "";
+  var now = DateTime.now();
+  var formatter = DateFormat('yyyy-MM-dd');
+  late String formattedDate;
+  bool start = true;
 
   late Future<List<Patient>> patientSearchResults;
   late Future<List<PatientQueue>> patientQueueResults;
@@ -79,6 +83,7 @@ class _PatientManagerState extends State<PatientManager> {
         templist.add(item);
       }
     }
+    //print(templist);
     return templist;
   }
 
@@ -278,7 +283,7 @@ class _PatientManagerState extends State<PatientManager> {
       ),
       child: Center(
         child: Text(
-          "Enter ID or Medical Aid No. of Patient",
+          "No Appointments for $formattedDate",
           style: TextStyle(
               fontSize: 25,
               color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
@@ -307,7 +312,7 @@ class _PatientManagerState extends State<PatientManager> {
         //spacer
         const SizedBox(height: 10),
         FutureBuilder(
-          future: fetchPatientQueue(queueDateController.text),
+          future: patientQueueResults,
           builder: (context, snapshot) {
             //print("patient Queue List  ${snapshot.hasData}");
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -375,20 +380,30 @@ class _PatientManagerState extends State<PatientManager> {
     });
   }
 
+  void checkforchange() {
+    if (start == true) {
+      setState(() {
+        patientQueueResults = fetchPatientQueue(queueDateController.text);
+        start = false;
+      });
+    }
+    if (formattedDate != queueDateController.text) {
+      setState(() {
+        patientQueueResults = fetchPatientQueue(queueDateController.text);
+        formattedDate = queueDateController.text;
+      });
+    }
+  }
+
   @override
   void initState() {
-    // errorCode = "";
-    // errorBody = "";
-    //print("patient manager page: ${widget.userEmail}");
-    var now = DateTime.now();
-    var formatter = DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(now);
-
     patientSearchResults = fetchPatients("abc");
-    //patientQueueResults = fetchPatientQueue(formattedDate);
+    queueDateController.addListener(checkforchange);
     setState(() {
+      formattedDate = formatter.format(now);
       queueDateController.text = formattedDate;
     });
+
     super.initState();
   }
 
