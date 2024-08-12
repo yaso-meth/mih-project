@@ -5,6 +5,7 @@ import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihDeleteMessage.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
+import 'package:patient_manager/components/mihWarningMessage.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
@@ -208,6 +209,18 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         ],
       );
       tileList.add([
+        Icons.warning_amber_rounded,
+        "Warn - Dev",
+        () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const MIHWarningMessage(warningType: "No Access");
+            },
+          );
+        }
+      ]);
+      tileList.add([
         Icons.error_outline_outlined,
         "Error - Dev",
         () {
@@ -246,9 +259,6 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         }
       ]);
-
-      tileList.add([Icons.abc, "Test 5", () {}]);
-      tileList.add([Icons.abc, "Test 6", () {}]);
     }
   }
 
