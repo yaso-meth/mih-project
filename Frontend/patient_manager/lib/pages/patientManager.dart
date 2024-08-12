@@ -164,7 +164,7 @@ class _PatientManagerState extends State<PatientManager> {
         width: w,
         height: 600,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          const SizedBox(height: 15),
+          //const SizedBox(height: 15),
           const Text(
             "Patient Search",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -293,7 +293,7 @@ class _PatientManagerState extends State<PatientManager> {
       width: w,
       height: 600,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        const SizedBox(height: 15),
+        //const SizedBox(height: 15),
         const Text(
           "Waiting Room",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -421,25 +421,30 @@ class _PatientManagerState extends State<PatientManager> {
       //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       //   ),
       // ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          spacing: 10.0,
-          runSpacing: 10.0,
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.center,
-          runAlignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            SizedBox(
-              width: 660,
-              child: patientSearch(screenWidth, screenHeight),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              spacing: 10.0,
+              runSpacing: 10.0,
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                SizedBox(
+                  width: 660,
+                  child: patientQueue(screenWidth, screenHeight),
+                ),
+                SizedBox(
+                  width: 660,
+                  child: patientSearch(screenWidth, screenHeight),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 660,
-              child: patientQueue(screenWidth, screenHeight),
-            ),
-          ],
+          ),
         ),
       ),
     );
