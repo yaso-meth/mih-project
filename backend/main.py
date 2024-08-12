@@ -5,6 +5,7 @@ import routers.docOffices as docOffices
 import routers.patients as patients
 import routers.patients_files as patients_files
 import routers.patients_notes as patients_notes
+import routers.patients_queue as patients_queue
 import routers.users as users
 import routers.fileStorage as fileStorage
 import routers.medicine as medicine
@@ -74,6 +75,7 @@ app.include_router(docOffices.router)
 app.include_router(patients.router)
 app.include_router(patients_files.router)
 app.include_router(patients_notes.router)
+app.include_router(patients_queue.router)
 app.include_router(users.router)
 app.include_router(fileStorage.router)
 app.include_router(medicine.router)
