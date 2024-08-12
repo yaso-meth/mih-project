@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/mihWarningMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -49,15 +50,29 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
   }
 
   Widget displayQueue(int index) {
+    String fname = widget.patientQueue[index].first_name[0] + "********";
+    String lname = widget.patientQueue[index].last_name[0] + "********";
     String title =
         widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
-    String subtitle =
-        "Name: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
-    if (widget.patientQueue[index].medical_aid_no == "") {
-      subtitle += "No Medical Aid";
+    String subtitle = "";
+
+    if (widget.patientQueue[index].access == "pending") {
+      subtitle +=
+          "Name: $fname $lname\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
+      subtitle += "********";
     } else {
-      subtitle += widget.patientQueue[index].medical_aid_no;
+      subtitle +=
+          "Name: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
+      if (widget.patientQueue[index].medical_aid_no == "") {
+        subtitle += "No Medical Aid";
+      } else {
+        subtitle +=
+            "Name: $fname $lname\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
+        subtitle += widget.patientQueue[index].medical_aid_no;
+      }
     }
+    subtitle +=
+        "\nAccess Request: ${widget.patientQueue[index].access.toUpperCase()}";
     return ListTile(
       title: Text(
         "Appointment: $title",
@@ -72,22 +87,35 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         ),
       ),
       onTap: () {
-        Patient selectedPatient;
-        fetchPatients(widget.patientQueue[index].app_id).then(
-          (result) {
-            setState(() {
-              selectedPatient = result;
-              Navigator.of(context).pushNamed('/patient-manager/patient',
-                  arguments: PatientViewArguments(
-                      widget.signedInUser, selectedPatient, "business"));
-            });
-          },
-        );
+        if (widget.patientQueue[index].access != "pending") {
+          Patient selectedPatient;
+          fetchPatients(widget.patientQueue[index].app_id).then(
+            (result) {
+              setState(() {
+                selectedPatient = result;
+                Navigator.of(context).pushNamed('/patient-manager/patient',
+                    arguments: PatientViewArguments(
+                        widget.signedInUser, selectedPatient, "business"));
+              });
+            },
+          );
+        } else {
+          noAccessWarning();
+        }
       },
       trailing: Icon(
         Icons.arrow_forward,
         color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       ),
+    );
+  }
+
+  void noAccessWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "No Access");
+      },
     );
   }
 
