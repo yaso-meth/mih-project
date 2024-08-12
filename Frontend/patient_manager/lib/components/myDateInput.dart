@@ -28,7 +28,6 @@ class _MyDateFieldState extends State<MyDateField> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-
     if (picked != null) {
       setState(() {
         widget.controller.text = picked.toString().split(" ")[0];
