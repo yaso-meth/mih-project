@@ -129,7 +129,6 @@ class _PrescripInputState extends State<PrescripInput> {
           child: MySearchField(
             controller: widget.medicineController,
             hintText: "Medicine",
-            onChanged: (value) {},
             required: true,
             editable: true,
             onTap: () {

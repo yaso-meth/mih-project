@@ -69,9 +69,10 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         ),
         onTap: () {
           setState(() {
-            Navigator.of(context).pushNamed('/patient-manager/patient',
-                arguments: PatientViewArguments(
-                    widget.signedInUser, widget.patients[index], "business"));
+            // Add popup to add patienmt to queue
+            // Navigator.of(context).pushNamed('/patient-manager/patient',
+            //     arguments: PatientViewArguments(
+            //         widget.signedInUser, widget.patients[index], "business"));
           });
         },
         trailing: Icon(

@@ -6,14 +6,12 @@ class MySearchField extends StatefulWidget {
   final String hintText;
   final bool required;
   final bool editable;
-  final void Function(String)? onChanged;
   final void Function() onTap;
 
   const MySearchField({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.onChanged,
     required this.required,
     required this.editable,
     required this.onTap,
@@ -94,7 +92,11 @@ class _MySearchFieldState extends State<MySearchField> {
     return TextField(
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      onChanged: widget.onChanged,
+      onChanged: (_) {
+        setState(() {
+          startup = false;
+        });
+      },
       controller: widget.controller,
       //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
       readOnly: makeEditable(),

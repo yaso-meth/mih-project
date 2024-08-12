@@ -179,12 +179,11 @@ class _PatientManagerState extends State<PatientManager> {
           MySearchField(
             controller: searchController,
             hintText: "ID or Medical Aid No. Search",
-            required: false,
+            required: true,
             editable: true,
             onTap: () {
               submitPatientForm();
             },
-            onChanged: (value) {},
           ),
           //spacer
           const SizedBox(height: 10),
@@ -307,7 +306,7 @@ class _PatientManagerState extends State<PatientManager> {
         MyDateField(
           controller: queueDateController,
           LableText: "Date",
-          required: false,
+          required: true,
         ),
         //spacer
         const SizedBox(height: 10),
