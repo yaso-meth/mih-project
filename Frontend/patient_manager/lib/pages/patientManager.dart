@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
+import 'package:patient_manager/components/buildPatientQueueList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/components/myDateInput.dart';
+import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
 import 'package:patient_manager/env/env.dart';
@@ -14,11 +18,11 @@ import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
 
 class PatientManager extends StatefulWidget {
-  final AppUser signedInUser;
-
+  //final AppUser signedInUser;
+  final BusinessArguments arguments;
   const PatientManager({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
   });
 
   @override
@@ -28,6 +32,8 @@ class PatientManager extends StatefulWidget {
 //
 class _PatientManagerState extends State<PatientManager> {
   TextEditingController searchController = TextEditingController();
+  TextEditingController queueDateController = TextEditingController();
+
   String baseUrl = AppEnviroment.baseApiUrl;
 
   final FocusNode _focusNode = FocusNode();
@@ -37,11 +43,12 @@ class _PatientManagerState extends State<PatientManager> {
   String searchString = "";
 
   late Future<List<Patient>> patientSearchResults;
+  late Future<List<PatientQueue>> patientQueueResults;
 
-  Future<List<Patient>> fetchPatients(String search) async {
+  Future<List<PatientQueue>> fetchPatientQueue(String date) async {
     //print("Patien manager page: $endpoint");
-    final response =
-        await http.get(Uri.parse("$baseUrl/patients/search/$search"));
+    final response = await http.get(Uri.parse(
+        "$baseUrl/queue/patients/${widget.arguments.businessUser!.business_id}"));
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
@@ -52,20 +59,49 @@ class _PatientManagerState extends State<PatientManager> {
       //print("Here1");
       Iterable l = jsonDecode(response.body);
       //print("Here2");
+      List<PatientQueue> patientQueue = List<PatientQueue>.from(
+          l.map((model) => PatientQueue.fromJson(model)));
+      //print("Here3");
+      //print(patientQueue);
+      return patientQueue;
+    } else {
+      throw Exception('failed to load patients');
+    }
+  }
+
+  List<PatientQueue> filterQueueResults(
+      List<PatientQueue> queueList, String query) {
+    List<PatientQueue> templist = [];
+    //print(query);
+    for (var item in queueList) {
+      if (item.date_time.contains(query)) {
+        //print(item.medical_aid_no);
+        templist.add(item);
+      }
+    }
+    return templist;
+  }
+
+  Future<List<Patient>> fetchPatients(String search) async {
+    final response =
+        await http.get(Uri.parse("$baseUrl/patients/search/$search"));
+    errorCode = response.statusCode.toString();
+    errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
       List<Patient> patients =
           List<Patient>.from(l.map((model) => Patient.fromJson(model)));
-      // print("Here3");
-      // print(patients);
       return patients;
     } else {
       throw Exception('failed to load patients');
     }
   }
 
-  List<Patient> filterSearchResults(List<Patient> mainList, String query) {
+  List<Patient> filterSearchResults(List<Patient> patList, String query) {
     List<Patient> templist = [];
     //print(query);
-    for (var item in mainList) {
+    for (var item in patList) {
       if (item.id_no.contains(searchString) ||
           item.medical_aid_no.contains(searchString)) {
         //print(item.medical_aid_no);
@@ -75,14 +111,7 @@ class _PatientManagerState extends State<PatientManager> {
     return templist;
   }
 
-  void submitForm() {
-    setState(() {
-      searchString = searchController.text;
-      patientSearchResults = fetchPatients(searchString);
-    });
-  }
-
-  Widget displayList(List<Patient> patientsList, String searchString) {
+  Widget displayPatientList(List<Patient> patientsList, String searchString) {
     if (searchString.isNotEmpty && searchString != "") {
       return Container(
         height: 500,
@@ -96,12 +125,12 @@ class _PatientManagerState extends State<PatientManager> {
         ),
         child: BuildPatientsList(
           patients: patientsList,
-          signedInUser: widget.signedInUser,
+          signedInUser: widget.arguments.signedInUser,
         ),
       );
     }
     return Container(
-      height: 500,
+      //height: 500,
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
@@ -128,98 +157,222 @@ class _PatientManagerState extends State<PatientManager> {
       onKeyEvent: (event) async {
         if (event is KeyDownEvent &&
             event.logicalKey == LogicalKeyboardKey.enter) {
-          submitForm();
+          submitPatientForm();
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 25,
-          right: 25,
-          bottom: 25,
-        ),
-        child: SizedBox(
-          width: w,
-          height: h,
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            //spacer
-            const SizedBox(height: 10),
-            MySearchField(
-              controller: searchController,
-              hintText: "ID or Medical Aid No. Search",
-              required: false,
-              editable: true,
-              onTap: () {
-                submitForm();
-              },
-              onChanged: (value) {},
-            ),
-            //spacer
-            const SizedBox(height: 10),
-            FutureBuilder(
-              future: patientSearchResults,
-              builder: (context, snapshot) {
-                //print("patient Liust  ${snapshot.data}");
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 3.0),
-                    ),
-                    child: const Mihloadingcircle(),
-                  );
-                } else if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  List<Patient> patientsList;
-                  if (searchString == "") {
-                    patientsList = [];
-                  } else {
-                    patientsList =
-                        filterSearchResults(snapshot.data!, searchString);
-                    //print(patientsList);
-                  }
-
-                  return Expanded(
-                    child: displayList(patientsList, searchString),
-                  );
+      child: SizedBox(
+        width: w,
+        height: 600,
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          const SizedBox(height: 15),
+          const Text(
+            "Patient Search",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          MySearchField(
+            controller: searchController,
+            hintText: "ID or Medical Aid No. Search",
+            required: false,
+            editable: true,
+            onTap: () {
+              submitPatientForm();
+            },
+            onChanged: (value) {},
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: patientSearchResults,
+            builder: (context, snapshot) {
+              //print("patient Liust  ${snapshot.data}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
+                  //height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: const Mihloadingcircle(),
+                );
+              } else if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                List<Patient> patientsList;
+                if (searchString == "") {
+                  patientsList = [];
                 } else {
-                  return Container(
-                    height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
+                  patientsList =
+                      filterSearchResults(snapshot.data!, searchString);
+                  //print(patientsList);
+                }
+
+                return Expanded(
+                  child: displayPatientList(patientsList, searchString),
+                );
+              } else {
+                return Container(
+                  //height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                      style: TextStyle(
+                          fontSize: 25,
                           color: MzanziInnovationHub.of(context)!
                               .theme
-                              .secondaryColor(),
-                          width: 3.0),
+                              .errorColor()),
+                      textAlign: TextAlign.center,
                     ),
-                    child: Center(
-                      child: Text(
-                        "$errorCode: Error pulling Patients Data\n$baseUrl${widget.signedInUser.email}\n$errorBody",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .errorColor()),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
-          ]),
+                  ),
+                );
+              }
+            },
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Widget displayQueueList(List<PatientQueue> patientQueueList) {
+    if (patientQueueList.isNotEmpty) {
+      return Container(
+        height: 500,
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 3.0,
+          ),
+        ),
+        child: BuildPatientQueueList(
+          patientQueue: patientQueueList,
+          signedInUser: widget.arguments.signedInUser,
+        ),
+      );
+    }
+    return Container(
+      //height: 500,
+      decoration: BoxDecoration(
+        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        borderRadius: BorderRadius.circular(25.0),
+        border: Border.all(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 3.0),
+      ),
+      child: Center(
+        child: Text(
+          "Enter ID or Medical Aid No. of Patient",
+          style: TextStyle(
+              fontSize: 25,
+              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+          textAlign: TextAlign.center,
         ),
       ),
     );
+  }
+
+  Widget patientQueue(double w, double h) {
+    return SizedBox(
+      width: w,
+      height: 600,
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        const SizedBox(height: 15),
+        const Text(
+          "Waiting Room",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        MyDateField(
+          controller: queueDateController,
+          LableText: "Date",
+          required: false,
+        ),
+        //spacer
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: fetchPatientQueue(queueDateController.text),
+          builder: (context, snapshot) {
+            print("patient Queue List  ${snapshot.hasData}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                //height: 500,
+                decoration: BoxDecoration(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 3.0),
+                ),
+                child: const Mihloadingcircle(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              List<PatientQueue> patientQueueList;
+              // if (searchString == "") {
+              //   patientQueueList = [];
+              // } else {
+              patientQueueList = filterQueueResults(
+                  snapshot.requireData, queueDateController.text);
+              //   print(patientQueueList);
+              // }
+
+              return Expanded(
+                child: displayQueueList(patientQueueList),
+              );
+            } else {
+              return Container(
+                //height: 500,
+                decoration: BoxDecoration(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 3.0),
+                ),
+                child: Center(
+                  child: Text(
+                    "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .errorColor()),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ]),
+    );
+  }
+
+  void submitPatientForm() {
+    setState(() {
+      searchString = searchController.text;
+      patientSearchResults = fetchPatients(searchString);
+    });
   }
 
   @override
@@ -227,7 +380,15 @@ class _PatientManagerState extends State<PatientManager> {
     // errorCode = "";
     // errorBody = "";
     //print("patient manager page: ${widget.userEmail}");
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+
     patientSearchResults = fetchPatients("abc");
+    //patientQueueResults = fetchPatientQueue(formattedDate);
+    setState(() {
+      queueDateController.text = formattedDate;
+    });
     super.initState();
   }
 
@@ -260,7 +421,27 @@ class _PatientManagerState extends State<PatientManager> {
       //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       //   ),
       // ),
-      body: patientSearch(screenWidth, screenHeight),
+      body: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          spacing: 10.0,
+          runSpacing: 10.0,
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              width: 660,
+              child: patientSearch(screenWidth, screenHeight),
+            ),
+            SizedBox(
+              width: 660,
+              child: patientQueue(screenWidth, screenHeight),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
