@@ -4,6 +4,7 @@ import 'package:patient_manager/components/homeTile.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihDeleteMessage.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
@@ -154,6 +155,20 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   void setAppsDev(List<List<dynamic>> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(
+        [
+          Icons.change_circle,
+          "Loading - Dev",
+          () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const Mihloadingcircle();
+              },
+            );
+          }
+        ],
+      );
       tileList.add(
         [
           Icons.add_business_outlined,
@@ -312,7 +327,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
       drawer: MIHAppDrawer(
         signedInUser: widget.signedInUser,
-        logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
+        //logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
       ),
       body: FutureBuilder(
         future: pbswitch,
@@ -337,9 +352,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               ),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Mihloadingcircle();
         },
       ),
       bottomNavigationBar: Visibility(
@@ -380,11 +393,5 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         ),
       ),
     );
-    //     }
-    //     return const Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   },
-    // );
   }
 }

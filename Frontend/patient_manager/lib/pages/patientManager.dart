@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:patient_manager/components/mySearchInput.dart';
@@ -171,9 +172,7 @@ class _PatientManagerState extends State<PatientManager> {
                               .secondaryColor(),
                           width: 3.0),
                     ),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: const Mihloadingcircle(),
                   );
                 } else if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {

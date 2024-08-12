@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
@@ -65,19 +66,15 @@ class _RegisterState extends State<Register> {
     } else if (passwordController.text != confirmPasswordController.text) {
       passwordError();
     } else {
-      var _backgroundColor = Colors.transparent;
+      //var _backgroundColor = Colors.transparent;
 
       showDialog(
         context: context,
-        barrierColor: _backgroundColor,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-              backgroundColor: _backgroundColor,
-              content: const Center(
-                child: CircularProgressIndicator(),
-              ));
+        builder: (context) {
+          return const Mihloadingcircle();
         },
       );
+
       try {
         Uri uri = Uri.parse(
             "$baseAPI/auth/emailpassword/email/exists?email=${emailController.text}");

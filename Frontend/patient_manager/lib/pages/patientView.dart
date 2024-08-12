@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
@@ -64,7 +65,7 @@ class _PatientViewState extends State<PatientView> {
       future: fetchPatient(),
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Mihloadingcircle();
         }
         // Checking if future is resolved
         else if (snapshot.connectionState == ConnectionState.done) {

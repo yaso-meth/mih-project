@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myDropdownInput.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myFileInput.dart';
@@ -159,11 +160,10 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
     showDialog(
       context: context,
       builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Mihloadingcircle();
       },
     );
+
     var response = await http.put(
       Uri.parse("$baseAPI/business/update/"),
       headers: <String, String>{

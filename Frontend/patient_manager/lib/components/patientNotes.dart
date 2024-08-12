@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildNotesList.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myMLTextInput.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
@@ -266,9 +267,7 @@ class _PatientNotesState extends State<PatientNotes> {
       future: futueNotes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Mihloadingcircle();
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
           return Container(

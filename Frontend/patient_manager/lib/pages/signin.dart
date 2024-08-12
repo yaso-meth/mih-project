@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/myPassInput.dart';
 import 'package:patient_manager/components/myTextInput.dart';
@@ -31,23 +32,15 @@ class _SignInState extends State<SignIn> {
 
   //sign user in
   Future<void> signUserIn() async {
-    var _backgroundColor = Colors.transparent;
+    //var _backgroundColor = Colors.transparent;
 
     showDialog(
       context: context,
-      barrierColor: _backgroundColor,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          backgroundColor: _backgroundColor,
-          content: Container(
-            child: const Center(
-              child:
-                  CircularProgressIndicator(), // Put your gif into the assets folder
-            ),
-          ),
-        );
+      builder: (context) {
+        return const Mihloadingcircle();
       },
     );
+
     try {
       var response = await http.post(
         Uri.parse("$baseAPI/auth/signin"),

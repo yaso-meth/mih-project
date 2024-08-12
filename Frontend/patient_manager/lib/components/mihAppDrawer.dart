@@ -5,11 +5,11 @@ import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
-  final AssetImage logo;
+  //final AssetImage logo;
   const MIHAppDrawer({
     super.key,
     required this.signedInUser,
-    required this.logo,
+    //required this.logo,
   });
 
   @override
@@ -56,6 +56,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   Widget build(BuildContext context) {
     // precacheImage(
     //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
+    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return Drawer(
       //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
       child: Stack(children: [
@@ -74,7 +75,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   children: [
                     SizedBox(
                       height: 60,
-                      child: Image(image: widget.logo),
+                      child: Image(image: logo),
                     ),
                     Text(
                       "${widget.signedInUser.fname} ${widget.signedInUser.lname}",

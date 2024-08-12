@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/components/mySuccessMessage.dart';
 import 'package:patient_manager/components/myTextInput.dart';
@@ -68,9 +69,7 @@ class _PatientFilesState extends State<PatientFiles> {
     showDialog(
       context: context,
       builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Mihloadingcircle();
       },
     );
 
@@ -130,9 +129,7 @@ class _PatientFilesState extends State<PatientFiles> {
     showDialog(
       context: context,
       builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Mihloadingcircle();
       },
     );
 
@@ -640,9 +637,7 @@ class _PatientFilesState extends State<PatientFiles> {
       future: futueFiles,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Mihloadingcircle();
         } else if (snapshot.hasData) {
           final filesList = snapshot.data!;
           return Container(

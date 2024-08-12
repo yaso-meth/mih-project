@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildMedList.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/myErrorMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -96,9 +97,7 @@ class _MedicineSearchState extends State<MedicineSearch> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const SizedBox(
                         height: 400,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        child: Mihloadingcircle(),
                       );
                     } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       final medsList = snapshot.data!;

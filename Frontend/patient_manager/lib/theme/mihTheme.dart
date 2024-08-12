@@ -7,7 +7,7 @@ class MyTheme {
   late int _succColor;
   late int _mesColor;
   late String mode;
-  late Image loading;
+  late AssetImage loading;
 
   // Options:-
   // f3f9d2 = Cream
@@ -115,16 +115,14 @@ class MyTheme {
     }
   }
 
-  Image loadingImage() {
+  AssetImage loadingImage() {
     if (mode == "Dark") {
-      loading = Image.asset(
+      loading = const AssetImage(
         'images/loading2.gif',
-        width: 100,
       );
     } else {
-      loading = Image.asset(
+      loading = const AssetImage(
         'images/loading1.gif',
-        width: 100,
       );
     }
     return loading;
