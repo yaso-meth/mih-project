@@ -110,55 +110,64 @@ class _PatientDetailsState extends State<PatientDetails> {
     medAidDet.addAll([
       Visibility(
         visible: req,
-        child: Column(
-          children: [
-            SizedBox(
-              width: textFieldWidth,
-              child: MyTextField(
-                  controller: medMainMemController,
-                  hintText: "Main Member",
-                  editable: false,
-                  required: false),
-            ),
-            const SizedBox(height: 10.0),
-            SizedBox(
-              width: textFieldWidth,
-              child: MyTextField(
-                  controller: medNoController,
-                  hintText: "No.",
-                  editable: false,
-                  required: false),
-            ),
-            const SizedBox(height: 10.0),
-            SizedBox(
-              width: textFieldWidth,
-              child: MyTextField(
-                  controller: medAidCodeController,
-                  hintText: "Code",
-                  editable: false,
-                  required: false),
-            ),
-            const SizedBox(height: 10.0),
-            SizedBox(
-              width: textFieldWidth,
-              child: MyTextField(
-                  controller: medNameController,
-                  hintText: "Name",
-                  editable: false,
-                  required: false),
-            ),
-            const SizedBox(height: 10.0),
-            SizedBox(
-              width: textFieldWidth,
-              child: MyTextField(
-                  controller: medSchemeController,
-                  hintText: "Scheme",
-                  editable: false,
-                  required: false),
-            ),
-          ],
+        child: SizedBox(
+          width: textFieldWidth,
+          child: MyTextField(
+              controller: medMainMemController,
+              hintText: "Main Member",
+              editable: false,
+              required: false),
         ),
       ),
+      //const SizedBox(height: 10.0),
+      Visibility(
+        visible: req,
+        child: SizedBox(
+          width: textFieldWidth,
+          child: MyTextField(
+              controller: medNoController,
+              hintText: "No.",
+              editable: false,
+              required: false),
+        ),
+      ),
+      //const SizedBox(height: 10.0),
+      Visibility(
+        visible: req,
+        child: SizedBox(
+          width: textFieldWidth,
+          child: MyTextField(
+              controller: medAidCodeController,
+              hintText: "Code",
+              editable: false,
+              required: false),
+        ),
+      ),
+      //const SizedBox(height: 10.0),
+      Visibility(
+        visible: req,
+        child: SizedBox(
+          width: textFieldWidth,
+          child: MyTextField(
+              controller: medNameController,
+              hintText: "Name",
+              editable: false,
+              required: false),
+        ),
+      ),
+      //const SizedBox(height: 10.0),
+      Visibility(
+        visible: req,
+        child: SizedBox(
+          width: textFieldWidth,
+          child: MyTextField(
+              controller: medSchemeController,
+              hintText: "Scheme",
+              editable: false,
+              required: false),
+        ),
+      ),
+      //),
     ]);
 
     return Wrap(
