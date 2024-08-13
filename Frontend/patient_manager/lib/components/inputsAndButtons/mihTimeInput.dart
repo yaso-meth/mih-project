@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHDateField extends StatefulWidget {
+class MIHTimeField extends StatefulWidget {
   final controller;
   final String LableText;
   final bool required;
 
-  const MIHDateField({
+  const MIHTimeField({
     super.key,
     required this.controller,
     required this.LableText,
@@ -14,23 +14,41 @@ class MIHDateField extends StatefulWidget {
   });
 
   @override
-  State<MIHDateField> createState() => _MIHDateFieldState();
+  State<MIHTimeField> createState() => _MIHDateFieldState();
 }
 
-class _MIHDateFieldState extends State<MIHDateField> {
+class _MIHDateFieldState extends State<MIHTimeField> {
   FocusNode _focus = FocusNode();
   bool startup = true;
-  // bool makeEditable() {
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child as Widget,
+        );
+      },
     );
     if (picked != null) {
+      String hours = "";
+      String minutes = "";
       setState(() {
-        widget.controller.text = picked.toString().split(" ")[0];
+        if (picked.hour <= 9) {
+          hours = "0${picked.hour}";
+        } else {
+          hours = "${picked.hour}";
+        }
+
+        if (picked.minute <= 9) {
+          minutes = "0${picked.minute}";
+        } else {
+          minutes = "${picked.minute}";
+        }
+
+        widget.controller.text = "$hours:$minutes";
       });
     }
   }
@@ -108,7 +126,7 @@ class _MIHDateFieldState extends State<MIHDateField> {
         //labelText: widget.LableText,
         //labelStyle: const TextStyle(color: Colors.blueAccent),
         prefixIcon: Icon(
-          Icons.calendar_today,
+          Icons.access_alarm,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
@@ -139,7 +157,7 @@ class _MIHDateFieldState extends State<MIHDateField> {
         ),
       ),
       onTap: () {
-        _selectDate(context);
+        _selectTime(context);
       },
     );
   }
