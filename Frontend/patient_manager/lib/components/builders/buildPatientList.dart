@@ -1,18 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihDateInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTimeInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/patients.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
   final AppUser signedInUser;
+  final Business? business;
 
   const BuildPatientsList({
     super.key,
     required this.patients,
     required this.signedInUser,
+    required this.business,
   });
 
   @override
@@ -22,8 +33,63 @@ class BuildPatientsList extends StatefulWidget {
 class _BuildPatientsListState extends State<BuildPatientsList> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
 
-  void submitApointment() {}
+  final baseAPI = AppEnviroment.baseApiUrl;
+
+  Future<void> addPatientAppointmentAPICall(int index) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/queue/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": widget.business!.business_id,
+        "app_id": widget.patients[index].app_id,
+        "date": dateController.text,
+        "time": timeController.text,
+        "access": "pending",
+      }),
+    );
+    if (response.statusCode == 201) {
+      // Navigator.pushNamed(context, '/patient-manager/patient',
+      //     arguments: widget.signedInUser);
+      String message =
+          "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patients profile. ou can check the status of your request in patient queue under the appointment.";
+      //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
+      Navigator.pop(context);
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MIHSuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
+
+  void submitApointment(int index) {
+    addPatientAppointmentAPICall(index);
+  }
 
   bool isAppointmentFieldsFilled() {
     if (dateController.text.isEmpty || timeController.text.isEmpty) {
@@ -33,7 +99,17 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
     }
   }
 
-  void appointmentPopUp() {
+  void appointmentPopUp(int index) {
+    var firstLetterFName = widget.patients[index].first_name[0];
+    var firstLetterLName = widget.patients[index].last_name[0];
+    var fnameStar = '*' * 8;
+    var lnameStar = '*' * 8;
+
+    setState(() {
+      idController.text = widget.patients[index].id_no;
+      fnameController.text = firstLetterFName + fnameStar;
+      lnameController.text = firstLetterLName + lnameStar;
+    });
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -52,48 +128,89 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     width: 5.0),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Add Patient to appointment",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Patient Appointment",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  SizedBox(
-                    width: 300,
-                    height: 100,
-                    child: MIHButton(
-                      buttonText: "Generate",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () {
-                        if (isAppointmentFieldsFilled()) {
-                          submitApointment();
-                          Navigator.pop(context);
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const MIHErrorMessage(
-                                  errorType: "Input Error");
-                            },
-                          );
-                        }
-                      },
+                    const SizedBox(height: 25.0),
+                    MIHTextField(
+                      controller: idController,
+                      hintText: "ID No.",
+                      editable: false,
+                      required: true,
                     ),
-                  )
-                ],
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: fnameController,
+                      hintText: "First Name",
+                      editable: false,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: lnameController,
+                      hintText: "Surname",
+                      editable: false,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHDateField(
+                      controller: dateController,
+                      LableText: "Date",
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTimeField(
+                      controller: timeController,
+                      LableText: "Time",
+                      required: true,
+                    ),
+                    const SizedBox(height: 15.0),
+                    SizedBox(
+                      width: 300,
+                      height: 100,
+                      child: MIHButton(
+                        buttonText: "Book",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () {
+                          print("here1");
+                          bool filled = isAppointmentFieldsFilled();
+                          print("fields filled: $filled");
+                          if (filled) {
+                            print("here2");
+                            submitApointment(index);
+                            print("here3");
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -167,6 +284,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         ),
         onTap: () {
           setState(() {
+            appointmentPopUp(index);
             // Add popup to add patienmt to queue
             // Navigator.of(context).pushNamed('/patient-manager/patient',
             //     arguments: PatientViewArguments(
@@ -189,13 +307,14 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         ),
         onTap: () {
           setState(() {
+            appointmentPopUp(index);
             // Navigator.of(context).pushNamed('/patient-manager/patient',
             //     arguments: PatientViewArguments(
             //         widget.signedInUser, widget.patients[index], "business"));
           });
         },
         trailing: Icon(
-          Icons.arrow_forward,
+          Icons.add,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
