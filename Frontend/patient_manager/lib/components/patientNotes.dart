@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/buildNotesList.dart';
+import 'package:patient_manager/components/builders/buildNotesList.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/mihErrorMessage.dart';
-import 'package:patient_manager/components/mihMLTextInput.dart';
-import 'package:patient_manager/components/mihSuccessMessage.dart';
-import 'package:patient_manager/components/mihTextInput.dart';
-import 'package:patient_manager/components/mihButton.dart';
+import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihMLTextInput.dart';
+import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mihDateInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihDateInput.dart';
 
 class Medcertinput extends StatefulWidget {
   final startDateController;

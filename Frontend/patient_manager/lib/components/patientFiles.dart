@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/buildFilesList.dart';
+import 'package:patient_manager/components/builders/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/mihErrorMessage.dart';
-import 'package:patient_manager/components/mihSuccessMessage.dart';
-import 'package:patient_manager/components/mihTextInput.dart';
-import 'package:patient_manager/components/mihButton.dart';
+import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/components/prescipInput.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';

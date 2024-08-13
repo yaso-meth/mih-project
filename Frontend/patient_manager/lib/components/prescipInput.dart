@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/medicineSearch.dart';
-import 'package:patient_manager/components/mihDropdownInput.dart';
-import 'package:patient_manager/components/mihErrorMessage.dart';
-import 'package:patient_manager/components/mihSearchInput.dart';
-import 'package:patient_manager/components/mihButton.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
+import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/main.dart';
 
 class PrescripInput extends StatefulWidget {

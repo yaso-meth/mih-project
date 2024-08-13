@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
 
