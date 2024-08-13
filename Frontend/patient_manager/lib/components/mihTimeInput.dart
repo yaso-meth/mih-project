@@ -1,54 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyMLTextField extends StatefulWidget {
+class MIHDateField extends StatefulWidget {
   final controller;
-  final String hintText;
-  final bool editable;
+  final String LableText;
   final bool required;
 
-  const MyMLTextField({
+  const MIHDateField({
     super.key,
     required this.controller,
-    required this.hintText,
-    required this.editable,
+    required this.LableText,
     required this.required,
   });
 
   @override
-  State<MyMLTextField> createState() => _MyMLTextFieldState();
+  State<MIHDateField> createState() => _MIHDateFieldState();
 }
 
-class _MyMLTextFieldState extends State<MyMLTextField> {
-  bool startup = true;
+class _MIHDateFieldState extends State<MIHDateField> {
   FocusNode _focus = FocusNode();
-
-  bool makeEditable() {
-    if (widget.editable) {
-      return false;
-    } else {
-      return true;
+  bool startup = true;
+  // bool makeEditable() {
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        widget.controller.text = picked.toString().split(" ")[0];
+      });
     }
-  }
-
-  String? get _errorText {
-    final text = widget.controller.text;
-    if (startup) {
-      return null;
-    }
-    if (!widget.required) {
-      return null;
-    }
-    if (text.isEmpty) {
-      return "${widget.hintText} is required";
-    }
-    return null;
-  }
-
-  void _onFocusChange() {
-    setState(() {
-      startup = false;
-    });
   }
 
   Widget setRequiredText() {
@@ -64,17 +48,37 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
           const SizedBox(
             width: 8.0,
           ),
-          Text(widget.hintText,
+          Text(widget.LableText,
               style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
-      return Text(widget.hintText,
+      return Text(widget.LableText,
           style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.LableText} is required";
+    }
+    return null;
   }
 
   @override
@@ -88,26 +92,25 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
     return TextField(
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      textAlign: TextAlign.start,
-      textAlignVertical: TextAlignVertical.top,
-      expands: true,
-      maxLines: null,
       controller: widget.controller,
-      readOnly: makeEditable(),
+      readOnly: true,
       obscureText: false,
       focusNode: _focus,
       onChanged: (_) => setState(() {
         startup = false;
       }),
       decoration: InputDecoration(
-        label: setRequiredText(),
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        labelStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        alignLabelWithHint: true,
+        label: setRequiredText(),
+        //labelText: widget.LableText,
+        //labelStyle: const TextStyle(color: Colors.blueAccent),
+        prefixIcon: Icon(
+          Icons.calendar_today,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         filled: true,
         //hintText: hintText,
@@ -135,6 +138,9 @@ class _MyMLTextFieldState extends State<MyMLTextField> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
       ),
+      onTap: () {
+        _selectDate(context);
+      },
     );
   }
 }

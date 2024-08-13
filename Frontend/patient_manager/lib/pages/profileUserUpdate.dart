@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -98,7 +98,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -107,7 +107,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -119,7 +119,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Invalid Username");
+        return const MIHErrorMessage(errorType: "Invalid Username");
       },
     );
   }
@@ -136,7 +136,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       showDialog(
         context: context,
         builder: (context) {
-          return const MyErrorMessage(errorType: "Input Error");
+          return const MIHErrorMessage(errorType: "Input Error");
         },
       );
     }
@@ -180,21 +180,21 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                   ),
                 ),
                 const SizedBox(height: 15.0),
-                MyTextField(
+                MIHTextField(
                   controller: usernameController,
                   hintText: "Username",
                   editable: true,
                   required: true,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: fnameController,
                   hintText: "First Name",
                   editable: true,
                   required: true,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: lnameController,
                   hintText: "Last Name",
                   editable: true,
@@ -229,7 +229,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                 SizedBox(
                   width: 500.0,
                   height: 100.0,
-                  child: MyButton(
+                  child: MIHButton(
                     buttonText: "Update",
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),

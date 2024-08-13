@@ -6,8 +6,8 @@ import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihDeleteMessage.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/mihWarningMessage.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -227,7 +227,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           showDialog(
             context: context,
             builder: (context) {
-              return const MyErrorMessage(errorType: "Invalid Username");
+              return const MIHErrorMessage(errorType: "Invalid Username");
             },
           );
         }
@@ -239,7 +239,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           showDialog(
             context: context,
             builder: (context) {
-              return const MySuccessMessage(
+              return const MIHSuccessMessage(
                   successType: "Success",
                   successMessage:
                       "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");

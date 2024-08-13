@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MySearchField extends StatefulWidget {
+class MIHSearchField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool required;
   final bool editable;
   final void Function() onTap;
 
-  const MySearchField({
+  const MIHSearchField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -18,10 +18,10 @@ class MySearchField extends StatefulWidget {
   });
 
   @override
-  State<MySearchField> createState() => _MySearchFieldState();
+  State<MIHSearchField> createState() => _MIHSearchFieldState();
 }
 
-class _MySearchFieldState extends State<MySearchField> {
+class _MIHSearchFieldState extends State<MIHSearchField> {
   bool startup = true;
   FocusNode _focus = FocusNode();
 

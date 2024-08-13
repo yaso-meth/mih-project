@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/medicineSearch.dart';
-import 'package:patient_manager/components/myDropdownInput.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySearchInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihDropdownInput.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSearchInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/main.dart';
 
 class PrescripInput extends StatefulWidget {
@@ -126,7 +126,7 @@ class _PrescripInputState extends State<PrescripInput> {
       children: [
         SizedBox(
           width: 300,
-          child: MySearchField(
+          child: MIHSearchField(
             controller: widget.medicineController,
             hintText: "Medicine",
             required: true,
@@ -139,7 +139,7 @@ class _PrescripInputState extends State<PrescripInput> {
         const SizedBox(height: 25.0),
         SizedBox(
           width: 300,
-          child: MyDropdownField(
+          child: MIHDropdownField(
             controller: widget.quantityController,
             hintText: "Quantity",
             dropdownOptions: numberOptions,
@@ -150,7 +150,7 @@ class _PrescripInputState extends State<PrescripInput> {
         const SizedBox(height: 25.0),
         SizedBox(
           width: 300,
-          child: MyDropdownField(
+          child: MIHDropdownField(
             controller: widget.dosageController,
             hintText: "Dosage",
             dropdownOptions: numberOptions,
@@ -161,7 +161,7 @@ class _PrescripInputState extends State<PrescripInput> {
         const SizedBox(height: 25.0),
         SizedBox(
           width: 300,
-          child: MyDropdownField(
+          child: MIHDropdownField(
             controller: widget.timesDailyController,
             hintText: "Times Daily",
             dropdownOptions: numberOptions,
@@ -172,7 +172,7 @@ class _PrescripInputState extends State<PrescripInput> {
         const SizedBox(height: 25.0),
         SizedBox(
           width: 300,
-          child: MyDropdownField(
+          child: MIHDropdownField(
             controller: widget.noDaysController,
             hintText: "No. Days",
             dropdownOptions: numberOptions,
@@ -183,7 +183,7 @@ class _PrescripInputState extends State<PrescripInput> {
         const SizedBox(height: 25.0),
         SizedBox(
           width: 300,
-          child: MyDropdownField(
+          child: MIHDropdownField(
             controller: widget.noRepeatsController,
             hintText: "No. Repeats",
             dropdownOptions: numberOptions,
@@ -193,7 +193,7 @@ class _PrescripInputState extends State<PrescripInput> {
         ),
         SizedBox(
           width: 300,
-          child: MyButton(
+          child: MIHButton(
             buttonText: "Add",
             buttonColor:
                 MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -215,7 +215,7 @@ class _PrescripInputState extends State<PrescripInput> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return const MyErrorMessage(errorType: "Input Error");
+                    return const MIHErrorMessage(errorType: "Input Error");
                   },
                 );
               }
@@ -281,7 +281,7 @@ class _PrescripInputState extends State<PrescripInput> {
         SizedBox(
           width: 300,
           height: 100,
-          child: MyButton(
+          child: MIHButton(
             onTap: () {
               // if (isMedCertFieldsFilled()) {
               //   generateMedCert();
@@ -290,7 +290,7 @@ class _PrescripInputState extends State<PrescripInput> {
               //   showDialog(
               //     context: context,
               //     builder: (context) {
-              //       return const MyErrorMessage(
+              //       return const MIHErrorMessage(
               //           errorType: "Input Error");
               //     },
               //   );

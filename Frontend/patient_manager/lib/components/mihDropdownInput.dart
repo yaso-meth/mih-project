@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyDropdownField extends StatefulWidget {
+class MIHDropdownField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool required;
@@ -9,7 +9,7 @@ class MyDropdownField extends StatefulWidget {
   final void Function(String?)? onSelect;
   final bool editable;
 
-  const MyDropdownField({
+  const MIHDropdownField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -20,10 +20,10 @@ class MyDropdownField extends StatefulWidget {
   });
 
   @override
-  State<MyDropdownField> createState() => _MyDropdownFieldState();
+  State<MIHDropdownField> createState() => _MIHDropdownFieldState();
 }
 
-class _MyDropdownFieldState extends State<MyDropdownField> {
+class _MIHDropdownFieldState extends State<MIHDropdownField> {
   //var dropbownItems = ["Dr.", "Assistant"];
   bool startup = true;
   final FocusNode _focus = FocusNode();

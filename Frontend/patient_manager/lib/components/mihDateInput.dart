@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyDateField extends StatefulWidget {
+class MIHDateField extends StatefulWidget {
   final controller;
   final String LableText;
   final bool required;
 
-  const MyDateField({
+  const MIHDateField({
     super.key,
     required this.controller,
     required this.LableText,
@@ -14,10 +14,10 @@ class MyDateField extends StatefulWidget {
   });
 
   @override
-  State<MyDateField> createState() => _MyDateFieldState();
+  State<MIHDateField> createState() => _MIHDateFieldState();
 }
 
-class _MyDateFieldState extends State<MyDateField> {
+class _MIHDateFieldState extends State<MIHDateField> {
   FocusNode _focus = FocusNode();
   bool startup = true;
   // bool makeEditable() {

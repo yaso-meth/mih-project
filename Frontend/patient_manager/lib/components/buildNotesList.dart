@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihDeleteMessage.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/myMLTextInput.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihMLTextInput.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -58,7 +58,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -67,7 +67,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -129,7 +129,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   ),
                   const SizedBox(height: 25.0),
                   Expanded(
-                    child: MyMLTextField(
+                    child: MIHMLTextField(
                       controller: noteTextController,
                       hintText: "Note Details",
                       editable: false,
@@ -140,7 +140,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   // SizedBox(
                   //   width: 300,
                   //   height: 100,
-                  //   child: MyButton(
+                  //   child: MIHButton(
                   //     onTap: () {
                   //       Navigator.pop(context);
                   //     },

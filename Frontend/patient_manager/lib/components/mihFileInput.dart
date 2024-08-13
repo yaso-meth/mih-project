@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyFileField extends StatefulWidget {
+class MIHFileField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool editable;
   final bool required;
   final void Function() onPressed;
 
-  const MyFileField({
+  const MIHFileField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -18,10 +18,10 @@ class MyFileField extends StatefulWidget {
   });
 
   @override
-  State<MyFileField> createState() => _MyFileFieldState();
+  State<MIHFileField> createState() => _MIHFileFieldState();
 }
 
-class _MyFileFieldState extends State<MyFileField> {
+class _MIHFileFieldState extends State<MIHFileField> {
   bool startup = true;
   FocusNode _focus = FocusNode();
 

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/main.dart';
 
-class MySuccessMessage extends StatefulWidget {
+class MIHSuccessMessage extends StatefulWidget {
   final String successType;
   final String successMessage;
-  const MySuccessMessage({
+  const MIHSuccessMessage({
     super.key,
     required this.successType,
     required this.successMessage,
   });
 
   @override
-  State<MySuccessMessage> createState() => _MySuccessMessageState();
+  State<MIHSuccessMessage> createState() => _MIHSuccessMessageState();
 }
 
-class _MySuccessMessageState extends State<MySuccessMessage> {
+class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
   var messageTypes = <String, Widget>{};
   late String message;
 
@@ -71,7 +71,7 @@ class _MySuccessMessageState extends State<MySuccessMessage> {
               SizedBox(
                 width: 300,
                 height: 100,
-                child: MyButton(
+                child: MIHButton(
                   onTap: () {
                     Navigator.pop(context);
                   },

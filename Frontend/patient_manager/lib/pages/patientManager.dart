@@ -8,12 +8,12 @@ import 'package:patient_manager/components/buildPatientList.dart';
 import 'package:patient_manager/components/buildPatientQueueList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myDateInput.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mihDateInput.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:patient_manager/components/mySearchInput.dart';
+import 'package:patient_manager/components/mihSearchInput.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
@@ -177,7 +177,7 @@ class _PatientManagerState extends State<PatientManager> {
           ),
           //spacer
           const SizedBox(height: 10),
-          MySearchField(
+          MIHSearchField(
             controller: searchController,
             hintText: "ID or Medical Aid No. Search",
             required: true,
@@ -304,7 +304,7 @@ class _PatientManagerState extends State<PatientManager> {
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        MyDateField(
+        MIHDateField(
           controller: queueDateController,
           LableText: "Date",
           required: true,
@@ -383,7 +383,7 @@ class _PatientManagerState extends State<PatientManager> {
       showDialog(
         context: context,
         builder: (context) {
-          return const MyErrorMessage(errorType: "Input Error");
+          return const MIHErrorMessage(errorType: "Input Error");
         },
       );
     }

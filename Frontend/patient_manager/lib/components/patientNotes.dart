@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildNotesList.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/myMLTextInput.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihMLTextInput.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -81,7 +81,7 @@ class _PatientNotesState extends State<PatientNotes> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -93,7 +93,7 @@ class _PatientNotesState extends State<PatientNotes> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -145,7 +145,7 @@ class _PatientNotesState extends State<PatientNotes> {
                   const SizedBox(height: 25.0),
                   SizedBox(
                     width: 700,
-                    child: MyTextField(
+                    child: MIHTextField(
                       controller: titleController,
                       hintText: "Title of Note",
                       editable: true,
@@ -154,7 +154,7 @@ class _PatientNotesState extends State<PatientNotes> {
                   ),
                   const SizedBox(height: 25.0),
                   Expanded(
-                    child: MyMLTextField(
+                    child: MIHMLTextField(
                       controller: noteTextController,
                       hintText: "Note Details",
                       editable: true,
@@ -164,7 +164,7 @@ class _PatientNotesState extends State<PatientNotes> {
                   SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       onTap: () {
                         if (isFieldsFilled()) {
                           addPatientNoteAPICall();
@@ -173,7 +173,7 @@ class _PatientNotesState extends State<PatientNotes> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return const MyErrorMessage(
+                              return const MIHErrorMessage(
                                   errorType: "Input Error");
                             },
                           );

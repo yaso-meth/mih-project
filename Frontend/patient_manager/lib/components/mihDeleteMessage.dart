@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/main.dart';
 
 class MIHDeleteMessage extends StatefulWidget {
@@ -72,7 +72,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       onTap: widget.onTap,
                       buttonText: "Delete",
                       buttonColor: MzanziInnovationHub.of(context)!
@@ -157,7 +157,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       onTap: widget.onTap,
                       buttonText: "Delete",
                       buttonColor: MzanziInnovationHub.of(context)!

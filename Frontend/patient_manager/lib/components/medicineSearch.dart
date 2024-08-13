@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildMedList.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
@@ -47,7 +47,7 @@ class _MedicineSearchState extends State<MedicineSearch> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }

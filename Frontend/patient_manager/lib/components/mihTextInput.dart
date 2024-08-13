@@ -1,39 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyPassField extends StatefulWidget {
+class MIHTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
+  final bool editable;
   final bool required;
-  final bool signIn;
 
-  const MyPassField({
+  const MIHTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.editable,
     required this.required,
-    required this.signIn,
   });
 
   @override
-  State<MyPassField> createState() => _MyPassFieldState();
+  State<MIHTextField> createState() => _MIHTextFieldState();
 }
 
-class _MyPassFieldState extends State<MyPassField> {
+class _MIHTextFieldState extends State<MIHTextField> {
   bool startup = true;
-  final textFieldFocusNode = FocusNode();
-  bool _obscured = true;
-  //bool valid = false;
+  FocusNode _focus = FocusNode();
 
-  void _toggleObscured() {
-    setState(() {
-      _obscured = !_obscured;
-      if (textFieldFocusNode.hasPrimaryFocus) {
-        return; // If focus is on text field, dont unfocus
-      }
-      textFieldFocusNode.canRequestFocus =
-          false; // Prevents focus if tap on eye
-    });
+  bool makeEditable() {
+    if (widget.editable) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   String? get _errorText {
@@ -48,37 +43,35 @@ class _MyPassFieldState extends State<MyPassField> {
     if (text.isEmpty) {
       return "${widget.hintText} is required";
     }
-    // Password length greater than 8
-    if (text.length <= 8 && !widget.signIn) {
-      _errorMessage += '• Password must contain at least 8 characters.\n';
+    if (widget.hintText == "Email" && !isEmailValid(text)) {
+      _errorMessage += "Enter a valid email address\n";
     }
-
-    // Contains at least one uppercase letter
-    if (!text.contains(RegExp(r'[A-Z]')) && !widget.signIn) {
-      _errorMessage += '• Uppercase letter is missing.\n';
+    if (widget.hintText == "Username" && text.length < 8) {
+      _errorMessage += "• Username must contain at least 8 characters.\n";
     }
-
-    // Contains at least one lowercase letter
-    if (!text.contains(RegExp(r'[a-z]')) && !widget.signIn) {
-      _errorMessage += '• Lowercase letter is missing.\n';
+    if (widget.hintText == "Username" && !isUsernameValid(text)) {
+      _errorMessage += "• Username can only contain '_' special Chracters.\n";
     }
-
-    // Contains at least one digit
-    if (!text.contains(RegExp(r'[0-9]')) && !widget.signIn) {
-      _errorMessage += '• number is missing.\n';
-    }
-
-    // Contains at least one special character
-    if (!text.contains(RegExp(r'[!@#$%^&*]')) && !widget.signIn) {
-      _errorMessage += '• Special character is missing - !@#\$%^&*\n';
-    }
-
-    // Contains no errors
     if (_errorMessage.isEmpty) {
       return null;
     }
     // If there are no error messages, the password is valid
     return _errorMessage;
+  }
+
+  bool isUsernameValid(String Username) {
+    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
+        .hasMatch(Username);
+  }
+
+  bool isEmailValid(String email) {
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
   }
 
   Widget setRequiredText() {
@@ -107,40 +100,44 @@ class _MyPassFieldState extends State<MyPassField> {
     }
   }
 
-  void _onFocusChange() {
-    setState(() {
-      startup = false;
-    });
-  }
-
   @override
   void initState() {
-    textFieldFocusNode.addListener(_onFocusChange);
+    _focus.addListener(_onFocusChange);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller,
       style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      obscureText: _obscured,
-      focusNode: textFieldFocusNode,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      ),
+      controller: widget.controller,
+      focusNode: _focus,
+      readOnly: makeEditable(),
+      //enabled: !makeEditable(),
+      obscureText: false,
       onChanged: (_) => setState(() {
         startup = false;
       }),
       decoration: InputDecoration(
+        label: setRequiredText(),
+        //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         filled: true,
-        label: setRequiredText(),
-        //labelStyle: const TextStyle(color: Colors.blueAccent),
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        //hintText: widget.hintText,
+        //errorBorder: const InputBorder(),
+        //hintText: hintText,
         //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
+          ),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -162,19 +159,6 @@ class _MyPassFieldState extends State<MyPassField> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        ),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-          child: GestureDetector(
-            onTap: _toggleObscured,
-            child: Icon(
-              _obscured
-                  ? Icons.visibility_rounded
-                  : Icons.visibility_off_rounded,
-              size: 24,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
         ),
       ),
     );

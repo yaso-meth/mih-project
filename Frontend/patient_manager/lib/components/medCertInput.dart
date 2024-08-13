@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/myDateInput.dart';
+import 'package:patient_manager/components/mihDateInput.dart';
 
 class Medcertinput extends StatefulWidget {
   final startDateController;
@@ -26,7 +26,7 @@ class _MedcertinputState extends State<Medcertinput> {
           const SizedBox(height: 50.0),
           SizedBox(
             width: 700,
-            child: MyDateField(
+            child: MIHDateField(
               controller: widget.startDateController,
               LableText: "From",
               required: true,
@@ -35,7 +35,7 @@ class _MedcertinputState extends State<Medcertinput> {
           const SizedBox(height: 25.0),
           SizedBox(
             width: 700,
-            child: MyDateField(
+            child: MIHDateField(
               controller: widget.endDateTextController,
               LableText: "Up to Including",
               required: true,
@@ -44,7 +44,7 @@ class _MedcertinputState extends State<Medcertinput> {
           const SizedBox(height: 25.0),
           SizedBox(
             width: 700,
-            child: MyDateField(
+            child: MIHDateField(
               controller: widget.retDateTextController,
               LableText: "Return",
               required: true,

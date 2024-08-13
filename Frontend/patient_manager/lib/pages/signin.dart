@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/myPassInput.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihPassInput.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
@@ -79,7 +79,7 @@ class _SignInState extends State<SignIn> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Invalid Credentials");
+        return const MIHErrorMessage(errorType: "Invalid Credentials");
       },
     );
   }
@@ -89,7 +89,7 @@ class _SignInState extends State<SignIn> {
       showDialog(
         context: context,
         builder: (context) {
-          return const MyErrorMessage(errorType: "Input Error");
+          return const MIHErrorMessage(errorType: "Input Error");
         },
       );
     } else {
@@ -148,7 +148,7 @@ class _SignInState extends State<SignIn> {
                     //email input
                     SizedBox(
                       width: 500.0,
-                      child: MyTextField(
+                      child: MIHTextField(
                         controller: emailController,
                         hintText: 'Email',
                         editable: true,
@@ -160,7 +160,7 @@ class _SignInState extends State<SignIn> {
                     //password input
                     SizedBox(
                       width: 500.0,
-                      child: MyPassField(
+                      child: MIHPassField(
                         controller: passwordController,
                         hintText: 'Password',
                         required: true,
@@ -173,7 +173,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       width: 500.0,
                       height: 100.0,
-                      child: MyButton(
+                      child: MIHButton(
                         buttonText: "Sign In",
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme

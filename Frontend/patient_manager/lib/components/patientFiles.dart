@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/buildFilesList.dart';
 import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/components/prescipInput.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -229,7 +229,7 @@ class _PatientFilesState extends State<PatientFiles> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -290,7 +290,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       buttonText: "Generate",
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
@@ -305,7 +305,7 @@ class _PatientFilesState extends State<PatientFiles> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return const MyErrorMessage(
+                              return const MIHErrorMessage(
                                   errorType: "Input Error");
                             },
                           );
@@ -450,7 +450,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   const SizedBox(height: 25.0),
                   SizedBox(
                     width: 700,
-                    child: MyButton(
+                    child: MIHButton(
                       buttonText: "Select File",
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
@@ -475,7 +475,7 @@ class _PatientFilesState extends State<PatientFiles> {
                       },
                     ),
                   ),
-                  MyTextField(
+                  MIHTextField(
                     controller: selectedFileController,
                     hintText: "Selected FIle",
                     editable: false,
@@ -484,7 +484,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       buttonText: "Add File",
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
@@ -499,7 +499,7 @@ class _PatientFilesState extends State<PatientFiles> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return const MyErrorMessage(
+                              return const MIHErrorMessage(
                                   errorType: "Input Error");
                             },
                           );
@@ -536,7 +536,7 @@ class _PatientFilesState extends State<PatientFiles> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }

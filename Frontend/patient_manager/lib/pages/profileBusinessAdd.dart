@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
-import 'package:patient_manager/components/myDropdownInput.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/myFileInput.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihDropdownInput.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihFileInput.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -128,7 +128,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -137,7 +137,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -184,21 +184,21 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 ),
               ),
               const SizedBox(height: 15.0),
-              MyTextField(
+              MIHTextField(
                 controller: regController,
                 hintText: "Registration No.",
                 editable: true,
                 required: true,
               ),
               const SizedBox(height: 10.0),
-              MyTextField(
+              MIHTextField(
                 controller: nameController,
                 hintText: "Business Name",
                 editable: true,
                 required: true,
               ),
               const SizedBox(height: 10.0),
-              MyDropdownField(
+              MIHDropdownField(
                 controller: typeController,
                 hintText: "Business Type",
                 dropdownOptions: const ["Doctors Office", "Other"],
@@ -206,7 +206,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 editable: true,
               ),
               const SizedBox(height: 10.0),
-              MyFileField(
+              MIHFileField(
                 controller: logonameController,
                 hintText: "Logo",
                 editable: false,
@@ -240,7 +240,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 ),
               ),
               const SizedBox(height: 15.0),
-              MyDropdownField(
+              MIHDropdownField(
                 controller: titleController,
                 hintText: "Title",
                 dropdownOptions: const ["Doctor", "Assistant"],
@@ -248,21 +248,21 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 editable: true,
               ),
               const SizedBox(height: 10.0),
-              MyTextField(
+              MIHTextField(
                 controller: fnameController,
                 hintText: "Name",
                 editable: false,
                 required: true,
               ),
               const SizedBox(height: 10.0),
-              MyTextField(
+              MIHTextField(
                 controller: lnameController,
                 hintText: "Surname",
                 editable: false,
                 required: true,
               ),
               const SizedBox(height: 10.0),
-              MyFileField(
+              MIHFileField(
                 controller: signtureController,
                 hintText: "Signature",
                 editable: false,
@@ -284,7 +284,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 },
               ),
               const SizedBox(height: 15.0),
-              MyDropdownField(
+              MIHDropdownField(
                 controller: accessController,
                 hintText: "Access",
                 dropdownOptions: const ["Full", "Partial"],
@@ -295,7 +295,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
               SizedBox(
                 width: 500.0,
                 height: 100.0,
-                child: MyButton(
+                child: MIHButton(
                   buttonText: "Add",
                   buttonColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),

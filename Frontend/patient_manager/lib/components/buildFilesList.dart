@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/BuildFileView.dart';
 import 'package:patient_manager/components/mihDeleteMessage.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -122,7 +122,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -131,7 +131,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -198,7 +198,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   SizedBox(
                     width: 300,
                     height: 100,
-                    child: MyButton(
+                    child: MIHButton(
                       onTap: () {
                         html.window.open(
                             url,

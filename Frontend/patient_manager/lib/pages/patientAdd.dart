@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/myDropdownInput.dart';
-import 'package:patient_manager/components/myErrorMessage.dart';
-import 'package:patient_manager/components/mySuccessMessage.dart';
-import 'package:patient_manager/components/myTextInput.dart';
-import 'package:patient_manager/components/mybutton.dart';
+import 'package:patient_manager/components/mihDropdownInput.dart';
+import 'package:patient_manager/components/mihErrorMessage.dart';
+import 'package:patient_manager/components/mihSuccessMessage.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
+import 'package:patient_manager/components/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -114,7 +114,7 @@ class _AddPatientState extends State<AddPatient> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MyErrorMessage(errorType: "Internet Connection");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -134,7 +134,7 @@ class _AddPatientState extends State<AddPatient> {
     showDialog(
       context: context,
       builder: (context) {
-        return MySuccessMessage(
+        return MIHSuccessMessage(
           successType: "Success",
           successMessage: message,
         );
@@ -170,7 +170,7 @@ class _AddPatientState extends State<AddPatient> {
             ),
           ),
           const SizedBox(height: 10.0),
-          MyTextField(
+          MIHTextField(
             controller: idController,
             hintText: "13 digit ID Number or Passport",
             editable: true,
@@ -178,7 +178,7 @@ class _AddPatientState extends State<AddPatient> {
           ),
 
           const SizedBox(height: 10.0),
-          MyTextField(
+          MIHTextField(
             controller: fnameController,
             hintText: "First Name",
             editable: false,
@@ -186,7 +186,7 @@ class _AddPatientState extends State<AddPatient> {
           ),
 
           const SizedBox(height: 10.0),
-          MyTextField(
+          MIHTextField(
             controller: lnameController,
             hintText: "Last Name",
             editable: false,
@@ -195,7 +195,7 @@ class _AddPatientState extends State<AddPatient> {
 
           const SizedBox(height: 10.0),
 
-          MyTextField(
+          MIHTextField(
             controller: cellController,
             hintText: "Cell Number",
             editable: true,
@@ -204,7 +204,7 @@ class _AddPatientState extends State<AddPatient> {
 
           const SizedBox(height: 10.0),
 
-          MyTextField(
+          MIHTextField(
             controller: emailController,
             hintText: "Email",
             editable: false,
@@ -213,7 +213,7 @@ class _AddPatientState extends State<AddPatient> {
 
           const SizedBox(height: 10.0),
 
-          MyTextField(
+          MIHTextField(
             controller: addressController,
             hintText: "Address",
             editable: true,
@@ -232,7 +232,7 @@ class _AddPatientState extends State<AddPatient> {
           ),
           const SizedBox(height: 10.0),
 
-          MyDropdownField(
+          MIHDropdownField(
             controller: medAidController,
             hintText: "Medical Aid",
             editable: true,
@@ -247,7 +247,7 @@ class _AddPatientState extends State<AddPatient> {
             child: Column(
               children: [
                 const SizedBox(height: 10.0),
-                MyDropdownField(
+                MIHDropdownField(
                   controller: medMainMemController,
                   hintText: "Main Member",
                   editable: medRequired,
@@ -255,28 +255,28 @@ class _AddPatientState extends State<AddPatient> {
                   dropdownOptions: const ["Yes", "No"],
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: medNoController,
                   hintText: "Medical Aid No.",
                   editable: medRequired,
                   required: medRequired,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: medAidCodeController,
                   hintText: "Medical Aid Code",
                   editable: medRequired,
                   required: medRequired,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: medNameController,
                   hintText: "Medical Aid Name",
                   editable: medRequired,
                   required: medRequired,
                 ),
                 const SizedBox(height: 10.0),
-                MyTextField(
+                MIHTextField(
                   controller: medSchemeController,
                   hintText: "Medical Aid Scheme",
                   editable: medRequired,
@@ -291,7 +291,7 @@ class _AddPatientState extends State<AddPatient> {
           SizedBox(
             width: 450.0,
             height: 100.0,
-            child: MyButton(
+            child: MIHButton(
               onTap: () {
                 submitForm();
               },
@@ -313,7 +313,7 @@ class _AddPatientState extends State<AddPatient> {
       showDialog(
         context: context,
         builder: (context) {
-          return const MyErrorMessage(errorType: "Input Error");
+          return const MIHErrorMessage(errorType: "Input Error");
         },
       );
     }

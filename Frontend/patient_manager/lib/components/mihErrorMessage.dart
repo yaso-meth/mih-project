@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MyErrorMessage extends StatefulWidget {
+class MIHErrorMessage extends StatefulWidget {
   final String errorType;
-  const MyErrorMessage({
+  const MIHErrorMessage({
     super.key,
     required this.errorType,
   });
 
   @override
-  State<MyErrorMessage> createState() => _MyErrorMessageState();
+  State<MIHErrorMessage> createState() => _MIHErrorMessageState();
 }
 
-class _MyErrorMessageState extends State<MyErrorMessage> {
+class _MIHErrorMessageState extends State<MIHErrorMessage> {
   var messageTypes = <String, Widget>{};
   // late double width = 50;
   // late double height = 50;

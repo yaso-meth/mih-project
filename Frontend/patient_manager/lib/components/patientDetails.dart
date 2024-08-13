@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/myTextInput.dart';
+import 'package:patient_manager/components/mihTextInput.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
 
@@ -41,7 +41,7 @@ class _PatientDetailsState extends State<PatientDetails> {
       children: [
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: idController,
               hintText: "ID No.",
               editable: false,
@@ -49,7 +49,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: fnameController,
               hintText: "Name",
               editable: false,
@@ -57,7 +57,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: lnameController,
               hintText: "Surname",
               editable: false,
@@ -65,7 +65,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: cellController,
               hintText: "Cell No.",
               editable: false,
@@ -73,7 +73,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: emailController,
               hintText: "Email",
               editable: false,
@@ -81,7 +81,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: addressController,
               hintText: "Address",
               editable: false,
@@ -95,7 +95,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     List<Widget> medAidDet = [];
     medAidDet.add(SizedBox(
       width: textFieldWidth,
-      child: MyTextField(
+      child: MIHTextField(
           controller: medAidController,
           hintText: "Medical Aid",
           editable: false,
@@ -112,7 +112,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: medMainMemController,
               hintText: "Main Member",
               editable: false,
@@ -124,7 +124,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: medNoController,
               hintText: "No.",
               editable: false,
@@ -136,7 +136,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: medAidCodeController,
               hintText: "Code",
               editable: false,
@@ -148,7 +148,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: medNameController,
               hintText: "Name",
               editable: false,
@@ -160,7 +160,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MyTextField(
+          child: MIHTextField(
               controller: medSchemeController,
               hintText: "Scheme",
               editable: false,
