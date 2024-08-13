@@ -14,10 +14,12 @@ router = APIRouter()
 class fileDeleteRequest(BaseModel):
     idpatient_files: int
 
-class fileInsertRequest(BaseModel):
-    file_path: str
-    file_name: str
+class queueInsertRequest(BaseModel):
+    business_id: str
     app_id: str
+    date: str
+    time: str
+    access: str
 
 # # Get List of all files
 # @router.get("/files/patients/", tags="patients_files")
@@ -117,26 +119,26 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
 #     db.close()
 #     return {"message": "Successfully deleted Record"}
 
-# # Insert Patient note into table
-# @router.post("/files/insert/", tags=["Patients Files"], status_code=201)
-# async def insert_Patient_Files(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
-#     today = date.today()
-#     db = database.dbConnection.dbPatientManagerConnect()
-#     cursor = db.cursor()
-#     query = "insert into patient_files "
-#     query += "(file_path, file_name, insert_date, app_id) "
-#     query += "values (%s, %s, %s, %s)"
-#     notetData = (itemRequest.file_path, 
-#                    itemRequest.file_name,
-#                    today,
-#                    itemRequest.app_id,
-#                    )
-#     try:
-#        cursor.execute(query, notetData) 
-#     except Exception as error:
-#         #raise HTTPException(status_code=404, detail="Failed to Create Record")
-#         return {"message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Created file Record"}
+# Insert Patient note into table
+@router.post("/queue/insert/", tags=["Patients Queue"], status_code=201)
+async def insert_Patient_Files(itemRequest : queueInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    date_time = itemRequest.date + " " + itemRequest.time + ":00"
+    db = database.dbConnection.dbPatientManagerConnect()
+    cursor = db.cursor()
+    query = "insert into patient_queue "
+    query += "(business_id, app_id, date_time, access) "
+    query += "values (%s, %s, %s, %s)"
+    notetData = (itemRequest.business_id, 
+                   itemRequest.app_id,
+                   date_time,
+                   itemRequest.access,
+                   )
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        #raise HTTPException(status_code=404, detail="Failed to Create Record")
+        return {"message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created file Record"}
