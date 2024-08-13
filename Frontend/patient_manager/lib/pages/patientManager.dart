@@ -132,6 +132,7 @@ class _PatientManagerState extends State<PatientManager> {
         child: BuildPatientsList(
           patients: patientsList,
           signedInUser: widget.arguments.signedInUser,
+          business: widget.arguments.business,
         ),
       );
     }
@@ -299,9 +300,22 @@ class _PatientManagerState extends State<PatientManager> {
       height: 600,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         //const SizedBox(height: 15),
-        const Text(
-          "Waiting Room",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Waiting Room",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+                onPressed: () {
+                  refreshQueue();
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                ))
+          ],
         ),
         const SizedBox(height: 10),
         MIHDateField(
@@ -371,6 +385,13 @@ class _PatientManagerState extends State<PatientManager> {
         ),
       ]),
     );
+  }
+
+  void refreshQueue() {
+    setState(() {
+      start = true;
+    });
+    checkforchange();
   }
 
   void submitPatientForm() {
