@@ -25,8 +25,9 @@ async def read_medicineby_search(medSearch: str, session: SessionContainer = Dep
 
 def getMedicineData(medsearch: str):
     path = os.getcwd()
+    print(path)
     parentDir = os.path.abspath(os.path.join(path, os.pardir))
-    filePath = os.path.join(path, "backend/medicines", "Database-Of-Medicine-Prices-31-May-2024.xls")
+    filePath = os.path.join(path, "medicines", "Database-Of-Medicine-Prices-31-May-2024.xls")
     book = xlrd.open_workbook_xls(filePath)
     sh = book.sheet_by_index(0)
     medlist = []
