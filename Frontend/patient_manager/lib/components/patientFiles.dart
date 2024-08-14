@@ -60,7 +60,6 @@ class _PatientFilesState extends State<PatientFiles> {
 
   late Future<List<PFile>> futueFiles;
   late String userEmail = "";
-  late AppUser appUser;
   late PlatformFile selected;
   final baseAPI = AppEnviroment.baseApiUrl;
 
@@ -74,22 +73,26 @@ class _PatientFilesState extends State<PatientFiles> {
     );
 
     var response1 = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/files/generate/med-cert/"),
+      Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/med-cert/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
+        "app_id": widget.signedInUser.app_id,
         "fullName":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
-        "docfname": "${appUser.type} ${appUser.fname} ${appUser.lname}",
+        "docfname":
+            "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
         "startDate": startDateController.text,
         "endDate": endDateTextController.text,
         "returnDate": retDateTextController.text,
       }),
     );
     //print(response1.statusCode);
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
     String fileName =
-        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${startDateController.text}.pdf";
+        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
     if (response1.statusCode == 200) {
       var response2 = await http.post(
         Uri.parse(endpointInsertFiles),
@@ -97,9 +100,10 @@ class _PatientFilesState extends State<PatientFiles> {
           "Content-Type": "application/json; charset=UTF-8"
         },
         body: jsonEncode(<String, dynamic>{
-          "file_path": fileName,
+          "file_path":
+              "${widget.selectedPatient.app_id}/patient_files/$fileName",
           "file_name": fileName,
-          "patient_id": widget.patientIndex
+          "app_id": widget.selectedPatient.app_id
         }),
       );
       print(response2.statusCode);
@@ -184,29 +188,6 @@ class _PatientFilesState extends State<PatientFiles> {
       internetConnectionPopUp();
     }
   }
-
-  // Future<void> getUserDetails() async {
-  //   await getUserEmail();
-  //   var response = await http.get(Uri.parse(endpointUser + userEmail));
-  //   //print(response.body);
-  //   if (response.statusCode == 200) {
-  //     appUser =
-  //         AppUser.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-  //   } else {
-  //     internetConnectionPopUp();
-  //     throw Exception('Failed to load user');
-  //   }
-  // }
-
-  // Future<void> getUserEmail() async {
-  //   // Add method to get user email
-  //   var uid = await SuperTokens.getUserId();
-  //   var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
-  //   if (response.statusCode == 200) {
-  //     var user = jsonDecode(response.body);
-  //     userEmail = user["email"];
-  //   }
-  // }
 
   Future<List<PFile>> fetchFiles() async {
     final response = await http.get(Uri.parse(
@@ -668,6 +649,7 @@ class _PatientFilesState extends State<PatientFiles> {
                 BuildFilesList(
                   files: filesList,
                   signedInUser: widget.signedInUser,
+                  selectedPatient: widget.selectedPatient,
                 ),
               ]),
             ),
