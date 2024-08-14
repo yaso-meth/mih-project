@@ -60,7 +60,7 @@ class _PatientNotesState extends State<PatientNotes> {
       body: jsonEncode(<String, dynamic>{
         "note_name": titleController.text,
         "note_text": noteTextController.text,
-        "patient_id": widget.patientAppId,
+        "app_id": widget.patientAppId,
       }),
     );
     if (response.statusCode == 201) {
