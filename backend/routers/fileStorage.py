@@ -128,7 +128,7 @@ def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{app_id}/Med-Cert-{fullName}-{startDate}.pdf"
+    fileName = f"{app_id}/patient_files/Med-Cert-{fullName}-{startDate}.pdf"
     client.fput_object("mih", fileName, "temp.pdf")
 
 def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
