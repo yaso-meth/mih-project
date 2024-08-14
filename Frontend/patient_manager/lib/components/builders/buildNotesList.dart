@@ -204,6 +204,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
           },
           itemCount: widget.notes.length,
           itemBuilder: (context, index) {
+            String notePreview = widget.notes[index].note_text;
+            if (notePreview.length > 30) {
+              notePreview = "${notePreview.substring(0, 30)} ...";
+            }
             return ListTile(
               title: Text(
                 widget.notes[index].note_name,
@@ -213,7 +217,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 ),
               ),
               subtitle: Text(
-                "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
+                "${widget.notes[index].insert_date}:\n$notePreview",
                 style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
