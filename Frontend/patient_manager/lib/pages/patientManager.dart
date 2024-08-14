@@ -171,7 +171,7 @@ class _PatientManagerState extends State<PatientManager> {
         width: w,
         height: 600,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          //const SizedBox(height: 15),
+          const SizedBox(height: 5),
           const Text(
             "Patient Search",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
