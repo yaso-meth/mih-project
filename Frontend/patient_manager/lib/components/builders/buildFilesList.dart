@@ -9,17 +9,21 @@ import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/files.dart';
+import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
 class BuildFilesList extends StatefulWidget {
   final AppUser signedInUser;
   final List<PFile> files;
+  final Patient selectedPatient;
   const BuildFilesList({
     super.key,
     required this.files,
     required this.signedInUser,
+    required this.selectedPatient,
   });
 
   @override
@@ -104,9 +108,13 @@ class _BuildFilesListState extends State<BuildFilesList> {
       if (response2.statusCode == 200) {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushNamed('/patient-profile', arguments: widget.signedInUser);
-        setState(() {});
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+                widget.signedInUser, widget.selectedPatient, "business"));
+        // Navigator.of(context)
+        //     .pushNamed('/patient-profile', arguments: widget.signedInUser);
+        // setState(() {});
         String message =
             "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
         successPopUp(message);
