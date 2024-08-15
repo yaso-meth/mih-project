@@ -31,7 +31,7 @@ async def read_all_access_request_by_app_id(app_id: str): #, session: SessionCon
     query += "from patient_manager.patient_queue "
     query += "inner join app_data.business "
     query += "on patient_queue.business_id = business.business_id "
-    query += "where app_id = %s ORDER BY date_time ASC"
+    query += "where app_id = %s ORDER BY date_time DESC"
     cursor.execute(query, (app_id,))
     items = [
         {
