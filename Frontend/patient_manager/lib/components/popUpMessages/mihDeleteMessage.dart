@@ -71,7 +71,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 ),
                 SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       onTap: widget.onTap,
                       buttonText: "Delete",
@@ -156,7 +156,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 ),
                 SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       onTap: widget.onTap,
                       buttonText: "Delete",

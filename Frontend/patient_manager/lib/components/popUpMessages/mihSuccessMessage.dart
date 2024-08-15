@@ -70,7 +70,7 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
               const SizedBox(height: 10),
               SizedBox(
                 width: 300,
-                height: 100,
+                height: 50,
                 child: MIHButton(
                   onTap: () {
                     Navigator.pop(context);

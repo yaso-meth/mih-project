@@ -193,6 +193,7 @@ class _PrescripInputState extends State<PrescripInput> {
         ),
         SizedBox(
           width: 300,
+          height: 50,
           child: MIHButton(
             buttonText: "Add",
             buttonColor:
@@ -280,7 +281,7 @@ class _PrescripInputState extends State<PrescripInput> {
         ),
         SizedBox(
           width: 300,
-          height: 100,
+          height: 50,
           child: MIHButton(
             onTap: () {
               // if (isMedCertFieldsFilled()) {

@@ -385,7 +385,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
                   const SizedBox(height: 15.0),
                   SizedBox(
                     width: 500.0,
-                    height: 100.0,
+                    height: 50.0,
                     child: MIHButton(
                       buttonText: "Add",
                       buttonColor: MzanziInnovationHub.of(context)!

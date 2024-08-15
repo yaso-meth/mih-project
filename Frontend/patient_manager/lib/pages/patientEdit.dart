@@ -258,7 +258,7 @@ class _EditPatientState extends State<EditPatient> {
                     ),
                     SizedBox(
                         width: 300,
-                        height: 100,
+                        height: 50,
                         child: MIHButton(
                           onTap: deletePatientApiCall,
                           buttonText: "Delete",
@@ -505,7 +505,7 @@ class _EditPatientState extends State<EditPatient> {
           //const SizedBox(height: 10.0),
           SizedBox(
             width: 500.0,
-            height: 100.0,
+            height: 50.0,
             child: MIHButton(
               onTap: () {
                 submitForm();

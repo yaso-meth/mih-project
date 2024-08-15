@@ -290,7 +290,7 @@ class _AddPatientState extends State<AddPatient> {
 
           SizedBox(
             width: 450.0,
-            height: 100.0,
+            height: 50.0,
             child: MIHButton(
               onTap: () {
                 submitForm();

@@ -180,7 +180,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                     const SizedBox(height: 15.0),
                     SizedBox(
                       width: 300,
-                      height: 100,
+                      height: 50,
                       child: MIHButton(
                         buttonText: "Book",
                         buttonColor: MzanziInnovationHub.of(context)!

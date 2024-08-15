@@ -163,7 +163,7 @@ class _PatientNotesState extends State<PatientNotes> {
                   ),
                   SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       onTap: () {
                         if (isFieldsFilled()) {

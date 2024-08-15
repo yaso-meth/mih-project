@@ -294,7 +294,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
               const SizedBox(height: 15.0),
               SizedBox(
                 width: 500.0,
-                height: 100.0,
+                height: 50.0,
                 child: MIHButton(
                   buttonText: "Add",
                   buttonColor:

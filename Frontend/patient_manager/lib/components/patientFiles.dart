@@ -270,7 +270,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   ),
                   SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       buttonText: "Generate",
                       buttonColor: MzanziInnovationHub.of(context)!
@@ -431,6 +431,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   const SizedBox(height: 25.0),
                   SizedBox(
                     width: 700,
+                    height: 50,
                     child: MIHButton(
                       buttonText: "Select File",
                       buttonColor: MzanziInnovationHub.of(context)!
@@ -464,7 +465,7 @@ class _PatientFilesState extends State<PatientFiles> {
                   ),
                   SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       buttonText: "Add File",
                       buttonColor: MzanziInnovationHub.of(context)!

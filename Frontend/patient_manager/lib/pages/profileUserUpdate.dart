@@ -228,7 +228,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                 const SizedBox(height: 10.0),
                 SizedBox(
                   width: 500.0,
-                  height: 100.0,
+                  height: 50.0,
                   child: MIHButton(
                     buttonText: "Update",
                     buttonColor:

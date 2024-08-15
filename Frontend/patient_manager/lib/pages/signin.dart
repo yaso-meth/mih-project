@@ -172,7 +172,7 @@ class _SignInState extends State<SignIn> {
                     // sign in button
                     SizedBox(
                       width: 500.0,
-                      height: 100.0,
+                      height: 50.0,
                       child: MIHButton(
                         buttonText: "Sign In",
                         buttonColor: MzanziInnovationHub.of(context)!

@@ -308,7 +308,7 @@ class _RegisterState extends State<Register> {
                     // sign up button
                     SizedBox(
                       width: 500.0,
-                      height: 100.0,
+                      height: 50.0,
                       child: MIHButton(
                         buttonText: "Sign Up",
                         buttonColor: MzanziInnovationHub.of(context)!

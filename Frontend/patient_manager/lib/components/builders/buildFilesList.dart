@@ -205,7 +205,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   )),
                   SizedBox(
                     width: 300,
-                    height: 100,
+                    height: 50,
                     child: MIHButton(
                       onTap: () {
                         html.window.open(
