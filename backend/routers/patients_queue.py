@@ -49,7 +49,7 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, patient_queue.access, "
-    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no "
+    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no, patient_queue.revoke_date "
     query += "from patient_manager.patient_queue "
     query += "inner join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
@@ -66,6 +66,7 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
             "first_name": item[6],
             "last_name": item[7],
             "medical_aid_no": item[8],
+            "revoke_date": item[9],
         }
         for item in cursor.fetchall()
     ]
@@ -126,13 +127,13 @@ async def insert_Patient_Files(itemRequest : queueInsertRequest, session: Sessio
     db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patient_queue "
-    query += "(business_id, app_id, date_time, access) "
-    query += "values (%s, %s, %s, %s)"
+    query += "(business_id, app_id, date_time, access, revoke_date) "
+    query += "values (%s, %s, %s, %s, %s)"
     notetData = (itemRequest.business_id, 
                    itemRequest.app_id,
                    date_time,
                    itemRequest.access,
-                   )
+                   "9999-01-01 00:00:00")
     try:
        cursor.execute(query, notetData) 
     except Exception as error:
