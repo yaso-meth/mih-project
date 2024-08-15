@@ -115,6 +115,20 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         }
       ],
     );
+    tileList.add(
+      [
+        Icons.check_box_outlined,
+        "Access Review",
+        () {
+          Navigator.of(context).pushNamed(
+            '/patient-access-review',
+            arguments: widget.signedInUser,
+          );
+          // Navigator.popAndPushNamed(context, '/patient-manager',
+          //     arguments: widget.userEmail);
+        }
+      ],
+    );
   }
 
   void setAppsBusiness(List<List<dynamic>> tileList) {
