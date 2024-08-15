@@ -11,6 +11,7 @@ import routers.fileStorage as fileStorage
 import routers.medicine as medicine
 import routers.business_user as business_user
 import routers.business as business
+import routers.access_request as access_request
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
@@ -76,6 +77,7 @@ app.include_router(patients.router)
 app.include_router(patients_files.router)
 app.include_router(patients_notes.router)
 app.include_router(patients_queue.router)
+app.include_router(access_request.router)
 app.include_router(users.router)
 app.include_router(fileStorage.router)
 app.include_router(medicine.router)
