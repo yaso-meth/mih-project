@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/builders/buildAccessRequestList.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
@@ -23,6 +24,8 @@ class PatientAccessRequest extends StatefulWidget {
 }
 
 class _PatientAccessRequestState extends State<PatientAccessRequest> {
+  TextEditingController filterController = TextEditingController();
+
   String baseUrl = AppEnviroment.baseApiUrl;
 
   String errorCode = "";
@@ -60,8 +63,15 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     List<AccessRequest> templist = [];
 
     for (var item in accessList) {
-      if (item.date_time.contains(datefilter)) {
-        templist.add(item);
+      if (filterController.text == "All") {
+        if (item.date_time.contains(datefilter)) {
+          templist.add(item);
+        }
+      } else {
+        if (item.date_time.contains(datefilter) &&
+            item.access.contains(filterController.text.toLowerCase())) {
+          templist.add(item);
+        }
       }
     }
     return templist;
@@ -137,6 +147,17 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
             ],
           ),
           const SizedBox(height: 10),
+          SizedBox(
+            width: 500,
+            child: MIHDropdownField(
+              controller: filterController,
+              hintText: "Access Types",
+              dropdownOptions: const ["All", "Approved", "Pending", "Declined"],
+              required: true,
+              editable: true,
+            ),
+          ),
+          const SizedBox(height: 10),
           FutureBuilder(
             future: accessRequestResults,
             builder: (context, snapshot) {
@@ -209,6 +230,8 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
 
   @override
   void initState() {
+    filterController.text = "All";
+    filterController.addListener(refreshList);
     setState(() {
       accessRequestResults = fetchAccessRequests();
     });
