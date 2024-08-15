@@ -7,6 +7,7 @@ import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/home.dart';
+import 'package:patient_manager/pages/patientAccessReview.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/pages/patientEdit.dart';
 import 'package:patient_manager/pages/patientManager.dart';
@@ -32,6 +33,17 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (_) => AddOrViewPatient(
               arguments: args,
+            ),
+          );
+        }
+        return _errorRoute();
+
+      case '/patient-access-review':
+        if (args is AppUser) {
+          //print("route generator: $args");
+          return MaterialPageRoute(
+            builder: (_) => PatientAccessRequest(
+              signedInUser: args,
             ),
           );
         }
