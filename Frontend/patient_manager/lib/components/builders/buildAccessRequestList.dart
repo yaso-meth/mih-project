@@ -28,7 +28,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     String subtitle = "";
     subtitle += "Requestor: ${widget.accessRequests[index].Name}\n";
     subtitle += "Business Type: ${widget.accessRequests[index].type}\n";
-    subtitle += "Access: ${widget.accessRequests[index].access}";
+    subtitle += "Access: ${widget.accessRequests[index].access.toUpperCase()}";
 
     return ListTile(
       title: Text(
