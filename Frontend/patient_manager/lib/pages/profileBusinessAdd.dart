@@ -147,8 +147,34 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
   }
 
+  bool isFieldsFilled() {
+    if (nameController.text.isEmpty ||
+        typeController.text.isEmpty ||
+        regController.text.isEmpty ||
+        logonameController.text.isEmpty ||
+        fnameController.text.isEmpty ||
+        lnameController.text.isEmpty ||
+        titleController.text.isEmpty ||
+        signtureController.text.isEmpty ||
+        accessController.text.isEmpty ||
+        contactController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   void submitForm() {
-    createBusinessProfileAPICall();
+    if (isFieldsFilled()) {
+      createBusinessProfileAPICall();
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
   }
 
   @override
