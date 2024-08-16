@@ -382,7 +382,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
                     required: true,
                     editable: false,
                   ),
-                  const SizedBox(height: 15.0),
+                  const SizedBox(height: 30.0),
                   SizedBox(
                     width: 500.0,
                     height: 50.0,

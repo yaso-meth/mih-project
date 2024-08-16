@@ -154,6 +154,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 30),
                 SizedBox(
                     width: 300,
                     height: 50,

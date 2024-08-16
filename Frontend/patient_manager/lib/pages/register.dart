@@ -304,7 +304,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     //spacer
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     // sign up button
                     SizedBox(
                       width: 500.0,
@@ -322,6 +322,7 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                     ),
+                    const SizedBox(height: 10),
                     //register text
                     SizedBox(
                       width: 500.0,

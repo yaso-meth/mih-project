@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/builders/buildFilesList.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/components/prescipInput.dart';
 import 'package:patient_manager/env/env.dart';
@@ -431,15 +431,12 @@ class _PatientFilesState extends State<PatientFiles> {
                   const SizedBox(height: 25.0),
                   SizedBox(
                     width: 700,
-                    height: 50,
-                    child: MIHButton(
-                      buttonText: "Select File",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () async {
+                    child: MIHFileField(
+                      controller: selectedFileController,
+                      hintText: "Select File",
+                      editable: false,
+                      required: true,
+                      onPressed: () async {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles(
                           type: FileType.custom,
@@ -457,12 +454,7 @@ class _PatientFilesState extends State<PatientFiles> {
                       },
                     ),
                   ),
-                  MIHTextField(
-                    controller: selectedFileController,
-                    hintText: "Selected FIle",
-                    editable: false,
-                    required: true,
-                  ),
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: 300,
                     height: 50,

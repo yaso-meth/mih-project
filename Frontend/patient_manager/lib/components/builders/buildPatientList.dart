@@ -60,6 +60,10 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patients profile. ou can check the status of your request in patient queue under the appointment.";
       //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
       Navigator.pop(context);
+      setState(() {
+        dateController.text = "";
+        timeController.text = "";
+      });
       successPopUp(message);
     } else {
       internetConnectionPopUp();
@@ -177,7 +181,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                       LableText: "Time",
                       required: true,
                     ),
-                    const SizedBox(height: 15.0),
+                    const SizedBox(height: 30.0),
                     SizedBox(
                       width: 300,
                       height: 50,
@@ -190,13 +194,13 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                             .theme
                             .primaryColor(),
                         onTap: () {
-                          print("here1");
+                          //print("here1");
                           bool filled = isAppointmentFieldsFilled();
-                          print("fields filled: $filled");
+                          //print("fields filled: $filled");
                           if (filled) {
-                            print("here2");
+                            //print("here2");
                             submitApointment(index);
-                            print("here3");
+                            //print("here3");
                           } else {
                             showDialog(
                               context: context,

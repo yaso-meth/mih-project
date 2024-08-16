@@ -213,7 +213,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                       ),
                     ),
                     const SizedBox(
-                      width: 25,
+                      width: 10,
                     ),
                     Switch(
                       value: businessUser,
@@ -225,7 +225,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 30.0),
                 SizedBox(
                   width: 500.0,
                   height: 50.0,

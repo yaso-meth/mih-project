@@ -168,7 +168,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     //spacer
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     // sign in button
                     SizedBox(
                       width: 500.0,
@@ -187,7 +187,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     //spacer
-                    //const SizedBox(height: 30),
+                    const SizedBox(height: 10),
                     //register text
                     SizedBox(
                       width: 500.0,
@@ -216,9 +216,6 @@ class _SignInState extends State<SignIn> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
                           ),
                         ],
                       ),

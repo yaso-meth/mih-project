@@ -176,7 +176,6 @@ class _AddPatientState extends State<AddPatient> {
             editable: true,
             required: true,
           ),
-
           const SizedBox(height: 10.0),
           MIHTextField(
             controller: fnameController,
@@ -184,7 +183,6 @@ class _AddPatientState extends State<AddPatient> {
             editable: false,
             required: true,
           ),
-
           const SizedBox(height: 10.0),
           MIHTextField(
             controller: lnameController,
@@ -192,34 +190,27 @@ class _AddPatientState extends State<AddPatient> {
             editable: false,
             required: true,
           ),
-
           const SizedBox(height: 10.0),
-
           MIHTextField(
             controller: cellController,
             hintText: "Cell Number",
             editable: true,
             required: true,
           ),
-
           const SizedBox(height: 10.0),
-
           MIHTextField(
             controller: emailController,
             hintText: "Email",
             editable: false,
             required: true,
           ),
-
           const SizedBox(height: 10.0),
-
           MIHTextField(
             controller: addressController,
             hintText: "Address",
             editable: true,
             required: true,
           ),
-
           const SizedBox(height: 15.0),
           Text(
             "Medical Aid Details",
@@ -231,7 +222,6 @@ class _AddPatientState extends State<AddPatient> {
             ),
           ),
           const SizedBox(height: 10.0),
-
           MIHDropdownField(
             controller: medAidController,
             hintText: "Medical Aid",
@@ -285,9 +275,7 @@ class _AddPatientState extends State<AddPatient> {
               ],
             ),
           ),
-
-          //const SizedBox(height: 10.0),
-
+          const SizedBox(height: 30.0),
           SizedBox(
             width: 450.0,
             height: 50.0,
