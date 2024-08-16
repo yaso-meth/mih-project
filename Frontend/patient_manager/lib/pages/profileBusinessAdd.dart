@@ -43,6 +43,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final titleController = TextEditingController();
   final signtureController = TextEditingController();
   final accessController = TextEditingController();
+  final contactController = TextEditingController();
 
   late PlatformFile selectedLogo;
   late PlatformFile selectedSignature;
@@ -113,6 +114,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         "logo_name": logonameController.text,
         "logo_path":
             "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
+        "contact_no": contactController.text,
       }),
     );
     if (response.statusCode == 201) {
@@ -204,6 +206,13 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 dropdownOptions: const ["Doctors Office", "Other"],
                 required: true,
                 editable: true,
+              ),
+              const SizedBox(height: 10.0),
+              MIHTextField(
+                controller: contactController,
+                hintText: "Contact Number",
+                editable: true,
+                required: true,
               ),
               const SizedBox(height: 10.0),
               MIHFileField(

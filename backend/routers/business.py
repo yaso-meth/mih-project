@@ -22,6 +22,7 @@ class businessInsertRequest(BaseModel):
     registration_no: str
     logo_name: str
     logo_path: str
+    contact_no: str
 
 class businessUpdateRequest(BaseModel):
     business_id: str
@@ -30,6 +31,7 @@ class businessUpdateRequest(BaseModel):
     registration_no: str
     logo_name: str
     logo_path: str
+    contact_no: str
     
 
 # Get List of all files
@@ -37,7 +39,7 @@ class businessUpdateRequest(BaseModel):
 async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business_users.app_id "
+    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business_users.app_id "
     query += "FROM business "
     query += "inner join business_users "
     query += "on business.business_id=business_users.business_id "
@@ -54,7 +56,8 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
             "registration_no": item[3],
             "logo_name": item[4],
             "logo_path": item[5],
-            "app_id": item[6],
+            "contact_no": item[6],
+            "app_id": item[7],
         }
         for item in cursor.fetchall()
     ]
@@ -72,7 +75,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
 async def read_business_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business_users.app_id "
+    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business_users.app_id "
     query += "FROM business "
     query += "inner join business_users "
     query += "on business.business_id=business_users.business_id "
@@ -89,7 +92,8 @@ async def read_business_by_app_id(app_id: str, session: SessionContainer = Depen
             "registration_no": item[3],
             "logo_name": item[4],
             "logo_path": item[5],
-            "app_id": item[6],
+            "contact_no": item[6],
+            "app_id": item[7],
         }
         for item in cursor.fetchall()
     ]
@@ -106,15 +110,16 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business "
-    query += "(business_id, Name, type, registration_no, logo_name, logo_path) "
-    query += "values (%s, %s, %s, %s, %s, %s)"
+    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s)"
     uuidString = str(uuid.uuid1())
     userData = (uuidString,
                 itemRequest.Name,
                 itemRequest.type,
                 itemRequest.registration_no,
                 itemRequest.logo_name,
-                itemRequest.logo_path)
+                itemRequest.logo_path,
+                itemRequest.contact_no)
     try:
         cursor.execute(query, userData) 
     except Exception as error:
@@ -130,13 +135,14 @@ async def Update_Business_details(itemRequest : businessUpdateRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update business "
-    query += "set Name=%s, type=%s, registration_no=%s, logo_name=%s, logo_path=%s "
+    query += "set Name=%s, type=%s, registration_no=%s, logo_name=%s, logo_path=%s, contact_no=%s "
     query += "where business_id=%s"
     userData = (itemRequest.Name, 
                 itemRequest.type,
                 itemRequest.registration_no,
                 itemRequest.logo_name,
                 itemRequest.logo_path,
+                itemRequest.contact_no,
                 itemRequest.business_id)
     try:
        cursor.execute(query, userData) 

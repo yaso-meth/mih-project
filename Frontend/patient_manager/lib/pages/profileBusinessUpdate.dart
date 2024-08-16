@@ -45,6 +45,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   final titleController = TextEditingController();
   final signtureController = TextEditingController();
   final accessController = TextEditingController();
+  final contactController = TextEditingController();
 
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
@@ -177,6 +178,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         "logo_name": logonameController.text,
         "logo_path":
             "${widget.arguments.signedInUser.app_id}/business_files/${logonameController.text}",
+        "contact_no": contactController.text,
       }),
     );
     if (response.statusCode == 200) {
@@ -228,6 +230,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
       signtureController.text = widget.arguments.businessUser!.signature;
       titleController.text = widget.arguments.businessUser!.title;
       accessController.text = widget.arguments.businessUser!.access;
+
       oldSigPath = widget.arguments.businessUser!.sig_path;
 
       //business = results;
@@ -237,6 +240,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
       typeController.text = widget.arguments.business!.type;
       logonameController.text = widget.arguments.business!.logo_name;
       oldLogoPath = widget.arguments.business!.logo_path;
+      contactController.text = widget.arguments.business!.contact_no;
     });
 
     super.initState();
@@ -290,6 +294,13 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
                     dropdownOptions: const ["Doctors Office", "Other"],
                     required: true,
                     editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: contactController,
+                    hintText: "Contact Number",
+                    editable: true,
+                    required: true,
                   ),
                   const SizedBox(height: 10.0),
                   MIHFileField(

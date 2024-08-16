@@ -6,6 +6,7 @@ class Business {
   final String registration_no;
   final String logo_name;
   final String logo_path;
+  final String contact_no;
   final String app_id;
 
   const Business(
@@ -15,6 +16,7 @@ class Business {
     this.registration_no,
     this.logo_name,
     this.logo_path,
+    this.contact_no,
     this.app_id,
   );
 
@@ -26,6 +28,7 @@ class Business {
       json['registration_no'],
       json['logo_name'],
       json['logo_path'],
+      json['contact_no'],
       json['app_id'],
     );
   }
