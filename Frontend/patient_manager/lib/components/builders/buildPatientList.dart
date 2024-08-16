@@ -10,6 +10,7 @@ import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart'
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -18,12 +19,14 @@ class BuildPatientsList extends StatefulWidget {
   final List<Patient> patients;
   final AppUser signedInUser;
   final Business? business;
+  final BusinessArguments arguments;
 
   const BuildPatientsList({
     super.key,
     required this.patients,
     required this.signedInUser,
     required this.business,
+    required this.arguments,
   });
 
   @override
@@ -60,10 +63,19 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patients profile. ou can check the status of your request in patient queue under the appointment.";
       //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
       Navigator.pop(context);
+      Navigator.pop(context);
       setState(() {
         dateController.text = "";
         timeController.text = "";
       });
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.arguments.signedInUser,
+          widget.arguments.businessUser,
+          widget.arguments.business,
+        ),
+      );
       successPopUp(message);
     } else {
       internetConnectionPopUp();

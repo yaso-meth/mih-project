@@ -133,6 +133,7 @@ class _PatientManagerState extends State<PatientManager> {
           patients: patientsList,
           signedInUser: widget.arguments.signedInUser,
           business: widget.arguments.business,
+          arguments: widget.arguments,
         ),
       );
     }
