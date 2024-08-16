@@ -67,7 +67,7 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               SizedBox(
                 width: 300,
                 height: 50,
