@@ -11,8 +11,11 @@ from fastapi import Depends
 
 router = APIRouter()
 
-# class fileDeleteRequest(BaseModel):
-#     idpatient_files: int
+class accessUpdateRequest(BaseModel):
+    business_id: str
+    app_id: str
+    date_time: str
+    access: str
 
 # class queueInsertRequest(BaseModel):
 #     business_id: str
@@ -21,13 +24,13 @@ router = APIRouter()
 #     time: str
 #     access: str
 
-@router.get("/access/requests/{app_id}", tags=["Access Requests"])
-async def read_all_access_request_by_app_id(app_id: str): #, session: SessionContainer = Depends(verify_session())
+@router.get("/access-requests/{app_id}", tags=["Access Requests"])
+async def read_all_access_request_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
-    query += "patient_queue.app_id, patient_queue.date_time, patient_queue.access, "
-    query += "business.Name, business.type, business.logo_path "
+    query += "patient_queue.app_id, patient_queue.date_time, patient_queue.access, patient_queue.revoke_date, "
+    query += "business.Name, business.type, business.logo_path, business.contact_no "
     query += "from patient_manager.patient_queue "
     query += "inner join app_data.business "
     query += "on patient_queue.business_id = business.business_id "
@@ -40,15 +43,40 @@ async def read_all_access_request_by_app_id(app_id: str): #, session: SessionCon
             "app_id": item[2],
             "date_time": item[3],
             "access": item[4],
-            "Name": item[5],
-            "type": item[6],
-            "logo_path": item[7],
+            "revoke_date": item[5],
+            "Name": item[6],
+            "type": item[7],
+            "logo_path": item[8],
+            "contact_no": item[9],
         }
         for item in cursor.fetchall()
     ]
     cursor.close()
     db.close()
     return items
+
+@router.put("/access-requests/update/", tags=["Access Requests"])
+async def Update_access_request_approcal(itemRequest : accessUpdateRequest): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbPatientManagerConnect()
+    cursor = db.cursor()
+    query = "update patient_queue "
+    query += "set access=%s"
+    query += "where business_id=%s "
+    query += "and app_id=%s "
+    query += "and date_time=%s "
+    userData = (itemRequest.access, 
+                itemRequest.business_id,
+                itemRequest.app_id,
+                itemRequest.date_time)
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
 
 # # Get List of all files
 # @router.get("/files/patients/", tags="patients_files")
