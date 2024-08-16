@@ -38,7 +38,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
   Future<List<AccessRequest>> fetchAccessRequests() async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(
-        Uri.parse("$baseUrl/access/requests/${widget.signedInUser.app_id}"));
+        Uri.parse("$baseUrl/access-requests/${widget.signedInUser.app_id}"));
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
