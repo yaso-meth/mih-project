@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 #from ..database import dbConnection
 import database
-from datetime import date
+from datetime import datetime, timedelta
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -124,6 +124,14 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
 @router.post("/queue/insert/", tags=["Patients Queue"], status_code=201)
 async def insert_Patient_Files(itemRequest : queueInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     date_time = itemRequest.date + " " + itemRequest.time + ":00"
+    year = itemRequest.date[0:4]
+    month = itemRequest.date[5:7]
+    day = itemRequest.date[8:10]
+    hour = itemRequest.time[0:2]
+    minutes = itemRequest.time[3:5]
+
+    revDate = datetime(int(year), int(month), int(day), int(hour),int( minutes))
+    newRevDate = revDate + timedelta(days=7)
     db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patient_queue "
@@ -133,7 +141,7 @@ async def insert_Patient_Files(itemRequest : queueInsertRequest, session: Sessio
                    itemRequest.app_id,
                    date_time,
                    itemRequest.access,
-                   "9999-01-01 00:00:00")
+                   newRevDate)
     try:
        cursor.execute(query, notetData) 
     except Exception as error:
