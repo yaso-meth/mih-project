@@ -8,6 +8,7 @@ class PatientQueue {
   final String first_name;
   final String last_name;
   final String medical_aid_no;
+  final String revoke_date;
 
   const PatientQueue({
     required this.idpatient_queue,
@@ -19,6 +20,7 @@ class PatientQueue {
     required this.first_name,
     required this.last_name,
     required this.medical_aid_no,
+    required this.revoke_date,
   });
 
   factory PatientQueue.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class PatientQueue {
         'first_name': String first_name,
         'last_name': String last_name,
         'medical_aid_no': String medical_aid_no,
+        'revoke_date': String revoke_date,
       } =>
         PatientQueue(
           idpatient_queue: idpatient_queue,
@@ -44,6 +47,7 @@ class PatientQueue {
           first_name: first_name,
           last_name: last_name,
           medical_aid_no: medical_aid_no,
+          revoke_date: revoke_date,
         ),
       _ => throw const FormatException('Failed to load album.'),
     };
