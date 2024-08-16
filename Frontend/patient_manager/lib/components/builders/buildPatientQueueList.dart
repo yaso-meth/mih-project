@@ -56,7 +56,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
     String subtitle = "";
 
-    if (widget.patientQueue[index].access == "pending") {
+    if (widget.patientQueue[index].access != "approved") {
       subtitle +=
           "Name: $fname $lname\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
       subtitle += "********";
@@ -73,6 +73,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     }
     subtitle +=
         "\nAccess Request: ${widget.patientQueue[index].access.toUpperCase()}";
+    subtitle +=
+        "\nAccess Expiration date: ${widget.patientQueue[index].revoke_date.substring(0, 16).replaceAll("T", " ")}";
     return ListTile(
       title: Text(
         "Appointment: $title",
