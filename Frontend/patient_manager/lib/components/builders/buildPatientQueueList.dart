@@ -89,7 +89,13 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         ),
       ),
       onTap: () {
-        if (widget.patientQueue[index].access != "pending") {
+        var todayDate = DateTime.now();
+        var revokeDate = DateTime.parse(widget.patientQueue[index].revoke_date);
+        print(
+            "Todays: $todayDate\nRevoke Date: $revokeDate\nHas revoke date passed: ${revokeDate.isBefore(todayDate)}");
+        if (revokeDate.isBefore(todayDate)) {
+          expiredAccessWarning();
+        } else if (widget.patientQueue[index].access != "pending") {
           Patient selectedPatient;
           fetchPatients(widget.patientQueue[index].app_id).then(
             (result) {
@@ -117,6 +123,15 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       context: context,
       builder: (context) {
         return const MIHWarningMessage(warningType: "No Access");
+      },
+    );
+  }
+
+  void expiredAccessWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "Expired Access");
       },
     );
   }
