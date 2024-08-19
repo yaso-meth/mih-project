@@ -271,6 +271,8 @@ class _PatientManagerState extends State<PatientManager> {
         child: BuildPatientQueueList(
           patientQueue: patientQueueList,
           signedInUser: widget.arguments.signedInUser,
+          business: widget.arguments.business,
+          businessUser: widget.arguments.businessUser,
         ),
       );
     }

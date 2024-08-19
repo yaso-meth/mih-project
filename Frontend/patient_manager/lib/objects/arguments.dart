@@ -18,11 +18,15 @@ class BusinessArguments {
 class PatientViewArguments {
   final AppUser signedInUser;
   final Patient? selectedPatient;
+  final BusinessUser? businessUser;
+  final Business? business;
   final String type;
 
   PatientViewArguments(
     this.signedInUser,
     this.selectedPatient,
+    this.businessUser,
+    this.business,
     this.type,
   );
 }

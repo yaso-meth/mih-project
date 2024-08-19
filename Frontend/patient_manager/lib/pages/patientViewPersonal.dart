@@ -108,6 +108,8 @@ class _PatientViewState extends State<PatientViewPersonal> {
                               patientIndex: snapshot.data!.idpatients,
                               selectedPatient: snapshot.data!,
                               signedInUser: widget.arguments.signedInUser,
+                              business: widget.arguments.business,
+                              businessUser: widget.arguments.businessUser,
                               type: widget.arguments.type,
                             ),
                           )

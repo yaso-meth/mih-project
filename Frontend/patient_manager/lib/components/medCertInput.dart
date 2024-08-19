@@ -20,7 +20,7 @@ class _MedcertinputState extends State<Medcertinput> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 325,
+      //height: 325,
       child: Column(
         children: [
           const SizedBox(height: 50.0),

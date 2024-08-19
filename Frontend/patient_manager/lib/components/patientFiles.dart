@@ -14,6 +14,8 @@ import 'package:patient_manager/components/prescipInput.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 import 'package:patient_manager/objects/files.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
@@ -25,12 +27,17 @@ class PatientFiles extends StatefulWidget {
   final int patientIndex;
   final Patient selectedPatient;
   final AppUser signedInUser;
+  final Business? business;
+  final BusinessUser? businessUser;
   final String type;
+
   const PatientFiles({
     super.key,
     required this.patientIndex,
     required this.selectedPatient,
     required this.signedInUser,
+    required this.business,
+    required this.businessUser,
     required this.type,
   });
 
@@ -78,7 +85,7 @@ class _PatientFilesState extends State<PatientFiles> {
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "app_id": widget.signedInUser.app_id,
+        "app_id": widget.selectedPatient.app_id,
         "fullName":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
         "docfname":
@@ -86,6 +93,8 @@ class _PatientFilesState extends State<PatientFiles> {
         "startDate": startDateController.text,
         "endDate": endDateTextController.text,
         "returnDate": retDateTextController.text,
+        "logo_path": widget.business!.logo_path,
+        "sig_path": widget.businessUser!.sig_path,
       }),
     );
     //print(response1.statusCode);
@@ -268,6 +277,7 @@ class _PatientFilesState extends State<PatientFiles> {
                     endDateTextController: endDateTextController,
                     retDateTextController: retDateTextController,
                   ),
+                  const SizedBox(height: 30.0),
                   SizedBox(
                     width: 300,
                     height: 50,

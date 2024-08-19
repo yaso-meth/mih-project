@@ -61,6 +61,8 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
                 arguments: PatientViewArguments(
               widget.arguments.signedInUser,
               snapshot.requireData,
+              null,
+              null,
               widget.arguments.type,
             ));
           }

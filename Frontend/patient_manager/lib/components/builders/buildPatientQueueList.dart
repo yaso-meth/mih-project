@@ -6,6 +6,8 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -13,11 +15,15 @@ import 'package:supertokens_flutter/http.dart' as http;
 class BuildPatientQueueList extends StatefulWidget {
   final List<PatientQueue> patientQueue;
   final AppUser signedInUser;
+  final Business? business;
+  final BusinessUser? businessUser;
 
   const BuildPatientQueueList({
     super.key,
     required this.patientQueue,
     required this.signedInUser,
+    required this.business,
+    required this.businessUser,
   });
 
   @override
@@ -66,8 +72,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       if (widget.patientQueue[index].medical_aid_no == "") {
         subtitle += "No Medical Aid";
       } else {
-        subtitle +=
-            "Name: $fname $lname\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
+        // subtitle +=
+        //     "\nMedical Aid No: ";
         subtitle += widget.patientQueue[index].medical_aid_no;
       }
     }
@@ -91,8 +97,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       onTap: () {
         var todayDate = DateTime.now();
         var revokeDate = DateTime.parse(widget.patientQueue[index].revoke_date);
-        print(
-            "Todays: $todayDate\nRevoke Date: $revokeDate\nHas revoke date passed: ${revokeDate.isBefore(todayDate)}");
+        // print(
+        //     "Todays: $todayDate\nRevoke Date: $revokeDate\nHas revoke date passed: ${revokeDate.isBefore(todayDate)}");
         if (revokeDate.isBefore(todayDate)) {
           expiredAccessWarning();
         } else if (widget.patientQueue[index].access != "pending") {
@@ -103,7 +109,12 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                 selectedPatient = result;
                 Navigator.of(context).pushNamed('/patient-manager/patient',
                     arguments: PatientViewArguments(
-                        widget.signedInUser, selectedPatient, "business"));
+                      widget.signedInUser,
+                      selectedPatient,
+                      widget.businessUser,
+                      widget.business,
+                      "business",
+                    ));
               });
             },
           );

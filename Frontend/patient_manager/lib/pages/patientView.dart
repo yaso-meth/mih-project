@@ -48,15 +48,6 @@ class _PatientViewState extends State<PatientView> {
     return null;
   }
 
-  // Future<void> loadImage() async {
-  //   try {
-  //     var t = MzanziInnovationHub.of(context)!.theme.logoImage();
-  //     await precacheImage(t.image, context);
-  //   } catch (e) {
-  //     print('Failed to load and cache the image: $e');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     // loadImage();
@@ -109,6 +100,8 @@ class _PatientViewState extends State<PatientView> {
                               patientIndex: snapshot.data!.idpatients,
                               selectedPatient: snapshot.data!,
                               signedInUser: widget.arguments.signedInUser,
+                              business: widget.arguments.business,
+                              businessUser: widget.arguments.businessUser,
                               type: widget.arguments.type,
                             ),
                           )
