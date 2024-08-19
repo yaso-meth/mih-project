@@ -32,6 +32,8 @@ class medCertUploud(BaseModel):
     startDate: str 
     endDate: str 
     returnDate: str 
+    logo_path: str
+    sig_path: str
 
 @router.get("/minio/pull/file/{app_id}/{folder}/{file_name}/{env}", tags=["Minio"])
 async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
@@ -99,7 +101,9 @@ async def upload_File_to_user(requestItem: medCertUploud, session: SessionContai
                requestItem.docfname,
                requestItem.startDate,
                requestItem.endDate,
-               requestItem.returnDate)
+               requestItem.returnDate,
+               requestItem.logo_path,
+               requestItem.sig_path)
     return {"message": "Successfully Generated File"}
     
 def uploudFile(app_id, folder, fileName, extension, content):
@@ -120,9 +124,9 @@ def uploudFile(app_id, folder, fileName, extension, content):
 
 
 #"minio""localhost:9000"
-def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
+def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
     client = Minio_Storage.minioConnection.minioConnect("dev")
-    generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate)
+    generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path)
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
@@ -131,13 +135,24 @@ def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate):
     fileName = f"{app_id}/patient_files/Med-Cert-{fullName}-{startDate}.pdf"
     client.fput_object("mih", fileName, "temp.pdf")
 
-def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
+def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
+    client = Minio_Storage.minioConnection.minioConnect("dev")
+    new_logo_path = logo_path.replace(" ","-")
+    new_sig_path = sig_path.replace(" ","-")
+    minioLogo = client.get_object("mih", new_logo_path).read()
+    imageLogo = ImageReader(io.BytesIO(minioLogo))
+    minioSig = client.get_object("mih", new_sig_path).read()
+    imageSig = ImageReader(io.BytesIO(minioSig))
     w,h = A4
     today = datetime.today().strftime('%d-%m-%Y')
     myCanvas = canvas.Canvas("temp.pdf", pagesize=A4)
     myCanvas.setFont('Helvetica', 12)
     myCanvas.drawString(w - 100,h - 50,today)
-
+    # with open('temp_logofile', 'wb') as file_data:
+    #     for data in minioLogo:
+    #         file_data.write(data)
+    #myCanvas.drawImage(imageLogo, 50, h - 150,100,100)
+    #file_data.close()
     myCanvas.setFont('Helvetica-Bold', 20)
     myCanvas.drawString(w-375, h - 100, "Medical Certificate")
 
@@ -145,10 +160,13 @@ def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate):
     line1 = "This is to certify that " + fullName.upper() + " was seen by " + docfname.upper() + " on " + startDate + "."
     line2 = "He/She is unfit to attend work/school from " + startDate + " up to and including " + endDate + "."
     line3 = "He/She will return on " + returnDate + "."
+    
     myCanvas.drawString(50, h-150,line1)
     myCanvas.drawString(50, h-180,line2)
     myCanvas.drawString(50, h-210,line3)
 
+
+    #myCanvas.drawImage(imageSig, 50, h - 330,100,100)
     myCanvas.line(50,h-430,200,h-430)
     myCanvas.drawString(50, h-450, docfname.upper())
 
