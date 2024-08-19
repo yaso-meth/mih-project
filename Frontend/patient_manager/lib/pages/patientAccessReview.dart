@@ -32,6 +32,8 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
   String errorBody = "";
   String datefilter = "";
   String accessFilter = "";
+  bool forceRefresh = false;
+  late String selectedDropdown;
 
   late Future<List<AccessRequest>> accessRequestResults;
 
@@ -139,6 +141,9 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
               ),
               IconButton(
                   onPressed: () {
+                    setState(() {
+                      forceRefresh = true;
+                    });
                     refreshList();
                   },
                   icon: const Icon(
@@ -223,13 +228,25 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
   }
 
   void refreshList() {
-    setState(() {
-      accessRequestResults = fetchAccessRequests();
-    });
+    if (forceRefresh == true) {
+      setState(() {
+        accessRequestResults = fetchAccessRequests();
+        forceRefresh = false;
+      });
+    } else if (selectedDropdown != filterController.text) {
+      setState(() {
+        accessRequestResults = fetchAccessRequests();
+        selectedDropdown = filterController.text;
+      });
+    }
+    // setState(() {
+    //   accessRequestResults = fetchAccessRequests();
+    // });
   }
 
   @override
   void initState() {
+    selectedDropdown = "All";
     filterController.text = "All";
     filterController.addListener(refreshList);
     setState(() {
