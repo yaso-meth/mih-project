@@ -111,7 +111,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
         Container(
           padding: const EdgeInsets.all(10.0),
           width: 500.0,
-          height: (height / 3) * 1.5,
+          height: (height / 3) * 1,
           decoration: BoxDecoration(
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
