@@ -90,7 +90,10 @@ class _PatientViewState extends State<PatientView> {
                             width: 660,
                             child: PatientNotes(
                               patientAppId: snapshot.data!.app_id,
+                              selectedPatient: snapshot.data!,
                               signedInUser: widget.arguments.signedInUser,
+                              business: widget.arguments.business,
+                              businessUser: widget.arguments.businessUser,
                               type: widget.arguments.type,
                             ),
                           ),
