@@ -17,12 +17,16 @@ class noteDeleteRequest(BaseModel):
 class patientNoteInsertRequest(BaseModel):
     note_name: str
     note_text: str
+    doc_office: str
+    doctor: str
     app_id: str
 
 class patientNoteUpdateRequest(BaseModel):
     idpatient_notes: int
     note_name: str
     note_text: str
+    doc_office: str
+    doctor: str
     patient_id: int
 
 # Get List of all notes
@@ -58,6 +62,8 @@ async def read_all_patient_notes_by_app_id(app_id: str, session: SessionContaine
             "note_name": item[1],
             "note_text": item[2],
             "insert_date": item[3],
+            "doc_office": item[5],
+            "doctor": item[6],
             "app_id": item[4]
         }
         for item in cursor.fetchall()
@@ -97,11 +103,13 @@ async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: S
     db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patient_notes "
-    query += "(note_name, note_text, insert_date, app_id) "
-    query += "values (%s, %s, %s, %s)"
+    query += "(note_name, note_text, insert_date, doc_office, doctor, app_id) "
+    query += "values (%s, %s, %s, %s, %s, %s)"
     notetData = (itemRequest.note_name, 
                    itemRequest.note_text,
                    today,
+                   itemRequest.doc_office,
+                   itemRequest.doctor,
                    itemRequest.app_id,
                    )
     try:
