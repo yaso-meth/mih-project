@@ -132,7 +132,8 @@ class _RegisterState extends State<Register> {
 
   bool validEmail() {
     String text = emailController.text;
-    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(text);
+    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
+    return regex.hasMatch(text);
   }
 
   void internetConnectionPopUp() {
