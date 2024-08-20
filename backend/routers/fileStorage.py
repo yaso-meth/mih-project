@@ -29,6 +29,10 @@ class medCertUploud(BaseModel):
     app_id: str
     fullName: str 
     docfname: str 
+    busName: str 
+    busAddr: str 
+    busNo: str 
+    busEmail: str 
     startDate: str 
     endDate: str 
     returnDate: str 
@@ -96,14 +100,15 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
 # Get List of all files by patient
 @router.post("/minio/generate/med-cert/", tags=["Minio"])
 async def upload_File_to_user(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
-    uploudMedCert(requestItem.app_id,
-                requestItem.fullName, 
-               requestItem.docfname,
-               requestItem.startDate,
-               requestItem.endDate,
-               requestItem.returnDate,
-               requestItem.logo_path,
-               requestItem.sig_path)
+    # uploudMedCert(requestItem.app_id,
+    #             requestItem.fullName, 
+    #            requestItem.docfname,
+    #            requestItem.startDate,
+    #            requestItem.endDate,
+    #            requestItem.returnDate,
+    #            requestItem.logo_path,
+    #            requestItem.sig_path)
+    uploudMedCert(requestItem)
     return {"message": "Successfully Generated File"}
     
 def uploudFile(app_id, folder, fileName, extension, content):
@@ -124,21 +129,25 @@ def uploudFile(app_id, folder, fileName, extension, content):
 
 
 #"minio""localhost:9000"
-def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
+# def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
+def uploudMedCert(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect("dev")
-    generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path)
+    # generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path)
+    generateMedCertPDF(requestItem)
+    today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{app_id}/patient_files/Med-Cert-{fullName}-{startDate}.pdf"
+    fileName = f"{requestItem.app_id}/patient_files/Med-Cert-{requestItem.fullName}-{today}.pdf"
     client.fput_object("mih", fileName, "temp.pdf")
 
-def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
+# def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
+def generateMedCertPDF(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect("dev")
-    new_logo_path = logo_path.replace(" ","-")
-    new_sig_path = sig_path.replace(" ","-")
+    new_logo_path = requestItem.logo_path.replace(" ","-")
+    new_sig_path = requestItem.sig_path.replace(" ","-")
     minioLogo = client.get_object("mih", new_logo_path).read()
     imageLogo = ImageReader(io.BytesIO(minioLogo))
     minioSig = client.get_object("mih", new_sig_path).read()
@@ -146,40 +155,52 @@ def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_
     w,h = A4
     today = datetime.today().strftime('%d-%m-%Y')
     myCanvas = canvas.Canvas("temp.pdf", pagesize=A4)
+
+    #Business Logo
+    myCanvas.drawImage(imageLogo, 50, h - 125,100,100, mask='auto')
+
+    #Business Details
+    myCanvas.setFont('Helvetica-Bold', 10)
+    myCanvas.drawRightString(w - 50,h - 40, f"Name: {requestItem.busName}")
+    myCanvas.drawRightString(w - 50,h - 55, f"Address: {requestItem.busAddr}")
+    myCanvas.drawRightString(w - 50,h - 70, f"Contact No.: {requestItem.busNo}")
+    myCanvas.drawRightString(w - 50,h - 85, f"Email: {requestItem.busEmail}")
+    myCanvas.line(50,h-150,w-50,h-150)
+    #Todays Date
     myCanvas.setFont('Helvetica', 12)
-    myCanvas.drawString(w - 100,h - 50,today)
-    # with open('temp_logofile', 'wb') as file_data:
-    #     for data in minioLogo:
-    #         file_data.write(data)
-    #myCanvas.drawImage(imageLogo, 50, h - 150,100,100)
-    #file_data.close()
+    issueDate =  str(today)
+    myCanvas.drawRightString(w - 50,h - 180,issueDate)
+
+    #Title
     myCanvas.setFont('Helvetica-Bold', 20)
-    myCanvas.drawString(w-375, h - 100, "Medical Certificate")
+    myCanvas.drawString(w-375, h - 200, "Medical Certificate")
 
+    #Body
     myCanvas.setFont('Helvetica', 12)
-    line1 = "This is to certify that " + fullName.upper() + " was seen by " + docfname.upper() + " on " + startDate + "."
-    line2 = "He/She is unfit to attend work/school from " + startDate + " up to and including " + endDate + "."
-    line3 = "He/She will return on " + returnDate + "."
+    line1 = "This is to certify that " + requestItem.fullName.upper() + " was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
+    line2 = "He/She is unfit to attend work/school from " + requestItem.startDate + " up to and including " + requestItem.endDate + "."
+    line3 = "He/She will return on " + requestItem.returnDate + "."
     
-    myCanvas.drawString(50, h-150,line1)
-    myCanvas.drawString(50, h-180,line2)
-    myCanvas.drawString(50, h-210,line3)
+    myCanvas.drawString(50, h-250,line1)
+    myCanvas.drawString(50, h-280,line2)
+    myCanvas.drawString(50, h-310,line3)
 
+    #Signature
+    myCanvas.drawImage(imageSig, 50, h - 690,100,100)
+    myCanvas.line(50,h-700,200,h-700)
+    myCanvas.drawString(50, h-720, requestItem.docfname.upper())
 
-    #myCanvas.drawImage(imageSig, 50, h - 330,100,100)
-    myCanvas.line(50,h-430,200,h-430)
-    myCanvas.drawString(50, h-450, docfname.upper())
-
-    qrText = fullName.upper() + " booked off from " + startDate + " to " + endDate + " by " + docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
+    #QR Verification
+    qrText = requestItem.fullName.upper() + " booked off from " + requestItem.startDate + " to " + requestItem.endDate + " by " + requestItem.docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
     qrText = qrText.replace(" ","+")
     
     url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
     response = requests.get(url)
     image = ImageReader(io.BytesIO(response.content))
-    myCanvas.drawImage(image,50, h-700,100,100)
+    myCanvas.drawImage(image,w-150, h-700,100,100)
 
     myCanvas.setFont('Helvetica-Bold', 15)
-    myCanvas.drawString(50,h-720,"Scan to verify")
+    myCanvas.drawString(w-150,h-720,"Scan to verify")
 
     myCanvas.save()
     
