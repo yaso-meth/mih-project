@@ -11,17 +11,26 @@ import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 import 'package:patient_manager/objects/notes.dart';
+import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientNotes extends StatefulWidget {
   final String patientAppId;
+  final Patient selectedPatient;
   final AppUser signedInUser;
+  final Business? business;
+  final BusinessUser? businessUser;
   final String type;
   const PatientNotes({
     super.key,
     required this.patientAppId,
+    required this.selectedPatient,
     required this.signedInUser,
+    required this.business,
+    required this.businessUser,
     required this.type,
   });
 
@@ -38,7 +47,7 @@ class _PatientNotesState extends State<PatientNotes> {
 
   Future<List<Note>> fetchNotes(String endpoint) async {
     final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/notes/patients/${widget.patientAppId}"));
+        "${AppEnviroment.baseApiUrl}/notes/patients/${widget.selectedPatient.app_id}"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<Note> notes =
@@ -52,15 +61,22 @@ class _PatientNotesState extends State<PatientNotes> {
   }
 
   Future<void> addPatientNoteAPICall() async {
+    String title = "";
+    if (widget.businessUser!.title == "Doctor") {
+      title = "Dr.";
+    }
     var response = await http.post(
-      Uri.parse(apiUrlAddNote),
+      Uri.parse("${AppEnviroment.baseApiUrl}/notes/insert/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
         "note_name": titleController.text,
         "note_text": noteTextController.text,
-        "app_id": widget.patientAppId,
+        "doc_office": widget.business!.Name,
+        "doctor":
+            "$title ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+        "app_id": widget.selectedPatient.app_id,
       }),
     );
     if (response.statusCode == 201) {
@@ -161,6 +177,7 @@ class _PatientNotesState extends State<PatientNotes> {
                       required: true,
                     ),
                   ),
+                  const SizedBox(height: 30.0),
                   SizedBox(
                     width: 300,
                     height: 50,
@@ -298,6 +315,9 @@ class _PatientNotesState extends State<PatientNotes> {
                 BuildNotesList(
                   notes: notesList,
                   signedInUser: widget.signedInUser,
+                  selectedPatient: widget.selectedPatient,
+                  business: widget.business,
+                  businessUser: widget.businessUser,
                 ),
               ]),
             ),

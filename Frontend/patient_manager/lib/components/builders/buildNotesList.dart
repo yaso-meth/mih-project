@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihMLTextInput.dart';
@@ -8,17 +9,27 @@ import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart'
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 //import 'package:patient_manager/components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
+import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class BuildNotesList extends StatefulWidget {
   final AppUser signedInUser;
   final List<Note> notes;
+  final Patient selectedPatient;
+  final Business? business;
+  final BusinessUser? businessUser;
   const BuildNotesList({
     super.key,
     required this.notes,
     required this.signedInUser,
+    required this.selectedPatient,
+    required this.business,
+    required this.businessUser,
   });
 
   @override
@@ -27,6 +38,9 @@ class BuildNotesList extends StatefulWidget {
 
 class _BuildNotesListState extends State<BuildNotesList> {
   final noteTextController = TextEditingController();
+  final businessNameController = TextEditingController();
+  final userNameController = TextEditingController();
+  final dateController = TextEditingController();
   int indexOn = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
 
@@ -43,8 +57,23 @@ class _BuildNotesListState extends State<BuildNotesList> {
     if (response.statusCode == 200) {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
-      Navigator.of(context)
-          .pushNamed('/patient-profile', arguments: widget.signedInUser);
+      if (widget.business == null) {
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "personal"));
+      } else {
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "business"));
+      }
       setState(() {});
       String message =
           "The note has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
@@ -88,9 +117,12 @@ class _BuildNotesListState extends State<BuildNotesList> {
     );
   }
 
-  void viewNotePopUp(String title, String note, int noteId) {
+  void viewNotePopUp(Note selectednote) {
     setState(() {
-      noteTextController.text = note;
+      noteTextController.text = selectednote.note_text;
+      businessNameController.text = selectednote.doc_office;
+      userNameController.text = selectednote.doctor;
+      dateController.text = selectednote.insert_date;
     });
     showDialog(
       context: context,
@@ -117,7 +149,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     height: 25,
                   ),
                   Text(
-                    title,
+                    selectednote.note_name,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: MzanziInnovationHub.of(context)!
@@ -128,6 +160,36 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     ),
                   ),
                   const SizedBox(height: 25.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: businessNameController,
+                      hintText: "Office",
+                      editable: false,
+                      required: false,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: userNameController,
+                      hintText: "Created By",
+                      editable: false,
+                      required: false,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: dateController,
+                      hintText: "Created",
+                      editable: false,
+                      required: false,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
                   Expanded(
                     child: MIHMLTextField(
                       controller: noteTextController,
@@ -175,7 +237,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
               height: 50,
               child: IconButton(
                 onPressed: () {
-                  deletePatientPopUp(noteId);
+                  deletePatientPopUp(selectednote.idpatient_notes);
                 },
                 icon: Icon(
                   Icons.delete,
@@ -210,7 +272,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
             }
             return ListTile(
               title: Text(
-                widget.notes[index].note_name,
+                "${widget.notes[index].note_name}\n${widget.notes[index].doc_office} - ${widget.notes[index].doctor}",
                 style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -228,10 +290,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               onTap: () {
-                viewNotePopUp(
-                    widget.notes[index].note_name,
-                    "${widget.notes[index].insert_date}:\n${widget.notes[index].note_text}",
-                    widget.notes[index].idpatient_notes);
+                viewNotePopUp(widget.notes[index]);
               },
             );
           },
