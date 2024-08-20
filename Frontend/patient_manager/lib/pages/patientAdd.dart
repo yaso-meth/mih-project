@@ -101,7 +101,7 @@ class _AddPatientState extends State<AddPatient> {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context).pushNamed('/patient-profile',
+      Navigator.of(context).popAndPushNamed('/patient-profile',
           arguments: PatientViewArguments(
               widget.signedInUser, null, null, null, "personal"));
       String message =
