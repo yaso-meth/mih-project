@@ -950,13 +950,13 @@ packages:
     source: hosted
     version: "0.6.0"
   syncfusion_flutter_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "963e414e06abe520c9d0e039738bc6cbcf8eabf8c5964eb2181a76da1274a942"
+      sha256: ca34210d70dd7ecb77489c21c8131a7f5546dea47780cd5f510326348091cb42
       url: "https://pub.dev"
     source: hosted
-    version: "26.1.39"
+    version: "26.2.10"
   syncfusion_flutter_pdf:
     dependency: transitive
     description:
