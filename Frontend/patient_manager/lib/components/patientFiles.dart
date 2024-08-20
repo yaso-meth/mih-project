@@ -88,6 +88,7 @@ class _PatientFilesState extends State<PatientFiles> {
         "app_id": widget.selectedPatient.app_id,
         "fullName":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+        "id_no": widget.selectedPatient.id_no,
         "docfname":
             "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
         "startDate": startDateController.text,
