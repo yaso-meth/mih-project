@@ -10,6 +10,7 @@ import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import '../components/mihAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -100,8 +101,9 @@ class _AddPatientState extends State<AddPatient> {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.pushNamed(context, '/patient-manager/patient',
-          arguments: widget.signedInUser);
+      Navigator.of(context).pushNamed('/patient-profile',
+          arguments: PatientViewArguments(
+              widget.signedInUser, null, null, null, "personal"));
       String message =
           "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
       successPopUp(message);
