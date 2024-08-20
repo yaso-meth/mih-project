@@ -1,3 +1,4 @@
+from textwrap import wrap
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
 import requests
@@ -28,6 +29,7 @@ class minioDeleteRequest(BaseModel):
 class medCertUploud(BaseModel):
     app_id: str
     fullName: str 
+    id_no: str 
     docfname: str 
     busName: str 
     busAddr: str 
@@ -177,13 +179,18 @@ def generateMedCertPDF(requestItem: medCertUploud):
 
     #Body
     myCanvas.setFont('Helvetica', 12)
-    line1 = "This is to certify that " + requestItem.fullName.upper() + " was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
-    line2 = "He/She is unfit to attend work/school from " + requestItem.startDate + " up to and including " + requestItem.endDate + "."
-    line3 = "He/She will return on " + requestItem.returnDate + "."
+    body = ""
+    body += "This is to certify that " + requestItem.fullName.upper() + " (" + requestItem.id_no+ ") was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
+    body += "\nHe/She is unfit to attend work/school from " + requestItem.startDate + " up to and including " + requestItem.endDate + "."
+    body += "\nHe/She will return on " + requestItem.returnDate + "."
     
-    myCanvas.drawString(50, h-250,line1)
-    myCanvas.drawString(50, h-280,line2)
-    myCanvas.drawString(50, h-310,line3)
+    y = 250
+    for line in wrap(body, 90):
+        myCanvas.drawString(50, h-y, line)
+        y += 30
+    # myCanvas.drawString(50, h-250,line1)
+    # myCanvas.drawString(50, h-280,line2)
+    # myCanvas.drawString(50, h-310,line3)
 
     #Signature
     myCanvas.drawImage(imageSig, 50, h - 690,100,100)
