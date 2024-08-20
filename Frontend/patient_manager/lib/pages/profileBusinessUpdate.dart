@@ -46,6 +46,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   final signtureController = TextEditingController();
   final accessController = TextEditingController();
   final contactController = TextEditingController();
+  final emailController = TextEditingController();
 
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
@@ -179,6 +180,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         "logo_path":
             "${widget.arguments.signedInUser.app_id}/business_files/${logonameController.text}",
         "contact_no": contactController.text,
+        "bus_email": emailController.text,
       }),
     );
     if (response.statusCode == 200) {
@@ -225,7 +227,8 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         titleController.text.isEmpty ||
         signtureController.text.isEmpty ||
         accessController.text.isEmpty ||
-        contactController.text.isEmpty) {
+        contactController.text.isEmpty ||
+        emailController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -233,7 +236,9 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   }
 
   void submitForm(String business_id) {
-    if (isFieldsFilled()) {
+    if (!validEmail()) {
+      emailError();
+    } else if (isFieldsFilled()) {
       updateBusinessProfileAPICall(business_id);
     } else {
       showDialog(
@@ -243,6 +248,21 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         },
       );
     }
+  }
+
+  void emailError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Invalid Email");
+      },
+    );
+  }
+
+  bool validEmail() {
+    String text = emailController.text;
+    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
+    return regex.hasMatch(text);
   }
 
   @override
@@ -266,6 +286,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
       logonameController.text = widget.arguments.business!.logo_name;
       oldLogoPath = widget.arguments.business!.logo_path;
       contactController.text = widget.arguments.business!.contact_no;
+      emailController.text = widget.arguments.business!.bus_email;
     });
 
     super.initState();
@@ -324,6 +345,13 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
                   MIHTextField(
                     controller: contactController,
                     hintText: "Contact Number",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: emailController,
+                    hintText: "Email",
                     editable: true,
                     required: true,
                   ),

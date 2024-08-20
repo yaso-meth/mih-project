@@ -44,6 +44,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final signtureController = TextEditingController();
   final accessController = TextEditingController();
   final contactController = TextEditingController();
+  final emailController = TextEditingController();
 
   late PlatformFile selectedLogo;
   late PlatformFile selectedSignature;
@@ -115,6 +116,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         "logo_path":
             "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
         "contact_no": contactController.text,
+        "bus_email": emailController.text,
       }),
     );
     if (response.statusCode == 201) {
@@ -157,7 +159,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         titleController.text.isEmpty ||
         signtureController.text.isEmpty ||
         accessController.text.isEmpty ||
-        contactController.text.isEmpty) {
+        contactController.text.isEmpty ||
+        emailController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -165,7 +168,9 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   }
 
   void submitForm() {
-    if (isFieldsFilled()) {
+    if (!validEmail()) {
+      emailError();
+    } else if (isFieldsFilled()) {
       createBusinessProfileAPICall();
     } else {
       showDialog(
@@ -175,6 +180,21 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
         },
       );
     }
+  }
+
+  void emailError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Invalid Email");
+      },
+    );
+  }
+
+  bool validEmail() {
+    String text = emailController.text;
+    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
+    return regex.hasMatch(text);
   }
 
   @override
@@ -237,6 +257,13 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
               MIHTextField(
                 controller: contactController,
                 hintText: "Contact Number",
+                editable: true,
+                required: true,
+              ),
+              const SizedBox(height: 10.0),
+              MIHTextField(
+                controller: emailController,
+                hintText: "Email",
                 editable: true,
                 required: true,
               ),
