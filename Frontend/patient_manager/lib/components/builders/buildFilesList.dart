@@ -124,7 +124,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        print(widget.business);
+        //print(widget.business);
         if (widget.business == null) {
           Navigator.of(context).pushNamed('/patient-manager/patient',
               arguments: PatientViewArguments(
