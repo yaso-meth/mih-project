@@ -32,7 +32,7 @@ class _MedcertinputState extends State<Medcertinput> {
               required: true,
             ),
           ),
-          const SizedBox(height: 25.0),
+          const SizedBox(height: 10.0),
           SizedBox(
             width: 700,
             child: MIHDateField(
@@ -41,7 +41,7 @@ class _MedcertinputState extends State<Medcertinput> {
               required: true,
             ),
           ),
-          const SizedBox(height: 25.0),
+          const SizedBox(height: 10.0),
           SizedBox(
             width: 700,
             child: MIHDateField(
