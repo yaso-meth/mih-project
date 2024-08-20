@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/builders/BuildFileView.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
@@ -10,6 +11,8 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
 import 'package:patient_manager/objects/files.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -19,11 +22,16 @@ class BuildFilesList extends StatefulWidget {
   final AppUser signedInUser;
   final List<PFile> files;
   final Patient selectedPatient;
+  final Business? business;
+  final BusinessUser? businessUser;
+
   const BuildFilesList({
     super.key,
     required this.files,
     required this.signedInUser,
     required this.selectedPatient,
+    required this.business,
+    required this.businessUser,
   });
 
   @override
@@ -86,6 +94,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
   }
 
   Future<void> deleteFileApiCall(String filePath, int fileID) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
     // delete file from minio
     var response = await http.delete(
       Uri.parse("$baseAPI/minio/delete/file/"),
@@ -109,9 +123,26 @@ class _BuildFilesListState extends State<BuildFilesList> {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        Navigator.of(context).pushNamed('/patient-manager/patient',
-            arguments: PatientViewArguments(widget.signedInUser,
-                widget.selectedPatient, null, null, "business"));
+        Navigator.of(context).pop();
+        print(widget.business);
+        if (widget.business == null) {
+          Navigator.of(context).pushNamed('/patient-manager/patient',
+              arguments: PatientViewArguments(
+                  widget.signedInUser,
+                  widget.selectedPatient,
+                  widget.businessUser,
+                  widget.business,
+                  "personal"));
+        } else {
+          Navigator.of(context).pushNamed('/patient-manager/patient',
+              arguments: PatientViewArguments(
+                  widget.signedInUser,
+                  widget.selectedPatient,
+                  widget.businessUser,
+                  widget.business,
+                  "business"));
+        }
+
         // Navigator.of(context)
         //     .pushNamed('/patient-profile', arguments: widget.signedInUser);
         // setState(() {});
@@ -153,8 +184,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
       barrierDismissible: false,
       builder: (context) => MIHDeleteMessage(
         deleteType: "File",
-        onTap: () {
-          deleteFileApiCall(filePath, fileID);
+        onTap: () async {
+          await deleteFileApiCall(filePath, fileID);
         },
       ),
     );
@@ -203,6 +234,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                     path: filePath,
                     //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
                   )),
+                  const SizedBox(height: 30.0),
                   SizedBox(
                     width: 300,
                     height: 50,

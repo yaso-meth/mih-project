@@ -91,6 +91,10 @@ class _PatientFilesState extends State<PatientFiles> {
         "docfname":
             "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
         "startDate": startDateController.text,
+        "busName": widget.business!.Name,
+        "busAddr": "*TO BE ADDED IN THE FUTURE*",
+        "busNo": widget.business!.contact_no,
+        "busEmail": widget.business!.bus_email,
         "endDate": endDateTextController.text,
         "returnDate": retDateTextController.text,
         "logo_path": widget.business!.logo_path,
@@ -115,7 +119,7 @@ class _PatientFilesState extends State<PatientFiles> {
           "app_id": widget.selectedPatient.app_id
         }),
       );
-      print(response2.statusCode);
+      //print(response2.statusCode);
       if (response2.statusCode == 201) {
         setState(() {
           startDateController.clear();
@@ -124,6 +128,7 @@ class _PatientFilesState extends State<PatientFiles> {
           futueFiles = fetchFiles();
         });
         // end loading circle
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
         String message =
             "The medical certificate $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
@@ -288,10 +293,10 @@ class _PatientFilesState extends State<PatientFiles> {
                           .secondaryColor(),
                       textColor:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () {
+                      onTap: () async {
                         if (isMedCertFieldsFilled()) {
-                          generateMedCert();
-                          Navigator.pop(context);
+                          await generateMedCert();
+                          //Navigator.pop(context);
                         } else {
                           showDialog(
                             context: context,
@@ -653,6 +658,8 @@ class _PatientFilesState extends State<PatientFiles> {
                   files: filesList,
                   signedInUser: widget.signedInUser,
                   selectedPatient: widget.selectedPatient,
+                  business: widget.business,
+                  businessUser: widget.businessUser,
                 ),
               ]),
             ),
