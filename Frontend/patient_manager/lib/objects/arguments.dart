@@ -15,6 +15,16 @@ class BusinessArguments {
   );
 }
 
+class FileViewArguments {
+  final String link;
+  final String path;
+
+  FileViewArguments(
+    this.link,
+    this.path,
+  );
+}
+
 class PatientViewArguments {
   final AppUser signedInUser;
   final Patient? selectedPatient;

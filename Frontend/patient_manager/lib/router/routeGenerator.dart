@@ -6,6 +6,7 @@ import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/pages/fullScreenFile.dart';
 import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientAccessReview.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
@@ -95,6 +96,16 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (_) => ProfileUserUpdate(
               signedInUser: args,
+            ),
+          );
+        }
+        return _errorRoute();
+
+      case '/file-veiwer':
+        if (args is FileViewArguments) {
+          return MaterialPageRoute(
+            builder: (_) => FullScreenFileViewer(
+              arguments: args,
             ),
           );
         }
