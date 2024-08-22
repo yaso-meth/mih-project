@@ -360,7 +360,7 @@ class _PatientFilesState extends State<PatientFiles> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Create Precrition",
+                    "Create Perscription",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: MzanziInnovationHub.of(context)!
