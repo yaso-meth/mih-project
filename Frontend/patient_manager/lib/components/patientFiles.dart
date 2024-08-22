@@ -109,7 +109,7 @@ class _PatientFilesState extends State<PatientFiles> {
         "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
     if (response1.statusCode == 200) {
       var response2 = await http.post(
-        Uri.parse(endpointInsertFiles),
+        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
@@ -379,6 +379,10 @@ class _PatientFilesState extends State<PatientFiles> {
                     noDaysController: noDaysController,
                     noRepeatsController: noRepeatsController,
                     outputController: outputController,
+                    selectedPatient: widget.selectedPatient,
+                    signedInUser: widget.signedInUser,
+                    business: widget.business,
+                    businessUser: widget.businessUser,
                   ),
                 ],
               ),
