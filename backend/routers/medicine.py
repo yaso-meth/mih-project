@@ -9,10 +9,6 @@ from fastapi import Depends
 
 router = APIRouter()
 
-class medicine(BaseModel):
-    name: str
-    unit: str
-
 #get all medicines
 @router.get("/users/medicine/all", tags=["Medicine"])
 async def read_all_medicine(session: SessionContainer = Depends(verify_session())):
@@ -25,9 +21,9 @@ async def read_medicineby_search(medSearch: str, session: SessionContainer = Dep
 
 def getMedicineData(medsearch: str):
     path = os.getcwd()
-    print(path)
-    parentDir = os.path.abspath(os.path.join(path, os.pardir))
-    filePath = os.path.join(path, "medicines", "Database-Of-Medicine-Prices-31-May-2024.xls")
+    #print(path)
+    #parentDir = os.path.abspath(os.path.join(path, os.pardir))
+    filePath = os.path.join(path, "medicines", "Database-Of-Medicine-Prices-9-July-2024.xls")
     book = xlrd.open_workbook_xls(filePath)
     sh = book.sheet_by_index(0)
     medlist = []
