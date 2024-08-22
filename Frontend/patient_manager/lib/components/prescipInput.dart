@@ -1,10 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/components/medicineSearch.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/business.dart';
+import 'package:patient_manager/objects/businessUser.dart';
+import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/objects/perscription.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class PrescripInput extends StatefulWidget {
   final TextEditingController medicineController;
@@ -14,7 +27,10 @@ class PrescripInput extends StatefulWidget {
   final TextEditingController noDaysController;
   final TextEditingController noRepeatsController;
   final TextEditingController outputController;
-
+  final Patient selectedPatient;
+  final AppUser signedInUser;
+  final Business? business;
+  final BusinessUser? businessUser;
   const PrescripInput({
     super.key,
     required this.medicineController,
@@ -24,6 +40,10 @@ class PrescripInput extends StatefulWidget {
     required this.noDaysController,
     required this.noRepeatsController,
     required this.outputController,
+    required this.selectedPatient,
+    required this.signedInUser,
+    required this.business,
+    required this.businessUser,
   });
 
   @override
@@ -31,8 +51,8 @@ class PrescripInput extends StatefulWidget {
 }
 
 class _PrescripInputState extends State<PrescripInput> {
-  //String perscriptionOutput = "";
-  List<List<String>> perscriptionOutput = [];
+  final FocusNode _focusNode = FocusNode();
+  List<Perscription> perscriptionObjOutput = [];
   late double width;
   late double height;
 
@@ -70,6 +90,111 @@ class _PrescripInputState extends State<PrescripInput> {
     "30"
   ];
 
+  Future<void> generatePerscription() async {
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+
+    var response1 = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/perscription/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": widget.selectedPatient.app_id,
+        "fullName":
+            "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+        "id_no": widget.selectedPatient.id_no,
+        "docfname":
+            "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+        "busName": widget.business!.Name,
+        "busAddr": "*TO BE ADDED IN THE FUTURE*",
+        "busNo": widget.business!.contact_no,
+        "busEmail": widget.business!.bus_email,
+        "logo_path": widget.business!.logo_path,
+        "sig_path": widget.businessUser!.sig_path,
+        "data": perscriptionObjOutput,
+      }),
+    );
+    //print(response1.statusCode);
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    String fileName =
+        "Perscription-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
+    if (response1.statusCode == 200) {
+      var response2 = await http.post(
+        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "file_path":
+              "${widget.selectedPatient.app_id}/patient_files/$fileName",
+          "file_name": fileName,
+          "app_id": widget.selectedPatient.app_id
+        }),
+      );
+      //print(response2.statusCode);
+      if (response2.statusCode == 201) {
+        setState(() {
+          //To do
+          widget.medicineController.clear();
+          widget.dosageController.clear();
+          widget.timesDailyController.clear();
+          widget.noDaysController.clear();
+          widget.timesDailyController.clear();
+          widget.noRepeatsController.clear();
+          widget.quantityController.clear();
+          widget.outputController.clear();
+          // futueFiles = fetchFiles();
+        });
+        // end loading circle
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+              widget.signedInUser,
+              widget.selectedPatient,
+              widget.businessUser,
+              widget.business,
+              "business",
+            ));
+        String message =
+            "The perscription $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+        successPopUp(message);
+      } else {
+        internetConnectionPopUp();
+      }
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MIHSuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
+
   void getMedsPopUp(TextEditingController medSearch) {
     showDialog(
       context: context,
@@ -83,7 +208,7 @@ class _PrescripInputState extends State<PrescripInput> {
 
   bool isFieldsFilled() {
     if (widget.medicineController.text.isEmpty ||
-        widget.quantityController.text.isEmpty ||
+        // widget.quantityController.text.isEmpty ||
         widget.dosageController.text.isEmpty ||
         widget.timesDailyController.text.isEmpty ||
         widget.noDaysController.text.isEmpty ||
@@ -95,59 +220,164 @@ class _PrescripInputState extends State<PrescripInput> {
   }
 
   void updatePerscriptionList() {
+    String name;
+    String unit;
+    String form;
     List<String> medNameList = widget.medicineController.text.split("%t");
-    List<String> temp = [];
-    temp.add(medNameList[0]); //Name 0
-    temp.add(medNameList[1]); //Unit 1
-    temp.add(medNameList[2]); //Form 2
-    temp.add(widget.quantityController.text); //Quantity 3
-    temp.add(widget.quantityController.text); //Dosage 4
-    temp.add(widget.timesDailyController.text); //Times Daily 5
-    temp.add(widget.noDaysController.text); //No Days 6
-    temp.add(widget.noRepeatsController.text); //No Repeats 7
-
-    perscriptionOutput.add(temp);
+    if (medNameList.length == 1) {
+      name = medNameList[0];
+      unit = "";
+      form = "";
+    } else {
+      name = medNameList[0];
+      unit = medNameList[1];
+      form = medNameList[2];
+    }
+    int quantityCalc = calcQuantity(
+        widget.dosageController.text,
+        widget.timesDailyController.text,
+        widget.noDaysController.text,
+        medNameList[2].toLowerCase());
+    Perscription tempObj = Perscription(
+      name: name,
+      unit: unit,
+      form: form,
+      fullForm: getFullDoagesForm(form),
+      quantity: "$quantityCalc",
+      dosage: widget.dosageController.text,
+      times: widget.timesDailyController.text,
+      days: widget.noDaysController.text,
+      repeats: widget.noRepeatsController.text,
+    );
+    perscriptionObjOutput.add(tempObj);
   }
 
   String getPerscTitle(int index) {
-    return "${perscriptionOutput[index][0]} (${perscriptionOutput[index][1]})";
+    return "${perscriptionObjOutput[index].name} - ${perscriptionObjOutput[index].form}";
   }
 
   String getPerscSubtitle(int index) {
-    if (perscriptionOutput[index][3].toLowerCase() == "syr") {
-      return "${perscriptionOutput[index][4]} ${perscriptionOutput[index][3]}, ${perscriptionOutput[index][5]} times daily, for ${perscriptionOutput[index][6]}\nQuantity: ${perscriptionOutput[index][3]}\nNo. of repeats ${perscriptionOutput[index][7]}";
+    if (perscriptionObjOutput[index].form.toLowerCase() == "syr") {
+      String unit = perscriptionObjOutput[index].unit.toLowerCase();
+      if (perscriptionObjOutput[index].unit.toLowerCase().contains("ml")) {
+        unit = "ml";
+      }
+      return "${perscriptionObjOutput[index].dosage} $unit, ${perscriptionObjOutput[index].times} time(s) daily, for ${perscriptionObjOutput[index].days} day(s)\nQuantity: ${perscriptionObjOutput[index].quantity}\nNo. of repeats: ${perscriptionObjOutput[index].repeats}";
     } else {
-      return "${perscriptionOutput[index][4]} ${perscriptionOutput[index][1]}, ${perscriptionOutput[index][5]} times daily, for ${perscriptionOutput[index][6]}\nQuantity: ${perscriptionOutput[index][3]}\nNo. of repeats ${perscriptionOutput[index][7]}";
+      return "${perscriptionObjOutput[index].dosage} ${perscriptionObjOutput[index].fullForm}(s), ${perscriptionObjOutput[index].times} time(s) daily, for ${perscriptionObjOutput[index].days} day(s)\nQuantity: ${perscriptionObjOutput[index].quantity}\nNo. of repeats: ${perscriptionObjOutput[index].repeats}";
+    }
+  }
+
+  String getFullDoagesForm(String abr) {
+    var dosageFormList = {
+      "liq": "liquid",
+      "tab": "tablet",
+      "cap": "capsule",
+      "cps": "capsule",
+      "oin": "ointment",
+      "lit": "lotion",
+      "lot": "lotion",
+      "inj": "injection",
+      "syr": "syrup",
+      "dsp": "effervescent tablet",
+      "eft": "effervescent tablet",
+      "ear": "drops",
+      "drp": "drops",
+      "opd": "drops",
+      "udv": "vial",
+      "sus": "suspension",
+      "susp": "suspension",
+      "cal": "calasthetic",
+      "sol": "solution",
+      "sln": "solution",
+      "neb": "nebuliser",
+      "inh": "inhaler",
+      "spo": "inhaler",
+      "inf": "infusion",
+      "chg": "chewing Gum",
+      "vac": "vacutainer",
+      "vag": "vaginal gel",
+      "jel": "gel",
+      "eyo": "eye ointment",
+      "vat": "vaginal cream",
+      "poi": "injection",
+      "ped": "powder",
+      "pow": "powder",
+      "por": "powder",
+      "sac": "sachet",
+      "sup": "suppository",
+      "cre": "cream",
+      "ptd": "patch",
+      "ect": "tablet",
+      "nas": "spray",
+    };
+    String form;
+    if (dosageFormList[abr.toLowerCase()] == null) {
+      form = abr;
+    } else {
+      form = dosageFormList[abr.toLowerCase()]!;
+    }
+    return form;
+  }
+
+  int calcQuantity(String dosage, String times, String days, String form) {
+    var dosageFormList = [
+      "tab",
+      "cap",
+      "cps",
+      "dsp",
+      "eft",
+      "udv",
+      "chg",
+      "sac",
+      "sup",
+      "ptd",
+      "ect",
+    ];
+    if (dosageFormList.contains(form)) {
+      return int.parse(dosage) * int.parse(times) * int.parse(days);
+    } else {
+      return 1;
     }
   }
 
   Widget displayMedInput() {
     return Column(
       children: [
-        SizedBox(
-          width: 300,
-          child: MIHSearchField(
-            controller: widget.medicineController,
-            hintText: "Medicine",
-            required: true,
-            editable: true,
-            onTap: () {
+        KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
               getMedsPopUp(widget.medicineController);
-            },
+            }
+          },
+          child: SizedBox(
+            width: 300,
+            child: MIHSearchField(
+              controller: widget.medicineController,
+              hintText: "Medicine",
+              required: true,
+              editable: true,
+              onTap: () {
+                getMedsPopUp(widget.medicineController);
+              },
+            ),
           ),
         ),
-        const SizedBox(height: 25.0),
-        SizedBox(
-          width: 300,
-          child: MIHDropdownField(
-            controller: widget.quantityController,
-            hintText: "Quantity",
-            dropdownOptions: numberOptions,
-            required: true,
-            editable: true,
-          ),
-        ),
-        const SizedBox(height: 25.0),
+        const SizedBox(height: 10.0),
+        // SizedBox(
+        //   width: 300,
+        //   child: MIHDropdownField(
+        //     controller: widget.quantityController,
+        //     hintText: "Quantity",
+        //     dropdownOptions: numberOptions,
+        //     required: true,
+        //     editable: true,
+        //   ),
+        // ),
+        // const SizedBox(height: 10.0),
         SizedBox(
           width: 300,
           child: MIHDropdownField(
@@ -158,7 +388,7 @@ class _PrescripInputState extends State<PrescripInput> {
             editable: true,
           ),
         ),
-        const SizedBox(height: 25.0),
+        const SizedBox(height: 10.0),
         SizedBox(
           width: 300,
           child: MIHDropdownField(
@@ -169,7 +399,7 @@ class _PrescripInputState extends State<PrescripInput> {
             editable: true,
           ),
         ),
-        const SizedBox(height: 25.0),
+        const SizedBox(height: 10.0),
         SizedBox(
           width: 300,
           child: MIHDropdownField(
@@ -180,7 +410,7 @@ class _PrescripInputState extends State<PrescripInput> {
             editable: true,
           ),
         ),
-        const SizedBox(height: 25.0),
+        const SizedBox(height: 10.0),
         SizedBox(
           width: 300,
           child: MIHDropdownField(
@@ -191,6 +421,7 @@ class _PrescripInputState extends State<PrescripInput> {
             editable: true,
           ),
         ),
+        const SizedBox(height: 30.0),
         SizedBox(
           width: 300,
           height: 50,
@@ -201,7 +432,12 @@ class _PrescripInputState extends State<PrescripInput> {
             textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             onTap: () {
               if (isFieldsFilled()) {
+                // int quantity;
+                // int.parse(widget.dosageController.text) *
+                //     int.parse(widget.timesDailyController.text) *
+                //     int.parse(widget.noDaysController.text);
                 setState(() {
+                  //widget.quantityController.text = "$quantity";
                   updatePerscriptionList();
                   widget.medicineController.clear();
                   widget.quantityController.clear();
@@ -232,7 +468,7 @@ class _PrescripInputState extends State<PrescripInput> {
       children: [
         Container(
           width: 550,
-          height: 400,
+          height: 350,
           decoration: BoxDecoration(
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
@@ -242,9 +478,12 @@ class _PrescripInputState extends State<PrescripInput> {
           ),
           child: ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return const Divider();
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Divider(),
+              );
             },
-            itemCount: perscriptionOutput.length,
+            itemCount: perscriptionObjOutput.length,
             itemBuilder: (context, index) {
               //final patient = widget.patients[index].id_no.contains(widget.searchString);
               return ListTile(
@@ -271,7 +510,7 @@ class _PrescripInputState extends State<PrescripInput> {
                   ),
                   onPressed: () {
                     setState(() {
-                      perscriptionOutput.removeAt(index);
+                      perscriptionObjOutput.removeAt(index);
                     });
                   },
                 ),
@@ -279,23 +518,24 @@ class _PrescripInputState extends State<PrescripInput> {
             },
           ),
         ),
+        const SizedBox(height: 30.0),
         SizedBox(
           width: 300,
           height: 50,
           child: MIHButton(
-            onTap: () {
-              // if (isMedCertFieldsFilled()) {
-              //   generateMedCert();
-              //   Navigator.pop(context);
-              // } else {
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return const MIHErrorMessage(
-              //           errorType: "Input Error");
-              //     },
-              //   );
-              // }
+            onTap: () async {
+              if (perscriptionObjOutput.isNotEmpty) {
+                //print(jsonEncode(perscriptionObjOutput));
+                await generatePerscription();
+                Navigator.pop(context);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const MIHErrorMessage(errorType: "Input Error");
+                  },
+                );
+              }
             },
             buttonText: "Generate",
             buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
@@ -321,11 +561,13 @@ class _PrescripInputState extends State<PrescripInput> {
     });
     return Container(
       //width: ,
-      height: (height / 3) * 2,
+      height: (height / 3) * 1.5,
       child: SingleChildScrollView(
         child: Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
           // mainAxisAlignment: MainAxisAlignment.center,
           // mainAxisSize: MainAxisSize.max,
           // crossAxisAlignment: CrossAxisAlignment.center,
