@@ -1,16 +1,22 @@
 from textwrap import wrap
+import io
+from datetime import datetime, date
+from typing import List
+import requests
+
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
-import requests
+
 from pydantic import BaseModel
+
 from minio import Minio
 import Minio_Storage
+
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
-import io
-from datetime import datetime
-#SuperToken Auth from front end
+from reportlab.platypus import SimpleDocTemplate
+
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
@@ -40,6 +46,30 @@ class medCertUploud(BaseModel):
     returnDate: str 
     logo_path: str
     sig_path: str
+
+class perscription(BaseModel):
+    name: str
+    unit: str
+    form: str
+    fullForm: str
+    quantity: str
+    dosage: str
+    times: str
+    days: str
+    repeats: str
+
+class perscriptionList(BaseModel):
+    app_id: str
+    fullName: str 
+    id_no: str 
+    docfname: str 
+    busName: str 
+    busAddr: str 
+    busNo: str 
+    busEmail: str  
+    logo_path: str
+    sig_path: str
+    data: List[perscription]
 
 @router.get("/minio/pull/file/{app_id}/{folder}/{file_name}/{env}", tags=["Minio"])
 async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
@@ -97,22 +127,17 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
     #     "file contents": file.file.read(),
     # }
 
-
-
 # Get List of all files by patient
 @router.post("/minio/generate/med-cert/", tags=["Minio"])
-async def upload_File_to_user(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
-    # uploudMedCert(requestItem.app_id,
-    #             requestItem.fullName, 
-    #            requestItem.docfname,
-    #            requestItem.startDate,
-    #            requestItem.endDate,
-    #            requestItem.returnDate,
-    #            requestItem.logo_path,
-    #            requestItem.sig_path)
+async def upload_med_cert_to_user(requestItem: medCertUploud, session: SessionContainer = Depends(verify_session())):
     uploudMedCert(requestItem)
     return {"message": "Successfully Generated File"}
-    
+
+@router.post("/minio/generate/perscription/", tags=["Minio"])
+async def upload_perscription_to_user(requestItem: perscriptionList, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    uploudPerscription(requestItem)
+    return {"message": "Successfully Generated File"}
+
 def uploudFile(app_id, folder, fileName, extension, content):
     client = Minio_Storage.minioConnection.minioConnect("dev")
     found = client.bucket_exists("mih")
@@ -129,12 +154,8 @@ def uploudFile(app_id, folder, fileName, extension, content):
                     content_type=f"application/{extension}")
         
 
-
-#"minio""localhost:9000"
-# def uploudMedCert(app_id, fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
 def uploudMedCert(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect("dev")
-    # generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path)
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
@@ -143,9 +164,8 @@ def uploudMedCert(requestItem: medCertUploud):
     else:
         print("Bucket already exists")
     fileName = f"{requestItem.app_id}/patient_files/Med-Cert-{requestItem.fullName}-{today}.pdf"
-    client.fput_object("mih", fileName, "temp.pdf")
+    client.fput_object("mih", fileName, "temp-med-cert.pdf")
 
-# def generateMedCertPDF(fullName, docfname, startDate, endDate, returnDate, logo_path, sig_path):
 def generateMedCertPDF(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect("dev")
     new_logo_path = requestItem.logo_path.replace(" ","-")
@@ -156,7 +176,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     imageSig = ImageReader(io.BytesIO(minioSig))
     w,h = A4
     today = datetime.today().strftime('%d-%m-%Y')
-    myCanvas = canvas.Canvas("temp.pdf", pagesize=A4)
+    myCanvas = canvas.Canvas("temp-med-cert.pdf", pagesize=A4)
 
     #Business Logo
     myCanvas.drawImage(imageLogo, 50, h - 125,100,100, mask='auto')
@@ -210,9 +230,107 @@ def generateMedCertPDF(requestItem: medCertUploud):
     myCanvas.drawString(w-150,h-720,"Scan to verify")
 
     myCanvas.save()
+
+def uploudPerscription(requestItem: perscriptionList):
+    client = Minio_Storage.minioConnection.minioConnect("dev")
+    generatePerscriptionPDF(requestItem)
+    today = datetime.today().strftime('%Y-%m-%d')
+    found = client.bucket_exists("mih")
+    if not found:
+        client.make_bucket("mih")
+    else:
+        print("Bucket already exists")
+    fileName = f"{requestItem.app_id}/patient_files/Perscription-{requestItem.fullName}-{today}.pdf"
+    client.fput_object("mih", fileName, "temp-perscription.pdf")    
+
+def generatePerscriptionPDF(requestItem: perscriptionList):
+    client = Minio_Storage.minioConnection.minioConnect("dev")
+    new_logo_path = requestItem.logo_path.replace(" ","-")
+    new_sig_path = requestItem.sig_path.replace(" ","-")
+    minioLogo = client.get_object("mih", new_logo_path).read()
+    imageLogo = ImageReader(io.BytesIO(minioLogo))
+    minioSig = client.get_object("mih", new_sig_path).read()
+    imageSig = ImageReader(io.BytesIO(minioSig))
+    w,h = A4
     
-#Def get
-#uploudFile("Yasien Meth","Dr D Oct","18-06-2024","20-06-2024","21-06-2024")
+    
+    myCanvas = canvas.Canvas("temp-perscription.pdf", pagesize=A4)
+
+    #Business Logo
+    myCanvas.drawImage(imageLogo, 50, h - 125,100,100, mask='auto')
+
+    #Business Details
+    myCanvas.setFont('Helvetica-Bold', 10)
+    myCanvas.drawRightString(w - 50,h - 40, f"Name: {requestItem.busName}")
+    myCanvas.drawRightString(w - 50,h - 55, f"Address: {requestItem.busAddr}")
+    myCanvas.drawRightString(w - 50,h - 70, f"Contact No.: {requestItem.busNo}")
+    myCanvas.drawRightString(w - 50,h - 85, f"Email: {requestItem.busEmail}")
+    myCanvas.line(50,h-150,w-50,h-150)
+    #Todays Date
+    myCanvas.setFont('Helvetica', 12)
+    today = datetime.today()
+    issueDate =  today.strftime('%d-%m-%Y')
+    myCanvas.drawRightString(w - 50,h - 180,issueDate)
+
+    #Title
+    myCanvas.setFont('Helvetica-Bold', 20)
+    myCanvas.drawString(w-375, h - 200, "Perscription")
+
+    #Body
+    myCanvas.setFont('Helvetica-Bold', 12)
+    myCanvas.drawString(50, h-250, f"Patient: {requestItem.fullName}")
+    myCanvas.drawString(50, h-270, f"Patient ID: {requestItem.id_no}")
+    
+    #boday headings 
+    myCanvas.drawString(50, h-300, "Description")
+    myCanvas.drawRightString(w - 50, h-300, "Repeat(s)")
+    myCanvas.drawRightString(w - 150, h-300, "Quantity")
+    myCanvas.line(50,h-310,w-50,h-310)
+
+    myCanvas.setStrokeColorRGB(0.749, 0.749, 0.749)
+    myCanvas.setFont('Helvetica', 12)
+    y = 330
+    i = 0
+    for persc in requestItem.data:
+        description1 = f"{persc.name} - {persc.form}"
+        description2 = f"{persc.dosage} {persc.fullForm}, {persc.times} time(s) daily, for {persc.days} day(s)"
+        quant = f"{persc.quantity}"
+        reps = f"{persc.repeats}"
+
+        myCanvas.drawString(50, h-y, f"{i+1}.")
+        myCanvas.drawString(60, h-y, description1)
+        myCanvas.drawRightString(w-75, h-y, reps)
+        myCanvas.drawRightString(w-175, h-y, quant)
+        y+=15
+        myCanvas.drawString(60, h-y, description2)
+        if(i<len(requestItem.data)-1):
+            y+=10
+            myCanvas.line(50,h-y,w-50,h-y)
+        y += 20
+        i+=1
+    myCanvas.setStrokeColorRGB(0,0,0)
+    myCanvas.line(50,h-y-10,w-50,h-y-10)
+
+
+    #Signature
+    y=750
+    myCanvas.drawImage(imageSig, 50, h-y,100,100)
+    myCanvas.line(50,h-y-10,200,h-y-10)
+    myCanvas.drawString(50, h-y-30, requestItem.docfname.upper())
+
+    #QR Verification
+    qrText = f"Perscription generated on {issueDate} by {requestItem.docfname} for {requestItem.fullName}.\nPowered by Mzansi Innovation Hub."
+    qrText = qrText.replace(" ","+")
+    
+    url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
+    response = requests.get(url)
+    image = ImageReader(io.BytesIO(response.content))
+    myCanvas.drawImage(image,w-150, h-y-10,100,100)
+
+    myCanvas.setFont('Helvetica-Bold', 15)
+    myCanvas.drawString(w-150,h-y-30,"Scan to verify")
+
+    myCanvas.save()
 
 def byteToMb(size):
     sizekb = size /1000
