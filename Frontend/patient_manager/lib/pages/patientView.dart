@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
-import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
@@ -67,75 +66,56 @@ class _PatientViewState extends State<PatientView> {
   Widget build(BuildContext context) {
     // loadImage();
     // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
-    return FutureBuilder(
-      future: fetchPatient(),
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Mihloadingcircle();
-        }
-        // Checking if future is resolved
-        else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            return Scaffold(
-              appBar: const MIHAppBar(barTitle: "Patient View"),
-              drawer: showDrawer(),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15.0),
-                  child: Column(
-                    children: [
-                      PatientDetails(
-                        selectedPatient: snapshot.data!,
-                        type: widget.arguments.type,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Wrap(
-                        spacing: 10.0,
-                        runSpacing: 10.0,
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 660,
-                            child: PatientNotes(
-                              patientAppId: snapshot.data!.app_id,
-                              selectedPatient: snapshot.data!,
-                              signedInUser: widget.arguments.signedInUser,
-                              business: widget.arguments.business,
-                              businessUser: widget.arguments.businessUser,
-                              type: widget.arguments.type,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 660,
-                            child: PatientFiles(
-                              patientIndex: snapshot.data!.idpatients,
-                              selectedPatient: snapshot.data!,
-                              signedInUser: widget.arguments.signedInUser,
-                              business: widget.arguments.business,
-                              businessUser: widget.arguments.businessUser,
-                              type: widget.arguments.type,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+    return Scaffold(
+      appBar: const MIHAppBar(barTitle: "Patient View"),
+      drawer: showDrawer(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          child: Column(
+            children: [
+              PatientDetails(
+                selectedPatient: widget.arguments.selectedPatient!,
+                type: widget.arguments.type,
               ),
-            );
-          }
-        }
-        return Center(
-          child: Text(
-            '${snapshot.error} occurred',
-            style: const TextStyle(fontSize: 18),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 660,
+                    child: PatientNotes(
+                      patientAppId: widget.arguments.selectedPatient!.app_id,
+                      selectedPatient: widget.arguments.selectedPatient!,
+                      signedInUser: widget.arguments.signedInUser,
+                      business: widget.arguments.business,
+                      businessUser: widget.arguments.businessUser,
+                      type: widget.arguments.type,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 660,
+                    child: PatientFiles(
+                      patientIndex:
+                          widget.arguments.selectedPatient!.idpatients,
+                      selectedPatient: widget.arguments.selectedPatient!,
+                      signedInUser: widget.arguments.signedInUser,
+                      business: widget.arguments.business,
+                      businessUser: widget.arguments.businessUser,
+                      type: widget.arguments.type,
+                    ),
+                  )
+                ],
+              )
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
