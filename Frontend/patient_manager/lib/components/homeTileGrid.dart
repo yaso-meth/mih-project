@@ -33,7 +33,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   late List<List<dynamic>> personalTileList = [];
   late List<List<dynamic>> businessTileList = [];
   late List<List<dynamic>> devTileList = [];
-  late Future<List<List<List<dynamic>>>> pbswitch;
+  late List<List<List<dynamic>>> pbswitch;
   late bool businessUserSwitch;
   int _selectedIndex = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
@@ -246,9 +246,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  Future<List<List<List<dynamic>>>> setApps(
-      List<List<dynamic>> personalTileList,
-      List<List<dynamic>> businessTileList) async {
+  List<List<List<dynamic>>> setApps(List<List<dynamic>> personalTileList,
+      List<List<dynamic>> businessTileList) {
     //print(widget.businessUser);
     if (widget.signedInUser.fname == "") {
       //print("New personal user");
@@ -344,85 +343,59 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         signedInUser: widget.signedInUser,
         //logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
       ),
-      body: FutureBuilder(
-        future: pbswitch,
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            var apps = snapshot.requireData;
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Switch\nProfile",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      Switch(
-                        value: businessUserSwitch,
-                        onChanged: (bool value) {
-                          setState(() {
-                            businessUserSwitch = value;
-                          });
-
-                          if (businessUserSwitch) {
-                            setState(() {
-                              _selectedIndex = 1;
-                            });
-                          } else {
-                            setState(() {
-                              _selectedIndex = 0;
-                            });
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  //print(businessUserSwitch);
+                  if (!businessUserSwitch) {
+                    setState(() {
+                      businessUserSwitch = true;
+                      _selectedIndex = 1;
+                    });
+                  } else {
+                    setState(() {
+                      businessUserSwitch = false;
+                      _selectedIndex = 0;
+                    });
+                  }
+                },
+                icon: const Icon(
+                  Icons.swap_horizontal_circle_outlined,
+                  size: 35,
                 ),
-                Text(
-                  getHeading(_selectedIndex),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 35.0,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                ),
-                Expanded(
-                  child: GridView.builder(
-                    padding: EdgeInsets.fromLTRB(
-                        width / 6,
-                        height / 35,
-                        width / 6,
-                        0), //EdgeInsets.symmetric(horizontal: width / 6),
-                    itemCount: apps[_selectedIndex].length,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200),
-                    //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                    itemBuilder: (context, index) {
-                      var tile = apps[_selectedIndex][index];
-                      //setState(() {});
-                      return buildtile(tile);
-                    },
-                  ),
-                ),
-              ],
-            );
-          }
-          return const Mihloadingcircle();
-        },
+              ),
+            ],
+          ),
+          Text(
+            getHeading(_selectedIndex),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 35.0,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.fromLTRB(width / 6, height / 35, width / 6,
+                  0), //EdgeInsets.symmetric(horizontal: width / 6),
+              itemCount: pbswitch[_selectedIndex].length,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200),
+              //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              itemBuilder: (context, index) {
+                var tile = pbswitch[_selectedIndex][index];
+                //setState(() {});
+                return buildtile(tile);
+              },
+            ),
+          ),
+        ],
       ),
+
       // bottomNavigationBar: Visibility(
       //   visible: isBusinessUser(widget.signedInUser),
       //   child: Padding(
