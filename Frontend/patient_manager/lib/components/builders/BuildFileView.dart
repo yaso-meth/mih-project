@@ -33,6 +33,12 @@ class _BuildFileViewState extends State<BuildFileView> {
   }
 
   @override
+  void dispose() {
+    pdfViewerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.sizeOf(context).width;
     // double height = MediaQuery.sizeOf(context).height;

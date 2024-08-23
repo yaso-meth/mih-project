@@ -103,6 +103,12 @@ class _MIHFileFieldState extends State<MIHFileField> {
   }
 
   @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     _focus.addListener(_onFocusChange);
     super.initState();

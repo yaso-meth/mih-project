@@ -618,6 +618,22 @@ class _PatientFilesState extends State<PatientFiles> {
   }
 
   @override
+  void dispose() {
+    startDateController.dispose();
+    endDateTextController.dispose();
+    retDateTextController.dispose();
+    selectedFileController.dispose();
+    medicineController.dispose();
+    quantityController.dispose();
+    dosageController.dispose();
+    timesDailyController.dispose();
+    noDaysController.dispose();
+    noRepeatsController.dispose();
+    outputController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     futueFiles = fetchFiles();
     //patientDetails = getPatientDetails() as Patient;

@@ -114,6 +114,12 @@ class _MIHPassFieldState extends State<MIHPassField> {
   }
 
   @override
+  void dispose() {
+    textFieldFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     textFieldFocusNode.addListener(_onFocusChange);
     super.initState();

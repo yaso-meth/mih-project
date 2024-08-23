@@ -338,6 +338,16 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   }
 
   @override
+  void dispose() {
+    dateController.dispose();
+    timeController.dispose();
+    idController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, index) {

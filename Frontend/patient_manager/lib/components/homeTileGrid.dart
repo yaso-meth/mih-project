@@ -37,36 +37,6 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   late Future<List<List<List<dynamic>>>> pbswitch;
   int _selectedIndex = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
-  // late Future<BusinessUser?> futureBusinessUser;
-  // late Future<Business?> futureBusiness;
-  // late BusinessUser? businessUser;
-  // late Business? business;
-
-  // Future<BusinessUser?> getBusinessUserDetails() async {
-  //   var response = await http
-  //       .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
-  //   if (response.statusCode == 200) {
-  //     String body = response.body;
-  //     var decodedData = jsonDecode(body);
-  //     BusinessUser business_User = BusinessUser.fromJson(decodedData);
-  //     return business_User;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  // Future<Business?> getBusinessDetails() async {
-  //   var response = await http.get(
-  //       Uri.parse("$baseAPI/business/app_id/${widget.signedInUser.app_id}"));
-  //   if (response.statusCode == 200) {
-  //     String body = response.body;
-  //     var decodedData = jsonDecode(body);
-  //     Business business = Business.fromJson(decodedData);
-  //     return business;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   void setAppsNewPersonal(List<List<dynamic>> tileList) {
     if (widget.signedInUser.fname == "") {
@@ -334,6 +304,12 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     } else {
       return true;
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

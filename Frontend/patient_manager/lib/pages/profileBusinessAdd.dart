@@ -198,6 +198,23 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    typeController.dispose();
+    regController.dispose();
+    logonameController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    titleController.dispose();
+    signtureController.dispose();
+    accessController.dispose();
+    contactController.dispose();
+    emailController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     setState(() {
       fnameController.text = widget.signedInUser.fname;

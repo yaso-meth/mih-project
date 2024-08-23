@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MIHButton extends StatelessWidget {
+class MIHButton extends StatefulWidget {
   final void Function() onTap;
   final String buttonText;
   final Color buttonColor;
@@ -15,21 +15,32 @@ class MIHButton extends StatelessWidget {
   });
 
   @override
+  State<MIHButton> createState() => _MIHButtonState();
+}
+
+class _MIHButtonState extends State<MIHButton> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onTap,
+      onPressed: widget.onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: buttonColor,
+        backgroundColor: widget.buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
       child: Text(
-        buttonText,
+        widget.buttonText,
         style: TextStyle(
           //fontWeight: FontWeight.bold,
           fontSize: 20,
-          color: textColor,
+          color: widget.textColor,
           fontWeight: FontWeight.bold,
         ),
       ),

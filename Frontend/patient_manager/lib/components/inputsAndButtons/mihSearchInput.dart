@@ -82,6 +82,12 @@ class _MIHSearchFieldState extends State<MIHSearchField> {
   }
 
   @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     _focus.addListener(_onFocusChange);
     super.initState();

@@ -537,6 +537,24 @@ class _EditPatientState extends State<EditPatient> {
   }
 
   @override
+  void dispose() {
+    idController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    cellController.dispose();
+    emailController.dispose();
+    medNoController.dispose();
+    medNameController.dispose();
+    medSchemeController.dispose();
+    addressController.dispose();
+    medAidController.dispose();
+    medMainMemController.dispose();
+    medAidCodeController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     getLoginUserEmail();
     medAidController.addListener(isRequired);

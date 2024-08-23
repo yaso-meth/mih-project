@@ -148,6 +148,12 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, index) {

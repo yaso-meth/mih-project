@@ -253,6 +253,15 @@ class _BuildNotesListState extends State<BuildNotesList> {
   }
 
   @override
+  void dispose() {
+    noteTextController.dispose();
+    businessNameController.dispose();
+    userNameController.dispose();
+    dateController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.notes.isNotEmpty) {
       return SizedBox(

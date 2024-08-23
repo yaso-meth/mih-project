@@ -273,6 +273,13 @@ class _PatientNotesState extends State<PatientNotes> {
   }
 
   @override
+  void dispose() {
+    titleController.dispose();
+    noteTextController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     futueNotes = fetchNotes(endpoint + widget.patientAppId);
     super.initState();

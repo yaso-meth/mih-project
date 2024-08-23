@@ -47,6 +47,12 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     //signedInUser = getUserDetails();
     super.initState();

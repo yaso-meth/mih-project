@@ -215,6 +215,23 @@ class _PatientDetailsState extends State<PatientDetails> {
   }
 
   @override
+  void dispose() {
+    idController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    cellController.dispose();
+    emailController.dispose();
+    medNameController.dispose();
+    medNoController.dispose();
+    medSchemeController.dispose();
+    addressController.dispose();
+    medAidController.dispose();
+    medMainMemController.dispose();
+    medAidCodeController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     setState(() {
       idController.value = TextEditingValue(text: widget.selectedPatient.id_no);

@@ -22,6 +22,12 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
   int indexOn = 0;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {

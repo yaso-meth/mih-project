@@ -782,19 +782,11 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
     return messageTypes[type];
   }
 
-  // void initialiseSizes() {
-
-  // }
-
-  // @override
-  // void initState() {
-  //   size = MediaQuery.of(context).size;
-  //   setInputError();
-  //   setinvalidCredError();
-  //   setInternetError();
-  //   //initialiseSizes();
-  //   super.initState();
-  // }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

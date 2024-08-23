@@ -245,6 +245,12 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
   }
 
   @override
+  void dispose() {
+    filterController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     selectedDropdown = "All";
     filterController.text = "All";

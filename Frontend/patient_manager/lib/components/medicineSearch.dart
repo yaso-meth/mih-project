@@ -53,6 +53,12 @@ class _MedicineSearchState extends State<MedicineSearch> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     futueMeds = getMedList(endpointMeds + widget.searchVlaue.text);
     super.initState();

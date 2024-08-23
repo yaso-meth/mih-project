@@ -29,6 +29,12 @@ class _HomeTileState extends State<HomeTile> {
   late Color secondC;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     mainC = widget.p;
     secondC = widget.s;

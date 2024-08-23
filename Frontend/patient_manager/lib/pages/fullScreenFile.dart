@@ -39,6 +39,12 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
   }
 
   @override
+  void dispose() {
+    pdfViewerController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     pdfViewerController.addListener(onPageSelect);
     super.initState();

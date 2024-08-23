@@ -89,6 +89,12 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
   }
 
   @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     menu = buidMenueOptions(widget.dropdownOptions);
     _focus.addListener(_onFocusChange);

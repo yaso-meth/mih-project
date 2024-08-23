@@ -94,6 +94,12 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     message = widget.successMessage;
     setSuccessmessage();

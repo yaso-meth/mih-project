@@ -49,6 +49,12 @@ class _PatientViewState extends State<PatientView> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // loadImage();
     // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();

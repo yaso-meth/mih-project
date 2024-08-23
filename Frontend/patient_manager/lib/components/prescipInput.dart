@@ -547,6 +547,12 @@ class _PrescripInputState extends State<PrescripInput> {
   }
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     //futueMeds = getMedList(endpointMeds);
     super.initState();

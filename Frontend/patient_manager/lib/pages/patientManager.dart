@@ -429,6 +429,13 @@ class _PatientManagerState extends State<PatientManager> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    queueDateController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     patientSearchResults = fetchPatients("abc");
     queueDateController.addListener(checkforchange);

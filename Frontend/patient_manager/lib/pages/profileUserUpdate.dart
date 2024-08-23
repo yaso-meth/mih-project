@@ -143,6 +143,15 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   @override
+  void dispose() {
+    usernameController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     setState(() {
       fnameController.text = widget.signedInUser.fname;
