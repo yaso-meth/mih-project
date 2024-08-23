@@ -5,6 +5,7 @@ import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/components/homeTileGrid.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -22,6 +23,53 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String useremail = "";
   final baseAPI = AppEnviroment.baseApiUrl;
+  late Future<BusinessArguments> profile;
+
+  Future<BusinessArguments> getProfile() async {
+    AppUser userData;
+    Business? busData;
+    BusinessUser? bUserData;
+
+    // Get Userdata
+    var uid = await SuperTokens.getUserId();
+    var responseUser = await http.get(Uri.parse("$baseAPI/user/$uid"));
+    if (responseUser.statusCode == 200) {
+      // print("here");
+      String body = responseUser.body;
+      var decodedData = jsonDecode(body);
+      AppUser u = AppUser.fromJson(decodedData);
+      userData = u;
+    } else {
+      throw Exception(
+          "Error: GetUserData status code ${responseUser.statusCode}");
+    }
+
+    // Get BusinessUserdata
+    var responseBUser =
+        await http.get(Uri.parse("$baseAPI/business-user/$uid"));
+    if (responseBUser.statusCode == 200) {
+      String body = responseBUser.body;
+      var decodedData = jsonDecode(body);
+      BusinessUser business_User = BusinessUser.fromJson(decodedData);
+      bUserData = business_User;
+    } else {
+      bUserData = null;
+    }
+
+    // Get Businessdata
+    var responseBusiness =
+        await http.get(Uri.parse("$baseAPI/business/app_id/$uid"));
+    if (responseBusiness.statusCode == 200) {
+      String body = responseBusiness.body;
+      var decodedData = jsonDecode(body);
+      Business business = Business.fromJson(decodedData);
+      busData = business;
+    } else {
+      busData = null;
+    }
+
+    return BusinessArguments(userData, bUserData, busData);
+  }
 
   Future<AppUser> getUserDetails() async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
@@ -79,21 +127,21 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    profile = getProfile();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait(
-          [getUserDetails(), getBusinessUserDetails(), getBusinessDetails()]),
+      future: profile,
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return HomeTileGrid(
-              signedInUser: snapshot.requireData[0] as AppUser,
-              businessUser: snapshot.data![1] as BusinessUser?,
-              business: snapshot.data![2] as Business?,
+              signedInUser: snapshot.requireData.signedInUser,
+              businessUser: snapshot.data!.businessUser,
+              business: snapshot.data!.business,
             );
           } else {
             return Center(
