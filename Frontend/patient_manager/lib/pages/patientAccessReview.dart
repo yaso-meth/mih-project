@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/components/builders/buildAccessRequestList.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
+import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -267,6 +268,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Access Reviews"),
+      drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: viewAccessRequest(screenWidth, screenHeight),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
@@ -48,6 +49,14 @@ class _PatientViewState extends State<PatientView> {
     return null;
   }
 
+  Widget? showDrawer() {
+    if (widget.arguments.business == null) {
+      return MIHAppDrawer(signedInUser: widget.arguments.signedInUser);
+    } else {
+      return null;
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -69,10 +78,7 @@ class _PatientViewState extends State<PatientView> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: const MIHAppBar(barTitle: "Patient View"),
-              // drawer: MIHAppDrawer(
-              //   signedInUser: widget.arguments.signedInUser,
-              //   logo: MzanziInnovationHub.of(context)!.theme.logoImage(),
-              // ),
+              drawer: showDrawer(),
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
