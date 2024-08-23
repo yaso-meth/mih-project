@@ -329,7 +329,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
+      appBar: const MIHAppBar(barTitle: "Mzansi Innovation\nHub"),
       drawer: MIHAppDrawer(
         signedInUser: widget.signedInUser,
       ),

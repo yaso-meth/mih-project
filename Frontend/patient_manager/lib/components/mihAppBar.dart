@@ -39,6 +39,7 @@ class _MIHAppBarState extends State<MIHAppBar> {
       ],
       title: Text(
         widget.barTitle,
+        textAlign: TextAlign.center,
       ),
       centerTitle: true,
     );
