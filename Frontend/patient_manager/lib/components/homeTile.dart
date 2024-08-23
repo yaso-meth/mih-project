@@ -105,22 +105,22 @@ class _HomeTileState extends State<HomeTile> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          GestureDetector(
+          InkWell(
             onTap: widget.onTap,
-            onTapDown: (_) {
-              setState(() {
-                mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-                secondC =
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor();
-              });
-            },
-            onTapUp: (_) {
-              setState(() {
-                mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
-                secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-              });
-            },
-            child: Container(
+            // onTapDown: (_) {
+            //   setState(() {
+            //     mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
+            //     secondC =
+            //         MzanziInnovationHub.of(context)!.theme.secondaryColor();
+            //   });
+            // },
+            // onTapUp: (_) {
+            //   setState(() {
+            //     mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+            //     secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
+            //   });
+            // },
+            child: Ink(
               padding: const EdgeInsets.all(3.0),
               decoration: BoxDecoration(
                 color: mainC,
