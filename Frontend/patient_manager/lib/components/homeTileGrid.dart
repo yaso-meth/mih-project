@@ -328,20 +328,10 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    double width = size.width;
-    double height = size.height;
-
-    // return FutureBuilder(
-    //   future: getBusinessDetails(),
-    //   builder: (BuildContext context, AsyncSnapshot<Business?> snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.done &&
-    //         pbswitch.isNotEmpty) {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Mzansi Innovation Hub"),
       drawer: MIHAppDrawer(
         signedInUser: widget.signedInUser,
-        //logo: MzanziInnovationHub.of(context)!.theme.logoImage(), //logo,
       ),
       body: Column(
         children: [
@@ -349,7 +339,6 @@ class _HomeTileGridState extends State<HomeTileGrid> {
             children: [
               IconButton(
                 onPressed: () {
-                  //print(businessUserSwitch);
                   if (!businessUserSwitch) {
                     setState(() {
                       businessUserSwitch = true;
@@ -378,10 +367,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.fromLTRB(width / 6, height / 35, width / 6,
-                  0), //EdgeInsets.symmetric(horizontal: width / 6),
               itemCount: pbswitch[_selectedIndex].length,
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200),
