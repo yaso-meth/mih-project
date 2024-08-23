@@ -26,6 +26,17 @@ class _MIHAppBarState extends State<MIHAppBar> {
     return AppBar(
       elevation: 8,
       shadowColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.home,
+            size: 40,
+          ),
+          onPressed: () {
+            Navigator.popAndPushNamed(context, '/home');
+          },
+        )
+      ],
       title: Text(
         widget.barTitle,
       ),
