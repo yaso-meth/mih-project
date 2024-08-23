@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
@@ -35,6 +34,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   late List<List<dynamic>> businessTileList = [];
   late List<List<dynamic>> devTileList = [];
   late Future<List<List<List<dynamic>>>> pbswitch;
+  late bool businessUserSwitch;
   int _selectedIndex = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
 
@@ -306,6 +306,14 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
+  String getHeading(int index) {
+    if (index == 0) {
+      return "Personal Apps";
+    } else {
+      return "Business Apps";
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -315,6 +323,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   @override
   void initState() {
     pbswitch = setApps(personalTileList, businessTileList);
+    businessUserSwitch = false;
     super.initState();
   }
 
@@ -340,64 +349,117 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var apps = snapshot.requireData;
-            return SizedBox(
-              width: width,
-              height: height,
-              child: GridView.builder(
-                padding: EdgeInsets.fromLTRB(width / 6, height / 16, width / 6,
-                    0), //EdgeInsets.symmetric(horizontal: width / 6),
-                itemCount: apps[_selectedIndex].length,
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200),
-                //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                itemBuilder: (context, index) {
-                  var tile = apps[_selectedIndex][index];
-                  //setState(() {});
-                  return buildtile(tile);
-                },
-              ),
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Switch\nProfile",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.0,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      Switch(
+                        value: businessUserSwitch,
+                        onChanged: (bool value) {
+                          setState(() {
+                            businessUserSwitch = value;
+                          });
+
+                          if (businessUserSwitch) {
+                            setState(() {
+                              _selectedIndex = 1;
+                            });
+                          } else {
+                            setState(() {
+                              _selectedIndex = 0;
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  getHeading(_selectedIndex),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 35.0,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.fromLTRB(
+                        width / 6,
+                        height / 35,
+                        width / 6,
+                        0), //EdgeInsets.symmetric(horizontal: width / 6),
+                    itemCount: apps[_selectedIndex].length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200),
+                    //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      var tile = apps[_selectedIndex][index];
+                      //setState(() {});
+                      return buildtile(tile);
+                    },
+                  ),
+                ),
+              ],
             );
           }
           return const Mihloadingcircle();
         },
       ),
-      bottomNavigationBar: Visibility(
-        visible: isBusinessUser(widget.signedInUser),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: GNav(
-            //hoverColor: Colors.lightBlueAccent,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            iconSize: 35.0,
-            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            tabBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            //gap: 20,
-            //padding: EdgeInsets.all(15),
-            tabs: [
-              GButton(
-                icon: Icons.perm_identity,
-                text: "Personal",
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
-                },
-              ),
-              GButton(
-                icon: Icons.business_center,
-                text: "Business",
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
-                },
-              ),
-            ],
-            selectedIndex: _selectedIndex,
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Visibility(
+      //   visible: isBusinessUser(widget.signedInUser),
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(15.0),
+      //     child: GNav(
+      //       //hoverColor: Colors.lightBlueAccent,
+      //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //       iconSize: 35.0,
+      //       activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //       tabBackgroundColor:
+      //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //       //gap: 20,
+      //       //padding: EdgeInsets.all(15),
+      //       tabs: [
+      //         GButton(
+      //           icon: Icons.perm_identity,
+      //           text: "Personal",
+      //           onPressed: () {
+      //             setState(() {
+      //               _selectedIndex = 0;
+      //             });
+      //           },
+      //         ),
+      //         GButton(
+      //           icon: Icons.business_center,
+      //           text: "Business",
+      //           onPressed: () {
+      //             setState(() {
+      //               _selectedIndex = 1;
+      //             });
+      //           },
+      //         ),
+      //       ],
+      //       selectedIndex: _selectedIndex,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
