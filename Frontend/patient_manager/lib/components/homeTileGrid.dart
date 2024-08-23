@@ -46,7 +46,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           "Setup Profie",
           () {
             Navigator.of(context)
-                .pushNamed('/profile', arguments: widget.signedInUser);
+                .popAndPushNamed('/profile', arguments: widget.signedInUser);
             // Navigator.popAndPushNamed(context, '/patient-manager',
             //     arguments: widget.userEmail);
           }
@@ -61,7 +61,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.add_business_outlined,
         "Setup Business",
         () {
-          Navigator.of(context).pushNamed(
+          Navigator.of(context).popAndPushNamed(
             '/business/add',
             arguments: widget.signedInUser,
           );
@@ -77,7 +77,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         "Patient Profile",
         () {
           //comeback here
-          Navigator.of(context).pushNamed('/patient-profile',
+          Navigator.of(context).popAndPushNamed('/patient-profile',
               arguments: PatientViewArguments(
                   widget.signedInUser, null, null, null, "personal"));
           // Navigator.popAndPushNamed(context, '/patient-manager',
@@ -90,7 +90,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.check_box_outlined,
         "Access Review",
         () {
-          Navigator.of(context).pushNamed(
+          Navigator.of(context).popAndPushNamed(
             '/patient-access-review',
             arguments: widget.signedInUser,
           );
@@ -108,7 +108,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           Icons.business,
           "Business Profile",
           () {
-            Navigator.of(context).pushNamed(
+            Navigator.of(context).popAndPushNamed(
               '/business-profile',
               arguments: BusinessArguments(
                 widget.signedInUser,
@@ -128,7 +128,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           Icons.medication,
           "Manage Patient",
           () {
-            Navigator.of(context).pushNamed(
+            Navigator.of(context).popAndPushNamed(
               '/patient-manager',
               arguments: BusinessArguments(
                 widget.signedInUser,
@@ -165,7 +165,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           Icons.add_business_outlined,
           "Setup Bus - Dev",
           () {
-            Navigator.of(context).pushNamed(
+            Navigator.of(context).popAndPushNamed(
               '/business/add',
               arguments: widget.signedInUser,
             );
@@ -176,7 +176,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         Icons.add_circle_outline,
         "Add Pat - Dev",
         () {
-          Navigator.of(context).pushNamed('/patient-manager/add',
+          Navigator.of(context).popAndPushNamed('/patient-manager/add',
               arguments: widget.signedInUser);
         }
       ]);
@@ -186,7 +186,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           "Upd Prof - Dev",
           () {
             Navigator.of(context)
-                .pushNamed('/profile', arguments: widget.signedInUser);
+                .popAndPushNamed('/profile', arguments: widget.signedInUser);
             // Navigator.popAndPushNamed(context, '/patient-manager',
             //     arguments: widget.userEmail);
           }
@@ -340,7 +340,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var apps = snapshot.requireData;
-            return Container(
+            return SizedBox(
               width: width,
               height: height,
               child: GridView.builder(
