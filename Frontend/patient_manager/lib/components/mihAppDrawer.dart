@@ -138,7 +138,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 ],
               ),
               onTap: () {
-                //Navigator.of(context).pushNamed('/home');
                 Navigator.popAndPushNamed(context, '/home');
               },
             ),
