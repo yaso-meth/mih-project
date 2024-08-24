@@ -24,6 +24,7 @@ class PatientView extends StatefulWidget {
 }
 
 class _PatientViewState extends State<PatientView> {
+  int _selectedIndex = 0;
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
     var patientAppId = widget.arguments.selectedPatient!.app_id;
@@ -56,6 +57,33 @@ class _PatientViewState extends State<PatientView> {
     }
   }
 
+  Widget showSelection(int index) {
+    if (index == 0) {
+      return PatientDetails(
+        selectedPatient: widget.arguments.selectedPatient!,
+        type: widget.arguments.type,
+      );
+    } else if (index == 1) {
+      return PatientNotes(
+        patientAppId: widget.arguments.selectedPatient!.app_id,
+        selectedPatient: widget.arguments.selectedPatient!,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
+      );
+    } else {
+      return PatientFiles(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
+      );
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -74,44 +102,49 @@ class _PatientViewState extends State<PatientView> {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
           child: Column(
             children: [
-              PatientDetails(
-                selectedPatient: widget.arguments.selectedPatient!,
-                type: widget.arguments.type,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.perm_identity,
+                      size: 35,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.text_fields,
+                      size: 35,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 2;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.edit_document,
+                      size: 35,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10.0,
               ),
-              Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 660,
-                    child: PatientNotes(
-                      patientAppId: widget.arguments.selectedPatient!.app_id,
-                      selectedPatient: widget.arguments.selectedPatient!,
-                      signedInUser: widget.arguments.signedInUser,
-                      business: widget.arguments.business,
-                      businessUser: widget.arguments.businessUser,
-                      type: widget.arguments.type,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 660,
-                    child: PatientFiles(
-                      patientIndex:
-                          widget.arguments.selectedPatient!.idpatients,
-                      selectedPatient: widget.arguments.selectedPatient!,
-                      signedInUser: widget.arguments.signedInUser,
-                      business: widget.arguments.business,
-                      businessUser: widget.arguments.businessUser,
-                      type: widget.arguments.type,
-                    ),
-                  )
-                ],
-              )
+              showSelection(_selectedIndex)
             ],
           ),
         ),
