@@ -181,7 +181,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     if (widget.type == "personal") {
       return [
         Text(
-          "Patient Details",
+          "Personal Details",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 25,
