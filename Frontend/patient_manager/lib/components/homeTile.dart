@@ -100,50 +100,53 @@ class _HomeTileState extends State<HomeTile> {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: widget.onTap,
-            // onTapDown: (_) {
-            //   setState(() {
-            //     mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-            //     secondC =
-            //         MzanziInnovationHub.of(context)!.theme.secondaryColor();
-            //   });
-            // },
-            // onTapUp: (_) {
-            //   setState(() {
-            //     mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
-            //     secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-            //   });
-            // },
-            child: Ink(
-              padding: const EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                color: mainC,
-                borderRadius: BorderRadius.circular(10.0),
-                //border: Border.all(color: MzanziInnovationHub.of(context)!.theme.secondaryColor(), width: 1.0),
-              ),
-              child: Icon(
-                widget.tileIcon,
-                color: secondC,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: FittedBox(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: widget.onTap,
+              // onTapDown: (_) {
+              //   setState(() {
+              //     mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
+              //     secondC =
+              //         MzanziInnovationHub.of(context)!.theme.secondaryColor();
+              //   });
+              // },
+              // onTapUp: (_) {
+              //   setState(() {
+              //     mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+              //     secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
+              //   });
+              // },
+              child: Ink(
+                padding: const EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  color: mainC,
+                  borderRadius: BorderRadius.circular(10.0),
+                  //border: Border.all(color: MzanziInnovationHub.of(context)!.theme.secondaryColor(), width: 1.0),
+                ),
+                child: Icon(
+                  widget.tileIcon,
+                  color: secondC,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 1),
-          Text(
-            widget.tileName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              fontSize: 5.0,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
+            const SizedBox(height: 1),
+            Text(
+              widget.tileName,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                fontSize: 5.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ],
+        ),
       ),
     );
     // child: Card(
