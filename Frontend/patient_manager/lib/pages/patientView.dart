@@ -95,7 +95,7 @@ class _PatientViewState extends State<PatientView> {
     // loadImage();
     // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Patient View"),
+      appBar: const MIHAppBar(barTitle: "Patient Profile"),
       drawer: showDrawer(),
       body: SingleChildScrollView(
         child: Padding(
@@ -135,7 +135,7 @@ class _PatientViewState extends State<PatientView> {
                       });
                     },
                     icon: const Icon(
-                      Icons.edit_document,
+                      Icons.file_copy,
                       size: 35,
                     ),
                   ),
@@ -144,7 +144,7 @@ class _PatientViewState extends State<PatientView> {
               const SizedBox(
                 height: 10.0,
               ),
-              showSelection(_selectedIndex)
+              showSelection(_selectedIndex),
             ],
           ),
         ),
