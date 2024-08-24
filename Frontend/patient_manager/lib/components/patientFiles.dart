@@ -557,7 +557,7 @@ class _PatientFilesState extends State<PatientFiles> {
     if (widget.type == "personal") {
       return [
         Text(
-          "Files",
+          "Documents",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 25,
@@ -578,7 +578,7 @@ class _PatientFilesState extends State<PatientFiles> {
     } else {
       return [
         Text(
-          "Files",
+          "Documents",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 25,
