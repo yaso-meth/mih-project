@@ -312,30 +312,33 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ),
       body: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {
-                  if (!businessUserSwitch) {
-                    setState(() {
-                      businessUserSwitch = true;
-                      _selectedIndex = 1;
-                    });
-                  } else {
-                    setState(() {
-                      businessUserSwitch = false;
-                      _selectedIndex = 0;
-                    });
-                  }
-                },
-                icon: const Icon(
-                  Icons.swap_horizontal_circle_outlined,
-                  size: 35,
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, right: 15.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    if (!businessUserSwitch) {
+                      setState(() {
+                        businessUserSwitch = true;
+                        _selectedIndex = 1;
+                      });
+                    } else {
+                      setState(() {
+                        businessUserSwitch = false;
+                        _selectedIndex = 0;
+                      });
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.swap_horizontal_circle_outlined,
+                    size: 35,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Text(
             getHeading(_selectedIndex),
