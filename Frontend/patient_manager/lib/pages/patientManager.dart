@@ -47,6 +47,7 @@ class _PatientManagerState extends State<PatientManager> {
   var formatter = DateFormat('yyyy-MM-dd');
   late String formattedDate;
   bool start = true;
+  int _selectedIndex = 0;
 
   late Future<List<Patient>> patientSearchResults;
   late Future<List<PatientQueue>> patientQueueResults;
@@ -429,6 +430,20 @@ class _PatientManagerState extends State<PatientManager> {
     }
   }
 
+  Widget showSelection(int index, double screenWidth, double screenHeight) {
+    if (index == 0) {
+      return SizedBox(
+        width: 660,
+        child: patientQueue(screenWidth, screenHeight),
+      );
+    } else {
+      return SizedBox(
+        width: 660,
+        child: patientSearch(screenWidth, screenHeight),
+      );
+    }
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -474,30 +489,42 @@ class _PatientManagerState extends State<PatientManager> {
       //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       //   ),
       // ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: Wrap(
-              spacing: 10.0,
-              runSpacing: 10.0,
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
-                  width: 660,
-                  child: patientQueue(screenWidth, screenHeight),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.people,
+                    size: 35,
+                  ),
                 ),
-                SizedBox(
-                  width: 660,
-                  child: patientSearch(screenWidth, screenHeight),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedIndex = 1;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                    size: 35,
+                  ),
                 ),
               ],
             ),
-          ),
+            showSelection(_selectedIndex, screenWidth, screenHeight),
+          ],
         ),
       ),
     );
