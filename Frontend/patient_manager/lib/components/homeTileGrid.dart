@@ -30,196 +30,346 @@ class HomeTileGrid extends StatefulWidget {
 }
 
 class _HomeTileGridState extends State<HomeTileGrid> {
-  late List<List<dynamic>> personalTileList = [];
-  late List<List<dynamic>> businessTileList = [];
-  late List<List<dynamic>> devTileList = [];
-  late List<List<List<dynamic>>> pbswitch;
+  late List<HomeTile> persHTList = [];
+  late List<HomeTile> busHTList = [];
+  late List<List<HomeTile>> pbswitch;
   late bool businessUserSwitch;
   int _selectedIndex = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  void setAppsNewPersonal(List<List<dynamic>> tileList) {
+  void setAppsNewPersonal(List<HomeTile> tileList) {
     if (widget.signedInUser.fname == "") {
-      tileList.add(
-        [
-          Icons.perm_identity,
-          "Setup Profie",
-          () {
-            Navigator.of(context)
-                .popAndPushNamed('/profile', arguments: widget.signedInUser);
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
+      tileList.add(HomeTile(
+        onTap: () {
+          Navigator.of(context)
+              .popAndPushNamed('/profile', arguments: widget.signedInUser);
+        },
+        tileName: "Setup Profie",
+        tileIcon: Icons.perm_identity,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add(
+      //   [
+      //     home
+      //     Icons.perm_identity,
+      //     "Setup Profie",
+      //     () {
+      //       Navigator.of(context)
+      //           .popAndPushNamed('/profile', arguments: widget.signedInUser);
+      //       // Navigator.popAndPushNamed(context, '/patient-manager',
+      //       //     arguments: widget.userEmail);
+      //     }
+      //   ],
+      // );
     }
   }
 
-  void setAppsNewBusiness(List<List<dynamic>> tileList) {
-    tileList.add(
-      [
-        Icons.add_business_outlined,
-        "Setup Business",
-        () {
+  void setAppsNewBusiness(List<HomeTile> tileList) {
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context).popAndPushNamed(
+          '/business/add',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Setup Business",
+      tileIcon: Icons.add_business_outlined,
+      p: getPrim(),
+      s: getSec(),
+    ));
+    // tileList.add(
+    //   [
+    //     Icons.add_business_outlined,
+    //     "Setup Business",
+    //     () {
+    //       Navigator.of(context).popAndPushNamed(
+    //         '/business/add',
+    //         arguments: widget.signedInUser,
+    //       );
+    //     }
+    //   ],
+    // );
+  }
+
+  void setAppsPersonal(List<HomeTile> tileList) {
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context).popAndPushNamed('/patient-profile',
+            arguments: PatientViewArguments(
+                widget.signedInUser, null, null, null, "personal"));
+      },
+      tileName: "Patient Profile",
+      tileIcon: Icons.medication,
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context).popAndPushNamed(
+          '/patient-access-review',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Access Review",
+      tileIcon: Icons.check_box_outlined,
+      p: getPrim(),
+      s: getSec(),
+    ));
+    // tileList.add(
+    //   [
+    //     Icons.medication,
+    //     "Patient Profile",
+    //     () {
+    //       //comeback here
+    //       Navigator.of(context).popAndPushNamed('/patient-profile',
+    //           arguments: PatientViewArguments(
+    //               widget.signedInUser, null, null, null, "personal"));
+    //       // Navigator.popAndPushNamed(context, '/patient-manager',
+    //       //     arguments: widget.userEmail);
+    //     }
+    //   ],
+    // );
+    // tileList.add(
+    //   [
+    //     Icons.check_box_outlined,
+    //     "Access Review",
+    //     () {
+    //       Navigator.of(context).popAndPushNamed(
+    //         '/patient-access-review',
+    //         arguments: widget.signedInUser,
+    //       );
+    //       // Navigator.popAndPushNamed(context, '/patient-manager',
+    //       //     arguments: widget.userEmail);
+    //     }
+    //   ],
+    // );
+  }
+
+  void setAppsBusiness(List<HomeTile> tileList) {
+    if (widget.businessUser!.access == "Full") {
+      tileList.add(HomeTile(
+        onTap: () {
+          Navigator.of(context).popAndPushNamed(
+            '/business-profile',
+            arguments: BusinessArguments(
+              widget.signedInUser,
+              widget.businessUser,
+              widget.business,
+            ),
+          );
+        },
+        tileName: "Business Profile",
+        tileIcon: Icons.business,
+        p: getPrim(),
+        s: getSec(),
+      ));
+
+      // tileList.add(
+      //   [
+      //     Icons.business,
+      //     "Business Profile",
+      //     () {
+      //       Navigator.of(context).popAndPushNamed(
+      //         '/business-profile',
+      //         arguments: BusinessArguments(
+      //           widget.signedInUser,
+      //           widget.businessUser,
+      //           widget.business,
+      //         ),
+      //       );
+      //       // Navigator.popAndPushNamed(context, '/patient-manager',
+      //       //     arguments: widget.userEmail);
+      //     }
+      //   ],
+      // );
+    }
+    if (widget.business!.type == "Doctors Office") {
+      tileList.add(HomeTile(
+        onTap: () {
+          Navigator.of(context).popAndPushNamed(
+            '/patient-manager',
+            arguments: BusinessArguments(
+              widget.signedInUser,
+              widget.businessUser,
+              widget.business,
+            ),
+          );
+        },
+        tileName: "Manage Patient",
+        tileIcon: Icons.medication,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add(
+      //   [
+      //     Icons.medication,
+      //     "Manage Patient",
+      //     () {
+      //       Navigator.of(context).popAndPushNamed(
+      //         '/patient-manager',
+      //         arguments: BusinessArguments(
+      //           widget.signedInUser,
+      //           widget.businessUser,
+      //           widget.business,
+      //         ),
+      //       );
+      //       // Navigator.popAndPushNamed(context, '/patient-manager',
+      //       //     arguments: widget.userEmail);
+      //     }
+      //   ],
+      // );
+    }
+  }
+
+  void setAppsDev(List<HomeTile> tileList) {
+    if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(HomeTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Mihloadingcircle();
+            },
+          );
+        },
+        tileName: "Loading - Dev",
+        tileIcon: Icons.change_circle,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add(
+      //   [
+      //     Icons.change_circle,
+      //     "Loading - Dev",
+      //     () {
+      //       showDialog(
+      //         context: context,
+      //         builder: (context) {
+      //           return const Mihloadingcircle();
+      //         },
+      //       );
+      //     }
+      //   ],
+      // );
+      tileList.add(HomeTile(
+        onTap: () {
           Navigator.of(context).popAndPushNamed(
             '/business/add',
             arguments: widget.signedInUser,
           );
-        }
-      ],
-    );
-  }
-
-  void setAppsPersonal(List<List<dynamic>> tileList) {
-    tileList.add(
-      [
-        Icons.medication,
-        "Patient Profile",
-        () {
-          //comeback here
-          Navigator.of(context).popAndPushNamed('/patient-profile',
-              arguments: PatientViewArguments(
-                  widget.signedInUser, null, null, null, "personal"));
-          // Navigator.popAndPushNamed(context, '/patient-manager',
-          //     arguments: widget.userEmail);
-        }
-      ],
-    );
-    tileList.add(
-      [
-        Icons.check_box_outlined,
-        "Access Review",
-        () {
-          Navigator.of(context).popAndPushNamed(
-            '/patient-access-review',
-            arguments: widget.signedInUser,
-          );
-          // Navigator.popAndPushNamed(context, '/patient-manager',
-          //     arguments: widget.userEmail);
-        }
-      ],
-    );
-  }
-
-  void setAppsBusiness(List<List<dynamic>> tileList) {
-    if (widget.businessUser!.access == "Full") {
-      tileList.add(
-        [
-          Icons.business,
-          "Business Profile",
-          () {
-            Navigator.of(context).popAndPushNamed(
-              '/business-profile',
-              arguments: BusinessArguments(
-                widget.signedInUser,
-                widget.businessUser,
-                widget.business,
-              ),
-            );
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
-    }
-    if (widget.business!.type == "Doctors Office") {
-      tileList.add(
-        [
-          Icons.medication,
-          "Manage Patient",
-          () {
-            Navigator.of(context).popAndPushNamed(
-              '/patient-manager',
-              arguments: BusinessArguments(
-                widget.signedInUser,
-                widget.businessUser,
-                widget.business,
-              ),
-            );
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
-    }
-  }
-
-  void setAppsDev(List<List<dynamic>> tileList) {
-    if (AppEnviroment.getEnv() == "Dev") {
-      tileList.add(
-        [
-          Icons.change_circle,
-          "Loading - Dev",
-          () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const Mihloadingcircle();
-              },
-            );
-          }
-        ],
-      );
-      tileList.add(
-        [
-          Icons.add_business_outlined,
-          "Setup Bus - Dev",
-          () {
-            Navigator.of(context).popAndPushNamed(
-              '/business/add',
-              arguments: widget.signedInUser,
-            );
-          }
-        ],
-      );
-      tileList.add([
-        Icons.add_circle_outline,
-        "Add Pat - Dev",
-        () {
+        },
+        tileName: "Setup Bus - Dev",
+        tileIcon: Icons.add_business_outlined,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add(
+      //   [
+      //     Icons.add_business_outlined,
+      //     "Setup Bus - Dev",
+      //     () {
+      //       Navigator.of(context).popAndPushNamed(
+      //         '/business/add',
+      //         arguments: widget.signedInUser,
+      //       );
+      //     }
+      //   ],
+      // );
+      tileList.add(HomeTile(
+        onTap: () {
           Navigator.of(context).popAndPushNamed('/patient-manager/add',
               arguments: widget.signedInUser);
-        }
-      ]);
-      tileList.add(
-        [
-          Icons.perm_identity,
-          "Upd Prof - Dev",
-          () {
-            Navigator.of(context)
-                .popAndPushNamed('/profile', arguments: widget.signedInUser);
-            // Navigator.popAndPushNamed(context, '/patient-manager',
-            //     arguments: widget.userEmail);
-          }
-        ],
-      );
-      tileList.add([
-        Icons.warning_amber_rounded,
-        "Warn - Dev",
-        () {
+        },
+        tileName: "Add Pat - Dev",
+        tileIcon: Icons.add_circle_outline,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add([
+      //   Icons.add_circle_outline,
+      //   "Add Pat - Dev",
+      //   () {
+      //     Navigator.of(context).popAndPushNamed('/patient-manager/add',
+      //         arguments: widget.signedInUser);
+      //   }
+      // ]);
+      tileList.add(HomeTile(
+        onTap: () {
+          Navigator.of(context)
+              .popAndPushNamed('/profile', arguments: widget.signedInUser);
+        },
+        tileName: "Upd Prof - Dev",
+        tileIcon: Icons.perm_identity,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add(
+      //   [
+      //     Icons.perm_identity,
+      //     "Upd Prof - Dev",
+      //     () {
+      //       Navigator.of(context)
+      //           .popAndPushNamed('/profile', arguments: widget.signedInUser);
+      //       // Navigator.popAndPushNamed(context, '/patient-manager',
+      //       //     arguments: widget.userEmail);
+      //     }
+      //   ],
+      // );
+      tileList.add(HomeTile(
+        onTap: () {
           showDialog(
             context: context,
             builder: (context) {
               return const MIHWarningMessage(warningType: "No Access");
             },
           );
-        }
-      ]);
-      tileList.add([
-        Icons.error_outline_outlined,
-        "Error - Dev",
-        () {
+        },
+        tileName: "Warn - Dev",
+        tileIcon: Icons.warning_amber_rounded,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add([
+      //   Icons.warning_amber_rounded,
+      //   "Warn - Dev",
+      //   () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return const MIHWarningMessage(warningType: "No Access");
+      //       },
+      //     );
+      //   }
+      // ]);
+      tileList.add(HomeTile(
+        onTap: () {
           showDialog(
             context: context,
             builder: (context) {
               return const MIHErrorMessage(errorType: "Invalid Username");
             },
           );
-        }
-      ]);
-      tileList.add([
-        Icons.check_circle_outline_outlined,
-        "Success - Dev",
-        () {
+        },
+        tileName: "Error - Dev",
+        tileIcon: Icons.error_outline_outlined,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add([
+      //   Icons.error_outline_outlined,
+      //   "Error - Dev",
+      //   () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return const MIHErrorMessage(errorType: "Invalid Username");
+      //       },
+      //     );
+      //   }
+      // ]);
+      tileList.add(HomeTile(
+        onTap: () {
           showDialog(
             context: context,
             builder: (context) {
@@ -229,50 +379,74 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                       "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
             },
           );
-        }
-      ]);
-      tileList.add([
-        Icons.delete_forever_outlined,
-        "Delete - Dev",
-        () {
+        },
+        tileName: "Success - Dev",
+        tileIcon: Icons.check_circle_outline_outlined,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add([
+      //   Icons.check_circle_outline_outlined,
+      //   "Success - Dev",
+      //   () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return const MIHSuccessMessage(
+      //             successType: "Success",
+      //             successMessage:
+      //                 "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
+      //       },
+      //     );
+      //   }
+      // ]);
+      tileList.add(HomeTile(
+        onTap: () {
           showDialog(
             context: context,
             builder: (context) {
               return MIHDeleteMessage(deleteType: "File", onTap: () {});
             },
           );
-        }
-      ]);
+        },
+        tileName: "Delete - Dev",
+        tileIcon: Icons.delete_forever_outlined,
+        p: getPrim(),
+        s: getSec(),
+      ));
+      // tileList.add([
+      //   Icons.delete_forever_outlined,
+      //   "Delete - Dev",
+      //   () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return MIHDeleteMessage(deleteType: "File", onTap: () {});
+      //       },
+      //     );
+      //   }
+      // ]);
     }
   }
 
-  List<List<List<dynamic>>> setApps(List<List<dynamic>> personalTileList,
-      List<List<dynamic>> businessTileList) {
-    //print(widget.businessUser);
+  List<List<HomeTile>> setApps(
+      List<HomeTile> personalTileList, List<HomeTile> businessTileList) {
     if (widget.signedInUser.fname == "") {
-      //print("New personal user");
       setAppsNewPersonal(personalTileList);
     } else if (widget.signedInUser.type == "personal") {
-      //print("existing personal user");
       setAppsPersonal(personalTileList);
     } else if (widget.businessUser == null) {
-      //print("new business user");
       setAppsPersonal(personalTileList);
       setAppsNewBusiness(businessTileList);
     } else {
-      //business
-      //print("existing business user");
       setAppsPersonal(personalTileList);
       setAppsBusiness(businessTileList);
     }
     if (AppEnviroment.getEnv() == "Dev") {
-      //print("Dev Enviroment");
       setAppsDev(personalTileList);
       setAppsDev(businessTileList);
     }
     return [personalTileList, businessTileList];
-    // pbswitch.add(personalTileList);
-    // pbswitch.add(businessTileList);
   }
 
   Color getPrim() {
@@ -321,8 +495,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   void initState() {
-    pbswitch = setApps(personalTileList, businessTileList);
-    businessUserSwitch = false;
+    setState(() {
+      pbswitch = setApps(persHTList, busHTList);
+      businessUserSwitch = false;
+    });
+
     super.initState();
   }
 
@@ -375,11 +552,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               itemCount: pbswitch[_selectedIndex].length,
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200),
-              //const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
               itemBuilder: (context, index) {
-                var tile = pbswitch[_selectedIndex][index];
-                //setState(() {});
-                return buildtile(tile);
+                return pbswitch[_selectedIndex][index];
               },
             ),
           ),
