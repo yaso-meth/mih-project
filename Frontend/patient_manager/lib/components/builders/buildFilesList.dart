@@ -304,7 +304,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
   Widget build(BuildContext context) {
     if (widget.files.isNotEmpty) {
       return SizedBox(
-        height: 290.0,
+        height: 500.0,
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
@@ -354,10 +354,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
       );
     } else {
       return const SizedBox(
-        height: 290.0,
+        height: 500.0,
         child: Center(
           child: Text(
-            "No Files Available",
+            "No Documents Available",
             style: TextStyle(fontSize: 25, color: Colors.grey),
             textAlign: TextAlign.center,
           ),
