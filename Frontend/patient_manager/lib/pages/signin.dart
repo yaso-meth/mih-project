@@ -95,7 +95,7 @@ class _SignInState extends State<SignIn> {
     } else {
       await signUserIn();
       if (successfulSignIn) {
-        Navigator.of(context).pushNamed('/home');
+        Navigator.of(context).popAndPushNamed('/home');
       }
     }
   }
