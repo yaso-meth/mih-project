@@ -138,7 +138,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 ],
               ),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/home');
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/home', (route) => false);
               },
             ),
             ListTile(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
@@ -42,7 +43,12 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       tileList.add(HomeTile(
         onTap: () {
           Navigator.of(context)
-              .popAndPushNamed('/profile', arguments: widget.signedInUser);
+              .pushNamed('/profile', arguments: widget.signedInUser);
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   '/profile',
+          //   (route) => false,
+          //   arguments: widget.signedInUser,
+          // );
         },
         tileName: "Setup Profie",
         tileIcon: Icons.perm_identity,
@@ -59,6 +65,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           '/business/add',
           arguments: widget.signedInUser,
         );
+        // Navigator.of(context).pushNamedAndRemoveUntil(
+        //   '/business/add',
+        //   (route) => false,
+        //   arguments: widget.signedInUser,
+        // );
       },
       tileName: "Setup Business",
       tileIcon: Icons.add_business_outlined,
@@ -70,9 +81,20 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   void setAppsPersonal(List<HomeTile> tileList) {
     tileList.add(HomeTile(
       onTap: () {
-        Navigator.of(context).popAndPushNamed('/patient-profile',
+        Navigator.of(context).pushNamed('/patient-profile',
             arguments: PatientViewArguments(
                 widget.signedInUser, null, null, null, "personal"));
+        // Navigator.of(context).pushNamedAndRemoveUntil(
+        //   '/patient-profile',
+        //   (route) => false,
+        //   arguments: PatientViewArguments(
+        //     widget.signedInUser,
+        //     null,
+        //     null,
+        //     null,
+        //     "personal",
+        //   ),
+        // );
       },
       tileName: "Patient Profile",
       tileIcon: Icons.medication,
@@ -81,10 +103,15 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     ));
     tileList.add(HomeTile(
       onTap: () {
-        Navigator.of(context).popAndPushNamed(
+        Navigator.of(context).pushNamed(
           '/patient-access-review',
           arguments: widget.signedInUser,
         );
+        // Navigator.of(context).pushNamedAndRemoveUntil(
+        //   '/patient-access-review',
+        //   (route) => false,
+        //   arguments: widget.signedInUser,
+        // );
       },
       tileName: "Access Review",
       tileIcon: Icons.check_box_outlined,
@@ -97,7 +124,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     if (widget.businessUser!.access == "Full") {
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context).popAndPushNamed(
+          Navigator.of(context).pushNamed(
             '/business-profile',
             arguments: BusinessArguments(
               widget.signedInUser,
@@ -105,6 +132,15 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               widget.business,
             ),
           );
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   '/business-profile',
+          //   (route) => false,
+          //   arguments: BusinessArguments(
+          //     widget.signedInUser,
+          //     widget.businessUser,
+          //     widget.business,
+          //   ),
+          // );
         },
         tileName: "Business Profile",
         tileIcon: Icons.business,
@@ -115,7 +151,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     if (widget.business!.type == "Doctors Office") {
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context).popAndPushNamed(
+          Navigator.of(context).pushNamed(
             '/patient-manager',
             arguments: BusinessArguments(
               widget.signedInUser,
@@ -123,6 +159,15 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               widget.business,
             ),
           );
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   '/patient-manager',
+          //   (route) => false,
+          //   arguments: BusinessArguments(
+          //     widget.signedInUser,
+          //     widget.businessUser,
+          //     widget.business,
+          //   ),
+          // );
         },
         tileName: "Manage Patient",
         tileIcon: Icons.medication,
@@ -150,10 +195,15 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ));
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context).popAndPushNamed(
+          Navigator.of(context).pushNamed(
             '/business/add',
             arguments: widget.signedInUser,
           );
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   '/business/add',
+          //   (route) => false,
+          //   arguments: widget.signedInUser,
+          // );
         },
         tileName: "Setup Bus - Dev",
         tileIcon: Icons.add_business_outlined,
@@ -162,8 +212,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ));
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context).popAndPushNamed('/patient-manager/add',
+          Navigator.of(context).pushNamed('/patient-manager/add',
               arguments: widget.signedInUser);
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   '/patient-manager/add',
+          //   (route) => false,
+          //   arguments: widget.signedInUser,
+          // );
         },
         tileName: "Add Pat - Dev",
         tileIcon: Icons.add_circle_outline,
@@ -172,8 +227,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ));
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context)
-              .popAndPushNamed('/profile', arguments: widget.signedInUser);
+          // Navigator.of(context)
+          //     .popAndPushNamed('/profile', arguments: widget.signedInUser);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/profile',
+            (route) => false,
+            arguments: widget.signedInUser,
+          );
         },
         tileName: "Upd Prof - Dev",
         tileIcon: Icons.perm_identity,
@@ -305,103 +365,120 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
+    //final double height = size.height;
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Mzansi Innovation\nHub"),
       drawer: MIHAppDrawer(
         signedInUser: widget.signedInUser,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, right: 15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    if (!businessUserSwitch) {
-                      setState(() {
-                        businessUserSwitch = true;
-                        _selectedIndex = 1;
-                      });
-                    } else {
-                      setState(() {
-                        businessUserSwitch = false;
-                        _selectedIndex = 0;
-                      });
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.swap_horizontal_circle_outlined,
-                    size: 35,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            getHeading(_selectedIndex),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 35.0,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: pbswitch[_selectedIndex].length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200),
-              itemBuilder: (context, index) {
-                return pbswitch[_selectedIndex][index];
-              },
-            ),
-          ),
-        ],
+      body:
+          // Column(
+          //   children: [
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 10.0, right: 15.0),
+          //   child: Row(
+          //     crossAxisAlignment: CrossAxisAlignment.end,
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       IconButton(
+          //         onPressed: () {
+          //           if (!businessUserSwitch) {
+          //             setState(() {
+          //               businessUserSwitch = true;
+          //               _selectedIndex = 1;
+          //             });
+          //           } else {
+          //             setState(() {
+          //               businessUserSwitch = false;
+          //               _selectedIndex = 0;
+          //             });
+          //           }
+          //         },
+          //         icon: const Icon(
+          //           Icons.swap_horizontal_circle_outlined,
+          //           size: 35,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Text(
+          //   getHeading(_selectedIndex),
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     fontSize: 35.0,
+          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          //Expanded(
+          //child:
+
+          GridView.builder(
+        padding: EdgeInsets.only(
+          left: width / 7,
+          right: width / 7,
+          //bottom: height / 5,
+          top: 20,
+        ),
+        // physics: ,
+        // shrinkWrap: true,
+        itemCount: pbswitch[_selectedIndex].length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200),
+        itemBuilder: (context, index) {
+          return pbswitch[_selectedIndex][index];
+        },
       ),
 
-      // bottomNavigationBar: Visibility(
-      //   visible: isBusinessUser(widget.signedInUser),
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(15.0),
-      //     child: GNav(
-      //       //hoverColor: Colors.lightBlueAccent,
-      //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      //       iconSize: 35.0,
-      //       activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      //       tabBackgroundColor:
-      //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      //       //gap: 20,
-      //       //padding: EdgeInsets.all(15),
-      //       tabs: [
-      //         GButton(
-      //           icon: Icons.perm_identity,
-      //           text: "Personal",
-      //           onPressed: () {
-      //             setState(() {
-      //               _selectedIndex = 0;
-      //             });
-      //           },
-      //         ),
-      //         GButton(
-      //           icon: Icons.business_center,
-      //           text: "Business",
-      //           onPressed: () {
-      //             setState(() {
-      //               _selectedIndex = 1;
-      //             });
-      //           },
-      //         ),
-      //       ],
-      //       selectedIndex: _selectedIndex,
-      //     ),
-      //   ),
+      //),
+      //   ],
       // ),
+      bottomNavigationBar: Visibility(
+        visible: isBusinessUser(widget.signedInUser),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GNav(
+            //hoverColor: Colors.lightBlueAccent,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            iconSize: 35.0,
+            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            tabBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //gap: 20,
+            //padding: EdgeInsets.all(15),
+            tabs: [
+              GButton(
+                icon: Icons.perm_identity,
+                text: "Personal",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.business_center,
+                text: "Business",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+            ],
+            selectedIndex: _selectedIndex,
+          ),
+        ),
+      ),
     );
   }
 }

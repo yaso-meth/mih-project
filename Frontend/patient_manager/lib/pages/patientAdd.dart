@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
+//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
@@ -344,7 +344,7 @@ class _AddPatientState extends State<AddPatient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Add Patient"),
-      drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
+      //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: KeyboardListener(
         focusNode: _focusNode,
         autofocus: true,

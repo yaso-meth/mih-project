@@ -118,11 +118,11 @@ class MyTheme {
   AssetImage loadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(
-        'images/loading_dark.gif',
+        'images/loading_light.gif',
       );
     } else {
       loading = const AssetImage(
-        'images/loading_light.gif',
+        'images/loading_dark.gif',
       );
     }
     return loading;

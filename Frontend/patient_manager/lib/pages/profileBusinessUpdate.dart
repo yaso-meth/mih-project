@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
+//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -313,7 +313,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Business Profile"),
-      drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
+      //drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
       body: KeyboardListener(
         focusNode: _focusNode,
         autofocus: true,

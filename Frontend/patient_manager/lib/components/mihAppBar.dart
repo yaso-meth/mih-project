@@ -26,17 +26,22 @@ class _MIHAppBarState extends State<MIHAppBar> {
     return AppBar(
       elevation: 8,
       shadowColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.home,
-            size: 40,
-          ),
-          onPressed: () {
-            Navigator.popAndPushNamed(context, '/home');
-          },
-        )
-      ],
+      // actions: [
+      //   IconButton(
+      //     icon: const Icon(
+      //       Icons.home,
+      //       size: 40,
+      //     ),
+      //     onPressed: () {
+      //       //   Navigator.pushNamedAndRemoveUntil(
+      //       //     context,
+      //       //     '/home',
+      //       //   );
+      //       Navigator.of(context)
+      //           .pushNamedAndRemoveUntil('/home', (route) => false);
+      //     },
+      //   )
+      // ],
       title: Text(
         widget.barTitle,
         textAlign: TextAlign.center,

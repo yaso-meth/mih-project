@@ -96,7 +96,7 @@ class _PatientViewState extends State<PatientView> {
     // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Patient Profile"),
-      drawer: showDrawer(),
+      //drawer: showDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),

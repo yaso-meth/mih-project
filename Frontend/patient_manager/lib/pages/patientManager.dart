@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:patient_manager/components/builders/buildPatientList.dart';
 import 'package:patient_manager/components/builders/buildPatientQueueList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
+//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDateInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -469,7 +469,7 @@ class _PatientManagerState extends State<PatientManager> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Patient Manager"),
-      drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
+      //drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
       //floatingActionButtonLocation: FloatingActionButtonLocation.,
       // floatingActionButton: FloatingActionButton.extended(
       //   label: Text(

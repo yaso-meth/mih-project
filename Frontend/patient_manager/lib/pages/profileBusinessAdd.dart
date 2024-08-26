@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
+//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -229,7 +229,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Add Business"),
-      drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
+      //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: KeyboardListener(
         focusNode: _focusNode,
         autofocus: true,

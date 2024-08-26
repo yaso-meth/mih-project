@@ -31,6 +31,7 @@ class _MihloadingcircleState extends State<Mihloadingcircle>
     ImageProvider loading =
         MzanziInnovationHub.of(context)!.theme.loadingImage();
     return Dialog(
+      //backgroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       child: Container(
         padding: const EdgeInsets.all(10.0),
         width: 250,
