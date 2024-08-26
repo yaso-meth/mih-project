@@ -106,11 +106,11 @@ class MyTheme {
   AssetImage logoImage() {
     if (mode == "Dark") {
       return const AssetImage(
-        'images/Logo-01.png',
+        'images/logo_dark.png',
       );
     } else {
       return const AssetImage(
-        'images/Logo-02.png',
+        'images/logo_light.png',
       );
     }
   }
@@ -118,11 +118,11 @@ class MyTheme {
   AssetImage loadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(
-        'images/loading2.gif',
+        'images/loading_dark.gif',
       );
     } else {
       loading = const AssetImage(
-        'images/loading1.gif',
+        'images/loading_light.gif',
       );
     }
     return loading;
