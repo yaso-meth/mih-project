@@ -433,12 +433,12 @@ class _PatientManagerState extends State<PatientManager> {
   Widget showSelection(int index, double screenWidth, double screenHeight) {
     if (index == 0) {
       return SizedBox(
-        width: 660,
+        //width: 660,
         child: patientQueue(screenWidth, screenHeight),
       );
     } else {
       return SizedBox(
-        width: 660,
+        //width: 660,
         child: patientSearch(screenWidth, screenHeight),
       );
     }
@@ -489,43 +489,43 @@ class _PatientManagerState extends State<PatientManager> {
       //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       //   ),
       // ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.people,
-                    size: 35,
-                  ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+                icon: const Icon(
+                  Icons.people,
+                  size: 35,
                 ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                    size: 35,
-                  ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+                icon: const Icon(
+                  Icons.search,
+                  size: 35,
                 ),
-              ],
-            ),
-            showSelection(_selectedIndex, screenWidth, screenHeight),
-          ],
-        ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: showSelection(_selectedIndex, screenWidth, screenHeight),
+          ),
+        ],
       ),
     );
   }
