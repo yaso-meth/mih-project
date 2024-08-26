@@ -55,25 +55,23 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
     return FutureBuilder(
       future: fetchPatient(),
       builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          // Extracting data from snapshot object
+          //final data = snapshot.data as String;
+          return PatientView(
+              arguments: PatientViewArguments(
+            widget.arguments.signedInUser,
+            snapshot.requireData,
+            null,
+            null,
+            widget.arguments.type,
+          ));
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Mihloadingcircle();
+        } else {
+          return AddPatient(signedInUser: widget.arguments.signedInUser);
         }
-        // Checking if future is resolved
-        else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            // Extracting data from snapshot object
-            //final data = snapshot.data as String;
-            return PatientView(
-                arguments: PatientViewArguments(
-              widget.arguments.signedInUser,
-              snapshot.requireData,
-              null,
-              null,
-              widget.arguments.type,
-            ));
-          }
-        }
-        return AddPatient(signedInUser: widget.arguments.signedInUser);
       },
     );
   }

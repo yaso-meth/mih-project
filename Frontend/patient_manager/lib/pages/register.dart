@@ -49,7 +49,7 @@ class _RegisterState extends State<Register> {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context).popAndPushNamed('/home');
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       signUpSuccess();
       // setState(() {
       //   successfulSignUp = true;

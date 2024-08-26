@@ -12,14 +12,16 @@ class AuthCheck extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: doesSessionExist(),
-        builder: (context, snapshot) {
-          if (snapshot.data == true) {
-            return const Home();
-          } else {
-            return const SignInOrRegister();
-          }
-        });
+    return Scaffold(
+      body: FutureBuilder(
+          future: doesSessionExist(),
+          builder: (context, snapshot) {
+            if (snapshot.data == true) {
+              return const Home();
+            } else {
+              return const SignInOrRegister();
+            }
+          }),
+    );
   }
 }
