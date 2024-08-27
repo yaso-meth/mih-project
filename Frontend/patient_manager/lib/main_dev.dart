@@ -14,7 +14,6 @@ void main() async {
     apiBasePath: "/auth",
   );
   setPathUrlStrategy();
-  ();
   FlutterNativeSplash.remove();
   runApp(const MzanziInnovationHub());
 }
