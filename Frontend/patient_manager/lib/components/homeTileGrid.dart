@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
@@ -31,11 +33,14 @@ class HomeTileGrid extends StatefulWidget {
 }
 
 class _HomeTileGridState extends State<HomeTileGrid> {
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   late List<HomeTile> persHTList = [];
   late List<HomeTile> busHTList = [];
   late List<List<HomeTile>> pbswitch;
   late bool businessUserSwitch;
   int _selectedIndex = 0;
+  String appSearch = "";
   final baseAPI = AppEnviroment.baseApiUrl;
 
   void setAppsNewPersonal(List<HomeTile> tileList) {
@@ -302,6 +307,20 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
+  List<HomeTile> searchApp(List<HomeTile> appList, String searchString) {
+    if (searchString == "") {
+      return appList;
+    } else {
+      List<HomeTile> temp = [];
+      for (var item in appList) {
+        if (item.tileName.toLowerCase().contains(appSearch.toLowerCase())) {
+          temp.add(item);
+        }
+      }
+      return temp;
+    }
+  }
+
   List<List<HomeTile>> setApps(
       List<HomeTile> personalTileList, List<HomeTile> businessTileList) {
     if (widget.signedInUser.fname == "") {
@@ -348,7 +367,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    searchController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -372,70 +392,75 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       drawer: MIHAppDrawer(
         signedInUser: widget.signedInUser,
       ),
-      body:
-          // Column(
-          //   children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 10.0, right: 15.0),
-          //   child: Row(
-          //     crossAxisAlignment: CrossAxisAlignment.end,
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       IconButton(
-          //         onPressed: () {
-          //           if (!businessUserSwitch) {
-          //             setState(() {
-          //               businessUserSwitch = true;
-          //               _selectedIndex = 1;
-          //             });
-          //           } else {
-          //             setState(() {
-          //               businessUserSwitch = false;
-          //               _selectedIndex = 0;
-          //             });
-          //           }
-          //         },
-          //         icon: const Icon(
-          //           Icons.swap_horizontal_circle_outlined,
-          //           size: 35,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // const SizedBox(
-          //   height: 20,
-          // ),
-          // Text(
-          //   getHeading(_selectedIndex),
-          //   textAlign: TextAlign.center,
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     fontSize: 35.0,
-          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          //   ),
-          // ),
-          // const SizedBox(
-          //   height: 20,
-          // ),
-          //Expanded(
-          //child:
-
-          GridView.builder(
-        padding: EdgeInsets.only(
-          left: width / 7,
-          right: width / 7,
-          //bottom: height / 5,
-          top: 20,
-        ),
-        // physics: ,
-        // shrinkWrap: true,
-        itemCount: pbswitch[_selectedIndex].length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200),
-        itemBuilder: (context, index) {
-          return pbswitch[_selectedIndex][index];
-        },
+      body: Column(
+        children: [
+          const SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      appSearch = "";
+                      searchController.clear();
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.apps,
+                    size: 50,
+                  ),
+                ),
+                KeyboardListener(
+                  focusNode: _focusNode,
+                  autofocus: true,
+                  onKeyEvent: (event) async {
+                    if (event is KeyDownEvent &&
+                        event.logicalKey == LogicalKeyboardKey.enter) {
+                      setState(() {
+                        appSearch = searchController.text;
+                      });
+                    }
+                  },
+                  child: SizedBox(
+                    width: width - ((width / 10) * 2) - 70,
+                    child: MIHSearchField(
+                      controller: searchController,
+                      hintText: "Search Apps",
+                      required: false,
+                      editable: true,
+                      onTap: () {
+                        setState(() {
+                          appSearch = searchController.text;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.only(
+                left: width / 10,
+                right: width / 10,
+                //bottom: height / 5,
+                top: 20,
+              ),
+              // physics: ,
+              // shrinkWrap: true,
+              itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200),
+              itemBuilder: (context, index) {
+                return searchApp(pbswitch[_selectedIndex], appSearch)[index];
+              },
+            ),
+          ),
+        ],
       ),
 
       //),
