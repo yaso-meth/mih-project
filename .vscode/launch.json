@@ -5,28 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "MIH Dev",
-            "cwd": "Frontend/patient_manager",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "debug",
-            "program": "lib/main_dev.dart",
-            "toolArgs": [
-                //"--dart-define-from-file=config/config-dev.json",
-                "--dart-define",
-                "baseURL=url"
-                ],
-        },
-        {
-            "name": "MIH Prod",
+            "name": "Debug",
             "cwd": "Frontend\\patient_manager",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "debug",
-            "program": "lib/main_prod.dart",
-            "args": [
-                " — dart-define-from-file=config/config-prod.json"
-                ],
+            "program": "lib/main_dev.dart"
         },
+        {
+            "name": "Profile",
+            "cwd": "Frontend\\patient_manager",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main_dev.dart"
+        },
+        {
+            "name": "Release",
+            "cwd": "Frontend\\patient_manager",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main_prod.dart"
+        }
     ]
 }
