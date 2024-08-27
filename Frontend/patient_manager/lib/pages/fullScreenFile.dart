@@ -206,9 +206,11 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
                           startZoomLevel = pdfViewerController.zoomLevel;
                         });
                       } else {
-                        setState(() {
-                          zoomOut = zoomOut + 100;
-                        });
+                        if (zoomOut < (width - 100)) {
+                          setState(() {
+                            zoomOut = zoomOut + 100;
+                          });
+                        }
                       }
                     },
                     icon: Icon(
