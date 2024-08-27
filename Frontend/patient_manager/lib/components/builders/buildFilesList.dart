@@ -302,9 +302,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    //double width = size.width;
+    double height = size.height;
     if (widget.files.isNotEmpty) {
       return SizedBox(
-        height: 500.0,
+        height: height - 250,
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
@@ -353,9 +356,9 @@ class _BuildFilesListState extends State<BuildFilesList> {
         ),
       );
     } else {
-      return const SizedBox(
-        height: 500.0,
-        child: Center(
+      return SizedBox(
+        height: height - 250,
+        child: const Center(
           child: Text(
             "No Documents Available",
             style: TextStyle(fontSize: 25, color: Colors.grey),

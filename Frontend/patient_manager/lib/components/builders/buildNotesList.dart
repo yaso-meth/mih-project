@@ -263,9 +263,12 @@ class _BuildNotesListState extends State<BuildNotesList> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    //double width = size.width;
+    double height = size.height;
     if (widget.notes.isNotEmpty) {
       return SizedBox(
-        height: 500.0,
+        height: height - 250,
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
@@ -306,9 +309,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
         ),
       );
     } else {
-      return const SizedBox(
-        height: 500.0,
-        child: Center(
+      return SizedBox(
+        height: height - 250,
+        child: const Center(
           child: Text(
             "No Notes Available",
             style: TextStyle(fontSize: 25, color: Colors.grey),

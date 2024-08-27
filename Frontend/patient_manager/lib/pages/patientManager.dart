@@ -172,7 +172,7 @@ class _PatientManagerState extends State<PatientManager> {
       },
       child: SizedBox(
         width: w,
-        height: 600,
+        height: h - 157,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           const SizedBox(height: 5),
           const Text(
@@ -302,7 +302,7 @@ class _PatientManagerState extends State<PatientManager> {
   Widget patientQueue(double w, double h) {
     return SizedBox(
       width: w,
-      height: 600,
+      height: h - 157,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         //const SizedBox(height: 15),
         Row(
