@@ -37,6 +37,7 @@ class BuildNotesList extends StatefulWidget {
 }
 
 class _BuildNotesListState extends State<BuildNotesList> {
+  final noteTitleController = TextEditingController();
   final noteTextController = TextEditingController();
   final businessNameController = TextEditingController();
   final userNameController = TextEditingController();
@@ -119,6 +120,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
 
   void viewNotePopUp(Note selectednote) {
     setState(() {
+      noteTitleController.text = selectednote.note_name;
       noteTextController.text = selectednote.note_text;
       businessNameController.text = selectednote.doc_office;
       userNameController.text = selectednote.doctor;
@@ -184,7 +186,17 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     width: 700,
                     child: MIHTextField(
                       controller: dateController,
-                      hintText: "Created",
+                      hintText: "Created Date",
+                      editable: false,
+                      required: false,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: noteTitleController,
+                      hintText: "Note Title",
                       editable: false,
                       required: false,
                     ),

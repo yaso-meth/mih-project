@@ -43,6 +43,9 @@ class _PatientNotesState extends State<PatientNotes> {
   String apiUrlAddNote = "${AppEnviroment.baseApiUrl}/notes/insert/";
   final titleController = TextEditingController();
   final noteTextController = TextEditingController();
+  final officeController = TextEditingController();
+  final dateController = TextEditingController();
+  final doctorController = TextEditingController();
   late Future<List<Note>> futueNotes;
 
   Future<List<Note>> fetchNotes(String endpoint) async {
@@ -61,10 +64,10 @@ class _PatientNotesState extends State<PatientNotes> {
   }
 
   Future<void> addPatientNoteAPICall() async {
-    String title = "";
-    if (widget.businessUser!.title == "Doctor") {
-      title = "Dr.";
-    }
+    // String title = "";
+    // if (widget.businessUser!.title == "Doctor") {
+    //   title = "Dr.";
+    // }
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/notes/insert/"),
       headers: <String, String>{
@@ -73,9 +76,8 @@ class _PatientNotesState extends State<PatientNotes> {
       body: jsonEncode(<String, dynamic>{
         "note_name": titleController.text,
         "note_text": noteTextController.text,
-        "doc_office": widget.business!.Name,
-        "doctor":
-            "$title ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+        "doc_office": officeController.text,
+        "doctor": doctorController.text,
         "app_id": widget.selectedPatient.app_id,
       }),
     );
@@ -126,6 +128,18 @@ class _PatientNotesState extends State<PatientNotes> {
   }
 
   void addNotePopUp() {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    var title = "";
+    if (widget.businessUser!.title == "Doctor") {
+      title = "Dr.";
+    }
+    setState(() {
+      officeController.text = widget.business!.Name;
+      doctorController.text =
+          "$title ${widget.signedInUser.fname} ${widget.signedInUser.lname}";
+      dateController.text = date.toString().substring(0, 10);
+    });
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -162,13 +176,43 @@ class _PatientNotesState extends State<PatientNotes> {
                   SizedBox(
                     width: 700,
                     child: MIHTextField(
+                      controller: officeController,
+                      hintText: "Office",
+                      editable: false,
+                      required: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: doctorController,
+                      hintText: "Created By",
+                      editable: false,
+                      required: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
+                      controller: dateController,
+                      hintText: "Created Date",
+                      editable: false,
+                      required: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  SizedBox(
+                    width: 700,
+                    child: MIHTextField(
                       controller: titleController,
-                      hintText: "Title of Note",
+                      hintText: "Note Title",
                       editable: true,
                       required: true,
                     ),
                   ),
-                  const SizedBox(height: 25.0),
+                  const SizedBox(height: 10.0),
                   Expanded(
                     child: MIHMLTextField(
                       controller: noteTextController,
