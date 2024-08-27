@@ -64,7 +64,7 @@ class _BuildFileViewState extends State<BuildFileView> {
           ),
           Positioned(
             top: 5,
-            left: 5,
+            right: 5,
             width: 50,
             height: 50,
             child: IconButton.filled(
@@ -102,7 +102,7 @@ class _BuildFileViewState extends State<BuildFileView> {
           ),
           Positioned(
             top: 5,
-            left: 5,
+            right: 5,
             width: 50,
             height: 50,
             child: IconButton.filled(

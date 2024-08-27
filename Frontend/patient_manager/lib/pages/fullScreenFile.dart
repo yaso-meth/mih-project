@@ -21,6 +21,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
   int currentPageCount = 0;
   int currentPage = 0;
   double startZoomLevel = 1.0;
+  double zoomOut = 0;
 
   String getExtType(String path) {
     //print(pdfLink.split(".")[1]);
@@ -52,29 +53,29 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    double width = size.width;
+    double height = size.height;
+
     if (getExtType(widget.arguments.path).toLowerCase() == "pdf") {
       return Scaffold(
         body: Stack(
           children: [
             Container(
+              width: width,
               padding: const EdgeInsets.only(top: 20.0),
               decoration: BoxDecoration(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Center(
-                    child: Text(
-                      getFileName(widget.arguments.path),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
+                  const SizedBox(height: 50),
+                  SizedBox(
+                    width: width - zoomOut,
+                    height: height - 70,
                     child: SfPdfViewerTheme(
                       data: SfPdfViewerThemeData(
                         backgroundColor: MzanziInnovationHub.of(context)!
@@ -123,7 +124,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
               //width: 50,
               height: 50,
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -178,10 +179,16 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
                   ),
                   IconButton(
                     onPressed: () {
-                      setState(() {
-                        pdfViewerController.zoomLevel = startZoomLevel + 0.25;
-                        startZoomLevel = pdfViewerController.zoomLevel;
-                      });
+                      if (zoomOut > 0) {
+                        setState(() {
+                          zoomOut = zoomOut - 100;
+                        });
+                      } else {
+                        setState(() {
+                          pdfViewerController.zoomLevel = startZoomLevel + 0.25;
+                          startZoomLevel = pdfViewerController.zoomLevel;
+                        });
+                      }
                     },
                     icon: Icon(
                       Icons.zoom_in,
@@ -193,10 +200,16 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
                   ),
                   IconButton(
                     onPressed: () {
-                      setState(() {
-                        pdfViewerController.zoomLevel = startZoomLevel - 0.25;
-                        startZoomLevel = pdfViewerController.zoomLevel;
-                      });
+                      if (pdfViewerController.zoomLevel > 1) {
+                        setState(() {
+                          pdfViewerController.zoomLevel = startZoomLevel - 0.25;
+                          startZoomLevel = pdfViewerController.zoomLevel;
+                        });
+                      } else {
+                        setState(() {
+                          zoomOut = zoomOut + 100;
+                        });
+                      }
                     },
                     icon: Icon(
                       Icons.zoom_out,
@@ -232,8 +245,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         body: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 20.0),
-              // width: width,
+              padding: const EdgeInsets.only(top: 50.0),
+              width: width,
               // height: height,
               decoration: BoxDecoration(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
@@ -245,15 +258,6 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Center(
-                    child: Text(
-                      getFileName(widget.arguments.path),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 20),
                   Expanded(
                     child: InteractiveViewer(
