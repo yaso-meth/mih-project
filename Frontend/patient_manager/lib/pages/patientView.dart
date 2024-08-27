@@ -124,7 +124,7 @@ class _PatientViewState extends State<PatientView> {
                       });
                     },
                     icon: const Icon(
-                      Icons.text_fields,
+                      Icons.article_outlined,
                       size: 35,
                     ),
                   ),
@@ -135,7 +135,7 @@ class _PatientViewState extends State<PatientView> {
                       });
                     },
                     icon: const Icon(
-                      Icons.file_copy,
+                      Icons.file_present,
                       size: 35,
                     ),
                   ),
