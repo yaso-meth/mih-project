@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/signInOrRegister.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/fullScreenFile.dart';
-import 'package:patient_manager/pages/home.dart';
 import 'package:patient_manager/pages/patientAccessReview.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/pages/patientEdit.dart';
@@ -22,120 +19,132 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      // Home or Sign in or Register Pages
       case '/':
-        return MaterialPageRoute(builder: (_) => const AuthCheck());
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const AuthCheck());
+      //===============================================================
 
-      case '/home':
-        return MaterialPageRoute(builder: (_) => const Home());
-
-      case '/patient-profile':
-        if (args is PatientViewArguments) {
-          //print("route generator: $args");
-          return MaterialPageRoute(
-            builder: (_) => AddOrViewPatient(
-              arguments: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/patient-access-review':
-        if (args is AppUser) {
-          //print("route generator: $args");
-          return MaterialPageRoute(
-            builder: (_) => PatientAccessRequest(
-              signedInUser: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/patient-manager':
-        if (args is BusinessArguments) {
-          //print("route generator: $args");
-          return MaterialPageRoute(
-            builder: (_) => PatientManager(
-              arguments: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/patient-manager/add':
+      //User Profile
+      case '/user-profile':
         if (args is AppUser) {
           return MaterialPageRoute(
-            builder: (_) => AddPatient(
-              signedInUser: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/patient-manager/patient':
-        if (args is PatientViewArguments) {
-          return MaterialPageRoute(
-            builder: (_) => PatientView(
-              arguments: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/patient-manager/patient/edit':
-        if (args is Patient) {
-          return MaterialPageRoute(
-            builder: (_) => EditPatient(
-              selectedPatient: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
-      case '/profile':
-        if (args is AppUser) {
-          return MaterialPageRoute(
+            settings: settings,
             builder: (_) => ProfileUserUpdate(
               signedInUser: args,
             ),
           );
         }
         return _errorRoute();
+      //===============================================================
 
-      case '/file-veiwer':
-        if (args is FileViewArguments) {
-          return MaterialPageRoute(
-            builder: (_) => FullScreenFileViewer(
-              arguments: args,
-            ),
-          );
-        }
-        return _errorRoute();
-
+      //Business Profile Pages
       case '/business-profile':
         if (args is BusinessArguments) {
           return MaterialPageRoute(
+            settings: settings,
             builder: (_) => ProfileBusinessUpdate(
               arguments: args,
             ),
           );
         }
         return _errorRoute();
-
-      case '/business/add':
+      case '/business-profile/set-up':
         if (args is AppUser) {
           return MaterialPageRoute(
+            settings: settings,
             builder: (_) => ProfileBusinessAdd(
               signedInUser: args,
             ),
           );
         }
         return _errorRoute();
-      case '/signin':
-        return MaterialPageRoute(builder: (_) => const SignInOrRegister());
-      // //case '/signIn':
-      // //  return MaterialPageRoute(builder: (_) => SignIn());
-      // case '/auth':
-      //   return MaterialPageRoute(builder: (_) => const AuthPage());
+      //===============================================================
+
+      // Patient Profile Pages
+      case '/patient-profile':
+        if (args is PatientViewArguments) {
+          //print("route generator: $args");
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AddOrViewPatient(
+              arguments: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      case '/patient-profile/set-up':
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AddPatient(
+              signedInUser: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      case '/patient-profile/edit':
+        if (args is PatientEditArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => EditPatient(
+              signedInUser: args.signedInUser,
+              selectedPatient: args.selectedPatient,
+            ),
+          );
+        }
+        return _errorRoute();
+      //===============================================================
+
+      // Access Review Page
+      case '/access-review':
+        if (args is AppUser) {
+          //print("route generator: $args");
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PatientAccessRequest(
+              signedInUser: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      //===============================================================
+
+      //Patient Manager Pages
+      case '/patient-manager':
+        if (args is BusinessArguments) {
+          //print("route generator: $args");
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PatientManager(
+              arguments: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      case '/patient-manager/patient':
+        if (args is PatientViewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PatientView(
+              arguments: args,
+            ),
+          );
+        }
+        return _errorRoute();
+      //===============================================================
+
+      //Full Screen File Viewer
+      case '/file-veiwer':
+        if (args is FileViewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => FullScreenFileViewer(
+              arguments: args,
+            ),
+          );
+        }
+        return _errorRoute();
     }
     throw '';
   }

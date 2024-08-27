@@ -149,7 +149,7 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
         deleteFileApiCall(oldSigPath);
       }
 
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pushNamed('/');
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);

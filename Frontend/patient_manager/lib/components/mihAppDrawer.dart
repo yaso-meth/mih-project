@@ -139,7 +139,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/home', (route) => false);
+                    .pushNamedAndRemoveUntil('/', (route) => false);
               },
             ),
             ListTile(
@@ -166,7 +166,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
               onTap: () {
                 //signedInUser = snapshot.data!;
                 //print("MIHAppDrawer: ${signedInUser.runtimeType}");
-                Navigator.of(context).popAndPushNamed('/profile',
+                Navigator.of(context).popAndPushNamed('/user-profile',
                     arguments: widget.signedInUser);
               },
             ),
@@ -219,7 +219,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
                   //print("Dark Mode: $darkm");
                 }
-                Navigator.of(context).popAndPushNamed('/home');
+                Navigator.of(context).popAndPushNamed('/');
               });
             },
             icon: Icon(

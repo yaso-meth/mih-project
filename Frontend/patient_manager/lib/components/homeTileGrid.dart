@@ -43,7 +43,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       tileList.add(HomeTile(
         onTap: () {
           Navigator.of(context)
-              .pushNamed('/profile', arguments: widget.signedInUser);
+              .pushNamed('/user-profile', arguments: widget.signedInUser);
           // Navigator.of(context).pushNamedAndRemoveUntil(
           //   '/profile',
           //   (route) => false,
@@ -62,7 +62,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     tileList.add(HomeTile(
       onTap: () {
         Navigator.of(context).popAndPushNamed(
-          '/business/add',
+          '/business-profile/set-up',
           arguments: widget.signedInUser,
         );
         // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -104,7 +104,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     tileList.add(HomeTile(
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/patient-access-review',
+          '/access-review',
           arguments: widget.signedInUser,
         );
         // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -196,7 +196,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       tileList.add(HomeTile(
         onTap: () {
           Navigator.of(context).pushNamed(
-            '/business/add',
+            '/business-profile/set-up',
             arguments: widget.signedInUser,
           );
           // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -212,7 +212,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ));
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context).pushNamed('/patient-manager/add',
+          Navigator.of(context).pushNamed('/patient-profile/set-up',
               arguments: widget.signedInUser);
           // Navigator.of(context).pushNamedAndRemoveUntil(
           //   '/patient-manager/add',
@@ -229,9 +229,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         onTap: () {
           // Navigator.of(context)
           //     .popAndPushNamed('/profile', arguments: widget.signedInUser);
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/profile',
-            (route) => false,
+          Navigator.of(context).pushNamed(
+            '/user-profile',
             arguments: widget.signedInUser,
           );
         },

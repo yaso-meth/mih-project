@@ -38,6 +38,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final nameController = TextEditingController();
   final typeController = TextEditingController();
   final regController = TextEditingController();
+  final addressController = TextEditingController();
   final logonameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
@@ -87,7 +88,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
     if (response.statusCode == 201) {
       uploadSelectedFile(selectedSignature, signtureController);
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pushNamed('/');
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);

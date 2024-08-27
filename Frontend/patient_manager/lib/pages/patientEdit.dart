@@ -10,16 +10,19 @@ import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class EditPatient extends StatefulWidget {
   final Patient selectedPatient;
-
+  final AppUser signedInUser;
   const EditPatient({
     super.key,
     required this.selectedPatient,
+    required this.signedInUser,
   });
 
   @override
@@ -101,7 +104,12 @@ class _EditPatientState extends State<EditPatient> {
     // print("Here4");
     // print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed('/patient-profile',
+          arguments: PatientViewArguments(
+              widget.signedInUser, null, null, null, "personal"));
+      //Navigator.of(context).pushNamed('/');
       String message =
           "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
       successPopUp(message);
@@ -130,7 +138,11 @@ class _EditPatientState extends State<EditPatient> {
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).popAndPushNamed('/patient-profile',
+          arguments: PatientViewArguments(
+              widget.signedInUser, null, null, null, "personal"));
       String message =
           "${fnameController.text} ${lnameController.text}'s record has been deleted successfully. This means it will no longer be visible in patient manager and cannot be used for future appointments.";
       successPopUp(message);

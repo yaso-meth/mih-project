@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 
 class PatientDetails extends StatefulWidget {
+  final AppUser signedInUser;
   final Patient selectedPatient;
   final String type;
   const PatientDetails({
     super.key,
+    required this.signedInUser,
     required this.selectedPatient,
     required this.type,
   });
@@ -194,8 +198,9 @@ class _PatientDetailsState extends State<PatientDetails> {
           alignment: Alignment.topRight,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           onPressed: () {
-            Navigator.of(context).pushNamed('/patient-manager/patient/edit',
-                arguments: widget.selectedPatient);
+            Navigator.of(context).pushNamed('/patient-profile/edit',
+                arguments: PatientEditArguments(
+                    widget.signedInUser, widget.selectedPatient));
           },
         )
       ];

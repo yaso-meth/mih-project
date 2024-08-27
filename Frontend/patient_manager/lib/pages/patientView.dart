@@ -60,6 +60,7 @@ class _PatientViewState extends State<PatientView> {
   Widget showSelection(int index) {
     if (index == 0) {
       return PatientDetails(
+        signedInUser: widget.arguments.signedInUser,
         selectedPatient: widget.arguments.selectedPatient!,
         type: widget.arguments.type,
       );

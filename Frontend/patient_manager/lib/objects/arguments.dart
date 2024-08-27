@@ -40,3 +40,13 @@ class PatientViewArguments {
     this.type,
   );
 }
+
+class PatientEditArguments {
+  final AppUser signedInUser;
+  final Patient selectedPatient;
+
+  PatientEditArguments(
+    this.signedInUser,
+    this.selectedPatient,
+  );
+}
