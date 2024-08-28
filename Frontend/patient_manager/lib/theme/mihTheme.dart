@@ -115,6 +115,18 @@ class MyTheme {
     }
   }
 
+  AssetImage altLogoImage() {
+    if (mode == "Light") {
+      return const AssetImage(
+        'images/logo_dark.png',
+      );
+    } else {
+      return const AssetImage(
+        'images/logo_light.png',
+      );
+    }
+  }
+
   AssetImage loadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(
