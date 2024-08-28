@@ -103,6 +103,30 @@ class MyTheme {
     return Color(_succColor);
   }
 
+  AssetImage logoFrame() {
+    if (mode == "Dark") {
+      return const AssetImage(
+        'images/frame_dark.png',
+      );
+    } else {
+      return const AssetImage(
+        'images/frame_light.png',
+      );
+    }
+  }
+
+  AssetImage altLogoFrame() {
+    if (mode == "Light") {
+      return const AssetImage(
+        'images/frame_dark.png',
+      );
+    } else {
+      return const AssetImage(
+        'images/frame_light.png',
+      );
+    }
+  }
+
   AssetImage logoImage() {
     if (mode == "Dark") {
       return const AssetImage(
