@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gif/gif.dart';
+import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/supertokens.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
@@ -16,7 +21,10 @@ class MIHAppDrawer extends StatefulWidget {
   State<MIHAppDrawer> createState() => _MIHAppDrawerState();
 }
 
-class _MIHAppDrawerState extends State<MIHAppDrawer> {
+class _MIHAppDrawerState extends State<MIHAppDrawer>
+    with TickerProviderStateMixin {
+  late Future<String> proPicUrl;
+  late final GifController _controller;
   //String endpointUserData = "${AppEnviroment.baseApiUrl}/users/profile/";
   //late Future<AppUser> signedInUser;
   //late Image logo;
@@ -46,15 +54,39 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     return true;
   }
 
+  Future<String> getFileUrlApiCall(String filePath) async {
+    if (AppEnviroment.getEnv() == "Dev") {
+      return "${AppEnviroment.baseFileUrl}/mih/$filePath";
+    } else {
+      var url = "${AppEnviroment.baseApiUrl}/minio/pull/file/$filePath/prod";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        String body = response.body;
+        var decodedData = jsonDecode(body);
+
+        return decodedData['minioURL'];
+      } else {
+        throw Exception(
+            "Error: GetUserData status code ${response.statusCode}");
+      }
+    }
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    //signedInUser = getUserDetails();
+    if (widget.signedInUser.pro_pic_path.isNotEmpty) {
+      setState(() {
+        proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
+      });
+    }
+    _controller = GifController(vsync: this);
     super.initState();
   }
 
@@ -62,7 +94,10 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   Widget build(BuildContext context) {
     // precacheImage(
     //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
-    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    ImageProvider logoThemeSwitch =
+        MzanziInnovationHub.of(context)!.theme.logoImage();
+    ImageProvider logoFrame =
+        MzanziInnovationHub.of(context)!.theme.logoFrame();
     return Drawer(
       //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
       child: Stack(children: [
@@ -79,10 +114,78 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
-                      height: 60,
-                      child: Image(image: logo),
+                    FutureBuilder(
+                      future: proPicUrl,
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            return Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.loose,
+                              children: [
+                                CircleAvatar(
+                                  //backgroundColor: Colors.green,
+                                  backgroundImage:
+                                      NetworkImage(snapshot.requireData),
+                                  //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+                                  radius: 27,
+                                ),
+                                SizedBox(
+                                  width: 60,
+                                  child: Image(image: logoFrame),
+                                )
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: Text(
+                                '${snapshot.error} occurred',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            );
+                          }
+                        } else {
+                          return SizedBox(
+                            width: 60,
+                            child: Gif(
+                              image: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .loadingImage(),
+                              controller:
+                                  _controller, // if duration and fps is null, original gif fps will be used.
+                              fps: 15,
+                              //duration: const Duration(seconds: 3),
+                              autostart: Autostart.loop,
+                              placeholder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              onFetchCompleted: () {
+                                _controller.reset();
+                                _controller.forward();
+                              },
+                            ),
+                          );
+                        }
+                      },
                     ),
+                    // Stack(
+                    //   alignment: Alignment.center,
+                    //   fit: StackFit.loose,
+                    //   children: [
+                    //     const CircleAvatar(
+                    //       backgroundColor: Colors.green,
+                    //       radius: 27,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 60,
+                    //       child: Image(image: logoFrame),
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: 60,
+                    //   child: Image(image: logoFrame),
+                    // ),
                     Text(
                       "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
                       style: TextStyle(
@@ -205,8 +308,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         Positioned(
           top: 5,
           right: 5,
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
           child: InkWell(
             onTap: () {
               setState(() {
@@ -222,7 +325,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 Navigator.of(context).popAndPushNamed('/');
               });
             },
-            child: Image(image: logo),
+            child: Image(image: logoThemeSwitch),
           ),
           // IconButton(
           //   onPressed: () {
