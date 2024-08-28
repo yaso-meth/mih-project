@@ -345,16 +345,18 @@ class _AddPatientState extends State<AddPatient> {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Add Patient"),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.enter) {
-            submitForm();
-          }
-        },
-        child: displayForm(),
+      body: SafeArea(
+        child: KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              submitForm();
+            }
+          },
+          child: displayForm(),
+        ),
       ),
     );
   }

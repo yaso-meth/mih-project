@@ -59,187 +59,191 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
 
     if (getExtType(widget.arguments.path).toLowerCase() == "pdf") {
       return Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              width: width,
-              padding: const EdgeInsets.only(top: 20.0),
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  SizedBox(
-                    width: width - zoomOut,
-                    height: height - 70,
-                    child: SfPdfViewerTheme(
-                      data: SfPdfViewerThemeData(
-                        backgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                      child: SfPdfViewer.network(
-                        widget.arguments.link,
-                        controller: pdfViewerController,
-                        initialZoomLevel: startZoomLevel,
-                        pageSpacing: 2,
-                        maxZoomLevel: 5,
-                        interactionMode: PdfInteractionMode.pan,
-                        onDocumentLoaded: (details) {
-                          setState(() {
-                            currentPage = pdfViewerController.pageNumber;
-                            currentPageCount = pdfViewerController.pageCount;
-                          });
-                        },
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                width: width,
+                padding: const EdgeInsets.only(top: 20.0),
+                decoration: BoxDecoration(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 50),
+                    SizedBox(
+                      width: width - zoomOut,
+                      height: height - 70,
+                      child: SfPdfViewerTheme(
+                        data: SfPdfViewerThemeData(
+                          backgroundColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
+                        child: SfPdfViewer.network(
+                          widget.arguments.link,
+                          controller: pdfViewerController,
+                          initialZoomLevel: startZoomLevel,
+                          pageSpacing: 2,
+                          maxZoomLevel: 5,
+                          interactionMode: PdfInteractionMode.pan,
+                          onDocumentLoaded: (details) {
+                            setState(() {
+                              currentPage = pdfViewerController.pageNumber;
+                              currentPageCount = pdfViewerController.pageCount;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 5,
-              left: 2,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.fullscreen_exit,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  size: 35,
+                  ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 5,
-              right: 2,
-              //width: 50,
-              height: 50,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      pdfViewerController.previousPage();
-                      //print(pdfViewerController.);
-                      //if (pdfViewerController.pageNumber > 1) {
-                      setState(() {
-                        currentPage = pdfViewerController.pageNumber;
-                      });
-                      // }
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      size: 35,
-                    ),
+              Positioned(
+                top: 5,
+                left: 2,
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.fullscreen_exit,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    size: 35,
                   ),
-                  // SizedBox(
-                  //   width: 40,
-                  //   height: 40,
-                  //   child: MIHTextField(
-                  //       controller: cuntrController,
-                  //       hintText: "",
-                  //       editable: true,
-                  //       required: false),
-                  // ),
-                  Text(
-                    "$currentPage / $currentPageCount",
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      pdfViewerController.nextPage();
-                      //print(pdfViewerController.pageNumber);
-                      //if (pdfViewerController.pageNumber < currentPageCount) {
-                      setState(() {
-                        currentPage = pdfViewerController.pageNumber;
-                      });
-                      //}
-                    },
-                    icon: Icon(
-                      Icons.arrow_forward,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (zoomOut > 0) {
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 2,
+                //width: 50,
+                height: 50,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        pdfViewerController.previousPage();
+                        //print(pdfViewerController.);
+                        //if (pdfViewerController.pageNumber > 1) {
                         setState(() {
-                          zoomOut = zoomOut - 100;
+                          currentPage = pdfViewerController.pageNumber;
                         });
-                      } else {
-                        setState(() {
-                          pdfViewerController.zoomLevel = startZoomLevel + 0.25;
-                          startZoomLevel = pdfViewerController.zoomLevel;
-                        });
-                      }
-                    },
-                    icon: Icon(
-                      Icons.zoom_in,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      size: 35,
+                        // }
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (pdfViewerController.zoomLevel > 1) {
+                    // SizedBox(
+                    //   width: 40,
+                    //   height: 40,
+                    //   child: MIHTextField(
+                    //       controller: cuntrController,
+                    //       hintText: "",
+                    //       editable: true,
+                    //       required: false),
+                    // ),
+                    Text(
+                      "$currentPage / $currentPageCount",
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        pdfViewerController.nextPage();
+                        //print(pdfViewerController.pageNumber);
+                        //if (pdfViewerController.pageNumber < currentPageCount) {
                         setState(() {
-                          pdfViewerController.zoomLevel = startZoomLevel - 0.25;
-                          startZoomLevel = pdfViewerController.zoomLevel;
+                          currentPage = pdfViewerController.pageNumber;
                         });
-                      } else {
-                        if (zoomOut < (width - 100)) {
+                        //}
+                      },
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        size: 35,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (zoomOut > 0) {
                           setState(() {
-                            zoomOut = zoomOut + 100;
+                            zoomOut = zoomOut - 100;
+                          });
+                        } else {
+                          setState(() {
+                            pdfViewerController.zoomLevel =
+                                startZoomLevel + 0.25;
+                            startZoomLevel = pdfViewerController.zoomLevel;
                           });
                         }
-                      }
-                    },
-                    icon: Icon(
-                      Icons.zoom_out,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      size: 35,
+                      },
+                      icon: Icon(
+                        Icons.zoom_in,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      html.window.open(
-                          widget.arguments.link,
-                          // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                          'download');
-                    },
-                    icon: Icon(
-                      Icons.download,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      size: 35,
+                    IconButton(
+                      onPressed: () {
+                        if (pdfViewerController.zoomLevel > 1) {
+                          setState(() {
+                            pdfViewerController.zoomLevel =
+                                startZoomLevel - 0.25;
+                            startZoomLevel = pdfViewerController.zoomLevel;
+                          });
+                        } else {
+                          if (zoomOut < (width - 100)) {
+                            setState(() {
+                              zoomOut = zoomOut + 100;
+                            });
+                          }
+                        }
+                      },
+                      icon: Icon(
+                        Icons.zoom_out,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        size: 35,
+                      ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                      onPressed: () {
+                        html.window.open(
+                            widget.arguments.link,
+                            // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                            'download');
+                      },
+                      icon: Icon(
+                        Icons.download,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        size: 35,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     } else {

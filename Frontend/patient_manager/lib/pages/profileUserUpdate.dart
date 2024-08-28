@@ -169,89 +169,92 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Update Profile"),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Center(
-          child: KeyboardListener(
-            focusNode: _focusNode,
-            autofocus: true,
-            onKeyEvent: (event) async {
-              if (event is KeyDownEvent &&
-                  event.logicalKey == LogicalKeyboardKey.enter) {
-                submitForm();
-              }
-            },
-            child: Column(
-              children: [
-                const Text(
-                  "Personal Profile:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Center(
+            child: KeyboardListener(
+              focusNode: _focusNode,
+              autofocus: true,
+              onKeyEvent: (event) async {
+                if (event is KeyDownEvent &&
+                    event.logicalKey == LogicalKeyboardKey.enter) {
+                  submitForm();
+                }
+              },
+              child: Column(
+                children: [
+                  const Text(
+                    "Personal Profile:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 15.0),
-                MIHTextField(
-                  controller: usernameController,
-                  hintText: "Username",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: fnameController,
-                  hintText: "First Name",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: lnameController,
-                  hintText: "Last Name",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Activate Business Account",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                  const SizedBox(height: 15.0),
+                  MIHTextField(
+                    controller: usernameController,
+                    hintText: "Username",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: fnameController,
+                    hintText: "First Name",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: lnameController,
+                    hintText: "Last Name",
+                    editable: true,
+                    required: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Activate Business Account",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Switch(
-                      value: businessUser,
-                      onChanged: (bool value) {
-                        setState(() {
-                          businessUser = value;
-                        });
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Switch(
+                        value: businessUser,
+                        onChanged: (bool value) {
+                          setState(() {
+                            businessUser = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30.0),
+                  SizedBox(
+                    width: 500.0,
+                    height: 50.0,
+                    child: MIHButton(
+                      buttonText: "Update",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onTap: () {
+                        submitForm();
                       },
                     ),
-                  ],
-                ),
-                const SizedBox(height: 30.0),
-                SizedBox(
-                  width: 500.0,
-                  height: 50.0,
-                  child: MIHButton(
-                    buttonText: "Update",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      submitForm();
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

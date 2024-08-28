@@ -98,55 +98,58 @@ class _PatientViewState extends State<PatientView> {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Patient Profile"),
       //drawer: showDrawer(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 0;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.perm_identity,
-                      size: 35,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.perm_identity,
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 1;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.article_outlined,
-                      size: 35,
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = 1;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.article_outlined,
+                        size: 35,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 2;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.file_present,
-                      size: 35,
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = 2;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.file_present,
+                        size: 35,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              showSelection(_selectedIndex),
-            ],
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                showSelection(_selectedIndex),
+              ],
+            ),
           ),
         ),
       ),

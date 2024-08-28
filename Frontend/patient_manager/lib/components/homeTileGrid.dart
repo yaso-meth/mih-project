@@ -387,119 +387,127 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     //final double height = size.height;
-    return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Mzansi Innovation\nHub"),
-      drawer: MIHAppDrawer(
-        signedInUser: widget.signedInUser,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      appSearch = "";
-                      searchController.clear();
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.apps,
-                    size: 50,
-                  ),
-                ),
-                KeyboardListener(
-                  focusNode: _focusNode,
-                  autofocus: true,
-                  onKeyEvent: (event) async {
-                    if (event is KeyDownEvent &&
-                        event.logicalKey == LogicalKeyboardKey.enter) {
-                      setState(() {
-                        appSearch = searchController.text;
-                      });
-                    }
-                  },
-                  child: SizedBox(
-                    width: width - ((width / 10) * 2) - 70,
-                    child: MIHSearchField(
-                      controller: searchController,
-                      hintText: "Search Apps",
-                      required: false,
-                      editable: true,
-                      onTap: () {
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: const MIHAppBar(barTitle: "Mzansi Innovation\nHub"),
+        drawer: MIHAppDrawer(
+          signedInUser: widget.signedInUser,
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
                         setState(() {
-                          appSearch = searchController.text;
+                          appSearch = "";
+                          searchController.clear();
                         });
                       },
+                      icon: const Icon(
+                        Icons.apps,
+                        size: 50,
+                      ),
                     ),
-                  ),
+                    KeyboardListener(
+                      focusNode: _focusNode,
+                      autofocus: true,
+                      onKeyEvent: (event) async {
+                        if (event is KeyDownEvent &&
+                            event.logicalKey == LogicalKeyboardKey.enter) {
+                          setState(() {
+                            appSearch = searchController.text;
+                          });
+                        }
+                      },
+                      child: SizedBox(
+                        width: width - ((width / 10) * 2) - 70,
+                        child: MIHSearchField(
+                          controller: searchController,
+                          hintText: "Search Apps",
+                          required: false,
+                          editable: true,
+                          onTap: () {
+                            setState(() {
+                              appSearch = searchController.text;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.only(
-                left: width / 10,
-                right: width / 10,
-                //bottom: height / 5,
-                top: 20,
               ),
-              // physics: ,
-              // shrinkWrap: true,
-              itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200),
-              itemBuilder: (context, index) {
-                return searchApp(pbswitch[_selectedIndex], appSearch)[index];
-              },
-            ),
-          ),
-        ],
-      ),
-
-      //),
-      //   ],
-      // ),
-      bottomNavigationBar: Visibility(
-        visible: isBusinessUser(widget.signedInUser),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: GNav(
-            //hoverColor: Colors.lightBlueAccent,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            iconSize: 35.0,
-            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            tabBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            //gap: 20,
-            //padding: EdgeInsets.all(15),
-            tabs: [
-              GButton(
-                icon: Icons.perm_identity,
-                text: "Personal",
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
-                },
-              ),
-              GButton(
-                icon: Icons.business_center,
-                text: "Business",
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
-                },
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.only(
+                    left: width / 10,
+                    right: width / 10,
+                    //bottom: height / 5,
+                    top: 20,
+                  ),
+                  // physics: ,
+                  // shrinkWrap: true,
+                  itemCount:
+                      searchApp(pbswitch[_selectedIndex], appSearch).length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200),
+                  itemBuilder: (context, index) {
+                    return searchApp(
+                        pbswitch[_selectedIndex], appSearch)[index];
+                  },
+                ),
               ),
             ],
-            selectedIndex: _selectedIndex,
+          ),
+        ),
+
+        //),
+        //   ],
+        // ),
+        bottomNavigationBar: Visibility(
+          visible: isBusinessUser(widget.signedInUser),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: GNav(
+              //hoverColor: Colors.lightBlueAccent,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              iconSize: 35.0,
+              activeColor:
+                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              tabBackgroundColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //gap: 20,
+              //padding: EdgeInsets.all(15),
+              tabs: [
+                GButton(
+                  icon: Icons.perm_identity,
+                  text: "Personal",
+                  onPressed: () {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  },
+                ),
+                GButton(
+                  icon: Icons.business_center,
+                  text: "Business",
+                  onPressed: () {
+                    setState(() {
+                      _selectedIndex = 1;
+                    });
+                  },
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+            ),
           ),
         ),
       ),

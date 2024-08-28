@@ -269,7 +269,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     return Scaffold(
       appBar: const MIHAppBar(barTitle: "Access Reviews"),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: viewAccessRequest(screenWidth, screenHeight),
+      body: SafeArea(child: viewAccessRequest(screenWidth, screenHeight)),
     );
   }
 }
