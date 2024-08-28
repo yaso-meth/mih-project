@@ -139,7 +139,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer>
                           } else {
                             return SizedBox(
                               width: 60,
-                              child: Image(image: logoThemeSwitch),
+                              child: Image(image: logoFrame),
                             );
                           }
                         } else {

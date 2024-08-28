@@ -297,7 +297,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
                               child: Image(
                                   image: MzanziInnovationHub.of(context)!
                                       .theme
-                                      .altLogoImage()));
+                                      .altLogoFrame()));
                         }
                       } else {
                         return Center(
