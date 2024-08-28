@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gif/gif.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
+import 'package:patient_manager/components/mihLoadingCircle.dart';
 // import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
@@ -12,6 +16,8 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:supertokens_flutter/http.dart' as http;
+import 'package:http/http.dart' as http2;
+import 'package:supertokens_flutter/supertokens.dart';
 
 class ProfileUserUpdate extends StatefulWidget {
   final AppUser signedInUser;
@@ -25,12 +31,73 @@ class ProfileUserUpdate extends StatefulWidget {
   State<ProfileUserUpdate> createState() => _ProfileUserUpdateState();
 }
 
-class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
+class _ProfileUserUpdateState extends State<ProfileUserUpdate>
+    with TickerProviderStateMixin {
+  final proPicController = TextEditingController();
   final usernameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
+
+  late PlatformFile proPic;
+  late Future<String> proPicUrl;
   late bool businessUser;
   final FocusNode _focusNode = FocusNode();
+  late final GifController _controller;
+
+  Future<String> getFileUrlApiCall(String filePath) async {
+    if (AppEnviroment.getEnv() == "Dev") {
+      return "${AppEnviroment.baseFileUrl}/mih/$filePath";
+    } else {
+      var url = "${AppEnviroment.baseApiUrl}/minio/pull/file/$filePath/prod";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        String body = response.body;
+        var decodedData = jsonDecode(body);
+
+        return decodedData['minioURL'];
+      } else {
+        throw Exception(
+            "Error: GetUserData status code ${response.statusCode}");
+      }
+    }
+  }
+
+  Future<void> uploadSelectedFile(PlatformFile file) async {
+    //var strem = new http.ByteStream.fromBytes(file.bytes.)
+    //start loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+
+    var token = await SuperTokens.getAccessToken();
+    var request = http2.MultipartRequest(
+        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
+    request.headers['accept'] = 'application/json';
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields['app_id'] = widget.signedInUser.app_id;
+    request.fields['folder'] = "profile_files";
+    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
+        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    var response1 = await request.send();
+    if (response1.statusCode == 200) {
+      setState(() {
+        //proPicController.clear();
+        //futueFiles = fetchFiles();
+      });
+      // end loading circle
+      //Navigator.of(context).pop();
+      // String message =
+      //     "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.signedInUser.fname} ${widget.signedInUser.lname}'s record. You can now access and download it for their use.";
+      // successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
 
   bool isFieldsFilled() {
     if (fnameController.text.isEmpty ||
@@ -43,20 +110,14 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   Future<void> updateUserApiCall() async {
-    //print("Here1");
-    //userEmail = getLoginUserEmail() as String;
-    //print(userEmail);
-    //print("Here2");
-    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    //print(futureDocOfficeId.toString());
-    //print("Here3");
+    var fname = proPicController.text.replaceAll(RegExp(r' '), '-');
+    var filePath = "${widget.signedInUser.app_id}/profile_files/$fname";
     var profileType;
     if (businessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
-    print("is username valid ${isUsernameValid(usernameController.text)}");
     if (isUsernameValid(usernameController.text) == false) {
       usernamePopUp();
     } else {
@@ -71,6 +132,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           "fnam": fnameController.text,
           "lname": lnameController.text,
           "type": profileType,
+          "pro_pic_path": filePath,
         }),
       );
       //print("Here4");
@@ -130,9 +192,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         .hasMatch(username);
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     if (isFieldsFilled()) {
-      updateUserApiCall();
+      await uploadSelectedFile(proPic);
+      await updateUserApiCall();
     } else {
       showDialog(
         context: context,
@@ -145,6 +208,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   void dispose() {
+    _controller.dispose();
+    proPicController.dispose();
     usernameController.dispose();
     fnameController.dispose();
     lnameController.dispose();
@@ -154,7 +219,16 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   void initState() {
+    var proPicName = "";
+    if (widget.signedInUser.pro_pic_path.isNotEmpty) {
+      proPicName = widget.signedInUser.pro_pic_path.split("/").last;
+      setState(() {
+        proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
+      });
+    }
+    _controller = GifController(vsync: this);
     setState(() {
+      proPicController.text = proPicName;
       fnameController.text = widget.signedInUser.fname;
       lnameController.text = widget.signedInUser.lname;
       usernameController.text = widget.signedInUser.username;
@@ -185,13 +259,94 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
               child: Column(
                 children: [
                   const Text(
-                    "Personal Profile:",
+                    "Mzansi Profile:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
                     ),
                   ),
-                  const SizedBox(height: 15.0),
+                  const SizedBox(height: 25.0),
+                  FutureBuilder(
+                    future: proPicUrl,
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            fit: StackFit.loose,
+                            children: [
+                              CircleAvatar(
+                                //backgroundColor: Colors.green,
+                                backgroundImage:
+                                    NetworkImage(snapshot.requireData),
+                                //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+                                radius: 50,
+                              ),
+                              SizedBox(
+                                width: 110,
+                                child: Image(
+                                    image: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .altLogoFrame()),
+                              )
+                            ],
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          );
+                        }
+                      } else {
+                        return SizedBox(
+                          width: 110,
+                          child: Gif(
+                            image: MzanziInnovationHub.of(context)!
+                                .theme
+                                .loadingImage(),
+                            controller:
+                                _controller, // if duration and fps is null, original gif fps will be used.
+                            fps: 15,
+                            //duration: const Duration(seconds: 3),
+                            autostart: Autostart.loop,
+                            placeholder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            onFetchCompleted: () {
+                              _controller.reset();
+                              _controller.forward();
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHFileField(
+                    controller: proPicController,
+                    hintText: "Profile Picture",
+                    editable: true,
+                    required: false,
+                    onPressed: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'png', 'pdf'],
+                      );
+                      if (result == null) return;
+                      final selectedFile = result.files.first;
+                      setState(() {
+                        proPic = selectedFile;
+                      });
+
+                      setState(() {
+                        proPicController.text = selectedFile.name;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
                   MIHTextField(
                     controller: usernameController,
                     hintText: "Username",
