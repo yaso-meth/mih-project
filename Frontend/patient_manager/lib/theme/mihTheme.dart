@@ -164,6 +164,19 @@ class MyTheme {
     return loading;
   }
 
+  AssetImage altLoadingImage() {
+    if (mode == "Dark") {
+      loading = const AssetImage(
+        'images/loading_dark.gif',
+      );
+    } else {
+      loading = const AssetImage(
+        'images/loading_light.gif',
+      );
+    }
+    return loading;
+  }
+
   Color primaryColor() {
     if (mode == "Dark") {
       _mainColor = 0XFF3A4454;

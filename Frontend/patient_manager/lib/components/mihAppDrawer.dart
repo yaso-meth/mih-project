@@ -55,7 +55,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer>
   }
 
   Future<String> getFileUrlApiCall(String filePath) async {
-    if (AppEnviroment.getEnv() == "Dev") {
+    if (widget.signedInUser.pro_pic_path == "") {
+      return "";
+    } else if (AppEnviroment.getEnv() == "Dev") {
       return "${AppEnviroment.baseFileUrl}/mih/$filePath";
     } else {
       var url = "${AppEnviroment.baseApiUrl}/minio/pull/file/$filePath/prod";
@@ -81,11 +83,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer>
 
   @override
   void initState() {
-    if (widget.signedInUser.pro_pic_path.isNotEmpty) {
-      setState(() {
-        proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
-      });
-    }
+    setState(() {
+      proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
+    });
     _controller = GifController(vsync: this);
     super.initState();
   }
@@ -118,7 +118,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer>
                       future: proPicUrl,
                       builder: (BuildContext context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
+                          if (snapshot.hasData && snapshot.data != "") {
                             return Stack(
                               alignment: Alignment.center,
                               fit: StackFit.loose,
@@ -137,32 +137,16 @@ class _MIHAppDrawerState extends State<MIHAppDrawer>
                               ],
                             );
                           } else {
-                            return Center(
-                              child: Text(
-                                '${snapshot.error} occurred',
-                                style: const TextStyle(fontSize: 18),
-                              ),
+                            return SizedBox(
+                              width: 60,
+                              child: Image(image: logoThemeSwitch),
                             );
                           }
                         } else {
-                          return SizedBox(
-                            width: 60,
-                            child: Gif(
-                              image: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .loadingImage(),
-                              controller:
-                                  _controller, // if duration and fps is null, original gif fps will be used.
-                              fps: 15,
-                              //duration: const Duration(seconds: 3),
-                              autostart: Autostart.loop,
-                              placeholder: (context) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              onFetchCompleted: () {
-                                _controller.reset();
-                                _controller.forward();
-                              },
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: const TextStyle(fontSize: 18),
                             ),
                           );
                         }
