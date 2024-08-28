@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/pages/fullScreenFile.dart';
@@ -151,12 +150,15 @@ class RouteGenerator {
 }
 
 Route<dynamic> _errorRoute() {
-  return MaterialPageRoute(builder: (_) {
-    return const Scaffold(
-      appBar: MIHAppBar(barTitle: "Error"),
-      body: Center(
-        child: Text("Error"),
-      ),
-    );
-  });
+  return MaterialPageRoute(
+      settings: const RouteSettings(name: '/'),
+      builder: (_) => const AuthCheck());
+  // return MaterialPageRoute(builder: (_) {
+  //   return const Scaffold(
+  //     appBar: MIHAppBar(barTitle: "Error"),
+  //     body: Center(
+  //       child: Text("Error"),
+  //     ),
+  //   );
+  // });
 }
