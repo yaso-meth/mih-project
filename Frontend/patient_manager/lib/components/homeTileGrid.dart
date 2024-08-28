@@ -49,14 +49,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         onTap: () {
           Navigator.of(context)
               .pushNamed('/user-profile', arguments: widget.signedInUser);
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   '/profile',
-          //   (route) => false,
-          //   arguments: widget.signedInUser,
-          // );
         },
         tileName: "Setup Profie",
-        tileIcon: Icons.perm_identity,
+        tileIcon: Icon(
+          Icons.perm_identity,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -70,39 +69,42 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           '/business-profile/set-up',
           arguments: widget.signedInUser,
         );
-        // Navigator.of(context).pushNamedAndRemoveUntil(
-        //   '/business/add',
-        //   (route) => false,
-        //   arguments: widget.signedInUser,
-        // );
       },
       tileName: "Setup Business",
-      tileIcon: Icons.add_business_outlined,
+      tileIcon: Icon(
+        Icons.add_business_outlined,
+        color: getSec(),
+        size: 200,
+      ),
       p: getPrim(),
       s: getSec(),
     ));
   }
 
   void setAppsPersonal(List<HomeTile> tileList) {
+    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed('/user-profile', arguments: widget.signedInUser);
+      },
+      tileName: "Mzansi Profie",
+      tileIcon: Image(image: logo),
+      p: getPrim(),
+      s: getSec(),
+    ));
     tileList.add(HomeTile(
       onTap: () {
         Navigator.of(context).pushNamed('/patient-profile',
             arguments: PatientViewArguments(
                 widget.signedInUser, null, null, null, "personal"));
-        // Navigator.of(context).pushNamedAndRemoveUntil(
-        //   '/patient-profile',
-        //   (route) => false,
-        //   arguments: PatientViewArguments(
-        //     widget.signedInUser,
-        //     null,
-        //     null,
-        //     null,
-        //     "personal",
-        //   ),
-        // );
       },
       tileName: "Patient Profile",
-      tileIcon: Icons.medication,
+      tileIcon: Icon(
+        Icons.medication,
+        color: getSec(),
+        size: 200,
+      ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -112,14 +114,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           '/access-review',
           arguments: widget.signedInUser,
         );
-        // Navigator.of(context).pushNamedAndRemoveUntil(
-        //   '/patient-access-review',
-        //   (route) => false,
-        //   arguments: widget.signedInUser,
-        // );
       },
       tileName: "Access Review",
-      tileIcon: Icons.check_box_outlined,
+      tileIcon: Icon(
+        Icons.check_box_outlined,
+        color: getSec(),
+        size: 200,
+      ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -137,18 +138,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               widget.business,
             ),
           );
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   '/business-profile',
-          //   (route) => false,
-          //   arguments: BusinessArguments(
-          //     widget.signedInUser,
-          //     widget.businessUser,
-          //     widget.business,
-          //   ),
-          // );
         },
         tileName: "Business Profile",
-        tileIcon: Icons.business,
+        tileIcon: Icon(
+          Icons.business,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -164,18 +160,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               widget.business,
             ),
           );
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   '/patient-manager',
-          //   (route) => false,
-          //   arguments: BusinessArguments(
-          //     widget.signedInUser,
-          //     widget.businessUser,
-          //     widget.business,
-          //   ),
-          // );
         },
         tileName: "Manage Patient",
-        tileIcon: Icons.medication,
+        tileIcon: Icon(
+          Icons.medication,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -194,7 +185,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         },
         tileName: "Loading - Dev",
-        tileIcon: Icons.change_circle,
+        tileIcon: Icon(
+          Icons.change_circle,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -204,14 +199,13 @@ class _HomeTileGridState extends State<HomeTileGrid> {
             '/business-profile/set-up',
             arguments: widget.signedInUser,
           );
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   '/business/add',
-          //   (route) => false,
-          //   arguments: widget.signedInUser,
-          // );
         },
         tileName: "Setup Bus - Dev",
-        tileIcon: Icons.add_business_outlined,
+        tileIcon: Icon(
+          Icons.add_business_outlined,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -219,28 +213,29 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         onTap: () {
           Navigator.of(context).pushNamed('/patient-profile/set-up',
               arguments: widget.signedInUser);
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   '/patient-manager/add',
-          //   (route) => false,
-          //   arguments: widget.signedInUser,
-          // );
         },
         tileName: "Add Pat - Dev",
-        tileIcon: Icons.add_circle_outline,
+        tileIcon: Icon(
+          Icons.add_circle_outline,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
       tileList.add(HomeTile(
         onTap: () {
-          // Navigator.of(context)
-          //     .popAndPushNamed('/profile', arguments: widget.signedInUser);
           Navigator.of(context).pushNamed(
             '/user-profile',
             arguments: widget.signedInUser,
           );
         },
         tileName: "Upd Prof - Dev",
-        tileIcon: Icons.perm_identity,
+        tileIcon: Icon(
+          Icons.perm_identity,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -254,7 +249,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         },
         tileName: "Warn - Dev",
-        tileIcon: Icons.warning_amber_rounded,
+        tileIcon: Icon(
+          Icons.warning_amber_rounded,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -268,7 +267,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         },
         tileName: "Error - Dev",
-        tileIcon: Icons.error_outline_outlined,
+        tileIcon: Icon(
+          Icons.error_outline_outlined,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -285,7 +288,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         },
         tileName: "Success - Dev",
-        tileIcon: Icons.check_circle_outline_outlined,
+        tileIcon: Icon(
+          Icons.check_circle_outline_outlined,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -300,7 +307,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           );
         },
         tileName: "Delete - Dev",
-        tileIcon: Icons.delete_forever_outlined,
+        tileIcon: Icon(
+          Icons.delete_forever_outlined,
+          color: getSec(),
+          size: 200,
+        ),
         p: getPrim(),
         s: getSec(),
       ));
@@ -458,7 +469,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                   itemCount:
                       searchApp(pbswitch[_selectedIndex], appSearch).length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200),
+                      mainAxisSpacing: 10, maxCrossAxisExtent: 200),
                   itemBuilder: (context, index) {
                     return searchApp(
                         pbswitch[_selectedIndex], appSearch)[index];
