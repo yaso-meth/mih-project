@@ -203,12 +203,12 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
           ],
         ),
         Positioned(
-          top: 1,
-          right: 1,
-          width: 50,
-          height: 50,
-          child: IconButton(
-            onPressed: () {
+          top: 5,
+          right: 5,
+          width: 40,
+          height: 40,
+          child: InkWell(
+            onTap: () {
               setState(() {
                 if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
                   //darkm = !darkm;
@@ -222,12 +222,29 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 Navigator.of(context).popAndPushNamed('/');
               });
             },
-            icon: Icon(
-              Icons.light_mode,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              size: 35,
-            ),
+            child: Image(image: logo),
           ),
+          // IconButton(
+          //   onPressed: () {
+          //     setState(() {
+          //       if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
+          //         //darkm = !darkm;
+          //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.light);
+          //         //print("Dark Mode: $darkm");
+          //       } else {
+          //         //darkm = !darkm;
+          //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
+          //         //print("Dark Mode: $darkm");
+          //       }
+          //       Navigator.of(context).popAndPushNamed('/');
+          //     });
+          //   },
+          //   icon: Icon(
+          //     Icons.light_mode,
+          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          //     size: 35,
+          //   ),
+          // ),
         ),
       ]),
     );
