@@ -307,7 +307,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
     double height = size.height;
     if (widget.files.isNotEmpty) {
       return SizedBox(
-        height: height - 250,
+        height: height - 254,
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {

@@ -197,19 +197,21 @@ class _PatientManagerState extends State<PatientManager> {
             builder: (context, snapshot) {
               //print("patient Liust  ${snapshot.data}");
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  //height: 500,
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 3.0),
+                return Expanded(
+                  child: Container(
+                    //height: 500,
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      border: Border.all(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 3.0),
+                    ),
+                    child: const Mihloadingcircle(),
                   ),
-                  child: const Mihloadingcircle(),
                 );
               } else if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
@@ -226,27 +228,29 @@ class _PatientManagerState extends State<PatientManager> {
                   child: displayPatientList(patientsList, searchString),
                 );
               } else {
-                return Container(
-                  //height: 500,
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 3.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
-                      style: TextStyle(
-                          fontSize: 25,
+                return Expanded(
+                  child: Container(
+                    //height: 500,
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      border: Border.all(
                           color: MzanziInnovationHub.of(context)!
                               .theme
-                              .errorColor()),
-                      textAlign: TextAlign.center,
+                              .secondaryColor(),
+                          width: 3.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .errorColor()),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 );
@@ -279,7 +283,7 @@ class _PatientManagerState extends State<PatientManager> {
       );
     }
     return Container(
-      //height: 500,
+      height: 500,
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
@@ -335,18 +339,21 @@ class _PatientManagerState extends State<PatientManager> {
           builder: (context, snapshot) {
             //print("patient Queue List  ${snapshot.hasData}");
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                //height: 500,
-                decoration: BoxDecoration(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  borderRadius: BorderRadius.circular(25.0),
-                  border: Border.all(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      width: 3.0),
+              return Expanded(
+                child: Container(
+                  height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: const Mihloadingcircle(),
                 ),
-                child: const Mihloadingcircle(),
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
               List<PatientQueue> patientQueueList;
@@ -362,26 +369,29 @@ class _PatientManagerState extends State<PatientManager> {
                 child: displayQueueList(patientQueueList),
               );
             } else {
-              return Container(
-                //height: 500,
-                decoration: BoxDecoration(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  borderRadius: BorderRadius.circular(25.0),
-                  border: Border.all(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      width: 3.0),
-                ),
-                child: Center(
-                  child: Text(
-                    "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
-                    style: TextStyle(
-                        fontSize: 25,
+              return Expanded(
+                child: Container(
+                  //height: 500,
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
                         color: MzanziInnovationHub.of(context)!
                             .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor()),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               );

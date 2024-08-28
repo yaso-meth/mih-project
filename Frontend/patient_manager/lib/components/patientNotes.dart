@@ -331,11 +331,27 @@ class _PatientNotesState extends State<PatientNotes> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    //double width = size.width;
+    double height = size.height;
     return FutureBuilder(
       future: futueNotes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Mihloadingcircle();
+          return Container(
+            height: height - 177,
+            decoration: BoxDecoration(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 3.0),
+            ),
+            child: const Center(
+              child: Mihloadingcircle(),
+            ),
+          );
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
           return Container(
@@ -374,8 +390,19 @@ class _PatientNotesState extends State<PatientNotes> {
             ),
           );
         } else {
-          return const Center(
-            child: Text("Error Loading Notes"),
+          return Container(
+            height: height - 177,
+            decoration: BoxDecoration(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              borderRadius: BorderRadius.circular(25.0),
+              border: Border.all(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 3.0),
+            ),
+            child: const Center(
+              child: Text("Error Loading Notes"),
+            ),
           );
         }
       },
