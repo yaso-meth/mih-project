@@ -25,6 +25,7 @@ class userUpdateRequest(BaseModel):
     fnam: str
     lname: str
     type: str
+    pro_pic_path: str
     
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
@@ -90,6 +91,7 @@ async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(
             "type": item[4],
             "app_id": item[5],
             "username": item[6],
+            "pro_pic_path": item[7],
         }
         for item in cursor.fetchall()
     ]
@@ -103,10 +105,10 @@ async def insert_User_details(itemRequest : userInsertRequest, session: SessionC
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into users "
-    query += "(email, fname, lname, type, app_id, username) "
-    query += "values (%s, %s, %s, %s, %s, %s)"
+    query += "(email, fname, lname, type, app_id, username, pro_pic_path) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s)"
     userData = (itemRequest.email,"","","personal",
-                   itemRequest.app_id, "")
+                   itemRequest.app_id, "", "")
     try:
        cursor.execute(query, userData) 
     except Exception as error:
@@ -123,12 +125,13 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
-    query += "set username=%s, fname=%s, lname=%s, type=%s "
+    query += "set username=%s, fname=%s, lname=%s, type=%s, pro_pic_path=%s "
     query += "where idusers=%s"
     userData = (itemRequest.username, 
                    itemRequest.fnam,
                    itemRequest.lname,
                    itemRequest.type,
+                   itemRequest.pro_pic_path,
                    itemRequest.idusers,
                    )
     try:
