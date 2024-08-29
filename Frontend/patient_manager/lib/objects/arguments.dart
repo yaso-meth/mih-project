@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
@@ -13,6 +14,13 @@ class BusinessArguments {
     this.businessUser,
     this.business,
   );
+}
+
+class AppProfileUpdateArguments {
+  final AppUser signedInUser;
+  final ImageProvider<Object>? propicFile;
+
+  AppProfileUpdateArguments(this.signedInUser, this.propicFile);
 }
 
 class FileViewArguments {
