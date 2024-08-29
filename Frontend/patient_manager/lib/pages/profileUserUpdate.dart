@@ -44,6 +44,28 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
   final FocusNode _focusNode = FocusNode();
   late final GifController _controller;
 
+  late String oldProPicName;
+
+  Future<void> deleteFileApiCall(String filename) async {
+    // delete file from minio
+    var fname = filename.replaceAll(RegExp(r' '), '-');
+    var filePath = "${widget.signedInUser.app_id}/profile_files/$fname";
+    var response = await http.delete(
+      Uri.parse("${AppEnviroment.baseApiUrl}/minio/delete/file/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+    );
+    //print("Here4");
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
+      //SQL delete
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
   Future<String> getFileUrlApiCall(String filePath) async {
     if (widget.signedInUser.pro_pic_path == "") {
       return "";
@@ -87,10 +109,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response1 = await request.send();
     if (response1.statusCode == 200) {
-      setState(() {
-        //proPicController.clear();
-        //futueFiles = fetchFiles();
-      });
+      deleteFileApiCall(oldProPicName);
+
       // end loading circle
       //Navigator.of(context).pop();
       // String message =
@@ -196,7 +216,9 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
 
   Future<void> submitForm() async {
     if (isFieldsFilled()) {
-      await uploadSelectedFile(proPic);
+      if (oldProPicName != proPicController.text) {
+        await uploadSelectedFile(proPic);
+      }
       await updateUserApiCall();
     } else {
       showDialog(
@@ -228,6 +250,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
     _controller = GifController(vsync: this);
     setState(() {
       proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
+      oldProPicName = proPicName;
       proPicController.text = proPicName;
       fnameController.text = widget.signedInUser.fname;
       lnameController.text = widget.signedInUser.lname;
@@ -313,7 +336,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
                   MIHFileField(
                     controller: proPicController,
                     hintText: "Profile Picture",
-                    editable: true,
+                    editable: false,
                     required: false,
                     onPressed: () async {
                       FilePickerResult? result =
