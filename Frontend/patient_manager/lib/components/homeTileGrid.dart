@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/components/homeTile.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
@@ -49,8 +48,9 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     if (widget.signedInUser.fname == "") {
       tileList.add(HomeTile(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed('/user-profile', arguments: widget.signedInUser);
+          Navigator.of(context).pushNamed('/user-profile',
+              arguments: AppProfileUpdateArguments(
+                  widget.signedInUser, widget.propicFile));
         },
         tileName: "Setup Profie",
         tileIcon: Icon(
@@ -87,8 +87,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     tileList.add(HomeTile(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/user-profile', arguments: widget.signedInUser);
+        Navigator.of(context).pushNamed(
+          '/user-profile',
+          arguments:
+              AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
+        );
       },
       tileName: "Mzansi Profie",
       tileIcon: Image(image: logo),
@@ -225,22 +228,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
-      tileList.add(HomeTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(
-            '/user-profile',
-            arguments: widget.signedInUser,
-          );
-        },
-        tileName: "Upd Prof - Dev",
-        tileIcon: Icon(
-          Icons.perm_identity,
-          color: getSec(),
-          size: 200,
-        ),
-        p: getPrim(),
-        s: getSec(),
-      ));
+
       tileList.add(HomeTile(
         onTap: () {
           showDialog(
@@ -378,6 +366,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
+  void onDragStart(DragStartDetails startDrag) {
+    Scaffold.of(context).openDrawer();
+    print(startDrag.globalPosition.dx);
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -403,36 +396,54 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        appBar: MIHAppBar(
-          barTitle: "Mzansi Innovation\nHub",
-          propicFile: widget.propicFile,
-        ),
+        drawerEnableOpenDragGesture: true,
         drawer: MIHAppDrawer(
           signedInUser: widget.signedInUser,
+          propicFile: widget.propicFile,
         ),
         body: SafeArea(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
+              const SizedBox(height: 15.0),
+              Text(
+                "Mzanzi Innovation Hub",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
               const SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          appSearch = "";
-                          searchController.clear();
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.apps,
-                        size: 50,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Builder(
+                      builder: (context) => IconButton(
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () {
+                          setState(() {
+                            appSearch = "";
+                            searchController.clear();
+                          });
+                          Scaffold.of(context).openDrawer();
+                        },
+                        icon: const Icon(
+                          Icons.apps,
+                          size: 50,
+                        ),
                       ),
                     ),
-                    KeyboardListener(
+                  ),
+                  Flexible(
+                    flex: 4,
+                    child: KeyboardListener(
                       focusNode: _focusNode,
                       autofocus: true,
                       onKeyEvent: (event) async {
@@ -444,7 +455,6 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                         }
                       },
                       child: SizedBox(
-                        width: width - ((width / 10) * 2) - 70,
                         child: MIHSearchField(
                           controller: searchController,
                           hintText: "Search Apps",
@@ -458,9 +468,10 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 10),
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.only(
@@ -474,7 +485,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                   itemCount:
                       searchApp(pbswitch[_selectedIndex], appSearch).length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      mainAxisSpacing: 10, maxCrossAxisExtent: 200),
+                      mainAxisSpacing: 15, maxCrossAxisExtent: 200),
                   itemBuilder: (context, index) {
                     return searchApp(
                         pbswitch[_selectedIndex], appSearch)[index];
