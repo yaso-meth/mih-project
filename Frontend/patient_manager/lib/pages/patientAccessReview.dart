@@ -5,7 +5,7 @@ import 'package:patient_manager/components/builders/buildAccessRequestList.dart'
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 //import 'package:patient_manager/components/mihAppDrawer.dart';
-import 'package:patient_manager/components/mihLoadingCircle.dart';
+import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/accessRequest.dart';

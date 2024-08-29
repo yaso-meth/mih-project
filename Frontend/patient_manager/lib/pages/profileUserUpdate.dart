@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:gif/gif.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
-import 'package:patient_manager/components/mihLoadingCircle.dart';
+import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 // import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';

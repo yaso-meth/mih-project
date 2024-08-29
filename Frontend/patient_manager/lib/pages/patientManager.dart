@@ -8,7 +8,7 @@ import 'package:patient_manager/components/builders/buildPatientList.dart';
 import 'package:patient_manager/components/builders/buildPatientQueueList.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 //import 'package:patient_manager/components/mihAppDrawer.dart';
-import 'package:patient_manager/components/mihLoadingCircle.dart';
+import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDateInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/objects/arguments.dart';
