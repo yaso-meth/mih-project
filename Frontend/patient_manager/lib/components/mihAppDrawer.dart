@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {
@@ -31,22 +32,32 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     ImageProvider logoFrame =
         MzanziInnovationHub.of(context)!.theme.logoFrame();
     if (widget.propicFile != null) {
-      return Stack(
-        alignment: Alignment.center,
-        fit: StackFit.loose,
-        children: [
-          CircleAvatar(
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            backgroundImage: widget.propicFile,
-            //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-            radius: 27,
-          ),
-          SizedBox(
-            width: 60,
-            child: Image(image: logoFrame),
-          )
-        ],
+      return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(
+            '/user-profile',
+            arguments: AppProfileUpdateArguments(
+                widget.signedInUser, widget.propicFile),
+          );
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.loose,
+          children: [
+            CircleAvatar(
+              backgroundColor:
+                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              backgroundImage: widget.propicFile,
+              //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+              radius: 27,
+            ),
+            SizedBox(
+              width: 60,
+              child: Image(image: logoFrame),
+            )
+          ],
+        ),
       );
     } else {
       return SizedBox(
@@ -112,7 +123,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                       ),
                     ),
                     Text(
-                      widget.signedInUser.type,
+                      widget.signedInUser.type.toUpperCase(),
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
