@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/mihLoadingCircle.dart';
+import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihPassInput.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
@@ -29,6 +30,8 @@ class _SignInState extends State<SignIn> {
   final FocusNode _focusNode = FocusNode();
 
   final baseAPI = AppEnviroment.baseApiUrl;
+
+  late List<HomeTile> sandboxProfileList = [];
 
   //sign user in
   Future<void> signUserIn() async {
@@ -75,6 +78,34 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  Color getPrim() {
+    return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+  }
+
+  Color getSec() {
+    return MzanziInnovationHub.of(context)!.theme.primaryColor();
+  }
+
+  void setSandboxProfiles(List<HomeTile> tileList) {
+    tileList.add(HomeTile(
+      onTap: () {
+        setState(() {
+          emailController.text = "test@mzansi-innovation-hub.co.za";
+          passwordController.text = "Testprofile@1234";
+        });
+        validateInput();
+      },
+      tileName: "Doctor",
+      tileIcon: Icon(
+        Icons.medical_services,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+  }
+
   void loginError() {
     showDialog(
       context: context,
@@ -100,12 +131,95 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  void showSandboxProfiles() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          //backgroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                width: 500.0,
+                height: 500,
+                decoration: BoxDecoration(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 5.0),
+                ),
+                child: Column(
+                  //mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "Sandbox Profiles",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: GridView.builder(
+                        // physics: ,
+                        // shrinkWrap: true,
+                        itemCount: sandboxProfileList.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                mainAxisSpacing: 10, maxCrossAxisExtent: 150),
+                        itemBuilder: (context, index) {
+                          return sandboxProfileList[index];
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 5,
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    size: 35,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     _focusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      setSandboxProfiles(sandboxProfileList);
+    });
+    super.initState();
   }
 
   @override
@@ -153,6 +267,32 @@ class _SignInState extends State<SignIn> {
                     ),
                     //spacer
                     const SizedBox(height: 25),
+
+                    SizedBox(
+                      width: 500.0,
+                      //height: 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showSandboxProfiles();
+                            },
+                            child: Text(
+                              'Sandbox Profile',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     //email input
                     SizedBox(
                       width: 500.0,
@@ -163,6 +303,7 @@ class _SignInState extends State<SignIn> {
                         required: true,
                       ),
                     ),
+
                     //spacer
                     const SizedBox(height: 10),
                     //password input
