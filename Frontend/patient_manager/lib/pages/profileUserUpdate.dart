@@ -31,8 +31,7 @@ class ProfileUserUpdate extends StatefulWidget {
   State<ProfileUserUpdate> createState() => _ProfileUserUpdateState();
 }
 
-class _ProfileUserUpdateState extends State<ProfileUserUpdate>
-    with TickerProviderStateMixin {
+class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final proPicController = TextEditingController();
   final usernameController = TextEditingController();
   final fnameController = TextEditingController();
@@ -247,7 +246,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate>
     if (widget.signedInUser.pro_pic_path.isNotEmpty) {
       proPicName = widget.signedInUser.pro_pic_path.split("/").last;
     }
-    _controller = GifController(vsync: this);
     setState(() {
       proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
       oldProPicName = proPicName;
