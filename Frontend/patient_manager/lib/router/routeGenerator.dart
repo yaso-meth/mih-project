@@ -26,11 +26,11 @@ class RouteGenerator {
 
       //User Profile
       case '/user-profile':
-        if (args is AppUser) {
+        if (args is AppProfileUpdateArguments) {
           return MaterialPageRoute(
             settings: settings,
             builder: (_) => ProfileUserUpdate(
-              signedInUser: args,
+              arguments: args,
             ),
           );
         }
