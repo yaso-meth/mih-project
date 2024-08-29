@@ -167,6 +167,18 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    Text(
+                      "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
                     Expanded(
                       child: GridView.builder(
                         // physics: ,
