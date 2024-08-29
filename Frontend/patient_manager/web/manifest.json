@@ -3,9 +3,9 @@
     "short_name": "MIH",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Digitising Africa one process at a time.",
+    "background_color": "#3A4454",
+    "theme_color": "#3A4454",
+    "description": "Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
