@@ -6,7 +6,7 @@ import 'package:supertokens_flutter/supertokens.dart';
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
   final ImageProvider<Object>? propicFile;
-  //final AssetImage logo;
+
   const MIHAppDrawer({
     super.key,
     required this.signedInUser,
@@ -18,6 +18,7 @@ class MIHAppDrawer extends StatefulWidget {
 }
 
 class _MIHAppDrawerState extends State<MIHAppDrawer> {
+  late Widget profilePictureLoaded;
   Future<bool> signOut() async {
     await SuperTokens.signOut(completionHandler: (error) {
       // handle error if any
@@ -26,6 +27,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   }
 
   Widget displayProPic() {
+    //print(widget.propicFile);
     ImageProvider logoFrame =
         MzanziInnovationHub.of(context)!.theme.logoFrame();
     if (widget.propicFile != null) {
@@ -61,9 +63,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
 
   @override
   void initState() {
-    // setState(() {
-    //   proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
-    // });
+    setState(() {
+      profilePictureLoaded = displayProPic();
+    });
     super.initState();
   }
 
@@ -89,7 +91,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    displayProPic(),
+                    profilePictureLoaded,
                     Text(
                       "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
                       style: TextStyle(
