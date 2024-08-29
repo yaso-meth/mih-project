@@ -93,7 +93,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
         );
       },
-      tileName: "Mzansi Profie",
+      tileName: "Mzansi Profile",
       tileIcon: Image(image: logo),
       p: getPrim(),
       s: getSec(),
