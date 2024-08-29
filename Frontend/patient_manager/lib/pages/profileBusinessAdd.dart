@@ -322,7 +322,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                     ),
                     //const SizedBox(height: 15.0),
                     const Text(
-                      "My Business User:",
+                      "My Business User",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
