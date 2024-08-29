@@ -11,17 +11,18 @@ import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/objects/arguments.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
 import 'package:supertokens_flutter/supertokens.dart';
 
 class ProfileUserUpdate extends StatefulWidget {
-  final AppUser signedInUser;
-  //final String userEmail;
+  final AppProfileUpdateArguments arguments;
+  // final AppUser signedInUser;
+  // final ImageProvider<Object>? propicFile;
   const ProfileUserUpdate({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
   });
 
   @override
@@ -35,7 +36,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final lnameController = TextEditingController();
 
   late PlatformFile proPic;
-  late Future<String> proPicUrl;
+  late ImageProvider<Object>? propicPreview;
   late bool businessUser;
   final FocusNode _focusNode = FocusNode();
 
@@ -44,7 +45,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   Future<void> deleteFileApiCall(String filename) async {
     // delete file from minio
     var fname = filename.replaceAll(RegExp(r' '), '-');
-    var filePath = "${widget.signedInUser.app_id}/profile_files/$fname";
+    var filePath =
+        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
     var response = await http.delete(
       Uri.parse("${AppEnviroment.baseApiUrl}/minio/delete/file/"),
       headers: <String, String>{
@@ -62,7 +64,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   Future<String> getFileUrlApiCall(String filePath) async {
-    if (widget.signedInUser.pro_pic_path == "") {
+    if (widget.arguments.signedInUser.pro_pic_path == "") {
       return "";
     } else if (AppEnviroment.getEnv() == "Dev") {
       return "${AppEnviroment.baseFileUrl}/mih/$filePath";
@@ -98,7 +100,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     request.headers['accept'] = 'application/json';
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.signedInUser.app_id;
+    request.fields['app_id'] = widget.arguments.signedInUser.app_id;
     request.fields['folder'] = "profile_files";
     request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
@@ -128,7 +130,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   Future<void> updateUserApiCall() async {
     var fname = proPicController.text.replaceAll(RegExp(r' '), '-');
-    var filePath = "${widget.signedInUser.app_id}/profile_files/$fname";
+    var filePath =
+        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
     var profileType;
     if (businessUser) {
       profileType = "business";
@@ -144,7 +147,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           "Content-Type": "application/json; charset=UTF-8"
         },
         body: jsonEncode(<String, dynamic>{
-          "idusers": widget.signedInUser.idUser,
+          "idusers": widget.arguments.signedInUser.idUser,
           "username": usernameController.text,
           "fnam": fnameController.text,
           "lname": lnameController.text,
@@ -156,9 +159,9 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       //print(response.statusCode);
       if (response.statusCode == 200) {
         Navigator.of(context)
-            .popAndPushNamed('/', arguments: widget.signedInUser);
+            .popAndPushNamed('/', arguments: widget.arguments.signedInUser);
         String message =
-            "${widget.signedInUser.email}'s information has been updated successfully!";
+            "${widget.arguments.signedInUser.email}'s information has been updated successfully!";
         successPopUp(message);
       } else {
         internetConnectionPopUp();
@@ -167,7 +170,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   bool isBusinessUser() {
-    if (widget.signedInUser.type == "personal") {
+    if (widget.arguments.signedInUser.type == "personal") {
       return false;
     } else {
       return true;
@@ -225,6 +228,35 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     }
   }
 
+  Widget displayProPic() {
+    ImageProvider logoFrame =
+        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
+    if (widget.arguments.propicFile != null) {
+      return Stack(
+        alignment: Alignment.center,
+        fit: StackFit.loose,
+        children: [
+          CircleAvatar(
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            backgroundImage: propicPreview,
+            //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+            radius: 50,
+          ),
+          SizedBox(
+            width: 110,
+            child: Image(image: logoFrame),
+          )
+        ],
+      );
+    } else {
+      return SizedBox(
+        width: 60,
+        child: Image(image: logoFrame),
+      );
+    }
+  }
+
   @override
   void dispose() {
     proPicController.dispose();
@@ -238,16 +270,16 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   @override
   void initState() {
     var proPicName = "";
-    if (widget.signedInUser.pro_pic_path.isNotEmpty) {
-      proPicName = widget.signedInUser.pro_pic_path.split("/").last;
+    if (widget.arguments.signedInUser.pro_pic_path.isNotEmpty) {
+      proPicName = widget.arguments.signedInUser.pro_pic_path.split("/").last;
     }
     setState(() {
-      proPicUrl = getFileUrlApiCall(widget.signedInUser.pro_pic_path);
+      propicPreview = widget.arguments.propicFile;
       oldProPicName = proPicName;
       proPicController.text = proPicName;
-      fnameController.text = widget.signedInUser.fname;
-      lnameController.text = widget.signedInUser.lname;
-      usernameController.text = widget.signedInUser.username;
+      fnameController.text = widget.arguments.signedInUser.fname;
+      lnameController.text = widget.arguments.signedInUser.lname;
+      usernameController.text = widget.arguments.signedInUser.username;
       businessUser = isBusinessUser();
     });
 
@@ -287,51 +319,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                           ),
                         ),
                         const SizedBox(height: 25.0),
-                        FutureBuilder(
-                          future: proPicUrl,
-                          builder: (BuildContext context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasData && snapshot.data != "") {
-                                return Stack(
-                                  alignment: Alignment.center,
-                                  fit: StackFit.loose,
-                                  children: [
-                                    CircleAvatar(
-                                      //backgroundColor: Colors.green,
-                                      backgroundImage:
-                                          NetworkImage(snapshot.requireData),
-                                      //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-                                      radius: 50,
-                                    ),
-                                    SizedBox(
-                                      width: 110,
-                                      child: Image(
-                                          image:
-                                              MzanziInnovationHub.of(context)!
-                                                  .theme
-                                                  .altLogoFrame()),
-                                    )
-                                  ],
-                                );
-                              } else {
-                                return SizedBox(
-                                    width: 110,
-                                    child: Image(
-                                        image: MzanziInnovationHub.of(context)!
-                                            .theme
-                                            .altLogoFrame()));
-                              }
-                            } else {
-                              return Center(
-                                child: Text(
-                                  '${snapshot.error} occurred',
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              );
-                            }
-                          },
-                        ),
+                        displayProPic(),
                         const SizedBox(height: 25.0),
                         MIHFileField(
                           controller: proPicController,
@@ -342,12 +330,13 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                             FilePickerResult? result =
                                 await FilePicker.platform.pickFiles(
                               type: FileType.custom,
-                              allowedExtensions: ['jpg', 'png', 'pdf'],
+                              allowedExtensions: ['jpg', 'png'],
                             );
                             if (result == null) return;
                             final selectedFile = result.files.first;
                             setState(() {
                               proPic = selectedFile;
+                              propicPreview = MemoryImage(proPic.bytes!);
                             });
 
                             setState(() {
