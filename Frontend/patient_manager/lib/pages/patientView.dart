@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
@@ -46,14 +45,6 @@ class _PatientViewState extends State<PatientView> {
       return patients;
     }
     return null;
-  }
-
-  Widget? showDrawer() {
-    if (widget.arguments.business == null) {
-      return MIHAppDrawer(signedInUser: widget.arguments.signedInUser);
-    } else {
-      return null;
-    }
   }
 
   Widget showSelection(int index) {
