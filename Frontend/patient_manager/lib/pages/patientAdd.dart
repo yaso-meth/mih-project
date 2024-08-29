@@ -12,7 +12,6 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
-import '../components/mihAppBar.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class AddPatient extends StatefulWidget {
@@ -160,7 +159,7 @@ class _AddPatientState extends State<AddPatient> {
 
   Widget displayForm() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
           Text(
@@ -172,7 +171,7 @@ class _AddPatientState extends State<AddPatient> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 25.0),
           MIHTextField(
             controller: idController,
             hintText: "13 digit ID Number or Passport",
@@ -343,22 +342,38 @@ class _AddPatientState extends State<AddPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Add Patient",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Add Patient",
+      //   propicFile: null,
+      // ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
-        child: KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              submitForm();
-            }
-          },
-          child: displayForm(),
+        child: Stack(
+          children: [
+            KeyboardListener(
+              focusNode: _focusNode,
+              autofocus: true,
+              onKeyEvent: (event) async {
+                if (event is KeyDownEvent &&
+                    event.logicalKey == LogicalKeyboardKey.enter) {
+                  submitForm();
+                }
+              },
+              child: displayForm(),
+            ),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/patientDetails.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
@@ -96,63 +95,79 @@ class _PatientViewState extends State<PatientView> {
     // loadImage();
     // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Patient Profile",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Patient Profile",
+      //   propicFile: null,
+      // ),
       //drawer: showDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 15.0),
+                child: Column(
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 0;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.perm_identity,
-                        size: 35,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIndex = 0;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.perm_identity,
+                            size: 35,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIndex = 1;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.article_outlined,
+                            size: 35,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIndex = 2;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.file_present,
+                            size: 35,
+                          ),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 1;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.article_outlined,
-                        size: 35,
-                      ),
+                    const SizedBox(
+                      height: 25.0,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 2;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.file_present,
-                        size: 35,
-                      ),
-                    ),
+                    showSelection(_selectedIndex),
                   ],
                 ),
-                const SizedBox(
-                  height: 10.0,
+              ),
+              Positioned(
+                top: 10,
+                left: 5,
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back),
                 ),
-                showSelection(_selectedIndex),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

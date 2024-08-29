@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
-//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -229,173 +227,193 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Add Business",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Add Business",
+      //   propicFile: null,
+      // ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
-        child: KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              submitForm();
-            }
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(25),
-            child: Column(
-              children: [
-                const Text(
-                  "Add Business Profile:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
+        child: Stack(
+          children: [
+            KeyboardListener(
+              focusNode: _focusNode,
+              autofocus: true,
+              onKeyEvent: (event) async {
+                if (event is KeyDownEvent &&
+                    event.logicalKey == LogicalKeyboardKey.enter) {
+                  submitForm();
+                }
+              },
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    //const SizedBox(height: 15),
+                    const Text(
+                      "Add Business Profile",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                    const SizedBox(height: 25.0),
+                    MIHTextField(
+                      controller: regController,
+                      hintText: "Registration No.",
+                      editable: true,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: nameController,
+                      hintText: "Business Name",
+                      editable: true,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHDropdownField(
+                      controller: typeController,
+                      hintText: "Business Type",
+                      dropdownOptions: const ["Doctors Office", "Other"],
+                      required: true,
+                      editable: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: contactController,
+                      hintText: "Contact Number",
+                      editable: true,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: emailController,
+                      hintText: "Email",
+                      editable: true,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHFileField(
+                      controller: logonameController,
+                      hintText: "Logo",
+                      editable: false,
+                      required: true,
+                      onPressed: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png', 'pdf'],
+                        );
+                        if (result == null) return;
+                        final selectedFile = result.files.first;
+                        setState(() {
+                          selectedLogo = selectedFile;
+                        });
+                        setState(() {
+                          logonameController.text = selectedFile.name;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 15.0),
+                    Divider(
+                      color: MzanziInnovationHub.of(context)
+                          ?.theme
+                          .secondaryColor(),
+                    ),
+                    //const SizedBox(height: 15.0),
+                    const Text(
+                      "My Business User:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                    const SizedBox(height: 25.0),
+                    MIHDropdownField(
+                      controller: titleController,
+                      hintText: "Title",
+                      dropdownOptions: const ["Doctor", "Assistant"],
+                      required: true,
+                      editable: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: fnameController,
+                      hintText: "Name",
+                      editable: false,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: lnameController,
+                      hintText: "Surname",
+                      editable: false,
+                      required: true,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHFileField(
+                      controller: signtureController,
+                      hintText: "Signature",
+                      editable: false,
+                      required: true,
+                      onPressed: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png', 'pdf'],
+                        );
+                        if (result == null) return;
+                        final selectedFile = result.files.first;
+                        setState(() {
+                          selectedSignature = selectedFile;
+                        });
+                        setState(() {
+                          signtureController.text = selectedFile.name;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 15.0),
+                    MIHDropdownField(
+                      controller: accessController,
+                      hintText: "Access",
+                      dropdownOptions: const ["Full", "Partial"],
+                      required: true,
+                      editable: false,
+                    ),
+                    const SizedBox(height: 30.0),
+                    SizedBox(
+                      width: 500.0,
+                      height: 50.0,
+                      child: MIHButton(
+                        buttonText: "Add",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () {
+                          submitForm();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 15.0),
-                MIHTextField(
-                  controller: regController,
-                  hintText: "Registration No.",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: nameController,
-                  hintText: "Business Name",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHDropdownField(
-                  controller: typeController,
-                  hintText: "Business Type",
-                  dropdownOptions: const ["Doctors Office", "Other"],
-                  required: true,
-                  editable: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: contactController,
-                  hintText: "Contact Number",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: emailController,
-                  hintText: "Email",
-                  editable: true,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHFileField(
-                  controller: logonameController,
-                  hintText: "Logo",
-                  editable: false,
-                  required: true,
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png', 'pdf'],
-                    );
-                    if (result == null) return;
-                    final selectedFile = result.files.first;
-                    setState(() {
-                      selectedLogo = selectedFile;
-                    });
-                    setState(() {
-                      logonameController.text = selectedFile.name;
-                    });
-                  },
-                ),
-                const SizedBox(height: 15.0),
-                Divider(
-                  color:
-                      MzanziInnovationHub.of(context)?.theme.secondaryColor(),
-                ),
-                const SizedBox(height: 15.0),
-                const Text(
-                  "My Business User:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                ),
-                const SizedBox(height: 15.0),
-                MIHDropdownField(
-                  controller: titleController,
-                  hintText: "Title",
-                  dropdownOptions: const ["Doctor", "Assistant"],
-                  required: true,
-                  editable: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: fnameController,
-                  hintText: "Name",
-                  editable: false,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: lnameController,
-                  hintText: "Surname",
-                  editable: false,
-                  required: true,
-                ),
-                const SizedBox(height: 10.0),
-                MIHFileField(
-                  controller: signtureController,
-                  hintText: "Signature",
-                  editable: false,
-                  required: true,
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png', 'pdf'],
-                    );
-                    if (result == null) return;
-                    final selectedFile = result.files.first;
-                    setState(() {
-                      selectedSignature = selectedFile;
-                    });
-                    setState(() {
-                      signtureController.text = selectedFile.name;
-                    });
-                  },
-                ),
-                const SizedBox(height: 15.0),
-                MIHDropdownField(
-                  controller: accessController,
-                  hintText: "Access",
-                  dropdownOptions: const ["Full", "Partial"],
-                  required: true,
-                  editable: false,
-                ),
-                const SizedBox(height: 30.0),
-                SizedBox(
-                  width: 500.0,
-                  height: 50.0,
-                  child: MIHButton(
-                    buttonText: "Add",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      submitForm();
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            )
+          ],
         ),
       ),
     );

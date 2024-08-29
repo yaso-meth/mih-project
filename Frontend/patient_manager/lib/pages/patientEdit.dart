@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
@@ -367,33 +366,19 @@ class _EditPatientState extends State<EditPatient> {
 
   Widget displayForm() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Personal Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                alignment: Alignment.topRight,
-                onPressed: () {
-                  deletePatientPopUp();
-                },
-              )
-            ],
+          Text(
+            "Personal Details",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
           ),
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 25.0),
           MIHTextField(
             controller: idController,
             hintText: "13 digit ID Number or Passport",
@@ -608,21 +593,51 @@ class _EditPatientState extends State<EditPatient> {
     });
 
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Edit Patient",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Edit Patient",
+      //   propicFile: null,
+      // ),
       body: SafeArea(
-        child: KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              submitForm();
-            }
-          },
-          child: displayForm(),
+        child: Stack(
+          children: [
+            KeyboardListener(
+              focusNode: _focusNode,
+              autofocus: true,
+              onKeyEvent: (event) async {
+                if (event is KeyDownEvent &&
+                    event.logicalKey == LogicalKeyboardKey.enter) {
+                  submitForm();
+                }
+              },
+              child: displayForm(),
+            ),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+            Positioned(
+                top: 10,
+                right: 5,
+                width: 50,
+                height: 50,
+                child: IconButton(
+                  icon: const Icon(Icons.delete),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  //alignment: Alignment.topRight,
+                  onPressed: () {
+                    deletePatientPopUp();
+                  },
+                ))
+          ],
         ),
       ),
     );

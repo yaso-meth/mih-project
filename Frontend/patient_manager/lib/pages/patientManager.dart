@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/builders/buildPatientList.dart';
 import 'package:patient_manager/components/builders/buildPatientQueueList.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
-//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDateInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -309,22 +307,9 @@ class _PatientManagerState extends State<PatientManager> {
       height: h - 157,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         //const SizedBox(height: 15),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Waiting Room",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            IconButton(
-                onPressed: () {
-                  refreshQueue();
-                },
-                icon: const Icon(
-                  Icons.refresh,
-                ))
-          ],
+        const Text(
+          "Waiting Room",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         MIHDateField(
@@ -478,66 +463,72 @@ class _PatientManagerState extends State<PatientManager> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Patient Manager",
-        propicFile: null,
-      ),
-      //drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.,
-      // floatingActionButton: FloatingActionButton.extended(
-      //   label: Text(
-      //     "Add Patient",
-      //     style: TextStyle(
-      //       fontWeight: FontWeight.bold,
-      //       color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      //     ),
-      //   ),
-      //   //backgroundColor: Colors.blueAccent,
-      //   onPressed: () {
-      //     Navigator.of(context).pushNamed('/patient-manager/add',
-      //         arguments: widget.signedInUser.email);
-      //   },
-      //   icon: Icon(
-      //     Icons.add,
-      //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      //   ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Patient Manager",
+      //   propicFile: null,
       // ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
-                },
-                icon: const Icon(
-                  Icons.people,
-                  size: 35,
-                ),
+              const SizedBox(height: 5),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.people,
+                      size: 35,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      size: 35,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      refreshQueue();
+                    },
+                    icon: const Icon(
+                      Icons.refresh,
+                      size: 35,
+                    ),
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
-                },
-                icon: const Icon(
-                  Icons.search,
-                  size: 35,
-                ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: showSelection(_selectedIndex, screenWidth, screenHeight),
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: showSelection(_selectedIndex, screenWidth, screenHeight),
-          ),
+          Positioned(
+            top: 5,
+            left: 5,
+            width: 50,
+            height: 50,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+          )
         ],
       ),
     );

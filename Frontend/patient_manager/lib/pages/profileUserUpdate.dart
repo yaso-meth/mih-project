@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
@@ -258,166 +257,184 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Update Profile",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Update Profile",
+      //   propicFile: null,
+      // ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Center(
-            child: KeyboardListener(
-              focusNode: _focusNode,
-              autofocus: true,
-              onKeyEvent: (event) async {
-                if (event is KeyDownEvent &&
-                    event.logicalKey == LogicalKeyboardKey.enter) {
-                  submitForm();
-                }
-              },
-              child: Column(
-                children: [
-                  const Text(
-                    "Mzansi Profile:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  FutureBuilder(
-                    future: proPicUrl,
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData && snapshot.data != "") {
-                          return Stack(
-                            alignment: Alignment.center,
-                            fit: StackFit.loose,
-                            children: [
-                              CircleAvatar(
-                                //backgroundColor: Colors.green,
-                                backgroundImage:
-                                    NetworkImage(snapshot.requireData),
-                                //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-                                radius: 50,
-                              ),
-                              SizedBox(
-                                width: 110,
-                                child: Image(
-                                    image: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .altLogoFrame()),
-                              )
-                            ],
-                          );
-                        } else {
-                          return SizedBox(
-                              width: 110,
-                              child: Image(
-                                  image: MzanziInnovationHub.of(context)!
-                                      .theme
-                                      .altLogoFrame()));
-                        }
-                      } else {
-                        return Center(
-                          child: Text(
-                            '${snapshot.error} occurred',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        );
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Center(
+                child: KeyboardListener(
+                    focusNode: _focusNode,
+                    autofocus: true,
+                    onKeyEvent: (event) async {
+                      if (event is KeyDownEvent &&
+                          event.logicalKey == LogicalKeyboardKey.enter) {
+                        submitForm();
                       }
                     },
-                  ),
-                  const SizedBox(height: 10.0),
-                  MIHFileField(
-                    controller: proPicController,
-                    hintText: "Profile Picture",
-                    editable: false,
-                    required: false,
-                    onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ['jpg', 'png', 'pdf'],
-                      );
-                      if (result == null) return;
-                      final selectedFile = result.files.first;
-                      setState(() {
-                        proPic = selectedFile;
-                      });
-
-                      setState(() {
-                        proPicController.text = selectedFile.name;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10.0),
-                  MIHTextField(
-                    controller: usernameController,
-                    hintText: "Username",
-                    editable: true,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10.0),
-                  MIHTextField(
-                    controller: fnameController,
-                    hintText: "First Name",
-                    editable: true,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10.0),
-                  MIHTextField(
-                    controller: lnameController,
-                    hintText: "Last Name",
-                    editable: true,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Activate Business Account",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Mzansi Profile",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Switch(
-                        value: businessUser,
-                        onChanged: (bool value) {
-                          setState(() {
-                            businessUser = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30.0),
-                  SizedBox(
-                    width: 500.0,
-                    height: 50.0,
-                    child: MIHButton(
-                      buttonText: "Update",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () {
-                        submitForm();
-                      },
-                    ),
-                  ),
-                ],
+                        const SizedBox(height: 25.0),
+                        FutureBuilder(
+                          future: proPicUrl,
+                          builder: (BuildContext context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData && snapshot.data != "") {
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  fit: StackFit.loose,
+                                  children: [
+                                    CircleAvatar(
+                                      //backgroundColor: Colors.green,
+                                      backgroundImage:
+                                          NetworkImage(snapshot.requireData),
+                                      //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+                                      radius: 50,
+                                    ),
+                                    SizedBox(
+                                      width: 110,
+                                      child: Image(
+                                          image:
+                                              MzanziInnovationHub.of(context)!
+                                                  .theme
+                                                  .altLogoFrame()),
+                                    )
+                                  ],
+                                );
+                              } else {
+                                return SizedBox(
+                                    width: 110,
+                                    child: Image(
+                                        image: MzanziInnovationHub.of(context)!
+                                            .theme
+                                            .altLogoFrame()));
+                              }
+                            } else {
+                              return Center(
+                                child: Text(
+                                  '${snapshot.error} occurred',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 25.0),
+                        MIHFileField(
+                          controller: proPicController,
+                          hintText: "Profile Picture",
+                          editable: false,
+                          required: false,
+                          onPressed: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'pdf'],
+                            );
+                            if (result == null) return;
+                            final selectedFile = result.files.first;
+                            setState(() {
+                              proPic = selectedFile;
+                            });
+
+                            setState(() {
+                              proPicController.text = selectedFile.name;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 10.0),
+                        MIHTextField(
+                          controller: usernameController,
+                          hintText: "Username",
+                          editable: true,
+                          required: true,
+                        ),
+                        const SizedBox(height: 10.0),
+                        MIHTextField(
+                          controller: fnameController,
+                          hintText: "First Name",
+                          editable: true,
+                          required: true,
+                        ),
+                        const SizedBox(height: 10.0),
+                        MIHTextField(
+                          controller: lnameController,
+                          hintText: "Last Name",
+                          editable: true,
+                          required: true,
+                        ),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Activate Business Account",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Switch(
+                              value: businessUser,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  businessUser = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30.0),
+                        SizedBox(
+                          width: 500.0,
+                          height: 50.0,
+                          child: MIHButton(
+                            buttonText: "Update",
+                            buttonColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            textColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            onTap: () {
+                              submitForm();
+                            },
+                          ),
+                        ),
+                      ],
+                    )),
               ),
             ),
-          ),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            )
+          ],
         ),
       ),
     );

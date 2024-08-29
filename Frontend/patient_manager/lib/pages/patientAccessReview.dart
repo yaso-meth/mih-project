@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/builders/buildAccessRequestList.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
-import 'package:patient_manager/components/mihAppBar.dart';
-//import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -103,7 +101,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       );
     }
     return Container(
-      //height: 500,
+      height: 500,
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
@@ -131,28 +129,14 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
         height: 600,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           //const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //const SizedBox(height: 25),
-              const Text(
-                "Access Request",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      forceRefresh = true;
-                    });
-                    refreshList();
-                  },
-                  icon: const Icon(
-                    Icons.refresh,
-                  ))
-            ],
+          const Text(
+            "Access Request",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 25),
           SizedBox(
             width: 500,
             child: MIHDropdownField(
@@ -169,19 +153,21 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
             builder: (context, snapshot) {
               //print("patient Queue List  ${snapshot.hasData}");
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  //height: 500,
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 3.0),
+                return Expanded(
+                  child: Container(
+                    //height: 500,
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      border: Border.all(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 3.0),
+                    ),
+                    child: const Mihloadingcircle(),
                   ),
-                  child: const Mihloadingcircle(),
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
                 List<AccessRequest> accessRequestList;
@@ -267,12 +253,47 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const MIHAppBar(
-        barTitle: "Access Reviews",
-        propicFile: null,
-      ),
+      // appBar: const MIHAppBar(
+      //   barTitle: "Access Reviews",
+      //   propicFile: null,
+      // ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: SafeArea(child: viewAccessRequest(screenWidth, screenHeight)),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            viewAccessRequest(screenWidth, screenHeight),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    forceRefresh = true;
+                  });
+                  refreshList();
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
