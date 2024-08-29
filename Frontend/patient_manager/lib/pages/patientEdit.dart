@@ -608,7 +608,10 @@ class _EditPatientState extends State<EditPatient> {
     });
 
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Edit Patient"),
+      appBar: const MIHAppBar(
+        barTitle: "Edit Patient",
+        propicFile: null,
+      ),
       body: SafeArea(
         child: KeyboardListener(
           focusNode: _focusNode,

@@ -267,7 +267,10 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Access Reviews"),
+      appBar: const MIHAppBar(
+        barTitle: "Access Reviews",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(child: viewAccessRequest(screenWidth, screenHeight)),
     );

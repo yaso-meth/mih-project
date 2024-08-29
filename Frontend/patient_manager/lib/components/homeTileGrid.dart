@@ -21,11 +21,13 @@ class HomeTileGrid extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
+  final ImageProvider<Object>? propicFile;
   const HomeTileGrid({
     super.key,
     required this.signedInUser,
     required this.businessUser,
     required this.business,
+    required this.propicFile,
   });
 
   @override
@@ -401,7 +403,10 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        appBar: const MIHAppBar(barTitle: "Mzansi Innovation\nHub"),
+        appBar: MIHAppBar(
+          barTitle: "Mzansi Innovation\nHub",
+          propicFile: widget.propicFile,
+        ),
         drawer: MIHAppDrawer(
           signedInUser: widget.signedInUser,
         ),

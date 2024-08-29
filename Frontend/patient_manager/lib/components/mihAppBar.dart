@@ -3,8 +3,12 @@ import 'package:patient_manager/main.dart';
 
 class MIHAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String barTitle;
-
-  const MIHAppBar({super.key, required this.barTitle});
+  final ImageProvider<Object>? propicFile;
+  const MIHAppBar({
+    super.key,
+    required this.barTitle,
+    required this.propicFile,
+  });
 
   @override
   State<MIHAppBar> createState() => _MIHAppBarState();

@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gif/gif.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/mihAppBar.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
-// import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
@@ -41,7 +39,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   late Future<String> proPicUrl;
   late bool businessUser;
   final FocusNode _focusNode = FocusNode();
-  late final GifController _controller;
 
   late String oldProPicName;
 
@@ -231,7 +228,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   void dispose() {
-    _controller.dispose();
     proPicController.dispose();
     usernameController.dispose();
     fnameController.dispose();
@@ -262,7 +258,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Update Profile"),
+      appBar: const MIHAppBar(
+        barTitle: "Update Profile",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
         child: Padding(

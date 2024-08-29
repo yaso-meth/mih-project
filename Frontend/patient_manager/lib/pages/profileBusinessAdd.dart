@@ -229,7 +229,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Add Business"),
+      appBar: const MIHAppBar(
+        barTitle: "Add Business",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
         child: KeyboardListener(

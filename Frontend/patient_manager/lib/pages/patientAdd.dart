@@ -343,7 +343,10 @@ class _AddPatientState extends State<AddPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Add Patient"),
+      appBar: const MIHAppBar(
+        barTitle: "Add Patient",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
       body: SafeArea(
         child: KeyboardListener(

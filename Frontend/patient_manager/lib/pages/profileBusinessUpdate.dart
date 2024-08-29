@@ -312,7 +312,10 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Business Profile"),
+      appBar: const MIHAppBar(
+        barTitle: "Business Profile",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
       body: SafeArea(
         child: KeyboardListener(

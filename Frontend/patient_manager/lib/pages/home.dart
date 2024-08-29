@@ -25,6 +25,9 @@ class _HomeState extends State<Home> {
   final baseAPI = AppEnviroment.baseApiUrl;
   late Future<BusinessArguments> profile;
 
+  late String proPicUrl;
+  ImageProvider<Object>? propicFile;
+
   Future<BusinessArguments> getProfile() async {
     AppUser userData;
     Business? busData;
@@ -119,6 +122,28 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<String> getFileUrlApiCall(AppUser signedInUser) async {
+    if (signedInUser.pro_pic_path == "") {
+      return "";
+    } else if (AppEnviroment.getEnv() == "Dev") {
+      return "${AppEnviroment.baseFileUrl}/mih/${signedInUser.pro_pic_path}";
+    } else {
+      var url =
+          "${AppEnviroment.baseApiUrl}/minio/pull/file/${signedInUser.pro_pic_path}/prod";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        String body = response.body;
+        var decodedData = jsonDecode(body);
+
+        return decodedData['minioURL'];
+      } else {
+        throw Exception(
+            "Error: GetUserData status code ${response.statusCode}");
+      }
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -138,10 +163,18 @@ class _HomeState extends State<Home> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
+            getFileUrlApiCall(snapshot.requireData.signedInUser)
+                .then((results) {
+              setState(() {
+                proPicUrl = results;
+                propicFile = NetworkImage(proPicUrl);
+              });
+            });
             return HomeTileGrid(
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
+              propicFile: propicFile,
             );
           } else {
             return Center(

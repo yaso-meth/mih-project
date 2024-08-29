@@ -478,7 +478,10 @@ class _PatientManagerState extends State<PatientManager> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const MIHAppBar(barTitle: "Patient Manager"),
+      appBar: const MIHAppBar(
+        barTitle: "Patient Manager",
+        propicFile: null,
+      ),
       //drawer: MIHAppDrawer(signedInUser: widget.arguments.signedInUser),
       //floatingActionButtonLocation: FloatingActionButtonLocation.,
       // floatingActionButton: FloatingActionButton.extended(
