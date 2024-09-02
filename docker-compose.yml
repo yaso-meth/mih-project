@@ -44,8 +44,9 @@ services:
     ports:
       - 3567:3567
     environment:
-      REFRESH_TOKEN_VALIDITY: '1440'
+      REFRESH_TOKEN_VALIDITY: '1440' 
       ACCESS_TOKEN_VALIDITY: '3600'
+      PASSWORD_RESET_TOKEN_LIFETIME: '7200000'
       MYSQL_USER: 'yaso'
       MYSQL_PASSWORD: 'C@rtoon1995'
       MYSQL_HOST: mysqldb
