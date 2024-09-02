@@ -38,9 +38,9 @@ origins = [
 
 init(
     app_info=InputAppInfo(
-        app_name="MIH_API_HUB",
+        app_name="Mzansi Innovation Hub",
         api_domain="http://localhost:8080/",
-        website_domain="http://mzansi-innovation-hub.co.za",
+        website_domain="http://app.mzansi-innovation-hub.co.za",
         api_base_path="/auth",
         website_base_path="/auth"
     ),
