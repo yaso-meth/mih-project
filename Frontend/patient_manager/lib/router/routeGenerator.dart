@@ -18,9 +18,27 @@ import 'package:patient_manager/pages/profileUserUpdate.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-
+    // print("settings name: ${settings.name}");
+    // print("Base Url: ${Uri.base.path}");
+    // print(
+    //     "settings inside base url: ${settings.name!.contains(Uri.base.path)}");
+    // External Links Navigation
+    if (settings.name!.contains(Uri.base.path) && Uri.base.path != "/") {
+      var extPath = Uri.base.path;
+      //print("query Param: ${Uri.base.queryParameters['token']}");
+      switch (extPath) {
+        case '/auth/reset-password':
+          return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => ResetPassword(
+                    token: Uri.base.queryParameters['token'],
+                  ));
+        default:
+          return _errorRoute();
+      }
+    }
     // Internal Navigation
-    if (Uri.base.path == "/") {
+    else {
       switch (settings.name) {
         // Authgentication
         case '/':
@@ -153,22 +171,9 @@ class RouteGenerator {
             );
           }
           return _errorRoute();
+        default:
+          return _errorRoute();
       }
-      throw '';
-    }
-    // External Links Navigation
-    else {
-      var extPath = Uri.base.path;
-      //print("query Param: ${Uri.base.queryParameters['token']}");
-      switch (extPath) {
-        case '/auth/reset-password':
-          return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => ResetPassword(
-                    token: Uri.base.queryParameters['token'],
-                  ));
-      }
-      throw '';
     }
   }
 }
