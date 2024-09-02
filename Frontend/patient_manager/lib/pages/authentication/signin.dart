@@ -284,7 +284,7 @@ class _SignInState extends State<SignIn> {
                       width: 500.0,
                       //height: 100.0,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           GestureDetector(
                             onTap: () {
@@ -328,6 +328,33 @@ class _SignInState extends State<SignIn> {
                         signIn: true,
                       ),
                     ),
+                    SizedBox(
+                      width: 500.0,
+                      //height: 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                '/forgot-password',
+                              );
+                            },
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
                     //spacer
                     const SizedBox(height: 30),
                     // sign in button
