@@ -70,14 +70,32 @@ class _HomeState extends State<Home> {
     } else {
       busData = null;
     }
-    if (proPicUrl == "empty") {
-      getFileUrlApiCall(userData).then((results) {
-        setState(() {
-          proPicUrl = results;
-          propicFile = NetworkImage(proPicUrl);
-        });
+
+    if (userData.pro_pic_path == "") {
+      setState(() {
+        proPicUrl = "";
       });
+    } else if (AppEnviroment.getEnv() == "Dev") {
+      setState(() {
+        proPicUrl = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
+      });
+    } else {
+      var url =
+          "${AppEnviroment.baseApiUrl}/minio/pull/file/${userData.pro_pic_path}/prod";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        String body = response.body;
+        var decodedData = jsonDecode(body);
+        setState(() {
+          proPicUrl = decodedData['minioURL'];
+        });
+      } else {
+        throw Exception(
+            "Error: GetUserData status code ${response.statusCode}");
+      }
     }
+
     return BusinessArguments(userData, bUserData, busData);
   }
 
@@ -166,7 +184,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getProfile(),
+      future: profile,
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
