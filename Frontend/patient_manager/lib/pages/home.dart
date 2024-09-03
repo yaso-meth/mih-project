@@ -70,7 +70,12 @@ class _HomeState extends State<Home> {
     } else {
       busData = null;
     }
-
+    getFileUrlApiCall(userData).then((results) {
+      setState(() {
+        proPicUrl = results;
+        propicFile = NetworkImage(proPicUrl);
+      });
+    });
     return BusinessArguments(userData, bUserData, busData);
   }
 
@@ -163,13 +168,6 @@ class _HomeState extends State<Home> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            getFileUrlApiCall(snapshot.requireData.signedInUser)
-                .then((results) {
-              setState(() {
-                proPicUrl = results;
-                propicFile = NetworkImage(proPicUrl);
-              });
-            });
             return HomeTileGrid(
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
