@@ -4,10 +4,12 @@ FROM debian:latest AS build-env
 
 #ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update
+RUN apt-get update --fix-missing
 
-RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback python3
-
+RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback
+RUN apt-get install python3 -y
+# RUN apt-get update --fix-missing
+# RUN apt-get install python3-Jinja2
 # download Flutter SDK from Flutter Github repo
 RUN git clone -b master https://github.com/flutter/flutter.git /usr/local/flutter
 #RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
@@ -27,49 +29,23 @@ RUN flutter config --enable-web
 # Copy files to container and build
 RUN mkdir /app/
 COPY . /app/
-
+# COPY ./server/MIH_web_server.py /app/build/web/
 # VOLUME ["/app"]
+
 
 WORKDIR /app
 RUN flutter upgrade
 RUN flutter build web --release --web-renderer canvaskit -t ./lib/main_prod.dart
 
+
 # RUN cd ..
 
+# WORKDIR /app/build/web/
+
 EXPOSE 83
-# COPY /app/build/web 
 
-# # Use Nginx to serve the app
-# FROM nginx:alpine
-
-# #install requirements for certbot
-# RUN apk add python3 py3-pip
-
-# # RUN apk add --no-cache py3-certbot-nginx
-# RUN apk add certbot-nginx
-# RUN mkdir /etc/letsencrypt
-
-# # Copy the build artifacts from the build stage, and the Nginx configuration
-# COPY --from=build-env /app/build/web /usr/share/nginx/html
-# COPY nginx.conf /etc/nginx/nginx.conf
-# # COPY /certbot/conf /etc/letsencrypt
-# # ./Frontend/patient_manager/certbot/conf:/etc/letsencrypt
-# #     - ./Frontend/patient_manager/certbot/www:/var/www/certbot
-
-# #RUN certbot --nginx -d mzansi-innovation-hub.co.za
-
-# EXPOSE 80 443
-
-
-# CMD ["nginx", "-g", "daemon off;"]
-
-
-# RUN certbot --nginx -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za
-
-# # Record the exposed port
-# EXPOSE 8080
-
-# # make server startup script executable and start the web server
 RUN ["chmod", "+x", "/app/server/server.sh"]
 
 ENTRYPOINT [ "/app/server/server.sh"]
+
+# RUN ["python3", "-u", "/app/server/MIH_web_server.py"]
