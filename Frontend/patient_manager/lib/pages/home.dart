@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
     } else {
       busData = null;
     }
+    //get profile picture
     getFileUrlApiCall(userData).then((results) {
       setState(() {
         proPicUrl = results;
@@ -157,14 +158,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    profile = getProfile();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: profile,
+      future: getProfile(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
