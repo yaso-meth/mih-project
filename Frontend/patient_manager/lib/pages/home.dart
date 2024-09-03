@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   final baseAPI = AppEnviroment.baseApiUrl;
   late Future<BusinessArguments> profile;
 
-  late String proPicUrl;
+  String proPicUrl = "empty";
   ImageProvider<Object>? propicFile;
 
   Future<BusinessArguments> getProfile() async {
@@ -70,13 +70,14 @@ class _HomeState extends State<Home> {
     } else {
       busData = null;
     }
-    //get profile picture
-    getFileUrlApiCall(userData).then((results) {
-      setState(() {
-        proPicUrl = results;
-        propicFile = NetworkImage(proPicUrl);
+    if (proPicUrl == "empty") {
+      getFileUrlApiCall(userData).then((results) {
+        setState(() {
+          proPicUrl = results;
+          propicFile = NetworkImage(proPicUrl);
+        });
       });
-    });
+    }
     return BusinessArguments(userData, bUserData, busData);
   }
 
@@ -158,6 +159,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    profile = getProfile();
     super.initState();
   }
 
