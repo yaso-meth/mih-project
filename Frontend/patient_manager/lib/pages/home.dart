@@ -71,7 +71,9 @@ class _HomeState extends State<Home> {
       busData = null;
     }
 
-    if (userData.pro_pic_path == "") {
+    //get profile picture
+    if (proPicUrl != "empty") {
+    } else if (userData.pro_pic_path == "") {
       setState(() {
         proPicUrl = "";
       });
