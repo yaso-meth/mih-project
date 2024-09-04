@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
             "Error: GetUserData status code ${response.statusCode}");
       }
     }
-    print(userPic);
+    //print(userPic);
     return HomeArguments(userData, bUserData, busData, userPic);
   }
 
