@@ -75,11 +75,13 @@ class _HomeState extends State<Home> {
     //get profile picture
     if (userData.pro_pic_path == "") {
       userPic = "";
-    } else if (AppEnviroment.getEnv() == "Dev") {
-      userPic = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
-    } else {
+    }
+    // else if (AppEnviroment.getEnv() == "Dev") {
+    //   userPic = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
+    // }
+    else {
       var url =
-          "${AppEnviroment.baseApiUrl}/minio/pull/file/${userData.pro_pic_path}/prod";
+          "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/${userData.pro_pic_path}";
       var response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -92,7 +94,7 @@ class _HomeState extends State<Home> {
             "Error: GetUserData status code ${response.statusCode}");
       }
     }
-
+    print(userPic);
     return HomeArguments(userData, bUserData, busData, userPic);
   }
 
