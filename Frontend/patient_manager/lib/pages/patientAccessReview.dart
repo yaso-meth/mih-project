@@ -81,7 +81,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
   Widget displayAccessRequestList(List<AccessRequest> accessRequestList) {
     if (accessRequestList.isNotEmpty) {
       return Container(
-        height: 500,
+        //height: height - 254,
         decoration: BoxDecoration(
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           borderRadius: BorderRadius.circular(25.0),
@@ -101,7 +101,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       );
     }
     return Container(
-      height: 500,
+      //height: height - 254,
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
@@ -126,7 +126,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       padding: const EdgeInsets.all(15.0),
       child: SizedBox(
         width: w,
-        height: 600,
+        height: h - 105,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           //const SizedBox(height: 15),
           const Text(
@@ -183,7 +183,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
                 );
               } else {
                 return Container(
-                  //height: 500,
+                  height: h - 105,
                   decoration: BoxDecoration(
                     color:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
