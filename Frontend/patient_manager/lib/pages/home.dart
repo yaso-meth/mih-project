@@ -23,15 +23,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String useremail = "";
   final baseAPI = AppEnviroment.baseApiUrl;
-  late Future<BusinessArguments> profile;
+  late Future<HomeArguments> profile;
 
   String proPicUrl = "empty";
   ImageProvider<Object>? propicFile;
 
-  Future<BusinessArguments> getProfile() async {
+  Future<HomeArguments> getProfile() async {
     AppUser userData;
     Business? busData;
     BusinessUser? bUserData;
+    String userPic;
 
     // Get Userdata
     var uid = await SuperTokens.getUserId();
@@ -72,15 +73,10 @@ class _HomeState extends State<Home> {
     }
 
     //get profile picture
-    if (proPicUrl != "empty") {
-    } else if (userData.pro_pic_path == "") {
-      setState(() {
-        proPicUrl = "";
-      });
+    if (userData.pro_pic_path == "") {
+      userPic = "";
     } else if (AppEnviroment.getEnv() == "Dev") {
-      setState(() {
-        proPicUrl = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
-      });
+      userPic = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
     } else {
       var url =
           "${AppEnviroment.baseApiUrl}/minio/pull/file/${userData.pro_pic_path}/prod";
@@ -89,16 +85,15 @@ class _HomeState extends State<Home> {
       if (response.statusCode == 200) {
         String body = response.body;
         var decodedData = jsonDecode(body);
-        setState(() {
-          proPicUrl = decodedData['minioURL'];
-        });
+
+        userPic = decodedData['minioURL'];
       } else {
         throw Exception(
             "Error: GetUserData status code ${response.statusCode}");
       }
     }
 
-    return BusinessArguments(userData, bUserData, busData);
+    return HomeArguments(userData, bUserData, busData, userPic);
   }
 
   Future<AppUser> getUserDetails() async {
@@ -194,7 +189,7 @@ class _HomeState extends State<Home> {
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
-              propicFile: propicFile,
+              propicFile: NetworkImage(snapshot.data!.profilePicUrl),
             );
           } else {
             return Center(

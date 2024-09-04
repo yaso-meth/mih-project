@@ -16,6 +16,20 @@ class BusinessArguments {
   );
 }
 
+class HomeArguments {
+  final AppUser signedInUser;
+  final BusinessUser? businessUser;
+  final Business? business;
+  final String profilePicUrl;
+
+  HomeArguments(
+    this.signedInUser,
+    this.businessUser,
+    this.business,
+    this.profilePicUrl,
+  );
+}
+
 class AppProfileUpdateArguments {
   final AppUser signedInUser;
   final ImageProvider<Object>? propicFile;
