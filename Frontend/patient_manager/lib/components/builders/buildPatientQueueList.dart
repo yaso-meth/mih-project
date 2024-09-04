@@ -61,11 +61,15 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     String title =
         widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
     String subtitle = "";
+    var nowDate = DateTime.now();
+    var expireyDate = DateTime.parse(widget.patientQueue[index].revoke_date);
 
-    if (widget.patientQueue[index].access != "approved") {
-      subtitle +=
-          "Name: $fname $lname\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
-      subtitle += "********";
+    if (widget.patientQueue[index].access != "approved" ||
+        expireyDate.isBefore(nowDate)) {
+      subtitle += "Name: $fname $lname\n";
+      subtitle += "ID No.: ${widget.patientQueue[index].id_no}\n";
+      subtitle += "Medical Aid No: ********";
+      //subtitle += "********";
     } else {
       subtitle +=
           "Name: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
@@ -77,8 +81,13 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         subtitle += widget.patientQueue[index].medical_aid_no;
       }
     }
-    subtitle +=
-        "\nAccess Request: ${widget.patientQueue[index].access.toUpperCase()}";
+    if (expireyDate.isBefore(nowDate)) {
+      subtitle += "\nAccess Request: EXPIRED";
+    } else {
+      subtitle +=
+          "\nAccess Request: ${widget.patientQueue[index].access.toUpperCase()}";
+    }
+
     subtitle +=
         "\nAccess Expiration date: ${widget.patientQueue[index].revoke_date.substring(0, 16).replaceAll("T", " ")}";
     return ListTile(

@@ -89,8 +89,14 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     String subtitle = "";
     subtitle += "Requestor: ${widget.accessRequests[index].Name}\n";
     //subtitle += "Business Type: ${widget.accessRequests[index].type}\n";
-    subtitle +=
-        "Access: ${widget.accessRequests[index].access.toUpperCase()}\n";
+    var nowDate = DateTime.now();
+    var expireyDate = DateTime.parse(widget.accessRequests[index].revoke_date);
+    if (expireyDate.isBefore(nowDate)) {
+      subtitle += "Access: EXPIRED\n";
+    } else {
+      subtitle +=
+          "Access: ${widget.accessRequests[index].access.toUpperCase()}\n";
+    }
     if (widget.accessRequests[index].revoke_date.contains("9999")) {
       subtitle += "Access Expiration date: NOT SET";
     } else {
