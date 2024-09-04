@@ -22,9 +22,11 @@ class RouteGenerator {
     // print("Base Url: ${Uri.base.path}");
     // print(
     //     "settings inside base url: ${settings.name!.contains(Uri.base.path)}");
+    var extPath = Uri.base.path;
+    // print("extPath: ${extPath}");
+    // print("Setting name: ${settings.name}");
     // External Links Navigation
-    if (settings.name!.contains(Uri.base.path) && Uri.base.path != "/") {
-      var extPath = Uri.base.path;
+    if (settings.name! == Uri.base.path && Uri.base.path != "/") {
       //print("query Param: ${Uri.base.queryParameters['token']}");
       switch (extPath) {
         case '/auth/reset-password':
