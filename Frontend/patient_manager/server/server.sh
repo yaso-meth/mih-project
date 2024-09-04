@@ -14,4 +14,5 @@ PORT=83
 cd /app/build/web/
 
 # Start the web server on the specified port
+#python3 -m http.server 83
 python3 -u ../../server/MIH_web_server.py

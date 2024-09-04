@@ -1,210 +1,189 @@
-<!DOCTYPE html><html><head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="/">
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+    <!-- APP Description -->
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.">
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+    <!-- iOS meta tags & icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mzansi Innovation Hub">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/">
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.">
+    <title>Mzansi Innovation Hub</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <style id="splash-screen-style">
+      html {
+        height: 100%
+      }
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Mzansi Innovation Hub">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+      body {
+        margin: 0;
+        min-height: 100%;
+        background-color: #3A4454;
+            background-size: 100% 100%;
+      }
 
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico">
+      .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
 
-  <title>Mzansi Innovation Hub</title>
-  <link rel="manifest" href="manifest.json">
-  <!-- <style>
-    .bg{
-      background-color: #3A4454;
-      overflow: hidden
-    }
-  </style> -->
-  
-  
-  <!-- <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"> -->
-  
- 
-  <style id="splash-screen-style">
-    html {
-      height: 100%
-    }
+      .contain {
+        display:block;
+        width:100%; height:100%;
+        object-fit: contain;
+      }
 
-    body {
-      margin: 0;
-      min-height: 100%;
-      background-color: #3A4454;
-          background-size: 100% 100%;
-    }
+      .stretch {
+        display:block;
+        width:100%; height:100%;
+      }
 
-    .center {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
+      .cover {
+        display:block;
+        width:100%; height:100%;
+        object-fit: cover;
+      }
 
-    .contain {
-      display:block;
-      width:100%; height:100%;
-      object-fit: contain;
-    }
+      .bottom {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        -ms-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+      }
 
-    .stretch {
-      display:block;
-      width:100%; height:100%;
-    }
+      .bottomLeft {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
 
-    .cover {
-      display:block;
-      width:100%; height:100%;
-      object-fit: cover;
-    }
+      .bottomRight {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    </style>
+    <script id="splash-screen-script">
+      function removeSplashFromWeb() {
+        document.getElementById("splash")?.remove();
+        document.getElementById("splash-branding")?.remove();
+        document.body.style.background = "transparent";
+      }
+    </script>
+  </head>
+  <body>
+    <picture id="splash-branding">
+      <source srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+      <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="">
+    </picture>
+    <picture id="splash">
+        <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+        <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+        <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+    </picture>
+    <!-- File Picker & PDF viewer -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script type="text/javascript">
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
+    </script>
 
-    .bottom {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
-    }
+    <!-- Versioning -->
+     <!-- <script src="flutter_bootstrap.js?v0.0.0.40" async></script> -->
+    <script>
+      var serviceWorkerVersion = '{{flutter_service_worker_version}}';
+      var scriptLoaded = false;
+      function loadMainDartJs() {
+        if (scriptLoaded) {
+          return;
+        }
+        scriptLoaded = true;
+        var scriptTag = document.createElement('script');
+        scriptTag.src = 'flutter_bootstrap.js';
+        scriptTag.type = 'application/javascript';
+        document.body.append(scriptTag);
+      }
 
-    .bottomLeft {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
-
-    .bottomRight {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
-  </style>
-  <script id="splash-screen-script" defer>
-    function removeSplashFromWeb() {
-      document.getElementById("splash")?.remove();
-      document.getElementById("splash-branding")?.remove();
-      document.body.style.background = "transparent";
-    }
-  </script>
-</head>
-<body>
-  <picture id="splash-branding">
-    <source srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x" media="(prefers-color-scheme: light)">
-    <source srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x" media="(prefers-color-scheme: dark)">
-    <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="">
-  </picture>
-  <picture id="splash">
-      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
-      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
-      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
-  </picture>
-
-  
-  <script src="flutter_bootstrap.js" defer></script>
-
-  <!-- File Picker & PDF viewer -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
-  <script type="text/javascript">
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
-  </script>
-
-<!-- Versioning -->
-<script defer>
-  var serviceWorkerVersion = '{{flutter_service_worker_version}}';
-  var scriptLoaded = false;
-  function loadMainDartJs() {
-    if (scriptLoaded) {
-      return;
-    }
-    scriptLoaded = true;
-    var scriptTag = document.createElement('script');
-    scriptTag.src = 'flutter_bootstrap.js';
-    scriptTag.type = 'application/javascript';
-    document.body.append(scriptTag);
-  }
-
-  if ('serviceWorker' in navigator) {
-    // Service workers are supported. Use them.
-    window.addEventListener('load', function () {
-      // Wait for registration to finish before dropping the <script> tag.
-      // Otherwise, the browser will load the script multiple times,
-      // potentially different versions.
-      var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
-      navigator.serviceWorker.register(serviceWorkerUrl)
-        .then((reg) => {
-          function waitForActivation(serviceWorker) {
-            serviceWorker.addEventListener('statechange', () => {
-              if (serviceWorker.state == 'activated') {
-                console.log('Installed new service worker.');
+      if ('serviceWorker' in navigator) {
+        // Service workers are supported. Use them.
+        window.addEventListener('load', function () {
+          // Wait for registration to finish before dropping the <script> tag.
+          // Otherwise, the browser will load the script multiple times,
+          // potentially different versions.
+          var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+          navigator.serviceWorker.register(serviceWorkerUrl)
+            .then((reg) => {
+              function waitForActivation(serviceWorker) {
+                serviceWorker.addEventListener('statechange', () => {
+                  if (serviceWorker.state == 'activated') {
+                    console.log('Installed new service worker.');
+                    loadMainDartJs();
+                  }
+                });
+              }
+              if (!reg.active && (reg.installing || reg.waiting)) {
+                // No active web worker and we have installed or are installing
+                // one for the first time. Simply wait for it to activate.
+                waitForActivation(reg.installing || reg.waiting);
+              } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+                // When the app updates the serviceWorkerVersion changes, so we
+                // need to ask the service worker to update.
+                console.log('New service worker available.');
+                reg.update();
+                waitForActivation(reg.installing);
+              } else {
+                // Existing service worker is still good.
+                console.log('Loading app from service worker.');
                 loadMainDartJs();
               }
             });
-          }
-          if (!reg.active && (reg.installing || reg.waiting)) {
-            // No active web worker and we have installed or are installing
-            // one for the first time. Simply wait for it to activate.
-            waitForActivation(reg.installing || reg.waiting);
-          } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-            // When the app updates the serviceWorkerVersion changes, so we
-            // need to ask the service worker to update.
-            console.log('New service worker available.');
-            reg.update();
-            waitForActivation(reg.installing);
-          } else {
-            // Existing service worker is still good.
-            console.log('Loading app from service worker.');
-            loadMainDartJs();
-          }
+
+          // If service worker doesn't succeed in a reasonable amount of time,
+          // fallback to plaint <script> tag.
+          setTimeout(() => {
+            if (!scriptLoaded) {
+              console.warn(
+                'Failed to load app from a service worker. Falling back to plain <script> tag.',
+              );
+              loadMainDartJs();
+            }
+          }, 4000);
         });
 
-      // If service worker doesn't succeed in a reasonable amount of time,
-      // fallback to plaint <script> tag.
-      setTimeout(() => {
-        if (!scriptLoaded) {
-          console.warn(
-            'Failed to load app from a service worker. Falling back to plain <script> tag.',
-          );
+        if (navigator.serviceWorker.state == 'activated') {
+          console.log('Installed new service worker.');
           loadMainDartJs();
+          // if there's an existing controller (previous Service Worker), show the prompt 
+          // you can tweak this and delay the notification once the page is load you can show a notification and ask for a new refresh
+          if (navigator.serviceWorker.controller) {
+            // you have a better UI here, reloading is not a great user experince here.
+            const confirmed = alert('New version of the app is available. Refresh now');
+            if (confirmed == true) {
+              window.location.reload();
+            }
+          }
         }
-      }, 4000);
-    });
-
-    if (serviceWorker.state == 'activated') {
-      console.log('Installed new service worker.');
-      loadMainDartJs();
-      // if there's an existing controller (previous Service Worker), show the prompt 
-      // you can tweak this and delay the notification once the page is load you can show a notification and ask for a new refresh
-      if (navigator.serviceWorker.controller) {
-        // you have a better UI here, reloading is not a great user experince here.
-        const confirmed = alert('New version of the app is available. Refresh now');
-        if (confirmed == true) {
-          window.location.reload();
-        }
+      } 
+      else {
+        // Service workers not supported. Just drop the <script> tag.
+        loadMainDartJs();
       }
-    }
-  } else {
-    // Service workers not supported. Just drop the <script> tag.
-    loadMainDartJs();
-  }
-</script>
+    </script>
 
-</body></html>
+  </body>
+</html>
