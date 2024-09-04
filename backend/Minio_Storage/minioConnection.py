@@ -1,7 +1,7 @@
 from minio import Minio
 
 def minioConnect(env):
-    if(env == "dev"):
+    if(env == "Dev"):
         return Minio(
         "minio:9000",
         # "minio.mzansi-innovation-hub.co.za",

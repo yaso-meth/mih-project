@@ -71,14 +71,18 @@ class perscriptionList(BaseModel):
     sig_path: str
     data: List[perscription]
 
-@router.get("/minio/pull/file/{app_id}/{folder}/{file_name}/{env}", tags=["Minio"])
+@router.get("/minio/pull/file/{env}/{app_id}/{folder}/{file_name}", tags=["Minio"])
 async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     path = app_id + "/" + folder + "/" + file_name
     try:
+        # print(f"env: {env}")
         # uploudFile(app_id, file.filename, extension[1], content)
+        
         client = Minio_Storage.minioConnection.minioConnect(env)
     
         miniourl = client.presigned_get_object("mih", path)
+        # if(env == "Dev"):
+        #     miniourl.replace("minio", "localhost")
         # temp = minioResponse.data#.encode('utf-8').strip()
         # print(temp)
         # print("=======================================================================")
@@ -87,9 +91,14 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
     except Exception as error:
         raise HTTPException(status_code=404, detail=miniourl)
         # return {"message": error}
-    return {
-        "minioURL": miniourl,
-    }
+    if(env == "Dev"):
+        return {
+            "minioURL": f"http://localhost:9000/mih/{app_id}/{folder}/{file_name}",
+        }
+    else:
+        return {
+            "minioURL": miniourl,
+        }
 
 @router.post("/minio/upload/file/", tags=["Minio"])
 async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), folder: str= Form(...), session: SessionContainer = Depends(verify_session())):
