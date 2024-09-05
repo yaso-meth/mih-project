@@ -185,7 +185,7 @@ class MyTheme {
   }
 
   void setScreenType(double width) {
-    if (width <= 420) {
+    if (width <= 500) {
       screenType = "mobile";
     } else {
       screenType = "desktop";
