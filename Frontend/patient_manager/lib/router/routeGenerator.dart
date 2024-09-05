@@ -18,16 +18,9 @@ import 'package:patient_manager/pages/profileUserUpdate.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-    // print("settings name: ${settings.name}");
-    // print("Base Url: ${Uri.base.path}");
-    // print(
-    //     "settings inside base url: ${settings.name!.contains(Uri.base.path)}");
     var extPath = Uri.base.path;
-    // print("extPath: ${extPath}");
-    // print("Setting name: ${settings.name}");
     // External Links Navigation
     if (settings.name! == Uri.base.path && Uri.base.path != "/") {
-      //print("query Param: ${Uri.base.queryParameters['token']}");
       switch (extPath) {
         case '/auth/reset-password':
           return MaterialPageRoute(
