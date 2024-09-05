@@ -7,6 +7,7 @@ class MyTheme {
   late int _succColor;
   late int _mesColor;
   late String mode;
+  late String screenType;
   late AssetImage loading;
 
   // Options:-
@@ -31,6 +32,12 @@ class MyTheme {
     return ThemeData(
         fontFamily: 'Segoe UI',
         scaffoldBackgroundColor: primaryColor(),
+        // pageTransitionsTheme: PageTransitionsTheme(
+        //   builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+        //     TargetPlatform.values,
+        //     value: (dynamic _) => const FadeUpwardsPageTransitionsBuilder(),
+        //   ),
+        // ),
         colorScheme: ColorScheme(
           brightness: getBritness(),
           primary: secondaryColor(),
@@ -175,6 +182,14 @@ class MyTheme {
       );
     }
     return loading;
+  }
+
+  void setScreenType(double width) {
+    if (width <= 420) {
+      screenType = "mobile";
+    } else {
+      screenType = "desktop";
+    }
   }
 
   Color primaryColor() {
