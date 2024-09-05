@@ -57,6 +57,8 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.sizeOf(context).width;
+    theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
     precacheImage(theme.logoImage(), context);
     precacheImage(theme.logoFrame(), context);
