@@ -244,7 +244,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
             radius: 50,
           ),
           SizedBox(
-            width: 110,
+            width: 120,
             child: Image(image: logoFrame),
           )
         ],

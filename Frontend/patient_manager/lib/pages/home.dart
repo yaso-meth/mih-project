@@ -98,6 +98,17 @@ class _HomeState extends State<Home> {
     return HomeArguments(userData, bUserData, busData, userPic);
   }
 
+  ImageProvider<Object>? isPictureAvailable(String url) {
+    if (url == "") {
+      return const AssetImage('images/i-dont-know-2.png');
+    } else if (url != "") {
+      return NetworkImage(url);
+    } else {
+      return null;
+    }
+  }
+
+// <a href="https://www.flaticon.com/free-icons/dont-know" title="dont know icons">Dont know icons created by Freepik - Flaticon</a>
   @override
   void dispose() {
     // TODO: implement dispose
@@ -121,7 +132,7 @@ class _HomeState extends State<Home> {
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
-              propicFile: NetworkImage(snapshot.data!.profilePicUrl),
+              propicFile: isPictureAvailable(snapshot.data!.profilePicUrl),
             );
           } else {
             return Center(
