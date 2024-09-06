@@ -26,6 +26,16 @@ class BuildAccessRequestList extends StatefulWidget {
 
 class _BuildPatientsListState extends State<BuildAccessRequestList> {
   String baseAPI = AppEnviroment.baseApiUrl;
+  late double popUpWidth;
+  late double? popUpheight;
+  late double popUpButtonWidth;
+  late double popUpTitleSize;
+  late double popUpSubtitleSize;
+  late double popUpBodySize;
+  late double popUpIconSize;
+  late double popUpPaddingSize;
+  late double width;
+  late double height;
 
   Future<void> updateAccessAPICall(int index, String accessType) async {
     var response = await http.put(
@@ -126,18 +136,37 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     );
   }
 
+  void checkScreenSize() {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      setState(() {
+        popUpWidth = (width / 4) * 2;
+        popUpheight = null;
+        popUpButtonWidth = 300;
+        popUpTitleSize = 25.0;
+        popUpSubtitleSize = 20.0;
+        popUpBodySize = 15;
+        popUpPaddingSize = 25.0;
+        popUpIconSize = 100;
+      });
+    } else {
+      setState(() {
+        popUpWidth = width - (width * 0.1);
+        popUpheight = null;
+        popUpButtonWidth = 300;
+        popUpTitleSize = 20.0;
+        popUpSubtitleSize = 18.0;
+        popUpBodySize = 15;
+        popUpPaddingSize = 15.0;
+        popUpIconSize = 100;
+      });
+    }
+  }
+
   void viewApprovalPopUp(int index) {
     String subtitle =
         "Appointment: ${widget.accessRequests[index].date_time.substring(0, 16).replaceAll("T", " ")}\n";
     subtitle += "Requestor: ${widget.accessRequests[index].Name}\n";
     subtitle += "Business Type: ${widget.accessRequests[index].type}\n\n";
-    // subtitle += "Access: ${widget.accessRequests[index].access.toUpperCase()}";
-    // if (widget.accessRequests[index].revoke_date.contains("9999")) {
-    //   subtitle += "Access Expiration date: NOT SET\n\n";
-    // } else {
-    //   subtitle +=
-    //       "Access Expiration date: ${widget.accessRequests[index].revoke_date.substring(0, 10)}\n\n";
-    // }
     subtitle +=
         "You are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.accessRequests[index].Name} will have access to your profile information until ${widget.accessRequests[index].revoke_date.substring(0, 16).replaceAll("T", " ")}.\nIf you are unsure about an upcoming appointment with ${widget.accessRequests[index].Name}, please contact ${widget.accessRequests[index].contact_no} for clarification before approving this request.\n";
     showDialog(
@@ -148,8 +177,8 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
           children: [
             Container(
               //padding: const EdgeInsets.all(15.0),
-              width: 800.0,
-              //height: 475.0,
+              width: popUpWidth,
+              height: popUpheight,
               decoration: BoxDecoration(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
@@ -159,15 +188,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     width: 5.0),
               ),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(15.0),
+                padding: EdgeInsets.all(popUpPaddingSize),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 25,
-                    ),
                     Text(
                       "Update Appointment Access",
                       textAlign: TextAlign.center,
@@ -175,32 +201,29 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                         color: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        fontSize: 35.0,
+                        fontSize: popUpTitleSize,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 25.0),
-                    SizedBox(
-                      width: 600,
-                      child: Text(
-                        subtitle,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          fontSize: 20.0,
-                          //fontWeight: FontWeight.bold,
-                        ),
+                    const SizedBox(height: 15.0),
+                    Text(
+                      subtitle,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: popUpBodySize,
+                        //fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 25.0),
+                    const SizedBox(height: 10.0),
                     Wrap(
                       runSpacing: 10,
                       spacing: 10,
                       children: [
                         SizedBox(
-                          width: 300,
+                          width: popUpButtonWidth,
                           height: 50,
                           child: MIHButton(
                             onTap: () {
@@ -216,7 +239,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                           ),
                         ),
                         SizedBox(
-                          width: 300,
+                          width: popUpButtonWidth,
                           height: 50,
                           child: MIHButton(
                             onTap: () {
@@ -267,6 +290,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
+    checkScreenSize();
     return ListView.separated(
       separatorBuilder: (BuildContext context, index) {
         return Divider(
