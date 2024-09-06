@@ -12,6 +12,28 @@ class Mihloadingcircle extends StatefulWidget {
 class _MihloadingcircleState extends State<Mihloadingcircle>
     with TickerProviderStateMixin {
   late final GifController _controller;
+  late double popUpPaddingSize;
+  late double popUpWidth;
+  late double? popUpheight;
+
+  late double width;
+  late double height;
+
+  void checkScreenSize() {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      setState(() {
+        popUpWidth = 250;
+        popUpheight = 250;
+        popUpPaddingSize = 25.0;
+      });
+    } else {
+      setState(() {
+        popUpWidth = 250;
+        popUpheight = 250;
+        popUpPaddingSize = 15.0;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -30,10 +52,16 @@ class _MihloadingcircleState extends State<Mihloadingcircle>
   Widget build(BuildContext context) {
     ImageProvider loading =
         MzanziInnovationHub.of(context)!.theme.loadingImage();
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
+    checkScreenSize();
     return Dialog(
       //backgroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       child: Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(popUpPaddingSize),
         width: 250,
         height: 250,
         decoration: BoxDecoration(
