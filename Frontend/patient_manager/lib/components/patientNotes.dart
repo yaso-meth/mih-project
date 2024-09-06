@@ -339,7 +339,7 @@ class _PatientNotesState extends State<PatientNotes> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            height: height - 177,
+            height: height - 100,
             decoration: BoxDecoration(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
@@ -391,7 +391,7 @@ class _PatientNotesState extends State<PatientNotes> {
           );
         } else {
           return Container(
-            height: height - 177,
+            height: height - 100,
             decoration: BoxDecoration(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),

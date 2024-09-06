@@ -126,7 +126,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       padding: const EdgeInsets.all(15.0),
       child: SizedBox(
         width: w,
-        height: h - 105,
+        height: h,
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           //const SizedBox(height: 15),
           const Text(

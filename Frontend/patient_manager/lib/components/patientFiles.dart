@@ -651,7 +651,7 @@ class _PatientFilesState extends State<PatientFiles> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            height: height - 177,
+            height: height - 100,
             decoration: BoxDecoration(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
@@ -703,7 +703,7 @@ class _PatientFilesState extends State<PatientFiles> {
           );
         } else {
           return Container(
-            height: height - 177,
+            height: height - 175,
             decoration: BoxDecoration(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),

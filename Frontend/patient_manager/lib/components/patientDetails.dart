@@ -274,7 +274,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     double height = size.height;
     return Container(
       alignment: Alignment.topCenter,
-      height: height - 177,
+      height: height - 100,
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),

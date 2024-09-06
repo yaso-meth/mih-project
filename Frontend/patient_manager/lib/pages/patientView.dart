@@ -5,6 +5,7 @@ import 'package:patient_manager/components/patientDetails.dart';
 import 'package:patient_manager/components/patientFiles.dart';
 import 'package:patient_manager/components/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -23,6 +24,16 @@ class PatientView extends StatefulWidget {
 
 class _PatientViewState extends State<PatientView> {
   int _selectedIndex = 0;
+  late double popUpWidth;
+  late double? popUpheight;
+  late double popUpTitleSize;
+  late double popUpSubtitleSize;
+  late double popUpBodySize;
+  late double popUpIconSize;
+  late double popUpPaddingSize;
+  late double width;
+  late double height;
+
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
     var patientAppId = widget.arguments.selectedPatient!.app_id;
@@ -45,6 +56,20 @@ class _PatientViewState extends State<PatientView> {
       return patients;
     }
     return null;
+  }
+
+  void checkScreenSize() {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      setState(() {
+        popUpWidth = (width / 4) * 2;
+        popUpheight = null;
+      });
+    } else {
+      setState(() {
+        popUpWidth = width - (width * 0.1);
+        popUpheight = null;
+      });
+    }
   }
 
   Widget showSelection(int index) {
@@ -83,22 +108,24 @@ class _PatientViewState extends State<PatientView> {
 
   @override
   Widget build(BuildContext context) {
-    // loadImage();
-    // var logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
+    checkScreenSize();
     return Scaffold(
-      // appBar: const MIHAppBar(
-      //   barTitle: "Patient Profile",
-      //   propicFile: null,
-      // ),
-      //drawer: showDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Stack(
             children: [
-              Padding(
+              Container(
+                width: width,
+                height: height,
                 padding: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 15.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -140,7 +167,7 @@ class _PatientViewState extends State<PatientView> {
                       ],
                     ),
                     const SizedBox(
-                      height: 25.0,
+                      height: 10.0,
                     ),
                     showSelection(_selectedIndex),
                   ],

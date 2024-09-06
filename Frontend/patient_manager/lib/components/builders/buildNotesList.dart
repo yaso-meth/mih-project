@@ -280,7 +280,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
     double height = size.height;
     if (widget.notes.isNotEmpty) {
       return SizedBox(
-        height: height - 250,
+        height: height - 173,
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
@@ -322,7 +322,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
       );
     } else {
       return SizedBox(
-        height: height - 250,
+        height: height - 173,
         child: const Center(
           child: Text(
             "No Notes Available",
