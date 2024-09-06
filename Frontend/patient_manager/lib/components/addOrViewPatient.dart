@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
@@ -22,6 +23,9 @@ class AddOrViewPatient extends StatefulWidget {
 }
 
 class _AddOrViewPatientState extends State<AddOrViewPatient> {
+  late double width;
+  late double height;
+
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
@@ -52,6 +56,11 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    setState(() {
+      width = size.width;
+      height = size.height;
+    });
     return FutureBuilder(
       future: fetchPatient(),
       builder: (ctx, snapshot) {
@@ -68,7 +77,12 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
             widget.arguments.type,
           ));
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Mihloadingcircle();
+          return Container(
+            width: width,
+            height: height,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            child: const Mihloadingcircle(),
+          );
         } else {
           return AddPatient(signedInUser: widget.arguments.signedInUser);
         }
