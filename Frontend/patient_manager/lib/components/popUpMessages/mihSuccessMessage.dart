@@ -18,14 +18,46 @@ class MIHSuccessMessage extends StatefulWidget {
 class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
   var messageTypes = <String, Widget>{};
   late String message;
+  late double popUpWidth;
+  late double? popUpheight;
+  late double popUpTitleSize;
+  late double popUpSubtitleSize;
+  late double popUpBodySize;
+  late double popUpIconSize;
+  late double popUpPaddingSize;
+  late Size? size;
+
+  void checkScreenSize() {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      setState(() {
+        popUpWidth = (size!.width / 4) * 2;
+        popUpheight = null;
+        popUpTitleSize = 25.0;
+        popUpSubtitleSize = 20.0;
+        popUpBodySize = 15;
+        popUpPaddingSize = 25.0;
+        popUpIconSize = 100;
+      });
+    } else {
+      setState(() {
+        popUpWidth = size!.width - (size!.width * 0.1);
+        popUpheight = null;
+        popUpTitleSize = 20.0;
+        popUpSubtitleSize = 18.0;
+        popUpBodySize = 15;
+        popUpPaddingSize = 15.0;
+        popUpIconSize = 100;
+      });
+    }
+  }
 
   void setSuccessmessage() {
     messageTypes["Success"] = Stack(
       children: [
         Container(
-          padding: const EdgeInsets.all(10.0),
-          width: 500.0,
-          // height: 375.0,
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
           decoration: BoxDecoration(
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
@@ -38,36 +70,32 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
             children: [
               Icon(
                 Icons.check_circle_outline_rounded,
-                size: 100,
+                size: popUpIconSize,
                 color: MzanziInnovationHub.of(context)!.theme.successColor(),
               ),
-              const SizedBox(height: 15),
+              //const SizedBox(height: 15),
               Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: MzanziInnovationHub.of(context)!.theme.successColor(),
-                  fontSize: 25.0,
+                  fontSize: popUpTitleSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Center(
-                  child: Text(
-                    message,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
               SizedBox(
                 width: 300,
                 height: 50,
@@ -101,13 +129,15 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
 
   @override
   void initState() {
-    message = widget.successMessage;
-    setSuccessmessage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    checkScreenSize();
+    message = widget.successMessage;
+    setSuccessmessage();
     return Dialog(child: getSuccessMessage(widget.successType));
   }
 }
