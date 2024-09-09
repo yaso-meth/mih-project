@@ -153,6 +153,26 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
+      tileList.add(HomeTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/business-profile/manage',
+            arguments: BusinessArguments(
+              widget.signedInUser,
+              widget.businessUser,
+              widget.business,
+            ),
+          );
+        },
+        tileName: "Manage Team",
+        tileIcon: Icon(
+          Icons.people_outline,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
     }
     if (widget.business!.type == "Doctors Office") {
       tileList.add(HomeTile(
