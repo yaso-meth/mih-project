@@ -90,8 +90,9 @@ class _HomeState extends State<Home> {
 
         userPic = decodedData['minioURL'];
       } else {
-        throw Exception(
-            "Error: GetUserData status code ${response.statusCode}");
+        userPic = "";
+        // throw Exception(
+        //     "Error: GetUserData status code ${response.statusCode}");
       }
     }
     //print(userPic);
