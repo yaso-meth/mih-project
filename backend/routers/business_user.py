@@ -30,6 +30,12 @@ class BusinessUserUpdateRequest(BaseModel):
     sig_path: str
     title: str
     access: str
+
+class EmployeeUpdateRequest(BaseModel):
+    business_id: str
+    app_id: str
+    title: str
+    access: str
     
 
 # Get List of all files
@@ -58,6 +64,41 @@ async def read_business_users_by_app_id(app_id: str, session: SessionContainer =
     db.close()
     if(len(items)!= 0):
         return items[0]
+    else:
+        raise HTTPException(status_code=404, detail="No record found")
+
+# Get List of all files
+@router.get("/business-user/employees/{business_id}", tags=["MIH Business_User"])
+async def read_business_users_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = ""
+    query += "SELECT business_users.business_id, business_users.app_id, business_users.title, business_users.access, "
+    query += "users.fname, users.lname, users.email, users.username "
+    query += "FROM business_users "
+    query += "inner join users on business_users.app_id = users.app_id "
+    query += "where business_id = %s "
+    try:
+        cursor.execute(query, (business_id,))
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed - " + error)
+    items = [
+        {
+            "business_id": item[0],
+            "app_id": item[1],
+            "title": item[2],
+            "access": item[3],
+            "fname": item[4],
+            "lname": item[5],
+            "email": item[6],
+            "username": item[7],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    if(len(items)!= 0):
+        return items
     else:
         raise HTTPException(status_code=404, detail="No record found")
 
@@ -95,6 +136,30 @@ async def Update_User_details(itemRequest : BusinessUserUpdateRequest, session: 
     query += "where app_id=%s and business_id=%s"
     userData = (itemRequest.signature, 
                 itemRequest.sig_path,
+                itemRequest.title,
+                itemRequest.access,
+                itemRequest.app_id,
+                itemRequest.business_id,
+                )
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
+
+# Update User on table
+@router.put("/business-user/employees/update/", tags=["MIH Business_User"])
+async def Update_User_details(itemRequest : EmployeeUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "update business_users "
+    query += "set title=%s, access=%s"
+    query += "where app_id=%s and business_id=%s"
+    userData = (
                 itemRequest.title,
                 itemRequest.access,
                 itemRequest.app_id,
