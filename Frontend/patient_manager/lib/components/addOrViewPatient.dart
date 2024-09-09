@@ -25,6 +25,7 @@ class AddOrViewPatient extends StatefulWidget {
 class _AddOrViewPatientState extends State<AddOrViewPatient> {
   late double width;
   late double height;
+  late Widget loading;
 
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
@@ -77,12 +78,14 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
             widget.arguments.type,
           ));
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
+          loading = Container(
             width: width,
             height: height,
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             child: const Mihloadingcircle(),
           );
+
+          return loading;
         } else {
           return AddPatient(signedInUser: widget.arguments.signedInUser);
         }
