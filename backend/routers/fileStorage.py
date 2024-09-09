@@ -108,7 +108,7 @@ async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(..
         uploudFile(app_id, folder, file.filename, extension[1], content)
     except Exception as error:
         raise HTTPException(status_code=404, detail="Failed to Uploud Record")
-    return {"message": "Successfully Delete File"}
+    return {"message": f"Successfully Uploaded {file.filename}"}
     
     # return {
     #     "app_id": app_id,
@@ -148,7 +148,7 @@ async def upload_perscription_to_user(requestItem: perscriptionList, session: Se
     return {"message": "Successfully Generated File"}
 
 def uploudFile(app_id, folder, fileName, extension, content):
-    client = Minio_Storage.minioConnection.minioConnect("dev")
+    client = Minio_Storage.minioConnection.minioConnect("Dev")
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
