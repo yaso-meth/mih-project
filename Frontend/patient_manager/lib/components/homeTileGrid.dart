@@ -234,7 +234,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           showDialog(
             context: context,
             builder: (context) {
-              return const MIHWarningMessage(warningType: "No Access");
+              // return const MIHWarningMessage(warningType: "No Access");
+              return const MIHWarningMessage(warningType: "Expired Access");
             },
           );
         },
@@ -252,7 +253,14 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           showDialog(
             context: context,
             builder: (context) {
-              return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Input Error");
+              // return const MIHErrorMessage(errorType: "Password Requirements");
+              // return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Invalid Email");
+              // return const MIHErrorMessage(errorType: "User Exists");
+              // return const MIHErrorMessage(errorType: "Password Match");
+              // return const MIHErrorMessage(errorType: "Invalid Credentials");
+              return const MIHErrorMessage(errorType: "Internet Connection");
             },
           );
         },
@@ -292,6 +300,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           showDialog(
             context: context,
             builder: (context) {
+              // return MIHDeleteMessage(deleteType: "Note", onTap: () {});
               return MIHDeleteMessage(deleteType: "File", onTap: () {});
             },
           );
