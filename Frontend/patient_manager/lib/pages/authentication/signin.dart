@@ -90,7 +90,24 @@ class _SignInState extends State<SignIn> {
     tileList.add(HomeTile(
       onTap: () {
         setState(() {
-          emailController.text = "test@mzansi-innovation-hub.co.za";
+          emailController.text = "testpatient@mzansi-innovation-hub.co.za";
+          passwordController.text = "Testprofile@1234";
+        });
+        validateInput();
+      },
+      tileName: "Patient",
+      tileIcon: Icon(
+        Icons.perm_identity_rounded,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(HomeTile(
+      onTap: () {
+        setState(() {
+          emailController.text = "testdoctor@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
         validateInput();
@@ -104,6 +121,25 @@ class _SignInState extends State<SignIn> {
       p: getPrim(),
       s: getSec(),
     ));
+    if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(HomeTile(
+        onTap: () {
+          setState(() {
+            emailController.text = "test@mzansi-innovation-hub.co.za";
+            passwordController.text = "Testprofile@1234";
+          });
+          validateInput();
+        },
+        tileName: "Test",
+        tileIcon: Icon(
+          Icons.warning,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    }
   }
 
   void loginError() {
@@ -186,7 +222,7 @@ class _SignInState extends State<SignIn> {
                         itemCount: sandboxProfileList.length,
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                                mainAxisSpacing: 10, maxCrossAxisExtent: 150),
+                                mainAxisSpacing: 10, maxCrossAxisExtent: 100),
                         itemBuilder: (context, index) {
                           return sandboxProfileList[index];
                         },
