@@ -215,6 +215,88 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
     );
   }
 
+  void setDeleteEmployee() {
+    messageTypes["Employee"] = Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: popUpIconSize,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                //const SizedBox(height: 15),
+                Text(
+                  "Are you sure you want to delete this?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "This team member will be deleted permanently from the business profile. Are you certain you want to delete it?",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                    width: 300,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: widget.onTap,
+                      buttonText: "Delete",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ))
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget? getDeleteMessage(String type) {
     return messageTypes[type];
   }
@@ -235,6 +317,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
     checkScreenSize();
     setDeleteNote();
     setFileNote();
+    setDeleteEmployee();
 
     //print(size);
     // setState(() {
