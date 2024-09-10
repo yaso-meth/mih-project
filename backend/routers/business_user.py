@@ -36,7 +36,10 @@ class EmployeeUpdateRequest(BaseModel):
     app_id: str
     title: str
     access: str
-    
+
+class employeeDeleteRequest(BaseModel):
+    business_id: str
+    app_id: str
 
 # Get List of all files
 @router.get("/business-user/{app_id}", tags=["MIH Business_User"])
@@ -107,20 +110,63 @@ async def read_business_users_by_business_id(business_id: str, session: SessionC
 async def insert_User_details(itemRequest : businessUserInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "insert into business_users "
-    query += "(business_id, app_id, signature, sig_path, title, access) "
-    query += "values (%s, %s, %s, %s, %s, %s)"
-    userData = (itemRequest.business_id,
+    checkQuery = "SELECT * FROM business_users where app_id = %s"
+    try:
+        cursor.execute(checkQuery, (itemRequest.app_id,))
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed - " + error)
+    items = [
+        {
+            "idbusiness_users": item[0],
+            "business_id": item[1],
+            "app_id": item[2],
+            "signature": item[3],
+            "sig_path": item[4],
+            "title": item[5],
+            "access": item[6],
+        }
+        for item in cursor.fetchall()
+    ]
+    #print(f"checkQuery: {len(items)}")
+    if(len(items) <1):
+        createQuery = "insert into business_users "
+        createQuery += "(business_id, app_id, signature, sig_path, title, access) "
+        createQuery += "values (%s, %s, %s, %s, %s, %s)"
+        userData1 = (itemRequest.business_id,
                 itemRequest.app_id,
                 itemRequest.signature,
                 itemRequest.sig_path,
                 itemRequest.title,
                 itemRequest.access)
+        try:
+            cursor.execute(createQuery, userData1) 
+        except Exception as error:
+            raise HTTPException(status_code=404, detail="Failed to Create Record")
+            #return {"message": "Failed to Create Record"}
+    else:
+        updateQuery = "update business_users "
+        updateQuery += "set business_id=%s, title=%s, access=%s "
+        updateQuery += "where app_id=%s"
+        userData2 = (itemRequest.business_id,
+                    itemRequest.title,
+                    itemRequest.access,
+                    itemRequest.app_id,
+                    )
+        try:
+            cursor.execute(updateQuery, userData2) 
+        except Exception as error:
+            raise HTTPException(status_code=404, detail=error)
+    
+    updateTypeQuery = "update users "
+    updateTypeQuery += "set type='business' "
+    updateTypeQuery += "where app_id=%s"
+    userData2 = (
+                itemRequest.app_id,
+                )
     try:
-       cursor.execute(query, userData) 
+        cursor.execute(updateTypeQuery, userData2) 
     except Exception as error:
-        raise HTTPException(status_code=404, detail="Failed to Create Record")
-        #return {"message": "Failed to Create Record"}
+        raise HTTPException(status_code=404, detail=error)
     db.commit()
     cursor.close()
     db.close()
@@ -174,3 +220,35 @@ async def Update_User_details(itemRequest : EmployeeUpdateRequest, session: Sess
     cursor.close()
     db.close()
     return {"message": "Successfully Updated Record"}
+
+# Delete Patient note on table
+@router.delete("/business-user/employees/delete/", tags=["MIH Business_User"])
+async def Delete_Patient_note(itemRequest : employeeDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    # today = date.today()
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "delete from business_users "
+    query += "where business_id=%s "
+    query += "and app_id=%s"
+    # notetData = (itemRequest.idpatient_notes)
+    try:
+       cursor.execute(query, (itemRequest.business_id,
+                              itemRequest.app_id,)) 
+    except Exception as error:
+        #raise HTTPException(status_code=404, detail="Failed to Delete Record")
+        return {"query": query, "message": error}
+    
+    updateTypeQuery = "update users "
+    updateTypeQuery += "set type='personal' "
+    updateTypeQuery += "where app_id=%s"
+    userData2 = (
+                itemRequest.app_id,
+                )
+    try:
+        cursor.execute(updateTypeQuery, userData2) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully deleted Record"}
