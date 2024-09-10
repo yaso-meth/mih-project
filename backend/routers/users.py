@@ -51,29 +51,31 @@ class userUpdateRequest(BaseModel):
 #     return items[0]
     
 
-# # Get List of all files
-# @router.get("/users/", tags="users")
-# async def read_all_users(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
-#     cursor = db.cursor()
-#     query = "SELECT * FROM users"
-#     cursor.execute(query)
-#     items = [
-#         {
-#             "idUser": item[0],
-#             "email": item[1],
-#             "docOffice_id": item[2],
-#             "fname": item[3],
-#             "lname": item[4],
-#             "type": item[5],
-#             "app_id": item[6],
-#             "username": item[7],
-#         }
-#         for item in cursor.fetchall()
-#     ]
-#     cursor.close()
-#     db.close()
-#     return items
+# Get List of all files
+@router.get("/users/search/{search}", tags=["MIH Users"])
+async def read_all_users(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM users "
+    query += "where email like lower('%%%s%%') " % search
+    query += "or username like lower('%%%s%%')" % search
+    cursor.execute(query)
+    items = [
+        {
+            "idUser": item[0],
+            "email": item[1],
+            "fname": item[2],
+            "lname": item[3],
+            "type": item[4],
+            "app_id": item[5],
+            "username": item[6],
+            "pro_pic_path": item[7],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items
 
 # Get List of all files
 @router.get("/user/{app_id}", tags=["MIH Users"])
