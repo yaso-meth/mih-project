@@ -132,27 +132,27 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   }
 
   void setAppsBusiness(List<HomeTile> tileList) {
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/business-profile',
+          arguments: BusinessArguments(
+            widget.signedInUser,
+            widget.businessUser,
+            widget.business,
+          ),
+        );
+      },
+      tileName: "Business Profile",
+      tileIcon: Icon(
+        Icons.business,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
     if (widget.businessUser!.access == "Full") {
-      tileList.add(HomeTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(
-            '/business-profile',
-            arguments: BusinessArguments(
-              widget.signedInUser,
-              widget.businessUser,
-              widget.business,
-            ),
-          );
-        },
-        tileName: "Business Profile",
-        tileIcon: Icon(
-          Icons.business,
-          color: getSec(),
-          size: 200,
-        ),
-        p: getPrim(),
-        s: getSec(),
-      ));
       tileList.add(HomeTile(
         onTap: () {
           Navigator.of(context).pushNamed(
