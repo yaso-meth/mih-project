@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/components/builders/buildEmployeeList.dart';
+import 'package:patient_manager/components/builders/buildUserList.dart';
+import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/businessEmployee.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -22,8 +26,6 @@ class ManageBusinessProfile extends StatefulWidget {
   State<ManageBusinessProfile> createState() => _ManageBusinessProfileState();
 }
 
-class BusinessUserScreenArguments {}
-
 class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
   final FocusNode _focusNode = FocusNode();
   final baseAPI = AppEnviroment.baseApiUrl;
@@ -32,8 +34,10 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
   String userSearch = "";
   String errorCode = "";
   String errorBody = "";
+  int selectionIndex = 0;
 
   late Future<List<BusinessEmployee>> employeeList;
+  late Future<List<AppUser>> userSearchResults;
 
   Future<List<BusinessEmployee>> fetchEmployees() async {
     //print("Patien manager page: $endpoint");
@@ -56,12 +60,36 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     }
   }
 
+  Future<List<AppUser>> fetchUsers(String search) async {
+    //TODO
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$search"));
+    errorCode = response.statusCode.toString();
+    errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<AppUser> users =
+          List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
+      return users;
+    } else {
+      throw Exception('failed to load patients');
+    }
+  }
+
   Widget employeesview(double w, double h) {
     return SizedBox(
       width: w,
       height: h - 157,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        //const SizedBox(height: 15),
+        const Text(
+          "Business Team",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+        const SizedBox(height: 15),
         FutureBuilder(
           future: employeeList,
           builder: (context, snapshot) {
@@ -168,6 +196,162 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     );
   }
 
+  Widget displayUserList(List<AppUser> userList) {
+    if (userList.isNotEmpty) {
+      return Container(
+        height: 500,
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 3.0,
+          ),
+        ),
+        child: BuildUserList(
+          users: userList,
+          arguments: widget.arguments,
+        ),
+      );
+    }
+    return Container(
+      //height: 500,
+      decoration: BoxDecoration(
+        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        borderRadius: BorderRadius.circular(25.0),
+        border: Border.all(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 3.0),
+      ),
+      child: Center(
+        child: Text(
+          "Enter Username or Email to search",
+          style: TextStyle(
+              fontSize: 25,
+              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  void submitUserForm() {
+    if (searchController.text != "") {
+      setState(() {
+        userSearch = searchController.text;
+        userSearchResults = fetchUsers(userSearch);
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
+  }
+
+  Widget userSearchView(double w, double h) {
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (event) async {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.enter) {
+          submitUserForm();
+        }
+      },
+      child: SizedBox(
+        width: w,
+        height: h - 157,
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          const SizedBox(height: 5),
+          const Text(
+            "User Search",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          MIHSearchField(
+            controller: searchController,
+            hintText: "Username or Email Search",
+            required: true,
+            editable: true,
+            onTap: () {
+              submitUserForm();
+            },
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: userSearchResults,
+            builder: (context, snapshot) {
+              //print("patient Liust  ${snapshot.data}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Expanded(
+                  child: Container(
+                    //height: 500,
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      border: Border.all(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 3.0),
+                    ),
+                    child: const Mihloadingcircle(),
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                List<AppUser> patientsList;
+                if (userSearch == "") {
+                  patientsList = [];
+                } else {
+                  patientsList = snapshot.data!;
+                  //print(patientsList);
+                }
+
+                return Expanded(
+                  child: displayUserList(patientsList),
+                );
+              } else {
+                return Expanded(
+                  child: Container(
+                    //height: 500,
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      border: Border.all(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 3.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .errorColor()),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ]),
+      ),
+    );
+  }
+
   void internetConnectionPopUp() {
     showDialog(
       context: context,
@@ -198,6 +382,18 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     );
   }
 
+  Widget showSelection(
+      int selectionIndex, double screenWidth, double screenHeight) {
+    if (selectionIndex == 0) {
+      return SizedBox(
+        //width: 660,
+        child: employeesview(screenWidth, screenHeight),
+      );
+    } else {
+      return userSearchView(screenWidth, screenHeight);
+    }
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -207,6 +403,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
 
   @override
   void initState() {
+    userSearchResults = fetchUsers("abc");
     employeeList = fetchEmployees();
     super.initState();
   }
@@ -230,15 +427,40 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const Text(
-                    "Business Team",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                  //const SizedBox(height: 20),
+                  SizedBox(
+                    width: screenWidth,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              selectionIndex = 0;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.people_outline,
+                            size: 35,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              selectionIndex = 1;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            size: 35,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  employeesview(screenWidth, screenHeight),
+                  showSelection(selectionIndex, screenWidth, screenHeight),
                 ],
               ),
             ),
@@ -253,7 +475,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
-            )
+            ),
           ],
         ),
       ),
