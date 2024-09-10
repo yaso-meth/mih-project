@@ -263,6 +263,14 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
     return regex.hasMatch(text);
   }
 
+  bool isFullAccess() {
+    if (widget.arguments.businessUser!.access == "Partial") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   void dispose() {
     nameController.dispose();
@@ -332,80 +340,83 @@ class _ProfileBusinessUpdateState extends State<ProfileBusinessUpdate> {
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
-                    Column(
-                      children: [
-                        const Text(
-                          "Business Profile",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                    Visibility(
+                      visible: isFullAccess(),
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Business Profile",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 25.0),
-                        MIHTextField(
-                          controller: regController,
-                          hintText: "Registration No.",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: nameController,
-                          hintText: "Business Name",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHDropdownField(
-                          controller: typeController,
-                          hintText: "Business Type",
-                          dropdownOptions: const ["Doctors Office", "Other"],
-                          required: true,
-                          editable: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: contactController,
-                          hintText: "Contact Number",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: emailController,
-                          hintText: "Email",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHFileField(
-                          controller: logonameController,
-                          hintText: "Logo",
-                          editable: false,
-                          required: true,
-                          onPressed: () async {
-                            FilePickerResult? result =
-                                await FilePicker.platform.pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['jpg', 'png', 'pdf'],
-                            );
-                            if (result == null) return;
-                            final selectedFile = result.files.first;
-                            setState(() {
-                              selectedLogo = selectedFile;
-                            });
-                            setState(() {
-                              logonameController.text = selectedFile.name;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 15.0),
-                        Divider(
-                          color: MzanziInnovationHub.of(context)
-                              ?.theme
-                              .secondaryColor(),
-                        ),
-                      ],
+                          const SizedBox(height: 25.0),
+                          MIHTextField(
+                            controller: regController,
+                            hintText: "Registration No.",
+                            editable: true,
+                            required: true,
+                          ),
+                          const SizedBox(height: 10.0),
+                          MIHTextField(
+                            controller: nameController,
+                            hintText: "Business Name",
+                            editable: true,
+                            required: true,
+                          ),
+                          const SizedBox(height: 10.0),
+                          MIHDropdownField(
+                            controller: typeController,
+                            hintText: "Business Type",
+                            dropdownOptions: const ["Doctors Office", "Other"],
+                            required: true,
+                            editable: true,
+                          ),
+                          const SizedBox(height: 10.0),
+                          MIHTextField(
+                            controller: contactController,
+                            hintText: "Contact Number",
+                            editable: true,
+                            required: true,
+                          ),
+                          const SizedBox(height: 10.0),
+                          MIHTextField(
+                            controller: emailController,
+                            hintText: "Email",
+                            editable: true,
+                            required: true,
+                          ),
+                          const SizedBox(height: 10.0),
+                          MIHFileField(
+                            controller: logonameController,
+                            hintText: "Logo",
+                            editable: false,
+                            required: true,
+                            onPressed: () async {
+                              FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['jpg', 'png', 'pdf'],
+                              );
+                              if (result == null) return;
+                              final selectedFile = result.files.first;
+                              setState(() {
+                                selectedLogo = selectedFile;
+                              });
+                              setState(() {
+                                logonameController.text = selectedFile.name;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 15.0),
+                          Divider(
+                            color: MzanziInnovationHub.of(context)
+                                ?.theme
+                                .secondaryColor(),
+                          ),
+                        ],
+                      ),
                     ),
                     Column(
                       children: [
