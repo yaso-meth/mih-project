@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
+  secure_application
   syncfusion_pdfviewer_windows
   url_launcher_windows
 )

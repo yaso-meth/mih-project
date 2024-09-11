@@ -10,6 +10,7 @@ class MyTheme {
   late String mode;
   late String screenType;
   late AssetImage loading;
+  late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
   // Options:-
   // f3f9d2 = Cream
@@ -72,6 +73,19 @@ class MyTheme {
         drawerTheme: DrawerThemeData(
           backgroundColor: primaryColor(),
         ));
+  }
+
+  String getPlatform() {
+    if (kIsWeb) {
+      return "Web";
+    } else if (isPwa()) {
+      if (platform == TargetPlatform.android) {
+        return "Android";
+      } else if (platform == TargetPlatform.iOS) {
+        return "iOS";
+      }
+    }
+    return "Other";
   }
 
   bool isPwa() {

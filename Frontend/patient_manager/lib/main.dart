@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/router/routeGenerator.dart';
 import 'package:patient_manager/theme/mihTheme.dart';
-import 'package:no_screenshot/no_screenshot.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({
@@ -20,8 +20,6 @@ class MzanziInnovationHub extends StatefulWidget {
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
   late MyTheme theme;
-
-  final _noScreenshot = NoScreenshot.instance;
 
   Color getPrimany() {
     return theme.primaryColor();
@@ -50,32 +48,23 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     });
   }
 
-  void disableScreenshot() async {
-    await _noScreenshot.startScreenshotListening();
-    bool result = await _noScreenshot.screenshotOff();
-    debugPrint('Screenshot Off: $result');
-  }
-
-  void setPlatformSpecificPlugins() {
-    print("is PWA: ${theme.isPwa()}");
-    if (theme.isPwa()) {
-      disableScreenshot();
-      //print(object)
-    }
-  }
-
   @override
   void initState() {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
-
+    theme.platform = Theme.of(context).platform;
     theme.mode = "Dark";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    setPlatformSpecificPlugins();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (theme.getPlatform() == "Android") {
+        await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+      }
+    });
+
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
