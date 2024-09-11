@@ -304,7 +304,7 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(height: 10),
                     //Heading
                     Text(
-                      'Sign In Now',
+                      'Sign In (${MzanziInnovationHub.of(context)!.theme.getPlateform()})',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,

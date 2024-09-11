@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/router/routeGenerator.dart';
 import 'package:patient_manager/theme/mihTheme.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({
@@ -19,6 +20,12 @@ class MzanziInnovationHub extends StatefulWidget {
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
   late MyTheme theme;
+  final _noScreenshot = NoScreenshot.instance;
+
+  void disableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOff();
+    debugPrint('Screenshot Off: $result');
+  }
 
   Color getPrimany() {
     return theme.primaryColor();
@@ -47,10 +54,17 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     });
   }
 
+  void setPlatformSpecificPlugins() {
+    if (theme.getPlateform() == "Android" || theme.getPlateform() == "IOS") {
+      disableScreenshot();
+    }
+  }
+
   @override
   void initState() {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
+    setPlatformSpecificPlugins();
     theme.mode = "Dark";
     super.initState();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 class MyTheme {
   late int _mainColor;
@@ -9,7 +10,7 @@ class MyTheme {
   late String mode;
   late String screenType;
   late AssetImage loading;
-
+  bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
   // Options:-
   // f3f9d2 = Cream
   // f0f0c9 = cream2
@@ -26,6 +27,19 @@ class MyTheme {
     _errColor = 0xffD87E8B;
     _succColor = 0xffB0F2B4;
     //_mesColor = 0xffc8c8c8d9;
+  }
+
+  String getPlateform() {
+    if (kIsWeb) {
+      return "Web";
+    }
+    if (Platform.isAndroid) {
+      return "Android";
+    } else if (Platform.isIOS) {
+      return "IOS";
+    } else {
+      return "Other";
+    }
   }
 
   ThemeData getData() {
