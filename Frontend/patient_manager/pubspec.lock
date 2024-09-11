@@ -400,14 +400,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_windowmanager:
-    dependency: "direct main"
-    description:
-      name: flutter_windowmanager
-      sha256: b4d0bc06f6777952b729c0cdb7ce9ad1ecabd8b8b1cb0acb57a36621457dab1b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   font_awesome_flutter:
     dependency: transitive
     description:
@@ -696,6 +688,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.27"
+  no_screenshot:
+    dependency: "direct main"
+    description:
+      name: no_screenshot
+      sha256: ec3d86d7ee89a09c3a3939c1003012536ba4b3fcb4f8cbd23d87ada595c99258
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   package_config:
     dependency: transitive
     description:
@@ -856,14 +856,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  secure_application:
-    dependency: "direct main"
-    description:
-      name: secure_application
-      sha256: b8e34b4bc2467a3a3c0a649e46ae6a442df7ca27aeaddebb8a53c40656da0385
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
   shared_preferences:
     dependency: transitive
     description:

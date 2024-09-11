@@ -52,8 +52,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   #google_maps_flutter_web: ^0.5.10
   url_strategy: ^0.3.0
-  secure_application: ^4.0.1
-  flutter_windowmanager: ^0.2.0
+  no_screenshot: ^0.3.1
 
 dev_dependencies:
   flutter_test:

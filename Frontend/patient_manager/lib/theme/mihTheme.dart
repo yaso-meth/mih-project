@@ -84,6 +84,12 @@ class MyTheme {
       }
     } else if (kIsWeb) {
       return "Web";
+    } else if (!kIsWeb) {
+      if (platform == TargetPlatform.android) {
+        return "Android";
+      } else if (platform == TargetPlatform.iOS) {
+        return "iOS";
+      }
     }
     return "Other";
   }

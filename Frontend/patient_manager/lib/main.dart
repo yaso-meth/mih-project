@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/router/routeGenerator.dart';
 import 'package:patient_manager/theme/mihTheme.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({
@@ -20,7 +20,7 @@ class MzanziInnovationHub extends StatefulWidget {
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
   late MyTheme theme;
-
+  final noscreenshot = NoScreenshot.instance;
   Color getPrimany() {
     return theme.primaryColor();
   }
@@ -53,18 +53,15 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
     theme.platform = Theme.of(context).platform;
+    if (theme.getPlatform() == "Android") {
+      noscreenshot.screenshotOff();
+    }
     theme.mode = "Dark";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (theme.getPlatform() == "Android") {
-        await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-      }
-    });
-
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
