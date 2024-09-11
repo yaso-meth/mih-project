@@ -55,7 +55,8 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   }
 
   void setPlatformSpecificPlugins() {
-    if (theme.getPlateform() == "Android" || theme.getPlateform() == "IOS") {
+    print("is PWA: ${theme.isPwa()}");
+    if (theme.isPwa()) {
       disableScreenshot();
     }
   }

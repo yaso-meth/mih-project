@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+import "package:universal_html/html.dart" as html;
 
 class MyTheme {
   late int _mainColor;
@@ -27,19 +27,6 @@ class MyTheme {
     _errColor = 0xffD87E8B;
     _succColor = 0xffB0F2B4;
     //_mesColor = 0xffc8c8c8d9;
-  }
-
-  String getPlateform() {
-    if (kIsWeb) {
-      return "Web";
-    }
-    if (Platform.isAndroid) {
-      return "Android";
-    } else if (Platform.isIOS) {
-      return "IOS";
-    } else {
-      return "Other";
-    }
   }
 
   ThemeData getData() {
@@ -85,6 +72,10 @@ class MyTheme {
         drawerTheme: DrawerThemeData(
           backgroundColor: primaryColor(),
         ));
+  }
+
+  bool isPwa() {
+    return html.window.matchMedia('(display-mode: standalone)').matches;
   }
 
   void setMode(String m) {
