@@ -20,12 +20,8 @@ class MzanziInnovationHub extends StatefulWidget {
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
   late MyTheme theme;
-  final _noScreenshot = NoScreenshot.instance;
 
-  void disableScreenshot() async {
-    bool result = await _noScreenshot.screenshotOff();
-    debugPrint('Screenshot Off: $result');
-  }
+  final _noScreenshot = NoScreenshot.instance;
 
   Color getPrimany() {
     return theme.primaryColor();
@@ -54,10 +50,17 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     });
   }
 
+  void disableScreenshot() async {
+    await _noScreenshot.startScreenshotListening();
+    bool result = await _noScreenshot.screenshotOff();
+    debugPrint('Screenshot Off: $result');
+  }
+
   void setPlatformSpecificPlugins() {
     print("is PWA: ${theme.isPwa()}");
     if (theme.isPwa()) {
       disableScreenshot();
+      //print(object)
     }
   }
 
@@ -65,13 +68,14 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   void initState() {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
-    setPlatformSpecificPlugins();
+
     theme.mode = "Dark";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    setPlatformSpecificPlugins();
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
