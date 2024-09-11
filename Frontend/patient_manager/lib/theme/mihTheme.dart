@@ -76,14 +76,14 @@ class MyTheme {
   }
 
   String getPlatform() {
-    if (kIsWeb) {
-      return "Web";
-    } else if (isPwa()) {
+    if (isPwa()) {
       if (platform == TargetPlatform.android) {
         return "Android";
       } else if (platform == TargetPlatform.iOS) {
         return "iOS";
       }
+    } else if (kIsWeb) {
+      return "Web";
     }
     return "Other";
   }
