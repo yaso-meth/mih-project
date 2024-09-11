@@ -19,8 +19,13 @@
 
     <title>Mzansi Innovation Hub</title>
     <link rel="manifest" href="manifest.json">
+
+    <!-- test stuff for speed -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="prefetch" href="flutter_bootstrap.js">
     
-    <style id="splash-screen-style">
+    <!-- Splash screen -->
+    <style id="splash-screen-style" defer>
       html {
         height: 100%
       }
@@ -78,13 +83,14 @@
         right: 0;
       }
     </style>
-    <script id="splash-screen-script">
+    <script id="splash-screen-script" defer>
       function removeSplashFromWeb() {
         document.getElementById("splash")?.remove();
         document.getElementById("splash-branding")?.remove();
         document.body.style.background = "transparent";
       }
     </script>
+    <!--------------------->
   </head>
   <body>
     <picture id="splash-branding">
@@ -98,15 +104,9 @@
         <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
     </picture>
 
-    <!-- File Picker & PDF viewer -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
-    <script type="text/javascript">
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
-    </script>
-
     <!-- Versioning -->
      <!-- <script src="flutter_bootstrap.js?v0.0.0.40" async></script> -->
-    <script>
+    <script defer>
       var serviceWorkerVersion = '{{flutter_service_worker_version}}';
       var scriptLoaded = false;
       function loadMainDartJs() {
@@ -117,6 +117,7 @@
         var scriptTag = document.createElement('script');
         scriptTag.src = 'flutter_bootstrap.js';
         scriptTag.type = 'application/javascript';
+        scriptTag.defer = true;
         document.body.append(scriptTag);
       }
 
@@ -187,4 +188,12 @@
     </script>
 
   </body>
+  <!-- File Picker & PDF viewer -->
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js" defer></script>
+  <script type="text/javascript" defer>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
+  </script> -->
+  <script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js" defer></script>
+<script id="pdfjs-worker" type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js" defer></script>
+  <!--------------------->
 </html>
