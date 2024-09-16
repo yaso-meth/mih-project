@@ -21,8 +21,8 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     var extPath = Uri.base.path;
-    print(extPath);
-    print(settings.name);
+    // print(extPath);
+    // print(settings.name);
     // External Links Navigation
     switch (extPath) {
       case '/auth/reset-password':
