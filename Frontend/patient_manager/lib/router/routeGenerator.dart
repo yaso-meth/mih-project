@@ -21,8 +21,8 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     var extPath = Uri.base.path;
-    // print(extPath);
-    // print(settings.name);
+    print(extPath);
+    print(settings.name);
     // External Links Navigation
     switch (extPath) {
       case '/auth/reset-password':
@@ -31,10 +31,6 @@ class RouteGenerator {
             builder: (_) => ResetPassword(
                   token: Uri.base.queryParameters['token'],
                 ));
-      case '/about':
-        return MaterialPageRoute(
-            settings: settings,
-            builder: (_) => const MIHAbout());
       default:
         // Internal Navigation
         switch (settings.name) {
@@ -47,12 +43,11 @@ class RouteGenerator {
                 settings: settings, builder: (_) => const ForgotPassword());
           //http://mzansi-innovation-hub.co.za/auth/reset-password
           //===============================================================
-          
+
           //About MIH
           case '/about':
             return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => const MIHAbout());
+                settings: settings, builder: (_) => const MIHAbout());
           //===============================================================
 
           //User Profile

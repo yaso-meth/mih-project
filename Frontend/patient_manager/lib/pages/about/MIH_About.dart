@@ -23,7 +23,9 @@ class _MIHAboutState extends State<MIHAbout> {
     return MIHAction(
       icon: Icons.arrow_back,
       iconSize: 50,
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      },
     );
   }
 
