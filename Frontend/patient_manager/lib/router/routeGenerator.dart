@@ -3,6 +3,7 @@ import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/pages/about/MIH_About.dart';
 import 'package:patient_manager/pages/authentication/forgotPassword.dart';
 import 'package:patient_manager/pages/authentication/resetPassword.dart';
 import 'package:patient_manager/pages/fullScreenFile.dart';
@@ -30,6 +31,10 @@ class RouteGenerator {
             builder: (_) => ResetPassword(
                   token: Uri.base.queryParameters['token'],
                 ));
+      case '/about':
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => const MIHAbout());
       default:
         // Internal Navigation
         switch (settings.name) {
@@ -41,7 +46,13 @@ class RouteGenerator {
             return MaterialPageRoute(
                 settings: settings, builder: (_) => const ForgotPassword());
           //http://mzansi-innovation-hub.co.za/auth/reset-password
-
+          //===============================================================
+          
+          //About MIH
+          case '/about':
+            return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const MIHAbout());
           //===============================================================
 
           //User Profile
