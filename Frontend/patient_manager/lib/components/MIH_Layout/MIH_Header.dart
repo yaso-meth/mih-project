@@ -31,6 +31,7 @@ class _MIHHeaderState extends State<MIHHeader> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: widget.headerAlignment,
+        mainAxisSize: MainAxisSize.max,
         children: widget.headerItems,
       ),
     );
