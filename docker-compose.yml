@@ -146,7 +146,6 @@ services:
     restart: unless-stopped
     networks:
       - MIH-network
-    profiles: ['prod']
 #============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
