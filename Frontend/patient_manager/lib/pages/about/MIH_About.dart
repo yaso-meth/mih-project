@@ -22,7 +22,7 @@ class _MIHAboutState extends State<MIHAbout> {
   MIHAction getActionButton() {
     return MIHAction(
       icon: Icons.arrow_back,
-      iconSize: 50,
+      iconSize: 35,
       onTap: () {
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       },
