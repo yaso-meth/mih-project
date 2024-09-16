@@ -8,3 +8,4 @@ certbot/
 # database/mysql.ibd
 # database/undo*
 # database/#innodb_redo/#ib_redo*
+.venv
