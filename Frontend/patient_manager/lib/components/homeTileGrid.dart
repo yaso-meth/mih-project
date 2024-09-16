@@ -129,6 +129,23 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       p: getPrim(),
       s: getSec(),
     ));
+
+    tileList.add(HomeTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "About MIH",
+      tileIcon: Icon(
+        Icons.info_outline,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
   }
 
   void setAppsBusiness(List<HomeTile> tileList) {
@@ -524,6 +541,17 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                   ),
                 ],
               ),
+              // MIHAction(
+              //   icon: Icons.apps,
+              //   iconSize: 50,
+              //   onTap: () {
+              //     setState(() {
+              //       appSearch = "";
+              //       searchController.clear();
+              //     });
+              //     Scaffold.of(context).openDrawer();
+              //   },
+              // ),
               Positioned(
                 top: 10,
                 left: 5,
