@@ -40,7 +40,7 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
           children: [
             widget.actionButton,
             Column(
-              children: [widget.header, widget.body],
+              children: [widget.header, Expanded(child: widget.body)],
             ),
           ],
         ),
