@@ -15,7 +15,15 @@ class MIHBody extends StatefulWidget {
 }
 
 class _MIHBodyState extends State<MIHBody> {
-  double paddingSize = 10;
+  //double paddingSize = 10;
+
+  double getPaddingSize() {
+    if (widget.borderOn) {
+      return 10;
+    } else {
+      return 0;
+    }
+  }
 
   Decoration? getBoader() {
     if (widget.borderOn) {
@@ -43,17 +51,28 @@ class _MIHBodyState extends State<MIHBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
+    Size screenSize = MediaQuery.sizeOf(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        left: getPaddingSize(),
+        right: getPaddingSize(),
+        bottom: getPaddingSize(),
+        top: 0,
+      ),
+      child: Container(
         padding: EdgeInsets.only(
-          left: paddingSize,
-          right: paddingSize,
-          bottom: paddingSize,
+          left: 10,
+          right: 10,
+          bottom: 10,
+          top: getPaddingSize(),
         ),
-        child: Container(
-          //height: height - 100,
-          decoration: getBoader(),
+        width: screenSize.width,
+        height: screenSize.height,
+        decoration: getBoader(),
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: widget.bodyItems,
           ),
         ),
