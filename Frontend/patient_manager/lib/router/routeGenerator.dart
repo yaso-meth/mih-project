@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/Authentication/authCheck.dart';
+import 'package:patient_manager/MIH_Packages/authentication/authCheck.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/addOrViewPatient.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
