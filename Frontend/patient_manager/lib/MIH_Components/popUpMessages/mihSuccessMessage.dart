@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
 import 'package:patient_manager/main.dart';
 
 class MIHSuccessMessage extends StatefulWidget {

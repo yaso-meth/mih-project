@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';

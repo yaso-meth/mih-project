@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_text_input.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihDeleteMessage.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihMLTextInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_multiline_text_input.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';

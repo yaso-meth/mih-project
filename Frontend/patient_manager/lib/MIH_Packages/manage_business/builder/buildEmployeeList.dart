@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihDropdownInput.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_dropdown_input.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_text_input.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihDeleteMessage.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';

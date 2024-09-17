@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihDropdownInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_dropdown_input.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_text_input.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';

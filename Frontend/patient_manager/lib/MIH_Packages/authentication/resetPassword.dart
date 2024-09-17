@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihPassInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_pass_input.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
