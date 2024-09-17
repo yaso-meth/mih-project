@@ -287,7 +287,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
       icon: Icons.arrow_back,
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        Navigator.of(context).pop();
       },
     );
   }

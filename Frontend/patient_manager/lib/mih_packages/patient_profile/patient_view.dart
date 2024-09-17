@@ -109,7 +109,7 @@ class _PatientViewState extends State<PatientView> {
       icon: Icons.arrow_back,
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        Navigator.of(context).pop();
       },
     );
   }

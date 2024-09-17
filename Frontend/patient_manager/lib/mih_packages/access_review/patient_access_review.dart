@@ -221,7 +221,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       icon: Icons.arrow_back,
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        Navigator.of(context).pop();
       },
     );
   }
