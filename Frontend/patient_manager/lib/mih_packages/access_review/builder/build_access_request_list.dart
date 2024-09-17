@@ -284,7 +284,6 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 

@@ -54,7 +54,6 @@ class _MedicineSearchState extends State<MedicineSearch> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -118,7 +117,7 @@ class _MedicineSearchState extends State<MedicineSearch> {
                     } else {
                       return const SizedBox(
                         height: 400,
-                        child: const Center(
+                        child: Center(
                           child: Text(
                             "No Match Found\nPlease close and manually capture medicine",
                             style: TextStyle(fontSize: 25, color: Colors.grey),

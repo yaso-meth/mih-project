@@ -182,7 +182,7 @@ class _MIHAboutState extends State<MIHAbout> {
           width: 500,
           height: 300,
           child: GridView.builder(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 // left: width / 10,
                 // right: width / 10,
                 // //bottom: height / 5,
@@ -240,7 +240,6 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        //TODO
         html.window
             .open('https://www.youtube.com/@mzansiinnovationhub', 'new tab');
       },
@@ -258,7 +257,6 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        //TODO
         html.window.open('https://x.com/mzansi_inno_hub', 'new tab');
       },
       tileName: "X",
@@ -275,7 +273,6 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        //TODO
         html.window.open(
             'https://www.linkedin.com/company/mzansi-innovation-hub/',
             'new tab');
@@ -294,7 +291,6 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        //TODO
         html.window.open(
             'https://www.facebook.com/profile.php?id=61565345762136',
             'new tab');

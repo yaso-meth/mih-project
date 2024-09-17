@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 
 class Medcertinput extends StatefulWidget {
-  final startDateController;
-  final endDateTextController;
-  final retDateTextController;
+  final TextEditingController startDateController;
+  final TextEditingController endDateTextController;
+  final TextEditingController retDateTextController;
   const Medcertinput({
     super.key,
     required this.startDateController,
@@ -19,7 +19,6 @@ class Medcertinput extends StatefulWidget {
 class _MedcertinputState extends State<Medcertinput> {
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 

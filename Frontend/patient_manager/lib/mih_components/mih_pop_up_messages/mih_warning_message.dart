@@ -194,7 +194,6 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
