@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/mih_packages/patient_profile/patientAdd.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_view.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

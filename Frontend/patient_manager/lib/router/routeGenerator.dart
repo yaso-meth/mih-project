@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_packages/authentication/auth_check.dart';
 import 'package:patient_manager/mih_packages/patient_profile/add_or_view_patient.dart';
-import 'package:patient_manager/mih_packages/patient_profile/patientAdd.dart';
-import 'package:patient_manager/mih_packages/patient_profile/patientEdit.dart';
-import 'package:patient_manager/mih_packages/patient_profile/patientManager.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patient_edit.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patient_manager.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/mih_packages/about_mih/mih_about.dart';
