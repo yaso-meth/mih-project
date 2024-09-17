@@ -275,60 +275,49 @@ class _BuildNotesListState extends State<BuildNotesList> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-    //double width = size.width;
-    double height = size.height;
     if (widget.notes.isNotEmpty) {
-      return SizedBox(
-        height: height - 173,
-        child: ListView.separated(
-          shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            );
-          },
-          itemCount: widget.notes.length,
-          itemBuilder: (context, index) {
-            String notePreview = widget.notes[index].note_text;
-            if (notePreview.length > 30) {
-              notePreview = "${notePreview.substring(0, 30)} ...";
-            }
-            return ListTile(
-              title: Text(
-                "${widget.notes[index].note_name}\n${widget.notes[index].doc_office} - ${widget.notes[index].doctor}",
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              subtitle: Text(
-                "${widget.notes[index].insert_date}:\n$notePreview",
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ), //Text(widget.notes[index].note_text),
-              trailing: Icon(
-                Icons.arrow_forward,
+      return ListView.separated(
+        shrinkWrap: true,
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          );
+        },
+        itemCount: widget.notes.length,
+        itemBuilder: (context, index) {
+          String notePreview = widget.notes[index].note_text;
+          if (notePreview.length > 30) {
+            notePreview = "${notePreview.substring(0, 30)} ...";
+          }
+          return ListTile(
+            title: Text(
+              "${widget.notes[index].note_name}\n${widget.notes[index].doc_office} - ${widget.notes[index].doctor}",
+              style: TextStyle(
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
-              onTap: () {
-                viewNotePopUp(widget.notes[index]);
-              },
-            );
-          },
-        ),
+            ),
+            subtitle: Text(
+              "${widget.notes[index].insert_date}:\n$notePreview",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ), //Text(widget.notes[index].note_text),
+            trailing: Icon(
+              Icons.arrow_forward,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+            onTap: () {
+              viewNotePopUp(widget.notes[index]);
+            },
+          );
+        },
       );
     } else {
-      return SizedBox(
-        height: height - 173,
-        child: const Center(
-          child: Text(
-            "No Notes Available",
-            style: TextStyle(fontSize: 25, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
+      return const Center(
+        child: Text(
+          "No Notes Available",
+          style: TextStyle(fontSize: 25, color: Colors.grey),
+          textAlign: TextAlign.center,
         ),
       );
     }

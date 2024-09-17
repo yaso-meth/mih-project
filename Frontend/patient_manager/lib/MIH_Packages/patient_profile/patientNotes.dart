@@ -331,78 +331,34 @@ class _PatientNotesState extends State<PatientNotes> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-    //double width = size.width;
-    double height = size.height;
     return FutureBuilder(
       future: futueNotes,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            height: height - 100,
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 3.0),
-            ),
-            child: const Center(
-              child: Mihloadingcircle(),
-            ),
+          return const Center(
+            child: Mihloadingcircle(),
           );
         } else if (snapshot.hasData) {
           final notesList = snapshot.data!;
-          return Container(
-            //height: 300.0,
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 3.0),
+          return Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: setIcons(),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: setIcons(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Divider(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
-                ),
-                const SizedBox(height: 10),
-                BuildNotesList(
-                  notes: notesList,
-                  signedInUser: widget.signedInUser,
-                  selectedPatient: widget.selectedPatient,
-                  business: widget.business,
-                  businessUser: widget.businessUser,
-                ),
-              ]),
+            Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            const SizedBox(height: 10),
+            BuildNotesList(
+              notes: notesList,
+              signedInUser: widget.signedInUser,
+              selectedPatient: widget.selectedPatient,
+              business: widget.business,
+              businessUser: widget.businessUser,
             ),
-          );
+          ]);
         } else {
-          return Container(
-            height: height - 100,
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 3.0),
-            ),
-            child: const Center(
-              child: Text("Error Loading Notes"),
-            ),
+          return const Center(
+            child: Text("Error Loading Notes"),
           );
         }
       },

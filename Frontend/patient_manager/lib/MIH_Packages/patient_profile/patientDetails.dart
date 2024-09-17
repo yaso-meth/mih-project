@@ -269,56 +269,34 @@ class _PatientDetailsState extends State<PatientDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-    //double width = size.width;
-    double height = size.height;
-    return Container(
-      alignment: Alignment.topCenter,
-      height: height - 100,
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      decoration: BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 3.0),
-      ),
-      //constraints: const BoxConstraints.expand(height: 250.0),
-      child: SelectionArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: ,
-                children: setIcons(),
+    return SelectionArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: ,
+              children: setIcons(),
+            ),
+            Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            const SizedBox(height: 10),
+            getPatientDetailsField(),
+            const SizedBox(height: 10),
+            Text(
+              "Medical Aid Details",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10),
-              getPatientDetailsField(),
-              const SizedBox(height: 10),
-              Text(
-                "Medical Aid Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10),
-              getMedAidDetailsFields(),
-            ],
-          ),
+            ),
+            Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+            const SizedBox(height: 10),
+            getMedAidDetailsFields(),
+          ],
         ),
       ),
     );

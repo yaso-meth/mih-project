@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientDetails.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientFiles.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientNotes.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Action.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Body.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Header.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_LayoutBuilder.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
@@ -100,6 +104,64 @@ class _PatientViewState extends State<PatientView> {
     }
   }
 
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Icons.arrow_back,
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return MIHHeader(
+      headerAlignment: MainAxisAlignment.end,
+      headerItems: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 0;
+            });
+          },
+          icon: const Icon(
+            Icons.perm_identity,
+            size: 35,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 1;
+            });
+          },
+          icon: const Icon(
+            Icons.article_outlined,
+            size: 35,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 2;
+            });
+          },
+          icon: const Icon(
+            Icons.file_present,
+            size: 35,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: true,
+      bodyItems: [showSelection(_selectedIndex)],
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -114,81 +176,86 @@ class _PatientViewState extends State<PatientView> {
       height = size.height;
     });
     checkScreenSize();
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Container(
-                width: width,
-                height: height,
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 15.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedIndex = 0;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.perm_identity,
-                            size: 35,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedIndex = 1;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.article_outlined,
-                            size: 35,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedIndex = 2;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.file_present,
-                            size: 35,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    showSelection(_selectedIndex),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 10,
-                left: 5,
-                width: 50,
-                height: 50,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
+    // return Scaffold(
+    //   body: SafeArea(
+    //     child: SingleChildScrollView(
+    //       child: Stack(
+    //         children: [
+    //           Container(
+    //             width: width,
+    //             height: height,
+    //             padding: const EdgeInsets.symmetric(
+    //                 vertical: 10.0, horizontal: 15.0),
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.max,
+    //               children: [
+    //                 Row(
+    //                   crossAxisAlignment: CrossAxisAlignment.end,
+    //                   mainAxisAlignment: MainAxisAlignment.end,
+    //                   children: [
+    //                     IconButton(
+    //                       onPressed: () {
+    //                         setState(() {
+    //                           _selectedIndex = 0;
+    //                         });
+    //                       },
+    //                       icon: const Icon(
+    //                         Icons.perm_identity,
+    //                         size: 35,
+    //                       ),
+    //                     ),
+    //                     IconButton(
+    //                       onPressed: () {
+    //                         setState(() {
+    //                           _selectedIndex = 1;
+    //                         });
+    //                       },
+    //                       icon: const Icon(
+    //                         Icons.article_outlined,
+    //                         size: 35,
+    //                       ),
+    //                     ),
+    //                     IconButton(
+    //                       onPressed: () {
+    //                         setState(() {
+    //                           _selectedIndex = 2;
+    //                         });
+    //                       },
+    //                       icon: const Icon(
+    //                         Icons.file_present,
+    //                         size: 35,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 const SizedBox(
+    //                   height: 10.0,
+    //                 ),
+    //                 showSelection(_selectedIndex),
+    //               ],
+    //             ),
+    //           ),
+    //           Positioned(
+    //             top: 10,
+    //             left: 5,
+    //             width: 50,
+    //             height: 50,
+    //             child: IconButton(
+    //               onPressed: () {
+    //                 Navigator.of(context).pop();
+    //               },
+    //               icon: const Icon(Icons.arrow_back),
+    //             ),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

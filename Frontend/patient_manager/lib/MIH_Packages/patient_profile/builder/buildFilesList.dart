@@ -298,68 +298,57 @@ class _BuildFilesListState extends State<BuildFilesList> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-    //double width = size.width;
-    double height = size.height;
     if (widget.files.isNotEmpty) {
-      return SizedBox(
-        height: height - 177,
-        child: ListView.separated(
-          shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            );
-          },
-          itemCount: widget.files.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                widget.files[index].file_name,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              subtitle: Text(
-                widget.files[index].insert_date,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward,
+      return ListView.separated(
+        shrinkWrap: true,
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          );
+        },
+        itemCount: widget.files.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              widget.files[index].file_name,
+              style: TextStyle(
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
-              onTap: () async {
-                await getFileUrlApiCall(widget.files[index].file_path)
-                    .then((urlHere) {
-                  //print(url);
-                  setState(() {
-                    fileUrl = urlHere;
-                  });
+            ),
+            subtitle: Text(
+              widget.files[index].insert_date,
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+            onTap: () async {
+              await getFileUrlApiCall(widget.files[index].file_path)
+                  .then((urlHere) {
+                //print(url);
+                setState(() {
+                  fileUrl = urlHere;
                 });
+              });
 
-                viewFilePopUp(
-                    widget.files[index].file_name,
-                    widget.files[index].file_path,
-                    widget.files[index].idpatient_files,
-                    fileUrl);
-              },
-            );
-          },
-        ),
+              viewFilePopUp(
+                  widget.files[index].file_name,
+                  widget.files[index].file_path,
+                  widget.files[index].idpatient_files,
+                  fileUrl);
+            },
+          );
+        },
       );
     } else {
-      return SizedBox(
-        height: height - 150,
-        child: const Center(
-          child: Text(
-            "No Documents Available",
-            style: TextStyle(fontSize: 25, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
+      return const Center(
+        child: Text(
+          "No Documents Available",
+          style: TextStyle(fontSize: 25, color: Colors.grey),
+          textAlign: TextAlign.center,
         ),
       );
     }
