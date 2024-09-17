@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/patientDetails.dart';
-import 'package:patient_manager/components/patientFiles.dart';
-import 'package:patient_manager/components/patientNotes.dart';
+import 'package:patient_manager/MIH_Packages/patient_profile/patientDetails.dart';
+import 'package:patient_manager/MIH_Packages/patient_profile/patientFiles.dart';
+import 'package:patient_manager/MIH_Packages/patient_profile/patientNotes.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';

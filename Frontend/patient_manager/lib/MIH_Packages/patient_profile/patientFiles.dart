@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/builders/buildFilesList.dart';
+import 'package:patient_manager/MIH_Packages/patient_profile/builder/buildFilesList.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/medCertInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
@@ -21,7 +21,7 @@ import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
 import 'package:supertokens_flutter/supertokens.dart';
 
-import '../objects/patients.dart';
+import '../../objects/patients.dart';
 
 class PatientFiles extends StatefulWidget {
   final int patientIndex;
