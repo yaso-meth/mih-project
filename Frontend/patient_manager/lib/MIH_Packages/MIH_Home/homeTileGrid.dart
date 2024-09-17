@@ -160,7 +160,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           ),
         );
       },
-      tileName: "Business Profile",
+      tileName: "Manage Business",
       tileIcon: Icon(
         Icons.business,
         color: getSec(),
