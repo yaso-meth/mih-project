@@ -1,33 +1,34 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
-import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
-import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihDropdownInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihDeleteMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/objects/businessEmployee.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-class BuildUserList extends StatefulWidget {
-  final List<AppUser> users;
+class BuildEmployeeList extends StatefulWidget {
+  final List<BusinessEmployee> employees;
   final BusinessArguments arguments;
 
-  const BuildUserList({
+  const BuildEmployeeList({
     super.key,
-    required this.users,
+    required this.employees,
     required this.arguments,
   });
 
   @override
-  State<BuildUserList> createState() => _BuildUserListState();
+  State<BuildEmployeeList> createState() => _BuildEmployeeListState();
 }
 
-class _BuildUserListState extends State<BuildUserList> {
+class _BuildEmployeeListState extends State<BuildEmployeeList> {
   TextEditingController accessController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
@@ -35,28 +36,60 @@ class _BuildUserListState extends State<BuildUserList> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  Future<void> createBusinessUserAPICall(int index) async {
+  Future<void> updateEmployeeAPICall(int index) async {
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    var response = await http.post(
-      Uri.parse("$baseAPI/business-user/insert/"),
+
+    var response = await http.put(
+      Uri.parse("$baseAPI/business-user/employees/update/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "business_id": widget.arguments.business!.business_id,
-        "app_id": widget.users[index].app_id,
-        "signature": "",
-        "sig_path": "",
+        "business_id": widget.employees[index].business_id,
+        "app_id": widget.employees[index].app_id,
         "title": typeController.text,
         "access": accessController.text,
       }),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      //setState(() {});
+      Navigator.of(context).pushNamed(
+        '/business-profile/manage',
+        arguments: BusinessArguments(
+          widget.arguments.signedInUser,
+          widget.arguments.businessUser,
+          widget.arguments.business,
+        ),
+      );
+      String message = "Your employees details have been updated.";
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<void> deleteNoteApiCall(int index) async {
+    var response = await http.delete(
+      Uri.parse("$baseAPI/business-user/employees/delete/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": widget.employees[index].business_id,
+        "app_id": widget.employees[index].app_id,
+      }),
+    );
+    //print("Here4");
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();
@@ -69,7 +102,7 @@ class _BuildUserListState extends State<BuildUserList> {
         ),
       );
       String message =
-          "${widget.users[index].username} is now apart of your team with ${accessController.text} access to ${widget.arguments.business!.Name}";
+          "The employee has been deleted successfully. This means it will no longer have access to your business profile";
       successPopUp(message);
     } else {
       internetConnectionPopUp();
@@ -97,20 +130,12 @@ class _BuildUserListState extends State<BuildUserList> {
     );
   }
 
-  String hideEmail(String email) {
-    var firstLetter = email[0];
-    var end = email.split("@")[1];
-    return "$firstLetter********@$end";
-  }
-
-  void addEmployeePopUp(int index) {
+  void updateEmployeePopUp(int index) {
     setState(() {
-      //accessController.text = widget.users[index].access;
-      //typeController.text = widget.users[index].title;
-      // var fnameInitial = widget.users[index].fname[0];
-      // var lnameInitial = widget.users[index].lname[0];
-      fnameController.text = widget.users[index].username;
-      lnameController.text = hideEmail(widget.users[index].email);
+      accessController.text = widget.employees[index].access;
+      typeController.text = widget.employees[index].title;
+      fnameController.text = widget.employees[index].fname;
+      lnameController.text = widget.employees[index].lname;
     });
     showDialog(
       context: context,
@@ -136,7 +161,7 @@ class _BuildUserListState extends State<BuildUserList> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Add Employee",
+                      "Employee Details",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: MzanziInnovationHub.of(context)!
@@ -149,14 +174,14 @@ class _BuildUserListState extends State<BuildUserList> {
                     const SizedBox(height: 25.0),
                     MIHTextField(
                       controller: fnameController,
-                      hintText: "Username Name",
+                      hintText: "First Name",
                       editable: false,
                       required: true,
                     ),
                     const SizedBox(height: 10.0),
                     MIHTextField(
                       controller: lnameController,
-                      hintText: "Email",
+                      hintText: "Surname",
                       editable: false,
                       required: true,
                     ),
@@ -181,7 +206,7 @@ class _BuildUserListState extends State<BuildUserList> {
                       width: 300,
                       height: 50,
                       child: MIHButton(
-                        buttonText: "Add",
+                        buttonText: "Update",
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
@@ -189,7 +214,7 @@ class _BuildUserListState extends State<BuildUserList> {
                             .theme
                             .primaryColor(),
                         onTap: () {
-                          createBusinessUserAPICall(index);
+                          updateEmployeeAPICall(index);
                         },
                       ),
                     )
@@ -213,10 +238,38 @@ class _BuildUserListState extends State<BuildUserList> {
                 ),
               ),
             ),
+            Positioned(
+              top: 5,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  showDeleteWarning(index);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  size: 35,
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void showDeleteWarning(int index) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => MIHDeleteMessage(
+            deleteType: "Employee",
+            onTap: () {
+              deleteNoteApiCall(index);
+            }));
   }
 
   @override
@@ -231,28 +284,32 @@ class _BuildUserListState extends State<BuildUserList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
-      itemCount: widget.users.length,
+      itemCount: widget.employees.length,
       itemBuilder: (context, index) {
-        var isYou = "";
+        //final patient = widget.patients[index].id_no.contains(widget.searchString);
+        //print(index);
+        var isMe = "";
         if (widget.arguments.signedInUser.app_id ==
-            widget.users[index].app_id) {
-          isYou = "(You)";
+            widget.employees[index].app_id) {
+          isMe = "(You)";
         }
         return ListTile(
-          title: Text("@${widget.users[index].username} $isYou"),
+          title: Text(
+              "${widget.employees[index].fname} ${widget.employees[index].lname} - ${widget.employees[index].title} $isMe"),
           subtitle: Text(
-            "Email: ${hideEmail(widget.users[index].email)}",
+            "${widget.employees[index].username}\n${widget.employees[index].email}\nAccess: ${widget.employees[index].access}",
             style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {
-            addEmployeePopUp(index);
+            updateEmployeePopUp(index);
           },
         );
       },

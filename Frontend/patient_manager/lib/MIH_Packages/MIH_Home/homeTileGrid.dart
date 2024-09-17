@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:patient_manager/components/MIH_Layout/MIH_Tile.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
-import 'package:patient_manager/components/mihAppDrawer.dart';
-import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
-import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
-import 'package:patient_manager/components/popUpMessages/mihWarningMessage.dart';
-import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_Tile.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihSearchInput.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_AppDrawer.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihDeleteMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihWarningMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -149,10 +149,31 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   }
 
   void setAppsBusiness(List<MIHTile> tileList) {
+    // tileList.add(MIHTile(
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed(
+    //       '/business-profile',
+    //       arguments: BusinessArguments(
+    //         widget.signedInUser,
+    //         widget.businessUser,
+    //         widget.business,
+    //       ),
+    //     );
+    //   },
+    //   tileName: "Manage Business",
+    //   tileIcon: Icon(
+    //     Icons.business,
+    //     color: getSec(),
+    //     size: 200,
+    //   ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
+    //if (widget.businessUser!.access == "Full") {
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/business-profile',
+          '/business-profile/manage',
           arguments: BusinessArguments(
             widget.signedInUser,
             widget.businessUser,
@@ -160,7 +181,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           ),
         );
       },
-      tileName: "Manage Business",
+      tileName: "Business Profile",
       tileIcon: Icon(
         Icons.business,
         color: getSec(),
@@ -169,28 +190,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       p: getPrim(),
       s: getSec(),
     ));
-    if (widget.businessUser!.access == "Full") {
-      tileList.add(MIHTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(
-            '/business-profile/manage',
-            arguments: BusinessArguments(
-              widget.signedInUser,
-              widget.businessUser,
-              widget.business,
-            ),
-          );
-        },
-        tileName: "Manage Team",
-        tileIcon: Icon(
-          Icons.people_outline,
-          color: getSec(),
-          size: 200,
-        ),
-        p: getPrim(),
-        s: getSec(),
-      ));
-    }
+    //}
     if (widget.business!.type == "Doctors Office") {
       tileList.add(MIHTile(
         onTap: () {

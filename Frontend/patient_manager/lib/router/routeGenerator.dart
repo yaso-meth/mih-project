@@ -7,14 +7,14 @@ import 'package:patient_manager/MIH_Packages/about_MIH/MIH_About.dart';
 import 'package:patient_manager/MIH_Packages/authentication/forgotPassword.dart';
 import 'package:patient_manager/MIH_Packages/authentication/resetPassword.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/fullScreenFile.dart';
-import 'package:patient_manager/MIH_Packages/manageBusinessProfile.dart';
+import 'package:patient_manager/MIH_Packages/manage_business/manageBusinessProfile.dart';
 import 'package:patient_manager/MIH_Packages/access_review/patientAccessReview.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientAdd.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientEdit.dart';
-import 'package:patient_manager/MIH_Packages/patientManager.dart';
+import 'package:patient_manager/MIH_Packages/patient_profile/patientManager.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/patientView.dart';
-import 'package:patient_manager/MIH_Packages/profileBusinessAdd.dart';
-import 'package:patient_manager/MIH_Packages/profileBusinessUpdate.dart';
+import 'package:patient_manager/MIH_Packages/manage_business/profileBusinessAdd.dart';
+import 'package:patient_manager/MIH_Packages/manage_business/businessDetails.dart';
 import 'package:patient_manager/MIH_Packages/mzansi_profile/profileUserUpdate.dart';
 
 class RouteGenerator {
@@ -68,7 +68,7 @@ class RouteGenerator {
             if (args is BusinessArguments) {
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => ProfileBusinessUpdate(
+                builder: (_) => BusinessDetails(
                   arguments: args,
                 ),
               );

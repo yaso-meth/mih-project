@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
-import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihPassInput.dart';
-import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihButton.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihPassInput.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihButton.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 //import 'package:patient_manager/objects/sessionST.dart';

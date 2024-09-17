@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/MIH_Layout/MIH_Action.dart';
-import 'package:patient_manager/components/MIH_Layout/MIH_Body.dart';
-import 'package:patient_manager/components/MIH_Layout/MIH_Header.dart';
-import 'package:patient_manager/components/MIH_Layout/MIH_LayoutBuilder.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_Action.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_Body.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_Header.dart';
+import 'package:patient_manager/MIH_Components/MIH_Layout/MIH_LayoutBuilder.dart';
 import 'package:patient_manager/MIH_Packages/access_review/builder/buildAccessRequestList.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihDropdownInput.dart';
-import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihDropdownInput.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/accessRequest.dart';

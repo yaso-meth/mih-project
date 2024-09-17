@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihTextInput.dart';
-import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
-import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/components/inputsAndButtons/mihMLTextInput.dart';
-import 'package:patient_manager/components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihTextInput.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihDeleteMessage.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/MIH_Components/inputsAndButtons/mihMLTextInput.dart';
+import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
-//import 'package:patient_manager/components/mybutton.dart';
+//import 'package:patient_manager/MIH_Components/mybutton.dart';
 import 'package:patient_manager/objects/notes.dart';
 import 'package:patient_manager/objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
