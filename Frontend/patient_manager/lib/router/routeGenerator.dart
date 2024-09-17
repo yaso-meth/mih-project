@@ -15,7 +15,7 @@ import 'package:patient_manager/mih_packages/patient_profile/patientManager.dart
 import 'package:patient_manager/mih_packages/patient_profile/patientView.dart';
 import 'package:patient_manager/mih_packages/manage_business/profile_business_add.dart';
 import 'package:patient_manager/mih_packages/manage_business/business_details.dart';
-import 'package:patient_manager/mih_packages/mzansi_profile/profileUserUpdate.dart';
+import 'package:patient_manager/mih_packages/mzansi_profile/profile_user_update.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
