@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_packages/authentication/signInOrRegister.dart';
+import 'package:patient_manager/mih_packages/authentication/signin_or_register.dart';
 import 'package:patient_manager/mih_packages/MIH_Home/home.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
