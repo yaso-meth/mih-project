@@ -3,19 +3,19 @@ import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/pages/about_MIH/MIH_About.dart';
-import 'package:patient_manager/pages/authentication/forgotPassword.dart';
-import 'package:patient_manager/pages/authentication/resetPassword.dart';
-import 'package:patient_manager/pages/fullScreenFile.dart';
-import 'package:patient_manager/pages/manageBusinessProfile.dart';
-import 'package:patient_manager/pages/access_review/patientAccessReview.dart';
-import 'package:patient_manager/pages/patientAdd.dart';
-import 'package:patient_manager/pages/patientEdit.dart';
-import 'package:patient_manager/pages/patientManager.dart';
-import 'package:patient_manager/pages/patientView.dart';
-import 'package:patient_manager/pages/profileBusinessAdd.dart';
-import 'package:patient_manager/pages/profileBusinessUpdate.dart';
-import 'package:patient_manager/pages/mzansi_profile/profileUserUpdate.dart';
+import 'package:patient_manager/MIH_Packages/about_MIH/MIH_About.dart';
+import 'package:patient_manager/MIH_Packages/authentication/forgotPassword.dart';
+import 'package:patient_manager/MIH_Packages/authentication/resetPassword.dart';
+import 'package:patient_manager/MIH_Packages/fullScreenFile.dart';
+import 'package:patient_manager/MIH_Packages/manageBusinessProfile.dart';
+import 'package:patient_manager/MIH_Packages/access_review/patientAccessReview.dart';
+import 'package:patient_manager/MIH_Packages/patientAdd.dart';
+import 'package:patient_manager/MIH_Packages/patientEdit.dart';
+import 'package:patient_manager/MIH_Packages/patientManager.dart';
+import 'package:patient_manager/MIH_Packages/patientView.dart';
+import 'package:patient_manager/MIH_Packages/profileBusinessAdd.dart';
+import 'package:patient_manager/MIH_Packages/profileBusinessUpdate.dart';
+import 'package:patient_manager/MIH_Packages/mzansi_profile/profileUserUpdate.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

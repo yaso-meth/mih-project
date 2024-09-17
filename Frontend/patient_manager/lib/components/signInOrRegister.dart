@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/pages/authentication/register.dart';
-import 'package:patient_manager/pages/authentication/signin.dart';
+import 'package:patient_manager/MIH_Packages/authentication/register.dart';
+import 'package:patient_manager/MIH_Packages/authentication/signin.dart';
 
 class SignInOrRegister extends StatefulWidget {
   const SignInOrRegister({super.key});
