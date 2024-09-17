@@ -7,7 +7,7 @@ import 'package:patient_manager/mih_components/MIH_Layout/mih_header.dart';
 import 'package:patient_manager/mih_components/MIH_Layout/mih_layout_builder.dart';
 import 'package:patient_manager/MIH_Packages/access_review/builder/buildAccessRequestList.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:patient_manager/mih_components/mih_pop_up_messages/mihLoadingCircle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/accessRequest.dart';

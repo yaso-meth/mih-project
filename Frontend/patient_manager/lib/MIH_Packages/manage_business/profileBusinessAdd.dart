@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/mih_components/mih_pop_up_messages/mihLoadingCircle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:patient_manager/mih_components/mih_pop_up_messages/mihErrorMessage.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
-import 'package:patient_manager/mih_components/mih_pop_up_messages/mihSuccessMessage.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/env/env.dart';
