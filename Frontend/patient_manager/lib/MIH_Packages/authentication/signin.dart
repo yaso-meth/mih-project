@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Tile.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihPassInput.dart';

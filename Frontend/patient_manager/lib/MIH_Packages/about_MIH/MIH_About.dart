@@ -3,7 +3,7 @@ import 'package:patient_manager/components/MIH_Layout/MIH_Action.dart';
 import 'package:patient_manager/components/MIH_Layout/MIH_Body.dart';
 import 'package:patient_manager/components/MIH_Layout/MIH_Header.dart';
 import 'package:patient_manager/components/MIH_Layout/MIH_LayoutBuilder.dart';
-import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Tile.dart';
 import 'package:patient_manager/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

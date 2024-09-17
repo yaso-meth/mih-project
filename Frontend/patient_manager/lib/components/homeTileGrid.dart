@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:patient_manager/components/homeTile.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Tile.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihSearchInput.dart';
 import 'package:patient_manager/components/mihAppDrawer.dart';
 import 'package:patient_manager/components/popUpMessages/mihDeleteMessage.dart';
