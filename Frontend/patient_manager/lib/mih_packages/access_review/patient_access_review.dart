@@ -10,8 +10,8 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdo
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/accessRequest.dart';
-import 'package:patient_manager/objects/appUser.dart';
+import 'package:patient_manager/mih_objects/access_request.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientAccessRequest extends StatefulWidget {

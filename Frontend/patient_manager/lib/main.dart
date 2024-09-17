@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_env/env.dart';
-import 'package:patient_manager/router/routeGenerator.dart';
+import 'package:patient_manager/mih_router/routeGenerator.dart';
 import 'package:patient_manager/mih_theme/mih_theme.dart';
 import 'package:no_screenshot/no_screenshot.dart';
 

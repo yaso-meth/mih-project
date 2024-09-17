@@ -4,8 +4,8 @@ import 'package:patient_manager/mih_packages/patient_profile/add_or_view_patient
 import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_edit.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_manager.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_packages/about_mih/mih_about.dart';
 import 'package:patient_manager/mih_packages/authentication/forgot_password.dart';
 import 'package:patient_manager/mih_packages/authentication/reset_password.dart';

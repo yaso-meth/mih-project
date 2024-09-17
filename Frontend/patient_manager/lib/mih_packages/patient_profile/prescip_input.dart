@@ -11,12 +11,12 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/objects/business.dart';
-import 'package:patient_manager/objects/businessUser.dart';
-import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/objects/perscription.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
+import 'package:patient_manager/mih_objects/business.dart';
+import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/patients.dart';
+import 'package:patient_manager/mih_objects/perscription.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PrescripInput extends StatefulWidget {

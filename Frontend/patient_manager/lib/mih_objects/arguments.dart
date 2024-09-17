@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/business.dart';
-import 'package:patient_manager/objects/businessUser.dart';
-import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/business.dart';
+import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/patients.dart';
 
 class BusinessArguments {
   final AppUser signedInUser;

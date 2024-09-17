@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import "package:universal_html/html.dart" as html;

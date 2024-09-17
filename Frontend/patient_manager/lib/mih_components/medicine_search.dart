@@ -6,7 +6,7 @@ import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_c
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/medicine.dart';
+import 'package:patient_manager/mih_objects/medicine.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MedicineSearch extends StatefulWidget {

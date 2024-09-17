@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/arguments.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {

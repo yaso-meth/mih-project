@@ -9,12 +9,12 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_file_view.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/objects/business.dart';
-import 'package:patient_manager/objects/businessUser.dart';
-import 'package:patient_manager/objects/files.dart';
-import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
+import 'package:patient_manager/mih_objects/business.dart';
+import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/files.dart';
+import 'package:patient_manager/mih_objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 

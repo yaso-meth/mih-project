@@ -13,15 +13,15 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_packages/patient_profile/prescip_input.dart';
-import 'package:patient_manager/objects/appUser.dart';
-import 'package:patient_manager/objects/business.dart';
-import 'package:patient_manager/objects/businessUser.dart';
-import 'package:patient_manager/objects/files.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/business.dart';
+import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/files.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
 import 'package:supertokens_flutter/supertokens.dart';
 
-import '../../objects/patients.dart';
+import '../../mih_objects/patients.dart';
 
 class PatientFiles extends StatefulWidget {
   final int patientIndex;

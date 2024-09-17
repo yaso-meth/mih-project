@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/medicine.dart';
+import 'package:patient_manager/mih_objects/medicine.dart';
 
 class BuildMedicinesList extends StatefulWidget {
   final TextEditingController contoller;

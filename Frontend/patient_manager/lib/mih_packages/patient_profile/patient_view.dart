@@ -10,8 +10,8 @@ import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
-import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/objects/patients.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
+import 'package:patient_manager/mih_objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PatientView extends StatefulWidget {
