@@ -7,14 +7,14 @@ import 'package:patient_manager/mih_packages/about_mih/mih_about.dart';
 import 'package:patient_manager/mih_packages/authentication/forgot_password.dart';
 import 'package:patient_manager/mih_packages/authentication/reset_password.dart';
 import 'package:patient_manager/mih_packages/patient_profile/fullScreenFile.dart';
-import 'package:patient_manager/mih_packages/manage_business/manageBusinessProfile.dart';
+import 'package:patient_manager/mih_packages/manage_business/manage_business_profile.dart';
 import 'package:patient_manager/mih_packages/access_review/patient_access_review.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patientAdd.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patientEdit.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patientManager.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patientView.dart';
-import 'package:patient_manager/mih_packages/manage_business/profileBusinessAdd.dart';
-import 'package:patient_manager/mih_packages/manage_business/businessDetails.dart';
+import 'package:patient_manager/mih_packages/manage_business/profile_business_add.dart';
+import 'package:patient_manager/mih_packages/manage_business/business_details.dart';
 import 'package:patient_manager/mih_packages/mzansi_profile/profileUserUpdate.dart';
 
 class RouteGenerator {

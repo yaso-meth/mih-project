@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/mih_packages/manage_business/businessDetails.dart';
+import 'package:patient_manager/mih_packages/manage_business/business_details.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
-import 'package:patient_manager/mih_packages/manage_business/builder/buildEmployeeList.dart';
-import 'package:patient_manager/mih_packages/manage_business/builder/buildUserList.dart';
+import 'package:patient_manager/mih_packages/manage_business/builder/build_employee_list.dart';
+import 'package:patient_manager/mih_packages/manage_business/builder/build_user_list.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
