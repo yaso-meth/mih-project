@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class HomeTile extends StatefulWidget {
+class MIHTile extends StatefulWidget {
   final String tileName;
   //final String tileDescription;
   final Widget tileIcon;
@@ -10,7 +10,7 @@ class HomeTile extends StatefulWidget {
   final Color p;
   final Color s;
 
-  const HomeTile({
+  const MIHTile({
     super.key,
     required this.onTap,
     required this.tileName,
@@ -21,10 +21,10 @@ class HomeTile extends StatefulWidget {
   });
 
   @override
-  State<HomeTile> createState() => _HomeTileState();
+  State<MIHTile> createState() => _MIHTileState();
 }
 
-class _HomeTileState extends State<HomeTile> {
+class _MIHTileState extends State<MIHTile> {
   late Color mainC;
   late Color secondC;
 

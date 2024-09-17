@@ -31,7 +31,7 @@ class _SignInState extends State<SignIn> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  late List<HomeTile> sandboxProfileList = [];
+  late List<MIHTile> sandboxProfileList = [];
 
   //sign user in
   Future<void> signUserIn() async {
@@ -86,8 +86,8 @@ class _SignInState extends State<SignIn> {
     return MzanziInnovationHub.of(context)!.theme.primaryColor();
   }
 
-  void setSandboxProfiles(List<HomeTile> tileList) {
-    tileList.add(HomeTile(
+  void setSandboxProfiles(List<MIHTile> tileList) {
+    tileList.add(MIHTile(
       onTap: () {
         setState(() {
           emailController.text = "testpatient@mzansi-innovation-hub.co.za";
@@ -104,7 +104,7 @@ class _SignInState extends State<SignIn> {
       p: getPrim(),
       s: getSec(),
     ));
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         setState(() {
           emailController.text = "testdoctor@mzansi-innovation-hub.co.za";
@@ -122,7 +122,7 @@ class _SignInState extends State<SignIn> {
       s: getSec(),
     ));
     //if (AppEnviroment.getEnv() == "Dev") {
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         setState(() {
           emailController.text = "test@mzansi-innovation-hub.co.za";

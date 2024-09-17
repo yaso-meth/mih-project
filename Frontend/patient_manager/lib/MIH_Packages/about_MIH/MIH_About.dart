@@ -204,7 +204,7 @@ class _MIHAboutState extends State<MIHAbout> {
 
   List<Widget> getSocialsList() {
     List<Widget> socials = [];
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         html.window
             .open('https://www.tiktok.com/@mzansi.innovation.hub', 'new tab');
@@ -221,7 +221,7 @@ class _MIHAboutState extends State<MIHAbout> {
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         html.window
             .open('https://www.instagram.com/mzansi.innovation.hub', 'new tab');
@@ -238,7 +238,7 @@ class _MIHAboutState extends State<MIHAbout> {
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         //TODO
         html.window
@@ -256,7 +256,7 @@ class _MIHAboutState extends State<MIHAbout> {
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         //TODO
         html.window.open('https://x.com/mzansi_inno_hub', 'new tab');
@@ -273,7 +273,7 @@ class _MIHAboutState extends State<MIHAbout> {
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         //TODO
         html.window.open(
@@ -292,7 +292,7 @@ class _MIHAboutState extends State<MIHAbout> {
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
-    socials.add(HomeTile(
+    socials.add(MIHTile(
       onTap: () {
         //TODO
         html.window.open(

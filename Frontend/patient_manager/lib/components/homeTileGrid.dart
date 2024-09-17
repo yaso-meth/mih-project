@@ -16,12 +16,12 @@ import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
 
-class HomeTileGrid extends StatefulWidget {
+class MIHTileGrid extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
   final ImageProvider<Object>? propicFile;
-  const HomeTileGrid({
+  const MIHTileGrid({
     super.key,
     required this.signedInUser,
     required this.businessUser,
@@ -30,23 +30,23 @@ class HomeTileGrid extends StatefulWidget {
   });
 
   @override
-  State<HomeTileGrid> createState() => _HomeTileGridState();
+  State<MIHTileGrid> createState() => _MIHTileGridState();
 }
 
-class _HomeTileGridState extends State<HomeTileGrid> {
+class _MIHTileGridState extends State<MIHTileGrid> {
   final TextEditingController searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  late List<HomeTile> persHTList = [];
-  late List<HomeTile> busHTList = [];
-  late List<List<HomeTile>> pbswitch;
+  late List<MIHTile> persHTList = [];
+  late List<MIHTile> busHTList = [];
+  late List<List<MIHTile>> pbswitch;
   late bool businessUserSwitch;
   int _selectedIndex = 0;
   String appSearch = "";
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  void setAppsNewPersonal(List<HomeTile> tileList) {
+  void setAppsNewPersonal(List<MIHTile> tileList) {
     if (widget.signedInUser.fname == "") {
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           Navigator.of(context).pushNamed('/user-profile',
               arguments: AppProfileUpdateArguments(
@@ -64,8 +64,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  void setAppsNewBusiness(List<HomeTile> tileList) {
-    tileList.add(HomeTile(
+  void setAppsNewBusiness(List<MIHTile> tileList) {
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).popAndPushNamed(
           '/business-profile/set-up',
@@ -83,9 +83,9 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     ));
   }
 
-  void setAppsPersonal(List<HomeTile> tileList) {
+  void setAppsPersonal(List<MIHTile> tileList) {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/user-profile',
@@ -98,7 +98,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       p: getPrim(),
       s: getSec(),
     ));
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed('/patient-profile',
             arguments: PatientViewArguments(
@@ -113,7 +113,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       p: getPrim(),
       s: getSec(),
     ));
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/access-review',
@@ -130,7 +130,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       s: getSec(),
     ));
 
-    tileList.add(HomeTile(
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
@@ -148,8 +148,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     ));
   }
 
-  void setAppsBusiness(List<HomeTile> tileList) {
-    tileList.add(HomeTile(
+  void setAppsBusiness(List<MIHTile> tileList) {
+    tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/business-profile',
@@ -170,7 +170,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       s: getSec(),
     ));
     if (widget.businessUser!.access == "Full") {
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           Navigator.of(context).pushNamed(
             '/business-profile/manage',
@@ -192,7 +192,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
       ));
     }
     if (widget.business!.type == "Doctors Office") {
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           Navigator.of(context).pushNamed(
             '/patient-manager',
@@ -215,9 +215,9 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  void setAppsDev(List<HomeTile> tileList) {
+  void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           showDialog(
             context: context,
@@ -235,7 +235,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           Navigator.of(context).pushNamed(
             '/business-profile/set-up',
@@ -251,7 +251,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           Navigator.of(context).pushNamed('/patient-profile/set-up',
               arguments: widget.signedInUser);
@@ -266,7 +266,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         s: getSec(),
       ));
 
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           showDialog(
             context: context,
@@ -285,7 +285,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           showDialog(
             context: context,
@@ -310,7 +310,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           showDialog(
             context: context,
@@ -332,7 +332,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         s: getSec(),
       ));
 
-      tileList.add(HomeTile(
+      tileList.add(MIHTile(
         onTap: () {
           showDialog(
             context: context,
@@ -354,11 +354,11 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  List<HomeTile> searchApp(List<HomeTile> appList, String searchString) {
+  List<MIHTile> searchApp(List<MIHTile> appList, String searchString) {
     if (searchString == "") {
       return appList;
     } else {
-      List<HomeTile> temp = [];
+      List<MIHTile> temp = [];
       for (var item in appList) {
         if (item.tileName.toLowerCase().contains(appSearch.toLowerCase())) {
           temp.add(item);
@@ -368,8 +368,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     }
   }
 
-  List<List<HomeTile>> setApps(
-      List<HomeTile> personalTileList, List<HomeTile> businessTileList) {
+  List<List<MIHTile>> setApps(
+      List<MIHTile> personalTileList, List<MIHTile> businessTileList) {
     if (widget.signedInUser.fname == "") {
       setAppsNewPersonal(personalTileList);
     } else if (widget.signedInUser.type == "personal") {
