@@ -16,12 +16,12 @@ import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/business.dart';
 import 'package:patient_manager/objects/businessUser.dart';
 
-class MIHTileGrid extends StatefulWidget {
+class HomeTileGrid extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
   final ImageProvider<Object>? propicFile;
-  const MIHTileGrid({
+  const HomeTileGrid({
     super.key,
     required this.signedInUser,
     required this.businessUser,
@@ -30,10 +30,10 @@ class MIHTileGrid extends StatefulWidget {
   });
 
   @override
-  State<MIHTileGrid> createState() => _MIHTileGridState();
+  State<HomeTileGrid> createState() => _HomeTileGridState();
 }
 
-class _MIHTileGridState extends State<MIHTileGrid> {
+class _HomeTileGridState extends State<HomeTileGrid> {
   final TextEditingController searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late List<MIHTile> persHTList = [];
