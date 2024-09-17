@@ -19,6 +19,13 @@ class MIHLayoutBuilder extends StatefulWidget {
 }
 
 class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
+  List<Widget> getList() {
+    List<Widget> temp = [];
+    temp.add(widget.header);
+    temp.add(widget.body);
+    return temp;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -40,7 +47,10 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
           children: [
             widget.actionButton,
             Column(
-              children: [widget.header, Expanded(child: widget.body)],
+              children: [
+                widget.header,
+                Expanded(child: widget.body),
+              ],
             ),
           ],
         ),

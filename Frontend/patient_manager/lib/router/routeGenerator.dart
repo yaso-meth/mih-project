@@ -3,19 +3,19 @@ import 'package:patient_manager/Authentication/authCheck.dart';
 import 'package:patient_manager/components/addOrViewPatient.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/pages/about/MIH_About.dart';
+import 'package:patient_manager/pages/about_MIH/MIH_About.dart';
 import 'package:patient_manager/pages/authentication/forgotPassword.dart';
 import 'package:patient_manager/pages/authentication/resetPassword.dart';
 import 'package:patient_manager/pages/fullScreenFile.dart';
 import 'package:patient_manager/pages/manageBusinessProfile.dart';
-import 'package:patient_manager/pages/patientAccessReview.dart';
+import 'package:patient_manager/pages/access_review/patientAccessReview.dart';
 import 'package:patient_manager/pages/patientAdd.dart';
 import 'package:patient_manager/pages/patientEdit.dart';
 import 'package:patient_manager/pages/patientManager.dart';
 import 'package:patient_manager/pages/patientView.dart';
 import 'package:patient_manager/pages/profileBusinessAdd.dart';
 import 'package:patient_manager/pages/profileBusinessUpdate.dart';
-import 'package:patient_manager/pages/profileUserUpdate.dart';
+import 'package:patient_manager/pages/mzansi_profile/profileUserUpdate.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

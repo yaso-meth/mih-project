@@ -297,6 +297,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     });
     checkScreenSize();
     return ListView.separated(
+      shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

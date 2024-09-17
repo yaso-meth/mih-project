@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Action.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Body.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_Header.dart';
+import 'package:patient_manager/components/MIH_Layout/MIH_LayoutBuilder.dart';
 import 'package:patient_manager/components/inputsAndButtons/mihFileInput.dart';
 import 'package:patient_manager/components/popUpMessages/mihLoadingCircle.dart';
 import 'package:patient_manager/components/popUpMessages/mihErrorMessage.dart';
@@ -257,6 +261,123 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     }
   }
 
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Icons.arrow_back,
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return const MIHHeader(
+      headerAlignment: MainAxisAlignment.center,
+      headerItems: [
+        Text(
+          "Mzansi Profile",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: false,
+      bodyItems: [
+        displayProPic(),
+        const SizedBox(height: 25.0),
+        MIHFileField(
+          controller: proPicController,
+          hintText: "Profile Picture",
+          editable: false,
+          required: false,
+          onPressed: () async {
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['jpg', 'png'],
+            );
+            if (result == null) return;
+            final selectedFile = result.files.first;
+            setState(() {
+              proPic = selectedFile;
+              propicPreview = MemoryImage(proPic.bytes!);
+            });
+
+            setState(() {
+              proPicController.text = selectedFile.name;
+            });
+          },
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: usernameController,
+          hintText: "Username",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: fnameController,
+          hintText: "First Name",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: lnameController,
+          hintText: "Last Name",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Activate Business Account",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Switch(
+              value: businessUser,
+              onChanged: (bool value) {
+                setState(() {
+                  businessUser = value;
+                });
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 30.0),
+        SizedBox(
+          width: 500.0,
+          height: 50.0,
+          child: MIHButton(
+            buttonText: "Update",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onTap: () {
+              submitForm();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
     proPicController.dispose();
@@ -288,144 +409,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: const MIHAppBar(
-      //   barTitle: "Update Profile",
-      //   propicFile: null,
-      // ),
-      //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Center(
-                child: KeyboardListener(
-                    focusNode: _focusNode,
-                    autofocus: true,
-                    onKeyEvent: (event) async {
-                      if (event is KeyDownEvent &&
-                          event.logicalKey == LogicalKeyboardKey.enter) {
-                        submitForm();
-                      }
-                    },
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Mzansi Profile",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                        const SizedBox(height: 25.0),
-                        displayProPic(),
-                        const SizedBox(height: 25.0),
-                        MIHFileField(
-                          controller: proPicController,
-                          hintText: "Profile Picture",
-                          editable: false,
-                          required: false,
-                          onPressed: () async {
-                            FilePickerResult? result =
-                                await FilePicker.platform.pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['jpg', 'png'],
-                            );
-                            if (result == null) return;
-                            final selectedFile = result.files.first;
-                            setState(() {
-                              proPic = selectedFile;
-                              propicPreview = MemoryImage(proPic.bytes!);
-                            });
-
-                            setState(() {
-                              proPicController.text = selectedFile.name;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: usernameController,
-                          hintText: "Username",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: fnameController,
-                          hintText: "First Name",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        MIHTextField(
-                          controller: lnameController,
-                          hintText: "Last Name",
-                          editable: true,
-                          required: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Activate Business Account",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Switch(
-                              value: businessUser,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  businessUser = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 30.0),
-                        SizedBox(
-                          width: 500.0,
-                          height: 50.0,
-                          child: MIHButton(
-                            buttonText: "Update",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            onTap: () {
-                              submitForm();
-                            },
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-            Positioned(
-              top: 10,
-              left: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.arrow_back),
-              ),
-            )
-          ],
-        ),
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
   }
 }
