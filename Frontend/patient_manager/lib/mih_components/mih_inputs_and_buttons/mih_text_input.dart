@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHSearchField extends StatefulWidget {
+class MIHTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
-  final bool required;
   final bool editable;
-  final void Function() onTap;
+  final bool required;
 
-  const MIHSearchField({
+  const MIHTextField({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.required,
     required this.editable,
-    required this.onTap,
+    required this.required,
   });
 
   @override
-  State<MIHSearchField> createState() => _MIHSearchFieldState();
+  State<MIHTextField> createState() => _MIHTextFieldState();
 }
 
-class _MIHSearchFieldState extends State<MIHSearchField> {
+class _MIHTextFieldState extends State<MIHTextField> {
   bool startup = true;
-  FocusNode _focus = FocusNode();
+  final FocusNode _focus = FocusNode();
 
   bool makeEditable() {
     if (widget.editable) {
@@ -35,6 +33,7 @@ class _MIHSearchFieldState extends State<MIHSearchField> {
 
   String? get _errorText {
     final text = widget.controller.text;
+    String errorMessage = '';
     if (startup) {
       return null;
     }
@@ -44,7 +43,30 @@ class _MIHSearchFieldState extends State<MIHSearchField> {
     if (text.isEmpty) {
       return "${widget.hintText} is required";
     }
-    return null;
+    if (widget.hintText == "Email" && !isEmailValid(text)) {
+      errorMessage += "Enter a valid email address\n";
+    }
+    if (widget.hintText == "Username" && text.length < 8) {
+      errorMessage += "• Username must contain at least 8 characters.\n";
+    }
+    if (widget.hintText == "Username" && !isUsernameValid(text)) {
+      errorMessage += "• Username can only contain '_' special Chracters.\n";
+    }
+    if (errorMessage.isEmpty) {
+      return null;
+    }
+    // If there are no error messages, the password is valid
+    return errorMessage;
+  }
+
+  bool isUsernameValid(String username) {
+    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
+        .hasMatch(username);
+  }
+
+  bool isEmailValid(String email) {
+    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
+    return regex.hasMatch(email);
   }
 
   void _onFocusChange() {
@@ -66,12 +88,10 @@ class _MIHSearchFieldState extends State<MIHSearchField> {
           const SizedBox(
             width: 8.0,
           ),
-          Text(
-            widget.hintText,
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
+          Text(widget.hintText,
+              style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
@@ -97,39 +117,34 @@ class _MIHSearchFieldState extends State<MIHSearchField> {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      onChanged: (_) {
-        setState(() {
-          startup = false;
-        });
-      },
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      ),
       controller: widget.controller,
-      //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      readOnly: makeEditable(),
       focusNode: _focus,
+      readOnly: makeEditable(),
+      //enabled: !makeEditable(),
       obscureText: false,
+      onChanged: (_) => setState(() {
+        startup = false;
+      }),
       decoration: InputDecoration(
-        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        suffixIcon: IconButton(
-          icon: Icon(
-            Icons.search,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-          onPressed: () {
-            setState(() {
-              startup = false;
-            });
-            if (widget.controller.text != "") {
-              widget.onTap();
-            }
-          },
-        ),
-        filled: true,
         label: setRequiredText(),
+        //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
+        //errorBorder: const InputBorder(),
+        //hintText: hintText,
+        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 2.0,
+          ),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

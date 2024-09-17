@@ -27,7 +27,7 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
   //var dropbownItems = ["Dr.", "Assistant"];
   bool startup = true;
   final FocusNode _focus = FocusNode();
-  late var menu;
+  late List<DropdownMenuEntry<String>> menu;
 
   Widget setRequiredText() {
     if (widget.required) {

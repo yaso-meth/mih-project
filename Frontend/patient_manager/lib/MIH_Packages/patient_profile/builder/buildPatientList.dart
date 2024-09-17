@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_date_input.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_text_input.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_time_input.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihSuccessMessage.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihErrorMessage.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihSuccessMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';
@@ -184,13 +184,13 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                     const SizedBox(height: 10.0),
                     MIHDateField(
                       controller: dateController,
-                      LableText: "Date",
+                      lableText: "Date",
                       required: true,
                     ),
                     const SizedBox(height: 10.0),
                     MIHTimeField(
                       controller: timeController,
-                      LableText: "Time",
+                      lableText: "Time",
                       required: true,
                     ),
                     const SizedBox(height: 30.0),

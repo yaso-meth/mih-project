@@ -1,38 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHDateField extends StatefulWidget {
-  final controller;
-  final String LableText;
+class MIHSearchField extends StatefulWidget {
+  final TextEditingController controller;
+  final String hintText;
   final bool required;
+  final bool editable;
+  final void Function() onTap;
 
-  const MIHDateField({
+  const MIHSearchField({
     super.key,
     required this.controller,
-    required this.LableText,
+    required this.hintText,
     required this.required,
+    required this.editable,
+    required this.onTap,
   });
 
   @override
-  State<MIHDateField> createState() => _MIHDateFieldState();
+  State<MIHSearchField> createState() => _MIHSearchFieldState();
 }
 
-class _MIHDateFieldState extends State<MIHDateField> {
-  FocusNode _focus = FocusNode();
+class _MIHSearchFieldState extends State<MIHSearchField> {
   bool startup = true;
-  // bool makeEditable() {
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        widget.controller.text = picked.toString().split(" ")[0];
-      });
+  final FocusNode _focus = FocusNode();
+
+  bool makeEditable() {
+    if (widget.editable) {
+      return false;
+    } else {
+      return true;
     }
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.hintText} is required";
+    }
+    return null;
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
   }
 
   Widget setRequiredText() {
@@ -48,37 +66,19 @@ class _MIHDateFieldState extends State<MIHDateField> {
           const SizedBox(
             width: 8.0,
           ),
-          Text(widget.LableText,
-              style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor())),
+          Text(
+            widget.hintText,
+            style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
         ],
       );
     } else {
-      return Text(widget.LableText,
+      return Text(widget.hintText,
           style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
-  }
-
-  void _onFocusChange() {
-    setState(() {
-      startup = false;
-    });
-  }
-
-  String? get _errorText {
-    final text = widget.controller.text;
-    if (startup) {
-      return null;
-    }
-    if (!widget.required) {
-      return null;
-    }
-    if (text.isEmpty) {
-      return "${widget.LableText} is required";
-    }
-    return null;
   }
 
   @override
@@ -98,29 +98,38 @@ class _MIHDateFieldState extends State<MIHDateField> {
     return TextField(
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      onChanged: (_) {
+        setState(() {
+          startup = false;
+        });
+      },
       controller: widget.controller,
-      readOnly: true,
-      obscureText: false,
+      //style: TextStyle(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      readOnly: makeEditable(),
       focusNode: _focus,
-      onChanged: (_) => setState(() {
-        startup = false;
-      }),
+      obscureText: false,
       decoration: InputDecoration(
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        suffixIcon: IconButton(
+          icon: Icon(
+            Icons.search,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+          onPressed: () {
+            setState(() {
+              startup = false;
+            });
+            if (widget.controller.text != "") {
+              widget.onTap();
+            }
+          },
+        ),
+        filled: true,
+        label: setRequiredText(),
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        label: setRequiredText(),
-        //labelText: widget.LableText,
-        //labelStyle: const TextStyle(color: Colors.blueAccent),
-        prefixIcon: Icon(
-          Icons.calendar_today,
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        ),
-        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        filled: true,
-        //hintText: hintText,
-        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -144,9 +153,6 @@ class _MIHDateFieldState extends State<MIHDateField> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
       ),
-      onTap: () {
-        _selectDate(context);
-      },
     );
   }
 }

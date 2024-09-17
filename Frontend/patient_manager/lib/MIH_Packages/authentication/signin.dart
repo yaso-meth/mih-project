@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_tile.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_pass_input.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_text_input.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_button.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_tile.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihLoadingCircle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihErrorMessage.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';

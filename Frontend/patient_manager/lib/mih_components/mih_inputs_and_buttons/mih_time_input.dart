@@ -1,79 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHFileField extends StatefulWidget {
+class MIHTimeField extends StatefulWidget {
   final TextEditingController controller;
-  final String hintText;
-  final bool editable;
+  final String lableText;
   final bool required;
-  final void Function() onPressed;
 
-  const MIHFileField({
+  const MIHTimeField({
     super.key,
     required this.controller,
-    required this.hintText,
-    required this.editable,
+    required this.lableText,
     required this.required,
-    required this.onPressed,
   });
 
   @override
-  State<MIHFileField> createState() => _MIHFileFieldState();
+  State<MIHTimeField> createState() => _MIHDateFieldState();
 }
 
-class _MIHFileFieldState extends State<MIHFileField> {
+class _MIHDateFieldState extends State<MIHTimeField> {
+  final FocusNode _focus = FocusNode();
   bool startup = true;
-  FocusNode _focus = FocusNode();
 
-  bool makeEditable() {
-    if (widget.editable) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child as Widget,
+        );
+      },
+    );
+    if (picked != null) {
+      String hours = "";
+      String minutes = "";
+      setState(() {
+        if (picked.hour <= 9) {
+          hours = "0${picked.hour}";
+        } else {
+          hours = "${picked.hour}";
+        }
 
-  String? get _errorText {
-    final text = widget.controller.text;
-    String _errorMessage = '';
-    if (startup) {
-      return null;
-    }
-    if (!widget.required) {
-      return null;
-    }
-    if (text.isEmpty) {
-      return "${widget.hintText} is required";
-    }
-    if (widget.hintText == "Email" && !isEmailValid(text)) {
-      _errorMessage += "Enter a valid email address\n";
-    }
-    if (widget.hintText == "Username" && text.length < 8) {
-      _errorMessage += "• Username must contain at least 8 characters.\n";
-    }
-    if (widget.hintText == "Username" && !isUsernameValid(text)) {
-      _errorMessage += "• Username can only contain '_' special Chracters.\n";
-    }
-    if (_errorMessage.isEmpty) {
-      return null;
-    }
-    // If there are no error messages, the password is valid
-    return _errorMessage;
-  }
+        if (picked.minute <= 9) {
+          minutes = "0${picked.minute}";
+        } else {
+          minutes = "${picked.minute}";
+        }
 
-  bool isUsernameValid(String Username) {
-    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
-        .hasMatch(Username);
-  }
-
-  bool isEmailValid(String email) {
-    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
-  }
-
-  void _onFocusChange() {
-    setState(() {
-      startup = false;
-    });
+        widget.controller.text = "$hours:$minutes";
+      });
+    }
   }
 
   Widget setRequiredText() {
@@ -89,17 +66,37 @@ class _MIHFileFieldState extends State<MIHFileField> {
           const SizedBox(
             width: 8.0,
           ),
-          Text(widget.hintText,
+          Text(widget.lableText,
               style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
-      return Text(widget.hintText,
+      return Text(widget.lableText,
           style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
+  }
+
+  String? get _errorText {
+    final text = widget.controller.text;
+    if (startup) {
+      return null;
+    }
+    if (!widget.required) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return "${widget.lableText} is required";
+    }
+    return null;
   }
 
   @override
@@ -120,35 +117,28 @@ class _MIHFileFieldState extends State<MIHFileField> {
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
       controller: widget.controller,
-      focusNode: _focus,
-      readOnly: makeEditable(),
-      //enabled: !makeEditable(),
+      readOnly: true,
       obscureText: false,
+      focusNode: _focus,
       onChanged: (_) => setState(() {
         startup = false;
       }),
       decoration: InputDecoration(
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.attach_file),
-          onPressed: widget.onPressed,
-        ),
-        label: setRequiredText(),
-        //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
-        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        filled: true,
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        //errorBorder: const InputBorder(),
+        label: setRequiredText(),
+        //labelText: widget.lableText,
+        //labelStyle: const TextStyle(color: Colors.blueAccent),
+        prefixIcon: Icon(
+          Icons.access_alarm,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
         //hintText: hintText,
         //hintStyle: TextStyle(color: Colors.blueGrey[400]),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 2.0,
-          ),
-        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -172,6 +162,9 @@ class _MIHFileFieldState extends State<MIHFileField> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         ),
       ),
+      onTap: () {
+        _selectTime(context);
+      },
     );
   }
 }

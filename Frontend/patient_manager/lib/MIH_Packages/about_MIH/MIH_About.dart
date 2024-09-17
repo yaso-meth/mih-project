@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_action.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_body.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_header.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_layout_builder.dart';
-import 'package:patient_manager/MIH_Components/MIH_Layout/mih_tile.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_action.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_body.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_header.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_layout_builder.dart';
+import 'package:patient_manager/mih_components/MIH_Layout/mih_tile.dart';
 import 'package:patient_manager/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

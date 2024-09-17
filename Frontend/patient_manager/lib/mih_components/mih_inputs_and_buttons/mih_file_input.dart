@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHTextField extends StatefulWidget {
+class MIHFileField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool editable;
   final bool required;
+  final void Function() onPressed;
 
-  const MIHTextField({
+  const MIHFileField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.editable,
     required this.required,
+    required this.onPressed,
   });
 
   @override
-  State<MIHTextField> createState() => _MIHTextFieldState();
+  State<MIHFileField> createState() => _MIHFileFieldState();
 }
 
-class _MIHTextFieldState extends State<MIHTextField> {
+class _MIHFileFieldState extends State<MIHFileField> {
   bool startup = true;
-  FocusNode _focus = FocusNode();
+  final FocusNode _focus = FocusNode();
 
   bool makeEditable() {
     if (widget.editable) {
@@ -33,7 +35,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
 
   String? get _errorText {
     final text = widget.controller.text;
-    String _errorMessage = '';
+    String errorMessage = '';
     if (startup) {
       return null;
     }
@@ -44,29 +46,28 @@ class _MIHTextFieldState extends State<MIHTextField> {
       return "${widget.hintText} is required";
     }
     if (widget.hintText == "Email" && !isEmailValid(text)) {
-      _errorMessage += "Enter a valid email address\n";
+      errorMessage += "Enter a valid email address\n";
     }
     if (widget.hintText == "Username" && text.length < 8) {
-      _errorMessage += "• Username must contain at least 8 characters.\n";
+      errorMessage += "• Username must contain at least 8 characters.\n";
     }
     if (widget.hintText == "Username" && !isUsernameValid(text)) {
-      _errorMessage += "• Username can only contain '_' special Chracters.\n";
+      errorMessage += "• Username can only contain '_' special Chracters.\n";
     }
-    if (_errorMessage.isEmpty) {
+    if (errorMessage.isEmpty) {
       return null;
     }
     // If there are no error messages, the password is valid
-    return _errorMessage;
+    return errorMessage;
   }
 
-  bool isUsernameValid(String Username) {
+  bool isUsernameValid(String username) {
     return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
-        .hasMatch(Username);
+        .hasMatch(username);
   }
 
   bool isEmailValid(String email) {
-    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
-    return regex.hasMatch(email);
+    return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
   }
 
   void _onFocusChange() {
@@ -117,8 +118,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      ),
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
       controller: widget.controller,
       focusNode: _focus,
       readOnly: makeEditable(),
@@ -128,6 +128,10 @@ class _MIHTextFieldState extends State<MIHTextField> {
         startup = false;
       }),
       decoration: InputDecoration(
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.attach_file),
+          onPressed: widget.onPressed,
+        ),
         label: setRequiredText(),
         //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),

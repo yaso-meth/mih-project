@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihWarningMessage.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihWarningMessage.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/appUser.dart';

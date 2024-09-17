@@ -21,7 +21,6 @@ class MIHButton extends StatefulWidget {
 class _MIHButtonState extends State<MIHButton> {
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 

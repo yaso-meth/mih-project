@@ -1,44 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHPassField extends StatefulWidget {
+class MIHMLTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
+  final bool editable;
   final bool required;
-  final bool signIn;
 
-  const MIHPassField({
+  const MIHMLTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.editable,
     required this.required,
-    required this.signIn,
   });
 
   @override
-  State<MIHPassField> createState() => _MIHPassFieldState();
+  State<MIHMLTextField> createState() => _MIHMLTextFieldState();
 }
 
-class _MIHPassFieldState extends State<MIHPassField> {
+class _MIHMLTextFieldState extends State<MIHMLTextField> {
   bool startup = true;
-  final textFieldFocusNode = FocusNode();
-  bool _obscured = true;
-  //bool valid = false;
+  final FocusNode _focus = FocusNode();
 
-  void _toggleObscured() {
-    setState(() {
-      _obscured = !_obscured;
-      if (textFieldFocusNode.hasPrimaryFocus) {
-        return; // If focus is on text field, dont unfocus
-      }
-      textFieldFocusNode.canRequestFocus =
-          false; // Prevents focus if tap on eye
-    });
+  bool makeEditable() {
+    if (widget.editable) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   String? get _errorText {
     final text = widget.controller.text;
-    String _errorMessage = '';
     if (startup) {
       return null;
     }
@@ -48,37 +42,13 @@ class _MIHPassFieldState extends State<MIHPassField> {
     if (text.isEmpty) {
       return "${widget.hintText} is required";
     }
-    // Password length greater than 8
-    if (text.length <= 8 && !widget.signIn) {
-      _errorMessage += '• Password must contain at least 8 characters.\n';
-    }
+    return null;
+  }
 
-    // Contains at least one uppercase letter
-    if (!text.contains(RegExp(r'[A-Z]')) && !widget.signIn) {
-      _errorMessage += '• Uppercase letter is missing.\n';
-    }
-
-    // Contains at least one lowercase letter
-    if (!text.contains(RegExp(r'[a-z]')) && !widget.signIn) {
-      _errorMessage += '• Lowercase letter is missing.\n';
-    }
-
-    // Contains at least one digit
-    if (!text.contains(RegExp(r'[0-9]')) && !widget.signIn) {
-      _errorMessage += '• number is missing.\n';
-    }
-
-    // Contains at least one special character
-    if (!text.contains(RegExp(r'[!@#$%^&*]')) && !widget.signIn) {
-      _errorMessage += '• Special character is missing - !@#\$%^&*\n';
-    }
-
-    // Contains no errors
-    if (_errorMessage.isEmpty) {
-      return null;
-    }
-    // If there are no error messages, the password is valid
-    return _errorMessage;
+  void _onFocusChange() {
+    setState(() {
+      startup = false;
+    });
   }
 
   Widget setRequiredText() {
@@ -107,45 +77,46 @@ class _MIHPassFieldState extends State<MIHPassField> {
     }
   }
 
-  void _onFocusChange() {
-    setState(() {
-      startup = false;
-    });
-  }
-
   @override
   void dispose() {
-    textFieldFocusNode.dispose();
+    _focus.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    textFieldFocusNode.addListener(_onFocusChange);
+    _focus.addListener(_onFocusChange);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller,
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      obscureText: _obscured,
-      focusNode: textFieldFocusNode,
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.top,
+      expands: true,
+      maxLines: null,
+      controller: widget.controller,
+      readOnly: makeEditable(),
+      obscureText: false,
+      focusNode: _focus,
       onChanged: (_) => setState(() {
         startup = false;
       }),
       decoration: InputDecoration(
-        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        filled: true,
         label: setRequiredText(),
-        //labelStyle: const TextStyle(color: Colors.blueAccent),
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        //hintText: widget.hintText,
+        labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        alignLabelWithHint: true,
+        fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        filled: true,
+        //hintText: hintText,
         //hintStyle: TextStyle(color: Colors.blueGrey[400]),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -168,19 +139,6 @@ class _MIHPassFieldState extends State<MIHPassField> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        ),
-        suffixIcon: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-          child: GestureDetector(
-            onTap: _toggleObscured,
-            child: Icon(
-              _obscured
-                  ? Icons.visibility_rounded
-                  : Icons.visibility_off_rounded,
-              size: 24,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
         ),
       ),
     );

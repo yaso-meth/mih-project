@@ -1,54 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 
-class MIHTimeField extends StatefulWidget {
-  final controller;
-  final String LableText;
+class MIHDateField extends StatefulWidget {
+  final TextEditingController controller;
+  final String lableText;
   final bool required;
 
-  const MIHTimeField({
+  const MIHDateField({
     super.key,
     required this.controller,
-    required this.LableText,
+    required this.lableText,
     required this.required,
   });
 
   @override
-  State<MIHTimeField> createState() => _MIHDateFieldState();
+  State<MIHDateField> createState() => _MIHDateFieldState();
 }
 
-class _MIHDateFieldState extends State<MIHTimeField> {
-  FocusNode _focus = FocusNode();
+class _MIHDateFieldState extends State<MIHDateField> {
+  final FocusNode _focus = FocusNode();
   bool startup = true;
-
-  Future<void> _selectTime(BuildContext context) async {
-    TimeOfDay? picked = await showTimePicker(
+  // bool makeEditable() {
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child as Widget,
-        );
-      },
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
     );
     if (picked != null) {
-      String hours = "";
-      String minutes = "";
       setState(() {
-        if (picked.hour <= 9) {
-          hours = "0${picked.hour}";
-        } else {
-          hours = "${picked.hour}";
-        }
-
-        if (picked.minute <= 9) {
-          minutes = "0${picked.minute}";
-        } else {
-          minutes = "${picked.minute}";
-        }
-
-        widget.controller.text = "$hours:$minutes";
+        widget.controller.text = picked.toString().split(" ")[0];
       });
     }
   }
@@ -66,14 +48,14 @@ class _MIHDateFieldState extends State<MIHTimeField> {
           const SizedBox(
             width: 8.0,
           ),
-          Text(widget.LableText,
+          Text(widget.lableText,
               style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor())),
         ],
       );
     } else {
-      return Text(widget.LableText,
+      return Text(widget.lableText,
           style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()));
     }
@@ -94,7 +76,7 @@ class _MIHDateFieldState extends State<MIHTimeField> {
       return null;
     }
     if (text.isEmpty) {
-      return "${widget.LableText} is required";
+      return "${widget.lableText} is required";
     }
     return null;
   }
@@ -129,10 +111,10 @@ class _MIHDateFieldState extends State<MIHTimeField> {
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
         label: setRequiredText(),
-        //labelText: widget.LableText,
+        //labelText: widget.lableText,
         //labelStyle: const TextStyle(color: Colors.blueAccent),
         prefixIcon: Icon(
-          Icons.access_alarm,
+          Icons.calendar_today,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
@@ -163,7 +145,7 @@ class _MIHDateFieldState extends State<MIHTimeField> {
         ),
       ),
       onTap: () {
-        _selectTime(context);
+        _selectDate(context);
       },
     );
   }

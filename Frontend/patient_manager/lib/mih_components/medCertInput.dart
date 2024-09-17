@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_date_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 
 class Medcertinput extends StatefulWidget {
   final startDateController;
@@ -34,7 +34,7 @@ class _MedcertinputState extends State<Medcertinput> {
             width: 700,
             child: MIHDateField(
               controller: widget.startDateController,
-              LableText: "From",
+              lableText: "From",
               required: true,
             ),
           ),
@@ -43,7 +43,7 @@ class _MedcertinputState extends State<Medcertinput> {
             width: 700,
             child: MIHDateField(
               controller: widget.endDateTextController,
-              LableText: "Up to Including",
+              lableText: "Up to Including",
               required: true,
             ),
           ),
@@ -52,7 +52,7 @@ class _MedcertinputState extends State<Medcertinput> {
             width: 700,
             child: MIHDateField(
               controller: widget.retDateTextController,
-              LableText: "Return",
+              lableText: "Return",
               required: true,
             ),
           ),

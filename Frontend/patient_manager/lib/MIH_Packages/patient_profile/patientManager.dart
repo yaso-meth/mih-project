@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/builder/buildPatientList.dart';
 import 'package:patient_manager/MIH_Packages/patient_profile/builder/buildPatientQueueList.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihLoadingCircle.dart';
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_date_input.dart';
-import 'package:patient_manager/MIH_Components/popUpMessages/mihErrorMessage.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihLoadingCircle.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mihErrorMessage.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:patient_manager/MIH_Components/inputsAndButtons/mih_search_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
@@ -314,7 +314,7 @@ class _PatientManagerState extends State<PatientManager> {
         const SizedBox(height: 10),
         MIHDateField(
           controller: queueDateController,
-          LableText: "Date",
+          lableText: "Date",
           required: true,
         ),
         //spacer
