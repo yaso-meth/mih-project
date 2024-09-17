@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_packages/patient_profile/builder/buildMedList.dart';
+import 'package:patient_manager/mih_packages/patient_profile/builder/build_med_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/medicine.dart';
 import 'package:supertokens_flutter/http.dart' as http;

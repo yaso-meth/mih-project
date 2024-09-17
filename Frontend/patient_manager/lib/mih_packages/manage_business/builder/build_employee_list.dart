@@ -8,7 +8,7 @@ import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_me
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/businessEmployee.dart';

@@ -8,7 +8,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dar
 import 'package:patient_manager/mih_packages/access_review/builder/build_access_request_list.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/accessRequest.dart';
 import 'package:patient_manager/objects/appUser.dart';

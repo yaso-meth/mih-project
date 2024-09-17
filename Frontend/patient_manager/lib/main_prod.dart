@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';

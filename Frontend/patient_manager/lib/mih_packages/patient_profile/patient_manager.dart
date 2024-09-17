@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:patient_manager/mih_packages/patient_profile/builder/buildPatientList.dart';
-import 'package:patient_manager/mih_packages/patient_profile/builder/buildPatientQueueList.dart';
+import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_list.dart';
+import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_queue_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -13,7 +13,7 @@ import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patientQueue.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/patients.dart';
 

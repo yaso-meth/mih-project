@@ -8,7 +8,7 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_pass_i
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
-import 'package:patient_manager/env/env.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 //import 'package:patient_manager/objects/sessionST.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
