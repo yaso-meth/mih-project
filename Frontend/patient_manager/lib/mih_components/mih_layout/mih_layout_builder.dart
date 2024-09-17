@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_action.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_body.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 
 class MIHLayoutBuilder extends StatefulWidget {
   final MIHAction actionButton;

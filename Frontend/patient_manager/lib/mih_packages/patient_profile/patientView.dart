@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientDetails.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientFiles.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientNotes.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_action.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_body.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_header.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_layout_builder.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientDetails.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientFiles.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientNotes.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';

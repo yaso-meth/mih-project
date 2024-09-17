@@ -6,8 +6,8 @@ import 'package:patient_manager/env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/objects/arguments.dart';
 import 'package:patient_manager/objects/patients.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientAdd.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientView.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientAdd.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientView.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class AddOrViewPatient extends StatefulWidget {

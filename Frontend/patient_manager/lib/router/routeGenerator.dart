@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Packages/authentication/authCheck.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/addOrViewPatient.dart';
+import 'package:patient_manager/mih_packages/authentication/authCheck.dart';
+import 'package:patient_manager/mih_packages/patient_profile/addOrViewPatient.dart';
 import 'package:patient_manager/objects/appUser.dart';
 import 'package:patient_manager/objects/arguments.dart';
-import 'package:patient_manager/MIH_Packages/about_MIH/MIH_About.dart';
-import 'package:patient_manager/MIH_Packages/authentication/forgotPassword.dart';
-import 'package:patient_manager/MIH_Packages/authentication/resetPassword.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/fullScreenFile.dart';
-import 'package:patient_manager/MIH_Packages/manage_business/manageBusinessProfile.dart';
-import 'package:patient_manager/MIH_Packages/access_review/patientAccessReview.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientAdd.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientEdit.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientManager.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/patientView.dart';
-import 'package:patient_manager/MIH_Packages/manage_business/profileBusinessAdd.dart';
-import 'package:patient_manager/MIH_Packages/manage_business/businessDetails.dart';
-import 'package:patient_manager/MIH_Packages/mzansi_profile/profileUserUpdate.dart';
+import 'package:patient_manager/mih_packages/about_MIH/MIH_About.dart';
+import 'package:patient_manager/mih_packages/authentication/forgotPassword.dart';
+import 'package:patient_manager/mih_packages/authentication/resetPassword.dart';
+import 'package:patient_manager/mih_packages/patient_profile/fullScreenFile.dart';
+import 'package:patient_manager/mih_packages/manage_business/manageBusinessProfile.dart';
+import 'package:patient_manager/mih_packages/access_review/patientAccessReview.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientAdd.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientEdit.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientManager.dart';
+import 'package:patient_manager/mih_packages/patient_profile/patientView.dart';
+import 'package:patient_manager/mih_packages/manage_business/profileBusinessAdd.dart';
+import 'package:patient_manager/mih_packages/manage_business/businessDetails.dart';
+import 'package:patient_manager/mih_packages/mzansi_profile/profileUserUpdate.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

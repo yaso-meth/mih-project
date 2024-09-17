@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:patient_manager/MIH_Packages/patient_profile/builder/BuildFileView.dart';
+import 'package:patient_manager/mih_packages/patient_profile/builder/BuildFileView.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';

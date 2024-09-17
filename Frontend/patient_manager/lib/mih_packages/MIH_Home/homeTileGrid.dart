@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_tile.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_tile.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
-import 'package:patient_manager/mih_components/MIH_Layout/mih_app_drawer.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
