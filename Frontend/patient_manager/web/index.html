@@ -152,16 +152,18 @@
                 }
               });
             }
-            console.log('Latest Service Worker Version: ' + serviceWorkerVersion);
-            console.log('Active Service Worker and Version: ' + reg.active.scriptURL);
-            const isMatch = reg.active.scriptURL.endsWith(serviceWorkerVersion)
+            console.log('Active Service Worker URL: ' + reg.active.scriptURL);
+            const currentSWVersion = reg.active.scriptURL.split("=")[1];
+            console.log('Active Service Worker Version: ' + serviceWorkerVersion);
+            console.log('Latest Service Worker Version: ' + currentSWVersion);
+            const isMatch = currentSWVersion === serviceWorkerVersion;
             console.log('On Latest Service Woprker: ' + isMatch);
             if (!reg.active && (reg.installing || reg.waiting)) {
               // No active web worker and we have installed or are installing
               // one for the first time. Simply wait for it to activate.
-              console.log('Installing service worker.');
+              console.log('No Service Worker Available - Installing New Service Worker.');
               waitForActivation(reg.installing || reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+            } else if (!isMatch) {
               // When the app updates the serviceWorkerVersion changes, so we
               // need to ask the service worker to update.
               console.log('New service worker available.');
