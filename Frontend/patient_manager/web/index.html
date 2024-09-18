@@ -121,11 +121,12 @@
   <!-- Versioning -->
   <!-- <script src="flutter_bootstrap.js?v0.0.0.40" async></script> -->
   <script defer>
+    var startLoad = new Date();
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
     function loadMainDartJs() {
       console.log('Loading app...');
-      var startLoad = new Date();
+
       if (scriptLoaded) {
         return;
       }
@@ -135,9 +136,6 @@
       scriptTag.type = 'application/javascript';
       scriptTag.defer = true;
       document.body.append(scriptTag);
-      var finishLoad = new Date();
-      var loadTime = (finishLoad.getTime() - startLoad.getTime()) / 1000;
-      console.log("Load Time" + loadTime);
     }
 
     if ('serviceWorker' in navigator) {
@@ -197,6 +195,9 @@
       console.log('Service Not Supported.');
       loadMainDartJs();
     }
+    var finishLoad = new Date();
+    var loadTime = (finishLoad.getTime() - startLoad.getTime());
+    console.log("Load Time: " + loadTime);
   </script>
   <!-- <script defer>
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
