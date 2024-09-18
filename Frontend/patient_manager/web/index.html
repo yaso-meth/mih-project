@@ -152,9 +152,12 @@
                 }
               });
             }
+            console.log('Latest Service Worker Version: ' + serviceWorkerVersion);
+            console.log('Active Service Worker and Version: ' + reg.active.scriptURL);
             if (!reg.active && (reg.installing || reg.waiting)) {
               // No active web worker and we have installed or are installing
               // one for the first time. Simply wait for it to activate.
+              console.log('Installing service worker.');
               waitForActivation(reg.installing || reg.waiting);
             } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
               // When the app updates the serviceWorkerVersion changes, so we
@@ -164,14 +167,14 @@
               waitForActivation(reg.installing);
             } else {
               // Existing service worker is still good.
-              console.log('Loading app from service worker.');
+              console.log('Service Worker up-to-date, Loading app.');
               loadMainDartJs();
             }
           });
       });
 
       if (navigator.serviceWorker.state == 'activated') {
-        console.log('Installed new service worker.');
+        console.log('Latest Service Worker Installed.');
         loadMainDartJs();
         // if there's an existing controller (previous Service Worker), show the prompt 
         // you can tweak this and delay the notification once the page is load you can show a notification and ask for a new refresh
@@ -179,6 +182,7 @@
     }
     else {
       // Service workers not supported. Just drop the <script> tag.
+      console.log('Service Not Supported.');
       loadMainDartJs();
     }
   </script>

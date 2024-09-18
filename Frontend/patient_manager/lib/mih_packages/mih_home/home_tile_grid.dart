@@ -487,7 +487,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                           child: SizedBox(
                             child: MIHSearchField(
                               controller: searchController,
-                              hintText: "Search Apps",
+                              hintText: "Search Mzansi Apps",
                               required: false,
                               editable: true,
                               onTap: () {
