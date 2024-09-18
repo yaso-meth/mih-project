@@ -121,7 +121,7 @@
   <!-- Versioning -->
   <!-- <script src="flutter_bootstrap.js?v0.0.0.40" async></script> -->
   <script defer>
-    var startLoad = new Date();
+
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
     function loadMainDartJs() {
@@ -139,6 +139,7 @@
     }
 
     if ('serviceWorker' in navigator) {
+      var startLoad = new Date();
       // Service workers are supported. Use them.
       window.addEventListener('load', function () {
         // Wait for registration to finish before dropping the <script> tag.
@@ -182,22 +183,16 @@
             }
           });
       });
-
-      if (navigator.serviceWorker.state == 'activated') {
-        console.log('Latest Service Worker Installed.');
-        loadMainDartJs();
-        // if there's an existing controller (previous Service Worker), show the prompt 
-        // you can tweak this and delay the notification once the page is load you can show a notification and ask for a new refresh
-      }
+      var finishLoad = new Date();
+      var loadTime = (finishLoad.getTime() - startLoad.getTime());
+      console.log("Load Time: " + loadTime);
     }
     else {
       // Service workers not supported. Just drop the <script> tag.
       console.log('Service Not Supported.');
       loadMainDartJs();
     }
-    var finishLoad = new Date();
-    var loadTime = (finishLoad.getTime() - startLoad.getTime());
-    console.log("Load Time: " + loadTime);
+
   </script>
   <!-- <script defer>
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
