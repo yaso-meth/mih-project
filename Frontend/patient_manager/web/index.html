@@ -124,6 +124,8 @@
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
     function loadMainDartJs() {
+      console.log('Loading app...');
+      var startLoad = new Date();
       if (scriptLoaded) {
         return;
       }
@@ -133,6 +135,9 @@
       scriptTag.type = 'application/javascript';
       scriptTag.defer = true;
       document.body.append(scriptTag);
+      var finishLoad = new Date();
+      var loadTime = (finishLoad.getTime() - startLoad.getTime()) / 1000;
+      console.log("Load Time" + loadTime);
     }
 
     if ('serviceWorker' in navigator) {
@@ -144,6 +149,7 @@
         var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
+
             function waitForActivation(serviceWorker) {
               serviceWorker.addEventListener('statechange', () => {
                 if (serviceWorker.state == 'activated') {
@@ -152,12 +158,14 @@
                 }
               });
             }
+
             console.log('Active Service Worker URL: ' + reg.active.scriptURL);
             const currentSWVersion = reg.active.scriptURL.split("=")[1];
-            console.log('Active Service Worker Version: ' + serviceWorkerVersion);
+            console.log('Active Service Worker Version: ' + serviceWorkerVersion.replaceAll("\"", ""));
             console.log('Latest Service Worker Version: ' + currentSWVersion);
             const isMatch = currentSWVersion === serviceWorkerVersion.replaceAll("\"", "");
-            console.log('On Latest Service Woprker: ' + isMatch);
+            console.log('Latest Service Worker Installed: ' + isMatch);
+
             if (!reg.active && (reg.installing || reg.waiting)) {
               // No active web worker and we have installed or are installing
               // one for the first time. Simply wait for it to activate.
