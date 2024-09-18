@@ -230,9 +230,23 @@ class _PatientManagerState extends State<PatientManager> {
   Widget patientQueue() {
     return Column(mainAxisSize: MainAxisSize.max, children: [
       //const SizedBox(height: 15),
-      const Text(
-        "Waiting Room",
-        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Waiting Room",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          IconButton(
+            onPressed: () {
+              refreshQueue();
+            },
+            icon: const Icon(
+              Icons.refresh,
+              size: 25,
+            ),
+          ),
+        ],
       ),
       Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
       const SizedBox(height: 10),
@@ -364,15 +378,6 @@ class _PatientManagerState extends State<PatientManager> {
             size: 35,
           ),
         ),
-        IconButton(
-          onPressed: () {
-            refreshQueue();
-          },
-          icon: const Icon(
-            Icons.refresh,
-            size: 35,
-          ),
-        ),
       ],
     );
   }
@@ -407,8 +412,6 @@ class _PatientManagerState extends State<PatientManager> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
