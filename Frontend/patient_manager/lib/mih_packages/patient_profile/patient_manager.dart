@@ -4,6 +4,10 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_list.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_queue_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -119,46 +123,25 @@ class _PatientManagerState extends State<PatientManager> {
 
   Widget displayPatientList(List<Patient> patientsList, String searchString) {
     if (searchString.isNotEmpty && searchString != "") {
-      return Container(
-        height: 500,
-        decoration: BoxDecoration(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 3.0,
-          ),
-        ),
-        child: BuildPatientsList(
-          patients: patientsList,
-          signedInUser: widget.arguments.signedInUser,
-          business: widget.arguments.business,
-          arguments: widget.arguments,
-        ),
+      return BuildPatientsList(
+        patients: patientsList,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        arguments: widget.arguments,
       );
     }
-    return Container(
-      //height: 500,
-      decoration: BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 3.0),
-      ),
-      child: Center(
-        child: Text(
-          "Enter ID or Medical Aid No. of Patient",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
-        ),
+    return Center(
+      child: Text(
+        "Enter ID or Medical Aid No. of Patient",
+        style: TextStyle(
+            fontSize: 25,
+            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+        textAlign: TextAlign.center,
       ),
     );
   }
 
-  Widget patientSearch(double w, double h) {
+  Widget patientSearch() {
     return KeyboardListener(
       focusNode: _focusNode,
       autofocus: true,
@@ -168,216 +151,53 @@ class _PatientManagerState extends State<PatientManager> {
           submitPatientForm();
         }
       },
-      child: SizedBox(
-        width: w,
-        height: h - 157,
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          const SizedBox(height: 5),
-          const Text(
-            "Patient Search",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-          //spacer
-          const SizedBox(height: 10),
-          MIHSearchField(
-            controller: searchController,
-            hintText: "ID or Medical Aid No. Search",
-            required: true,
-            editable: true,
-            onTap: () {
-              submitPatientForm();
-            },
-          ),
-          //spacer
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: patientSearchResults,
-            builder: (context, snapshot) {
-              //print("patient Liust  ${snapshot.data}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                  child: Container(
-                    //height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 3.0),
-                    ),
-                    child: const Mihloadingcircle(),
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                List<Patient> patientsList;
-                if (searchString == "") {
-                  patientsList = [];
-                } else {
-                  patientsList =
-                      filterSearchResults(snapshot.data!, searchString);
-                  //print(patientsList);
-                }
-
-                return Expanded(
-                  child: displayPatientList(patientsList, searchString),
-                );
-              } else {
-                return Expanded(
-                  child: Container(
-                    //height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 3.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .errorColor()),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        ]),
-      ),
-    );
-  }
-
-  Widget displayQueueList(List<PatientQueue> patientQueueList) {
-    if (patientQueueList.isNotEmpty) {
-      return Container(
-        height: 500,
-        decoration: BoxDecoration(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 3.0,
-          ),
-        ),
-        child: BuildPatientQueueList(
-          patientQueue: patientQueueList,
-          signedInUser: widget.arguments.signedInUser,
-          business: widget.arguments.business,
-          businessUser: widget.arguments.businessUser,
-        ),
-      );
-    }
-    return Container(
-      height: 500,
-      decoration: BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        borderRadius: BorderRadius.circular(25.0),
-        border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 3.0),
-      ),
-      child: Center(
-        child: Text(
-          "No Appointments for $formattedDate",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Widget patientQueue(double w, double h) {
-    return SizedBox(
-      width: w,
-      height: h - 157,
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        //const SizedBox(height: 15),
         const Text(
-          "Waiting Room",
+          "Patient Search",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+
+        //spacer
         const SizedBox(height: 10),
-        MIHDateField(
-          controller: queueDateController,
-          lableText: "Date",
+        MIHSearchField(
+          controller: searchController,
+          hintText: "ID or Medical Aid No. Search",
           required: true,
+          editable: true,
+          onTap: () {
+            submitPatientForm();
+          },
         ),
         //spacer
         const SizedBox(height: 10),
         FutureBuilder(
-          future: patientQueueResults,
+          future: patientSearchResults,
           builder: (context, snapshot) {
-            //print("patient Queue List  ${snapshot.hasData}");
+            //print("patient Liust  ${snapshot.data}");
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Expanded(
-                child: Container(
-                  height: 500,
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 3.0),
-                  ),
-                  child: const Mihloadingcircle(),
-                ),
-              );
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              List<PatientQueue> patientQueueList;
-              // if (searchString == "") {
-              //   patientQueueList = [];
-              // } else {
-              patientQueueList = filterQueueResults(
-                  snapshot.requireData, queueDateController.text);
-              //   print(patientQueueList);
-              // }
+              return const Mihloadingcircle();
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              List<Patient> patientsList;
+              if (searchString == "") {
+                patientsList = [];
+              } else {
+                patientsList =
+                    filterSearchResults(snapshot.data!, searchString);
+                //print(patientsList);
+              }
 
-              return Expanded(
-                child: displayQueueList(patientQueueList),
-              );
+              return displayPatientList(patientsList, searchString);
             } else {
-              return Expanded(
-                child: Container(
-                  //height: 500,
-                  decoration: BoxDecoration(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 3.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .errorColor()),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+              return Center(
+                child: Text(
+                  "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                  textAlign: TextAlign.center,
                 ),
               );
             }
@@ -385,6 +205,75 @@ class _PatientManagerState extends State<PatientManager> {
         ),
       ]),
     );
+  }
+
+  Widget displayQueueList(List<PatientQueue> patientQueueList) {
+    if (patientQueueList.isNotEmpty) {
+      return BuildPatientQueueList(
+        patientQueue: patientQueueList,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+      );
+    }
+    return Center(
+      child: Text(
+        "No Appointments for $formattedDate",
+        style: TextStyle(
+            fontSize: 25,
+            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget patientQueue() {
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      //const SizedBox(height: 15),
+      const Text(
+        "Waiting Room",
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      ),
+      Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+      const SizedBox(height: 10),
+      MIHDateField(
+        controller: queueDateController,
+        lableText: "Date",
+        required: true,
+      ),
+      //spacer
+      const SizedBox(height: 10),
+      FutureBuilder(
+        future: patientQueueResults,
+        builder: (context, snapshot) {
+          //print("patient Queue List  ${snapshot.hasData}");
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Mihloadingcircle();
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            List<PatientQueue> patientQueueList;
+            // if (searchString == "") {
+            //   patientQueueList = [];
+            // } else {
+            patientQueueList = filterQueueResults(
+                snapshot.requireData, queueDateController.text);
+            //   print(patientQueueList);
+            // }
+
+            return displayQueueList(patientQueueList);
+          } else {
+            return Center(
+              child: Text(
+                "$errorCode: Error pulling Patients Data\n$baseUrl/patients/search/$searchString\n$errorBody",
+                style: TextStyle(
+                    fontSize: 25,
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor()),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+        },
+      ),
+    ]);
   }
 
   void refreshQueue() {
@@ -425,18 +314,76 @@ class _PatientManagerState extends State<PatientManager> {
     }
   }
 
-  Widget showSelection(int index, double screenWidth, double screenHeight) {
+  Widget showSelection(int index) {
     if (index == 0) {
       return SizedBox(
         //width: 660,
-        child: patientQueue(screenWidth, screenHeight),
+        child: patientQueue(),
       );
     } else {
       return SizedBox(
         //width: 660,
-        child: patientSearch(screenWidth, screenHeight),
+        child: patientSearch(),
       );
     }
+  }
+
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Icons.arrow_back,
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return MIHHeader(
+      headerAlignment: MainAxisAlignment.end,
+      headerItems: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 0;
+            });
+          },
+          icon: const Icon(
+            Icons.people,
+            size: 35,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 1;
+            });
+          },
+          icon: const Icon(
+            Icons.search,
+            size: 35,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            refreshQueue();
+          },
+          icon: const Icon(
+            Icons.refresh,
+            size: 35,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: true,
+      bodyItems: [
+        showSelection(_selectedIndex),
+      ],
+    );
   }
 
   @override
@@ -462,75 +409,80 @@ class _PatientManagerState extends State<PatientManager> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      // appBar: const MIHAppBar(
-      //   barTitle: "Patient Manager",
-      //   propicFile: null,
-      // ),
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 5),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 0;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.people,
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 1;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.search,
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      refreshQueue();
-                    },
-                    icon: const Icon(
-                      Icons.refresh,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: showSelection(_selectedIndex, screenWidth, screenHeight),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 5,
-            left: 5,
-            width: 50,
-            height: 50,
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-          )
-        ],
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
+    // return Scaffold(
+    //   // appBar: const MIHAppBar(
+    //   //   barTitle: "Patient Manager",
+    //   //   propicFile: null,
+    //   // ),
+    //   body: Stack(
+    //     children: [
+    //       Column(
+    //         mainAxisAlignment: MainAxisAlignment.start,
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           const SizedBox(height: 5),
+    //           Row(
+    //             crossAxisAlignment: CrossAxisAlignment.end,
+    //             mainAxisAlignment: MainAxisAlignment.end,
+    //             children: [
+    //               IconButton(
+    //                 onPressed: () {
+    //                   setState(() {
+    //                     _selectedIndex = 0;
+    //                   });
+    //                 },
+    //                 icon: const Icon(
+    //                   Icons.people,
+    //                   size: 35,
+    //                 ),
+    //               ),
+    //               IconButton(
+    //                 onPressed: () {
+    //                   setState(() {
+    //                     _selectedIndex = 1;
+    //                   });
+    //                 },
+    //                 icon: const Icon(
+    //                   Icons.search,
+    //                   size: 35,
+    //                 ),
+    //               ),
+    //               IconButton(
+    //                 onPressed: () {
+    //                   refreshQueue();
+    //                 },
+    //                 icon: const Icon(
+    //                   Icons.refresh,
+    //                   size: 35,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           Padding(
+    //             padding: EdgeInsets.symmetric(horizontal: 15),
+    //             child: showSelection(_selectedIndex, screenWidth, screenHeight),
+    //           ),
+    //         ],
+    //       ),
+    //       Positioned(
+    //         top: 5,
+    //         left: 5,
+    //         width: 50,
+    //         height: 50,
+    //         child: IconButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           icon: const Icon(Icons.arrow_back),
+    //         ),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }

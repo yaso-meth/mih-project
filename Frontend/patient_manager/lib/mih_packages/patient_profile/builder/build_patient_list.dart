@@ -350,6 +350,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
