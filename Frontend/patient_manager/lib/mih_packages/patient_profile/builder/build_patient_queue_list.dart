@@ -110,7 +110,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         //     "Todays: $todayDate\nRevoke Date: $revokeDate\nHas revoke date passed: ${revokeDate.isBefore(todayDate)}");
         if (revokeDate.isBefore(todayDate)) {
           expiredAccessWarning();
-        } else if (widget.patientQueue[index].access != "pending") {
+        } else if (widget.patientQueue[index].access == "approved") {
           Patient selectedPatient;
           fetchPatients(widget.patientQueue[index].app_id).then(
             (result) {
@@ -127,6 +127,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
               });
             },
           );
+        } else if (widget.patientQueue[index].access == "declined") {
+          accessDeclinedWarning();
         } else {
           noAccessWarning();
         }
@@ -143,6 +145,15 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       context: context,
       builder: (context) {
         return const MIHWarningMessage(warningType: "No Access");
+      },
+    );
+  }
+
+  void accessDeclinedWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "Access Declined");
       },
     );
   }
