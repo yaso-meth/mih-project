@@ -5,7 +5,7 @@ import 'package:patient_manager/main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-void main() async {
+void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   AppEnviroment.setupEnv(Enviroment.dev);
