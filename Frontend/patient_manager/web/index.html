@@ -182,10 +182,11 @@
               loadMainDartJs();
             }
           });
+        var finishLoad = new Date();
+        var loadTime = (finishLoad.getTime() - startLoad.getTime());
+        console.log("Load Time: " + loadTime);
       });
-      var finishLoad = new Date();
-      var loadTime = (finishLoad.getTime() - startLoad.getTime());
-      console.log("Load Time: " + loadTime);
+
     }
     else {
       // Service workers not supported. Just drop the <script> tag.
