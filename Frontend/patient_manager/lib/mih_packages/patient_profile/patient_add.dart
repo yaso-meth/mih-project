@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 //import 'package:patient_manager/MIH_Components/mihAppDrawer.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -159,7 +163,6 @@ class _AddPatientState extends State<AddPatient> {
 
   Widget displayForm() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
           Text(
@@ -167,11 +170,13 @@ class _AddPatientState extends State<AddPatient> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+              fontSize: 22.0,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          const SizedBox(height: 25.0),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          const SizedBox(height: 10.0),
           MIHTextField(
             controller: idController,
             hintText: "13 digit ID Number or Passport",
@@ -219,10 +224,12 @@ class _AddPatientState extends State<AddPatient> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+              fontSize: 22.0,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10.0),
           MIHDropdownField(
             controller: medAidController,
@@ -309,6 +316,50 @@ class _AddPatientState extends State<AddPatient> {
     }
   }
 
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Icons.arrow_back,
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return const MIHHeader(
+      headerAlignment: MainAxisAlignment.center,
+      headerItems: [
+        Text(
+          "Add Patient Details",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: true,
+      bodyItems: [
+        KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              submitForm();
+            }
+          },
+          child: displayForm(),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
     idController.dispose();
@@ -341,41 +392,46 @@ class _AddPatientState extends State<AddPatient> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: const MIHAppBar(
-      //   barTitle: "Add Patient",
-      //   propicFile: null,
-      // ),
-      //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            KeyboardListener(
-              focusNode: _focusNode,
-              autofocus: true,
-              onKeyEvent: (event) async {
-                if (event is KeyDownEvent &&
-                    event.logicalKey == LogicalKeyboardKey.enter) {
-                  submitForm();
-                }
-              },
-              child: displayForm(),
-            ),
-            Positioned(
-              top: 10,
-              left: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.arrow_back),
-              ),
-            )
-          ],
-        ),
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
+    // return Scaffold(
+    //   // appBar: const MIHAppBar(
+    //   //   barTitle: "Add Patient",
+    //   //   propicFile: null,
+    //   // ),
+    //   //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
+    //   body: SafeArea(
+    //     child: Stack(
+    //       children: [
+    //         KeyboardListener(
+    //           focusNode: _focusNode,
+    //           autofocus: true,
+    //           onKeyEvent: (event) async {
+    //             if (event is KeyDownEvent &&
+    //                 event.logicalKey == LogicalKeyboardKey.enter) {
+    //               submitForm();
+    //             }
+    //           },
+    //           child: displayForm(),
+    //         ),
+    //         Positioned(
+    //           top: 10,
+    //           left: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               Navigator.of(context).pop();
+    //             },
+    //             icon: const Icon(Icons.arrow_back),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
