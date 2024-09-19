@@ -181,10 +181,37 @@
               loadMainDartJs();
             }
           });
+
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from a service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
         var finishLoad = new Date();
         var loadTime = (finishLoad.getTime() - startLoad.getTime());
         console.log("Load Time: " + loadTime);
       });
+
+
+
+      if (navigator.serviceWorker.state == 'activated') {
+        console.log('Installed new service worker.');
+        loadMainDartJs();
+        // if there's an existing controller (previous Service Worker), show the prompt 
+        // you can tweak this and delay the notification once the page is load you can show a notification and ask for a new refresh
+        if (navigator.serviceWorker.controller) {
+          // you have a better UI here, reloading is not a great user experince here.
+          const confirmed = alert('New version of the app is available. Refresh now');
+          if (confirmed == true) {
+            window.location.reload();
+          }
+        }
+      }
 
     }
     else {
