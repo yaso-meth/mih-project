@@ -40,19 +40,21 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: SizedBox(
-        width: screenSize.width,
-        height: screenSize.height,
-        child: Stack(
-          children: [
-            widget.actionButton,
-            Column(
-              children: [
-                widget.header,
-                Expanded(child: widget.body),
-              ],
-            ),
-          ],
+      body: SafeArea(
+        child: SizedBox(
+          width: screenSize.width,
+          height: screenSize.height,
+          child: Stack(
+            children: [
+              widget.actionButton,
+              Column(
+                children: [
+                  widget.header,
+                  Expanded(child: widget.body),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

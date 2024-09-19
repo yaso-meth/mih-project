@@ -80,55 +80,61 @@ class _MedicineSearchState extends State<MedicineSearch> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   width: 5.0),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Select Medicine",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Select Medicine",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 25.0),
-                FutureBuilder(
-                  future: futueMeds,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                        height: 400,
-                        child: Mihloadingcircle(),
-                      );
-                    } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                      final medsList = snapshot.data!;
-                      return SizedBox(
-                        height: 400,
-                        child: BuildMedicinesList(
-                          contoller: widget.searchVlaue,
-                          medicines: medsList,
-                          //searchString: searchString,
-                        ),
-                      );
-                    } else {
-                      return const SizedBox(
-                        height: 400,
-                        child: Center(
-                          child: Text(
-                            "No Match Found\nPlease close and manually capture medicine",
-                            style: TextStyle(fontSize: 25, color: Colors.grey),
-                            textAlign: TextAlign.center,
+                  const SizedBox(height: 25.0),
+                  FutureBuilder(
+                    future: futueMeds,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 400,
+                          child: Mihloadingcircle(),
+                        );
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.isNotEmpty) {
+                        final medsList = snapshot.data!;
+                        return SizedBox(
+                          height: 400,
+                          child: BuildMedicinesList(
+                            contoller: widget.searchVlaue,
+                            medicines: medsList,
+                            //searchString: searchString,
                           ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                        );
+                      } else {
+                        return const SizedBox(
+                          height: 400,
+                          child: Center(
+                            child: Text(
+                              "No Match Found\nPlease close and manually capture medicine",
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.grey),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

@@ -263,54 +263,58 @@ class _PatientFilesState extends State<PatientFiles> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     width: 5.0),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Create Medical Certificate",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Create Medical Certificate",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  Medcertinput(
-                    startDateController: startDateController,
-                    endDateTextController: endDateTextController,
-                    retDateTextController: retDateTextController,
-                  ),
-                  const SizedBox(height: 30.0),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      buttonText: "Generate",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () async {
-                        if (isMedCertFieldsFilled()) {
-                          await generateMedCert();
-                          //Navigator.pop(context);
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const MIHErrorMessage(
-                                  errorType: "Input Error");
-                            },
-                          );
-                        }
-                      },
+                    const SizedBox(height: 25.0),
+                    Medcertinput(
+                      startDateController: startDateController,
+                      endDateTextController: endDateTextController,
+                      retDateTextController: retDateTextController,
                     ),
-                  )
-                ],
+                    const SizedBox(height: 30.0),
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: MIHButton(
+                        buttonText: "Generate",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () async {
+                          if (isMedCertFieldsFilled()) {
+                            await generateMedCert();
+                            //Navigator.pop(context);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -354,37 +358,40 @@ class _PatientFilesState extends State<PatientFiles> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     width: 5.0),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Create Perscription",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Create Perscription",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  PrescripInput(
-                    medicineController: medicineController,
-                    quantityController: quantityController,
-                    dosageController: dosageController,
-                    timesDailyController: timesDailyController,
-                    noDaysController: noDaysController,
-                    noRepeatsController: noRepeatsController,
-                    outputController: outputController,
-                    selectedPatient: widget.selectedPatient,
-                    signedInUser: widget.signedInUser,
-                    business: widget.business,
-                    businessUser: widget.businessUser,
-                  ),
-                ],
+                    //const SizedBox(height: 25.0),
+                    PrescripInput(
+                      medicineController: medicineController,
+                      quantityController: quantityController,
+                      dosageController: dosageController,
+                      timesDailyController: timesDailyController,
+                      noDaysController: noDaysController,
+                      noRepeatsController: noRepeatsController,
+                      outputController: outputController,
+                      selectedPatient: widget.selectedPatient,
+                      signedInUser: widget.signedInUser,
+                      business: widget.business,
+                      businessUser: widget.businessUser,
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(

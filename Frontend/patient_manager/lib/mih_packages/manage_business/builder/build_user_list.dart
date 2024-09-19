@@ -130,7 +130,7 @@ class _BuildUserListState extends State<BuildUserList> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     width: 5.0),
               ),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

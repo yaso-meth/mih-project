@@ -158,97 +158,103 @@ class _PatientNotesState extends State<PatientNotes> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     width: 5.0),
               ),
-              child: Column(
-                //mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    "Add Note",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Add Note",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  SizedBox(
-                    width: 700,
-                    child: MIHTextField(
-                      controller: officeController,
-                      hintText: "Office",
-                      editable: false,
-                      required: true,
+                    const SizedBox(height: 25.0),
+                    SizedBox(
+                      width: 700,
+                      child: MIHTextField(
+                        controller: officeController,
+                        hintText: "Office",
+                        editable: false,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  SizedBox(
-                    width: 700,
-                    child: MIHTextField(
-                      controller: doctorController,
-                      hintText: "Created By",
-                      editable: false,
-                      required: true,
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      width: 700,
+                      child: MIHTextField(
+                        controller: doctorController,
+                        hintText: "Created By",
+                        editable: false,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  SizedBox(
-                    width: 700,
-                    child: MIHTextField(
-                      controller: dateController,
-                      hintText: "Created Date",
-                      editable: false,
-                      required: true,
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      width: 700,
+                      child: MIHTextField(
+                        controller: dateController,
+                        hintText: "Created Date",
+                        editable: false,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  SizedBox(
-                    width: 700,
-                    child: MIHTextField(
-                      controller: titleController,
-                      hintText: "Note Title",
-                      editable: true,
-                      required: true,
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      width: 700,
+                      child: MIHTextField(
+                        controller: titleController,
+                        hintText: "Note Title",
+                        editable: true,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Expanded(
-                    child: MIHMLTextField(
-                      controller: noteTextController,
-                      hintText: "Note Details",
-                      editable: true,
-                      required: true,
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      width: 700,
+                      height: 250,
+                      child: MIHMLTextField(
+                        controller: noteTextController,
+                        hintText: "Note Details",
+                        editable: true,
+                        required: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30.0),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        if (isFieldsFilled()) {
-                          addPatientNoteAPICall();
-                          Navigator.pop(context);
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const MIHErrorMessage(
-                                  errorType: "Input Error");
-                            },
-                          );
-                        }
-                      },
-                      buttonText: "Add Note",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                  )
-                ],
+                    const SizedBox(height: 30.0),
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: MIHButton(
+                        onTap: () {
+                          if (isFieldsFilled()) {
+                            addPatientNoteAPICall();
+                            Navigator.pop(context);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          }
+                        },
+                        buttonText: "Add Note",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Positioned(

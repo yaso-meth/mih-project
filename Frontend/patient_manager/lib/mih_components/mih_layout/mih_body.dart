@@ -17,7 +17,25 @@ class MIHBody extends StatefulWidget {
 class _MIHBodyState extends State<MIHBody> {
   //double paddingSize = 10;
 
-  double getPaddingSize() {
+  double getHorizontalPaddingSize(Size screenSize) {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      if (widget.borderOn) {
+        return 10;
+      } else {
+        return 0;
+      }
+    } else {
+      // mobile
+      if (widget.borderOn) {
+        return 10;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  double getVerticalPaddingSize(Size screenSize) {
+    // mobile
     if (widget.borderOn) {
       return 10;
     } else {
@@ -54,9 +72,9 @@ class _MIHBodyState extends State<MIHBody> {
     Size screenSize = MediaQuery.sizeOf(context);
     return Padding(
       padding: EdgeInsets.only(
-        left: getPaddingSize(),
-        right: getPaddingSize(),
-        bottom: getPaddingSize(),
+        left: getHorizontalPaddingSize(screenSize),
+        right: getHorizontalPaddingSize(screenSize),
+        bottom: getVerticalPaddingSize(screenSize),
         top: 0,
       ),
       child: Container(
@@ -64,7 +82,7 @@ class _MIHBodyState extends State<MIHBody> {
           left: 10,
           right: 10,
           bottom: 10,
-          top: getPaddingSize(),
+          top: getVerticalPaddingSize(screenSize),
         ),
         width: screenSize.width,
         height: screenSize.height,

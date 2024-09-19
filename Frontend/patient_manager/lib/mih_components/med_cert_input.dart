@@ -28,7 +28,7 @@ class _MedcertinputState extends State<Medcertinput> {
       //height: 325,
       child: Column(
         children: [
-          const SizedBox(height: 50.0),
+          //const SizedBox(height: 50.0),
           SizedBox(
             width: 700,
             child: MIHDateField(

@@ -344,6 +344,8 @@ class _PrescripInputState extends State<PrescripInput> {
   Widget displayMedInput() {
     return Column(
       children: [
+        const SizedBox(height: 25.0),
+
         KeyboardListener(
           focusNode: _focusNode,
           autofocus: true,
