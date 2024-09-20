@@ -185,7 +185,7 @@
           }
 
           console.log('Active Service Worker URL: ' + reg.active.scriptURL);
-          const currentSWVersion = reg.active.scriptURL.split("=")[1];
+          const currentSWVersion = reg.active.scriptURL.split("=")[1].replaceAll("%22", "");;
           console.log('Active Service Worker Version: ' + serviceWorkerVersion.replaceAll("\"", ""));
           console.log('Latest Service Worker Version: ' + currentSWVersion);
           const isMatch = currentSWVersion === serviceWorkerVersion.replaceAll("\"", "");
