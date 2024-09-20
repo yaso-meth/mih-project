@@ -439,184 +439,181 @@ class _HomeTileGridState extends State<HomeTileGrid> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     //final double height = size.height;
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        drawerEnableOpenDragGesture: true,
-        drawer: MIHAppDrawer(
-          signedInUser: widget.signedInUser,
-          propicFile: widget.propicFile,
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const SizedBox(height: 20.0),
-                  Text(
-                    "Mzanzi Innovation Hub",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
+    return Scaffold(
+      drawerEnableOpenDragGesture: true,
+      drawer: MIHAppDrawer(
+        signedInUser: widget.signedInUser,
+        propicFile: widget.propicFile,
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const SizedBox(height: 20.0),
+                Text(
+                  "Mzanzi Innovation Hub",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: MzanziInnovationHub.of(context)!
+                        .theme
+                        .secondaryColor(),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(
-                        flex: 4,
-                        child: KeyboardListener(
-                          focusNode: _focusNode,
-                          autofocus: true,
-                          onKeyEvent: (event) async {
-                            if (event is KeyDownEvent &&
-                                event.logicalKey == LogicalKeyboardKey.enter) {
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                      flex: 4,
+                      child: KeyboardListener(
+                        focusNode: _focusNode,
+                        autofocus: true,
+                        onKeyEvent: (event) async {
+                          if (event is KeyDownEvent &&
+                              event.logicalKey == LogicalKeyboardKey.enter) {
+                            setState(() {
+                              appSearch = searchController.text;
+                            });
+                          }
+                        },
+                        child: SizedBox(
+                          child: MIHSearchField(
+                            controller: searchController,
+                            hintText: "Search Mzansi Apps",
+                            required: false,
+                            editable: true,
+                            onTap: () {
                               setState(() {
                                 appSearch = searchController.text;
                               });
-                            }
-                          },
-                          child: SizedBox(
-                            child: MIHSearchField(
-                              controller: searchController,
-                              hintText: "Search Mzansi Apps",
-                              required: false,
-                              editable: true,
-                              onTap: () {
-                                setState(() {
-                                  appSearch = searchController.text;
-                                });
-                              },
-                            ),
+                            },
                           ),
                         ),
                       ),
-                      Flexible(
-                        flex: 1,
-                        child: IconButton(
-                          //padding: const EdgeInsets.all(0),
-                          onPressed: () {
-                            setState(() {
-                              appSearch = "";
-                              searchController.clear();
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.filter_alt_off,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: GridView.builder(
-                      padding: EdgeInsets.only(
-                        left: width / 10,
-                        right: width / 10,
-                        //bottom: height / 5,
-                        top: 20,
-                      ),
-                      // physics: ,
-                      // shrinkWrap: true,
-                      itemCount:
-                          searchApp(pbswitch[_selectedIndex], appSearch).length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              mainAxisSpacing: 15, maxCrossAxisExtent: 200),
-                      itemBuilder: (context, index) {
-                        return searchApp(
-                            pbswitch[_selectedIndex], appSearch)[index];
-                      },
                     ),
-                  ),
-                ],
-              ),
-              // MIHAction(
-              //   icon: Icons.apps,
-              //   iconSize: 50,
-              //   onTap: () {
-              //     setState(() {
-              //       appSearch = "";
-              //       searchController.clear();
-              //     });
-              //     Scaffold.of(context).openDrawer();
-              //   },
-              // ),
-              Positioned(
-                top: 10,
-                left: 5,
-                width: 50,
-                height: 50,
-                child: Builder(
-                  builder: (context) => IconButton(
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () {
-                      setState(() {
-                        appSearch = "";
-                        searchController.clear();
-                      });
-                      Scaffold.of(context).openDrawer();
+                    Flexible(
+                      flex: 1,
+                      child: IconButton(
+                        //padding: const EdgeInsets.all(0),
+                        onPressed: () {
+                          setState(() {
+                            appSearch = "";
+                            searchController.clear();
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.filter_alt_off,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.only(
+                      left: width / 10,
+                      right: width / 10,
+                      //bottom: height / 5,
+                      top: 20,
+                    ),
+                    // physics: ,
+                    // shrinkWrap: true,
+                    itemCount:
+                        searchApp(pbswitch[_selectedIndex], appSearch).length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            mainAxisSpacing: 15, maxCrossAxisExtent: 200),
+                    itemBuilder: (context, index) {
+                      return searchApp(
+                          pbswitch[_selectedIndex], appSearch)[index];
                     },
-                    icon: const Icon(
-                      Icons.apps,
-                      size: 50,
-                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        //),
-        //   ],
-        // ),
-        bottomNavigationBar: Visibility(
-          visible: isBusinessUser(widget.signedInUser),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: GNav(
-              //hoverColor: Colors.lightBlueAccent,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              iconSize: 35.0,
-              activeColor:
-                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              tabBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              //gap: 20,
-              //padding: EdgeInsets.all(15),
-              tabs: [
-                GButton(
-                  icon: Icons.perm_identity,
-                  text: "Personal",
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  },
-                ),
-                GButton(
-                  icon: Icons.business_center,
-                  text: "Business",
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                    });
-                  },
                 ),
               ],
-              selectedIndex: _selectedIndex,
             ),
+            // MIHAction(
+            //   icon: Icons.apps,
+            //   iconSize: 50,
+            //   onTap: () {
+            //     setState(() {
+            //       appSearch = "";
+            //       searchController.clear();
+            //     });
+            //     Scaffold.of(context).openDrawer();
+            //   },
+            // ),
+            Positioned(
+              top: 10,
+              left: 5,
+              width: 50,
+              height: 50,
+              child: Builder(
+                builder: (context) => IconButton(
+                  padding: const EdgeInsets.all(0),
+                  onPressed: () {
+                    setState(() {
+                      appSearch = "";
+                      searchController.clear();
+                    });
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: const Icon(
+                    Icons.apps,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    
+      //),
+      //   ],
+      // ),
+      bottomNavigationBar: Visibility(
+        visible: isBusinessUser(widget.signedInUser),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GNav(
+            //hoverColor: Colors.lightBlueAccent,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            iconSize: 35.0,
+            activeColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            tabBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //gap: 20,
+            //padding: EdgeInsets.all(15),
+            tabs: [
+              GButton(
+                icon: Icons.perm_identity,
+                text: "Personal",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.business_center,
+                text: "Business",
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+            ],
+            selectedIndex: _selectedIndex,
           ),
         ),
       ),
