@@ -120,22 +120,23 @@
   </picture>
 
   <!-- Versioning -->
-  <script src="flutter_bootstrap.js" defer></script>
+  <!-- <script src="flutter.js" defer></script> -->
 
   <script defer>
-    { { flutter_js } }
-    { { flutter_build_config } }
-    window.addEventListener('load', function () {
+    //var serviceWorkerVersion = '{{flutter_service_worker_version}}';
 
+    window.addEventListener('load', function (env) {
+      {{flutter_js}}
+      {{flutter_build_config}}
       _flutter.loader.load({
         serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerVersion: {{flutter_service_worker_version}},
         },
-        onEntrypointLoaded: async function (engineInitializer) {
-          let appRunner = await engineInitializer.initializeEngine();
-
-          await appRunner.runApp();
-        }
+      onEntrypointLoaded: function (engineInitializer) {
+        engineInitializer.initializeEngine().then(function (appRunner) {
+          appRunner.runApp();
+        });
+      }
       });
     });
   </script>
