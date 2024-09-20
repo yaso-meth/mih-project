@@ -76,6 +76,14 @@ class _BuildUserListState extends State<BuildUserList> {
     }
   }
 
+  bool isRequiredFieldsCaptured() {
+    if (accessController.text.isEmpty || typeController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   void internetConnectionPopUp() {
     showDialog(
       context: context,
@@ -189,7 +197,17 @@ class _BuildUserListState extends State<BuildUserList> {
                             .theme
                             .primaryColor(),
                         onTap: () {
-                          createBusinessUserAPICall(index);
+                          if (isRequiredFieldsCaptured()) {
+                            createBusinessUserAPICall(index);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          }
                         },
                       ),
                     )

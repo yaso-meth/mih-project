@@ -130,6 +130,14 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
     );
   }
 
+  bool isRequiredFieldsCaptured() {
+    if (accessController.text.isEmpty || typeController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   void updateEmployeePopUp(int index) {
     setState(() {
       accessController.text = widget.employees[index].access;
@@ -214,7 +222,17 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                             .theme
                             .primaryColor(),
                         onTap: () {
-                          updateEmployeeAPICall(index);
+                          if (isRequiredFieldsCaptured()) {
+                            updateEmployeeAPICall(index);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          }
                         },
                       ),
                     )
