@@ -94,38 +94,70 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
   }
 
   Widget displayQueue(int index) {
-    String title =
+    String line1 =
         "Appointment: ${widget.accessRequests[index].date_time.substring(0, 16).replaceAll("T", " ")}";
-    String subtitle = "";
-    subtitle += "Requestor: ${widget.accessRequests[index].Name}\n";
+    String line2 = "";
+    line2 += "Requestor: ${widget.accessRequests[index].Name}\n";
     //subtitle += "Business Type: ${widget.accessRequests[index].type}\n";
+    String line3 = "Access: ";
+    String access = "";
     var nowDate = DateTime.now();
     var expireyDate = DateTime.parse(widget.accessRequests[index].revoke_date);
+
     if (expireyDate.isBefore(nowDate)) {
-      subtitle += "Access: EXPIRED\n";
+      access += "EXPIRED\n";
     } else {
-      subtitle +=
-          "Access: ${widget.accessRequests[index].access.toUpperCase()}\n";
+      access += "${widget.accessRequests[index].access.toUpperCase()}";
     }
+    String line4 = "";
     if (widget.accessRequests[index].revoke_date.contains("9999")) {
-      subtitle += "Access Expiration date: NOT SET";
+      line4 += "Access Expiration date: NOT SET";
     } else {
-      subtitle +=
+      line4 +=
           "Access Expiration date: ${widget.accessRequests[index].revoke_date.substring(0, 10)}";
     }
+    TextSpan accessWithColour;
+    if (access == "APPROVED") {
+      accessWithColour = TextSpan(
+          text: "$access\n",
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.successColor()));
+    } else if (access == "PENDING") {
+      accessWithColour = TextSpan(
+          text: "$access\n",
+          style: TextStyle(
+              color:
+                  MzanziInnovationHub.of(context)!.theme.messageTextColor()));
+    } else {
+      accessWithColour = TextSpan(
+          text: "$access\n",
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.errorColor()));
+    }
+
     return ListTile(
       title: Text(
-        title,
+        line1,
         style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        ),
+      subtitle: RichText(
+        text: TextSpan(
+            text: line2,
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(text: line3),
+              accessWithColour,
+              TextSpan(text: line4),
+            ]),
       ),
+      // Text(
+      //   subtitle,
+      //   style: TextStyle(
+      //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //   ),
+      // ),
       onTap: () {
         viewApprovalPopUp(index);
       },
