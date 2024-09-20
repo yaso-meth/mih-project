@@ -122,7 +122,7 @@
   <!-- Versioning -->
   <!-- <script src="flutter.js" defer></script> -->
 
-  <script defer>
+  <!-- <script defer>
     //var serviceWorkerVersion = '{{flutter_service_worker_version}}';
 
     window.addEventListener('load', function (env) {
@@ -139,8 +139,8 @@
       }
       });
     });
-  </script>
-  <!-- 
+  </script> -->
+
 <script defer>
   var serviceWorkerVersion = '{{flutter_service_worker_version}}';
   var scriptLoaded = false;
@@ -150,11 +150,18 @@
       return;
     }
     scriptLoaded = true;
-    var scriptTag = document.createElement('script');
-    scriptTag.src = 'flutter_bootstrap.js';
-    scriptTag.type = 'application/javascript';
-    scriptTag.defer = true;
-    document.body.append(scriptTag);
+    {{flutter_js}}
+      {{flutter_build_config}}
+      _flutter.loader.load({
+        serviceWorker: {
+          serviceWorkerVersion: {{flutter_service_worker_version}},
+        },
+      onEntrypointLoaded: function (engineInitializer) {
+        engineInitializer.initializeEngine().then(function (appRunner) {
+          appRunner.runApp();
+        });
+      }
+      });
   }
 
   if ('serviceWorker' in navigator) {
@@ -240,7 +247,7 @@
     loadMainDartJs();
   }
 
-</script> -->
+</script>
 
 </body>
 <!-- File Picker & PDF viewer -->
