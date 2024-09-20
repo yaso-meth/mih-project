@@ -454,7 +454,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               children: [
                 const SizedBox(height: 20.0),
                 Text(
-                  "Mzanzi Innovation Hub",
+                  "Mzanzi Innovation Hub 2",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
