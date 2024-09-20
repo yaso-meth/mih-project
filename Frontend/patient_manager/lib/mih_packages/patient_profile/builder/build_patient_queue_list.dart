@@ -60,35 +60,54 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     String lname = widget.patientQueue[index].last_name[0] + "********";
     String title =
         widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
-    String subtitle = "";
+    String line234 = "";
     var nowDate = DateTime.now();
     var expireyDate = DateTime.parse(widget.patientQueue[index].revoke_date);
 
     if (widget.patientQueue[index].access != "approved" ||
         expireyDate.isBefore(nowDate)) {
-      subtitle += "Name: $fname $lname\n";
-      subtitle += "ID No.: ${widget.patientQueue[index].id_no}\n";
-      subtitle += "Medical Aid No: ********";
+      line234 += "Name: $fname $lname\n";
+      line234 += "ID No.: ${widget.patientQueue[index].id_no}\n";
+      line234 += "Medical Aid No: ********";
       //subtitle += "********";
     } else {
-      subtitle +=
+      line234 +=
           "Name: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\nID No.: ${widget.patientQueue[index].id_no}\nMedical Aid No: ";
       if (widget.patientQueue[index].medical_aid_no == "") {
-        subtitle += "No Medical Aid";
+        line234 += "No Medical Aid";
       } else {
         // subtitle +=
         //     "\nMedical Aid No: ";
-        subtitle += widget.patientQueue[index].medical_aid_no;
+        line234 += widget.patientQueue[index].medical_aid_no;
       }
     }
+    String line5 = "\nAccess Request: ";
+    String access = "";
     if (expireyDate.isBefore(nowDate)) {
-      subtitle += "\nAccess Request: EXPIRED";
+      access += "EXPIRED";
     } else {
-      subtitle +=
-          "\nAccess Request: ${widget.patientQueue[index].access.toUpperCase()}";
+      access += widget.patientQueue[index].access.toUpperCase();
     }
-
-    subtitle +=
+    TextSpan accessWithColour;
+    if (access == "APPROVED") {
+      accessWithColour = TextSpan(
+          text: access,
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.successColor()));
+    } else if (access == "PENDING") {
+      accessWithColour = TextSpan(
+          text: access,
+          style: TextStyle(
+              color:
+                  MzanziInnovationHub.of(context)!.theme.messageTextColor()));
+    } else {
+      accessWithColour = TextSpan(
+          text: access,
+          style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.errorColor()));
+    }
+    String line6 = "";
+    line6 +=
         "\nAccess Expiration date: ${widget.patientQueue[index].revoke_date.substring(0, 16).replaceAll("T", " ")}";
     return ListTile(
       title: Text(
@@ -97,12 +116,22 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        ),
+      subtitle: RichText(
+        text: TextSpan(
+            text: line234,
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(text: line5),
+              accessWithColour,
+              TextSpan(text: line6),
+            ]),
       ),
+      // Text(
+      //   subtitle,
+      //   style: TextStyle(
+      //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //   ),
+      // ),
       onTap: () {
         var todayDate = DateTime.now();
         var revokeDate = DateTime.parse(widget.patientQueue[index].revoke_date);
