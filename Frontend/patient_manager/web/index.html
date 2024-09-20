@@ -123,9 +123,11 @@
   <script src="flutter_bootstrap.js" defer></script>
 
   <script defer>
+    { { flutter_js } }
+    { { flutter_build_config } }
     window.addEventListener('load', function () {
 
-      FlutterLoader.load({
+      _flutter.loader.load({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
