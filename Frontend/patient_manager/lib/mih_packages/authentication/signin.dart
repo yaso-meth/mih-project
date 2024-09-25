@@ -26,6 +26,8 @@ class _SignInState extends State<SignIn> {
   final passwordController = TextEditingController();
   //bool _obscureText = true;
   bool successfulSignIn = false;
+  bool showProfiles = false;
+
   // focus node to capture keyboard events
   final FocusNode _focusNode = FocusNode();
 
@@ -316,31 +318,31 @@ class _SignInState extends State<SignIn> {
                     //spacer
                     const SizedBox(height: 25),
 
-                    SizedBox(
-                      width: 500.0,
-                      //height: 100.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              showSandboxProfiles();
-                            },
-                            child: Text(
-                              'Sandbox Profile',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                    // SizedBox(
+                    //   width: 500.0,
+                    //   //height: 100.0,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: [
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           showSandboxProfiles();
+                    //         },
+                    //         child: Text(
+                    //           'Sandbox Profile',
+                    //           style: TextStyle(
+                    //             fontSize: 18,
+                    //             color: MzanziInnovationHub.of(context)!
+                    //                 .theme
+                    //                 .secondaryColor(),
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 10),
                     //email input
                     SizedBox(
                       width: 500.0,
@@ -419,11 +421,13 @@ class _SignInState extends State<SignIn> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
+                          Text(
                             'New User?',
                             style: TextStyle(
                                 fontSize: 18,
-                                color: Color.fromARGB(255, 201, 200, 200)),
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .messageTextColor()),
                           ),
                           const SizedBox(
                             width: 6,
@@ -443,7 +447,88 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    //spacer
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: 500.0,
+                      //height: 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10.0),
+                              child: Divider(),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: GestureDetector(
+                              child: Text(
+                                'Use Sandox Profile',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .secondaryColor()),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  showProfiles = !showProfiles;
+                                });
+                              },
+                            ),
+                          ),
+                          const Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Divider(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: showProfiles,
+                      child: SizedBox(
+                        width: 500,
+                        child: Column(
+                          //mainAxisSize: MainAxisSize.max,
+                          children: [
+                            GridView.builder(
+                              // physics: ,
+                              shrinkWrap: true,
+                              itemCount: sandboxProfileList.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      mainAxisSpacing: 10,
+                                      maxCrossAxisExtent: 100),
+                              itemBuilder: (context, index) {
+                                return sandboxProfileList[index];
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
