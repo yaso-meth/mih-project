@@ -438,7 +438,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
-    final double height = size.height;
+    //final double height = size.height;
     return Scaffold(
       drawerEnableOpenDragGesture: true,
       drawer: MIHAppDrawer(
