@@ -65,7 +65,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
   }
 
   bool isEmailValid(String email) {
-    var regex = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$');
+    var regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return regex.hasMatch(email);
   }
 
