@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
@@ -204,114 +205,179 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              //padding: const EdgeInsets.all(15.0),
-              width: popUpWidth,
-              height: popUpheight,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 5.0),
-              ),
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(popUpPaddingSize),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Update Appointment Access",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        fontSize: popUpTitleSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 15.0),
-                    Text(
-                      subtitle,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        fontSize: popUpBodySize,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Wrap(
-                      runSpacing: 10,
-                      spacing: 10,
-                      children: [
-                        SizedBox(
-                          width: popUpButtonWidth,
-                          height: 50,
-                          child: MIHButton(
-                            onTap: () {
-                              updateAccessAPICall(index, "declined");
-                            },
-                            buttonText: "Decline",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .errorColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: popUpButtonWidth,
-                          height: 50,
-                          child: MIHButton(
-                            onTap: () {
-                              updateAccessAPICall(index, "approved");
-                            },
-                            buttonText: "Approve",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+      builder: (context) => MIHWindow(
+          windowTitle: "Update Appointment Access",
+          windowItems: [
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                subtitle,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: popUpBodySize,
+                  //fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  size: 35,
+            Wrap(
+              runSpacing: 10,
+              spacing: 10,
+              children: [
+                SizedBox(
+                  width: popUpButtonWidth,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      updateAccessAPICall(index, "declined");
+                    },
+                    buttonText: "Decline",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: popUpButtonWidth,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      updateAccessAPICall(index, "approved");
+                    },
+                    buttonText: "Approve",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
             ),
           ],
-        ),
-      ),
+          actionItems: const [],
+          onTapClose: () {
+            Navigator.pop(context);
+          }),
     );
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => Dialog(
+    //     child: Stack(
+    //       children: [
+    //         Container(
+    //           //padding: const EdgeInsets.all(15.0),
+    //           width: popUpWidth,
+    //           height: popUpheight,
+    //           decoration: BoxDecoration(
+    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //             borderRadius: BorderRadius.circular(25.0),
+    //             border: Border.all(
+    //                 color:
+    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //                 width: 5.0),
+    //           ),
+    //           child: SingleChildScrollView(
+    //             padding: EdgeInsets.all(popUpPaddingSize),
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               crossAxisAlignment: CrossAxisAlignment.center,
+    //               children: [
+    //                 Text(
+    //                   "Update Appointment Access",
+    //                   textAlign: TextAlign.center,
+    //                   style: TextStyle(
+    //                     color: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     fontSize: popUpTitleSize,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 15.0),
+    //                 Text(
+    //                   subtitle,
+    //                   textAlign: TextAlign.left,
+    //                   style: TextStyle(
+    //                     color: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     fontSize: popUpBodySize,
+    //                     //fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 Wrap(
+    //                   runSpacing: 10,
+    //                   spacing: 10,
+    //                   children: [
+    //                     SizedBox(
+    //                       width: popUpButtonWidth,
+    //                       height: 50,
+    //                       child: MIHButton(
+    //                         onTap: () {
+    //                           updateAccessAPICall(index, "declined");
+    //                         },
+    //                         buttonText: "Decline",
+    //                         buttonColor: MzanziInnovationHub.of(context)!
+    //                             .theme
+    //                             .errorColor(),
+    //                         textColor: MzanziInnovationHub.of(context)!
+    //                             .theme
+    //                             .primaryColor(),
+    //                       ),
+    //                     ),
+    //                     SizedBox(
+    //                       width: popUpButtonWidth,
+    //                       height: 50,
+    //                       child: MIHButton(
+    //                         onTap: () {
+    //                           updateAccessAPICall(index, "approved");
+    //                         },
+    //                         buttonText: "Approve",
+    //                         buttonColor: MzanziInnovationHub.of(context)!
+    //                             .theme
+    //                             .successColor(),
+    //                         textColor: MzanziInnovationHub.of(context)!
+    //                             .theme
+    //                             .primaryColor(),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 5,
+    //           right: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             },
+    //             icon: Icon(
+    //               Icons.close,
+    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //               size: 35,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   @override
