@@ -245,17 +245,40 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
                 MzanziInnovationHub.of(context)!.theme.primaryColor(),
             backgroundImage: propicPreview,
             //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-            radius: 50,
+            radius: 70,
           ),
           SizedBox(
-            width: 110,
+            width: 155,
             child: Image(image: logoFrame),
-          )
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: IconButton.filled(
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['jpg', 'png'],
+                );
+                if (result == null) return;
+                final selectedFile = result.files.first;
+                setState(() {
+                  proPic = selectedFile;
+                  propicPreview = MemoryImage(proPic.bytes!);
+                });
+
+                setState(() {
+                  proPicController.text = selectedFile.name;
+                });
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ),
         ],
       );
     } else {
       return SizedBox(
-        width: 60,
+        width: 155,
         child: Image(image: logoFrame),
       );
     }
@@ -292,27 +315,30 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       bodyItems: [
         displayProPic(),
         const SizedBox(height: 25.0),
-        MIHFileField(
-          controller: proPicController,
-          hintText: "Profile Picture",
-          editable: false,
-          required: false,
-          onPressed: () async {
-            FilePickerResult? result = await FilePicker.platform.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['jpg', 'png'],
-            );
-            if (result == null) return;
-            final selectedFile = result.files.first;
-            setState(() {
-              proPic = selectedFile;
-              propicPreview = MemoryImage(proPic.bytes!);
-            });
+        Visibility(
+          visible: false,
+          child: MIHFileField(
+            controller: proPicController,
+            hintText: "Profile Picture",
+            editable: false,
+            required: false,
+            onPressed: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['jpg', 'png'],
+              );
+              if (result == null) return;
+              final selectedFile = result.files.first;
+              setState(() {
+                proPic = selectedFile;
+                propicPreview = MemoryImage(proPic.bytes!);
+              });
 
-            setState(() {
-              proPicController.text = selectedFile.name;
-            });
-          },
+              setState(() {
+                proPicController.text = selectedFile.name;
+              });
+            },
+          ),
         ),
         const SizedBox(height: 10.0),
         MIHTextField(
