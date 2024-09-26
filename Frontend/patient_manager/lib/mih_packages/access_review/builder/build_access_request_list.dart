@@ -105,7 +105,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     var expireyDate = DateTime.parse(widget.accessRequests[index].revoke_date);
 
     if (expireyDate.isBefore(nowDate)) {
-      access += "EXPIRED\n";
+      access += "EXPIRED";
     } else {
       access += "${widget.accessRequests[index].access.toUpperCase()}";
     }
@@ -161,10 +161,10 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       onTap: () {
         viewApprovalPopUp(index);
       },
-      trailing: Icon(
-        Icons.arrow_forward,
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      ),
+      // trailing: Icon(
+      //   Icons.arrow_forward,
+      //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      // ),
     );
   }
 
@@ -329,6 +329,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     checkScreenSize();
     return ListView.separated(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

@@ -303,6 +303,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

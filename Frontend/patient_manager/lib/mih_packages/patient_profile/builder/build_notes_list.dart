@@ -278,6 +278,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
     if (widget.notes.isNotEmpty) {
       return ListView.separated(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

@@ -329,6 +329,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
     if (widget.files.isNotEmpty) {
       return ListView.separated(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -349,10 +350,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            trailing: Icon(
-              Icons.arrow_forward,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
+            // trailing: Icon(
+            //   Icons.arrow_forward,
+            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            // ),
             onTap: () async {
               await getFileUrlApiCall(widget.files[index].file_path)
                   .then((urlHere) {
