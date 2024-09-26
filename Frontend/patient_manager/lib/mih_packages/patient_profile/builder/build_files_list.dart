@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_file_view.dart';
@@ -16,7 +16,6 @@ import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/files.dart';
 import 'package:patient_manager/mih_objects/patients.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import "package:universal_html/html.dart" as html;
 
 class BuildFilesList extends StatefulWidget {
   final AppUser signedInUser;
@@ -191,103 +190,132 @@ class _BuildFilesListState extends State<BuildFilesList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: 800.0,
-              //height: 475.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 5.0),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Text(
-                    fileName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 25.0),
-                  Expanded(
-                      child: BuildFileView(
-                    link: url,
-                    path: filePath,
-                    //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                  )),
-                  const SizedBox(height: 30.0),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        html.window.open(
-                            url,
-                            // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                            'download');
-                      },
-                      buttonText: "Dowload",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                  )
-                ],
-              ),
+      builder: (context) => MIHWindow(
+        windowTitle: fileName,
+        windowItems: [
+          BuildFileView(
+            link: url,
+            path: filePath,
+            //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
+          ),
+        ],
+        actionItems: [
+          IconButton(
+            onPressed: () {
+              deleteFilePopUp(filePath, fileID);
+            },
+            icon: Icon(
+              size: 35,
+              Icons.delete,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  size: 35,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 5,
-              left: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  deleteFilePopUp(filePath, fileID);
-                },
-                icon: Icon(
-                  Icons.delete,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+        onTapClose: () {
+          Navigator.pop(context);
+        },
       ),
     );
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => Dialog(
+    //     child: Stack(
+    //       children: [
+    //         Container(
+    //           padding: const EdgeInsets.all(10.0),
+    //           width: 800.0,
+    //           //height: 475.0,
+    //           decoration: BoxDecoration(
+    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //             borderRadius: BorderRadius.circular(25.0),
+    //             border: Border.all(
+    //                 color:
+    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //                 width: 5.0),
+    //           ),
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               const SizedBox(
+    //                 height: 25,
+    //               ),
+    //               Text(
+    //                 fileName,
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                   color: MzanziInnovationHub.of(context)!
+    //                       .theme
+    //                       .secondaryColor(),
+    //                   fontSize: 35.0,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 25.0),
+    //               Expanded(
+    //                   child: BuildFileView(
+    //                 link: url,
+    //                 path: filePath,
+    //                 //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
+    //               )),
+    //               const SizedBox(height: 30.0),
+    //               SizedBox(
+    //                 width: 300,
+    //                 height: 50,
+    //                 child: MIHButton(
+    //                   onTap: () {
+    //                     html.window.open(
+    //                         url,
+    //                         // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+    //                         'download');
+    //                   },
+    //                   buttonText: "Dowload",
+    //                   buttonColor: MzanziInnovationHub.of(context)!
+    //                       .theme
+    //                       .secondaryColor(),
+    //                   textColor:
+    //                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //                 ),
+    //               )
+    //             ],
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 5,
+    //           right: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             },
+    //             icon: Icon(
+    //               Icons.close,
+    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //               size: 35,
+    //             ),
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 5,
+    //           left: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               deleteFilePopUp(filePath, fileID);
+    //             },
+    //             icon: Icon(
+    //               Icons.delete,
+    //               color:
+    //                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import "package:universal_html/html.dart" as html;
 
 class BuildFileView extends StatefulWidget {
   final String link;
@@ -41,89 +42,135 @@ class _BuildFileViewState extends State<BuildFileView> {
   @override
   Widget build(BuildContext context) {
     // double width = MediaQuery.sizeOf(context).width;
-    // double height = MediaQuery.sizeOf(context).height;
+    //double height = MediaQuery.sizeOf(context).height;
     if (getExtType(widget.path).toLowerCase() == "pdf") {
       //print(widget.pdfLink);
-      return Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: SfPdfViewerTheme(
-                  data: SfPdfViewerThemeData(
-                    backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      return Expanded(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: SfPdfViewerTheme(
+                      data: SfPdfViewerThemeData(
+                        backgroundColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                      child: SfPdfViewer.network(
+                        widget.link,
+                        controller: pdfViewerController,
+                      ),
+                    ),
                   ),
-                  child: SfPdfViewer.network(
-                    widget.link,
-                    controller: pdfViewerController,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 5,
-            right: 5,
-            width: 50,
-            height: 50,
-            child: IconButton.filled(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/file-veiwer',
-                  arguments: FileViewArguments(
-                    widget.link,
-                    widget.path,
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.fullscreen,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                size: 35,
+                ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 10,
+              right: 10,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    '/file-veiwer',
+                    arguments: FileViewArguments(
+                      widget.link,
+                      widget.path,
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.fullscreen,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  size: 35,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              left: 10,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                onPressed: () {
+                  html.window.open(
+                      widget.link,
+                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                      'download');
+                },
+                icon: Icon(
+                  Icons.download,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  size: 35,
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     } else {
-      return Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: InteractiveViewer(
-                  maxScale: 5.0,
-                  //minScale: 0.,
-                  child: Image.network(widget.link),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 5,
-            right: 5,
-            width: 50,
-            height: 50,
-            child: IconButton.filled(
-              onPressed: () {
-                //expandImage(width, height);
-                Navigator.of(context).pushNamed(
-                  '/file-veiwer',
-                  arguments: FileViewArguments(
-                    widget.link,
-                    widget.path,
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.fullscreen,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                size: 35,
+      return Expanded(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InteractiveViewer(
+                maxScale: 5.0,
+                //minScale: 0.,
+                child: Image.network(widget.link),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 10,
+              right: 10,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                onPressed: () {
+                  //expandImage(width, height);
+                  Navigator.of(context).pushNamed(
+                    '/file-veiwer',
+                    arguments: FileViewArguments(
+                      widget.link,
+                      widget.path,
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.fullscreen,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  size: 35,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              left: 10,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                onPressed: () {
+                  html.window.open(
+                      widget.link,
+                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                      'download');
+                },
+                icon: Icon(
+                  Icons.download,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  size: 35,
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     }
   }
