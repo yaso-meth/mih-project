@@ -4,7 +4,7 @@ import 'package:patient_manager/main.dart';
 class MIHWindow extends StatefulWidget {
   final String windowTitle;
   final List<Widget> windowItems;
-  final List<Widget> actionItems;
+  final List<Widget>? actionItems;
   final void Function() onTapClose;
   const MIHWindow({
     super.key,
@@ -90,7 +90,7 @@ class _MIHWindowState extends State<MIHWindow> {
           Container(
             //padding: const EdgeInsets.all(10),
             width: windowWidth,
-            height: windowHeight,
+            //height: windowHeight,
             decoration: BoxDecoration(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
@@ -127,7 +127,7 @@ class _MIHWindowState extends State<MIHWindow> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: widget.actionItems,
+                children: widget.actionItems!,
               )),
         ],
       ),
