@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_tile.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -351,6 +352,64 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              // return const MIHErrorMessage(errorType: "Input Error");
+              // return const MIHErrorMessage(errorType: "Password Requirements");
+              // return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Invalid Email");
+              // return const MIHErrorMessage(errorType: "User Exists");
+              // return const MIHErrorMessage(errorType: "Password Match");
+              // return const MIHErrorMessage(errorType: "Invalid Credentials");
+              return MIHWindow(
+                windowTitle: "Test Window",
+                windowItems: const [SizedBox()],
+                actionItems: [
+                  IconButton(
+                    onPressed: () {
+                      //deleteFilePopUp(filePath, fileID);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      size: 35,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //deleteFilePopUp(filePath, fileID);
+                    },
+                    icon: Icon(
+                      Icons.wallet,
+                      size: 35,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ],
+                onTapClose: () {
+                  Navigator.pop(context);
+                },
+              );
+            },
+          );
+        },
+        tileName: "Window - Dev",
+        tileIcon: Icon(
+          Icons.window,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
     }
   }
 
@@ -459,9 +518,8 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
-                    color: MzanziInnovationHub.of(context)!
-                        .theme
-                        .secondaryColor(),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -575,7 +633,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
           ],
         ),
       ),
-    
+
       //),
       //   ],
       // ),
@@ -587,8 +645,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
             //hoverColor: Colors.lightBlueAccent,
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             iconSize: 35.0,
-            activeColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             tabBackgroundColor:
                 MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             //gap: 20,
