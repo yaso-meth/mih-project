@@ -189,7 +189,7 @@ class RouteGenerator {
 }
 
 Route<dynamic> _errorRoute() {
-  print("error");
+  print("Invalid Route");
   return MaterialPageRoute(
       settings: const RouteSettings(name: '/'),
       builder: (_) => const AuthCheck());
