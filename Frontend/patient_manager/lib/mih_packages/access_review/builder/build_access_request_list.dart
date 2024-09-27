@@ -206,8 +206,9 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       context: context,
       barrierDismissible: false,
       builder: (context) => MIHWindow(
+          fullscreen: false,
           windowTitle: "Update Appointment Access",
-          windowItems: [
+          windowBody: [
             const SizedBox(
               height: 10,
             ),
@@ -262,8 +263,8 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
               height: 10,
             ),
           ],
-          actionItems: const [],
-          onTapClose: () {
+          windowTools: const [],
+          onWindowTapClose: () {
             Navigator.pop(context);
           }),
     );

@@ -47,27 +47,19 @@ class _BuildFileViewState extends State<BuildFileView> {
       //print(widget.pdfLink);
       return Expanded(
         child: Stack(
+          fit: StackFit.expand,
           children: [
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: SfPdfViewerTheme(
-                      data: SfPdfViewerThemeData(
-                        backgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                      child: SfPdfViewer.network(
-                        widget.link,
-                        controller: pdfViewerController,
-                      ),
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.all(10.0),
+              child: SfPdfViewerTheme(
+                data: SfPdfViewerThemeData(
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                child: SfPdfViewer.network(
+                  widget.link,
+                  controller: pdfViewerController,
+                ),
               ),
             ),
             Positioned(
@@ -116,12 +108,16 @@ class _BuildFileViewState extends State<BuildFileView> {
       );
     } else {
       return Expanded(
+        // height: height,
+        // padding: const EdgeInsets.all(10.0),
         child: Stack(
           fit: StackFit.expand,
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InteractiveViewer(
+                //constrained: true,
+                //clipBehavior: Clip.antiAlias,
                 maxScale: 5.0,
                 //minScale: 0.,
                 child: Image.network(widget.link),

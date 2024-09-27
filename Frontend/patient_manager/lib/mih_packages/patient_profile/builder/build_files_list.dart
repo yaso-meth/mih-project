@@ -191,15 +191,19 @@ class _BuildFilesListState extends State<BuildFilesList> {
       context: context,
       barrierDismissible: false,
       builder: (context) => MIHWindow(
+        fullscreen: true,
         windowTitle: fileName,
-        windowItems: [
+        windowBody: [
           BuildFileView(
             link: url,
             path: filePath,
             //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
           ),
+          const SizedBox(
+            height: 10,
+          )
         ],
-        actionItems: [
+        windowTools: [
           IconButton(
             onPressed: () {
               deleteFilePopUp(filePath, fileID);
@@ -211,7 +215,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
             ),
           ),
         ],
-        onTapClose: () {
+        onWindowTapClose: () {
           Navigator.pop(context);
         },
       ),
