@@ -197,7 +197,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
             required: true,
             editable: true,
           ),
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 15.0),
           SizedBox(
             width: 300,
             height: 50,
