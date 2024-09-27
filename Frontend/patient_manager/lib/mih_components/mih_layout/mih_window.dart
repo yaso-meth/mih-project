@@ -139,6 +139,32 @@ class _MIHWindowState extends State<MIHWindow> {
   }
 
   Widget createWindow(Widget header, Widget body) {
+    Widget visibleItems;
+    if (widget.fullscreen) {
+      visibleItems = Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          header,
+          //const Divider(),
+          body,
+        ],
+      );
+    } else {
+      visibleItems = SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            header,
+            //const Divider(),
+            body,
+          ],
+        ),
+      );
+    }
     return Dialog(
       insetPadding: EdgeInsets.symmetric(
         horizontal: horizontralWindowPadding,
@@ -157,16 +183,7 @@ class _MIHWindowState extends State<MIHWindow> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 5.0),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            header,
-            //const Divider(),
-            body,
-          ],
-        ),
+        child: visibleItems,
       ),
     );
   }
