@@ -50,19 +50,16 @@ class _MIHWindowState extends State<MIHWindow> {
   }
 
   Widget getWidnowClose() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        IconButton(
-          onPressed: widget.onWindowTapClose,
-          icon: Icon(
-            Icons.close,
-            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-            size: 35,
-          ),
+    return Container(
+      alignment: Alignment.centerRight,
+      child: IconButton(
+        onPressed: widget.onWindowTapClose,
+        icon: Icon(
+          Icons.close,
+          color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          size: 35,
         ),
-      ],
+      ),
     );
   }
 
@@ -70,6 +67,7 @@ class _MIHWindowState extends State<MIHWindow> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: widget.windowTools,
     );
   }
@@ -78,6 +76,7 @@ class _MIHWindowState extends State<MIHWindow> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Text(
           widget.windowTitle,
@@ -99,27 +98,24 @@ class _MIHWindowState extends State<MIHWindow> {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Flexible(
-          flex: 2,
-          child: getWidnowTools(),
-        ),
-        Flexible(
+        getWidnowTools(),
+        Expanded(
           flex: 2,
           child: getWidnowTitle(),
         ),
-        Flexible(
-          flex: 2,
-          child: getWidnowClose(),
-        ),
+        getWidnowClose(),
       ],
     );
   }
 
   Widget getWidnowBody() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: widget.windowBody,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: widget.windowBody,
+      ),
     );
   }
 
@@ -142,14 +138,11 @@ class _MIHWindowState extends State<MIHWindow> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 5.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [header, body],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [header, body],
         ),
       ),
     );
