@@ -6,8 +6,10 @@ class MIHWindow extends StatefulWidget {
   final List<Widget> windowBody;
   final List<Widget> windowTools;
   final void Function() onWindowTapClose;
+  final bool fullscreen;
   const MIHWindow({
     super.key,
+    required this.fullscreen,
     required this.windowTitle,
     required this.windowBody,
     required this.windowTools,
@@ -76,16 +78,18 @@ class _MIHWindowState extends State<MIHWindow> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          widget.windowTitle,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            fontSize: windowTitleSize,
-            fontWeight: FontWeight.bold,
+        Expanded(
+          child: Text(
+            widget.windowTitle,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              fontSize: windowTitleSize,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],
@@ -109,14 +113,23 @@ class _MIHWindowState extends State<MIHWindow> {
   }
 
   Widget getWidnowBody() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
+    if (widget.fullscreen) {
+      return Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: widget.windowBody,
+        ),
+      );
+    } else {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: widget.windowBody,
-      ),
-    );
+      );
+    }
   }
 
   Widget createWindow(Widget header, Widget body) {
