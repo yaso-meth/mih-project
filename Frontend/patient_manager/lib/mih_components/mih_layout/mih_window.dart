@@ -11,9 +11,9 @@ class MIHWindow extends StatefulWidget {
     super.key,
     required this.fullscreen,
     required this.windowTitle,
-    required this.windowBody,
     required this.windowTools,
     required this.onWindowTapClose,
+    required this.windowBody,
   });
 
   @override
