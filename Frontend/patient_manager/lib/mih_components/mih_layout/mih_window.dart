@@ -3,15 +3,15 @@ import 'package:patient_manager/main.dart';
 
 class MIHWindow extends StatefulWidget {
   final String windowTitle;
-  final List<Widget> windowItems;
-  final List<Widget>? actionItems;
-  final void Function() onTapClose;
+  final List<Widget> windowBody;
+  final List<Widget> windowTools;
+  final void Function() onWindowTapClose;
   const MIHWindow({
     super.key,
     required this.windowTitle,
-    required this.windowItems,
-    required this.actionItems,
-    required this.onTapClose,
+    required this.windowBody,
+    required this.windowTools,
+    required this.onWindowTapClose,
   });
 
   @override
@@ -49,13 +49,37 @@ class _MIHWindowState extends State<MIHWindow> {
     }
   }
 
-  List<Widget> getWindowItems() {
-    List<Widget> temp = [];
-    temp.add(const SizedBox(height: 10));
-    temp.add(
-      SizedBox(
-        width: windowWidth - 150,
-        child: Text(
+  Widget getWidnowClose() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        IconButton(
+          onPressed: widget.onWindowTapClose,
+          icon: Icon(
+            Icons.close,
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            size: 35,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getWidnowTools() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: widget.windowTools,
+    );
+  }
+
+  Widget getWidnowTitle() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
           widget.windowTitle,
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
@@ -65,19 +89,41 @@ class _MIHWindowState extends State<MIHWindow> {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
+      ],
     );
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
-      temp.addAll(widget.windowItems);
-      return temp;
-    } else {
-      //temp.add(const SizedBox(height: 25));
-      temp.addAll(widget.windowItems);
-      return temp;
-    }
   }
 
-  Widget windowPopUp() {
+  Widget getWidnowHeader() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          flex: 2,
+          child: getWidnowTools(),
+        ),
+        Flexible(
+          flex: 2,
+          child: getWidnowTitle(),
+        ),
+        Flexible(
+          flex: 2,
+          child: getWidnowClose(),
+        ),
+      ],
+    );
+  }
+
+  Widget getWidnowBody() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widget.windowBody,
+    );
+  }
+
+  Widget createWindow(Widget header, Widget body) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(
         horizontal: horizontralWindowPadding,
@@ -85,51 +131,26 @@ class _MIHWindowState extends State<MIHWindow> {
       ),
       insetAnimationCurve: Easing.emphasizedDecelerate,
       insetAnimationDuration: Durations.short1,
-      child: Stack(
-        children: [
-          Container(
-            //padding: const EdgeInsets.all(10),
-            width: windowWidth,
-            //height: windowHeight,
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 5.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: getWindowItems(),
-            ),
+      child: Container(
+        //padding: const EdgeInsets.all(10),
+        width: windowWidth,
+        //height: windowHeight,
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              width: 5.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [header, body],
           ),
-          Positioned(
-            top: 5,
-            right: 5,
-            height: 50,
-            child: IconButton(
-              onPressed: widget.onTapClose,
-              icon: Icon(
-                Icons.close,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                size: 35,
-              ),
-            ),
-          ),
-          Positioned(
-              top: 5,
-              left: 5,
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: widget.actionItems!,
-              )),
-        ],
+        ),
       ),
     );
   }
@@ -152,6 +173,9 @@ class _MIHWindowState extends State<MIHWindow> {
       height = size.height;
     });
     checkScreenSize();
-    return windowPopUp();
+    return createWindow(
+      getWidnowHeader(),
+      getWidnowBody(),
+    );
   }
 }
