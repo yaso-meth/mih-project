@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_notes_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -143,142 +144,221 @@ class _PatientNotesState extends State<PatientNotes> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: 700.0,
-              //height: 500.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 5.0),
-              ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Add Note",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 25.0),
-                    SizedBox(
-                      width: 700,
-                      child: MIHTextField(
-                        controller: officeController,
-                        hintText: "Office",
-                        editable: false,
-                        required: true,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    SizedBox(
-                      width: 700,
-                      child: MIHTextField(
-                        controller: doctorController,
-                        hintText: "Created By",
-                        editable: false,
-                        required: true,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    SizedBox(
-                      width: 700,
-                      child: MIHTextField(
-                        controller: dateController,
-                        hintText: "Created Date",
-                        editable: false,
-                        required: true,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    SizedBox(
-                      width: 700,
-                      child: MIHTextField(
-                        controller: titleController,
-                        hintText: "Note Title",
-                        editable: true,
-                        required: true,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    SizedBox(
-                      width: 700,
-                      height: 250,
-                      child: MIHMLTextField(
-                        controller: noteTextController,
-                        hintText: "Note Details",
-                        editable: true,
-                        required: true,
-                      ),
-                    ),
-                    const SizedBox(height: 30.0),
-                    SizedBox(
-                      width: 300,
-                      height: 50,
-                      child: MIHButton(
-                        onTap: () {
-                          if (isFieldsFilled()) {
-                            addPatientNoteAPICall();
-                            Navigator.pop(context);
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MIHErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
-                          }
-                        },
-                        buttonText: "Add Note",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+      builder: (context) => MIHWindow(
+        fullscreen: false,
+        windowTitle: "Add Note",
+        windowTools: const [],
+        onWindowTapClose: () {
+          Navigator.pop(context);
+          titleController.clear();
+          noteTextController.clear();
+        },
+        windowBody: [
+          MIHTextField(
+            controller: officeController,
+            hintText: "Office",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: doctorController,
+            hintText: "Created By",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: dateController,
+            hintText: "Created Date",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: titleController,
+            hintText: "Note Title",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          SizedBox(
+            //width: 700,
+            height: 250,
+            child: MIHMLTextField(
+              controller: noteTextController,
+              hintText: "Note Details",
+              editable: true,
+              required: true,
             ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
+          ),
+          const SizedBox(height: 15.0),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: MIHButton(
+              onTap: () {
+                if (isFieldsFilled()) {
+                  addPatientNoteAPICall();
                   Navigator.pop(context);
-                  titleController.clear();
-                  noteTextController.clear();
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  size: 35,
-                ),
-              ),
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
+              buttonText: "Add Note",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
+
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => Dialog(
+    //     child: Stack(
+    //       children: [
+    //         Container(
+    //           padding: const EdgeInsets.all(10.0),
+    //           width: 700.0,
+    //           //height: 500.0,
+    //           decoration: BoxDecoration(
+    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //             borderRadius: BorderRadius.circular(25.0),
+    //             border: Border.all(
+    //                 color:
+    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //                 width: 5.0),
+    //           ),
+    //           child: SingleChildScrollView(
+    //             padding: const EdgeInsets.symmetric(horizontal: 10),
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               children: [
+    //                 Text(
+    //                   "Add Note",
+    //                   textAlign: TextAlign.center,
+    //                   style: TextStyle(
+    //                     color: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     fontSize: 35.0,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 25.0),
+    //                 SizedBox(
+    //                   width: 700,
+    //                   child: MIHTextField(
+    //                     controller: officeController,
+    //                     hintText: "Office",
+    //                     editable: false,
+    //                     required: true,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 SizedBox(
+    //                   width: 700,
+    //                   child: MIHTextField(
+    //                     controller: doctorController,
+    //                     hintText: "Created By",
+    //                     editable: false,
+    //                     required: true,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 SizedBox(
+    //                   width: 700,
+    //                   child: MIHTextField(
+    //                     controller: dateController,
+    //                     hintText: "Created Date",
+    //                     editable: false,
+    //                     required: true,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 SizedBox(
+    //                   width: 700,
+    //                   child: MIHTextField(
+    //                     controller: titleController,
+    //                     hintText: "Note Title",
+    //                     editable: true,
+    //                     required: true,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 SizedBox(
+    //                   width: 700,
+    //                   height: 250,
+    //                   child: MIHMLTextField(
+    //                     controller: noteTextController,
+    //                     hintText: "Note Details",
+    //                     editable: true,
+    //                     required: true,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 30.0),
+    //                 SizedBox(
+    //                   width: 300,
+    //                   height: 50,
+    //                   child: MIHButton(
+    //                     onTap: () {
+    //                       if (isFieldsFilled()) {
+    //                         addPatientNoteAPICall();
+    //                         Navigator.pop(context);
+    //                       } else {
+    //                         showDialog(
+    //                           context: context,
+    //                           builder: (context) {
+    //                             return const MIHErrorMessage(
+    //                                 errorType: "Input Error");
+    //                           },
+    //                         );
+    //                       }
+    //                     },
+    //                     buttonText: "Add Note",
+    //                     buttonColor: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     textColor: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .primaryColor(),
+    //                   ),
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 5,
+    //           right: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //               titleController.clear();
+    //               noteTextController.clear();
+    //             },
+    //             icon: Icon(
+    //               Icons.close,
+    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //               size: 35,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   bool isFieldsFilled() {
