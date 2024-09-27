@@ -366,9 +366,15 @@ class _HomeTileGridState extends State<HomeTileGrid> {
               // return const MIHErrorMessage(errorType: "Password Match");
               // return const MIHErrorMessage(errorType: "Invalid Credentials");
               return MIHWindow(
-                windowTitle: "Test Window",
-                windowItems: const [SizedBox()],
-                actionItems: [
+                fullscreen: false,
+                windowTitle:
+                    "Test Window title that is too large for mobile devices",
+                windowBody: const [
+                  SizedBox(
+                    height: 250,
+                  )
+                ],
+                windowTools: [
                   IconButton(
                     onPressed: () {
                       //deleteFilePopUp(filePath, fileID);
@@ -394,7 +400,7 @@ class _HomeTileGridState extends State<HomeTileGrid> {
                     ),
                   ),
                 ],
-                onTapClose: () {
+                onWindowTapClose: () {
                   Navigator.pop(context);
                 },
               );
