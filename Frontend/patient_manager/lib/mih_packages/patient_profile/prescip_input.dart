@@ -344,7 +344,7 @@ class _PrescripInputState extends State<PrescripInput> {
   Widget displayMedInput() {
     return Column(
       children: [
-        const SizedBox(height: 25.0),
+        //const SizedBox(height: 25.0),
 
         KeyboardListener(
           focusNode: _focusNode,
@@ -355,17 +355,14 @@ class _PrescripInputState extends State<PrescripInput> {
               getMedsPopUp(widget.medicineController);
             }
           },
-          child: SizedBox(
-            width: 300,
-            child: MIHSearchField(
-              controller: widget.medicineController,
-              hintText: "Medicine",
-              required: true,
-              editable: true,
-              onTap: () {
-                getMedsPopUp(widget.medicineController);
-              },
-            ),
+          child: MIHSearchField(
+            controller: widget.medicineController,
+            hintText: "Medicine",
+            required: true,
+            editable: true,
+            onTap: () {
+              getMedsPopUp(widget.medicineController);
+            },
           ),
         ),
         const SizedBox(height: 10.0),
@@ -380,50 +377,38 @@ class _PrescripInputState extends State<PrescripInput> {
         //   ),
         // ),
         // const SizedBox(height: 10.0),
-        SizedBox(
-          width: 300,
-          child: MIHDropdownField(
-            controller: widget.dosageController,
-            hintText: "Dosage",
-            dropdownOptions: numberOptions,
-            required: true,
-            editable: true,
-          ),
+        MIHDropdownField(
+          controller: widget.dosageController,
+          hintText: "Dosage",
+          dropdownOptions: numberOptions,
+          required: true,
+          editable: true,
         ),
         const SizedBox(height: 10.0),
-        SizedBox(
-          width: 300,
-          child: MIHDropdownField(
-            controller: widget.timesDailyController,
-            hintText: "Times Daily",
-            dropdownOptions: numberOptions,
-            required: true,
-            editable: true,
-          ),
+        MIHDropdownField(
+          controller: widget.timesDailyController,
+          hintText: "Times Daily",
+          dropdownOptions: numberOptions,
+          required: true,
+          editable: true,
         ),
         const SizedBox(height: 10.0),
-        SizedBox(
-          width: 300,
-          child: MIHDropdownField(
-            controller: widget.noDaysController,
-            hintText: "No. Days",
-            dropdownOptions: numberOptions,
-            required: true,
-            editable: true,
-          ),
+        MIHDropdownField(
+          controller: widget.noDaysController,
+          hintText: "No. Days",
+          dropdownOptions: numberOptions,
+          required: true,
+          editable: true,
         ),
         const SizedBox(height: 10.0),
-        SizedBox(
-          width: 300,
-          child: MIHDropdownField(
-            controller: widget.noRepeatsController,
-            hintText: "No. Repeats",
-            dropdownOptions: numberOptions,
-            required: true,
-            editable: true,
-          ),
+        MIHDropdownField(
+          controller: widget.noRepeatsController,
+          hintText: "No. Repeats",
+          dropdownOptions: numberOptions,
+          required: true,
+          editable: true,
         ),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 15.0),
         SizedBox(
           width: 300,
           height: 50,
@@ -470,7 +455,7 @@ class _PrescripInputState extends State<PrescripInput> {
       children: [
         Container(
           width: 550,
-          height: 350,
+          height: 325,
           decoration: BoxDecoration(
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
@@ -520,7 +505,7 @@ class _PrescripInputState extends State<PrescripInput> {
             },
           ),
         ),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 15.0),
         SizedBox(
           width: 300,
           height: 50,
@@ -567,24 +552,18 @@ class _PrescripInputState extends State<PrescripInput> {
       width = size.width;
       height = size.height;
     });
-    return Container(
-      //width: ,
-      height: (height / 3) * 1.5,
-      child: SingleChildScrollView(
-        child: Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.center,
-          spacing: 10,
-          runSpacing: 10,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // mainAxisSize: MainAxisSize.max,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            displayMedInput(),
-            displayPerscList(),
-          ],
-        ),
-      ),
+    return Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      spacing: 10,
+      runSpacing: 10,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisSize: MainAxisSize.max,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(width: 500, child: displayMedInput()),
+        displayPerscList(),
+      ],
     );
   }
 }

@@ -344,81 +344,34 @@ class _PatientFilesState extends State<PatientFiles> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: 900.0,
-              //height: 475.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 5.0),
-              ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Create Perscription",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    //const SizedBox(height: 25.0),
-                    PrescripInput(
-                      medicineController: medicineController,
-                      quantityController: quantityController,
-                      dosageController: dosageController,
-                      timesDailyController: timesDailyController,
-                      noDaysController: noDaysController,
-                      noRepeatsController: noRepeatsController,
-                      outputController: outputController,
-                      selectedPatient: widget.selectedPatient,
-                      signedInUser: widget.signedInUser,
-                      business: widget.business,
-                      businessUser: widget.businessUser,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  medicineController.clear();
-                  quantityController.clear();
-                  dosageController.clear();
-                  timesDailyController.clear();
-                  noDaysController.clear();
-                  noRepeatsController.clear();
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  size: 35,
-                ),
-              ),
-            ),
-          ],
-        ),
+      builder: (context) => MIHWindow(
+        fullscreen: false,
+        windowTitle: "Create Prescription",
+        windowTools: const [],
+        onWindowTapClose: () {
+          medicineController.clear();
+          quantityController.clear();
+          dosageController.clear();
+          timesDailyController.clear();
+          noDaysController.clear();
+          noRepeatsController.clear();
+          Navigator.pop(context);
+        },
+        windowBody: [
+          PrescripInput(
+            medicineController: medicineController,
+            quantityController: quantityController,
+            dosageController: dosageController,
+            timesDailyController: timesDailyController,
+            noDaysController: noDaysController,
+            noRepeatsController: noRepeatsController,
+            outputController: outputController,
+            selectedPatient: widget.selectedPatient,
+            signedInUser: widget.signedInUser,
+            business: widget.business,
+            businessUser: widget.businessUser,
+          ),
+        ],
       ),
     );
   }
