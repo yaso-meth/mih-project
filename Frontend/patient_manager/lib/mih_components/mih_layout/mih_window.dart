@@ -115,19 +115,25 @@ class _MIHWindowState extends State<MIHWindow> {
   Widget getWidnowBody() {
     if (widget.fullscreen) {
       return Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: widget.windowBody,
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: widget.windowBody,
         ),
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: widget.windowBody,
       );
     }
   }
@@ -155,7 +161,11 @@ class _MIHWindowState extends State<MIHWindow> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [header, body],
+          children: [
+            header,
+            //const Divider(),
+            body,
+          ],
         ),
       ),
     );

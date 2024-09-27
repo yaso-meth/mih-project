@@ -49,17 +49,14 @@ class _BuildFileViewState extends State<BuildFileView> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SfPdfViewerTheme(
-                data: SfPdfViewerThemeData(
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                child: SfPdfViewer.network(
-                  widget.link,
-                  controller: pdfViewerController,
-                ),
+            SfPdfViewerTheme(
+              data: SfPdfViewerThemeData(
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+              child: SfPdfViewer.network(
+                widget.link,
+                controller: pdfViewerController,
               ),
             ),
             Positioned(
@@ -113,15 +110,12 @@ class _BuildFileViewState extends State<BuildFileView> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InteractiveViewer(
-                //constrained: true,
-                //clipBehavior: Clip.antiAlias,
-                maxScale: 5.0,
-                //minScale: 0.,
-                child: Image.network(widget.link),
-              ),
+            InteractiveViewer(
+              //constrained: true,
+              //clipBehavior: Clip.antiAlias,
+              maxScale: 5.0,
+              //minScale: 0.,
+              child: Image.network(widget.link),
             ),
             Positioned(
               bottom: 10,
