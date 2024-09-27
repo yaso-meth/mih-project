@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -129,126 +130,200 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: 700.0,
-              //height: 475.0,
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 5.0),
-              ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Patient Appointment",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 25.0),
-                    MIHTextField(
-                      controller: idController,
-                      hintText: "ID No.",
-                      editable: false,
-                      required: true,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: fnameController,
-                      hintText: "First Name",
-                      editable: false,
-                      required: true,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: lnameController,
-                      hintText: "Surname",
-                      editable: false,
-                      required: true,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHDateField(
-                      controller: dateController,
-                      lableText: "Date",
-                      required: true,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTimeField(
-                      controller: timeController,
-                      lableText: "Time",
-                      required: true,
-                    ),
-                    const SizedBox(height: 30.0),
-                    SizedBox(
-                      width: 300,
-                      height: 50,
-                      child: MIHButton(
-                        buttonText: "Book",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        onTap: () {
-                          //print("here1");
-                          bool filled = isAppointmentFieldsFilled();
-                          //print("fields filled: $filled");
-                          if (filled) {
-                            //print("here2");
-                            submitApointment(index);
-                            //print("here3");
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MIHErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
+      builder: (context) => MIHWindow(
+        fullscreen: false,
+        windowTitle: "Patient Appointment",
+        windowTools: const [],
+        onWindowTapClose: () {
+          Navigator.pop(context);
+        },
+        windowBody: [
+          MIHTextField(
+            controller: idController,
+            hintText: "ID No.",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: fnameController,
+            hintText: "First Name",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: lnameController,
+            hintText: "Surname",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHDateField(
+            controller: dateController,
+            lableText: "Date",
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTimeField(
+            controller: timeController,
+            lableText: "Time",
+            required: true,
+          ),
+          const SizedBox(height: 30.0),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: MIHButton(
+              buttonText: "Book",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onTap: () {
+                //print("here1");
+                bool filled = isAppointmentFieldsFilled();
+                //print("fields filled: $filled");
+                if (filled) {
+                  //print("here2");
+                  submitApointment(index);
+                  //print("here3");
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
             ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  size: 35,
-                ),
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => Dialog(
+    //     child: Stack(
+    //       children: [
+    //         Container(
+    //           padding: const EdgeInsets.all(10.0),
+    //           width: 700.0,
+    //           //height: 475.0,
+    //           decoration: BoxDecoration(
+    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //             borderRadius: BorderRadius.circular(25.0),
+    //             border: Border.all(
+    //                 color:
+    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //                 width: 5.0),
+    //           ),
+    //           child: SingleChildScrollView(
+    //             padding: const EdgeInsets.symmetric(horizontal: 10),
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               children: [
+    //                 Text(
+    //                   "Patient Appointment",
+    //                   textAlign: TextAlign.center,
+    //                   style: TextStyle(
+    //                     color: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     fontSize: 35.0,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 25.0),
+    //                 MIHTextField(
+    //                   controller: idController,
+    //                   hintText: "ID No.",
+    //                   editable: false,
+    //                   required: true,
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 MIHTextField(
+    //                   controller: fnameController,
+    //                   hintText: "First Name",
+    //                   editable: false,
+    //                   required: true,
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 MIHTextField(
+    //                   controller: lnameController,
+    //                   hintText: "Surname",
+    //                   editable: false,
+    //                   required: true,
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 MIHDateField(
+    //                   controller: dateController,
+    //                   lableText: "Date",
+    //                   required: true,
+    //                 ),
+    //                 const SizedBox(height: 10.0),
+    //                 MIHTimeField(
+    //                   controller: timeController,
+    //                   lableText: "Time",
+    //                   required: true,
+    //                 ),
+    //                 const SizedBox(height: 30.0),
+    //                 SizedBox(
+    //                   width: 300,
+    //                   height: 50,
+    //                   child: MIHButton(
+    //                     buttonText: "Book",
+    //                     buttonColor: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .secondaryColor(),
+    //                     textColor: MzanziInnovationHub.of(context)!
+    //                         .theme
+    //                         .primaryColor(),
+    //                     onTap: () {
+    //                       //print("here1");
+    //                       bool filled = isAppointmentFieldsFilled();
+    //                       //print("fields filled: $filled");
+    //                       if (filled) {
+    //                         //print("here2");
+    //                         submitApointment(index);
+    //                         //print("here3");
+    //                       } else {
+    //                         showDialog(
+    //                           context: context,
+    //                           builder: (context) {
+    //                             return const MIHErrorMessage(
+    //                                 errorType: "Input Error");
+    //                           },
+    //                         );
+    //                       }
+    //                     },
+    //                   ),
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 5,
+    //           right: 5,
+    //           width: 50,
+    //           height: 50,
+    //           child: IconButton(
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             },
+    //             icon: Icon(
+    //               Icons.close,
+    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //               size: 35,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Widget isMainMember(int index) {
