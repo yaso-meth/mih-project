@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
@@ -225,6 +229,173 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Image.asset('images/logo_light.png'),
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          //arguments: widget.signedInUser,
+        );
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return const MIHHeader(
+      headerAlignment: MainAxisAlignment.center,
+      headerItems: [
+        Text(
+          "",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: false,
+      bodyItems: [
+        KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              validateInput();
+            }
+          },
+          child: SafeArea(
+              child: Center(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //logo
+                    Icon(
+                      Icons.lock,
+                      size: 100,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                    //spacer
+                    const SizedBox(height: 10),
+                    //Heading
+                    Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    //spacer
+                    const SizedBox(height: 25),
+                    //email input
+                    SizedBox(
+                      width: 500.0,
+                      child: MIHTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        editable: true,
+                        required: true,
+                      ),
+                    ),
+                    //spacer
+                    const SizedBox(height: 10),
+                    //password input
+                    SizedBox(
+                      width: 500.0,
+                      child: MIHPassField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        required: true,
+                        signIn: false,
+                      ),
+                    ),
+                    //spacer
+                    const SizedBox(height: 10),
+                    //password input
+                    SizedBox(
+                      width: 500.0,
+                      child: MIHPassField(
+                        controller: confirmPasswordController,
+                        hintText: 'Confirm Password',
+                        required: true,
+                        signIn: false,
+                      ),
+                    ),
+                    //spacer
+                    const SizedBox(height: 30),
+                    // sign up button
+                    SizedBox(
+                      width: 500.0,
+                      height: 50.0,
+                      child: MIHButton(
+                        buttonText: "Sign Up",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () async {
+                          validateInput();
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    //register text
+                    SizedBox(
+                      width: 500.0,
+                      //height: 100.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text(
+                            'Already a User?',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
     emailController.dispose();
@@ -236,161 +407,10 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      autofocus: true,
-      onKeyEvent: (event) async {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.enter) {
-          validateInput();
-        }
-      },
-      child: Scaffold(
-        //backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Center(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //logo
-                        Icon(
-                          Icons.lock,
-                          size: 100,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //Heading
-                        Text(
-                          'Register',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 25),
-                        //email input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHTextField(
-                            controller: emailController,
-                            hintText: 'Email',
-                            editable: true,
-                            required: true,
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //password input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHPassField(
-                            controller: passwordController,
-                            hintText: 'Password',
-                            required: true,
-                            signIn: false,
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //password input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHPassField(
-                            controller: confirmPasswordController,
-                            hintText: 'Confirm Password',
-                            required: true,
-                            signIn: false,
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 30),
-                        // sign up button
-                        SizedBox(
-                          width: 500.0,
-                          height: 50.0,
-                          child: MIHButton(
-                            buttonText: "Sign Up",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            onTap: () async {
-                              validateInput();
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        //register text
-                        SizedBox(
-                          width: 500.0,
-                          //height: 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text(
-                                'Already a User?',
-                                style:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              GestureDetector(
-                                onTap: widget.onTap,
-                                child: Text(
-                                  'Sign In',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .secondaryColor(),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 5,
-                left: 5,
-                width: 75,
-                height: 75,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      '/about',
-                      //arguments: widget.signedInUser,
-                    );
-                  },
-                  child:
-                      const Image(image: AssetImage('images/logo_light.png')),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
   }
 }

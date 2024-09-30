@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -252,6 +256,144 @@ class _ResetPasswordState extends State<ResetPassword> {
     }
   }
 
+  MIHAction getActionButton() {
+    return MIHAction(
+      icon: Image.asset('images/logo_light.png'),
+      iconSize: 35,
+      onTap: () {
+        // Navigator.of(context).pushNamed(
+        //   '/about',
+        //   //arguments: widget.signedInUser,
+        // );
+      },
+    );
+  }
+
+  MIHHeader getHeader() {
+    return const MIHHeader(
+      headerAlignment: MainAxisAlignment.center,
+      headerItems: [
+        Text(
+          "",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody() {
+    return MIHBody(
+      borderOn: false,
+      bodyItems: [
+        KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              validateInput();
+            }
+          },
+          child: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //logo
+                      Icon(
+                        Icons.lock,
+                        size: 100,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                      //spacer
+                      const SizedBox(height: 10),
+                      //Heading
+                      Text(
+                        'Reset Password',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                      //spacer
+                      // const SizedBox(height: 15),
+                      // Text(
+                      //   'token: ${widget.token}',
+                      //   style: TextStyle(
+                      //     fontSize: 15,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: MzanziInnovationHub.of(context)!
+                      //         .theme
+                      //         .secondaryColor(),
+                      //   ),
+                      // ),
+                      //spacer
+                      const SizedBox(height: 25),
+                      //email input
+                      SizedBox(
+                        width: 500.0,
+                        child: MIHPassField(
+                          controller: passwordController,
+                          hintText: 'New Password',
+                          required: true,
+                          signIn: false,
+                        ),
+                      ),
+                      //spacer
+                      const SizedBox(height: 10),
+                      //password input
+                      SizedBox(
+                        width: 500.0,
+                        child: MIHPassField(
+                          controller: confirmPasswordController,
+                          hintText: 'Confirm New Password',
+                          required: true,
+                          signIn: false,
+                        ),
+                      ),
+
+                      //spacer
+                      const SizedBox(height: 30),
+                      // sign in button
+                      SizedBox(
+                        width: 500.0,
+                        height: 50.0,
+                        child: MIHButton(
+                          buttonText: "Reset Password",
+                          buttonColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          textColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          onTap: () {
+                            validateInput();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
     passwordController.dispose();
@@ -267,127 +409,10 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      autofocus: true,
-      onKeyEvent: (event) async {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.enter) {
-          validateInput();
-        }
-      },
-      child: Scaffold(
-        //backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //logo
-                        Icon(
-                          Icons.lock,
-                          size: 100,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //Heading
-                        Text(
-                          'Reset Password',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                          ),
-                        ),
-                        //spacer
-                        // const SizedBox(height: 15),
-                        // Text(
-                        //   'token: ${widget.token}',
-                        //   style: TextStyle(
-                        //     fontSize: 15,
-                        //     fontWeight: FontWeight.bold,
-                        //     color: MzanziInnovationHub.of(context)!
-                        //         .theme
-                        //         .secondaryColor(),
-                        //   ),
-                        // ),
-                        //spacer
-                        const SizedBox(height: 25),
-                        //email input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHPassField(
-                            controller: passwordController,
-                            hintText: 'New Password',
-                            required: true,
-                            signIn: false,
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //password input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHPassField(
-                            controller: confirmPasswordController,
-                            hintText: 'Confirm New Password',
-                            required: true,
-                            signIn: false,
-                          ),
-                        ),
-
-                        //spacer
-                        const SizedBox(height: 30),
-                        // sign in button
-                        SizedBox(
-                          width: 500.0,
-                          height: 50.0,
-                          child: MIHButton(
-                            buttonText: "Reset Password",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            onTap: () {
-                              validateInput();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 10,
-              left: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  //Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacementNamed('/');
-                },
-                icon: const Icon(Icons.login),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      body: getBody(),
     );
   }
 }
