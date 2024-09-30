@@ -30,8 +30,8 @@ class _MIHWindowState extends State<MIHWindow> {
   late double height;
 
   void checkScreenSize() {
-    print("screen width: $width");
-    print("screen height: $height");
+    // print("screen width: $width");
+    // print("screen height: $height");
     if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         windowTitleSize = 25;
