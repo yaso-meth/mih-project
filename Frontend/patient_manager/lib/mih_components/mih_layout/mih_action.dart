@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MIHAction extends StatefulWidget {
   final void Function()? onTap;
   final double iconSize;
-  final IconData icon;
+  final Widget icon;
   const MIHAction({
     super.key,
     required this.icon,
@@ -35,12 +35,10 @@ class _MIHActionState extends State<MIHAction> {
       height: 50,
       child: Builder(
         builder: (context) => IconButton(
+          iconSize: widget.iconSize,
           padding: const EdgeInsets.all(0),
           onPressed: widget.onTap,
-          icon: Icon(
-            widget.icon,
-            size: widget.iconSize,
-          ),
+          icon: widget.icon,
         ),
       ),
     );

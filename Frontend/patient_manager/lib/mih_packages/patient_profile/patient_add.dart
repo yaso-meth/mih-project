@@ -318,7 +318,7 @@ class _AddPatientState extends State<AddPatient> {
 
   MIHAction getActionButton() {
     return MIHAction(
-      icon: Icons.arrow_back,
+      icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();

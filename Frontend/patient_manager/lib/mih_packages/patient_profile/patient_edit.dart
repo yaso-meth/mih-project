@@ -556,7 +556,7 @@ class _EditPatientState extends State<EditPatient> {
 
   MIHAction getActionButton() {
     return MIHAction(
-      icon: Icons.arrow_back,
+      icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
