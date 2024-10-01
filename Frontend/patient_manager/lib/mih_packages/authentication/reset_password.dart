@@ -413,6 +413,8 @@ class _ResetPasswordState extends State<ResetPassword> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

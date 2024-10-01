@@ -350,6 +350,8 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

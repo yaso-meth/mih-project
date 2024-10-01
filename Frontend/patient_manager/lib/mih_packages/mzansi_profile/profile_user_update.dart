@@ -439,6 +439,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

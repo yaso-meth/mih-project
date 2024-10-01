@@ -578,6 +578,8 @@ class _SignInState extends State<SignIn> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

@@ -355,6 +355,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

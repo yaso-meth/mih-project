@@ -33,13 +33,11 @@ class _MIHActionState extends State<MIHAction> {
       left: 5,
       width: 50,
       height: 50,
-      child: Builder(
-        builder: (context) => IconButton(
-          iconSize: widget.iconSize,
-          padding: const EdgeInsets.all(0),
-          onPressed: widget.onTap,
-          icon: widget.icon,
-        ),
+      child: IconButton(
+        iconSize: widget.iconSize,
+        padding: const EdgeInsets.all(0),
+        onPressed: widget.onTap,
+        icon: widget.icon,
       ),
     );
   }

@@ -411,6 +411,8 @@ class _RegisterState extends State<Register> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

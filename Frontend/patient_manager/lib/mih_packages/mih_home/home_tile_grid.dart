@@ -416,6 +416,22 @@ class _HomeTileGridState extends State<HomeTileGrid> {
         p: getPrim(),
         s: getSec(),
       ));
+      tileList.add(MIHTile(
+        onTap: () {
+          Navigator.of(context).popAndPushNamed(
+            '/homev2',
+            arguments: widget.signedInUser,
+          );
+        },
+        tileName: "HomeV2 - Dev",
+        tileIcon: Icon(
+          Icons.home,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
     }
   }
 

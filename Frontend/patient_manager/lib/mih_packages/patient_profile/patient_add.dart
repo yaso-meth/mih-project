@@ -396,6 +396,8 @@ class _AddPatientState extends State<AddPatient> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

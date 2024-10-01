@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_packages/authentication/auth_check.dart';
+import 'package:patient_manager/mih_packages/mih_home/MIH_Profile_Getter.dart';
 import 'package:patient_manager/mih_packages/patient_profile/add_or_view_patient.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_edit.dart';
@@ -44,7 +45,10 @@ class RouteGenerator {
                 settings: settings, builder: (_) => const ForgotPassword());
           //http://mzansi-innovation-hub.co.za/auth/reset-password
           //===============================================================
-
+          //Home v2
+          case '/homev2':
+            return MaterialPageRoute(
+                settings: settings, builder: (_) => const MIHProfileGetter());
           //About MIH
           case '/about':
             return MaterialPageRoute(

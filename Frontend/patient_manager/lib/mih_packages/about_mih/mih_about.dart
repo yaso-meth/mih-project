@@ -326,6 +326,8 @@ class _MIHAboutState extends State<MIHAbout> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
   }
 }

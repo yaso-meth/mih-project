@@ -437,6 +437,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
 
     // return Scaffold(

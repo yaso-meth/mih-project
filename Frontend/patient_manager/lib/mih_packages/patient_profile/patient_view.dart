@@ -180,6 +180,8 @@ class _PatientViewState extends State<PatientView> {
       actionButton: getActionButton(),
       header: getHeader(),
       body: getBody(),
+      rightDrawer: null,
+      bottomNavBar: null,
     );
     // return Scaffold(
     //   body: SafeArea(
