@@ -27,7 +27,7 @@ class _MIHHeaderState extends State<MIHHeader> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 50,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: widget.headerAlignment,

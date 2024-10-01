@@ -262,7 +262,13 @@ class _SignInState extends State<SignIn> {
 
   MIHAction getActionButton() {
     return MIHAction(
-      icon: Image.asset('images/logo_light.png'),
+      icon: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          height: 50,
+          child: Image.asset('images/logo_light.png'),
+        ),
+      ),
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pushNamed(

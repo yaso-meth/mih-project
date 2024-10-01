@@ -41,6 +41,24 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
   //   _scaffoldKey.currentState!.openEndDrawer();
   // }
 
+  Widget getLayoutHeader() {
+    List<Widget> temp = [];
+    temp.add(widget.actionButton);
+    temp.add(Flexible(child: widget.header));
+    if (widget.secondaryActionButton != null) {
+      temp.add(widget.secondaryActionButton!);
+    } else {
+      temp.add(const SizedBox(
+        width: 50,
+      ));
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: temp,
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -62,17 +80,11 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
         child: SizedBox(
           width: screenSize.width,
           height: screenSize.height,
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Builder(builder: (context) {
-                return widget.actionButton;
-              }),
-              Column(
-                children: [
-                  widget.header,
-                  Expanded(child: widget.body),
-                ],
-              ),
+              getLayoutHeader(),
+              Expanded(child: widget.body),
             ],
           ),
         ),

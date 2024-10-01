@@ -28,17 +28,11 @@ class _MIHActionState extends State<MIHAction> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 5,
-      left: 5,
-      width: 50,
-      height: 50,
-      child: IconButton(
-        iconSize: widget.iconSize,
-        padding: const EdgeInsets.all(0),
-        onPressed: widget.onTap,
-        icon: widget.icon,
-      ),
+    return IconButton(
+      iconSize: widget.iconSize,
+      padding: const EdgeInsets.all(0),
+      onPressed: widget.onTap,
+      icon: widget.icon,
     );
   }
 }
