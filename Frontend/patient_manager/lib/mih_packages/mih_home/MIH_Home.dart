@@ -631,7 +631,8 @@ class _MIHHomeState extends State<MIHHome> {
     return Visibility(
       visible: isBusinessUser(widget.signedInUser),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(
+            left: 10.0, right: 10.0, bottom: 10.0, top: 0),
         child: GNav(
           //hoverColor: Colors.lightBlueAccent,
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
