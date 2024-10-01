@@ -1,0 +1,693 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_tile.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:patient_manager/mih_env/env.dart';
+import 'package:patient_manager/main.dart';
+import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/arguments.dart';
+import 'package:patient_manager/mih_objects/business.dart';
+import 'package:patient_manager/mih_objects/business_user.dart';
+
+class MIHHome extends StatefulWidget {
+  final AppUser signedInUser;
+  final BusinessUser? businessUser;
+  final Business? business;
+  final ImageProvider<Object>? propicFile;
+  const MIHHome({
+    super.key,
+    required this.signedInUser,
+    required this.businessUser,
+    required this.business,
+    required this.propicFile,
+  });
+
+  @override
+  State<MIHHome> createState() => _MIHHomeState();
+}
+
+class _MIHHomeState extends State<MIHHome> {
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  late List<MIHTile> persHTList = [];
+  late List<MIHTile> busHTList = [];
+  late List<List<MIHTile>> pbswitch;
+  late bool businessUserSwitch;
+  int _selectedIndex = 0;
+  String appSearch = "";
+  final baseAPI = AppEnviroment.baseApiUrl;
+
+  void setAppsNewPersonal(List<MIHTile> tileList) {
+    if (widget.signedInUser.fname == "") {
+      tileList.add(MIHTile(
+        onTap: () {
+          Navigator.of(context).pushNamed('/user-profile',
+              arguments: AppProfileUpdateArguments(
+                  widget.signedInUser, widget.propicFile));
+        },
+        tileName: "Setup Profie",
+        tileIcon: Icon(
+          Icons.perm_identity,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    }
+  }
+
+  void setAppsNewBusiness(List<MIHTile> tileList) {
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).popAndPushNamed(
+          '/business-profile/set-up',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Setup Business",
+      tileIcon: Icon(
+        Icons.add_business_outlined,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+  }
+
+  void setAppsPersonal(List<MIHTile> tileList) {
+    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/user-profile',
+          arguments:
+              AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
+        );
+      },
+      tileName: "Mzansi Profile",
+      tileIcon: Image(image: logo),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed('/patient-profile',
+            arguments: PatientViewArguments(
+                widget.signedInUser, null, null, null, "personal"));
+      },
+      tileName: "Patient Profile",
+      tileIcon: Icon(
+        Icons.medication,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/access-review',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Access Review",
+      tileIcon: Icon(
+        Icons.check_box_outlined,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "About MIH",
+      tileIcon: Icon(
+        Icons.info_outline,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+  }
+
+  void setAppsBusiness(List<MIHTile> tileList) {
+    // tileList.add(MIHTile(
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed(
+    //       '/business-profile',
+    //       arguments: BusinessArguments(
+    //         widget.signedInUser,
+    //         widget.businessUser,
+    //         widget.business,
+    //       ),
+    //     );
+    //   },
+    //   tileName: "Manage Business",
+    //   tileIcon: Icon(
+    //     Icons.business,
+    //     color: getSec(),
+    //     size: 200,
+    //   ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
+    //if (widget.businessUser!.access == "Full") {
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/business-profile/manage',
+          arguments: BusinessArguments(
+            widget.signedInUser,
+            widget.businessUser,
+            widget.business,
+          ),
+        );
+      },
+      tileName: "Business Profile",
+      tileIcon: Icon(
+        Icons.business,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    //}
+    if (widget.business!.type == "Doctors Office") {
+      tileList.add(MIHTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/patient-manager',
+            arguments: BusinessArguments(
+              widget.signedInUser,
+              widget.businessUser,
+              widget.business,
+            ),
+          );
+        },
+        tileName: "Manage Patient",
+        tileIcon: Icon(
+          Icons.medication,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    }
+  }
+
+  void setAppsDev(List<MIHTile> tileList) {
+    if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Mihloadingcircle();
+            },
+          );
+        },
+        tileName: "Loading - Dev",
+        tileIcon: Icon(
+          Icons.change_circle,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/business-profile/set-up',
+            arguments: widget.signedInUser,
+          );
+        },
+        tileName: "Setup Bus - Dev",
+        tileIcon: Icon(
+          Icons.add_business_outlined,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          Navigator.of(context).pushNamed('/patient-profile/set-up',
+              arguments: widget.signedInUser);
+        },
+        tileName: "Add Pat - Dev",
+        tileIcon: Icon(
+          Icons.add_circle_outline,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              // return const MIHWarningMessage(warningType: "No Access");
+              return const MIHWarningMessage(warningType: "Expired Access");
+            },
+          );
+        },
+        tileName: "Warn - Dev",
+        tileIcon: Icon(
+          Icons.warning_amber_rounded,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              // return const MIHErrorMessage(errorType: "Input Error");
+              // return const MIHErrorMessage(errorType: "Password Requirements");
+              // return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Invalid Email");
+              // return const MIHErrorMessage(errorType: "User Exists");
+              // return const MIHErrorMessage(errorType: "Password Match");
+              // return const MIHErrorMessage(errorType: "Invalid Credentials");
+              return const MIHErrorMessage(errorType: "Internet Connection");
+            },
+          );
+        },
+        tileName: "Error - Dev",
+        tileIcon: Icon(
+          Icons.error_outline_outlined,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const MIHSuccessMessage(
+                  successType: "Success",
+                  successMessage:
+                      "Congratulations! Your account has been created successfully. You are log in and can start exploring.\n\nPlease note: more apps will appear once you update your profile.");
+            },
+          );
+        },
+        tileName: "Success - Dev",
+        tileIcon: Icon(
+          Icons.check_circle_outline_outlined,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              // return MIHDeleteMessage(deleteType: "Note", onTap: () {});
+              return MIHDeleteMessage(deleteType: "File", onTap: () {});
+            },
+          );
+        },
+        tileName: "Delete - Dev",
+        tileIcon: Icon(
+          Icons.delete_forever_outlined,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              // return const MIHErrorMessage(errorType: "Input Error");
+              // return const MIHErrorMessage(errorType: "Password Requirements");
+              // return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Invalid Email");
+              // return const MIHErrorMessage(errorType: "User Exists");
+              // return const MIHErrorMessage(errorType: "Password Match");
+              // return const MIHErrorMessage(errorType: "Invalid Credentials");
+              return MIHWindow(
+                fullscreen: false,
+                windowTitle:
+                    "Test Window title that is too large for mobile devices",
+                windowBody: const [
+                  SizedBox(
+                    height: 250,
+                  )
+                ],
+                windowTools: [
+                  IconButton(
+                    onPressed: () {
+                      //deleteFilePopUp(filePath, fileID);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      size: 35,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //deleteFilePopUp(filePath, fileID);
+                    },
+                    icon: Icon(
+                      Icons.wallet,
+                      size: 35,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ],
+                onWindowTapClose: () {
+                  Navigator.pop(context);
+                },
+              );
+            },
+          );
+        },
+        tileName: "Window - Dev",
+        tileIcon: Icon(
+          Icons.window,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    }
+  }
+
+  List<MIHTile> searchApp(List<MIHTile> appList, String searchString) {
+    if (searchString == "") {
+      return appList;
+    } else {
+      List<MIHTile> temp = [];
+      for (var item in appList) {
+        if (item.tileName.toLowerCase().contains(appSearch.toLowerCase())) {
+          temp.add(item);
+        }
+      }
+      return temp;
+    }
+  }
+
+  List<List<MIHTile>> setApps(
+      List<MIHTile> personalTileList, List<MIHTile> businessTileList) {
+    if (widget.signedInUser.fname == "") {
+      setAppsNewPersonal(personalTileList);
+    } else if (widget.signedInUser.type == "personal") {
+      setAppsPersonal(personalTileList);
+    } else if (widget.businessUser == null) {
+      setAppsPersonal(personalTileList);
+      setAppsNewBusiness(businessTileList);
+    } else {
+      setAppsPersonal(personalTileList);
+      setAppsBusiness(businessTileList);
+    }
+    if (AppEnviroment.getEnv() == "Dev") {
+      setAppsDev(personalTileList);
+      setAppsDev(businessTileList);
+    }
+    return [personalTileList, businessTileList];
+  }
+
+  Color getPrim() {
+    return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+  }
+
+  Color getSec() {
+    return MzanziInnovationHub.of(context)!.theme.primaryColor();
+  }
+
+  bool isBusinessUser(AppUser signedInUser) {
+    if (signedInUser.type == "personal") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  String getHeading(int index) {
+    if (index == 0) {
+      return "Personal Apps";
+    } else {
+      return "Business Apps";
+    }
+  }
+
+  void onDragStart(DragStartDetails startDrag) {
+    Scaffold.of(context).openDrawer();
+    print(startDrag.globalPosition.dx);
+  }
+
+  Widget getActionButton() {
+    return Builder(builder: (context) {
+      return MIHAction(
+        icon: const Icon(Icons.apps),
+        iconSize: 35,
+        onTap: () {
+          setState(() {
+            appSearch = "";
+            searchController.clear();
+          });
+          //key.currentState.o
+          Scaffold.of(context).openDrawer();
+        },
+      );
+    });
+  }
+
+  Widget getSecondaryActionButton() {
+    return Builder(builder: (context) {
+      return MIHAction(
+        icon: const Icon(Icons.notifications),
+        iconSize: 35,
+        onTap: () {
+          setState(() {
+            appSearch = "";
+            searchController.clear();
+          });
+          //key.currentState.o
+          //Scaffold.of(context).openEndDrawer();
+        },
+      );
+    });
+  }
+
+  MIHHeader getHeader() {
+    return const MIHHeader(
+      headerAlignment: MainAxisAlignment.center,
+      headerItems: [
+        Text(
+          "Mzanzi Innovation Hub",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ],
+    );
+  }
+
+  MIHBody getBody(double width, double height) {
+    return MIHBody(
+      borderOn: false,
+      bodyItems: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Flexible(
+              flex: 4,
+              child: KeyboardListener(
+                focusNode: _focusNode,
+                autofocus: true,
+                onKeyEvent: (event) async {
+                  if (event is KeyDownEvent &&
+                      event.logicalKey == LogicalKeyboardKey.enter) {
+                    setState(() {
+                      appSearch = searchController.text;
+                    });
+                  }
+                },
+                child: SizedBox(
+                  child: MIHSearchField(
+                    controller: searchController,
+                    hintText: "Search Mzansi Apps",
+                    required: false,
+                    editable: true,
+                    onTap: () {
+                      setState(() {
+                        appSearch = searchController.text;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: IconButton(
+                //padding: const EdgeInsets.all(0),
+                onPressed: () {
+                  setState(() {
+                    appSearch = "";
+                    searchController.clear();
+                  });
+                },
+                icon: const Icon(
+                  Icons.filter_alt_off,
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        GridView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(
+            left: width / 10,
+            right: width / 10,
+            //bottom: height / 5,
+            top: 20,
+          ),
+          // physics: ,
+          // shrinkWrap: true,
+          itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisSpacing: 15, maxCrossAxisExtent: 200),
+          itemBuilder: (context, index) {
+            return searchApp(pbswitch[_selectedIndex], appSearch)[index];
+          },
+        ),
+      ],
+    );
+  }
+
+  MIHAppDrawer getActionDrawer() {
+    return MIHAppDrawer(
+      signedInUser: widget.signedInUser,
+      propicFile: widget.propicFile,
+    );
+  }
+
+  Widget getBottomNavBar() {
+    return Visibility(
+      visible: isBusinessUser(widget.signedInUser),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: GNav(
+          //hoverColor: Colors.lightBlueAccent,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          iconSize: 35.0,
+          activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          tabBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //gap: 20,
+          //padding: EdgeInsets.all(15),
+          tabs: [
+            GButton(
+              icon: Icons.perm_identity,
+              text: "Personal",
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+              },
+            ),
+            GButton(
+              icon: Icons.business_center,
+              text: "Business",
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 1;
+                });
+              },
+            ),
+          ],
+          selectedIndex: _selectedIndex,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      pbswitch = setApps(persHTList, busHTList);
+      businessUserSwitch = false;
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
+    final double height = size.height;
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      secondaryActionButton: getSecondaryActionButton(),
+      body: getBody(width, height),
+      actionDrawer: getActionDrawer(),
+      secondaryActionDrawer: null,
+      bottomNavBar: getBottomNavBar(),
+    );
+  }
+}
