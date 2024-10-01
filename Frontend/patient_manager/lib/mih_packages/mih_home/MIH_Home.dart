@@ -490,7 +490,7 @@ class _MIHHomeState extends State<MIHHome> {
     return Builder(builder: (context) {
       return MIHAction(
         icon: const Icon(Icons.apps),
-        iconSize: 35,
+        iconSize: 45,
         onTap: () {
           setState(() {
             appSearch = "";
