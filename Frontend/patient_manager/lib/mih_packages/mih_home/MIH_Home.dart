@@ -5,6 +5,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_notification_drawer.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_tile.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
@@ -514,7 +515,7 @@ class _MIHHomeState extends State<MIHHome> {
             searchController.clear();
           });
           //key.currentState.o
-          //Scaffold.of(context).openEndDrawer();
+          Scaffold.of(context).openEndDrawer();
         },
       );
     });
@@ -619,6 +620,13 @@ class _MIHHomeState extends State<MIHHome> {
     );
   }
 
+  MIHNotificationDrawer getSecondaryActionDrawer() {
+    return MIHNotificationDrawer(
+      signedInUser: widget.signedInUser,
+      propicFile: widget.propicFile,
+    );
+  }
+
   Widget getBottomNavBar() {
     return Visibility(
       visible: isBusinessUser(widget.signedInUser),
@@ -687,7 +695,7 @@ class _MIHHomeState extends State<MIHHome> {
       secondaryActionButton: getSecondaryActionButton(),
       body: getBody(width, height),
       actionDrawer: getActionDrawer(),
-      secondaryActionDrawer: null,
+      secondaryActionDrawer: getSecondaryActionDrawer(),
       bottomNavBar: getBottomNavBar(),
     );
   }
