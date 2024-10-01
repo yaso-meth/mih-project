@@ -48,9 +48,12 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
     if (widget.secondaryActionButton != null) {
       temp.add(widget.secondaryActionButton!);
     } else {
-      temp.add(const SizedBox(
-        width: 50,
-      ));
+      print(widget.header.headerItems.length);
+      if (widget.header.headerItems.length == 1) {
+        temp.add(const SizedBox(
+          width: 50,
+        ));
+      }
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
