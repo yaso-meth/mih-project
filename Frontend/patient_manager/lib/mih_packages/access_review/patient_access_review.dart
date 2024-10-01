@@ -349,8 +349,10 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
+      secondaryActionButton: null,
       body: getBody(),
-      rightDrawer: null,
+      actionDrawer: null,
+      secondaryActionDrawer: null,
       bottomNavBar: null,
     );
     // return Scaffold(

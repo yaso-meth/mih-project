@@ -324,9 +324,11 @@ class _MIHAboutState extends State<MIHAbout> {
   Widget build(BuildContext context) {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
+      secondaryActionButton: null,
       header: getHeader(),
       body: getBody(),
-      rightDrawer: null,
+      actionDrawer: null,
+      secondaryActionDrawer: null,
       bottomNavBar: null,
     );
   }

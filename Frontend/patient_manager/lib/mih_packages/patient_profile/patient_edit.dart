@@ -659,8 +659,10 @@ class _EditPatientState extends State<EditPatient> {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
+      secondaryActionButton: null,
       body: getBody(),
-      rightDrawer: null,
+      actionDrawer: null,
+      secondaryActionDrawer: null,
       bottomNavBar: null,
     );
     // return Scaffold(

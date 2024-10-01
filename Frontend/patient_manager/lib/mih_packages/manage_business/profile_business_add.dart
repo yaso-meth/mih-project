@@ -435,9 +435,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   Widget build(BuildContext context) {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
+      secondaryActionButton: null,
       header: getHeader(),
       body: getBody(),
-      rightDrawer: null,
+      actionDrawer: null,
+      secondaryActionDrawer: null,
       bottomNavBar: null,
     );
 

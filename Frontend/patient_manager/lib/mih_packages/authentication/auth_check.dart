@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_packages/authentication/signin_or_register.dart';
-import 'package:patient_manager/mih_packages/mih_home/home.dart';
+import 'package:patient_manager/mih_packages/mih_home/MIH_Profile_Getter.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class AuthCheck extends StatefulWidget {
@@ -30,7 +30,7 @@ class _AuthCheckState extends State<AuthCheck> {
           future: signedIn,
           builder: (context, snapshot) {
             if (snapshot.data == true) {
-              return const Home();
+              return const MIHProfileGetter();
             } else {
               return const SignInOrRegister();
             }

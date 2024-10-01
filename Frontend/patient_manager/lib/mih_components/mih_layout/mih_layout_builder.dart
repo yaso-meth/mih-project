@@ -5,9 +5,11 @@ import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 
 class MIHLayoutBuilder extends StatefulWidget {
   final Widget actionButton;
+  final Widget? secondaryActionButton;
   final MIHHeader header;
   final MIHBody body;
-  final MIHAppDrawer? rightDrawer;
+  final MIHAppDrawer? actionDrawer;
+  final MIHAppDrawer? secondaryActionDrawer;
   final Widget? bottomNavBar;
 
   //final String type;
@@ -15,8 +17,10 @@ class MIHLayoutBuilder extends StatefulWidget {
     super.key,
     required this.actionButton,
     required this.header,
+    required this.secondaryActionButton,
     required this.body,
-    required this.rightDrawer,
+    required this.actionDrawer,
+    required this.secondaryActionDrawer,
     required this.bottomNavBar,
     //required this.type,
   });
@@ -52,7 +56,8 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
     Size screenSize = MediaQuery.sizeOf(context);
     return Scaffold(
       //drawerEnableOpenDragGesture: true,
-      drawer: widget.rightDrawer,
+      drawer: widget.actionDrawer,
+      endDrawer: widget.secondaryActionButton,
       body: SafeArea(
         child: SizedBox(
           width: screenSize.width,
