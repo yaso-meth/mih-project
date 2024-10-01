@@ -9,7 +9,7 @@ class MIHLayoutBuilder extends StatefulWidget {
   final MIHHeader header;
   final MIHBody body;
   final MIHAppDrawer? actionDrawer;
-  final MIHAppDrawer? secondaryActionDrawer;
+  final Widget? secondaryActionDrawer;
   final Widget? bottomNavBar;
 
   //final String type;
@@ -75,7 +75,7 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
     return Scaffold(
       //drawerEnableOpenDragGesture: true,
       drawer: widget.actionDrawer,
-      endDrawer: widget.secondaryActionButton,
+      endDrawer: widget.secondaryActionDrawer,
       body: SafeArea(
         child: SizedBox(
           width: screenSize.width,
