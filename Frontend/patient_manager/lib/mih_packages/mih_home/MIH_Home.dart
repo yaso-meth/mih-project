@@ -591,12 +591,13 @@ class _MIHHomeState extends State<MIHHome> {
         ),
         const SizedBox(height: 10),
         GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           padding: EdgeInsets.only(
             left: width / 10,
             right: width / 10,
             //bottom: height / 5,
-            top: 20,
+            //top: 20,
           ),
           // physics: ,
           // shrinkWrap: true,
