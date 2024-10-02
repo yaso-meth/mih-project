@@ -4,6 +4,7 @@ import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import "package:universal_html/html.dart" as html;
+import 'package:http/http.dart' as http;
 
 class BuildFileView extends StatefulWidget {
   final String link;
@@ -31,6 +32,21 @@ class _BuildFileViewState extends State<BuildFileView> {
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
     return path.split("/").last;
+  }
+
+  void printDocument() async {
+    print("Printing ${widget.path.split("/").last}");
+    http.Response response = await http.get(Uri.parse(widget.link));
+    var pdfData = response.bodyBytes;
+    Navigator.of(context).pushNamed(
+      '/file-veiwer/print-preview',
+      arguments: PrintPreviewArguments(
+        pdfData,
+        getFileName(
+          widget.path,
+        ),
+      ),
+    );
   }
 
   @override
@@ -69,16 +85,10 @@ class _BuildFileViewState extends State<BuildFileView> {
                 iconSize: 35,
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    '/file-veiwer',
-                    arguments: FileViewArguments(
-                      widget.link,
-                      widget.path,
-                    ),
-                  );
+                  printDocument();
                 },
                 icon: Icon(
-                  Icons.fullscreen,
+                  Icons.print,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
               ),

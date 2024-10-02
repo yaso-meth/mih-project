@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import "package:universal_html/html.dart" as html;
 import 'package:http/http.dart' as http;
-import 'package:pdf/pdf.dart';
+
 import 'package:printing/printing.dart';
 
 class FullScreenFileViewer extends StatefulWidget {
@@ -50,12 +50,24 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
     print("Printing ${widget.arguments.path.split("/").last}");
     http.Response response = await http.get(Uri.parse(widget.arguments.link));
     var pdfData = response.bodyBytes;
-    try {
-      await Printing.layoutPdf(
-          onLayout: (PdfPageFormat format) async => pdfData);
-    } on Exception catch (_) {
-      print("Print Error");
-    }
+    Navigator.of(context).pushNamed(
+      '/file-veiwer/print-preview',
+      arguments: pdfData,
+    );
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => PdfPreview(
+    //       initialPageFormat: PdfPageFormat.a4,
+    //       build: (format) => pdfData,
+    //     ),
+    //   ),
+    // );
+    // try {
+    //   await Printing.layoutPdf(
+    //       onLayout: (PdfPageFormat format) async => pdfData);
+    // } on Exception catch (_) {
+    //   print("Print Error");
+    // }
   }
 
   void shareDocument() async {
@@ -79,16 +91,10 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
 
   MIHHeader getHeader(double width) {
     bool isPDF;
-    bool isDesktop;
     if (getExtType(widget.arguments.path).toLowerCase() == "pdf") {
       isPDF = true;
     } else {
       isPDF = false;
-    }
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
-      isDesktop = true;
-    } else {
-      isDesktop = false;
     }
     return MIHHeader(
       headerAlignment: MainAxisAlignment.end,
@@ -188,33 +194,31 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             ),
           ),
         ),
-        IconButton(
-          iconSize: 30,
-          padding: const EdgeInsets.all(0),
-          onPressed: () {
-            if (isDesktop) {
-              printDocument();
-            } else {}
-          },
-          icon: Icon(
-            Icons.print,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
         // IconButton(
         //   iconSize: 30,
         //   padding: const EdgeInsets.all(0),
         //   onPressed: () {
-        //     html.window.open(
-        //         widget.arguments.link,
-        //         // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-        //         'download');
+        //     printDocument();
         //   },
         //   icon: Icon(
-        //     Icons.download,
+        //     Icons.print,
         //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         //   ),
         // ),
+        IconButton(
+          iconSize: 30,
+          padding: const EdgeInsets.all(0),
+          onPressed: () {
+            html.window.open(
+                widget.arguments.link,
+                // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                'download');
+          },
+          icon: Icon(
+            Icons.download,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
       ],
     );
   }
