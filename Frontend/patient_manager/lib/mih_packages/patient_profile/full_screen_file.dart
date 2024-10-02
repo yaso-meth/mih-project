@@ -79,10 +79,16 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
 
   MIHHeader getHeader(double width) {
     bool isPDF;
+    bool isDesktop;
     if (getExtType(widget.arguments.path).toLowerCase() == "pdf") {
       isPDF = true;
     } else {
       isPDF = false;
+    }
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      isDesktop = true;
+    } else {
+      isDesktop = false;
     }
     return MIHHeader(
       headerAlignment: MainAxisAlignment.end,
@@ -183,7 +189,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
           ),
         ),
         Visibility(
-          visible: isPDF,
+          visible: isDesktop,
           child: IconButton(
             iconSize: 30,
             padding: const EdgeInsets.all(0),
