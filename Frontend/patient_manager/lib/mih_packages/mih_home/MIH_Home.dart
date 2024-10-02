@@ -27,12 +27,20 @@ class MIHHome extends StatefulWidget {
   final BusinessUser? businessUser;
   final Business? business;
   final ImageProvider<Object>? propicFile;
+  final bool isUserNew;
+  final bool isBusinessUser;
+  final bool isBusinessUserNew;
+  final bool isDevActive;
   const MIHHome({
     super.key,
     required this.signedInUser,
     required this.businessUser,
     required this.business,
     required this.propicFile,
+    required this.isUserNew,
+    required this.isBusinessUser,
+    required this.isBusinessUserNew,
+    required this.isDevActive,
   });
 
   @override
@@ -440,18 +448,18 @@ class _MIHHomeState extends State<MIHHome> {
 
   List<List<MIHTile>> setApps(
       List<MIHTile> personalTileList, List<MIHTile> businessTileList) {
-    if (widget.signedInUser.fname == "") {
+    if (widget.isUserNew) {
       setAppsNewPersonal(personalTileList);
-    } else if (widget.signedInUser.type == "personal") {
+    } else if (!widget.isBusinessUser) {
       setAppsPersonal(personalTileList);
-    } else if (widget.businessUser == null) {
+    } else if (widget.isBusinessUserNew) {
       setAppsPersonal(personalTileList);
       setAppsNewBusiness(businessTileList);
     } else {
       setAppsPersonal(personalTileList);
       setAppsBusiness(businessTileList);
     }
-    if (AppEnviroment.getEnv() == "Dev") {
+    if (widget.isDevActive) {
       setAppsDev(personalTileList);
       setAppsDev(businessTileList);
     }
