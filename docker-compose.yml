@@ -1,5 +1,5 @@
 services:
-#============== API Hub ====================================================================
+  #============== API Hub ====================================================================
   api:
     build:
       context: ./backend
@@ -18,24 +18,24 @@ services:
       - MIH-network
     depends_on:
       - mysqldb
-#============== My SQL DB ==================================================================== 
+  #============== My SQL DB ==================================================================== 
   mysqldb:
     #build: ./database/
     image: mysql:5.7
     container_name: MIH-Database
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'C@rtoon1995'
-      MYSQL_USER: 'yaso'
-      MYSQL_PASSWORD: 'C@rtoon1995'
-      MYSQL_DATABASE: 'supertokens'
+      MYSQL_ROOT_PASSWORD: ${SQL_ROOT_PW}
+      MYSQL_USER: ${SQL_USER}
+      MYSQL_PASSWORD: ${SQL_USER_PW}
+      MYSQL_DATABASE: ${SUPERTOKENS_DB}
     networks:
       - MIH-network
     ports:
       - '3306:3306'
     volumes:
       - ./database:/var/lib/mysql
-#============== Super Token Auth ====================================================================
+  #============== Super Token Auth ====================================================================
   supertokens:
     container_name: MIH-SuperTokens
     image: registry.supertokens.io/supertokens/supertokens-mysql
@@ -44,15 +44,15 @@ services:
     ports:
       - 3567:3567
     environment:
-      REFRESH_TOKEN_VALIDITY: '1440' 
+      REFRESH_TOKEN_VALIDITY: '1440'
       ACCESS_TOKEN_VALIDITY: '3600'
       PASSWORD_RESET_TOKEN_LIFETIME: '7200000'
-      MYSQL_USER: 'yaso'
-      MYSQL_PASSWORD: 'C@rtoon1995'
+      MYSQL_USER: ${SQL_USER}
+      MYSQL_PASSWORD: ${SQL_USER_PW}
       MYSQL_HOST: mysqldb
       MYSQL_PORT: 3306
-      MYSQL_DATABASE_NAME: supertokens
-      API_KEYS: 'leatucczyixqwkqqdrhayiwzeofkltds'
+      MYSQL_DATABASE_NAME: ${SUPERTOKENS_DB}
+      API_KEYS: ${SUPERTOKENS_API_KEY}
     networks:
       - MIH-network
     restart: unless-stopped
@@ -62,14 +62,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-#============== PHP My Admin ====================================================================        
+  #============== PHP My Admin ====================================================================        
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: MIH-phpmyadmin
     environment:
       PMA_HOST: mysqlDB
       PMA_PORT: 3306
-      PMA_ARBITRARY: 
+      PMA_ARBITRARY:
     networks:
       - MIH-network
     restart: always
@@ -77,24 +77,24 @@ services:
       - 8081:80
     depends_on:
       - mysqldb
-#============== Nginx Proxy Server ====================================================================
+  #============== Nginx Proxy Server ====================================================================
   nginx:
     container_name: nginx
     restart: unless-stopped
     image: nginx
     ports:
-        - 80:80
-        - 443:443
+      - 80:80
+      - 443:443
     volumes:
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        - certbotConf:/etc/letsencrypt
-        - certbotChall:/var/www/certbot
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - certbotConf:/etc/letsencrypt
+      - certbotChall:/var/www/certbot
     depends_on:
       - user-interface
     networks:
       - MIH-network
-    profiles: ['prod']
-#============== Flutter App ====================================================================
+    profiles: [ 'prod' ]
+  #============== Flutter App ====================================================================
   user-interface:
     container_name: MIH-UX
     build:
@@ -105,11 +105,11 @@ services:
       - MIH-network
     depends_on:
       - api
- #============== Cert Not ==================================================================== 
+  #============== Cert Not ==================================================================== 
   certbot:
     image: certbot/certbot
     container_name: certbot
-    volumes: 
+    volumes:
       - certbotConf:/etc/letsencrypt
       - certbotChall:/var/www/certbot
     #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
@@ -118,8 +118,8 @@ services:
       - MIH-network
     depends_on:
       - nginx
-    profiles: ['withCert']
-#============== Minio File Storage ====================================================================  
+    profiles: [ 'withCert' ]
+  #============== Minio File Storage ====================================================================  
   minio:
     container_name: MIH-Minio
     hostname: minio
@@ -130,11 +130,11 @@ services:
     volumes:
       - './File_Storage:/data'
     environment:
-      - MINIO_ROOT_USER=yaso
-      - MINIO_ROOT_PASSWORD=C@rtoon1995
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PW}
     networks:
       - MIH-network
-#============== Minio File Storage ==================================================================== 
+  #============== Minio File Storage ==================================================================== 
   portainer:
     container_name: MIH-Monitor
     image: portainer/portainer-ce:2.20.3
@@ -150,10 +150,7 @@ services:
 volumes:
   certbotConf:
   certbotChall:
-  data:
-#============== MIH Network ====================================================================
+  data: #============== MIH Network ====================================================================
 networks:
   MIH-network:
     driver: bridge
-
-    
