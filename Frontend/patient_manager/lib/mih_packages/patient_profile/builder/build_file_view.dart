@@ -57,6 +57,7 @@ class _BuildFileViewState extends State<BuildFileView> {
               child: SfPdfViewer.network(
                 widget.link,
                 controller: pdfViewerController,
+                interactionMode: PdfInteractionMode.pan,
               ),
             ),
             Positioned(
