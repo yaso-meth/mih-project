@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_med_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -65,96 +66,138 @@ class _MedicineSearchState extends State<MedicineSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            width: 700.0,
-            //height: 475.0,
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 5.0),
-            ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Select Medicine",
+    return MIHWindow(
+      fullscreen: false,
+      windowTitle: "Select Medicine",
+      windowTools: [],
+      onWindowTapClose: () {
+        Navigator.pop(context);
+      },
+      windowBody: [
+        FutureBuilder(
+          future: futueMeds,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox(
+                height: 400,
+                child: Mihloadingcircle(),
+              );
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              final medsList = snapshot.data!;
+              return SizedBox(
+                height: 400,
+                child: BuildMedicinesList(
+                  contoller: widget.searchVlaue,
+                  medicines: medsList,
+                  //searchString: searchString,
+                ),
+              );
+            } else {
+              return const SizedBox(
+                height: 400,
+                child: Center(
+                  child: Text(
+                    "No Match Found\nPlease close and manually capture medicine",
+                    style: TextStyle(fontSize: 25, color: Colors.grey),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
-                  const SizedBox(height: 25.0),
-                  FutureBuilder(
-                    future: futueMeds,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const SizedBox(
-                          height: 400,
-                          child: Mihloadingcircle(),
-                        );
-                      } else if (snapshot.hasData &&
-                          snapshot.data!.isNotEmpty) {
-                        final medsList = snapshot.data!;
-                        return SizedBox(
-                          height: 400,
-                          child: BuildMedicinesList(
-                            contoller: widget.searchVlaue,
-                            medicines: medsList,
-                            //searchString: searchString,
-                          ),
-                        );
-                      } else {
-                        return const SizedBox(
-                          height: 400,
-                          child: Center(
-                            child: Text(
-                              "No Match Found\nPlease close and manually capture medicine",
-                              style:
-                                  TextStyle(fontSize: 25, color: Colors.grey),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 5,
-            right: 5,
-            width: 50,
-            height: 50,
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.close,
-                color: Colors.red,
-                size: 35,
-              ),
-            ),
-          ),
-        ],
-      ),
+                ),
+              );
+            }
+          },
+        ),
+      ],
     );
+    // return Dialog(
+    //   child: Stack(
+    //     children: [
+    //       Container(
+    //         padding: const EdgeInsets.all(10.0),
+    //         width: 700.0,
+    //         //height: 475.0,
+    //         decoration: BoxDecoration(
+    //           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    //           borderRadius: BorderRadius.circular(25.0),
+    //           border: Border.all(
+    //               color:
+    //                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    //               width: 5.0),
+    //         ),
+    //         child: SingleChildScrollView(
+    //           padding: const EdgeInsets.symmetric(horizontal: 10),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               Text(
+    //                 "Select Medicine",
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                   color: MzanziInnovationHub.of(context)!
+    //                       .theme
+    //                       .secondaryColor(),
+    //                   fontSize: 35.0,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 25.0),
+    //               FutureBuilder(
+    //                 future: futueMeds,
+    //                 builder: (context, snapshot) {
+    //                   if (snapshot.connectionState == ConnectionState.waiting) {
+    //                     return const SizedBox(
+    //                       height: 400,
+    //                       child: Mihloadingcircle(),
+    //                     );
+    //                   } else if (snapshot.hasData &&
+    //                       snapshot.data!.isNotEmpty) {
+    //                     final medsList = snapshot.data!;
+    //                     return SizedBox(
+    //                       height: 400,
+    //                       child: BuildMedicinesList(
+    //                         contoller: widget.searchVlaue,
+    //                         medicines: medsList,
+    //                         //searchString: searchString,
+    //                       ),
+    //                     );
+    //                   } else {
+    //                     return const SizedBox(
+    //                       height: 400,
+    //                       child: Center(
+    //                         child: Text(
+    //                           "No Match Found\nPlease close and manually capture medicine",
+    //                           style:
+    //                               TextStyle(fontSize: 25, color: Colors.grey),
+    //                           textAlign: TextAlign.center,
+    //                         ),
+    //                       ),
+    //                     );
+    //                   }
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //       Positioned(
+    //         top: 5,
+    //         right: 5,
+    //         width: 50,
+    //         height: 50,
+    //         child: IconButton(
+    //           onPressed: () {
+    //             Navigator.pop(context);
+    //           },
+    //           icon: const Icon(
+    //             Icons.close,
+    //             color: Colors.red,
+    //             size: 35,
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
