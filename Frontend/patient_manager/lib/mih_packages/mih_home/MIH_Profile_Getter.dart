@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
@@ -172,11 +176,39 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               isDevActive: isDevActive(),
             );
           } else {
-            return Center(
-              child: Text(
-                '${snapshot.error} occurred',
-                style: const TextStyle(fontSize: 18),
+            return MIHLayoutBuilder(
+              actionButton: MIHAction(
+                icon: const Icon(Icons.refresh),
+                iconSize: 35,
+                onTap: () {},
               ),
+              header: const MIHHeader(
+                headerAlignment: MainAxisAlignment.center,
+                headerItems: [
+                  Text(
+                    "Mzanzi Innovation Hub",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              secondaryActionButton: null,
+              body: MIHBody(
+                borderOn: false,
+                bodyItems: [
+                  Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+              actionDrawer: null,
+              secondaryActionDrawer: null,
+              bottomNavBar: null,
             );
           }
         }
