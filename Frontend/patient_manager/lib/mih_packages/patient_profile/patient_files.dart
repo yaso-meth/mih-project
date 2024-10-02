@@ -339,29 +339,26 @@ class _PatientFilesState extends State<PatientFiles> {
           Navigator.pop(context);
         },
         windowBody: [
-          SizedBox(
-            width: 700,
-            child: MIHFileField(
-              controller: selectedFileController,
-              hintText: "Select File",
-              editable: false,
-              required: true,
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['jpg', 'png', 'pdf'],
-                );
-                if (result == null) return;
-                final selectedFile = result.files.first;
-                setState(() {
-                  selected = selectedFile;
-                });
+          MIHFileField(
+            controller: selectedFileController,
+            hintText: "Select File",
+            editable: false,
+            required: true,
+            onPressed: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['jpg', 'png', 'pdf'],
+              );
+              if (result == null) return;
+              final selectedFile = result.files.first;
+              setState(() {
+                selected = selectedFile;
+              });
 
-                setState(() {
-                  selectedFileController.text = selectedFile.name;
-                });
-              },
-            ),
+              setState(() {
+                selectedFileController.text = selectedFile.name;
+              });
+            },
           ),
           const SizedBox(height: 15),
           SizedBox(
