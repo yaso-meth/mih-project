@@ -109,6 +109,38 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
     }
   }
 
+  bool isUserNew(AppUser signedInUser) {
+    if (signedInUser.fname == "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isDevActive() {
+    if (AppEnviroment.getEnv() == "Dev") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isBusinessUser(AppUser signedInUser) {
+    if (signedInUser.type == "personal") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool isBusinessUserNew(BusinessUser? businessUser) {
+    if (businessUser == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 // <a href="https://www.flaticon.com/free-icons/dont-know" title="dont know icons">Dont know icons created by Freepik - Flaticon</a>
   @override
   void dispose() {
@@ -134,6 +166,10 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
               propicFile: isPictureAvailable(snapshot.data!.profilePicUrl),
+              isUserNew: isUserNew(snapshot.requireData.signedInUser),
+              isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
+              isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),
+              isDevActive: isDevActive(),
             );
           } else {
             return Center(
