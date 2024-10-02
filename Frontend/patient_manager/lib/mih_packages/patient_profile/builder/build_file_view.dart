@@ -66,6 +66,8 @@ class _BuildFileViewState extends State<BuildFileView> {
               width: 50,
               height: 50,
               child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/file-veiwer',
@@ -78,7 +80,6 @@ class _BuildFileViewState extends State<BuildFileView> {
                 icon: Icon(
                   Icons.fullscreen,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  size: 35,
                 ),
               ),
             ),
@@ -88,6 +89,8 @@ class _BuildFileViewState extends State<BuildFileView> {
               width: 50,
               height: 50,
               child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
                 onPressed: () {
                   html.window.open(
                       widget.link,
@@ -97,7 +100,6 @@ class _BuildFileViewState extends State<BuildFileView> {
                 icon: Icon(
                   Icons.download,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  size: 35,
                 ),
               ),
             ),
@@ -124,6 +126,8 @@ class _BuildFileViewState extends State<BuildFileView> {
               width: 50,
               height: 50,
               child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
                 onPressed: () {
                   //expandImage(width, height);
                   Navigator.of(context).pushNamed(
@@ -137,7 +141,6 @@ class _BuildFileViewState extends State<BuildFileView> {
                 icon: Icon(
                   Icons.fullscreen,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  size: 35,
                 ),
               ),
             ),
@@ -147,6 +150,8 @@ class _BuildFileViewState extends State<BuildFileView> {
               width: 50,
               height: 50,
               child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
                 onPressed: () {
                   html.window.open(
                       widget.link,
@@ -156,7 +161,6 @@ class _BuildFileViewState extends State<BuildFileView> {
                 icon: Icon(
                   Icons.download,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  size: 35,
                 ),
               ),
             ),

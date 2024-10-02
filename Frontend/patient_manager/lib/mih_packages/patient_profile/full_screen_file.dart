@@ -90,6 +90,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         Visibility(
           visible: isPDF,
           child: IconButton(
+            iconSize: 30,
+            padding: const EdgeInsets.all(0),
             onPressed: () {
               pdfViewerController.previousPage();
               //print(pdfViewerController.);
@@ -102,7 +104,6 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             icon: Icon(
               Icons.arrow_back,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
             ),
           ),
         ),
@@ -116,6 +117,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         Visibility(
           visible: isPDF,
           child: IconButton(
+            iconSize: 30,
+            padding: const EdgeInsets.all(0),
             onPressed: () {
               pdfViewerController.nextPage();
               //print(pdfViewerController.pageNumber);
@@ -128,13 +131,14 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             icon: Icon(
               Icons.arrow_forward,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
             ),
           ),
         ),
         Visibility(
           visible: isPDF,
           child: IconButton(
+            iconSize: 30,
+            padding: const EdgeInsets.all(0),
             onPressed: () {
               if (zoomOut > 0) {
                 setState(() {
@@ -150,13 +154,14 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             icon: Icon(
               Icons.zoom_in,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
             ),
           ),
         ),
         Visibility(
           visible: isPDF,
           child: IconButton(
+            iconSize: 30,
+            padding: const EdgeInsets.all(0),
             onPressed: () {
               if (pdfViewerController.zoomLevel > 1) {
                 setState(() {
@@ -174,46 +179,37 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             icon: Icon(
               Icons.zoom_out,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
             ),
           ),
         ),
         Visibility(
           visible: isPDF,
           child: IconButton(
+            iconSize: 30,
+            padding: const EdgeInsets.all(0),
             onPressed: () {
               printDocument();
             },
             icon: Icon(
               Icons.print,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            html.window.open(
-                widget.arguments.link,
-                // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                'download');
-          },
-          icon: Icon(
-            Icons.download,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            size: 35,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            shareDocument();
-          },
-          icon: Icon(
-            Icons.share,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            size: 35,
-          ),
-        ),
+        // IconButton(
+        //   iconSize: 30,
+        //   padding: const EdgeInsets.all(0),
+        //   onPressed: () {
+        //     html.window.open(
+        //         widget.arguments.link,
+        //         // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+        //         'download');
+        //   },
+        //   icon: Icon(
+        //     Icons.download,
+        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   ),
+        // ),
       ],
     );
   }
@@ -258,7 +254,33 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
     }
     return MIHBody(
       borderOn: false,
-      bodyItems: [fileViewer],
+      bodyItems: [
+        Stack(
+          children: [
+            Expanded(child: fileViewer),
+            Positioned(
+              bottom: 5,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
+                onPressed: () {
+                  html.window.open(
+                      widget.arguments.link,
+                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                      'download');
+                },
+                icon: Icon(
+                  Icons.download,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
