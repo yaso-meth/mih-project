@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/business.dart';
@@ -44,6 +46,16 @@ class FileViewArguments {
   FileViewArguments(
     this.link,
     this.path,
+  );
+}
+
+class PrintPreviewArguments {
+  final Uint8List pdfData;
+  final String fileName;
+
+  PrintPreviewArguments(
+    this.pdfData,
+    this.fileName,
   );
 }
 
