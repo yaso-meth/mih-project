@@ -260,33 +260,34 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
     }
     return MIHBody(
       borderOn: false,
-      bodyItems: [
-        Stack(
-          children: [
-            Expanded(child: fileViewer),
-            Positioned(
-              bottom: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton.filled(
-                iconSize: 35,
-                padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  html.window.open(
-                      widget.arguments.link,
-                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                      'download');
-                },
-                icon: Icon(
-                  Icons.download,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+      bodyItems: [fileViewer],
+      // [
+      //   Stack(
+      //     children: [
+      //       Expanded(child: fileViewer),
+      //       Positioned(
+      //         bottom: 5,
+      //         right: 5,
+      //         width: 50,
+      //         height: 50,
+      //         child: IconButton.filled(
+      //           iconSize: 35,
+      //           padding: const EdgeInsets.all(0),
+      //           onPressed: () {
+      //             html.window.open(
+      //                 widget.arguments.link,
+      //                 // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+      //                 'download');
+      //           },
+      //           icon: Icon(
+      //             Icons.download,
+      //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ],
     );
   }
 
