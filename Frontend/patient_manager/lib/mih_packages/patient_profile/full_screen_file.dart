@@ -188,18 +188,17 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             ),
           ),
         ),
-        Visibility(
-          visible: isDesktop,
-          child: IconButton(
-            iconSize: 30,
-            padding: const EdgeInsets.all(0),
-            onPressed: () {
+        IconButton(
+          iconSize: 30,
+          padding: const EdgeInsets.all(0),
+          onPressed: () {
+            if (isDesktop) {
               printDocument();
-            },
-            icon: Icon(
-              Icons.print,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
+            } else {}
+          },
+          icon: Icon(
+            Icons.print,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
         // IconButton(
@@ -260,34 +259,33 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
     }
     return MIHBody(
       borderOn: false,
-      bodyItems: [fileViewer],
-      // [
-      //   Stack(
-      //     children: [
-      //       Expanded(child: fileViewer),
-      //       Positioned(
-      //         bottom: 5,
-      //         right: 5,
-      //         width: 50,
-      //         height: 50,
-      //         child: IconButton.filled(
-      //           iconSize: 35,
-      //           padding: const EdgeInsets.all(0),
-      //           onPressed: () {
-      //             html.window.open(
-      //                 widget.arguments.link,
-      //                 // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-      //                 'download');
-      //           },
-      //           icon: Icon(
-      //             Icons.download,
-      //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      //           ),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ],
+      bodyItems: [
+        Stack(
+          children: [
+            fileViewer,
+            Positioned(
+              bottom: 5,
+              right: 5,
+              width: 50,
+              height: 50,
+              child: IconButton.filled(
+                iconSize: 35,
+                padding: const EdgeInsets.all(0),
+                onPressed: () {
+                  html.window.open(
+                      widget.arguments.link,
+                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                      'download');
+                },
+                icon: Icon(
+                  Icons.download,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
