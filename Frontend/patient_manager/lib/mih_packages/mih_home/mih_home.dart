@@ -534,7 +534,7 @@ class _MIHHomeState extends State<MIHHome> {
       headerAlignment: MainAxisAlignment.center,
       headerItems: [
         Text(
-          "Mzanzi Innovation Hub",
+          "Mzanzi Innovation Hub v2",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,

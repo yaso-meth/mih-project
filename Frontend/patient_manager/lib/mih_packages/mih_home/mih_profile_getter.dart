@@ -11,7 +11,7 @@ import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
-import 'package:patient_manager/mih_packages/mih_home/MIH_Home.dart';
+import 'package:patient_manager/mih_packages/mih_home/mih_home.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
