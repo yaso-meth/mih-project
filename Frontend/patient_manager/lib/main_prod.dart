@@ -8,8 +8,6 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft]);
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   AppEnviroment.setupEnv(Enviroment.prod);
   SuperTokens.init(
@@ -18,5 +16,8 @@ void main() async {
   );
   setUrlStrategy(PathUrlStrategy());
   FlutterNativeSplash.remove();
-  runApp(const MzanziInnovationHub());
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft])
+      .then((value) => runApp(const MzanziInnovationHub()));
+  //runApp(const MzanziInnovationHub());
 }
