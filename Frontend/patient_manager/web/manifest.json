@@ -6,7 +6,7 @@
     "background_color": "#3A4454",
     "theme_color": "#3A4454",
     "description": "Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.",
-    "orientation": "portrait-primary",
+    "orientation": "portrait",
     "prefer_related_applications": false,
     "icons": [
         {
