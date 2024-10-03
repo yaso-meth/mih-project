@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -16,8 +15,5 @@ void main() async {
   );
   setUrlStrategy(PathUrlStrategy());
   FlutterNativeSplash.remove();
-  SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft])
-      .then((value) => runApp(const MzanziInnovationHub()));
-  //runApp(const MzanziInnovationHub());
+  runApp(const MzanziInnovationHub());
 }

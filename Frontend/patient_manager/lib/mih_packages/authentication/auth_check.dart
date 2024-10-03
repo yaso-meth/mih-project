@@ -27,15 +27,29 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: signedIn,
-          builder: (context, snapshot) {
-            if (snapshot.data == true) {
-              return const MIHProfileGetter();
-            } else {
-              return const SignInOrRegister();
-            }
-          }),
+      body: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+          // Return a widget tree based on the orientation
+          return FutureBuilder(
+              future: signedIn,
+              builder: (context, snapshot) {
+                if (snapshot.data == true) {
+                  return const MIHProfileGetter();
+                } else {
+                  return const SignInOrRegister();
+                }
+              });
+        },
+        // child: FutureBuilder(
+        //     future: signedIn,
+        //     builder: (context, snapshot) {
+        //       if (snapshot.data == true) {
+        //         return const MIHProfileGetter();
+        //       } else {
+        //         return const SignInOrRegister();
+        //       }
+        //     }),
+      ),
     );
   }
 }
