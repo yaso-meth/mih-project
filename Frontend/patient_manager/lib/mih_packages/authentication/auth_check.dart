@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_packages/authentication/signin_or_register.dart';
-import 'package:patient_manager/mih_packages/mih_home/MIH_Profile_Getter.dart';
+import 'package:patient_manager/mih_packages/mih_home/mih_profile_getter.dart';
+
 import 'package:supertokens_flutter/supertokens.dart';
 
 class AuthCheck extends StatefulWidget {
