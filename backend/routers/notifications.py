@@ -100,39 +100,26 @@ async def insert_Patient(itemRequest : notificationInsertRequest, session: Sessi
     db.close()
     return {"message": "Successfully Created Record"}
 
-# # Update Patient on table
-# @router.put("/patients/update/", tags=["Patients"])
-# async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
-#     cursor = db.cursor()
-#     query = "update patients "
-#     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid=%s, "
-#     query += "medical_aid_main_member=%s, medical_aid_no=%s, medical_aid_code=%s, medical_aid_name=%s, "
-#     query += "medical_aid_scheme=%s, address=%s, app_id=%s "
-#     query += "where app_id=%s"
-#     patientData = (itemRequest.id_no, 
-#                    itemRequest.first_name,
-#                    itemRequest.last_name,
-#                    itemRequest.email,
-#                    itemRequest.cell_no,
-#                    itemRequest.medical_aid,
-#                    itemRequest.medical_aid_main_member,
-#                    itemRequest.medical_aid_no,
-#                    itemRequest.medical_aid_code,
-#                    itemRequest.medical_aid_name,
-#                    itemRequest.medical_aid_scheme,
-#                    itemRequest.address,
-#                    itemRequest.app_id,
-#                    itemRequest.app_id,)
-#     try:
-#        cursor.execute(query, patientData) 
-#     except Exception as error:
-#         raise HTTPException(status_code=404, detail="Failed to Update Record")
-#         #return {"query": query, "message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Updated Record"}
+# Update Patient on table
+@router.put("/notifications/update/{notification_id}", tags=["Notifications"])
+async def Update_Patient(notification_id : str): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "update notifications "
+    query += "set notification_read=%s "
+    query += "where idnotifications=%s"
+    patientData = ("Yes", 
+                   notification_id,
+                   )
+    try:
+       cursor.execute(query, patientData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Update Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
 
 # # delete Patient on table
 # @router.delete("/patients/delete/", tags=["Patients"])
