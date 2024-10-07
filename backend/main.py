@@ -7,6 +7,7 @@ import routers.patients_files as patients_files
 import routers.patients_notes as patients_notes
 import routers.patients_queue as patients_queue
 import routers.users as users
+import routers.notifications as notifications
 import routers.fileStorage as fileStorage
 import routers.medicine as medicine
 import routers.business_user as business_user
@@ -83,6 +84,7 @@ app.include_router(fileStorage.router)
 app.include_router(medicine.router)
 app.include_router(business_user.router)
 app.include_router(business.router)
+app.include_router(notifications.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])
