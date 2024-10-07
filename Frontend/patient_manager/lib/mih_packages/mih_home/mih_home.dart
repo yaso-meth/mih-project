@@ -21,11 +21,13 @@ import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/notification.dart';
 
 class MIHHome extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
+  final List<MIHNotification> notifications;
   final ImageProvider<Object>? propicFile;
   final bool isUserNew;
   final bool isBusinessUser;
@@ -36,6 +38,7 @@ class MIHHome extends StatefulWidget {
     required this.signedInUser,
     required this.businessUser,
     required this.business,
+    required this.notifications,
     required this.propicFile,
     required this.isUserNew,
     required this.isBusinessUser,
@@ -631,7 +634,7 @@ class _MIHHomeState extends State<MIHHome> {
   MIHNotificationDrawer getSecondaryActionDrawer() {
     return MIHNotificationDrawer(
       signedInUser: widget.signedInUser,
-      propicFile: widget.propicFile,
+      notifications: widget.notifications,
     );
   }
 

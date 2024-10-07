@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
+import 'package:patient_manager/mih_objects/notification.dart';
 import 'package:patient_manager/mih_objects/patients.dart';
 
 class BusinessArguments {
@@ -22,12 +23,14 @@ class HomeArguments {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
+  final List<MIHNotification> notifi;
   final String profilePicUrl;
 
   HomeArguments(
     this.signedInUser,
     this.businessUser,
     this.business,
+    this.notifi,
     this.profilePicUrl,
   );
 }
