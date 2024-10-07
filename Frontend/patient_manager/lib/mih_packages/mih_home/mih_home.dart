@@ -516,9 +516,28 @@ class _MIHHomeState extends State<MIHHome> {
   }
 
   Widget getSecondaryActionButton() {
+    Widget notIIcon;
+    if (hasNewNotifications()) {
+      notIIcon = Stack(
+        children: [
+          const Icon(Icons.notifications),
+          Positioned(
+            right: 0,
+            top: 0,
+            child: Icon(
+              Icons.circle,
+              size: 10,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            ),
+          )
+        ],
+      );
+    } else {
+      notIIcon = const Icon(Icons.notifications);
+    }
     return Builder(builder: (context) {
       return MIHAction(
-        icon: const Icon(Icons.notifications),
+        icon: notIIcon,
         iconSize: 35,
         onTap: () {
           setState(() {
@@ -679,6 +698,19 @@ class _MIHHomeState extends State<MIHHome> {
     );
   }
 
+  bool hasNewNotifications() {
+    //print(widget.notifications.toString());
+    if (widget.notifications
+        .map((item) => item.notification_read)
+        .contains("No")) {
+      print("New Notification Available");
+      return true;
+    } else {
+      print("No New Notification Available");
+      return false;
+    }
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -701,6 +733,7 @@ class _MIHHomeState extends State<MIHHome> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     final double height = size.height;
+
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
