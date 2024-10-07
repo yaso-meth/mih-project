@@ -78,6 +78,29 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         ),
       );
       successPopUp(message);
+      addAccessReviewNotificationAPICall(index);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<void> addAccessReviewNotificationAPICall(int index) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": widget.patients[index].app_id,
+        "notification_type": "Access Review",
+        "notification_message":
+            "A new Access Review request has been sent by ${widget.arguments.business!.Name}",
+        "action_path": "/access-review",
+      }),
+    );
+    if (response.statusCode == 201) {
+      // Navigator.pushNamed(context, '/patient-manager/patient',
+      //     arguments: widget.signedInUser);
     } else {
       internetConnectionPopUp();
     }
