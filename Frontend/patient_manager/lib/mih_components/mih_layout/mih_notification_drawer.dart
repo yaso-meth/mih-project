@@ -90,7 +90,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
 
   Widget displayNotifications(int index) {
     String title = widget.notifications[index].notification_type;
-    String subtitle = widget.notifications[index].notification_message;
+    String subtitle =
+        "${widget.notifications[index].insert_date}\n${widget.notifications[index].notification_message}";
     Widget notificationTitle;
     if (widget.notifications[index].notification_read == "No") {
       notificationTitle = Row(
