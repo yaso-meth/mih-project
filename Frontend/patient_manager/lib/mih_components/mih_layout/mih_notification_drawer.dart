@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_objects/notification.dart';
 
 class MIHNotificationDrawer extends StatefulWidget {
   final AppUser signedInUser;
-  final ImageProvider<Object>? propicFile;
+  final List<MIHNotification> notifications;
+  //final ImageProvider<Object>? propicFile;
 
   const MIHNotificationDrawer({
     super.key,
     required this.signedInUser,
-    required this.propicFile,
+    required this.notifications,
   });
 
   @override
@@ -34,7 +36,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
     return temp;
   }
 
-  Widget displayNotifications(int index) {
+  Widget displayTempNotifications(int index) {
     String title = notificationList[index][0];
     String subtitle = notificationList[index][1];
     return ListTile(
@@ -52,6 +54,59 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       ),
       onTap: () {
         //viewApprovalPopUp(index);
+      },
+    );
+  }
+
+  Widget displayNotifications(int index) {
+    String title = widget.notifications[index].notification_type;
+    String subtitle = widget.notifications[index].notification_message;
+    Widget notificationTitle;
+    if (widget.notifications[index].notification_read == "No") {
+      notificationTitle = Row(
+        children: [
+          const Icon(Icons.circle_notifications),
+          const SizedBox(
+            width: 5,
+          ),
+          Flexible(
+            child: Text(
+              title,
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      notificationTitle = Row(
+        children: [
+          //const Icon(Icons.circle_notifications),
+          Flexible(
+            child: Text(
+              title,
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    return ListTile(
+      title: notificationTitle,
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          widget.notifications[index].action_path,
+          arguments: widget.signedInUser,
+        );
       },
     );
   }
@@ -106,7 +161,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               );
             },
-            itemCount: notificationList.length,
+            itemCount: widget.notifications.length,
             itemBuilder: (context, index) {
               //final patient = widget.patients[index].id_no.contains(widget.searchString);
               //print(index);
