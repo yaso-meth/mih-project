@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class MIHNotificationDrawer extends StatefulWidget {
   final AppUser signedInUser;
@@ -20,6 +23,35 @@ class MIHNotificationDrawer extends StatefulWidget {
 
 class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
   late List<List<String>> notificationList;
+  final baseAPI = AppEnviroment.baseApiUrl;
+  Future<void> updateNotificationAPICall(int index) async {
+    var response = await http.put(
+      Uri.parse(
+          "$baseAPI/notifications/update/${widget.notifications[index].idnotifications}"),
+    );
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        "/",
+      );
+      Navigator.of(context).pushNamed(
+        widget.notifications[index].action_path,
+        arguments: widget.signedInUser,
+      );
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
 
   List<List<String>> setTempNofitications() {
     List<List<String>> temp = [];
@@ -52,9 +84,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
-      onTap: () {
-        //viewApprovalPopUp(index);
-      },
+      onTap: () {},
     );
   }
 
@@ -65,7 +95,10 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
     if (widget.notifications[index].notification_read == "No") {
       notificationTitle = Row(
         children: [
-          const Icon(Icons.circle_notifications),
+          Icon(
+            Icons.circle_notifications,
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          ),
           const SizedBox(
             width: 5,
           ),
@@ -103,10 +136,14 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         ),
       ),
       onTap: () {
-        Navigator.of(context).pushNamed(
-          widget.notifications[index].action_path,
-          arguments: widget.signedInUser,
-        );
+        if (widget.notifications[index].notification_read == "No") {
+          updateNotificationAPICall(index);
+        } else {
+          Navigator.of(context).pushNamed(
+            widget.notifications[index].action_path,
+            arguments: widget.signedInUser,
+          );
+        }
       },
     );
   }
