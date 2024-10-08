@@ -779,7 +779,7 @@ class _MIHHomeState extends State<MIHHome> {
           return Builder(builder: (context) {
             return MIHNotificationMessage(
               arguments: NotificationArguments(
-                "Unread Notification",
+                "Unread Notifications",
                 "You have unread notifications waiting for you.",
                 () {
                   Navigator.of(context).pop();
