@@ -7,6 +7,16 @@ import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
 import 'package:patient_manager/mih_objects/patients.dart';
 
+class NotificationArguments {
+  final String title;
+  final String body;
+
+  NotificationArguments(
+    this.title,
+    this.body,
+  );
+}
+
 class BusinessArguments {
   final AppUser signedInUser;
   final BusinessUser? businessUser;

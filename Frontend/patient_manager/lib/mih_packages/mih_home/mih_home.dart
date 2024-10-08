@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -239,6 +241,30 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            barrierColor: const Color(0x01000000),
+            context: context,
+            builder: (context) {
+              return MIHNotificationMessage(
+                arguments: NotificationArguments(
+                  "Testing",
+                  "Testing the new MIH Notification",
+                ),
+              );
+            },
+          );
+        },
+        tileName: "Notify - Dev",
+        tileIcon: Icon(
+          Icons.notifications,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
       tileList.add(MIHTile(
         onTap: () {
           showDialog(
@@ -705,9 +731,7 @@ class _MIHHomeState extends State<MIHHome> {
 
   bool hasNewNotifications() {
     //print(widget.notifications.toString());
-    if (widget.notifications
-        .map((item) => item.notification_read)
-        .contains("No")) {
+    if (notifiList.map((item) => item.notification_read).contains("No")) {
       //print("New Notification Available");
       return true;
     } else {
@@ -736,6 +760,25 @@ class _MIHHomeState extends State<MIHHome> {
     setState(() {
       notifiList = notifi;
     });
+
+    if (hasNewNotifications()) {
+      print("New Notifications");
+      // await MIHNotificationServices.showNotification(
+      //   title: "New Notification waiting",
+      //   body:
+      //       "You have new notification waiting for you in the notification panel",
+      // );
+      notificationPopUp();
+    }
+  }
+
+  void notificationPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
   }
 
   @override
@@ -752,7 +795,6 @@ class _MIHHomeState extends State<MIHHome> {
       businessUserSwitch = false;
       notifiList = widget.notifications;
     });
-
     super.initState();
   }
 

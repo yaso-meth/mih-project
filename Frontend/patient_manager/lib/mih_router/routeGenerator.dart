@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_print_prevew.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:patient_manager/mih_packages/authentication/auth_check.dart';
 import 'package:patient_manager/mih_packages/patient_profile/add_or_view_patient.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
@@ -40,6 +41,16 @@ class RouteGenerator {
           case '/':
             return MaterialPageRoute(
                 settings: settings, builder: (_) => const AuthCheck());
+          case '/notifications':
+            if (args is NotificationArguments) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MIHNotificationMessage(
+                  arguments: args,
+                ),
+              );
+            }
+            return _errorRoute();
           case '/forgot-password':
             return MaterialPageRoute(
                 settings: settings, builder: (_) => const ForgotPassword());
