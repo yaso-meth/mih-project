@@ -132,7 +132,7 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
     super.initState();
     setState(() {
       primary = MzanziInnovationHub.of(context)!.theme.primaryColor();
-      secondary = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+      secondary = MzanziInnovationHub.of(context)!.theme.errorColor();
     });
     _animationController = AnimationController(
       vsync: this,
@@ -164,7 +164,7 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
     return SlideTransition(
       position: _scaleAnimation,
       child: Dialog(
-        shadowColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        shadowColor: secondary,
         alignment: Alignment.topCenter,
         child: notifyPopUp(),
       ),
