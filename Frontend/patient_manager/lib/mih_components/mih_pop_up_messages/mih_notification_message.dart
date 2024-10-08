@@ -25,6 +25,8 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   late double popUpBodySize;
   late double popUpIconSize;
   late double popUpPaddingSize;
+  late Color primary;
+  late Color secondary;
   Size? size;
 
   void checkScreenSize() {
@@ -35,105 +37,87 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
         popUpTitleSize = 20.0;
         popUpSubtitleSize = 20.0;
         popUpBodySize = 15;
-        popUpPaddingSize = 5.0;
+        popUpPaddingSize = 25.0;
         popUpIconSize = 100;
       });
     } else {
       setState(() {
-        popUpWidth = size!.width - 20;
+        popUpWidth = size!.width;
         popUpheight = 90;
         popUpTitleSize = 20.0;
         popUpSubtitleSize = 18.0;
         popUpBodySize = 15;
-        popUpPaddingSize = 15.0;
+        popUpPaddingSize = 5.0;
         popUpIconSize = 100;
       });
     }
   }
 
-  Widget NotifyPopUp() {
+  Widget notifyPopUp() {
     //messageTypes["Input Error"] =
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.all(popUpPaddingSize),
-          alignment: Alignment.topLeft,
-          width: popUpWidth,
-          height: popUpheight,
-          decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            borderRadius: BorderRadius.circular(25.0),
-            // border: Border.all(
-            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //     width: 5.0),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+    return GestureDetector(
+      onTap: widget.arguments.onTap,
+      child: Container(
+        padding:
+            EdgeInsets.symmetric(vertical: 5, horizontal: popUpPaddingSize),
+        alignment: Alignment.topLeft,
+        width: popUpWidth,
+        height: popUpheight,
+        decoration: BoxDecoration(
+          color: primary,
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(color: secondary, width: 5.0),
+        ),
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            //const SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //const SizedBox(height: 5),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.notifications,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                    Flexible(
-                      child: Text(
-                        widget.arguments.title,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontSize: popUpTitleSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                Icon(
+                  Icons.notifications,
+                  color: secondary,
                 ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    Text(
-                      widget.arguments.body,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        fontSize: popUpBodySize,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    widget.arguments.title,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: secondary,
+                      fontSize: popUpTitleSize,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ),
-        Positioned(
-          top: 5,
-          right: 5,
-          width: 50,
-          height: 50,
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              size: 35,
+            const SizedBox(height: 5),
+            Wrap(
+              alignment: WrapAlignment.start,
+              children: [
+                SizedBox(
+                  width: popUpWidth,
+                  child: Text(
+                    widget.arguments.body,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: secondary,
+                      fontSize: popUpBodySize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -146,11 +130,14 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   @override
   void initState() {
     super.initState();
-
+    setState(() {
+      primary = MzanziInnovationHub.of(context)!.theme.primaryColor();
+      secondary = MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    });
     _animationController = AnimationController(
       vsync: this,
       duration:
-          const Duration(milliseconds: 200), // Adjust the duration as needed
+          const Duration(milliseconds: 300), // Adjust the duration as needed
     );
 
     _scaleAnimation = Tween<Offset>(
@@ -177,10 +164,9 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
     return SlideTransition(
       position: _scaleAnimation,
       child: Dialog(
-        insetAnimationDuration: const Duration(milliseconds: 1000),
-        insetAnimationCurve: Curves.bounceIn,
+        shadowColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         alignment: Alignment.topCenter,
-        child: NotifyPopUp(),
+        child: notifyPopUp(),
       ),
     );
     // return SlideTransition(

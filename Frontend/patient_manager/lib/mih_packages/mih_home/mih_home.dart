@@ -247,12 +247,18 @@ class _MIHHomeState extends State<MIHHome> {
             barrierColor: const Color(0x01000000),
             context: context,
             builder: (context) {
-              return MIHNotificationMessage(
-                arguments: NotificationArguments(
-                  "Testing",
-                  "Testing the new MIH Notification",
-                ),
-              );
+              return Builder(builder: (context) {
+                return MIHNotificationMessage(
+                  arguments: NotificationArguments(
+                    "Testing",
+                    "Testing the new MIH Notification",
+                    () {
+                      Navigator.of(context).pop();
+                      //Scaffold.of(context).openEndDrawer();
+                    },
+                  ),
+                );
+              });
             },
           );
         },
@@ -733,6 +739,7 @@ class _MIHHomeState extends State<MIHHome> {
     //print(widget.notifications.toString());
     if (notifiList.map((item) => item.notification_read).contains("No")) {
       //print("New Notification Available");
+
       return true;
     } else {
       //print("No New Notification Available");
@@ -760,25 +767,30 @@ class _MIHHomeState extends State<MIHHome> {
     setState(() {
       notifiList = notifi;
     });
-
-    if (hasNewNotifications()) {
-      print("New Notifications");
-      // await MIHNotificationServices.showNotification(
-      //   title: "New Notification waiting",
-      //   body:
-      //       "You have new notification waiting for you in the notification panel",
-      // );
-      notificationPopUp();
-    }
+    notificationPopUp();
   }
 
   void notificationPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
+    if (hasNewNotifications()) {
+      showDialog(
+        barrierColor: const Color(0x01000000),
+        context: context,
+        builder: (context) {
+          return Builder(builder: (context) {
+            return MIHNotificationMessage(
+              arguments: NotificationArguments(
+                "Unread Notification",
+                "You have unread notifications waiting for you.",
+                () {
+                  Navigator.of(context).pop();
+                  //Scaffold.of(context).openEndDrawer();
+                },
+              ),
+            );
+          });
+        },
+      );
+    }
   }
 
   @override
@@ -790,12 +802,15 @@ class _MIHHomeState extends State<MIHHome> {
 
   @override
   void initState() {
+    super.initState();
     setState(() {
       pbswitch = setApps(persHTList, busHTList);
       businessUserSwitch = false;
       notifiList = widget.notifications;
     });
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notificationPopUp();
+    });
   }
 
   @override

@@ -10,10 +10,12 @@ import 'package:patient_manager/mih_objects/patients.dart';
 class NotificationArguments {
   final String title;
   final String body;
+  final void Function()? onTap;
 
   NotificationArguments(
     this.title,
     this.body,
+    this.onTap,
   );
 }
 
