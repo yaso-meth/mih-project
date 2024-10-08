@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -22,6 +24,7 @@ import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
+import 'package:supertokens_flutter/http.dart' as http;
 
 class MIHHome extends StatefulWidget {
   final AppUser signedInUser;
@@ -56,9 +59,11 @@ class _MIHHomeState extends State<MIHHome> {
   late List<MIHTile> persHTList = [];
   late List<MIHTile> busHTList = [];
   late List<List<MIHTile>> pbswitch;
+  late List<MIHNotification> notifiList;
   late bool businessUserSwitch;
   int _selectedIndex = 0;
   String appSearch = "";
+  int amount = 10;
   final baseAPI = AppEnviroment.baseApiUrl;
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
@@ -703,12 +708,34 @@ class _MIHHomeState extends State<MIHHome> {
     if (widget.notifications
         .map((item) => item.notification_read)
         .contains("No")) {
-      print("New Notification Available");
+      //print("New Notification Available");
       return true;
     } else {
-      print("No New Notification Available");
+      //print("No New Notification Available");
       return false;
     }
+  }
+
+  Future<void> refreshNotifications() async {
+    var responseNotification = await http.get(Uri.parse(
+        "$baseAPI/notifications/${widget.signedInUser.app_id}?amount=$amount"));
+    List<MIHNotification> notifi;
+    if (responseNotification.statusCode == 200) {
+      String body = responseNotification.body;
+      // var decodedData = jsonDecode(body);
+      // MIHNotification notifications = MIHNotification.fromJson(decodedData);
+
+      Iterable l = jsonDecode(body);
+      //print("Here2");
+      List<MIHNotification> notifications = List<MIHNotification>.from(
+          l.map((model) => MIHNotification.fromJson(model)));
+      notifi = notifications;
+    } else {
+      notifi = [];
+    }
+    setState(() {
+      notifiList = notifi;
+    });
   }
 
   @override
@@ -723,6 +750,7 @@ class _MIHHomeState extends State<MIHHome> {
     setState(() {
       pbswitch = setApps(persHTList, busHTList);
       businessUserSwitch = false;
+      notifiList = widget.notifications;
     });
 
     super.initState();
@@ -742,6 +770,8 @@ class _MIHHomeState extends State<MIHHome> {
       actionDrawer: getActionDrawer(),
       secondaryActionDrawer: getSecondaryActionDrawer(),
       bottomNavBar: getBottomNavBar(),
+      pullDownToRefresh: true,
+      onPullDown: refreshNotifications,
     );
   }
 }
