@@ -348,6 +348,10 @@ class _PatientManagerState extends State<PatientManager> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+
+        Navigator.of(context).popAndPushNamed(
+          '/',
+        );
       },
     );
   }
@@ -420,6 +424,8 @@ class _PatientManagerState extends State<PatientManager> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

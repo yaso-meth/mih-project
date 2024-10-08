@@ -290,6 +290,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+
+        Navigator.of(context).popAndPushNamed(
+          '/',
+        );
       },
     );
   }
@@ -443,6 +447,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

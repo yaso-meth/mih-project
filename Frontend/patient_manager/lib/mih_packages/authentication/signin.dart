@@ -588,6 +588,8 @@ class _SignInState extends State<SignIn> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

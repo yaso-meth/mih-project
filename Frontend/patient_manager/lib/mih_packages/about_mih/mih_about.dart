@@ -330,6 +330,8 @@ class _MIHAboutState extends State<MIHAbout> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

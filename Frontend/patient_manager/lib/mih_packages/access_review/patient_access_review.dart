@@ -222,6 +222,10 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+
+        Navigator.of(context).popAndPushNamed(
+          '/',
+        );
       },
     );
   }
@@ -354,6 +358,8 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

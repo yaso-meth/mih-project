@@ -400,6 +400,8 @@ class _AddPatientState extends State<AddPatient> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

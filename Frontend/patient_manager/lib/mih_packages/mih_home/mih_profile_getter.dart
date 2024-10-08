@@ -232,6 +232,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               actionDrawer: null,
               secondaryActionDrawer: null,
               bottomNavBar: null,
+              pullDownToRefresh: false,
+              onPullDown: () async {},
             );
           }
         }

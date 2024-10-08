@@ -288,6 +288,10 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+
+        Navigator.of(context).popAndPushNamed(
+          '/',
+        );
       },
     );
   }
@@ -376,6 +380,8 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(

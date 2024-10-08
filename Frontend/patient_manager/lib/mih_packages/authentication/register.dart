@@ -421,6 +421,8 @@ class _RegisterState extends State<Register> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

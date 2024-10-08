@@ -296,6 +296,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

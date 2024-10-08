@@ -359,6 +359,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

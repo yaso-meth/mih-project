@@ -110,6 +110,10 @@ class _PatientViewState extends State<PatientView> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+
+        Navigator.of(context).popAndPushNamed(
+          '/',
+        );
       },
     );
   }
@@ -184,6 +188,8 @@ class _PatientViewState extends State<PatientView> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
     // return Scaffold(
     //   body: SafeArea(

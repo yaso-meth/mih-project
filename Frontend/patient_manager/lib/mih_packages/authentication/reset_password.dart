@@ -423,6 +423,8 @@ class _ResetPasswordState extends State<ResetPassword> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
   }
 }

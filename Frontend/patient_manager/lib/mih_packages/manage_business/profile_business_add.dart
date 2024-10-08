@@ -441,6 +441,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
+      pullDownToRefresh: false,
+      onPullDown: () async {},
     );
 
     // return Scaffold(
