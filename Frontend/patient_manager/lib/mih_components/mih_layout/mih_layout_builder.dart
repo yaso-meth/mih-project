@@ -66,24 +66,44 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
 
   Widget getBody(double width, double height) {
     if (widget.pullDownToRefresh == true) {
-      return RefreshIndicator(
-        onRefresh: widget.onPullDown,
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  getLayoutHeader(),
-                  Expanded(child: widget.body),
-                ],
-              ),
-            ),
+      return LayoutBuilder(builder: (context, BoxConstraints constraints) {
+        double newheight = constraints.maxHeight;
+        print(newheight);
+        return RefreshIndicator(
+          onRefresh: widget.onPullDown,
+          child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: (BuildContext context, int index) {
+              return SafeArea(
+                child: SizedBox(
+                  width: width,
+                  height: newheight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      getLayoutHeader(),
+                      Expanded(child: widget.body),
+                    ],
+                  ),
+                ),
+              );
+            },
+            // child: SafeArea(
+            //   child: SizedBox(
+            //     width: width,
+            //     height: height,
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       children: [
+            //         getLayoutHeader(),
+            //         Expanded(child: widget.body),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ),
-        ),
-      );
+        );
+      });
     } else {
       return SafeArea(
         child: SizedBox(
