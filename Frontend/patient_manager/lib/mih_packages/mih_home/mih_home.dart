@@ -776,18 +776,16 @@ class _MIHHomeState extends State<MIHHome> {
         barrierColor: const Color(0x01000000),
         context: context,
         builder: (context) {
-          return Builder(builder: (context) {
-            return MIHNotificationMessage(
-              arguments: NotificationArguments(
-                "Unread Notifications",
-                "You have unread notifications waiting for you.",
-                () {
-                  Navigator.of(context).pop();
-                  //Scaffold.of(context).openEndDrawer();
-                },
-              ),
-            );
-          });
+          return MIHNotificationMessage(
+            arguments: NotificationArguments(
+              "Unread Notifications",
+              "You have unread notifications waiting for you.",
+              () {
+                Navigator.of(context).pop();
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          );
         },
       );
     }
