@@ -164,6 +164,11 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
     return SlideTransition(
       position: _scaleAnimation,
       child: Dialog(
+        insetPadding: const EdgeInsets.only(
+          top: 45,
+          left: 5,
+          right: 5,
+        ),
         shadowColor: secondary,
         alignment: Alignment.topCenter,
         child: notifyPopUp(),
