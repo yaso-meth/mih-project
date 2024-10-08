@@ -11,7 +11,8 @@ class MIHLayoutBuilder extends StatefulWidget {
   final MIHAppDrawer? actionDrawer;
   final Widget? secondaryActionDrawer;
   final Widget? bottomNavBar;
-
+  final bool pullDownToRefresh;
+  final Future<void> Function() onPullDown;
   //final String type;
   const MIHLayoutBuilder({
     super.key,
@@ -22,7 +23,8 @@ class MIHLayoutBuilder extends StatefulWidget {
     required this.actionDrawer,
     required this.secondaryActionDrawer,
     required this.bottomNavBar,
-    //required this.type,
+    required this.pullDownToRefresh,
+    required this.onPullDown,
   });
 
   @override
@@ -62,6 +64,43 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
     );
   }
 
+  Widget getBody(double width, double height) {
+    if (widget.pullDownToRefresh == true) {
+      return RefreshIndicator(
+        onRefresh: widget.onPullDown,
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  getLayoutHeader(),
+                  Expanded(child: widget.body),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return SafeArea(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              getLayoutHeader(),
+              Expanded(child: widget.body),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -79,19 +118,7 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
       //drawerEnableOpenDragGesture: true,
       drawer: widget.actionDrawer,
       endDrawer: widget.secondaryActionDrawer,
-      body: SafeArea(
-        child: SizedBox(
-          width: screenSize.width,
-          height: screenSize.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              getLayoutHeader(),
-              Expanded(child: widget.body),
-            ],
-          ),
-        ),
-      ),
+      body: getBody(screenSize.width, screenSize.height),
       bottomNavigationBar: widget.bottomNavBar,
     );
   }
