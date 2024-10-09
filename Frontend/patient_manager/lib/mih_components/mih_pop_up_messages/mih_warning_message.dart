@@ -118,6 +118,146 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
     );
   }
 
+  void setAppointmentCanelled() {
+    messageTypes["Appointment Canelled"] = Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: popUpIconSize,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                //const SizedBox(height: 15),
+                Text(
+                  "Appointment Cancelled",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "This appointment has been canceled. As a result, you no longer have access to the patient's profile. If you would like to view the patient's profile again, please book a new appointment.",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void setAccessCanelled() {
+    messageTypes["Access Cancelled"] = Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: popUpIconSize,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                //const SizedBox(height: 15),
+                Text(
+                  "Access Cancelled",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "This appointment has been canceled. As a result, access has been cancelled and the doctor no longer have access to the patient's profile. If you would like them to view the patient's profile again, please book a new appointment through them.",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setAccessDeclined() {
     messageTypes["Access Declined"] = Stack(
       children: [
@@ -278,6 +418,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
     setNoAccess();
     setExpiredAccess();
     setAccessDeclined();
+    setAppointmentCanelled();
+    setAccessCanelled();
     //print(size);
     // setState(() {
     //   width = size.width;

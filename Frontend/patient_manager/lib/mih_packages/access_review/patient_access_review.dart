@@ -262,7 +262,8 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
                   "All",
                   "Approved",
                   "Pending",
-                  "Declined"
+                  "Declined",
+                  "Cancelled"
                 ],
                 required: true,
                 editable: true,

@@ -5,6 +5,7 @@ import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button
 import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/access_request.dart';
@@ -94,6 +95,15 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     );
   }
 
+  void accessCancelledWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "Access Cancelled");
+      },
+    );
+  }
+
   Widget displayQueue(int index) {
     String line1 =
         "Appointment: ${widget.accessRequests[index].date_time.substring(0, 16).replaceAll("T", " ")}";
@@ -160,7 +170,11 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       //   ),
       // ),
       onTap: () {
-        viewApprovalPopUp(index);
+        if (access == "CANCELLED") {
+          accessCancelledWarning();
+        } else {
+          viewApprovalPopUp(index);
+        }
       },
       // trailing: Icon(
       //   Icons.arrow_forward,

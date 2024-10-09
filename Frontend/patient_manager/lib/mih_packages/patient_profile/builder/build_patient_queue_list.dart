@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
@@ -33,6 +37,45 @@ class BuildPatientQueueList extends StatefulWidget {
 class _BuildPatientsListState extends State<BuildPatientQueueList> {
   String baseAPI = AppEnviroment.baseApiUrl;
 
+  Future<void> updateAccessAPICall(int index, String accessType) async {
+    var response = await http.put(
+      Uri.parse("$baseAPI/access-requests/update/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": widget.business!.business_id,
+        "app_id": widget.patientQueue[index].app_id,
+        "date_time": widget.patientQueue[index].date_time,
+        "access": accessType,
+      }),
+    );
+    if (response.statusCode == 200) {
+      //Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.signedInUser,
+          widget.businessUser,
+          widget.business,
+        ),
+      );
+      // Navigator.of(context).pushNamed(
+      //   '/patient-access-review',
+      //   arguments: widget.signedInUser,
+      // );
+      String message =
+          "The appointment for ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name} at ${widget.patientQueue[index].date_time} has been successfully canceled.";
+
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
   Future<Patient> fetchPatients(String app_id) async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
 
@@ -53,6 +96,121 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     } else {
       throw Exception("Error: GetUserData status code ${response.statusCode}");
     }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MIHSuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
+
+  void viewConfirmationPopUp(int index) {
+    String subtitle =
+        "Appointment: ${widget.patientQueue[index].date_time.substring(0, 16).replaceAll("T", " ")}\n";
+    subtitle +=
+        "Patient: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\n\n";
+    //subtitle += "Business Type: ${widget.patientQueue[index].last_name}\n\n";
+    subtitle +=
+        "Would you like to view the patient's profile before the appointment or cancel the appointment now?\n";
+    //"You are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.accessRequests[index].Name} will have access to your profile information until ${widget.accessRequests[index].revoke_date.substring(0, 16).replaceAll("T", " ")}.\nIf you are unsure about an upcoming appointment with ${widget.accessRequests[index].Name}, please contact ${widget.accessRequests[index].contact_no} for clarification before approving this request.\n";
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MIHWindow(
+          fullscreen: false,
+          windowTitle: "Appointment Confirmation",
+          windowBody: [
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                subtitle,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: 15,
+                  //fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Wrap(
+              runSpacing: 10,
+              spacing: 10,
+              children: [
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      updateAccessAPICall(index, "cancelled");
+                    },
+                    buttonText: "Cancel Appointment",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      //updateAccessAPICall(index, "approved");
+                      Patient selectedPatient;
+                      fetchPatients(widget.patientQueue[index].app_id).then(
+                        (result) {
+                          setState(() {
+                            selectedPatient = result;
+                            Navigator.of(context)
+                                .pushNamed('/patient-manager/patient',
+                                    arguments: PatientViewArguments(
+                                      widget.signedInUser,
+                                      selectedPatient,
+                                      widget.businessUser,
+                                      widget.business,
+                                      "business",
+                                    ));
+                          });
+                        },
+                      );
+                    },
+                    buttonText: "View Patient Profile",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+          windowTools: const [],
+          onWindowTapClose: () {
+            Navigator.pop(context);
+          }),
+    );
   }
 
   Widget displayQueue(int index) {
@@ -83,7 +241,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     }
     String line5 = "\nAccess Request: ";
     String access = "";
-    if (expireyDate.isBefore(nowDate)) {
+    if (expireyDate.isBefore(nowDate) &&
+        widget.patientQueue[index].access != "cacelled") {
       access += "EXPIRED";
     } else {
       access += widget.patientQueue[index].access.toUpperCase();
@@ -140,24 +299,27 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         if (revokeDate.isBefore(todayDate)) {
           expiredAccessWarning();
         } else if (widget.patientQueue[index].access == "approved") {
-          Patient selectedPatient;
-          fetchPatients(widget.patientQueue[index].app_id).then(
-            (result) {
-              setState(() {
-                selectedPatient = result;
-                Navigator.of(context).pushNamed('/patient-manager/patient',
-                    arguments: PatientViewArguments(
-                      widget.signedInUser,
-                      selectedPatient,
-                      widget.businessUser,
-                      widget.business,
-                      "business",
-                    ));
-              });
-            },
-          );
+          viewConfirmationPopUp(index);
+          // Patient selectedPatient;
+          // fetchPatients(widget.patientQueue[index].app_id).then(
+          //   (result) {
+          //     setState(() {
+          //       selectedPatient = result;
+          //       Navigator.of(context).pushNamed('/patient-manager/patient',
+          //           arguments: PatientViewArguments(
+          //             widget.signedInUser,
+          //             selectedPatient,
+          //             widget.businessUser,
+          //             widget.business,
+          //             "business",
+          //           ));
+          //     });
+          //   },
+          // );
         } else if (widget.patientQueue[index].access == "declined") {
           accessDeclinedWarning();
+        } else if (widget.patientQueue[index].access == "cancelled") {
+          appointmentCancelledWarning();
         } else {
           noAccessWarning();
         }
@@ -183,6 +345,15 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       context: context,
       builder: (context) {
         return const MIHWarningMessage(warningType: "Access Declined");
+      },
+    );
+  }
+
+  void appointmentCancelledWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "Appointment Canelled");
       },
     );
   }
