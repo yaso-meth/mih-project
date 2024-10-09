@@ -175,23 +175,27 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                   child: MIHButton(
                     onTap: () {
                       //updateAccessAPICall(index, "approved");
-                      Patient selectedPatient;
-                      fetchPatients(widget.patientQueue[index].app_id).then(
-                        (result) {
-                          setState(() {
-                            selectedPatient = result;
-                            Navigator.of(context)
-                                .pushNamed('/patient-manager/patient',
-                                    arguments: PatientViewArguments(
-                                      widget.signedInUser,
-                                      selectedPatient,
-                                      widget.businessUser,
-                                      widget.business,
-                                      "business",
-                                    ));
-                          });
-                        },
-                      );
+                      if (widget.patientQueue[index].access == "approved") {
+                        Patient selectedPatient;
+                        fetchPatients(widget.patientQueue[index].app_id).then(
+                          (result) {
+                            setState(() {
+                              selectedPatient = result;
+                              Navigator.of(context)
+                                  .pushNamed('/patient-manager/patient',
+                                      arguments: PatientViewArguments(
+                                        widget.signedInUser,
+                                        selectedPatient,
+                                        widget.businessUser,
+                                        widget.business,
+                                        "business",
+                                      ));
+                            });
+                          },
+                        );
+                      } else {
+                        noAccessWarning();
+                      }
                     },
                     buttonText: "View Patient Profile",
                     buttonColor:
@@ -321,7 +325,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         } else if (widget.patientQueue[index].access == "cancelled") {
           appointmentCancelledWarning();
         } else {
-          noAccessWarning();
+          viewConfirmationPopUp(index);
+          //noAccessWarning();
         }
       },
       trailing: Icon(
