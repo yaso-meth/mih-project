@@ -54,7 +54,6 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
       //Navigator.of(context).pushNamed('/home');
       Navigator.of(context).pop();
       Navigator.of(context).pop();
-      Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         '/patient-manager',
         arguments: BusinessArguments(
