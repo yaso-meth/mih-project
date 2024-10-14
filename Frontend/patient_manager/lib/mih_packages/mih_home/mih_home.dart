@@ -782,7 +782,7 @@ class _MIHHomeState extends State<MIHHome> {
               "You have unread notifications waiting for you.",
               () {
                 Navigator.of(context).pop();
-                Scaffold.of(context).openEndDrawer();
+                //Scaffold.of(context).openEndDrawer();
               },
             ),
           );
