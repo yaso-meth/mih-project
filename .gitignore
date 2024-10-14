@@ -4,6 +4,7 @@
 File_Storage
 database/
 certbot/
+Firebase-emulator/
 # database/ibdata1
 # database/mysql.ibd
 # database/undo*

@@ -146,7 +146,60 @@ services:
     restart: unless-stopped
     networks:
       - MIH-network
-#============== Named Volumes ====================================================================   
+  #============== Firebaase ====================================================================   
+  # firebase:
+  #   container_name: MIH-firebase-emulator
+  #   build:
+  #     context: ./Firebase-emulator
+  #   environment:
+  #     DATA_DIRECTORY: "firebase/data"
+  #   ports:
+  #     - 8082:8080 # FIRESTORE_PORT
+  #     - 5005:5005 # FIRESTORE_WS_PORT
+  #     - 4000:4000 # UI_PORT
+  #     - 9099:9099 # AUTH_PORT
+  #   volumes:
+  #     - ./Firebase-emulator/firebase:/srv/firebase:rw
+  #     # - ./cache:/root/.cache/:rw
+  #     # - ~/.config/:/root/.config
+  #     - ./Firebase-emulator/firebase/data:/srv/firebase/data:rw
+  # firbase:
+  #   build:
+  #     context: ./Firebase
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - FIREBASE_VERSION=13.3.0
+  #   container_name: MIH-firebase
+  #   stop_grace_period: 1m
+  #   environment:
+  #     FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099"
+  #     FIRESTORE_EMULATOR_HOST: "localhost:8082"
+  #     PUBSUB_EMULATOR_HOST: "localhost:8085"
+  #     FUNCTIONS_EMULATOR_HOST: "localhost:5001"
+  #     FIREBASE_PROJECT: "test-project"
+  #     GCLOUD_PROJECT: "test-project"
+  #     FORCE_COLOR: 'true'
+  #     DATA_DIRECTORY: "data"
+  #     CHOKIDAR_USEPOLLING: 'true'
+  #   ports:
+  #     - "4000:4001" # ui
+  #     - "4400:4401" # hub
+  #     - "4600:4601" # logging
+  #     - "5001:5002" # functions
+  #     - "8082:8081" # firestore
+  #     - "8085:8086" # pubsub
+  #     - "9005:9001" # database
+  #     - "9099:9100" # auth
+  #     - "9199:9200" # Storage
+  #     - "6000:6001" # Hosting
+  #   volumes:
+  #     - ./firebase:/srv/firebase:rw
+  #     - ./cache:/root/.cache/:rw
+  #     - ~/.config/:/root/.config
+  #     - ./firebase/data:/srv/firebase/data:rw
+  #   networks:
+  #     - MIH-network
+  #============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
   certbotChall:
