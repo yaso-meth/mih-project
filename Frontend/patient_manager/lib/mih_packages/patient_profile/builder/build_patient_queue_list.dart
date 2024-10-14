@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -36,6 +40,11 @@ class BuildPatientQueueList extends StatefulWidget {
 
 class _BuildPatientsListState extends State<BuildPatientQueueList> {
   String baseAPI = AppEnviroment.baseApiUrl;
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
 
   Future<void> updateAccessAPICall(int index, String accessType) async {
     var response = await http.put(
@@ -75,6 +84,44 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     }
   }
 
+  Future<void> updateApointmentAPICall(int index) async {
+    var response = await http.put(
+      Uri.parse("$baseAPI/queue/update/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idpatient_queue": widget.patientQueue[index].idpatient_queue,
+        "date": dateController.text,
+        "time": timeController.text,
+      }),
+    );
+    if (response.statusCode == 200) {
+      //Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.signedInUser,
+          widget.businessUser,
+          widget.business,
+        ),
+      );
+      // Navigator.of(context).pushNamed(
+      //   '/patient-access-review',
+      //   arguments: widget.signedInUser,
+      // );
+      String message =
+          "The appointment has been rescheduled for ${dateController.text} ${timeController.text}.\n\nJust a heads up: We've reset your access to the patient's profile and it will have to be approved again.";
+
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
   Future<Patient> fetchPatients(String app_id) async {
     //print("pat man drawer: " + endpointUserData + widget.userEmail);
 
@@ -106,6 +153,19 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     );
   }
 
+  void deleteFilePopUp(int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MIHDeleteMessage(
+        deleteType: "appointment",
+        onTap: () async {
+          await updateAccessAPICall(index, "cancelled");
+        },
+      ),
+    );
+  }
+
   void successPopUp(String message) {
     showDialog(
       context: context,
@@ -121,8 +181,16 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
   void viewConfirmationPopUp(int index) {
     String subtitle =
         "Appointment: ${widget.patientQueue[index].date_time.substring(0, 16).replaceAll("T", " ")}\n";
-    subtitle +=
-        "Patient: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\n\n";
+    subtitle += "ID No.: ${widget.patientQueue[index].id_no}\n";
+    if (widget.patientQueue[index].access == "approved") {
+      subtitle +=
+          "Patient: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\n";
+    } else {
+      subtitle +=
+          "Patient: ${widget.patientQueue[index].first_name[0]}******** ${widget.patientQueue[index].last_name[0]}********\n\n";
+    }
+    // subtitle +=
+    //     "Patient: ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name}\n\n";
     //subtitle += "Business Type: ${widget.patientQueue[index].last_name}\n\n";
     subtitle +=
         "Would you like to view the patient's profile before the appointment or cancel the appointment now?\n";
@@ -159,11 +227,34 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                   height: 50,
                   child: MIHButton(
                     onTap: () {
-                      updateAccessAPICall(index, "cancelled");
+                      //updateAccessAPICall(index, "cancelled");
+                      var appointmentDateTime = widget
+                          .patientQueue[index].date_time
+                          .substring(0, 16)
+                          .split("T");
+                      var firstName = "";
+                      var lastName = "";
+                      if (widget.patientQueue[index].access == "approved") {
+                        firstName = widget.patientQueue[index].first_name;
+                        lastName = widget.patientQueue[index].last_name;
+                      } else {
+                        firstName =
+                            "${widget.patientQueue[index].first_name[0]}********";
+                        lastName =
+                            "${widget.patientQueue[index].last_name[0]}********";
+                      }
+                      setState(() {
+                        idController.text = widget.patientQueue[index].id_no;
+                        fnameController.text = firstName;
+                        lnameController.text = lastName;
+                        dateController.text = appointmentDateTime[0];
+                        timeController.text = appointmentDateTime[1];
+                      });
+                      manageAppointmentPopUp(index);
                     },
-                    buttonText: "Cancel Appointment",
+                    buttonText: "Manage Appointment",
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     textColor:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
@@ -197,6 +288,93 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                       }
                     },
                     buttonText: "View Patient Profile",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+          windowTools: const [],
+          onWindowTapClose: () {
+            Navigator.pop(context);
+          }),
+    );
+  }
+
+  void manageAppointmentPopUp(int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MIHWindow(
+          fullscreen: false,
+          windowTitle: "Manage Appointment",
+          windowBody: [
+            MIHTextField(
+              controller: idController,
+              hintText: "ID No.",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
+            MIHDateField(
+              controller: dateController,
+              lableText: "Date",
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTimeField(
+              controller: timeController,
+              lableText: "Time",
+              required: true,
+            ),
+            const SizedBox(height: 30.0),
+            Wrap(
+              runSpacing: 10,
+              spacing: 10,
+              children: [
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      updateAccessAPICall(index, "cancelled");
+                    },
+                    buttonText: "Cancel",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      updateApointmentAPICall(index);
+                    },
+                    buttonText: "Update",
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.successColor(),
                     textColor:
@@ -373,7 +551,8 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    dateController.dispose();
+    timeController.dispose();
     super.dispose();
   }
 
