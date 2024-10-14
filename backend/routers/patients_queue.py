@@ -21,6 +21,11 @@ class queueInsertRequest(BaseModel):
     time: str
     access: str
 
+class queueUpdateRequest(BaseModel):
+    idpatient_queue: int
+    date: str
+    time: str
+
 # # Get List of all files
 # @router.get("/files/patients/", tags="patients_files")
 # async def read_all_files(session: SessionContainer = Depends(verify_session())):
@@ -151,3 +156,35 @@ async def insert_Patient_Files(itemRequest : queueInsertRequest, session: Sessio
     cursor.close()
     db.close()
     return {"message": "Successfully Created file Record"}
+
+# Update Patient on table
+@router.put("/queue/update/", tags=["Patients Queue"])
+async def Update_Queue(itemRequest : queueUpdateRequest): #, session: SessionContainer = Depends(verify_session())
+    
+    date_time = itemRequest.date + " " + itemRequest.time + ":00"
+    year = itemRequest.date[0:4]
+    month = itemRequest.date[5:7]
+    day = itemRequest.date[8:10]
+    hour = itemRequest.time[0:2]
+    minutes = itemRequest.time[3:5]
+
+    revDate = datetime(int(year), int(month), int(day), int(hour),int( minutes))
+    newRevDate = revDate + timedelta(days=7)
+    db = database.dbConnection.dbPatientManagerConnect()
+    cursor = db.cursor()
+    query = "update patient_queue "
+    query += "set date_time=%s, revoke_date=%s, access='pending' "
+    query += "where idpatient_queue=%s"
+    patientData = (date_time, 
+                   newRevDate,
+                   itemRequest.idpatient_queue)
+    try:
+       cursor.execute(query, patientData) 
+    except Exception as error:
+        print(error)
+        raise HTTPException(status_code=404, detail="Failed to Update Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
