@@ -360,7 +360,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                     onTap: () {
                       updateAccessAPICall(index, "cancelled");
                     },
-                    buttonText: "Cancel",
+                    buttonText: "Cancel Appointment",
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.errorColor(),
                     textColor:
@@ -374,7 +374,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                     onTap: () {
                       updateApointmentAPICall(index);
                     },
-                    buttonText: "Update",
+                    buttonText: "Update Appointment",
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.successColor(),
                     textColor:
