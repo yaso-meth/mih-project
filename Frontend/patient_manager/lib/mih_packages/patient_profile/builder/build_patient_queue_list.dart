@@ -61,24 +61,21 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     );
     if (response.statusCode == 200) {
       //Navigator.of(context).pushNamed('/home');
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          widget.signedInUser,
-          widget.businessUser,
-          widget.business,
-        ),
-      );
+      addCancelledAppointmentNotificationAPICall(index);
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
       // Navigator.of(context).pushNamed(
-      //   '/patient-access-review',
-      //   arguments: widget.signedInUser,
+      //   '/patient-manager',
+      //   arguments: BusinessArguments(
+      //     widget.signedInUser,
+      //     widget.businessUser,
+      //     widget.business,
+      //   ),
       // );
-      String message =
-          "The appointment for ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name} at ${widget.patientQueue[index].date_time} has been successfully canceled.";
+      // String message =
+      //     "The appointment for ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name} at ${widget.patientQueue[index].date_time} has been successfully canceled.";
 
-      successPopUp(message);
+      // successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -98,25 +95,23 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
     );
     if (response.statusCode == 200) {
       //Navigator.of(context).pushNamed('/home');
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          widget.signedInUser,
-          widget.businessUser,
-          widget.business,
-        ),
-      );
+      addRescheduledAppointmentNotificationAPICall(index);
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
       // Navigator.of(context).pushNamed(
-      //   '/patient-access-review',
-      //   arguments: widget.signedInUser,
+      //   '/patient-manager',
+      //   arguments: BusinessArguments(
+      //     widget.signedInUser,
+      //     widget.businessUser,
+      //     widget.business,
+      //   ),
       // );
-      String message =
-          "The appointment has been rescheduled for ${dateController.text} ${timeController.text}.\n\nJust a heads up: We've reset your access to the patient's profile and it will have to be approved again.";
 
-      successPopUp(message);
+      // String message =
+      //     "The appointment has been rescheduled for ${dateController.text} ${timeController.text}.\n\nJust a heads up: We've reset your access to the patient's profile and it will have to be approved again.";
+
+      // successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -305,6 +300,77 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
             Navigator.pop(context);
           }),
     );
+  }
+
+  Future<void> addCancelledAppointmentNotificationAPICall(int index) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": widget.patientQueue[index].app_id,
+        "notification_type": "Appointment Cancelled",
+        "notification_message":
+            "Your appointment with ${widget.business!.Name} for the ${widget.patientQueue[index].date_time.replaceAll("T", " ")} has been cancelled.",
+        "action_path": "/access-review",
+      }),
+    );
+    if (response.statusCode == 201) {
+      // Navigator.pushNamed(context, '/patient-manager/patient',
+      //     arguments: widget.signedInUser);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.signedInUser,
+          widget.businessUser,
+          widget.business,
+        ),
+      );
+      String message =
+          "The appointment for ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name} at ${widget.patientQueue[index].date_time} has been successfully canceled.";
+
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<void> addRescheduledAppointmentNotificationAPICall(int index) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": widget.patientQueue[index].app_id,
+        "notification_type": "Rescheduled Appointment",
+        "notification_message":
+            "Your appointment with ${widget.business!.Name} for the ${widget.patientQueue[index].date_time.replaceAll("T", " ").substring(0, widget.patientQueue[index].date_time.length - 3)} has been rescheduled to the ${dateController.text} ${timeController.text}.",
+        "action_path": "/access-review",
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.signedInUser,
+          widget.businessUser,
+          widget.business,
+        ),
+      );
+      String message =
+          "The appointment for ${widget.patientQueue[index].first_name} ${widget.patientQueue[index].last_name} at ${widget.patientQueue[index].date_time} has been successfully canceled.";
+
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
   }
 
   void manageAppointmentPopUp(int index) {
