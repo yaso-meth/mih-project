@@ -92,9 +92,9 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
       },
       body: jsonEncode(<String, dynamic>{
         "app_id": widget.patients[index].app_id,
-        "notification_type": "Access Review",
+        "notification_type": "New Appointment Booked",
         "notification_message":
-            "A new Access Review request has been sent by ${widget.arguments.business!.Name}",
+            "A new Appointment has been booked by ${widget.arguments.business!.Name} for the ${dateController.text} ${timeController.text}. Please approve the Access Review request.",
         "action_path": "/access-review",
       }),
     );
