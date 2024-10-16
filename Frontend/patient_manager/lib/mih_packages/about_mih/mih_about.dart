@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
@@ -6,7 +7,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dar
 import 'package:patient_manager/mih_components/mih_layout/mih_tile.dart';
 import 'package:patient_manager/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import "package:universal_html/js.dart" as js;
 import 'dart:html' as html;
 
 class MIHAbout extends StatefulWidget {
@@ -74,6 +75,22 @@ class _MIHAboutState extends State<MIHAbout> {
           style: const TextStyle(
             //fontWeight: FontWeight.bold,
             fontSize: 15,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          width: 300,
+          height: 50,
+          child: MIHButton(
+            onTap: () {
+              js.context.callMethod("presentAddToHome");
+            },
+            buttonText: "Install MIH",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
         ),
         const Padding(
