@@ -5,6 +5,7 @@ File_Storage
 database/
 certbot/
 Firebase-emulator/
+Mzansi_Mail/
 # database/ibdata1
 # database/mysql.ibd
 # database/undo*
