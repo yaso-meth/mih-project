@@ -46,8 +46,6 @@ class _MIHAboutState extends State<MIHAbout> {
   }
 
   MIHBody getBody() {
-    String vision =
-        "Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.";
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -66,9 +64,13 @@ class _MIHAboutState extends State<MIHAbout> {
             fontSize: 30,
           ),
         ),
-        const SizedBox(
-          height: 10,
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.0),
+          child: Divider(),
         ),
+        // const SizedBox(
+        //   height: 10,
+        // ),
         Wrap(
           alignment: WrapAlignment.start,
           crossAxisAlignment: WrapCrossAlignment.start,
@@ -183,7 +185,7 @@ class _MIHAboutState extends State<MIHAbout> {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 25,
           ),
         ),
         const SizedBox(
@@ -271,7 +273,7 @@ class _MIHAboutState extends State<MIHAbout> {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 25,
           ),
         ),
         const SizedBox(
