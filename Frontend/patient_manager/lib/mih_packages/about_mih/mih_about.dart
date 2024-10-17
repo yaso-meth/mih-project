@@ -63,19 +63,21 @@ class _MIHAboutState extends State<MIHAbout> {
           "Mzansi Innovation Hub",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 25,
+            fontSize: 30,
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        Text(
-          vision,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            //fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            ourVision(),
+            ourMission(),
+          ],
         ),
         const SizedBox(
           height: 10,
@@ -93,17 +95,21 @@ class _MIHAboutState extends State<MIHAbout> {
             textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
         ),
+        const SizedBox(
+          height: 10,
+        ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 10.0),
           child: Divider(),
         ),
-        Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 10,
-          runSpacing: 10,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          // spacing: 10,
+          // runSpacing: 10,
           children: [
-            founderProPic(),
+            founderTitle(),
             founderBio(),
           ],
         ),
@@ -122,11 +128,37 @@ class _MIHAboutState extends State<MIHAbout> {
     bio += "(University of the Western Cap)\n";
     bio +=
         "6 Year of banking experience with one of the big 5 banks of South Africa.";
-    return SizedBox(
-      width: 400,
-      child: Column(
-        children: [
-          Text(
+    ImageProvider logoFrame =
+        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 10,
+      runSpacing: 10,
+      children: [
+        SizedBox(
+          width: 300,
+          child: Stack(
+            alignment: Alignment.center,
+            fit: StackFit.loose,
+            children: [
+              CircleAvatar(
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                backgroundImage: const AssetImage("images/founder.jpg"),
+                //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+                radius: 75,
+              ),
+              SizedBox(
+                width: 165,
+                child: Image(image: logoFrame),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 400,
+          child: Text(
             bio,
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -134,18 +166,16 @@ class _MIHAboutState extends State<MIHAbout> {
               fontSize: 15,
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 
-  Widget founderProPic() {
+  Widget founderTitle() {
     String heading = "Yasien Meth (Founder & CEO)";
-    ImageProvider logoFrame =
-        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
     return Column(
       children: [
         Text(
@@ -159,29 +189,81 @@ class _MIHAboutState extends State<MIHAbout> {
         const SizedBox(
           height: 10,
         ),
-        Stack(
-          alignment: Alignment.center,
-          fit: StackFit.loose,
-          children: [
-            CircleAvatar(
-              backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              backgroundImage: const AssetImage("images/founder.jpg"),
-              //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-              radius: 75,
-            ),
-            SizedBox(
-              width: 165,
-              child: Image(image: logoFrame),
-            )
-          ],
-        ),
       ],
     );
   }
 
+  Widget ourVision() {
+    String heading = "Our Vision";
+    String vision =
+        "Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.";
+
+    return SizedBox(
+      width: 500,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Text(
+            heading,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            vision,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              //fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget ourMission() {
+    String heading = "Our Mission";
+    String mission =
+        "Bridge the digital divide in Mzansi, ensuring that everyone can benefit from the power of technology. We empower lives by providing simple, elegant solutions that elevate daily experiences. With our user-friendly approach, we're making the digital world accessible to all, ensuring no one is left behind in the digital revolution.";
+
+    return SizedBox(
+      width: 500,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            heading,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            mission,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              //fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget mihSocials() {
-    String heading = "MIH Socials";
+    String heading = "Follow Our Journey";
     return Column(
       children: [
         Text(
