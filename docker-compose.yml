@@ -159,6 +159,7 @@ services:
   #     - 5005:5005 # FIRESTORE_WS_PORT
   #     - 4000:4000 # UI_PORT
   #     - 9099:9099 # AUTH_PORT
+  #     - 5000:6001 # Hosting
   #   volumes:
   #     - ./Firebase-emulator:/srv/firebase:rw
   #     # - ./cache:/root/.cache/:rw
