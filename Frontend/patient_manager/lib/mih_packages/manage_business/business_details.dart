@@ -490,14 +490,14 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                   const SizedBox(height: 10.0),
                   MIHTextField(
                     controller: typeController,
-                    hintText: "Business Type",
+                    hintText: widget.arguments.business!.type,
                     editable: false,
                     required: true,
                   ),
                   const SizedBox(height: 15.0),
                   MIHTextField(
                     controller: titleController,
-                    hintText: "title",
+                    hintText: widget.arguments.businessUser!.title,
                     editable: false,
                     required: true,
                   ),
