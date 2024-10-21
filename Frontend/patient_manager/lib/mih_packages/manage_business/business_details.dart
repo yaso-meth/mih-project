@@ -475,6 +475,40 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                     required: true,
                     editable: false,
                   ),
+                  const SizedBox(height: 15.0),
+                  const Text(
+                    "My Test Data",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  Divider(
+                    color:
+                        MzanziInnovationHub.of(context)?.theme.secondaryColor(),
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: typeController,
+                    hintText: "Business Type",
+                    editable: false,
+                    required: true,
+                  ),
+                  const SizedBox(height: 15.0),
+                  MIHTextField(
+                    controller: titleController,
+                    hintText: "title",
+                    editable: false,
+                    required: true,
+                  ),
+                  const SizedBox(height: 15.0),
+                  MIHTextField(
+                    controller: accessController,
+                    hintText: "access",
+                    editable: false,
+                    required: true,
+                  ),
+                  //const SizedBox(height: 15.0),
                   const SizedBox(height: 30.0),
                   SizedBox(
                     width: 500.0,
