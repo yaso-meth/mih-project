@@ -105,6 +105,7 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
+      initialSelection: widget.controller.text,
       enabled: widget.editable,
       trailingIcon: Icon(
         Icons.arrow_drop_down,
