@@ -504,7 +504,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                   const SizedBox(height: 15.0),
                   MIHTextField(
                     controller: accessController,
-                    hintText: "access",
+                    hintText: widget.arguments.businessUser!.access,
                     editable: false,
                     required: true,
                   ),
