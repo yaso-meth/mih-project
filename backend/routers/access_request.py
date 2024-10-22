@@ -17,6 +17,12 @@ class accessUpdateRequest(BaseModel):
     date_time: str
     access: str
 
+class accessExtensionRequest(BaseModel):
+    business_id: str
+    app_id: str
+    date_time: str
+    revoke_date: str
+
 # class queueInsertRequest(BaseModel):
 #     business_id: str
 #     app_id: str
@@ -65,6 +71,30 @@ async def Update_access_request_approcal(itemRequest : accessUpdateRequest): #, 
     query += "and app_id=%s "
     query += "and date_time=%s "
     userData = (itemRequest.access, 
+                itemRequest.business_id,
+                itemRequest.app_id,
+                itemRequest.date_time)
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
+
+@router.put("/access-requests/extension/", tags=["Access Requests"])
+async def Update_access_request_approcal(itemRequest : accessExtensionRequest): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbPatientManagerConnect()
+    cursor = db.cursor()
+    query = "update patient_queue "
+    query += "set access=%s, revoke_date=%s"
+    query += "where business_id=%s "
+    query += "and app_id=%s "
+    query += "and date_time=%s "
+    userData = ("pending", 
+                itemRequest.revoke_date,
                 itemRequest.business_id,
                 itemRequest.app_id,
                 itemRequest.date_time)
