@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/mih_apis/mih_location_api.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -45,6 +46,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
   final accessController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();
+  final locationController = TextEditingController();
 
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
@@ -179,6 +181,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
             "${widget.arguments.signedInUser.app_id}/business_files/${logonameController.text}",
         "contact_no": contactController.text,
         "bus_email": emailController.text,
+        "gps_location": locationController.text,
       }),
     );
     if (response.statusCode == 200) {
@@ -284,6 +287,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
     accessController.dispose();
     contactController.dispose();
     emailController.dispose();
+    locationController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -310,6 +314,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       oldLogoPath = widget.arguments.business!.logo_path;
       contactController.text = widget.arguments.business!.contact_no;
       emailController.text = widget.arguments.business!.bus_email;
+      locationController.text = widget.arguments.business!.gps_location;
     });
 
     super.initState();
@@ -404,6 +409,45 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           logonameController.text = selectedFile.name;
                         });
                       },
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: MIHTextField(
+                            controller: locationController,
+                            hintText: "Location",
+                            editable: false,
+                            required: false,
+                          ),
+                        ),
+                        const SizedBox(width: 10.0),
+                        SizedBox(
+                          width: 80.0,
+                          height: 50.0,
+                          child: MIHButton(
+                            buttonText: "Set",
+                            buttonColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            textColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            onTap: () {
+                              MIHLocationAPI()
+                                  .getGPSPosition(context)
+                                  .then((position) {
+                                if (position != null) {
+                                  setState(() {
+                                    locationController.text =
+                                        "${position.latitude}, ${position.longitude}";
+                                  });
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 15.0),
                   ],

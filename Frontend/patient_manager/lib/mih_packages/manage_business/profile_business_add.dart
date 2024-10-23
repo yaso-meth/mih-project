@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_manager/mih_apis/mih_location_api.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
@@ -49,6 +50,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final accessController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();
+  final locationController = TextEditingController();
 
   late PlatformFile selectedLogo;
   late PlatformFile selectedSignature;
@@ -121,6 +123,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
             "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
         "contact_no": contactController.text,
         "bus_email": emailController.text,
+        "gps_location": locationController.text,
       }),
     );
     if (response.statusCode == 201) {
@@ -312,6 +315,46 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                     });
                   },
                 ),
+                const SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    Flexible(
+                      child: MIHTextField(
+                        controller: locationController,
+                        hintText: "Location",
+                        editable: false,
+                        required: false,
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    SizedBox(
+                      width: 80.0,
+                      height: 50.0,
+                      child: MIHButton(
+                        buttonText: "Set",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        onTap: () {
+                          MIHLocationAPI()
+                              .getGPSPosition(context)
+                              .then((position) {
+                            if (position != null) {
+                              setState(() {
+                                locationController.text =
+                                    "${position.latitude}, ${position.longitude}";
+                              });
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
                 const SizedBox(height: 15.0),
                 Divider(
                   color:
@@ -417,6 +460,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     accessController.dispose();
     contactController.dispose();
     emailController.dispose();
+    locationController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
