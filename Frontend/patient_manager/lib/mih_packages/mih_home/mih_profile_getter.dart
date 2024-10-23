@@ -4,7 +4,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
-//import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
@@ -142,8 +142,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
             );
           }
         }
-        return const SizedBox(width: 5,height: 5);
-        //const Mihloadingcircle();
+        return const Mihloadingcircle();
       },
     );
   }
