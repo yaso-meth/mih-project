@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:patient_manager/mih_apis/mih_location_api.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
@@ -463,6 +464,25 @@ class _MIHHomeState extends State<MIHHome> {
         tileName: "Window - Dev",
         tileIcon: Icon(
           Icons.window,
+          color: getSec(),
+          size: 200,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        onTap: () {
+          MIHLocationAPI().getGPSPosition(context).then((position) {
+            if (position != null) {
+              print(position);
+              print(
+                  "Distance: ${MIHLocationAPI().getDistanceInMeaters(position, position)}m");
+            }
+          });
+        },
+        tileName: "Location - Dev",
+        tileIcon: Icon(
+          Icons.location_pin,
           color: getSec(),
           size: 200,
         ),
