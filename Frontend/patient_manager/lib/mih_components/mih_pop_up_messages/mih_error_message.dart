@@ -694,7 +694,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Text(
                   "Here are a few things you can try:",
                   style: TextStyle(
@@ -714,6 +714,94 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void setLocationError() {
+    messageTypes["Location Denied"] = Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: popUpIconSize,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+                //const SizedBox(height: 15),
+                Text(
+                  "Location Services Not Enabled",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    fontSize: popUpTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "To get the most out of MIH, we need your location. Please go to the site settings of the app and enable location services. Once you do that, we can start showing you relevant information based on your location.",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                // const SizedBox(height: 15),
+                // Text(
+                //   "Here are a few things you can try:",
+                //   style: TextStyle(
+                //     color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                //     fontSize: popUpSubtitleSize,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // const SizedBox(height: 10),
+                // Text(
+                //   "1) Check your Wi-Fi signal strength or try connecting to a different network.\n2) Restart your device (computer, phone, etc.) and your router/modem.\n3) If you're using cellular data, ensure you have a strong signal and haven't reached your data limit.",
+                //   textAlign: TextAlign.left,
+                //   style: TextStyle(
+                //     color:
+                //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                //     fontSize: popUpBodySize,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 const SizedBox(height: 10),
               ],
             ),
@@ -760,6 +848,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
     setPasswordRequirementsError();
     setInvalidEmailError();
     setInvalidUsernameError();
+    setLocationError();
     //print(size);
     // setState(() {
     //   width = size.width;
