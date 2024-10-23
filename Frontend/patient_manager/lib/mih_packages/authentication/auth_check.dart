@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_packages/authentication/signin_or_register.dart';
 import 'package:patient_manager/mih_packages/mih_home/mih_profile_getter.dart';
 
@@ -41,7 +41,8 @@ class _AuthCheckState extends State<AuthCheck> {
                 } else if (snapshot.data == false) {
                   return const SignInOrRegister();
                 } else {
-                  return const SizedBox(width: 5,height: 5);
+                  return const Mihloadingcircle();
+                  //const SizedBox(width: 5,height: 5);
                   //const Mihloadingcircle();
                 }
               });
