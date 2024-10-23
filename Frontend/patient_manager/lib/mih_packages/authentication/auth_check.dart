@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:patient_manager/mih_packages/authentication/signin_or_register.dart';
 import 'package:patient_manager/mih_packages/mih_home/mih_profile_getter.dart';
 
@@ -12,17 +13,16 @@ class AuthCheck extends StatefulWidget {
 }
 
 class _AuthCheckState extends State<AuthCheck> {
-  late Future<bool> signedIn;
-
   Future<bool> doesSessionExist() async {
     //wait
-    await Future.delayed(const Duration(seconds: 1));
-    return await SuperTokens.doesSessionExist();
+    //await Future.delayed(const Duration(seconds: 1));
+    bool signedIn = await SuperTokens.doesSessionExist();
+    return signedIn;
   }
 
   @override
   void initState() {
-    signedIn = doesSessionExist();
+    //signedIn = doesSessionExist();
     super.initState();
   }
 
@@ -33,12 +33,15 @@ class _AuthCheckState extends State<AuthCheck> {
         builder: (BuildContext context, Orientation orientation) {
           // Return a widget tree based on the orientation
           return FutureBuilder(
-              future: signedIn,
+              future: doesSessionExist(),
               builder: (context, snapshot) {
+                print(snapshot.data);
                 if (snapshot.data == true) {
                   return const MIHProfileGetter();
-                } else {
+                } else if (snapshot.data == false) {
                   return const SignInOrRegister();
+                } else {
+                  return const Mihloadingcircle();
                 }
               });
         },
