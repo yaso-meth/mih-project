@@ -35,7 +35,7 @@ class _AuthCheckState extends State<AuthCheck> {
           return FutureBuilder(
               future: doesSessionExist(),
               builder: (context, snapshot) {
-                print(snapshot.data);
+                //print(snapshot.data);
                 if (snapshot.data == true) {
                   return const MIHProfileGetter();
                 } else if (snapshot.data == false) {
