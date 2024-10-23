@@ -26,7 +26,12 @@ class MIHLocationAPI {
         //User denied permission Forever
         showPermissionError(context);
         return null;
-      }
+      } else {
+      Position location = await Geolocator.getCurrentPosition(
+          locationSettings: locationSettings);
+      //print(location);
+      return location;
+    }
     } else if (permission == LocationPermission.deniedForever) {
       showPermissionError(context);
       return null;
@@ -36,7 +41,7 @@ class MIHLocationAPI {
       //print(location);
       return location;
     }
-    return null;
+    
   }
 
   double getDistanceInMeaters(Position startPosition, Position endPosition) {
