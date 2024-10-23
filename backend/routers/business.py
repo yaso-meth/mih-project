@@ -24,6 +24,7 @@ class businessInsertRequest(BaseModel):
     logo_path: str
     contact_no: str
     bus_email: str
+    gps_location: str
 
 class businessUpdateRequest(BaseModel):
     business_id: str
@@ -34,6 +35,7 @@ class businessUpdateRequest(BaseModel):
     logo_path: str
     contact_no: str
     bus_email: str
+    gps_location: str
     
 
 # Get List of all files
@@ -41,7 +43,7 @@ class businessUpdateRequest(BaseModel):
 async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business.bus_email, business_users.app_id "
+    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business.bus_email, business_users.app_id, business.gps_location "
     query += "FROM business "
     query += "inner join business_users "
     query += "on business.business_id=business_users.business_id "
@@ -61,6 +63,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
             "contact_no": item[6],
             "bus_email": item[7],
             "app_id": item[8],
+            "gps_location": item[9],
         }
         for item in cursor.fetchall()
     ]
@@ -78,7 +81,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
 async def read_business_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business.bus_email, business_users.app_id "
+    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, business.logo_name, business.logo_path, business.contact_no, business.bus_email, business_users.app_id, business.gps_location "
     query += "FROM business "
     query += "inner join business_users "
     query += "on business.business_id=business_users.business_id "
@@ -98,6 +101,7 @@ async def read_business_by_app_id(app_id: str, session: SessionContainer = Depen
             "contact_no": item[6],
             "bus_email": item[7],
             "app_id": item[8],
+            "gps_location": item[9],
         }
         for item in cursor.fetchall()
     ]
@@ -114,8 +118,8 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business "
-    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email) "
-    query += "values (%s, %s, %s, %s, %s, %s, %s, %s)"
+    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email, gps_location) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
     uuidString = str(uuid.uuid1())
     userData = (uuidString,
                 itemRequest.Name,
@@ -124,7 +128,8 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
                 itemRequest.logo_name,
                 itemRequest.logo_path,
                 itemRequest.contact_no,
-                itemRequest.bus_email,)
+                itemRequest.bus_email,
+                itemRequest.gps_location,)
     try:
         cursor.execute(query, userData) 
     except Exception as error:
@@ -138,9 +143,10 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
 @router.put("/business/update/", tags=["MIH Business"])
 async def Update_Business_details(itemRequest : businessUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
+    # print(itemRequest.gps_location)
     cursor = db.cursor()
     query = "update business "
-    query += "set Name=%s, type=%s, registration_no=%s, logo_name=%s, logo_path=%s, contact_no=%s, bus_email=%s "
+    query += "set Name=%s, type=%s, registration_no=%s, logo_name=%s, logo_path=%s, contact_no=%s, bus_email=%s, gps_location=%s "
     query += "where business_id=%s"
     userData = (itemRequest.Name, 
                 itemRequest.type,
@@ -149,7 +155,9 @@ async def Update_Business_details(itemRequest : businessUpdateRequest, session: 
                 itemRequest.logo_path,
                 itemRequest.contact_no,
                 itemRequest.bus_email,
-                itemRequest.business_id)
+                itemRequest.gps_location,
+                itemRequest.business_id,
+                )
     try:
        cursor.execute(query, userData) 
     except Exception as error:
