@@ -6,6 +6,7 @@ class MIHPassField extends StatefulWidget {
   final String hintText;
   final bool required;
   final bool signIn;
+  final Iterable<String>? autoFillHintGroup;
 
   const MIHPassField({
     super.key,
@@ -13,6 +14,7 @@ class MIHPassField extends StatefulWidget {
     required this.hintText,
     required this.required,
     required this.signIn,
+    this.autoFillHintGroup,
   });
 
   @override
@@ -128,6 +130,7 @@ class _MIHPassFieldState extends State<MIHPassField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofillHints: widget.autoFillHintGroup,
       controller: widget.controller,
       style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),

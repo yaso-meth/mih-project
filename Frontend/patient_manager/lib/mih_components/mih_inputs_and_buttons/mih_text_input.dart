@@ -6,6 +6,7 @@ class MIHTextField extends StatefulWidget {
   final String hintText;
   final bool editable;
   final bool required;
+  final Iterable<String>? autoFillHintGroup;
 
   const MIHTextField({
     super.key,
@@ -13,6 +14,7 @@ class MIHTextField extends StatefulWidget {
     required this.hintText,
     required this.editable,
     required this.required,
+    this.autoFillHintGroup,
   });
 
   @override
@@ -75,6 +77,15 @@ class _MIHTextFieldState extends State<MIHTextField> {
     });
   }
 
+  // List<AutofillGroup> getAutoFillDetails(){
+  //   if(widget.autoFillHintGroup == null){
+  //     return [];
+  //   }
+  //   else{
+  //     return widget.autoFillHintGroup!;
+  //   }
+  // }
+
   Widget setRequiredText() {
     if (widget.required) {
       return Row(
@@ -116,6 +127,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofillHints: widget.autoFillHintGroup,
       style: TextStyle(
         color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       ),
