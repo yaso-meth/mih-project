@@ -15,6 +15,8 @@ class _AuthCheckState extends State<AuthCheck> {
   late Future<bool> signedIn;
 
   Future<bool> doesSessionExist() async {
+    //wait
+    await Future.delayed(const Duration(seconds: 1));
     return await SuperTokens.doesSessionExist();
   }
 
