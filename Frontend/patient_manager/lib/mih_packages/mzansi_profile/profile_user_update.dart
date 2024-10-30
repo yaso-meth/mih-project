@@ -13,6 +13,7 @@ import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_mes
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:patient_manager/mih_components/mih_profile_picture.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
@@ -39,7 +40,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
 
-  late PlatformFile proPic;
+  PlatformFile? proPic;
   late ImageProvider<Object>? propicPreview;
   late bool businessUser;
   final FocusNode _focusNode = FocusNode();
@@ -88,7 +89,8 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     }
   }
 
-  Future<void> uploadSelectedFile(PlatformFile file) async {
+  Future<void> uploadSelectedFile(PlatformFile? file) async {
+    //print("MIH Profile Picture: $file");
     //var strem = new http.ByteStream.fromBytes(file.bytes.)
     //start loading circle
     showDialog(
@@ -106,7 +108,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     request.headers['Content-Type'] = 'multipart/form-data';
     request.fields['app_id'] = widget.arguments.signedInUser.app_id;
     request.fields['folder'] = "profile_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
+    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response1 = await request.send();
     if (response1.statusCode == 200) {
@@ -232,58 +234,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     }
   }
 
-  Widget displayProPic() {
-    ImageProvider logoFrame =
-        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
-    if (widget.arguments.propicFile != null) {
-      return Stack(
-        alignment: Alignment.center,
-        fit: StackFit.loose,
-        children: [
-          CircleAvatar(
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            backgroundImage: propicPreview,
-            //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-            radius: 70,
-          ),
-          SizedBox(
-            width: 155,
-            child: Image(image: logoFrame),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: IconButton.filled(
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['jpg', 'png'],
-                );
-                if (result == null) return;
-                final selectedFile = result.files.first;
-                setState(() {
-                  proPic = selectedFile;
-                  propicPreview = MemoryImage(proPic.bytes!);
-                });
-
-                setState(() {
-                  proPicController.text = selectedFile.name;
-                });
-              },
-              icon: const Icon(Icons.edit),
-            ),
-          ),
-        ],
-      );
-    } else {
-      return SizedBox(
-        width: 155,
-        child: Image(image: logoFrame),
-      );
-    }
-  }
-
   MIHAction getActionButton() {
     return MIHAction(
       icon: const Icon(Icons.arrow_back),
@@ -317,7 +267,20 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     return MIHBody(
       borderOn: false,
       bodyItems: [
-        displayProPic(),
+        //displayProPic(),
+        MIHProfilePicture(
+          profilePictureFile: widget.arguments.propicFile,
+          proPicController: proPicController,
+          proPic: proPic,
+          width: 155,
+          radius: 70,
+          editable: true,
+          onChange: (newProPic) {
+            setState(() {
+              proPic = newProPic;
+            });
+          },
+        ),
         const SizedBox(height: 25.0),
         Visibility(
           visible: false,
@@ -335,7 +298,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
               final selectedFile = result.files.first;
               setState(() {
                 proPic = selectedFile;
-                propicPreview = MemoryImage(proPic.bytes!);
+                propicPreview = MemoryImage(proPic!.bytes!);
               });
 
               setState(() {
