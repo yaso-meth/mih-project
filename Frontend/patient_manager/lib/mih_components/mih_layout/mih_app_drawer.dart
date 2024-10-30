@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/mih_components/mih_profile_picture.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -19,6 +20,7 @@ class MIHAppDrawer extends StatefulWidget {
 }
 
 class _MIHAppDrawerState extends State<MIHAppDrawer> {
+  final proPicController = TextEditingController();
   late Widget profilePictureLoaded;
   Future<bool> signOut() async {
     await SuperTokens.signOut(completionHandler: (error) {
@@ -28,6 +30,15 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   }
 
   Widget displayProPic() {
+    // return MIHProfilePicture(
+    //         profilePictureFile: widget.propicFile,
+    //         proPicController: proPicController,
+    //         proPic: null,
+    //         width: 45,
+    //         radius: 21,
+    //         editable: false,
+    //         onChange: (newProPic) {},
+    //       ),
     //print(widget.propicFile);
     ImageProvider logoFrame =
         MzanziInnovationHub.of(context)!.theme.logoFrame();
@@ -41,23 +52,34 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 widget.signedInUser, widget.propicFile),
           );
         },
-        child: Stack(
-          alignment: Alignment.center,
-          fit: StackFit.loose,
-          children: [
-            CircleAvatar(
-              backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              backgroundImage: widget.propicFile,
-              //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-              radius: 27,
-            ),
-            SizedBox(
-              width: 60,
-              child: Image(image: logoFrame),
-            )
-          ],
+        child: MIHProfilePicture(
+          profilePictureFile: widget.propicFile,
+          proPicController: proPicController,
+          proPic: null,
+          width: 60,
+          radius: 27,
+          drawerMode: true,
+          editable: false,
+          onChange: (newProPic) {},
         ),
+
+        // Stack(
+        //   alignment: Alignment.center,
+        //   fit: StackFit.loose,
+        //   children: [
+        //     CircleAvatar(
+        //       backgroundColor:
+        //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //       backgroundImage: widget.propicFile,
+        //       //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+        //       radius: 27,
+        //     ),
+        //     SizedBox(
+        //       width: 60,
+        //       child: Image(image: logoFrame),
+        //     )
+        //   ],
+        // ),
       );
     } else {
       return SizedBox(
@@ -69,6 +91,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
 
   @override
   void dispose() {
+    proPicController.dispose();
     super.dispose();
   }
 
