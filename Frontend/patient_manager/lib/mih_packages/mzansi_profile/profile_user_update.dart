@@ -274,6 +274,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           proPic: proPic,
           width: 155,
           radius: 70,
+          drawerMode: false,
           editable: true,
           onChange: (newProPic) {
             setState(() {

@@ -568,6 +568,7 @@ class _MIHHomeState extends State<MIHHome> {
             proPic: null,
             width: 45,
             radius: 21,
+            drawerMode: false,
             editable: false,
             onChange: (newProPic) {},
           ),

@@ -10,6 +10,7 @@ class MIHProfilePicture extends StatefulWidget {
   PlatformFile? proPic;
   final double width;
   final double radius;
+  final bool drawerMode;
   final bool editable;
   final onChange;
   MIHProfilePicture({
@@ -19,6 +20,7 @@ class MIHProfilePicture extends StatefulWidget {
     required this.proPic,
     required this.width,
     required this.radius,
+    required this.drawerMode,
     required this.editable,
     required this.onChange,
   });
@@ -32,8 +34,13 @@ class _MIHProfilePictureState extends State<MIHProfilePicture> {
   //late PlatformFile proPic;
 
   Widget displayEditableProPic() {
-    ImageProvider logoFrame =
-        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
+    ImageProvider logoFrame;
+    if (!widget.drawerMode) {
+      logoFrame = MzanziInnovationHub.of(context)!.theme.altLogoFrame();
+    } else {
+      logoFrame = MzanziInnovationHub.of(context)!.theme.logoFrame();
+    }
+
     if (widget.profilePictureFile != null) {
       return Stack(
         alignment: Alignment.center,
