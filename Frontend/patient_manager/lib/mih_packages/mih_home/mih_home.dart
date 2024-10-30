@@ -560,18 +560,15 @@ class _MIHHomeState extends State<MIHHome> {
   Widget getActionButton() {
     return Builder(builder: (context) {
       return MIHAction(
-        icon: Padding(
-          padding: const EdgeInsets.all(5),
-          child: MIHProfilePicture(
-            profilePictureFile: widget.propicFile,
-            proPicController: proPicController,
-            proPic: null,
-            width: 45,
-            radius: 21,
-            drawerMode: false,
-            editable: false,
-            onChange: (newProPic) {},
-          ),
+        icon: MIHProfilePicture(
+          profilePictureFile: widget.propicFile,
+          proPicController: proPicController,
+          proPic: null,
+          width: 40,
+          radius: 18,
+          drawerMode: false,
+          editable: false,
+          onChange: (newProPic) {},
         ),
         // const Icon(Icons.apps),
         iconSize: 45,
