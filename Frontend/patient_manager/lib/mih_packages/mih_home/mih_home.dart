@@ -20,6 +20,7 @@ import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_notificat
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:patient_manager/mih_components/mih_profile_picture.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
@@ -57,6 +58,7 @@ class MIHHome extends StatefulWidget {
 }
 
 class _MIHHomeState extends State<MIHHome> {
+  final proPicController = TextEditingController();
   final TextEditingController searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late List<MIHTile> persHTList = [];
@@ -558,7 +560,19 @@ class _MIHHomeState extends State<MIHHome> {
   Widget getActionButton() {
     return Builder(builder: (context) {
       return MIHAction(
-        icon: const Icon(Icons.apps),
+        icon: Padding(
+          padding: const EdgeInsets.all(5),
+          child: MIHProfilePicture(
+            profilePictureFile: widget.propicFile,
+            proPicController: proPicController,
+            proPic: null,
+            width: 45,
+            radius: 21,
+            editable: false,
+            onChange: (newProPic) {},
+          ),
+        ),
+        // const Icon(Icons.apps),
         iconSize: 45,
         onTap: () {
           setState(() {
@@ -814,6 +828,7 @@ class _MIHHomeState extends State<MIHHome> {
   @override
   void dispose() {
     searchController.dispose();
+    proPicController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
