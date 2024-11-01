@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+//import 'package:fpjs_pro_plugin/error.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/mih_router/routeGenerator.dart';
 import 'package:patient_manager/mih_theme/mih_theme.dart';
 import 'package:no_screenshot/no_screenshot.dart';
+//import 'package:fpjs_pro_plugin/fpjs_pro_plugin.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({
@@ -48,6 +50,30 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     });
   }
 
+  // void doInit() async {
+  //   print(
+  //       "FpjsProPlugin.initFpjs Token: ${AppEnviroment.fingerPrintPluginKey}");
+  //   await FpjsProPlugin.initFpjs(
+  //     AppEnviroment.fingerPrintPluginKey, // insert your actual API key here
+  //     endpoint: "https://mzansi-innovation-hub.co.za",
+  //     scriptUrlPattern:
+  //         'https://mzansi-innovation-hub.co.za/web/v<version>/<apiKey>/loader_v<loaderVersion>.js',
+  //   );
+  //   identify();
+  // }
+
+  // void identify() async {
+  //   try {
+  //     var visitorId = await FpjsProPlugin.getVisitorId() ?? 'Unknown';
+  //     print(visitorId);
+  //     // use the visitor id
+  //   } on FingerprintProError catch (e) {
+  //     print("Error on Init: $e");
+  //     // process an error somehow
+  //     // check lib/error.dart to get more info about error types
+  //   }
+  // }
+
   @override
   void initState() {
     _themeMode = ThemeMode.dark;
@@ -58,6 +84,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     }
     theme.mode = "Dark";
     super.initState();
+    //doInit();
   }
 
   @override
