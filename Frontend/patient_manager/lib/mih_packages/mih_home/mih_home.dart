@@ -140,6 +140,22 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
+    // tileList.add(MIHTile(
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed(
+    //       '/access-review',
+    //       arguments: widget.signedInUser,
+    //     );
+    //   },
+    //   tileName: "Appointments",
+    //   tileIcon: Icon(
+    //     Icons.calendar_month,
+    //     color: getSec(),
+    //     size: 200,
+    //   ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -147,7 +163,7 @@ class _MIHHomeState extends State<MIHHome> {
           arguments: widget.signedInUser,
         );
       },
-      tileName: "Access Review",
+      tileName: "Access",
       tileIcon: Icon(
         Icons.check_box_outlined,
         color: getSec(),
@@ -156,7 +172,6 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
-
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -176,27 +191,6 @@ class _MIHHomeState extends State<MIHHome> {
   }
 
   void setAppsBusiness(List<MIHTile> tileList) {
-    // tileList.add(MIHTile(
-    //   onTap: () {
-    //     Navigator.of(context).pushNamed(
-    //       '/business-profile',
-    //       arguments: BusinessArguments(
-    //         widget.signedInUser,
-    //         widget.businessUser,
-    //         widget.business,
-    //       ),
-    //     );
-    //   },
-    //   tileName: "Manage Business",
-    //   tileIcon: Icon(
-    //     Icons.business,
-    //     color: getSec(),
-    //     size: 200,
-    //   ),
-    //   p: getPrim(),
-    //   s: getSec(),
-    // ));
-    //if (widget.businessUser!.access == "Full") {
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -217,29 +211,42 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
-    //}
-    if (widget.business!.type == "Doctors Office") {
-      tileList.add(MIHTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(
-            '/patient-manager',
-            arguments: BusinessArguments(
-              widget.signedInUser,
-              widget.businessUser,
-              widget.business,
-            ),
-          );
-        },
-        tileName: "Manage Patient",
-        tileIcon: Icon(
-          Icons.medication,
-          color: getSec(),
-          size: 200,
-        ),
-        p: getPrim(),
-        s: getSec(),
-      ));
-    }
+    // tileList.add(MIHTile(
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed(
+    //       '/access-review',
+    //       arguments: widget.signedInUser,
+    //     );
+    //   },
+    //   tileName: "Access",
+    //   tileIcon: Icon(
+    //     Icons.check_box_outlined,
+    //     color: getSec(),
+    //     size: 200,
+    //   ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/patient-manager',
+          arguments: BusinessArguments(
+            widget.signedInUser,
+            widget.businessUser,
+            widget.business,
+          ),
+        );
+      },
+      tileName: "Manage Patient",
+      tileIcon: Icon(
+        Icons.medication,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
   }
 
   void setAppsDev(List<MIHTile> tileList) {
@@ -560,15 +567,18 @@ class _MIHHomeState extends State<MIHHome> {
   Widget getActionButton() {
     return Builder(builder: (context) {
       return MIHAction(
-        icon: MIHProfilePicture(
-          profilePictureFile: widget.propicFile,
-          proPicController: proPicController,
-          proPic: null,
-          width: 45,
-          radius: 21,
-          drawerMode: false,
-          editable: false,
-          onChange: (newProPic) {},
+        icon: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: MIHProfilePicture(
+            profilePictureFile: widget.propicFile,
+            proPicController: proPicController,
+            proPic: null,
+            width: 45,
+            radius: 21,
+            drawerMode: false,
+            editable: false,
+            onChange: (newProPic) {},
+          ),
         ),
         // const Icon(Icons.apps),
         iconSize: 45,
