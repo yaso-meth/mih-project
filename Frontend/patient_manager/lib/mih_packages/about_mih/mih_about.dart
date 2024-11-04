@@ -113,7 +113,7 @@ class _MIHAboutState extends State<MIHAbout> {
                         'https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh',
                         'new tab');
                   },
-                  buttonText: "MIH Benigners Guide",
+                  buttonText: "MIH Beginners Guide",
                   buttonColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   textColor:
