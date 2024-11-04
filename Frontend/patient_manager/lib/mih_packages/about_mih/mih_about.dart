@@ -84,19 +84,43 @@ class _MIHAboutState extends State<MIHAbout> {
         const SizedBox(
           height: 10,
         ),
-        SizedBox(
-          width: 300,
-          height: 50,
-          child: MIHButton(
-            onTap: () {
-              js.context.callMethod("presentAddToHome");
-            },
-            buttonText: "Install MIH",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          ),
-        ),
+        Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    js.context.callMethod("presentAddToHome");
+                  },
+                  buttonText: "Install MIH",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    html.window.open(
+                        'https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh',
+                        'new tab');
+                  },
+                  buttonText: "MIH Benigners Guide",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ]),
         const SizedBox(
           height: 10,
         ),
