@@ -158,18 +158,18 @@ class RouteGenerator {
             return _errorRoute();
           //===============================================================
 
-          // Access Review Page
-          case '/appointments':
-            if (args is AppUser) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => Appointments(
-                  signedInUser: args,
-                ),
-              );
-            }
-            return _errorRoute();
+          // // Access Review Page
+          // case '/appointments':
+          //   if (args is AppUser) {
+          //     //print("route generator: $args");
+          //     return MaterialPageRoute(
+          //       settings: settings,
+          //       builder: (_) => Appointments(
+          //         signedInUser: args,
+          //       ),
+          //     );
+          //   }
+          //   return _errorRoute();
           //===============================================================
 
           //Patient Manager Pages
