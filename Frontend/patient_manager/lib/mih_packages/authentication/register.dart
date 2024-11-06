@@ -136,7 +136,7 @@ class _RegisterState extends State<Register> {
 
   bool validEmail() {
     String text = emailController.text;
-    var regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
     return regex.hasMatch(text);
   }
 
