@@ -105,17 +105,27 @@ class _PatientViewState extends State<PatientView> {
   }
 
   MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        Navigator.of(context).pop();
+    if (widget.arguments.type == "Personal") {
+      return MIHAction(
+        icon: const Icon(Icons.arrow_back),
+        iconSize: 35,
+        onTap: () {
+          Navigator.of(context).pop();
 
-        Navigator.of(context).popAndPushNamed(
-          '/',
-        );
-      },
-    );
+          Navigator.of(context).popAndPushNamed(
+            '/',
+          );
+        },
+      );
+    } else {
+      return MIHAction(
+        icon: const Icon(Icons.arrow_back),
+        iconSize: 35,
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
   }
 
   MIHHeader getHeader() {

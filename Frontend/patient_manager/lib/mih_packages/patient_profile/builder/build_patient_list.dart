@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_apis/mih_api_calls.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
@@ -8,6 +9,7 @@ import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
@@ -40,12 +42,53 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   TextEditingController idController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
-
+  TextEditingController accessStatusController = TextEditingController();
   final baseAPI = AppEnviroment.baseApiUrl;
 
   Future<void> addPatientAppointmentAPICall(int index) async {
     var response = await http.post(
       Uri.parse("$baseAPI/queue/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": widget.business!.business_id,
+        "app_id": widget.patients[index].app_id,
+        "date": dateController.text,
+        "time": timeController.text,
+        "access": "pending",
+      }),
+    );
+    if (response.statusCode == 201) {
+      // Navigator.pushNamed(context, '/patient-manager/patient',
+      //     arguments: widget.signedInUser);
+      String message =
+          "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patients profile. ou can check the status of your request in patient queue under the appointment.";
+      //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
+      Navigator.pop(context);
+      Navigator.pop(context);
+      setState(() {
+        dateController.text = "";
+        timeController.text = "";
+      });
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          widget.arguments.signedInUser,
+          widget.arguments.businessUser,
+          widget.arguments.business,
+        ),
+      );
+      successPopUp(message);
+      addAccessReviewNotificationAPICall(index);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<void> addPatientAccessAPICall(int index) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/access-requests/insert/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
@@ -128,7 +171,15 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
   }
 
   void submitApointment(int index) {
-    addPatientAppointmentAPICall(index);
+    MIHApiCalls.addAppointmentAPICall(
+      widget.arguments.business!.business_id,
+      widget.patients[index].app_id,
+      dateController.text,
+      timeController.text,
+      widget.arguments,
+      context,
+    );
+    //addPatientAppointmentAPICall(index);
   }
 
   bool isAppointmentFieldsFilled() {
@@ -224,129 +275,278 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
         ],
       ),
     );
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => Dialog(
-    //     child: Stack(
-    //       children: [
-    //         Container(
-    //           padding: const EdgeInsets.all(10.0),
-    //           width: 700.0,
-    //           //height: 475.0,
-    //           decoration: BoxDecoration(
-    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-    //             borderRadius: BorderRadius.circular(25.0),
-    //             border: Border.all(
-    //                 color:
-    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //                 width: 5.0),
-    //           ),
-    //           child: SingleChildScrollView(
-    //             padding: const EdgeInsets.symmetric(horizontal: 10),
-    //             child: Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               children: [
-    //                 Text(
-    //                   "Patient Appointment",
-    //                   textAlign: TextAlign.center,
-    //                   style: TextStyle(
-    //                     color: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .secondaryColor(),
-    //                     fontSize: 35.0,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 25.0),
-    //                 MIHTextField(
-    //                   controller: idController,
-    //                   hintText: "ID No.",
-    //                   editable: false,
-    //                   required: true,
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 MIHTextField(
-    //                   controller: fnameController,
-    //                   hintText: "First Name",
-    //                   editable: false,
-    //                   required: true,
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 MIHTextField(
-    //                   controller: lnameController,
-    //                   hintText: "Surname",
-    //                   editable: false,
-    //                   required: true,
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 MIHDateField(
-    //                   controller: dateController,
-    //                   lableText: "Date",
-    //                   required: true,
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 MIHTimeField(
-    //                   controller: timeController,
-    //                   lableText: "Time",
-    //                   required: true,
-    //                 ),
-    //                 const SizedBox(height: 30.0),
-    //                 SizedBox(
-    //                   width: 300,
-    //                   height: 50,
-    //                   child: MIHButton(
-    //                     buttonText: "Book",
-    //                     buttonColor: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .secondaryColor(),
-    //                     textColor: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .primaryColor(),
-    //                     onTap: () {
-    //                       //print("here1");
-    //                       bool filled = isAppointmentFieldsFilled();
-    //                       //print("fields filled: $filled");
-    //                       if (filled) {
-    //                         //print("here2");
-    //                         submitApointment(index);
-    //                         //print("here3");
-    //                       } else {
-    //                         showDialog(
-    //                           context: context,
-    //                           builder: (context) {
-    //                             return const MIHErrorMessage(
-    //                                 errorType: "Input Error");
-    //                           },
-    //                         );
-    //                       }
-    //                     },
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           right: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //             icon: Icon(
-    //               Icons.close,
-    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //               size: 35,
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+  }
+
+  void noAccessWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHWarningMessage(warningType: "No Access");
+      },
+    );
+  }
+
+  Future<bool> hasAccessToProfile(int index) async {
+    var hasAccess = false;
+    await MIHApiCalls.checkBusinessAccessToPatient(
+            widget.business!.business_id, widget.patients[index].app_id)
+        .then((results) {
+      if (results.isEmpty) {
+        setState(() {
+          hasAccess = false;
+        });
+      } else if (results[0].status == "approved") {
+        setState(() {
+          hasAccess = true;
+        });
+      } else {
+        setState(() {
+          hasAccess = false;
+        });
+      }
+    });
+    return hasAccess;
+  }
+
+  Future<String> getAccessStatusOfProfile(int index) async {
+    var accessStatus = "";
+    await MIHApiCalls.checkBusinessAccessToPatient(
+            widget.business!.business_id, widget.patients[index].app_id)
+        .then((results) {
+      if (results.isEmpty) {
+        setState(() {
+          accessStatus = "";
+        });
+      } else {
+        setState(() {
+          accessStatus = results[0].status;
+        });
+      }
+    });
+    return accessStatus;
+  }
+
+  void patientProfileChoicePopUp(int index) async {
+    var hasAccess = false;
+    String accessStatus = "";
+    await hasAccessToProfile(index).then((result) {
+      setState(() {
+        hasAccess = result;
+      });
+    });
+    await getAccessStatusOfProfile(index).then((result) {
+      setState(() {
+        accessStatus = result;
+      });
+    });
+    // print(accessStatus);
+    // print(hasAccess);
+    var firstLetterFName = widget.patients[index].first_name[0];
+    var firstLetterLName = widget.patients[index].last_name[0];
+    var fnameStar = '*' * 8;
+    var lnameStar = '*' * 8;
+    if (accessStatus == "") {
+      accessStatus = "No Access";
+    }
+    setState(() {
+      idController.text = widget.patients[index].id_no;
+      fnameController.text = firstLetterFName + fnameStar;
+      lnameController.text = firstLetterLName + lnameStar;
+      accessStatusController.text = accessStatus.toUpperCase();
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MIHWindow(
+        fullscreen: false,
+        windowTitle: "Patient Profile",
+        windowTools: const [],
+        onWindowTapClose: () {
+          Navigator.pop(context);
+        },
+        windowBody: [
+          MIHTextField(
+            controller: idController,
+            hintText: "ID No.",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: fnameController,
+            hintText: "First Name",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: lnameController,
+            hintText: "Surname",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: accessStatusController,
+            hintText: "Access Status",
+            editable: false,
+            required: true,
+          ),
+          const SizedBox(height: 20.0),
+          Visibility(
+            visible: !hasAccess,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Important Notice: Requesting Patient Profile Access",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  ),
+                ),
+                Text(
+                  "You are about to request access to a patient's profile. Please be aware of the following important points:",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  ),
+                ),
+                SizedBox(
+                  width: 600,
+                  child: Text(
+                    "1. Permanent Access: Once the patient accepts your access request, it will become permanent.",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 600,
+                  child: Text(
+                    "2. Shared Information: Any updates you make to the patient's profile will be visible to others who have access to the profile.",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 600,
+                  child: Text(
+                    "3. Irreversible Access: Once granted, you cannot revoke your access to the patient's profile.",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                ),
+                Text(
+                  "By pressing the \"Request Access\" button you accept the above terms.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Wrap(runSpacing: 10, spacing: 10, children: [
+            Visibility(
+              visible: hasAccess,
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "Book Appointment",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    if (hasAccess) {
+                      appointmentPopUp(index);
+                    } else {
+                      noAccessWarning();
+                    }
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: hasAccess,
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "View Patient Profile",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    if (hasAccess) {
+                      Navigator.of(context)
+                          .pushNamed('/patient-manager/patient',
+                              arguments: PatientViewArguments(
+                                widget.signedInUser,
+                                widget.patients[index],
+                                widget.arguments.businessUser,
+                                widget.business,
+                                "business",
+                              ));
+                    } else {
+                      noAccessWarning();
+                    }
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: !hasAccess && accessStatus != "pending",
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "Request Access",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    print("Send access Request...");
+                    MIHApiCalls.addPatientAccessAPICall(
+                      widget.business!.business_id,
+                      widget.patients[index].app_id,
+                      "patient",
+                      widget.business!.Name,
+                      widget.arguments,
+                      context,
+                    );
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: !hasAccess && accessStatus == "pending",
+              child: const SizedBox(
+                width: 500,
+                //height: 50,
+                child: Text(
+                    "Patient has not approved access to their profile. Once access has been approved you can book and appointment or view their profile."),
+              ),
+            ),
+          ])
+        ],
+      ),
+    );
   }
 
   Widget isMainMember(int index) {
@@ -397,13 +597,14 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           ),
         ),
         onTap: () {
-          setState(() {
-            appointmentPopUp(index);
-            // Add popup to add patienmt to queue
-            // Navigator.of(context).pushNamed('/patient-manager/patient',
-            //     arguments: PatientViewArguments(
-            //         widget.signedInUser, widget.patients[index], "business"));
-          });
+          patientProfileChoicePopUp(index);
+          // setState(() {
+          //   appointmentPopUp(index);
+          //   // Add popup to add patienmt to queue
+          //   // Navigator.of(context).pushNamed('/patient-manager/patient',
+          //   //     arguments: PatientViewArguments(
+          //   //         widget.signedInUser, widget.patients[index], "business"));
+          // });
         },
         trailing: Icon(
           Icons.arrow_forward,
@@ -420,12 +621,13 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
           ),
         ),
         onTap: () {
-          setState(() {
-            appointmentPopUp(index);
-            // Navigator.of(context).pushNamed('/patient-manager/patient',
-            //     arguments: PatientViewArguments(
-            //         widget.signedInUser, widget.patients[index], "business"));
-          });
+          patientProfileChoicePopUp(index);
+          // setState(() {
+          //   appointmentPopUp(index);
+          //   // Navigator.of(context).pushNamed('/patient-manager/patient',
+          //   //     arguments: PatientViewArguments(
+          //   //         widget.signedInUser, widget.patients[index], "business"));
+          // });
         },
         trailing: Icon(
           Icons.add,
@@ -442,6 +644,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
     idController.dispose();
     fnameController.dispose();
     lnameController.dispose();
+    accessStatusController.dispose();
     super.dispose();
   }
 
