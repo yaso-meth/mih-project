@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_print_prevew.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_notification_message.dart';
+import 'package:patient_manager/mih_packages/appointment/appointments.dart';
 import 'package:patient_manager/mih_packages/authentication/auth_check.dart';
 import 'package:patient_manager/mih_packages/patient_profile/add_or_view_patient.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_add.dart';
@@ -150,6 +151,20 @@ class RouteGenerator {
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => PatientAccessRequest(
+                  signedInUser: args,
+                ),
+              );
+            }
+            return _errorRoute();
+          //===============================================================
+
+          // Access Review Page
+          case '/appointments':
+            if (args is AppUser) {
+              //print("route generator: $args");
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => Appointments(
                   signedInUser: args,
                 ),
               );
