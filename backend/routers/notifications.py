@@ -42,7 +42,7 @@ class notificationInsertRequest(BaseModel):
 
 # Get Notifications By app ID
 @router.get("/notifications/{app_id}", tags=["Notifications"])
-async def read_notifications_By_app_ID(app_id: str, amount: int): # , session: SessionContainer = Depends(verify_session())
+async def read_notifications_By_app_ID(app_id: str, amount: int, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     #query = "SELECT * FROM patients"
@@ -102,7 +102,7 @@ async def insert_Patient(itemRequest : notificationInsertRequest, session: Sessi
 
 # Update Patient on table
 @router.put("/notifications/update/{notification_id}", tags=["Notifications"])
-async def Update_Patient(notification_id : str): #, session: SessionContainer = Depends(verify_session())
+async def Update_Patient(notification_id : str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update notifications "
