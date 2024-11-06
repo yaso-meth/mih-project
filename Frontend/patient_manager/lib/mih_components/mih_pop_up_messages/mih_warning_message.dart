@@ -118,6 +118,76 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
     );
   }
 
+  void setNoPatientAccess() {
+    messageTypes["No Patient Access"] = Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: popUpWidth,
+          height: popUpheight,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 5.0),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: popUpIconSize,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                //const SizedBox(height: 15),
+                Text(
+                  "Patient Profile Access Needed",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpTitleSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  "To proceed with booking an appointment, you must have access to the patient's profile. This will allow you to view their medical history and other relevant information. Please contact the appropriate administrator to request access.",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          width: 50,
+          height: 50,
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              size: 35,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void setAppointmentCanelled() {
     messageTypes["Appointment Canelled"] = Stack(
       children: [
