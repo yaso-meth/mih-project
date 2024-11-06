@@ -1,16 +1,24 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
+import 'package:patient_manager/mih_objects/patient_access.dart';
+import 'package:patient_manager/mih_objects/patient_queue.dart';
+import 'package:patient_manager/mih_objects/patients.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MIHApiCalls {
   final baseAPI = AppEnviroment.baseApiUrl;
+
+//================== USER PROFILE DATA ==========================================================================
 
   /// This function is used to get profile details of signed in user.
   ///
@@ -113,5 +121,641 @@ class MIHApiCalls {
     return HomeArguments(userData, bUserData, busData, notifi, userPic);
   }
 
-  
+//================== BUSINESS PATIENT/PERSONAL ACCESS ==========================================================================
+
+  /// This function is used to check if a business has access to a specific patients profile.
+  ///
+  /// Patameters: String business_id & app_id (app_id of patient).
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<List<PatientAccess>> checkBusinessAccessToPatient(
+    String business_id,
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/patient/check/$business_id?app_id=$app_id"));
+    // var errorCode = response.statusCode.toString();
+    //print(response.body);
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access for business');
+    }
+  }
+
+  /// This function is used to get list of access the business has.
+  ///
+  /// Patameters: String business_id.
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<List<PatientAccess>> getPatientAccessListOfBusiness(
+      String business_id) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
+    // var errorCode = response.statusCode.toString();
+    // print(response.statusCode);
+    // print(response.body);
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  /// This function is used to get list of access the business has.
+  ///
+  /// Patameters: String business_id.
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<List<PatientAccess>> getBusinessAccessListOfPatient(
+      String app_id) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/personal/patient/$app_id"));
+    // var errorCode = response.statusCode.toString();
+    // print(response.statusCode);
+    // print(response.body);
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  /// This function is used to UPDATE access the business has.
+  ///
+  /// Patameters:-
+  /// String business_id,
+  /// String business_name,
+  /// String app_id,
+  /// String status,
+  /// String approved_by,
+  /// AppUser signedInUser,
+  /// BuildContext context,
+  ///
+  /// Returns void (on success 200 navigate to /access-review ).
+  static Future<void> updatePatientAccessAPICall(
+    String business_id,
+    String business_name,
+    String app_id,
+    String status,
+    String approved_by,
+    AppUser signedInUser,
+    BuildContext context,
+  ) async {
+    var response = await http.put(
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/access-requests/update/permission/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      // business_id: str
+      // app_id: str
+      // status: str
+      // approved_by: str
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "app_id": app_id,
+        "status": status,
+        "approved_by": approved_by,
+      }),
+    );
+    if (response.statusCode == 200) {
+      //Navigator.of(context).pushNamed('/home');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/access-review',
+        arguments: signedInUser,
+      );
+      String message = "";
+      if (status == "approved") {
+        message =
+            "You've successfully approved the access request! $business_name now has access to your profile forever.";
+      } else {
+        message =
+            "You've declined the access request. $business_name will not have access to your profile.";
+      }
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create patient access and trigger notification to patient
+  ///
+  /// Patameters:-
+  /// String business_id,
+  /// String app_id,
+  /// String type,
+  /// String requested_by,
+  /// BuildContext context,
+  ///
+  /// Returns void (triggers notification of success 201).
+  static Future<void> addPatientAccessAPICall(
+    String business_id,
+    String app_id,
+    String type,
+    String requested_by,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/access-requests/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      // business_id: str
+      // app_id: str
+      // type: str
+      // requested_by: str
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "app_id": app_id,
+        "type": type,
+        "requested_by": requested_by,
+      }),
+    );
+    if (response.statusCode == 201) {
+      addAccessRequestNotificationAPICall(app_id, requested_by, args, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  //================== PATIENT DATA ==========================================================================
+
+  /// This function is used to fetch a list of patients matching a search criteria
+  ///
+  /// Patameters: String dsearch.
+  ///
+  /// Returns List<Patient>.
+  static Future<List<Patient>> fetchPatients(String search) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/search/$search"));
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Patient> patients =
+          List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+      return patients;
+    } else {
+      throw Exception('failed to load patients');
+    }
+  }
+
+  /// This function is used to fetch a patient matching a app_id
+  ///
+  /// Patameters: String app_id.
+  ///
+  /// Returns Patient.
+  static Future<Patient> fetchPatientByAppId(
+    String app_id,
+  ) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/$app_id"));
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+    //print(response.body);
+    if (response.statusCode == 200) {
+      Patient patient = Patient.fromJson(jsonDecode(response.body));
+      // userData = u;
+      // Iterable l = jsonDecode(response.body);
+      // List<Patient> patients =
+      //     List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+      return patient;
+    } else {
+      throw Exception('failed to load patient');
+    }
+  }
+
+  //================== Notifications ==========================================================================
+
+  /// This function is used to create notification to patient for access reviews
+  ///
+  /// Patameters:-
+  /// String app_id,
+  /// String business_name,
+  /// BuildContext context,
+  ///
+  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
+  static Future<void> addAccessRequestNotificationAPICall(
+    String app_id,
+    String business_name,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "notification_type": "Forever Access Request",
+        "notification_message":
+            "A new Forever Access Request has been sent by $business_name in order to access your Patient Profile. Please review request.",
+        "action_path": "/access-review",
+      }),
+    );
+    if (response.statusCode == 201) {
+      String message =
+          "A request has been sent to the patient advising that you have requested access to their profile. Only once access has been granted will you be able to book an appointment.";
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          args.signedInUser,
+          args.businessUser,
+          args.business,
+        ),
+      );
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create notification to patient for access reviews
+  ///
+  /// Patameters:-
+  /// String app_id,
+  /// String business_name,
+  /// String origDate_time,
+  /// String date,
+  /// String time,
+  /// BusinessArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
+  static Future<void> addRescheduledAppointmentNotificationAPICall(
+    String app_id,
+    String business_name,
+    String origDate_time,
+    String date,
+    String time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "notification_type": "Appointment Rescheduled",
+        "notification_message":
+            "Your appointment with $business_name for the ${origDate_time.replaceAll("T", " ").substring(0, origDate_time.length - 3)} has been rescheduled to the ${date} ${time}.",
+        "action_path": "/appointments",
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          args.signedInUser,
+          args.businessUser,
+          args.business,
+        ),
+      );
+      String message = "The appointment has been successfully rescheduled.";
+
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create notification to patient for access reviews
+  ///
+  /// Patameters:-
+  /// String app_id,
+  /// String business_name,
+  /// String origDate_time,
+  /// String date,
+  /// String time,
+  /// BusinessArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
+  static Future<void> addCancelledAppointmentNotificationAPICall(
+    String app_id,
+    String date_time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "notification_type": "Appointment Cancelled",
+        "notification_message":
+            "Your appointment with ${args.business!.Name} for the ${date_time.replaceAll("T", " ")} has been cancelled.",
+        "action_path": "/appointments",
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: BusinessArguments(
+          args.signedInUser,
+          args.businessUser,
+          args.business,
+        ),
+      );
+      String message =
+          "The appointment has been cancelled successfully. This means it will no longer be visible in your waiting room and calender.";
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create notification to patient for access reviews
+  ///
+  /// Patameters:-
+  /// String app_id,
+  /// String business_name,
+  /// String origDate_time,
+  /// String date,
+  /// String time,
+  /// BusinessArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
+  static Future<void> addNewAppointmentNotificationAPICall(
+    String app_id,
+    String date,
+    String time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "notification_type": "New Appointment Booked",
+        "notification_message":
+            "An appointment with ${args.business!.Name} has been booked for the $date $time.",
+        "action_path": "/appointments",
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: args,
+      );
+      String message =
+          "The appointment was been created successfully. This means it will now be visible in your waiting room and calender.";
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  //================== APPOINTMENT/ PATIENT QUEUE ==========================================================================
+
+  /// This function is used to fetch a list of appointments for a doctors office for a date.
+  ///
+  /// Patameters: String date & business_id .
+  ///
+  /// Returns List<PatientQueue>.
+  static Future<List<PatientQueue>> fetchPatientQueue(
+    String date,
+    String business_id,
+  ) async {
+    //print("Patien manager page: $endpoint");
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/queue/appointments/business/$business_id"));
+    // print("Here");
+    // print("Body: ${response.body}");
+    // print("Code: ${response.statusCode}");
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      //print("Here1");
+      Iterable l = jsonDecode(response.body);
+      //print("Here2");
+      List<PatientQueue> patientQueue = List<PatientQueue>.from(
+          l.map((model) => PatientQueue.fromJson(model)));
+      //print("Here3");
+      //print(patientQueue);
+      return patientQueue;
+    } else {
+      throw Exception('failed to fatch patient queue');
+    }
+  }
+
+  /// This function is used to UPDATE AN appointments for a doctors office for a date.
+  ///
+  /// Patameters:-
+  /// int idpatient_queue,
+  /// String app_id,
+  /// String business_name,
+  /// String origDate_time,
+  /// String date,
+  /// String time,
+  /// BusinessArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
+  static Future<void> updateApointmentAPICall(
+    int idpatient_queue,
+    String app_id,
+    String business_name,
+    String origDate_time,
+    String date,
+    String time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.put(
+      Uri.parse("${AppEnviroment.baseApiUrl}/queue/appointment/update/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idpatient_queue": idpatient_queue,
+        "date": date,
+        "time": time,
+      }),
+    );
+    if (response.statusCode == 200) {
+      addRescheduledAppointmentNotificationAPICall(
+        app_id,
+        business_name,
+        origDate_time,
+        date,
+        time,
+        args,
+        context,
+      );
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to Delete/ cancel AN appointments for a doctors office for a date.
+  ///
+  /// Patameters:-
+  /// int idpatient_queue,
+  /// PatientViewArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
+  static Future<void> deleteApointmentAPICall(
+    int idpatient_queue,
+    String app_id,
+    String date_time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.delete(
+      Uri.parse("${AppEnviroment.baseApiUrl}/queue/appointment/delete/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{"idpatient_queue": idpatient_queue}),
+    );
+    //print("Here4");
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
+      addCancelledAppointmentNotificationAPICall(
+        app_id,
+        date_time,
+        args,
+        context,
+      );
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // String message =
+      //     "The note has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
+      // successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create AN appointments for a doctors office for a date.
+  ///
+  /// Patameters:-
+  /// int idpatient_queue,
+  /// PatientViewArguments args,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
+  static Future<void> addAppointmentAPICall(
+    String business_id,
+    String app_id,
+    String date,
+    String time,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/queue/appointment/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "app_id": app_id,
+        "date": date,
+        "time": time,
+      }),
+    );
+    if (response.statusCode == 201) {
+      // Navigator.pushNamed(context, '/patient-manager/patient',
+      //     arguments: widget.signedInUser);
+      // String message =
+      //     "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patientAccesses profile. ou can check the status of your request in patient queue under the appointment.";
+      //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
+      // Navigator.pop(context);
+      // Navigator.pop(context);
+      // Navigator.pop(context);
+      // setState(() {
+      //   dateController.text = "";
+      //   timeController.text = "";
+      // });
+      // Navigator.of(context).pushNamed(
+      //   '/patient-manager',
+      //   arguments: BusinessArguments(
+      //     widget.arguments.signedInUser,
+      //     widget.arguments.businessUser,
+      //     widget.arguments.business,
+      //   ),
+      // );
+      // successPopUp(message);
+      // String app_id,
+      // String date,
+      // String time,
+      // BusinessArguments args,
+      // BuildContext context,
+      addNewAppointmentNotificationAPICall(
+        app_id,
+        date,
+        time,
+        args,
+        context,
+      );
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  //================== POP UPS ==========================================================================
+
+  static void internetConnectionPopUp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
+        );
+      },
+    );
+  }
+
+  static void successPopUp(String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MIHSuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
 }
