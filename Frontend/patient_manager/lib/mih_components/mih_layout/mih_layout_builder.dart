@@ -81,7 +81,9 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 5),
                       getLayoutHeader(),
+                      const SizedBox(height: 5),
                       Expanded(child: widget.body),
                     ],
                   ),
@@ -112,7 +114,9 @@ class _MIHLayoutBuilderState extends State<MIHLayoutBuilder> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 5),
               getLayoutHeader(),
+              const SizedBox(height: 5),
               Expanded(child: widget.body),
             ],
           ),
