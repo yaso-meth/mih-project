@@ -129,6 +129,11 @@ class _BuildNotesListState extends State<BuildNotesList> {
       userNameController.text = selectednote.doctor;
       dateController.text = selectednote.insert_date;
     });
+    bool hasAccessToDelete = false;
+    if (widget.type == "business" &&
+        selectednote.doc_office == widget.business!.Name) {
+      hasAccessToDelete = true;
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -137,7 +142,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
         windowTitle: selectednote.note_name,
         windowTools: [
           Visibility(
-            visible: widget.type == "business",
+            visible: hasAccessToDelete,
             child: IconButton(
               onPressed: () {
                 deletePatientPopUp(selectednote.idpatient_notes);

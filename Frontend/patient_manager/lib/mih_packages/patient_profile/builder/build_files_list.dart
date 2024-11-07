@@ -188,6 +188,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
   }
 
   void viewFilePopUp(String fileName, String filePath, int fileID, String url) {
+    bool hasAccessToDelete = false;
+    if (widget.type == "business") {
+      hasAccessToDelete = true;
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -206,7 +210,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
         ],
         windowTools: [
           Visibility(
-            visible: widget.type == "business",
+            visible: hasAccessToDelete,
             child: IconButton(
               onPressed: () {
                 deleteFilePopUp(filePath, fileID);
