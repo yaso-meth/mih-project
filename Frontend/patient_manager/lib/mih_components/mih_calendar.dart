@@ -5,10 +5,12 @@ import 'package:table_calendar/table_calendar.dart';
 class MIHCalendar extends StatefulWidget {
   final double calendarWidth;
   final double rowHeight;
+  final void Function(String) setDate;
   const MIHCalendar({
     super.key,
     required this.calendarWidth,
     required this.rowHeight,
+    required this.setDate,
   });
 
   @override
@@ -23,6 +25,7 @@ class _MIHCalendarState extends State<MIHCalendar> {
     setState(() {
       selectedDay = day;
     });
+    widget.setDate(selectedDay.toString().split(" ")[0]);
   }
 
   @override
