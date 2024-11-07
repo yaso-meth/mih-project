@@ -108,7 +108,9 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               actionButton: MIHAction(
                 icon: const Icon(Icons.refresh),
                 iconSize: 35,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed("/");
+                },
               ),
               header: const MIHHeader(
                 headerAlignment: MainAxisAlignment.center,
