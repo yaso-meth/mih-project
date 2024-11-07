@@ -79,13 +79,16 @@ class _PatientManagerState extends State<PatientManager> {
         businessUser: widget.arguments.businessUser,
       );
     }
-    return Center(
-      child: Text(
-        "No Appointments for $formattedDate",
-        style: TextStyle(
-            fontSize: 25,
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-        textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(top: 35.0),
+      child: Center(
+        child: Text(
+          "No Appointments for $formattedDate",
+          style: TextStyle(
+              fontSize: 25,
+              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
@@ -202,23 +205,31 @@ class _PatientManagerState extends State<PatientManager> {
         arguments: widget.arguments,
       );
     } else if (patientsList.isEmpty && searchString != "") {
-      return Center(
-        child: Text(
-          "No ID or Medical Aid No. matches a Patient",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
+      return Padding(
+        padding: const EdgeInsets.only(top: 35.0),
+        child: Center(
+          child: Text(
+            "No ID or Medical Aid No. matches a Patient",
+            style: TextStyle(
+                fontSize: 25,
+                color:
+                    MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     } else {
-      return Center(
-        child: Text(
-          "Enter ID or Medical Aid No. of Patient",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
+      return Padding(
+        padding: const EdgeInsets.only(top: 35.0),
+        child: Center(
+          child: Text(
+            "Enter ID or Medical Aid No. of Patient",
+            style: TextStyle(
+                fontSize: 25,
+                color:
+                    MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }
@@ -351,13 +362,16 @@ class _PatientManagerState extends State<PatientManager> {
         arguments: widget.arguments,
       );
     }
-    return Center(
-      child: Text(
-        "No Patients matching search",
-        style: TextStyle(
-            fontSize: 25,
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-        textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(top: 35.0),
+      child: Center(
+        child: Text(
+          "No Patients matching search",
+          style: TextStyle(
+              fontSize: 25,
+              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

@@ -266,10 +266,13 @@ class _PatientAccessRequestState extends State<Appointments> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              child: Text(
-                "Work Inprogress!!!\nSelected Day: $selectedDay",
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 35),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 35.0),
+                child: Text(
+                  "Work Inprogress!!!\nSelected Day: $selectedDay",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 35),
+                ),
               ),
             ),
           ],
