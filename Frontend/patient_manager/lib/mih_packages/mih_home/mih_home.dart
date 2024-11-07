@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/mih_apis/mih_location_api.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
@@ -702,23 +703,41 @@ class _MIHHomeState extends State<MIHHome> {
           ],
         ),
         const SizedBox(height: 10),
-        GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.only(
-            left: width / 10,
-            right: width / 10,
-            //bottom: height / 5,
-            //top: 20,
-          ),
-          // physics: ,
-          // shrinkWrap: true,
-          itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisSpacing: 15, maxCrossAxisExtent: 200),
-          itemBuilder: (context, index) {
-            return searchApp(pbswitch[_selectedIndex], appSearch)[index];
+        SwipeDetector(
+          onSwipeLeft: (offset) {
+            if (_selectedIndex == 0) {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            }
+            //print("swipe left");
           },
+          onSwipeRight: (offset) {
+            if (_selectedIndex == 1) {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            }
+            //print("swipe right");
+          },
+          child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.only(
+              left: width / 10,
+              right: width / 10,
+              //bottom: height / 5,
+              //top: 20,
+            ),
+            // physics: ,
+            // shrinkWrap: true,
+            itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                mainAxisSpacing: 15, maxCrossAxisExtent: 200),
+            itemBuilder: (context, index) {
+              return searchApp(pbswitch[_selectedIndex], appSearch)[index];
+            },
+          ),
         ),
       ],
     );
