@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:patient_manager/mih_apis/mih_api_calls.dart';
+import 'package:patient_manager/mih_components/mih_calendar.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
@@ -13,7 +14,6 @@ import 'package:patient_manager/mih_packages/patient_profile/builder/build_patie
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_list.dart';
 import 'package:patient_manager/mih_packages/patient_profile/builder/build_patient_queue_list.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/patient_queue.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
@@ -112,14 +112,15 @@ class _PatientManagerState extends State<PatientManager> {
         ],
       ),
       Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      const SizedBox(height: 10),
-      MIHDateField(
-        controller: queueDateController,
-        lableText: "Date",
-        required: true,
-      ),
+      MIHCalendar(
+          calendarWidth: 500,
+          rowHeight: 35,
+          setDate: (value) {
+            setState(() {
+              queueDateController.text = value;
+            });
+          }),
       //spacer
-      const SizedBox(height: 10),
       FutureBuilder(
         future: patientQueueResults,
         builder: (context, snapshot) {
