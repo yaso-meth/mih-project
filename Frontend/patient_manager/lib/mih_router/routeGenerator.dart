@@ -40,8 +40,21 @@ class RouteGenerator {
         switch (settings.name) {
           // Authgentication
           case '/':
-            return MaterialPageRoute(
-                settings: settings, builder: (_) => const AuthCheck());
+            if (args is bool) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => AuthCheck(
+                  personalSelected: args,
+                ),
+              );
+            } else {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const AuthCheck(
+                  personalSelected: true,
+                ),
+              );
+            }
           case '/notifications':
             if (args is NotificationArguments) {
               return MaterialPageRoute(
@@ -228,7 +241,9 @@ Route<dynamic> _errorRoute() {
   print("Invalid Route");
   return MaterialPageRoute(
       settings: const RouteSettings(name: '/'),
-      builder: (_) => const AuthCheck());
+      builder: (_) => const AuthCheck(
+            personalSelected: true,
+          ));
   // return MaterialPageRoute(builder: (_) {
   //   return const Scaffold(
   //     appBar: MIHAppBar(barTitle: "Error"),
