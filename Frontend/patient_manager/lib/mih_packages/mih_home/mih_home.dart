@@ -703,41 +703,23 @@ class _MIHHomeState extends State<MIHHome> {
           ],
         ),
         const SizedBox(height: 10),
-        SwipeDetector(
-          onSwipeLeft: (offset) {
-            if (_selectedIndex == 0) {
-              setState(() {
-                _selectedIndex = 1;
-              });
-            }
-            //print("swipe left");
-          },
-          onSwipeRight: (offset) {
-            if (_selectedIndex == 1) {
-              setState(() {
-                _selectedIndex = 0;
-              });
-            }
-            //print("swipe right");
-          },
-          child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: EdgeInsets.only(
-              left: width / 10,
-              right: width / 10,
-              //bottom: height / 5,
-              //top: 20,
-            ),
-            // physics: ,
-            // shrinkWrap: true,
-            itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 15, maxCrossAxisExtent: 200),
-            itemBuilder: (context, index) {
-              return searchApp(pbswitch[_selectedIndex], appSearch)[index];
-            },
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.only(
+            left: width / 10,
+            right: width / 10,
+            //bottom: height / 5,
+            //top: 20,
           ),
+          // physics: ,
+          // shrinkWrap: true,
+          itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisSpacing: 15, maxCrossAxisExtent: 200),
+          itemBuilder: (context, index) {
+            return searchApp(pbswitch[_selectedIndex], appSearch)[index];
+          },
         ),
       ],
     );
@@ -886,16 +868,34 @@ class _MIHHomeState extends State<MIHHome> {
     final double width = size.width;
     final double height = size.height;
 
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: getSecondaryActionButton(),
-      body: getBody(width, height),
-      actionDrawer: getActionDrawer(),
-      secondaryActionDrawer: getSecondaryActionDrawer(),
-      bottomNavBar: getBottomNavBar(),
-      pullDownToRefresh: true,
-      onPullDown: refreshNotifications,
+    return SwipeDetector(
+      onSwipeLeft: (offset) {
+        if (_selectedIndex == 0) {
+          setState(() {
+            _selectedIndex = 1;
+          });
+        }
+        //print("swipe left");
+      },
+      onSwipeRight: (offset) {
+        if (_selectedIndex == 1) {
+          setState(() {
+            _selectedIndex = 0;
+          });
+        }
+        //print("swipe right");
+      },
+      child: MIHLayoutBuilder(
+        actionButton: getActionButton(),
+        header: getHeader(),
+        secondaryActionButton: getSecondaryActionButton(),
+        body: getBody(width, height),
+        actionDrawer: getActionDrawer(),
+        secondaryActionDrawer: getSecondaryActionDrawer(),
+        bottomNavBar: getBottomNavBar(),
+        pullDownToRefresh: true,
+        onPullDown: refreshNotifications,
+      ),
     );
   }
 }
