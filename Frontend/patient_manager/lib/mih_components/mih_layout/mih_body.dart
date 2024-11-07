@@ -87,11 +87,14 @@ class _MIHBodyState extends State<MIHBody> {
         width: screenSize.width,
         height: screenSize.height,
         decoration: getBoader(),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: widget.bodyItems,
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: widget.bodyItems,
+            ),
           ),
         ),
       ),
