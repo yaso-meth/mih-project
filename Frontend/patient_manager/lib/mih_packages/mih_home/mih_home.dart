@@ -140,22 +140,22 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
-    // tileList.add(MIHTile(
-    //   onTap: () {
-    //     Navigator.of(context).pushNamed(
-    //       '/appointments',
-    //       arguments: widget.signedInUser,
-    //     );
-    //   },
-    //   tileName: "Appointments",
-    //   tileIcon: Icon(
-    //     Icons.calendar_month,
-    //     color: getSec(),
-    //     size: 200,
-    //   ),
-    //   p: getPrim(),
-    //   s: getSec(),
-    // ));
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/appointments',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Appointments",
+      tileIcon: Icon(
+        Icons.calendar_month,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
