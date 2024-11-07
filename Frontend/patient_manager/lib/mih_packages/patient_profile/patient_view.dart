@@ -132,40 +132,126 @@ class _PatientViewState extends State<PatientView> {
     return MIHHeader(
       headerAlignment: MainAxisAlignment.end,
       headerItems: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-          icon: const Icon(
-            Icons.perm_identity,
-            size: 35,
+        Visibility(
+          visible: _selectedIndex != 0,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.perm_identity,
+              size: 35,
+            ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 1;
-            });
-          },
-          icon: const Icon(
-            Icons.article_outlined,
-            size: 35,
+        Visibility(
+          visible: _selectedIndex == 0,
+          child: IconButton.filled(
+            iconSize: 35,
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.perm_identity,
+            ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 2;
-            });
-          },
-          icon: const Icon(
-            Icons.file_present,
-            size: 35,
+        Visibility(
+          visible: _selectedIndex != 1,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            },
+            icon: const Icon(
+              Icons.article_outlined,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex == 1,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            },
+            icon: const Icon(
+              Icons.article_outlined,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex != 2,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 2;
+              });
+            },
+            icon: const Icon(
+              Icons.file_present,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex == 2,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 2;
+              });
+            },
+            icon: const Icon(
+              Icons.file_present,
+              size: 35,
+            ),
           ),
         ),
       ],
+      // headerItems: [
+      //   IconButton(
+      //     onPressed: () {
+      //       setState(() {
+      //         _selectedIndex = 0;
+      //       });
+      //     },
+      //     icon: const Icon(
+      //       Icons.perm_identity,
+      //       size: 35,
+      //     ),
+      //   ),
+      //   IconButton(
+      //     onPressed: () {
+      //       setState(() {
+      //         _selectedIndex = 1;
+      //       });
+      //     },
+      //     icon: const Icon(
+      //       Icons.article_outlined,
+      //       size: 35,
+      //     ),
+      //   ),
+      //   IconButton(
+      //     onPressed: () {
+      //       setState(() {
+      //         _selectedIndex = 2;
+      //       });
+      //     },
+      //     icon: const Icon(
+      //       Icons.file_present,
+      //       size: 35,
+      //     ),
+      //   ),
+      // ],
     );
   }
 
