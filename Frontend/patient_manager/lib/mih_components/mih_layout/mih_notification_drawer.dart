@@ -149,6 +149,35 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
     );
   }
 
+  Widget displayNotification() {
+    if (widget.notifications.isNotEmpty) {
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (BuildContext context, index) {
+          return Divider(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          );
+        },
+        itemCount: widget.notifications.length,
+        itemBuilder: (context, index) {
+          //final patient = widget.patients[index].id_no.contains(widget.searchString);
+          //print(index);
+          return displayNotifications(index);
+        },
+      );
+    } else {
+      return const Padding(
+        padding: EdgeInsets.only(top: 35),
+        child: Text(
+          "No Notifications",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -168,6 +197,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
         child: SingleChildScrollView(
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
@@ -191,21 +221,22 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
               ],
             ),
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (BuildContext context, index) {
-              return Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              );
-            },
-            itemCount: widget.notifications.length,
-            itemBuilder: (context, index) {
-              //final patient = widget.patients[index].id_no.contains(widget.searchString);
-              //print(index);
-              return displayNotifications(index);
-            },
-          ),
+          displayNotification(),
+          // ListView.separated(
+          //   shrinkWrap: true,
+          //   physics: const NeverScrollableScrollPhysics(),
+          //   separatorBuilder: (BuildContext context, index) {
+          //     return Divider(
+          //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //     );
+          //   },
+          //   itemCount: widget.notifications.length,
+          //   itemBuilder: (context, index) {
+          //     //final patient = widget.patients[index].id_no.contains(widget.searchString);
+          //     //print(index);
+          //     return displayNotifications(index);
+          //   },
+          // ),
         ],
       ),
     ));
