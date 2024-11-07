@@ -243,6 +243,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
+          arguments: true,
         );
       },
     );

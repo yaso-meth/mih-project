@@ -6,7 +6,11 @@ import 'package:patient_manager/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class AuthCheck extends StatefulWidget {
-  const AuthCheck({super.key});
+  final bool personalSelected;
+  const AuthCheck({
+    super.key,
+    required this.personalSelected,
+  });
 
   @override
   State<AuthCheck> createState() => _AuthCheckState();
@@ -37,11 +41,13 @@ class _AuthCheckState extends State<AuthCheck> {
               builder: (context, snapshot) {
                 //print(snapshot.data);
                 if (snapshot.data == true) {
-                  return const MIHProfileGetter();
+                  return MIHProfileGetter(
+                    personalSelected: widget.personalSelected,
+                  );
                 } else if (snapshot.data == false) {
                   return const SignInOrRegister();
                 } else {
-                  return const SizedBox(width: 5,height: 5);
+                  return const SizedBox(width: 5, height: 5);
                   //const Mihloadingcircle();
                 }
               });
