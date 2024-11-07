@@ -101,7 +101,7 @@ class _PatientManagerState extends State<PatientManager> {
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
           IconButton(
-            iconSize: 25,
+            iconSize: 20,
             icon: const Icon(
               Icons.refresh,
             ),
@@ -504,37 +504,91 @@ class _PatientManagerState extends State<PatientManager> {
     return MIHHeader(
       headerAlignment: MainAxisAlignment.end,
       headerItems: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-          icon: const Icon(
-            Icons.people,
-            size: 35,
+        //============ Waiting Room ================
+        Visibility(
+          visible: _selectedIndex != 0,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.people,
+              size: 35,
+            ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 1;
-            });
-          },
-          icon: const Icon(
-            Icons.check_box_outlined,
-            size: 35,
+        Visibility(
+          visible: _selectedIndex == 0,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.people,
+              size: 35,
+            ),
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 2;
-            });
-          },
-          icon: const Icon(
-            Icons.search,
-            size: 35,
+        //============ My Patient List ================
+        Visibility(
+          visible: _selectedIndex != 1,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            },
+            icon: const Icon(
+              Icons.check_box_outlined,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex == 1,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 1;
+              });
+            },
+            icon: const Icon(
+              Icons.check_box_outlined,
+              size: 35,
+            ),
+          ),
+        ),
+        //============ Patient Lookup ================
+        Visibility(
+          visible: _selectedIndex != 2,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 2;
+              });
+            },
+            icon: const Icon(
+              Icons.search,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex == 2,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 2;
+              });
+            },
+            icon: const Icon(
+              Icons.search,
+              size: 35,
+            ),
           ),
         ),
       ],
