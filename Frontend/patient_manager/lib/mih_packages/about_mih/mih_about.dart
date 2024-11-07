@@ -25,7 +25,11 @@ class _MIHAboutState extends State<MIHAbout> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/',
+          arguments: true,
+          (route) => false,
+        );
       },
     );
   }
