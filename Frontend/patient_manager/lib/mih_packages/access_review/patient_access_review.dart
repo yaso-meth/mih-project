@@ -105,6 +105,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
+          arguments: true,
         );
       },
     );

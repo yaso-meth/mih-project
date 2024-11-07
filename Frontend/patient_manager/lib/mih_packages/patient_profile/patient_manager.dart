@@ -510,6 +510,7 @@ class _PatientManagerState extends State<PatientManager> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
+          arguments: false,
         );
       },
     );

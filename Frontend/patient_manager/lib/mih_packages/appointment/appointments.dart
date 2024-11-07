@@ -227,6 +227,7 @@ class _PatientAccessRequestState extends State<Appointments> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
+          arguments: true,
         );
       },
     );

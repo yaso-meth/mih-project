@@ -12,8 +12,10 @@ import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_packages/mih_home/mih_home.dart';
 
 class MIHProfileGetter extends StatefulWidget {
+  final bool personalSelected;
   const MIHProfileGetter({
     super.key,
+    required this.personalSelected,
   });
 
   @override
@@ -102,6 +104,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
               isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),
               isDevActive: isDevActive(),
+              personalSelected: widget.personalSelected,
             );
           } else {
             return MIHLayoutBuilder(

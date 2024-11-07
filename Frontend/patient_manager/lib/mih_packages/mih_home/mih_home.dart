@@ -40,6 +40,7 @@ class MIHHome extends StatefulWidget {
   final bool isBusinessUser;
   final bool isBusinessUserNew;
   final bool isDevActive;
+  final bool personalSelected;
   const MIHHome({
     super.key,
     required this.signedInUser,
@@ -51,6 +52,7 @@ class MIHHome extends StatefulWidget {
     required this.isBusinessUser,
     required this.isBusinessUserNew,
     required this.isDevActive,
+    required this.personalSelected,
   });
 
   @override
@@ -849,6 +851,11 @@ class _MIHHomeState extends State<MIHHome> {
       businessUserSwitch = false;
       notifiList = widget.notifications;
     });
+    if (!widget.personalSelected) {
+      setState(() {
+        _selectedIndex = 1;
+      });
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notificationPopUp();
     });
