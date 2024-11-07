@@ -273,6 +273,9 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
   }
 
   Widget showSelection(int selectionIndex) {
+    // if (selectionIndex == 0) {
+    //   return BusinessDetails(arguments: widget.arguments);
+    // } else
     if (selectionIndex == 0) {
       return BusinessDetails(arguments: widget.arguments);
     } else if (selectionIndex == 1) {
@@ -304,19 +307,49 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     return MIHHeader(
       headerAlignment: MainAxisAlignment.end,
       headerItems: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              selectionIndex = 0;
-            });
-          },
-          icon: const Icon(
-            Icons.business,
-            size: 35,
+        // IconButton(
+        //   onPressed: () {
+        //     setState(() {
+        //       selectionIndex = 0;
+        //     });
+        //   },
+        //   icon: const Icon(
+        //     Icons.info_outline,
+        //     size: 35,
+        //   ),
+        // ),
+        //============ Business Details ================
+        Visibility(
+          visible: selectionIndex != 0,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                selectionIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.business,
+              size: 35,
+            ),
           ),
         ),
         Visibility(
-          visible: isFullAccess,
+          visible: selectionIndex == 0,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                selectionIndex = 0;
+              });
+            },
+            icon: const Icon(
+              Icons.business,
+              size: 35,
+            ),
+          ),
+        ),
+        //============ Team Manager ================
+        Visibility(
+          visible: isFullAccess && selectionIndex != 1,
           child: IconButton(
             onPressed: () {
               setState(() {
@@ -330,8 +363,37 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
           ),
         ),
         Visibility(
-          visible: isFullAccess,
+          visible: isFullAccess && selectionIndex == 1,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                selectionIndex = 1;
+              });
+            },
+            icon: const Icon(
+              Icons.people_outline,
+              size: 35,
+            ),
+          ),
+        ),
+        //============ Add Team member ================
+        Visibility(
+          visible: isFullAccess && selectionIndex != 2,
           child: IconButton(
+            onPressed: () {
+              setState(() {
+                selectionIndex = 2;
+              });
+            },
+            icon: const Icon(
+              Icons.add,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: isFullAccess && selectionIndex == 2,
+          child: IconButton.filled(
             onPressed: () {
               setState(() {
                 selectionIndex = 2;
