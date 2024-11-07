@@ -24,6 +24,7 @@ class BuildNotesList extends StatefulWidget {
   final Patient selectedPatient;
   final Business? business;
   final BusinessUser? businessUser;
+  final String type;
   const BuildNotesList({
     super.key,
     required this.notes,
@@ -31,6 +32,7 @@ class BuildNotesList extends StatefulWidget {
     required this.selectedPatient,
     required this.business,
     required this.businessUser,
+    required this.type,
   });
 
   @override
@@ -134,13 +136,16 @@ class _BuildNotesListState extends State<BuildNotesList> {
         fullscreen: true,
         windowTitle: selectednote.note_name,
         windowTools: [
-          IconButton(
-            onPressed: () {
-              deletePatientPopUp(selectednote.idpatient_notes);
-            },
-            icon: Icon(
-              Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          Visibility(
+            visible: widget.type == "business",
+            child: IconButton(
+              onPressed: () {
+                deletePatientPopUp(selectednote.idpatient_notes);
+              },
+              icon: Icon(
+                Icons.delete,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
             ),
           ),
         ],

@@ -529,6 +529,7 @@ class _PatientFilesState extends State<PatientFiles> {
               selectedPatient: widget.selectedPatient,
               business: widget.business,
               businessUser: widget.businessUser,
+              type: widget.type,
             ),
           ]);
         } else {

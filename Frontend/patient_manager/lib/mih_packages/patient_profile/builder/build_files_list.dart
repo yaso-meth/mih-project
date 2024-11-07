@@ -23,7 +23,7 @@ class BuildFilesList extends StatefulWidget {
   final Patient selectedPatient;
   final Business? business;
   final BusinessUser? businessUser;
-
+  final String type;
   const BuildFilesList({
     super.key,
     required this.files,
@@ -31,6 +31,7 @@ class BuildFilesList extends StatefulWidget {
     required this.selectedPatient,
     required this.business,
     required this.businessUser,
+    required this.type,
   });
 
   @override
@@ -204,14 +205,17 @@ class _BuildFilesListState extends State<BuildFilesList> {
           )
         ],
         windowTools: [
-          IconButton(
-            onPressed: () {
-              deleteFilePopUp(filePath, fileID);
-            },
-            icon: Icon(
-              size: 35,
-              Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          Visibility(
+            visible: widget.type == "business",
+            child: IconButton(
+              onPressed: () {
+                deleteFilePopUp(filePath, fileID);
+              },
+              icon: Icon(
+                size: 35,
+                Icons.delete,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
             ),
           ),
         ],

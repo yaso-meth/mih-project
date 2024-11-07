@@ -440,6 +440,7 @@ class _PatientNotesState extends State<PatientNotes> {
               selectedPatient: widget.selectedPatient,
               business: widget.business,
               businessUser: widget.businessUser,
+              type: widget.type,
             ),
           ]);
         } else {
