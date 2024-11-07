@@ -38,6 +38,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   String accessFilter = "";
   bool forceRefresh = false;
   late String selectedDropdown;
+  String selectedDay = DateTime.now().toString().split(" ")[0];
 
   late Future<List<AccessRequest>> accessRequestResults;
 
@@ -250,18 +251,29 @@ class _PatientAccessRequestState extends State<Appointments> {
     return MIHBody(
       borderOn: true,
       bodyItems: [
-        const MIHCalendar(
-          calendarWidth: 500,
-          rowHeight: 35,
-        ),
+        MIHCalendar(
+            calendarWidth: 500,
+            rowHeight: 35,
+            setDate: (value) {
+              setState(() {
+                selectedDay = value;
+              });
+            }),
         Divider(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
-        const Center(
-            child: Text(
-          "Work Inprogress!!!",
-          style: TextStyle(fontSize: 35),
-        ))
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Text(
+                "Work Inprogress!!!\nSelected Day: $selectedDay",
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 35),
+              ),
+            ),
+          ],
+        )
         // const SizedBox(height: 10),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
