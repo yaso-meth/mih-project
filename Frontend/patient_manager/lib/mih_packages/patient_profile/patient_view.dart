@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_details.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_files.dart';
 import 'package:patient_manager/mih_packages/patient_profile/patient_notes.dart';
@@ -244,16 +245,34 @@ class _PatientViewState extends State<PatientView> {
       height = size.height;
     });
     checkScreenSize();
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return SwipeDetector(
+      onSwipeLeft: (offset) {
+        if (_selectedIndex < 2) {
+          setState(() {
+            _selectedIndex += 1;
+          });
+        }
+        //print("swipe left");
+      },
+      onSwipeRight: (offset) {
+        if (_selectedIndex > 0) {
+          setState(() {
+            _selectedIndex -= 1;
+          });
+        }
+        //print("swipe right");
+      },
+      child: MIHLayoutBuilder(
+        actionButton: getActionButton(),
+        header: getHeader(),
+        secondaryActionButton: null,
+        body: getBody(),
+        actionDrawer: null,
+        secondaryActionDrawer: null,
+        bottomNavBar: null,
+        pullDownToRefresh: false,
+        onPullDown: () async {},
+      ),
     );
     // return Scaffold(
     //   body: SafeArea(
