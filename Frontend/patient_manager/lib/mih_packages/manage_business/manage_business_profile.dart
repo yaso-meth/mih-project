@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:patient_manager/mih_packages/manage_business/business_details.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
@@ -435,16 +436,34 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      secondaryActionButton: null,
-      header: getHeader(),
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return SwipeDetector(
+      onSwipeLeft: (offset) {
+        if (selectionIndex < 2) {
+          setState(() {
+            selectionIndex += 1;
+          });
+        }
+        //print("swipe left");
+      },
+      onSwipeRight: (offset) {
+        if (selectionIndex > 0) {
+          setState(() {
+            selectionIndex -= 1;
+          });
+        }
+        //print("swipe right");
+      },
+      child: MIHLayoutBuilder(
+        actionButton: getActionButton(),
+        secondaryActionButton: null,
+        header: getHeader(),
+        body: getBody(),
+        actionDrawer: null,
+        secondaryActionDrawer: null,
+        bottomNavBar: null,
+        pullDownToRefresh: false,
+        onPullDown: () async {},
+      ),
     );
     // return Scaffold(
     //   // appBar: const MIHAppBar(
