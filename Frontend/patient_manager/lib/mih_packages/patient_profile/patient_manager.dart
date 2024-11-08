@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -645,16 +646,34 @@ class _PatientManagerState extends State<PatientManager> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return SwipeDetector(
+      onSwipeLeft: (offset) {
+        if (_selectedIndex < 2) {
+          setState(() {
+            _selectedIndex += 1;
+          });
+        }
+        //print("swipe left");
+      },
+      onSwipeRight: (offset) {
+        if (_selectedIndex > 0) {
+          setState(() {
+            _selectedIndex -= 1;
+          });
+        }
+        //print("swipe right");
+      },
+      child: MIHLayoutBuilder(
+        actionButton: getActionButton(),
+        header: getHeader(),
+        secondaryActionButton: null,
+        body: getBody(),
+        actionDrawer: null,
+        secondaryActionDrawer: null,
+        bottomNavBar: null,
+        pullDownToRefresh: false,
+        onPullDown: () async {},
+      ),
     );
   }
 }
