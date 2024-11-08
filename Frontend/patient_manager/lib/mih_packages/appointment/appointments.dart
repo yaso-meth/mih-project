@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_manager/mih_apis/mih_api_calls.dart';
 import 'package:patient_manager/mih_components/mih_calendar.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_body.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_header.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:patient_manager/mih_objects/patient_queue.dart';
 import 'package:patient_manager/mih_packages/access_review/builder/build_access_request_list.dart';
 import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:patient_manager/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -13,6 +15,7 @@ import 'package:patient_manager/mih_env/env.dart';
 import 'package:patient_manager/main.dart';
 import 'package:patient_manager/mih_objects/access_request.dart';
 import 'package:patient_manager/mih_objects/app_user.dart';
+import 'package:patient_manager/mih_packages/appointment/builder/build_appointment_list.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class Appointments extends StatefulWidget {
@@ -29,7 +32,7 @@ class Appointments extends StatefulWidget {
 
 class _PatientAccessRequestState extends State<Appointments> {
   TextEditingController filterController = TextEditingController();
-
+  TextEditingController appointmentDateController = TextEditingController();
   String baseUrl = AppEnviroment.baseApiUrl;
 
   String errorCode = "";
@@ -41,6 +44,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   String selectedDay = DateTime.now().toString().split(" ")[0];
 
   late Future<List<AccessRequest>> accessRequestResults;
+  late Future<List<PatientQueue>> personalQueueResults;
 
   Future<List<AccessRequest>> fetchAccessRequests() async {
     //print("Patien manager page: $endpoint");
@@ -218,6 +222,42 @@ class _PatientAccessRequestState extends State<Appointments> {
     // });
   }
 
+  Widget displayQueueList(List<PatientQueue> patientQueueList) {
+    if (patientQueueList.isNotEmpty) {
+      return Expanded(
+        child: BuildAppointmentList(
+          patientQueue: patientQueueList,
+          signedInUser: widget.signedInUser,
+        ),
+      );
+    }
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 35.0),
+        child: Center(
+          child: Text(
+            "No Appointments for $selectedDay",
+            style: TextStyle(
+              fontSize: 25,
+              color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+            ),
+            textAlign: TextAlign.center,
+            softWrap: true,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void checkforchange() {
+    setState(() {
+      personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
+        selectedDay,
+        widget.signedInUser.app_id,
+      );
+    });
+  }
+
   MIHAction getActionButton() {
     return MIHAction(
       icon: const Icon(Icons.arrow_back),
@@ -258,6 +298,7 @@ class _PatientAccessRequestState extends State<Appointments> {
             setDate: (value) {
               setState(() {
                 selectedDay = value;
+                appointmentDateController.text = selectedDay;
               });
             }),
         Divider(
@@ -266,97 +307,31 @@ class _PatientAccessRequestState extends State<Appointments> {
         Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 35.0),
-                child: Text(
-                  "Work Inprogress!!!\nSelected Day: $selectedDay",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 35),
-                ),
-              ),
-            ),
+            FutureBuilder(
+                future: personalQueueResults,
+                builder: (context, snapshot) {
+                  //return displayQueueList(snapshot.requireData);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Mihloadingcircle();
+                  } else if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return displayQueueList(snapshot.requireData);
+                  } else {
+                    return Center(
+                      child: Text(
+                        "Error pulling appointments",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .errorColor()),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }
+                }),
           ],
         )
-        // const SizedBox(height: 10),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   mainAxisSize: MainAxisSize.max,
-        //   children: [
-        //     Flexible(
-        //       child: MIHDropdownField(
-        //         controller: filterController,
-        //         hintText: "Access Types",
-        //         dropdownOptions: const [
-        //           "All",
-        //           "Approved",
-        //           "Pending",
-        //           "Declined",
-        //           "Cancelled"
-        //         ],
-        //         required: true,
-        //         editable: true,
-        //       ),
-        //     ),
-        //     IconButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           forceRefresh = true;
-        //         });
-        //         refreshList();
-        //       },
-        //       icon: const Icon(
-        //         Icons.refresh,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // const SizedBox(height: 10),
-        // FutureBuilder(
-        //   future: accessRequestResults,
-        //   builder: (context, snapshot) {
-        //     //print("patient Queue List  ${snapshot.hasData}");
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return const Mihloadingcircle();
-        //     } else if (snapshot.connectionState == ConnectionState.done) {
-        //       List<AccessRequest> accessRequestList;
-        //       accessRequestList = filterSearchResults(snapshot.requireData);
-        //       if (accessRequestList.isNotEmpty) {
-        //         return BuildAccessRequestList(
-        //           signedInUser: widget.signedInUser,
-        //           accessRequests: accessRequestList,
-        //         );
-        //       } else {
-        //         return Center(
-        //           child: Text(
-        //             "No Request have been made.",
-        //             style: TextStyle(
-        //                 fontSize: 25,
-        //                 color: MzanziInnovationHub.of(context)!
-        //                     .theme
-        //                     .messageTextColor()),
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         );
-        //       }
-
-        //       // return Expanded(
-        //       //   child: displayAccessRequestList(accessRequestList),
-        //       // );
-        //     } else {
-        //       return Center(
-        //         child: Text(
-        //           "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
-        //           style: TextStyle(
-        //               fontSize: 25,
-        //               color:
-        //                   MzanziInnovationHub.of(context)!.theme.errorColor()),
-        //           textAlign: TextAlign.center,
-        //         ),
-        //       );
-        //     }
-        //   },
-        // ),
       ],
     );
   }
@@ -364,6 +339,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   @override
   void dispose() {
     filterController.dispose();
+    appointmentDateController.dispose();
     super.dispose();
   }
 
@@ -375,6 +351,13 @@ class _PatientAccessRequestState extends State<Appointments> {
     // setState(() {
     //   accessRequestResults = fetchAccessRequests();
     // });
+    appointmentDateController.addListener(checkforchange);
+    setState(() {
+      personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
+        selectedDay,
+        widget.signedInUser.app_id,
+      );
+    });
     super.initState();
   }
 
