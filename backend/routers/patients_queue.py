@@ -73,7 +73,7 @@ async def read_all_patient_queue_by_business_id(app_id: str, date: str, session:
     query += "from patient_manager.patient_queue "
     query += "inner join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
-    query = query + "where app_id = %s and date_time like '" + str(requestDate) + "%' "
+    query = query + "where patient_queue.app_id = %s and date_time like '" + str(requestDate) + "%' "
     query += "ORDER BY date_time ASC"
     cursor.execute(query, (app_id,))
     items = [
