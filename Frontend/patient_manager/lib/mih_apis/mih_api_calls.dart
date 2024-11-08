@@ -550,13 +550,45 @@ class MIHApiCalls {
   /// Patameters: String date & business_id .
   ///
   /// Returns List<PatientQueue>.
-  static Future<List<PatientQueue>> fetchPatientQueue(
+  static Future<List<PatientQueue>> fetchBusinessAppointmentsAPICall(
     String date,
     String business_id,
   ) async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/queue/appointments/business/$business_id"));
+        "${AppEnviroment.baseApiUrl}/queue/appointments/business/$business_id?date=$date"));
+    // print("Here");
+    // print("Body: ${response.body}");
+    // print("Code: ${response.statusCode}");
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      //print("Here1");
+      Iterable l = jsonDecode(response.body);
+      //print("Here2");
+      List<PatientQueue> patientQueue = List<PatientQueue>.from(
+          l.map((model) => PatientQueue.fromJson(model)));
+      //print("Here3");
+      //print(patientQueue);
+      return patientQueue;
+    } else {
+      throw Exception('failed to fatch patient queue');
+    }
+  }
+
+  /// This function is used to fetch a list of appointments for a doctors office for a date.
+  ///
+  /// Patameters: String date & business_id .
+  ///
+  /// Returns List<PatientQueue>.
+  static Future<List<PatientQueue>> fetchPersonalAppointmentsAPICall(
+    String date,
+    String app_id,
+  ) async {
+    //print("Patien manager page: $endpoint");
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/queue/appointments/personal/$app_id?date=$date"));
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
