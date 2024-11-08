@@ -269,36 +269,30 @@ class _PatientDetailsState extends State<PatientDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return SelectionArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: ,
-              children: setIcons(),
-            ),
-            Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-            const SizedBox(height: 10),
-            getPatientDetailsField(),
-            const SizedBox(height: 10),
-            Text(
-              "Medical Aid Details",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-            ),
-            Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-            const SizedBox(height: 10),
-            getMedAidDetailsFields(),
-          ],
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: ,
+          children: setIcons(),
         ),
-      ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10),
+        getPatientDetailsField(),
+        const SizedBox(height: 10),
+        Text(
+          "Medical Aid Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10),
+        getMedAidDetailsFields(),
+      ],
     );
   }
 }
