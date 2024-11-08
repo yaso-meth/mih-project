@@ -168,14 +168,14 @@ class _PatientManagerState extends State<PatientManager> {
   void checkforchange() {
     if (start == true) {
       setState(() {
-        patientQueueResults = MIHApiCalls.fetchPatientQueue(
+        patientQueueResults = MIHApiCalls.fetchBusinessAppointmentsAPICall(
             queueDateController.text, widget.arguments.business!.business_id);
         start = false;
       });
     }
     if (formattedDate != queueDateController.text) {
       setState(() {
-        patientQueueResults = MIHApiCalls.fetchPatientQueue(
+        patientQueueResults = MIHApiCalls.fetchBusinessAppointmentsAPICall(
             queueDateController.text, widget.arguments.business!.business_id);
         formattedDate = queueDateController.text;
       });
