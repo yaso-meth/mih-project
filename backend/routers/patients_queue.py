@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 #from ..database import dbConnection
 import database
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -30,8 +30,10 @@ class queueDeleteRequest(BaseModel):
 
 # Get List of all files by patient
 @router.get("/queue/appointments/business/{business_id}", tags=["Patients Queue"])
-async def read_all_patient_queue_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+async def read_all_patient_queue_by_business_id(business_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbPatientManagerConnect()
+    requestDate = datetime.strptime(date, '%Y-%m-%d').date()
+    #print("request date: " + str(requestDate))
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, "
@@ -39,7 +41,8 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
     query += "from patient_manager.patient_queue "
     query += "inner join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
-    query += "where business_id = %s ORDER BY date_time ASC"
+    query = query + "where business_id = %s and date_time like '" + str(requestDate) + "%' "
+    query += "ORDER BY date_time ASC"
     cursor.execute(query, (business_id,))
     items = [
         {
@@ -60,8 +63,9 @@ async def read_all_patient_queue_by_business_id(business_id: str, session: Sessi
 
 # Get List of all files by patient
 @router.get("/queue/appointments/personal/{app_id}", tags=["Patients Queue"])
-async def read_all_patient_queue_by_business_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+async def read_all_patient_queue_by_business_id(app_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbPatientManagerConnect()
+    requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, "
@@ -69,7 +73,8 @@ async def read_all_patient_queue_by_business_id(app_id: str, session: SessionCon
     query += "from patient_manager.patient_queue "
     query += "inner join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
-    query += "where app_id = %s ORDER BY date_time ASC"
+    query = query + "where app_id = %s and date_time like '" + str(requestDate) + "%' "
+    query += "ORDER BY date_time ASC"
     cursor.execute(query, (app_id,))
     items = [
         {
