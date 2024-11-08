@@ -131,6 +131,23 @@ class _SignInState extends State<SignIn> {
     tileList.add(MIHTile(
       onTap: () {
         setState(() {
+          emailController.text = "test-business@mzansi-innovation-hub.co.za";
+          passwordController.text = "Testprofile@1234";
+        });
+        validateInput();
+      },
+      tileName: "Business",
+      tileIcon: Icon(
+        Icons.business,
+        color: getSec(),
+        size: 200,
+      ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(MIHTile(
+      onTap: () {
+        setState(() {
           emailController.text = "test@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
