@@ -312,7 +312,8 @@ class _PatientAccessRequestState extends State<Appointments> {
                 builder: (context, snapshot) {
                   //return displayQueueList(snapshot.requireData);
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Mihloadingcircle();
+                    return const Expanded(
+                        child: Center(child: Mihloadingcircle()));
                   } else if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.hasData) {
                     return displayQueueList(snapshot.requireData);
@@ -374,48 +375,5 @@ class _PatientAccessRequestState extends State<Appointments> {
       pullDownToRefresh: false,
       onPullDown: () async {},
     );
-    // return Scaffold(
-    //   // appBar: const MIHAppBar(
-    //   //   barTitle: "Access Reviews",
-    //   //   propicFile: null,
-    //   // ),
-    //   //drawer: MIHAppDrawer(signedInUser: widget.signedInUser),
-    //   body: SafeArea(
-    //     child: Stack(
-    //       children: [
-    //         viewAccessRequest(screenWidth, screenHeight),
-    //         Positioned(
-    //           top: 10,
-    //           left: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               Navigator.of(context).pop();
-    //             },
-    //             icon: const Icon(Icons.arrow_back),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 10,
-    //           right: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               setState(() {
-    //                 forceRefresh = true;
-    //               });
-    //               refreshList();
-    //             },
-    //             icon: const Icon(
-    //               Icons.refresh,
-    //             ),
-    //           ),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
