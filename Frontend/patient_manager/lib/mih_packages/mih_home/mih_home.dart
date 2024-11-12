@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +28,8 @@ import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+//import 'package:supertokens_flutter/http.dart' as http;
+import "package:universal_html/html.dart" as html;
 
 class MIHHome extends StatefulWidget {
   final AppUser signedInUser;
@@ -793,26 +793,27 @@ class _MIHHomeState extends State<MIHHome> {
   }
 
   Future<void> refreshNotifications() async {
-    var responseNotification = await http.get(Uri.parse(
-        "$baseAPI/notifications/${widget.signedInUser.app_id}?amount=$amount"));
-    List<MIHNotification> notifi;
-    if (responseNotification.statusCode == 200) {
-      String body = responseNotification.body;
-      // var decodedData = jsonDecode(body);
-      // MIHNotification notifications = MIHNotification.fromJson(decodedData);
+    html.window.location.reload();
+    // var responseNotification = await http.get(Uri.parse(
+    //     "$baseAPI/notifications/${widget.signedInUser.app_id}?amount=$amount"));
+    // List<MIHNotification> notifi;
+    // if (responseNotification.statusCode == 200) {
+    //   String body = responseNotification.body;
+    //   // var decodedData = jsonDecode(body);
+    //   // MIHNotification notifications = MIHNotification.fromJson(decodedData);
 
-      Iterable l = jsonDecode(body);
-      //print("Here2");
-      List<MIHNotification> notifications = List<MIHNotification>.from(
-          l.map((model) => MIHNotification.fromJson(model)));
-      notifi = notifications;
-    } else {
-      notifi = [];
-    }
-    setState(() {
-      notifiList = notifi;
-    });
-    notificationPopUp();
+    //   Iterable l = jsonDecode(body);
+    //   //print("Here2");
+    //   List<MIHNotification> notifications = List<MIHNotification>.from(
+    //       l.map((model) => MIHNotification.fromJson(model)));
+    //   notifi = notifications;
+    // } else {
+    //   notifi = [];
+    // }
+    // setState(() {
+    //   notifiList = notifi;
+    // });
+    // notificationPopUp();
   }
 
   void notificationPopUp() {
