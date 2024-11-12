@@ -18,7 +18,7 @@ import 'package:supertokens_flutter/http.dart' as http;
 class MIHApiCalls {
   final baseAPI = AppEnviroment.baseApiUrl;
 
-//================== USER PROFILE DATA ==========================================================================
+//================== PROFILE DATA ==========================================================================
 
   /// This function is used to get profile details of signed in user.
   ///
@@ -119,6 +119,24 @@ class MIHApiCalls {
 
     //print(userPic);
     return HomeArguments(userData, bUserData, busData, notifi, userPic);
+  }
+
+  /// This function is used to get business details by business _id.
+  ///
+  /// Patameters: String business_id & app_id (app_id of patient).
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<Business?> getBusinessDetails(String business_id) async {
+    var responseBusiness = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/business/business_id/$business_id"));
+    if (responseBusiness.statusCode == 200) {
+      String body = responseBusiness.body;
+      var decodedData = jsonDecode(body);
+      Business business = Business.fromJson(decodedData);
+      return business;
+    } else {
+      return null;
+    }
   }
 
 //================== BUSINESS PATIENT/PERSONAL ACCESS ==========================================================================
