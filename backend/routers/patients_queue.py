@@ -69,10 +69,12 @@ async def read_all_patient_queue_by_business_id(app_id: str, date: str, session:
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, "
-    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no "
+    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no, business.Name "
     query += "from patient_manager.patient_queue "
-    query += "inner join patient_manager.patients "
+    query += "join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
+    query += "join app_data.business "
+    query += "on patient_queue.business_id = business.business_id "
     query = query + "where patient_queue.app_id = %s and date_time like '" + str(requestDate) + "%' "
     query += "ORDER BY date_time ASC"
     cursor.execute(query, (app_id,))
@@ -86,6 +88,7 @@ async def read_all_patient_queue_by_business_id(app_id: str, date: str, session:
             "first_name": item[5],
             "last_name": item[6],
             "medical_aid_no": item[7],
+            "business_name": item[8],
         }
         for item in cursor.fetchall()
     ]
