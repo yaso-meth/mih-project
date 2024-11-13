@@ -107,11 +107,11 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
         "Business Name: ${widget.patientAccessList[index].requested_by}";
     String line2 = "";
     line2 +=
-        "Profile Access: ${widget.patientAccessList[index].type.toUpperCase()}\n";
+        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
     line2 +=
         "Request Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
     //subtitle += "Business Type: ${widget.patientAccessList[index].type}\n";
-    String line3 = "Access Status: ";
+    String line3 = "Status: ";
     String access = widget.patientAccessList[index].status.toUpperCase();
 
     TextSpan accessWithColour;
@@ -196,8 +196,8 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
         "Business Name: ${widget.patientAccessList[index].requested_by}\n";
     subtitle +=
         "Requested Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
-    subtitle += "Access Status: ${widget.patientAccessList[index].status}\n";
-    subtitle += "Access Profile: ${widget.patientAccessList[index].type}";
+    subtitle += "Status: ${widget.patientAccessList[index].status}\n";
+    subtitle += "Profile Type: ${widget.patientAccessList[index].type}";
 
     if (widget.patientAccessList[index].status == 'pending') {
       //     "\nYou are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.\nIf you are unsure about an upcoming appointment with ${widget.patientAccessList[index].requested_by}, please contact *Add Number here* for clarification before approving this request.";
