@@ -35,13 +35,21 @@ async def read_all_patient_queue_by_business_id(business_id: str, date: str, ses
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     #print("request date: " + str(requestDate))
     cursor = db.cursor()
+    # query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
+    # query += "patient_queue.app_id, patient_queue.date_time, "
+    # query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no "
+    # query += "from patient_manager.patient_queue "
+    # query += "inner join patient_manager.patients "
+    # query += "on patient_queue.app_id = patients.app_id "
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, "
-    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no "
+    query += "patients.id_no, patients.first_name, patients.last_name, patients.medical_aid_no, business.Name "
     query += "from patient_manager.patient_queue "
-    query += "inner join patient_manager.patients "
+    query += "join patient_manager.patients "
     query += "on patient_queue.app_id = patients.app_id "
-    query = query + "where business_id = %s and date_time like '" + str(requestDate) + "%' "
+    query += "join app_data.business "
+    query += "on patient_queue.business_id = business.business_id "
+    query = query + "where patient_queue.business_id = %s and date_time like '" + str(requestDate) + "%' "
     query += "ORDER BY date_time ASC"
     cursor.execute(query, (business_id,))
     items = [
@@ -54,6 +62,7 @@ async def read_all_patient_queue_by_business_id(business_id: str, date: str, ses
             "first_name": item[5],
             "last_name": item[6],
             "medical_aid_no": item[7],
+            "business_name": item[8],
         }
         for item in cursor.fetchall()
     ]
