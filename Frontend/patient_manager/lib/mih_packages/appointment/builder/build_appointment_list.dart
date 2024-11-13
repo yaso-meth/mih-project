@@ -30,25 +30,25 @@ class _BuildPatientsListState extends State<BuildAppointmentList> {
   int counter = 0;
 
   Widget displayQueue(int index) {
-    String title =
-        widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
+    String title = widget.patientQueue[index].business_name.toUpperCase();
+    // widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
     String line234 = "";
     // var nowDate = DateTime.now();
     // var expireyDate = DateTime.parse(widget.patientQueue[index].revoke_date);
 
     line234 +=
-        "Office: ${widget.patientQueue[index].business_name.toUpperCase()}";
+        widget.patientQueue[index].date_time.split('T')[1].substring(0, 5);
 
     return ListTile(
       title: Text(
-        "Time: $title",
+        title,
         style: TextStyle(
           color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       subtitle: RichText(
         text: TextSpan(
-          text: line234,
+          text: "Time: $line234",
           style: DefaultTextStyle.of(context).style,
           // children: [
           //   TextSpan(text: line5),
