@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:patient_manager/mih_apis/mih_location_api.dart';
 import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
@@ -86,7 +87,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.perm_identity,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -106,7 +107,7 @@ class _MIHHomeState extends State<MIHHome> {
       tileIcon: Icon(
         Icons.add_business_outlined,
         color: getSec(),
-        size: 200,
+        size: 230,
       ),
       p: getPrim(),
       s: getSec(),
@@ -125,7 +126,7 @@ class _MIHHomeState extends State<MIHHome> {
       },
       tileName: "Mzansi Profile",
       tileIcon: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.all(10.0),
         child: Image(image: logo),
       ),
       p: getPrim(),
@@ -138,11 +139,18 @@ class _MIHHomeState extends State<MIHHome> {
                 widget.signedInUser, null, null, null, "personal"));
       },
       tileName: "Patient Profile",
-      tileIcon: Icon(
-        Icons.medication,
-        color: getSec(),
-        size: 200,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.bookMedical,
+          color: getSec(),
+          size: 200,
+        ),
       ),
+      // Icon(
+      //   Icons.medication,
+      //   color: getSec(),
+      //   size: 200,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -154,10 +162,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Appointments",
-      tileIcon: Icon(
+      tileIcon:
+          // Center(
+          //   child: FaIcon(
+          //     FontAwesomeIcons.calendarDays,
+          //     color: getSec(),
+          //     size: 200,
+          //   ),
+          // ),
+          Icon(
         Icons.calendar_month,
         color: getSec(),
-        size: 200,
+        size: 230,
       ),
       p: getPrim(),
       s: getSec(),
@@ -170,11 +186,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Access",
-      tileIcon: Icon(
-        Icons.check_box_outlined,
-        color: getSec(),
-        size: 200,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.userCheck,
+          color: getSec(),
+          size: 170,
+        ),
       ),
+      // Icon(
+      //   Icons.check_box_outlined,
+      //   color: getSec(),
+      //   size: 200,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -186,10 +209,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "About MIH",
-      tileIcon: Icon(
+      tileIcon:
+          // Center(
+          //   child: FaIcon(
+          //     FontAwesomeIcons.circleInfo,
+          //     color: getSec(),
+          //     size: 200,
+          //   ),
+          // ),
+          Icon(
         Icons.info_outline,
         color: getSec(),
-        size: 200,
+        size: 230,
       ),
       p: getPrim(),
       s: getSec(),
@@ -212,7 +243,7 @@ class _MIHHomeState extends State<MIHHome> {
       tileIcon: Icon(
         Icons.business,
         color: getSec(),
-        size: 200,
+        size: 230,
       ),
       p: getPrim(),
       s: getSec(),
@@ -248,7 +279,7 @@ class _MIHHomeState extends State<MIHHome> {
       tileIcon: Icon(
         Icons.medication,
         color: getSec(),
-        size: 200,
+        size: 230,
       ),
       p: getPrim(),
       s: getSec(),
@@ -282,7 +313,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.notifications,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -300,7 +331,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.change_circle,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -316,7 +347,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.add_business_outlined,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -330,7 +361,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.add_circle_outline,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -350,7 +381,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.warning_amber_rounded,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -375,7 +406,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.error_outline_outlined,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -396,7 +427,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.check_circle_outline_outlined,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -416,7 +447,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.delete_forever_outlined,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -480,7 +511,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.window,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),
@@ -499,7 +530,7 @@ class _MIHHomeState extends State<MIHHome> {
         tileIcon: Icon(
           Icons.location_pin,
           color: getSec(),
-          size: 200,
+          size: 230,
         ),
         p: getPrim(),
         s: getSec(),

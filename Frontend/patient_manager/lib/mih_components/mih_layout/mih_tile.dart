@@ -102,17 +102,22 @@ class _MIHTileState extends State<MIHTile> {
     // print(
     //     "Tile Name: ${widget.tileName}\nTitle Type: ${widget.tileIcon.runtimeType.toString()}");
     return FittedBox(
+      alignment: Alignment.center,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedContainer(
+            //alignment: Alignment.center,
             width: 250,
             height: 250,
             duration: const Duration(seconds: 2),
             child: Material(
               color: mainC,
-              elevation: 10,
+              // shadowColor:
+              //     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              // elevation: 5,
               borderRadius: BorderRadius.circular(80),
               child: InkWell(
                 borderRadius: BorderRadius.circular(80),
