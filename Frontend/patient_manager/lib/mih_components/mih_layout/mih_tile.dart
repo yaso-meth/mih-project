@@ -106,29 +106,60 @@ class _MIHTileState extends State<MIHTile> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Material(
-            color: mainC,
-            borderRadius: BorderRadius.circular(80),
-            child: Ink(
-              padding: const EdgeInsets.all(20),
+          AnimatedContainer(
+            width: 250,
+            height: 250,
+            duration: const Duration(seconds: 2),
+            child: Material(
+              color: mainC,
+              elevation: 10,
+              borderRadius: BorderRadius.circular(80),
               child: InkWell(
+                borderRadius: BorderRadius.circular(80),
+                // ho
                 onTap: widget.onTap,
-                child: SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: widget.tileIcon,
-                ),
+                // hoverDuration: ,
+                splashColor:
+                    MzanziInnovationHub.of(context)!.theme.highlightColor(),
+                highlightColor:
+                    MzanziInnovationHub.of(context)!.theme.highlightColor(),
+                child: widget.tileIcon,
               ),
             ),
           ),
+          // Material(
+          //   color: mainC,
+          //   borderRadius: BorderRadius.circular(80),
+          //   child: Ink(
+          //     // width: 200,
+          //     // height: 200,
+          //     padding: const EdgeInsets.all(20),
+          //     child: InkWell(
+          //       onTap: widget.onTap,
+          //       hoverDuration: Duration(seconds: 2),
+          //       highlightColor:
+          //           MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+          //       child: SizedBox(
+          //         height: 200,
+          //         width: 200,
+          //         child: widget.tileIcon,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 10),
-          Text(
-            widget.tileName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
+          SizedBox(
+            width: 300,
+            child: Text(
+              widget.tileName,
+              textAlign: TextAlign.center,
+              softWrap: true,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                fontSize: 40.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           )
         ],

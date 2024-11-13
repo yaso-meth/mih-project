@@ -124,7 +124,10 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Mzansi Profile",
-      tileIcon: Image(image: logo),
+      tileIcon: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Image(image: logo),
+      ),
       p: getPrim(),
       s: getSec(),
     ));

@@ -131,6 +131,14 @@ class MyTheme {
     return Color(_errColor);
   }
 
+  Color highlightColor() {
+    if (mode == "Dark") {
+      return const Color(0XFF9bc7fa);
+    } else {
+      return const Color(0XFF354866);
+    }
+  }
+
   Color successColor() {
     return Color(_succColor);
   }
