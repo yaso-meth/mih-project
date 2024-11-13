@@ -4,8 +4,8 @@ import "package:universal_html/html.dart" as html;
 class MyTheme {
   late int _mainColor;
   late int _secondColor;
-  late int _errColor;
-  late int _succColor;
+  //late int _errColor;
+  //late int _succColor;
   late int _mesColor;
   late String mode;
   late String screenType;
@@ -25,8 +25,8 @@ class MyTheme {
 
   MyTheme() {
     mode = "Dark";
-    _errColor = 0xffD87E8B;
-    _succColor = 0xffB0F2B4;
+    //_errColor = 0xffD87E8B;
+    //_succColor = 0xffB0F2B4;
     //_mesColor = 0xffc8c8c8d9;
   }
 
@@ -128,7 +128,12 @@ class MyTheme {
   }
 
   Color errorColor() {
-    return Color(_errColor);
+    if (mode == "Dark") {
+      return const Color(0xffD87E8B);
+    } else {
+      return const Color(0xffbb3d4f);
+    }
+    //return Color(_errColor);
   }
 
   Color highlightColor() {
@@ -140,7 +145,11 @@ class MyTheme {
   }
 
   Color successColor() {
-    return Color(_succColor);
+    if (mode == "Dark") {
+      return const Color(0xffB0F2B4);
+    } else {
+      return const Color(0xff56a95b);
+    }
   }
 
   AssetImage logoFrame() {
