@@ -106,10 +106,11 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     String line1 =
         "Business Name: ${widget.patientAccessList[index].requested_by}";
     String line2 = "";
-    line2 +=
-        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
+
     line2 +=
         "Request Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
+    line2 +=
+        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
     //subtitle += "Business Type: ${widget.patientAccessList[index].type}\n";
     String line3 = "Status: ";
     String access = widget.patientAccessList[index].status.toUpperCase();
@@ -196,16 +197,18 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
         "Business Name: ${widget.patientAccessList[index].requested_by}\n";
     subtitle +=
         "Requested Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
-    subtitle += "Status: ${widget.patientAccessList[index].status}\n";
-    subtitle += "Profile Type: ${widget.patientAccessList[index].type}";
 
+    subtitle +=
+        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
+    subtitle +=
+        "Status: ${widget.patientAccessList[index].status.toUpperCase()}";
     if (widget.patientAccessList[index].status == 'pending') {
       //     "\nYou are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.\nIf you are unsure about an upcoming appointment with ${widget.patientAccessList[index].requested_by}, please contact *Add Number here* for clarification before approving this request.";
     } else {
       subtitle +=
-          "\nApproved By: ${widget.patientAccessList[index].approved_by}\n";
+          "\nActioned By: ${widget.patientAccessList[index].approved_by}\n";
       subtitle +=
-          "Approved On: ${widget.patientAccessList[index].approved_on.substring(0, 16).replaceAll("T", " ")}";
+          "Actioned On: ${widget.patientAccessList[index].approved_on.substring(0, 16).replaceAll("T", " ")}";
       // subtitle +=
       //     "You have approved this access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.";
     }
