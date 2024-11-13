@@ -126,7 +126,7 @@ class _MIHHomeState extends State<MIHHome> {
       },
       tileName: "Mzansi Profile",
       tileIcon: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(15.0),
         child: Image(image: logo),
       ),
       p: getPrim(),
@@ -162,19 +162,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Appointments",
-      tileIcon:
-          // Center(
-          //   child: FaIcon(
-          //     FontAwesomeIcons.calendarDays,
-          //     color: getSec(),
-          //     size: 200,
-          //   ),
-          // ),
-          Icon(
-        Icons.calendar_month,
-        color: getSec(),
-        size: 230,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.calendarDays,
+          color: getSec(),
+          size: 200,
+        ),
       ),
+      //     Icon(
+      //   Icons.calendar_month,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -209,19 +208,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "About MIH",
-      tileIcon:
-          // Center(
-          //   child: FaIcon(
-          //     FontAwesomeIcons.circleInfo,
-          //     color: getSec(),
-          //     size: 200,
-          //   ),
-          // ),
-          Icon(
-        Icons.info_outline,
-        color: getSec(),
-        size: 230,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.circleInfo,
+          color: getSec(),
+          size: 200,
+        ),
       ),
+      //     Icon(
+      //   Icons.info_outline,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -240,11 +238,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Business Profile",
-      tileIcon: Icon(
-        Icons.business,
-        color: getSec(),
-        size: 230,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.buildingUser,
+          color: getSec(),
+          size: 165,
+        ),
       ),
+      // Icon(
+      //   Icons.business,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
@@ -276,11 +281,18 @@ class _MIHHomeState extends State<MIHHome> {
         );
       },
       tileName: "Manage Patient",
-      tileIcon: Icon(
-        Icons.medication,
-        color: getSec(),
-        size: 230,
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.bookMedical,
+          color: getSec(),
+          size: 200,
+        ),
       ),
+      // Icon(
+      //   Icons.medication,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
       p: getPrim(),
       s: getSec(),
     ));
