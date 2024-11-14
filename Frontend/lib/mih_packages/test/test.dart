@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
@@ -14,15 +13,15 @@ class MIHTest extends StatefulWidget {
 }
 
 class _MIHTestState extends State<MIHTest> {
-  late YoutubePlayerController videoController;
-  String videoLink = "https://www.youtube.com/watch?v=P2bM9eosJ_A";
-  @override
-  void initState() {
-    videoController = YoutubePlayerController(
-      initialVideoId: "P2bM9eosJ_A",
-    );
-    super.initState();
-  }
+  // late YoutubePlayerController videoController;
+  // String videoLink = "https://www.youtube.com/watch?v=P2bM9eosJ_A";
+  // @override
+  // void initState() {
+  //   videoController = YoutubePlayerController(
+  //     initialVideoId: "P2bM9eosJ_A",
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +53,9 @@ class _MIHTestState extends State<MIHTest> {
       body: MIHBody(
         borderOn: false,
         bodyItems: [
-          YoutubePlayer(
-            controller: videoController,
-          ),
+          // YoutubePlayer(
+          //   controller: videoController,
+          // ),
         ],
       ),
       actionDrawer: null,
