@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../main.dart';
+import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/arguments.dart';
 import '../../mih_objects/patients.dart';

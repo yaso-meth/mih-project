@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_components/mih_layout/mih_app_drawer.dart';
 
+import 'mih_app_drawer.dart';
 import 'mih_body.dart';
 import 'mih_header.dart';
 
