@@ -98,7 +98,7 @@ services:
   user-interface:
     container_name: MIH-UX
     build:
-      context: ./Frontend/patient_manager
+      context: ./Frontend
     ports:
       - "83:83"
     networks:
