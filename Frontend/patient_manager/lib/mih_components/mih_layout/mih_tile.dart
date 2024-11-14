@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:patient_manager/main.dart';
+import 'package:patient_manager/mih_components/mih_layout/mih_window.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MIHTile extends StatefulWidget {
   final String tileName;
-  //final String tileDescription;
+  final String? videoYTLink;
   final Widget tileIcon;
   final void Function() onTap;
   // final Widget tileIcon;
@@ -14,7 +17,7 @@ class MIHTile extends StatefulWidget {
     super.key,
     required this.onTap,
     required this.tileName,
-    //required this.tileDescription,
+    this.videoYTLink,
     required this.tileIcon,
     required this.p,
     required this.s,
@@ -27,9 +30,28 @@ class MIHTile extends StatefulWidget {
 class _MIHTileState extends State<MIHTile> {
   late Color mainC;
   late Color secondC;
+  late YoutubePlayerController videoController;
+
+  String getVideID() {
+    if (widget.videoYTLink != null) {
+      return YoutubePlayer.convertUrlToId(widget.videoYTLink!) as String;
+    } else {
+      return "";
+    }
+  }
+
+  // void listener() {
+  //   if (_isPlayerReady && mounted && !videoController.value.isFullScreen) {
+  //     setState(() {
+  //       _playerState = videoController.value.playerState;
+  //       _videoMetaData = videoController.metadata;
+  //     });
+  //   }
+  // }
 
   @override
   void dispose() {
+    videoController.dispose();
     super.dispose();
   }
 
@@ -37,65 +59,50 @@ class _MIHTileState extends State<MIHTile> {
   void initState() {
     mainC = widget.p;
     secondC = widget.s;
+
+    videoController = YoutubePlayerController(
+        initialVideoId: getVideID(),
+        flags: YoutubePlayerFlags(
+          autoPlay: false,
+          mute: true,
+          isLive: false,
+        ));
     super.initState();
   }
 
-  // Widget displayTile() {
-  //   return FittedBox(
-  //     child: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: [
-  //         GestureDetector(
-  //           onTap: widget.onTap,
-  //           onTapDown: (_) {
-  //             setState(() {
-  //               mainC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-  //               secondC =
-  //                   MzanziInnovationHub.of(context)!.theme.secondaryColor();
-  //             });
-  //           },
-  //           onTapUp: (_) {
-  //             setState(() {
-  //               mainC = MzanziInnovationHub.of(context)!.theme.secondaryColor();
-  //               secondC = MzanziInnovationHub.of(context)!.theme.primaryColor();
-  //             });
-  //           },
-  //           child: Container(
-  //             padding: const EdgeInsets.all(3.0),
-  //             decoration: BoxDecoration(
-  //               color: mainC,
-  //               borderRadius: BorderRadius.circular(10.0),
-  //               //border: Border.all(color: MzanziInnovationHub.of(context)!.theme.secondaryColor(), width: 1.0),
-  //             ),
-  //             child: Icon(
-  //               widget.tileIcon,
-  //               color: secondC,
-  //             ),
-  //           ),
-  //         ),
-  //         const SizedBox(height: 1),
-  //         Row(
-  //           children: [
-  //             Flexible(
-  //               child: Text(
-  //                 widget.tileName,
-  //                 textAlign: TextAlign.center,
-  //                 softWrap: true,
-  //                 overflow: TextOverflow.visible,
-  //                 style: TextStyle(
-  //                   color: mainC,
-  //                   fontSize: 5.0,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  void displayHint() {
+    if (widget.videoYTLink != null) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return MIHWindow(
+            fullscreen: false,
+            windowTitle: widget.tileName,
+            windowTools: const [],
+            onWindowTapClose: () {
+              Navigator.pop(context);
+            },
+            windowBody: [
+              YoutubePlayerBuilder(
+                player: YoutubePlayer(
+                  controller: videoController,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.amber,
+                  progressColors: ProgressBarColors(
+                    playedColor: Colors.amber,
+                    handleColor: Colors.amberAccent,
+                  ),
+                ),
+                builder: (context, player) {
+                  return player;
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +130,9 @@ class _MIHTileState extends State<MIHTile> {
                 borderRadius: BorderRadius.circular(80),
                 // ho
                 onTap: widget.onTap,
+                onLongPress: () {
+                  displayHint();
+                },
                 // hoverDuration: ,
                 splashColor:
                     MzanziInnovationHub.of(context)!.theme.highlightColor(),
