@@ -29,6 +29,7 @@ import 'package:patient_manager/mih_objects/arguments.dart';
 import 'package:patient_manager/mih_objects/business.dart';
 import 'package:patient_manager/mih_objects/business_user.dart';
 import 'package:patient_manager/mih_objects/notification.dart';
+import 'package:patient_manager/mih_packages/test/test.dart';
 //import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
@@ -117,6 +118,7 @@ class _MIHHomeState extends State<MIHHome> {
   void setAppsPersonal(List<MIHTile> tileList) {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     tileList.add(MIHTile(
+      videoYTLink: "https://www.youtube.com/watch?v=P2bM9eosJ_A",
       onTap: () {
         Navigator.of(context).pushNamed(
           '/user-profile',
@@ -300,6 +302,25 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        onTap: () {
+          showDialog(
+            barrierColor: const Color(0x01000000),
+            context: context,
+            builder: (context) {
+              return const MIHTest();
+            },
+          );
+        },
+        tileName: "video - Dev",
+        tileIcon: Icon(
+          Icons.video_file,
+          color: getSec(),
+          size: 230,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
       tileList.add(MIHTile(
         onTap: () {
           showDialog(
