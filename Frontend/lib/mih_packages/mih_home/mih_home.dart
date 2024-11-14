@@ -80,6 +80,7 @@ class _MIHHomeState extends State<MIHHome> {
   void setAppsNewPersonal(List<MIHTile> tileList) {
     if (widget.signedInUser.fname == "") {
       tileList.add(MIHTile(
+        videoID: "jFV3NN65DtQ",
         onTap: () {
           Navigator.of(context).pushNamed('/user-profile',
               arguments: AppProfileUpdateArguments(
@@ -99,6 +100,7 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsNewBusiness(List<MIHTile> tileList) {
     tileList.add(MIHTile(
+      videoID: "Nfp4pVBZL78",
       onTap: () {
         Navigator.of(context).popAndPushNamed(
           '/business-profile/set-up',
@@ -119,7 +121,7 @@ class _MIHHomeState extends State<MIHHome> {
   void setAppsPersonal(List<MIHTile> tileList) {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     tileList.add(MIHTile(
-      videoYTLink: "https://www.youtube.com/watch?v=P2bM9eosJ_A",
+      videoID: "P2bM9eosJ_A",
       onTap: () {
         Navigator.of(context).pushNamed(
           '/user-profile',
@@ -136,6 +138,7 @@ class _MIHHomeState extends State<MIHHome> {
       s: getSec(),
     ));
     tileList.add(MIHTile(
+      videoID: "NUDdoWrbXNc",
       onTap: () {
         Navigator.of(context).pushNamed('/patient-profile',
             arguments: PatientViewArguments(
@@ -204,6 +207,7 @@ class _MIHHomeState extends State<MIHHome> {
       s: getSec(),
     ));
     tileList.add(MIHTile(
+      videoID: "hbKhlmY_56U",
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
@@ -230,6 +234,7 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsBusiness(List<MIHTile> tileList) {
     tileList.add(MIHTile(
+      videoID: "NWyJZq2ZYOM",
       onTap: () {
         Navigator.of(context).pushNamed(
           '/business-profile/manage',
@@ -273,6 +278,7 @@ class _MIHHomeState extends State<MIHHome> {
     //   s: getSec(),
     // ));
     tileList.add(MIHTile(
+      videoID: "D6q2qIavoiY",
       onTap: () {
         Navigator.of(context).pushNamed(
           '/patient-manager',
