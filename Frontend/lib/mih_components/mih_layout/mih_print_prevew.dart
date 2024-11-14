@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:patient_manager/mih_components/mih_layout/mih_action.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
 import '../../mih_objects/arguments.dart';
 import '../mih_pop_up_messages/mih_loading_circle.dart';
+import 'mih_action.dart';
 
 class MIHPrintPreview extends StatefulWidget {
   final PrintPreviewArguments arguments;
