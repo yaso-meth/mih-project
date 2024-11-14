@@ -131,9 +131,9 @@ class _MIHTileState extends State<MIHTile> {
                 borderRadius: BorderRadius.circular(80),
                 // ho
                 onTap: widget.onTap,
-                onLongPress: () {
-                  displayHint();
-                },
+                // onLongPress: () {
+                //   displayHint();
+                // },
                 // hoverDuration: ,
                 splashColor:
                     MzanziInnovationHub.of(context)!.theme.highlightColor(),
