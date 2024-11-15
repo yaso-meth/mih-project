@@ -236,13 +236,22 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
     );
   }
 
-  void noAccessWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "No Access");
-      },
-    );
+  void noAccessWarning(int index) {
+    if (widget.patientAccesses[index].status == "pending") {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHWarningMessage(warningType: "No Access");
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHWarningMessage(warningType: "Access Declined");
+        },
+      );
+    }
   }
 
   bool hasAccessToProfile(int index) {
@@ -417,7 +426,7 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
           });
           patientProfileChoicePopUp(index, p);
         } else {
-          noAccessWarning();
+          noAccessWarning(index);
         }
       },
       trailing: Icon(
