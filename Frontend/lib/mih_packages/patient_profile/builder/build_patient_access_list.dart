@@ -236,13 +236,22 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
     );
   }
 
-  void noAccessWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "No Access");
-      },
-    );
+  void noAccessWarning(int index) {
+    if (widget.patientAccesses[index].status == "pending") {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHWarningMessage(warningType: "No Access");
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHWarningMessage(warningType: "Access Declined");
+        },
+      );
+    }
   }
 
   bool hasAccessToProfile(int index) {
@@ -358,25 +367,31 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
   }
 
   Widget displayAccessTile(int index) {
-    var firstName = widget.patientAccesses[index].fname;
-    var lastName = widget.patientAccesses[index].lname;
+    var firstName = "";
+    var lastName = "";
     String access = widget.patientAccesses[index].status.toUpperCase();
     TextSpan accessWithColour;
     var hasAccess = false;
     hasAccess = hasAccessToProfile(index);
     //print(hasAccess);
     if (access == "APPROVED") {
+      firstName = widget.patientAccesses[index].fname;
+      lastName = widget.patientAccesses[index].lname;
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
               color: MzanziInnovationHub.of(context)!.theme.successColor()));
     } else if (access == "PENDING") {
+      firstName = "${widget.patientAccesses[index].fname[0]}********";
+      lastName = "${widget.patientAccesses[index].lname[0]}********";
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
               color:
                   MzanziInnovationHub.of(context)!.theme.messageTextColor()));
     } else {
+      firstName = "${widget.patientAccesses[index].fname[0]}********";
+      lastName = "${widget.patientAccesses[index].lname[0]}********";
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
@@ -411,7 +426,7 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
           });
           patientProfileChoicePopUp(index, p);
         } else {
-          noAccessWarning();
+          noAccessWarning(index);
         }
       },
       trailing: Icon(

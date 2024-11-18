@@ -355,7 +355,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
       lnameController.text = firstLetterLName + lnameStar;
       accessStatusController.text = accessStatus.toUpperCase();
     });
-
+    //print(accessStatus);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -511,7 +511,7 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
               ),
             ),
             Visibility(
-              visible: !hasAccess && accessStatus != "pending",
+              visible: !hasAccess && accessStatus == "No Access",
               child: SizedBox(
                 width: 300,
                 height: 50,
@@ -522,12 +522,35 @@ class _BuildPatientsListState extends State<BuildPatientsList> {
                   textColor:
                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   onTap: () {
-                    print("Send access Request...");
+                    //print("Send access Request...");
                     MIHApiCalls.addPatientAccessAPICall(
                       widget.business!.business_id,
                       widget.patients[index].app_id,
                       "patient",
                       widget.business!.Name,
+                      widget.arguments,
+                      context,
+                    );
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: !hasAccess && accessStatus == "declined",
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "Re-apply",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    print("Send rewaply access Request...");
+                    MIHApiCalls.reapplyPatientAccessAPICall(
+                      widget.business!.business_id,
+                      widget.patients[index].app_id,
                       widget.arguments,
                       context,
                     );

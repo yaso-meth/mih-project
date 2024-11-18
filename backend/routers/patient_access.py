@@ -23,6 +23,10 @@ class accessRequestUpdateRequest(BaseModel):
     status: str
     approved_by: str
 
+class accessRequestReapplyRequest(BaseModel):
+    business_id: str
+    app_id: str
+
 @router.get("/access-requests/{access_type}/check/{business_id}", tags=["Patient Access"])
 async def check_business_id_has_access(access_type: str,business_id: str, app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbPatientManagerConnect()
@@ -197,6 +201,32 @@ async def Update_Patient_access(itemRequest: accessRequestUpdateRequest): #, ses
     patientData = (itemRequest.status, 
                    itemRequest.approved_by,
                    now,
+                   itemRequest.business_id,
+                   itemRequest.app_id,
+                   )
+    try:
+       cursor.execute(query, patientData) 
+    except Exception as error:
+        print(error)
+        raise HTTPException(status_code=404, detail="Failed to Update Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
+
+# Reapply Patient on table
+@router.put("/access-requests/re-apply/", tags=["Patient Access"])
+async def Reapply_Patient_access(itemRequest: accessRequestReapplyRequest): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbDataAccessConnect()
+    now = datetime.now() + timedelta(hours=2)
+    notificationDateTime = now.strftime("%Y-%m-%d %H:%M:%S")
+    print(notificationDateTime)
+    cursor = db.cursor()
+    query = "update patient_business_access "
+    query += "set status='pending', approved_by='', approved_on='9999-01-01 00:00:00', requested_on=%s "
+    query += "where business_id=%s and app_id=%s"
+    patientData = (now,
                    itemRequest.business_id,
                    itemRequest.app_id,
                    )
