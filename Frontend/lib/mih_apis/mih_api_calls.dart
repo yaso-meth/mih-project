@@ -283,6 +283,42 @@ class MIHApiCalls {
     }
   }
 
+  /// This function is used to reapply for access to patient.
+  ///
+  /// Patameters:-
+  /// String business_id,
+  /// String app_id,
+  /// BuildContext context,
+  ///
+  /// Returns void (on success 200 navigate to /access-review ).
+  static Future<void> reapplyPatientAccessAPICall(
+    String business_id,
+    String app_id,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.put(
+      Uri.parse("${AppEnviroment.baseApiUrl}/access-requests/re-apply/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      // business_id: str
+      // app_id: str
+      // status: str
+      // approved_by: str
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "app_id": app_id,
+      }),
+    );
+    if (response.statusCode == 200) {
+      reapplyAccessRequestNotificationAPICall(app_id, args, context);
+      //notification here
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
   /// This function is used to create patient access and trigger notification to patient
   ///
   /// Patameters:-
@@ -413,6 +449,47 @@ class MIHApiCalls {
           args.businessUser,
           args.business,
         ),
+      );
+      successPopUp(message, context);
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to create notification to patient for access reviews
+  ///
+  /// Patameters:-
+  /// String app_id,
+  /// String business_name,
+  /// BuildContext context,
+  ///
+  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
+  static Future<void> reapplyAccessRequestNotificationAPICall(
+    String app_id,
+    BusinessArguments args,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "notification_type": "Re-applying for Access",
+        "notification_message":
+            "${args.business!.Name} is re-applying for access to your Patient Profile. Please review request.",
+        "action_path": "/access-review",
+      }),
+    );
+    if (response.statusCode == 201) {
+      String message =
+          "A request has been sent to the patient advising that you have re-applied for access to their profile. Only once access has been granted will you be able to book an appointment.";
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/patient-manager',
+        arguments: args,
       );
       successPopUp(message, context);
     } else {
