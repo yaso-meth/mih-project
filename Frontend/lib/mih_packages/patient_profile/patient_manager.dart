@@ -165,6 +165,13 @@ class _PatientManagerState extends State<PatientManager> {
     checkforchange();
   }
 
+  void refreshAccessList() {
+    setState(() {
+      patientAccessResults = MIHApiCalls.getPatientAccessListOfBusiness(
+          widget.arguments.business!.business_id);
+    });
+  }
+
   void checkforchange() {
     if (start == true) {
       setState(() {
@@ -388,9 +395,23 @@ class _PatientManagerState extends State<PatientManager> {
         }
       },
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        const Text(
-          "My Patient List",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "My Patient List",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              iconSize: 20,
+              icon: const Icon(
+                Icons.refresh,
+              ),
+              onPressed: () {
+                refreshAccessList();
+              },
+            ),
+          ],
         ),
         Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
 
