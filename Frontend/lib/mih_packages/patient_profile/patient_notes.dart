@@ -49,6 +49,8 @@ class _PatientNotesState extends State<PatientNotes> {
   final dateController = TextEditingController();
   final doctorController = TextEditingController();
   late Future<List<Note>> futueNotes;
+  //int noteDetailCount = 0;
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
 
   Future<List<Note>> fetchNotes(String endpoint) async {
     final response = await http.get(Uri.parse(
@@ -193,6 +195,33 @@ class _PatientNotesState extends State<PatientNotes> {
               required: true,
             ),
           ),
+          SizedBox(
+            height: 15,
+            child: ValueListenableBuilder(
+              builder: (BuildContext context, int value, Widget? child) {
+                return Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "$value",
+                      style: TextStyle(
+                        color: getNoteDetailLimitColor(),
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "/512",
+                      style: TextStyle(
+                        color: getNoteDetailLimitColor(),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              valueListenable: _counter,
+            ),
+          ),
           const SizedBox(height: 15.0),
           SizedBox(
             width: 300,
@@ -220,150 +249,20 @@ class _PatientNotesState extends State<PatientNotes> {
         ],
       ),
     );
+  }
 
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => Dialog(
-    //     child: Stack(
-    //       children: [
-    //         Container(
-    //           padding: const EdgeInsets.all(10.0),
-    //           width: 700.0,
-    //           //height: 500.0,
-    //           decoration: BoxDecoration(
-    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-    //             borderRadius: BorderRadius.circular(25.0),
-    //             border: Border.all(
-    //                 color:
-    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //                 width: 5.0),
-    //           ),
-    //           child: SingleChildScrollView(
-    //             padding: const EdgeInsets.symmetric(horizontal: 10),
-    //             child: Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               children: [
-    //                 Text(
-    //                   "Add Note",
-    //                   textAlign: TextAlign.center,
-    //                   style: TextStyle(
-    //                     color: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .secondaryColor(),
-    //                     fontSize: 35.0,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 25.0),
-    //                 SizedBox(
-    //                   width: 700,
-    //                   child: MIHTextField(
-    //                     controller: officeController,
-    //                     hintText: "Office",
-    //                     editable: false,
-    //                     required: true,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 SizedBox(
-    //                   width: 700,
-    //                   child: MIHTextField(
-    //                     controller: doctorController,
-    //                     hintText: "Created By",
-    //                     editable: false,
-    //                     required: true,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 SizedBox(
-    //                   width: 700,
-    //                   child: MIHTextField(
-    //                     controller: dateController,
-    //                     hintText: "Created Date",
-    //                     editable: false,
-    //                     required: true,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 SizedBox(
-    //                   width: 700,
-    //                   child: MIHTextField(
-    //                     controller: titleController,
-    //                     hintText: "Note Title",
-    //                     editable: true,
-    //                     required: true,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 10.0),
-    //                 SizedBox(
-    //                   width: 700,
-    //                   height: 250,
-    //                   child: MIHMLTextField(
-    //                     controller: noteTextController,
-    //                     hintText: "Note Details",
-    //                     editable: true,
-    //                     required: true,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 30.0),
-    //                 SizedBox(
-    //                   width: 300,
-    //                   height: 50,
-    //                   child: MIHButton(
-    //                     onTap: () {
-    //                       if (isFieldsFilled()) {
-    //                         addPatientNoteAPICall();
-    //                         Navigator.pop(context);
-    //                       } else {
-    //                         showDialog(
-    //                           context: context,
-    //                           builder: (context) {
-    //                             return const MIHErrorMessage(
-    //                                 errorType: "Input Error");
-    //                           },
-    //                         );
-    //                       }
-    //                     },
-    //                     buttonText: "Add Note",
-    //                     buttonColor: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .secondaryColor(),
-    //                     textColor: MzanziInnovationHub.of(context)!
-    //                         .theme
-    //                         .primaryColor(),
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           right: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //               titleController.clear();
-    //               noteTextController.clear();
-    //             },
-    //             icon: Icon(
-    //               Icons.close,
-    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //               size: 35,
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+  Color getNoteDetailLimitColor() {
+    if (_counter.value <= 512) {
+      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzanziInnovationHub.of(context)!.theme.errorColor();
+    }
   }
 
   bool isFieldsFilled() {
-    if (titleController.text.isEmpty || noteTextController.text.isEmpty) {
+    if (titleController.text.isEmpty ||
+        noteTextController.text.isEmpty ||
+        _counter.value >= 512) {
       return false;
     } else {
       return true;
@@ -407,12 +306,24 @@ class _PatientNotesState extends State<PatientNotes> {
   void dispose() {
     titleController.dispose();
     noteTextController.dispose();
+    doctorController.dispose();
+    dateController.dispose();
+    officeController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     futueNotes = fetchNotes(endpoint + widget.patientAppId);
+    // setState(() {
+    //   noteDetailCount = noteTextController.text.length;
+    // });
+    noteTextController.addListener(() {
+      setState(() {
+        _counter.value = noteTextController.text.characters.length;
+      });
+      print(_counter.value);
+    });
     super.initState();
   }
 
