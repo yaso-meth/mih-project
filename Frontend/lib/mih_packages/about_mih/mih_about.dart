@@ -309,7 +309,7 @@ class _MIHAboutState extends State<MIHAbout> {
         ),
         SizedBox(
           width: 500,
-          height: 300,
+          height: 450,
           child: GridView.builder(
             padding: const EdgeInsets.only(
                 // left: width / 10,
