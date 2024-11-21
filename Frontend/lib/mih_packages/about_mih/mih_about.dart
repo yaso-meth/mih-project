@@ -369,6 +369,23 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
+        html.window.open(
+            'https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F', 'new tab');
+      },
+      tileName: "Whatsapp",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.whatsapp,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          size: 200,
+        ),
+      ),
+      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    ));
+    //==================================================================
+    socials.add(MIHTile(
+      onTap: () {
         html.window
             .open('https://www.youtube.com/@mzansiinnovationhub', 'new tab');
       },
