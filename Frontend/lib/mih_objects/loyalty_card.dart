@@ -25,7 +25,7 @@ class MIHLoyaltyCard {
           shop_name: shop_name,
           card_number: card_number,
         ),
-      _ => throw const FormatException('Failed to load loyalty card.'),
+      _ => throw const FormatException('Failed to load loyalty card objects'),
     };
   }
 }
