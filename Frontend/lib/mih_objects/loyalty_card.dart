@@ -17,7 +17,7 @@ class MIHLoyaltyCard {
         "idloyalty_cards": int idloyalty_cards,
         "app_id": String app_id,
         "shop_name": String shop_name,
-        "notification_read": String card_number,
+        "card_number": String card_number,
       } =>
         MIHLoyaltyCard(
           idloyalty_cards: idloyalty_cards,
