@@ -46,11 +46,12 @@ class _AddPatientState extends State<AddPatient> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
   late int futureDocOfficeId;
-  late bool medRequired;
+  //late bool medRequired;
+  final ValueNotifier<bool> medRequired = ValueNotifier(false);
   final FocusNode _focusNode = FocusNode();
 
   bool isFieldsFilled() {
-    if (medRequired) {
+    if (medRequired.value) {
       if (idController.text.isEmpty ||
           fnameController.text.isEmpty ||
           lnameController.text.isEmpty ||
@@ -151,13 +152,9 @@ class _AddPatientState extends State<AddPatient> {
   void isRequired() {
     //print("listerner triggered");
     if (medAidController.text == "Yes") {
-      setState(() {
-        medRequired = true;
-      });
+      medRequired.value = true;
     } else {
-      setState(() {
-        medRequired = false;
-      });
+      medRequired.value = false;
     }
   }
 
@@ -235,54 +232,59 @@ class _AddPatientState extends State<AddPatient> {
             controller: medAidController,
             hintText: "Medical Aid",
             editable: true,
-            onSelect: (_) {
-              isRequired();
-            },
+            // onSelect: (_) {
+            //   isRequired();
+            // },
             required: true,
             dropdownOptions: const ["Yes", "No"],
           ),
-          Visibility(
-            visible: medRequired,
-            child: Column(
-              children: [
-                const SizedBox(height: 10.0),
-                MIHDropdownField(
-                  controller: medMainMemController,
-                  hintText: "Main Member",
-                  editable: medRequired,
-                  required: medRequired,
-                  dropdownOptions: const ["Yes", "No"],
+          ValueListenableBuilder(
+            valueListenable: medRequired,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return Visibility(
+                visible: value,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10.0),
+                    MIHDropdownField(
+                      controller: medMainMemController,
+                      hintText: "Main Member",
+                      editable: value,
+                      required: value,
+                      dropdownOptions: const ["Yes", "No"],
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medNoController,
+                      hintText: "Medical Aid No.",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medAidCodeController,
+                      hintText: "Medical Aid Code",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medNameController,
+                      hintText: "Medical Aid Name",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medSchemeController,
+                      hintText: "Medical Aid Scheme",
+                      editable: value,
+                      required: value,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medNoController,
-                  hintText: "Medical Aid No.",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medAidCodeController,
-                  hintText: "Medical Aid Code",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medNameController,
-                  hintText: "Medical Aid Name",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medSchemeController,
-                  hintText: "Medical Aid Scheme",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(height: 30.0),
           SizedBox(
@@ -372,6 +374,8 @@ class _AddPatientState extends State<AddPatient> {
     medSchemeController.dispose();
     addressController.dispose();
     medAidController.dispose();
+    medAidCodeController.removeListener(isRequired);
+    medRequired.dispose();
     medMainMemController.dispose();
     medAidCodeController.dispose();
     _focusNode.dispose();

@@ -53,7 +53,8 @@ class _EditPatientState extends State<EditPatient> {
 
   late int futureDocOfficeId;
   late String userEmail;
-  late bool medRequired;
+  // bool medRequired = false;
+  final ValueNotifier<bool> medRequired = ValueNotifier(false);
 
   late double width;
   late double height;
@@ -324,7 +325,7 @@ class _EditPatientState extends State<EditPatient> {
   }
 
   bool isFieldsFilled() {
-    if (medRequired) {
+    if (medRequired.value) {
       if (idController.text.isEmpty ||
           fnameController.text.isEmpty ||
           lnameController.text.isEmpty ||
@@ -357,15 +358,13 @@ class _EditPatientState extends State<EditPatient> {
   }
 
   void isRequired() {
-    //print("listerner triggered");
+    print("listerner triggered");
     if (medAidController.text == "Yes") {
-      setState(() {
-        medRequired = true;
-      });
+      medRequired.value = true;
+    } else if (medAidController.text == "No") {
+      medRequired.value = false;
     } else {
-      setState(() {
-        medRequired = false;
-      });
+      //print("here");
     }
   }
 
@@ -456,63 +455,68 @@ class _EditPatientState extends State<EditPatient> {
           MIHDropdownField(
             controller: medAidController,
             hintText: "Medical Aid",
-            onSelect: (selected) {
-              if (selected == "Yes") {
-                setState(() {
-                  medRequired = true;
-                });
-              } else {
-                setState(() {
-                  medRequired = false;
-                });
-              }
-            },
+            // onSelect: (selected) {
+            //   if (selected == "Yes") {
+            //     setState(() {
+            //       medRequired = true;
+            //     });
+            //   } else {
+            //     setState(() {
+            //       medRequired = false;
+            //     });
+            //   }
+            // },
             editable: true,
             required: true,
             dropdownOptions: const ["Yes", "No"],
           ),
-          Visibility(
-            visible: medRequired,
-            child: Column(
-              children: [
-                const SizedBox(height: 10.0),
-                MIHDropdownField(
-                  controller: medMainMemController,
-                  hintText: "Main Member.",
-                  editable: medRequired,
-                  required: medRequired,
-                  dropdownOptions: const ["Yes", "No"],
+          ValueListenableBuilder(
+            valueListenable: medRequired,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return Visibility(
+                visible: value,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10.0),
+                    MIHDropdownField(
+                      controller: medMainMemController,
+                      hintText: "Main Member.",
+                      editable: value,
+                      required: value,
+                      dropdownOptions: const ["Yes", "No"],
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medNoController,
+                      hintText: "Medical Aid No.",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medAidCodeController,
+                      hintText: "Medical Aid Code",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medNameController,
+                      hintText: "Medical Aid Name",
+                      editable: value,
+                      required: value,
+                    ),
+                    const SizedBox(height: 10.0),
+                    MIHTextField(
+                      controller: medSchemeController,
+                      hintText: "Medical Aid Scheme",
+                      editable: value,
+                      required: value,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medNoController,
-                  hintText: "Medical Aid No.",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medAidCodeController,
-                  hintText: "Medical Aid Code",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medNameController,
-                  hintText: "Medical Aid Name",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-                const SizedBox(height: 10.0),
-                MIHTextField(
-                  controller: medSchemeController,
-                  hintText: "Medical Aid Scheme",
-                  editable: medRequired,
-                  required: medRequired,
-                ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(height: 30.0),
           SizedBox(
@@ -535,7 +539,7 @@ class _EditPatientState extends State<EditPatient> {
 
   void submitForm() {
     if (isFieldsFilled()) {
-      if (!medRequired) {
+      if (!medRequired.value) {
         setState(() {
           medMainMemController.text = "";
           medNoController.text = "";
@@ -611,8 +615,10 @@ class _EditPatientState extends State<EditPatient> {
     medSchemeController.dispose();
     addressController.dispose();
     medAidController.dispose();
+    medAidCodeController.removeListener(isRequired);
     medMainMemController.dispose();
     medAidCodeController.dispose();
+    medRequired.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -622,29 +628,19 @@ class _EditPatientState extends State<EditPatient> {
     getLoginUserEmail();
     medAidController.addListener(isRequired);
     setState(() {
-      idController.value = TextEditingValue(text: widget.selectedPatient.id_no);
-      fnameController.value =
-          TextEditingValue(text: widget.selectedPatient.first_name);
-      lnameController.value =
-          TextEditingValue(text: widget.selectedPatient.last_name);
-      cellController.value =
-          TextEditingValue(text: widget.selectedPatient.cell_no);
-      emailController.value =
-          TextEditingValue(text: widget.selectedPatient.email);
-      medNameController.value =
-          TextEditingValue(text: widget.selectedPatient.medical_aid_name);
-      medNoController.value =
-          TextEditingValue(text: widget.selectedPatient.medical_aid_no);
-      medSchemeController.value =
-          TextEditingValue(text: widget.selectedPatient.medical_aid_scheme);
-      addressController.value =
-          TextEditingValue(text: widget.selectedPatient.address);
-      medAidController.value =
-          TextEditingValue(text: widget.selectedPatient.medical_aid);
-      medMainMemController.value = TextEditingValue(
-          text: widget.selectedPatient.medical_aid_main_member);
-      medAidCodeController.value =
-          TextEditingValue(text: widget.selectedPatient.medical_aid_code);
+      idController.text = widget.selectedPatient.id_no;
+      fnameController.text = widget.selectedPatient.first_name;
+      lnameController.text = widget.selectedPatient.last_name;
+      cellController.text = widget.selectedPatient.cell_no;
+      emailController.text = widget.selectedPatient.email;
+      medNameController.text = widget.selectedPatient.medical_aid_name;
+      medNoController.text = widget.selectedPatient.medical_aid_no;
+      medSchemeController.text = widget.selectedPatient.medical_aid_scheme;
+      addressController.text = widget.selectedPatient.address;
+      medAidController.text = widget.selectedPatient.medical_aid;
+      medMainMemController.text =
+          widget.selectedPatient.medical_aid_main_member;
+      medAidCodeController.text = widget.selectedPatient.medical_aid_code;
     });
 
     super.initState();
