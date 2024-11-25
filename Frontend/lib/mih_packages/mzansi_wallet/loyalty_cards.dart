@@ -12,6 +12,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/builder/build_l
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class LoyaltyCards extends StatefulWidget {
@@ -53,13 +54,12 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
           fullscreen: false,
           windowTitle: "Scanner",
           windowBody: [
-            SizedBox(
-              height: 1000,
+            Expanded(
               child: MobileScanner(
                 controller: scannerController,
                 onDetect: foundCode,
               ),
-            )
+            ),
           ],
           windowTools: [],
           onWindowTapClose: () {
@@ -142,29 +142,30 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               ),
               const SizedBox(width: 10),
               MIHButton(
-                onTap: () {
-                  openscanner();
+                onTap:
+                    // () {
+                    //   openscanner();
+                    // },
+                    () async {
+                  String? res = await SimpleBarcodeScanner.scanBarcode(
+                    context,
+                    barcodeAppBar: const BarcodeAppBar(
+                      appBarTitle: 'Scan Bardcode',
+                      centerTitle: true,
+                      enableBackButton: true,
+                      backButtonIcon: Icon(Icons.arrow_back),
+                    ),
+                    isShowFlashIcon: true,
+                    delayMillis: 500,
+                    cameraFace: CameraFace.back,
+                    scanFormat: ScanFormat.ONLY_BARCODE,
+                  );
+                  if (res != null) {
+                    setState(() {
+                      cardNumberController.text = res;
+                    });
+                  }
                 },
-                // () async {
-                //   String? res = await SimpleBarcodeScanner.scanBarcode(
-                //     context,
-                //     barcodeAppBar: const BarcodeAppBar(
-                //       appBarTitle: 'Scan Bardcode',
-                //       centerTitle: true,
-                //       enableBackButton: true,
-                //       backButtonIcon: Icon(Icons.arrow_back),
-                //     ),
-                //     isShowFlashIcon: true,
-                //     delayMillis: 500,
-                //     cameraFace: CameraFace.back,
-                //     scanFormat: ScanFormat.ONLY_BARCODE,
-                //   );
-                //   if (res != null) {
-                //     setState(() {
-                //       cardNumberController.text = res;
-                //     });
-                //   }
-                // },
                 buttonText: "Scan",
                 buttonColor:
                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
