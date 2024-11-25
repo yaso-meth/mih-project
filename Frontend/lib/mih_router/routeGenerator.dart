@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
 import '../mih_components/mih_pop_up_messages/mih_notification_message.dart';
@@ -70,6 +71,7 @@ class RouteGenerator {
                 settings: settings, builder: (_) => const ForgotPassword());
           //http://mzansi-innovation-hub.co.za/auth/reset-password
           //===============================================================
+
           //About MIH
           case '/about':
             return MaterialPageRoute(
@@ -151,6 +153,20 @@ class RouteGenerator {
                 builder: (_) => EditPatient(
                   signedInUser: args.signedInUser,
                   selectedPatient: args.selectedPatient,
+                ),
+              );
+            }
+            return _errorRoute();
+          //===============================================================
+
+          // /mzansi wallet
+          case '/mzansi-wallet':
+            if (args is AppUser) {
+              //print("route generator: $args");
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MzansiWallet(
+                  signedInUser: args,
                 ),
               );
             }

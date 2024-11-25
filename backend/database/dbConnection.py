@@ -24,6 +24,14 @@ def dbDataAccessConnect():
         database="data_access"
     )
 
+def dbMzansiWalletConnect():
+    return mysql.connector.connect(
+        host="mysqldb",
+        user="root",
+        passwd="C@rtoon1995",
+        database="mzansi_wallet"
+    )
+
 def dbAllConnect():
     return mysql.connector.connect(
         host="mysqldb",

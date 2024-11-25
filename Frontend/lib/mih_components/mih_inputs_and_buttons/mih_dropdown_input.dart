@@ -6,7 +6,7 @@ class MIHDropdownField extends StatefulWidget {
   final String hintText;
   final bool required;
   final List<String> dropdownOptions;
-  final void Function(String?)? onSelect;
+  // final void Function(String?)? onSelect;
   final bool editable;
 
   const MIHDropdownField({
@@ -16,7 +16,7 @@ class MIHDropdownField extends StatefulWidget {
     required this.dropdownOptions,
     required this.required,
     required this.editable,
-    this.onSelect,
+    // this.onSelect,
   });
 
   @override
@@ -59,6 +59,7 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
     setState(() {
       startup = false;
     });
+    // widget.onSelect;
   }
 
   String? get _errorText {
@@ -124,10 +125,8 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
       errorText: _errorText,
 
       focusNode: _focus,
-      onSelected: (_) {
-        setState(() {
-          startup = false;
-        });
+      onSelected: (selected) {
+        _onFocusChange();
         // if (widget.editable == false) {
         //   return false;
         // }

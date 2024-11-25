@@ -138,6 +138,29 @@ class _MIHHomeState extends State<MIHHome> {
       s: getSec(),
     ));
     tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/mzansi-wallet',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Mzansi Wallet",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.wallet,
+          color: getSec(),
+          size: 200,
+        ),
+      ),
+      //     Icon(
+      //   Icons.info_outline,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+    tileList.add(MIHTile(
       videoID: "NUDdoWrbXNc",
       onTap: () {
         Navigator.of(context).pushNamed('/patient-profile',
@@ -206,6 +229,7 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
+
     tileList.add(MIHTile(
       videoID: "hbKhlmY_56U",
       onTap: () {
