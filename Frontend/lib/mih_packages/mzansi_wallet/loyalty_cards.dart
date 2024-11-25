@@ -10,6 +10,7 @@ import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class LoyaltyCards extends StatefulWidget {
@@ -29,8 +30,10 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
   late Future<List<MIHLoyaltyCard>> cardList;
   //bool showSelectedCardType = false;
   final ValueNotifier<String> shopName = ValueNotifier("");
+  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
+  String? code;
 
-  void addCardWindow() {
+  void addCardWindow(BuildContext ctxt) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -101,23 +104,17 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               ),
               const SizedBox(width: 10),
               MIHButton(
-                onTap: () async {
-                  String? res = await SimpleBarcodeScanner.scanBarcode(
-                    context,
-                    barcodeAppBar: const BarcodeAppBar(
-                      appBarTitle: 'Scan Barcode',
-                      centerTitle: false,
-                      enableBackButton: true,
-                      backButtonIcon: Icon(Icons.arrow_back),
-                    ),
-                    isShowFlashIcon: true,
-                    delayMillis: 500,
-                    cameraFace: CameraFace.back,
-                    scanFormat: ScanFormat.ALL_FORMATS,
-                  );
-                  setState(() {
-                    cardNumberController.text = res as String;
+                onTap: () {
+                  _qrBarCodeScannerDialogPlugin.getPlatformVersion().then((v) {
+                    print(v);
                   });
+                  _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+                      context: context,
+                      onCode: (code) {
+                        setState(() {
+                          this.code = code;
+                        });
+                      });
                 },
                 buttonText: "Scan",
                 buttonColor:
@@ -211,7 +208,7 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
                     color:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     onPressed: () {
-                      addCardWindow();
+                      addCardWindow(context);
                     },
                   )
                 ],
