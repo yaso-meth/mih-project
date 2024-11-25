@@ -147,6 +147,7 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
                     //   openscanner();
                     // },
                     () async {
+                  print("here");
                   String? res = await SimpleBarcodeScanner.scanBarcode(
                     context,
                     barcodeAppBar: const BarcodeAppBar(
