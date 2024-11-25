@@ -5,8 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:simple_barcode_scanner/screens/web.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+// import 'package:simple_barcode_scanner/screens/web.dart';
+// import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
 //import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
@@ -78,6 +79,9 @@ class _MIHHomeState extends State<MIHHome> {
   String appSearch = "";
   int amount = 10;
   final baseAPI = AppEnviroment.baseApiUrl;
+  final MobileScannerController scannerController = MobileScannerController(
+      // required options for the scanner
+      );
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
     if (widget.signedInUser.fname == "") {
@@ -333,6 +337,14 @@ class _MIHHomeState extends State<MIHHome> {
     ));
   }
 
+  void foundCode(BarcodeCapture bcode) {
+    if (bcode.barcodes.first.rawValue != null) {
+      print(bcode.barcodes.first.rawValue);
+      scannerController.stop();
+      Navigator.of(context).pop();
+    }
+  }
+
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
       tileList.add(MIHTile(
@@ -350,24 +362,15 @@ class _MIHHomeState extends State<MIHHome> {
               // return const MIHErrorMessage(errorType: "Invalid Credentials");
               return MIHWindow(
                 fullscreen: false,
-                windowTitle:
-                    "Test Window title that is too large for mobile devices",
+                windowTitle: "Scanner",
                 windowBody: [
                   SizedBox(
-                    height: 700,
-                    child: BarcodeScanner(
-                      lineColor: "#ff6666",
-                      cancelButtonText: "Cancel",
-                      isShowFlashIcon: false,
-                      scanType: ScanType.qr,
-                      cameraFace: CameraFace.back,
-                      //barcodeAppBar: barcodeAppBar,
-                      delayMillis: 500,
-                      scanFormat: ScanFormat.ALL_FORMATS,
-                      onScanned: (res) => Navigator.pop(context, res),
-                      //child: child,
+                    height: 1000,
+                    child: MobileScanner(
+                      controller: scannerController,
+                      onDetect: foundCode,
                     ),
-                  ),
+                  )
                 ],
                 windowTools: [],
                 onWindowTapClose: () {

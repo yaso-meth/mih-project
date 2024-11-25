@@ -4,14 +4,15 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+// import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class LoyaltyCards extends StatefulWidget {
   final AppUser signedInUser;
@@ -30,8 +31,45 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
   late Future<List<MIHLoyaltyCard>> cardList;
   //bool showSelectedCardType = false;
   final ValueNotifier<String> shopName = ValueNotifier("");
-  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
-  String? code;
+  final MobileScannerController scannerController = MobileScannerController();
+
+  void foundCode(BarcodeCapture bcode) {
+    if (bcode.barcodes.first.rawValue != null) {
+      setState(() {
+        cardNumberController.text = bcode.barcodes.first.rawValue!;
+      });
+      //print(bcode.barcodes.first.rawValue);
+      scannerController.stop();
+      Navigator.of(context).pop();
+    }
+  }
+
+  void openscanner() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return MIHWindow(
+          fullscreen: false,
+          windowTitle: "Scanner",
+          windowBody: [
+            SizedBox(
+              height: 1000,
+              child: MobileScanner(
+                controller: scannerController,
+                onDetect: foundCode,
+              ),
+            )
+          ],
+          windowTools: [],
+          onWindowTapClose: () {
+            scannerController.stop();
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
+  }
 
   void addCardWindow(BuildContext ctxt) {
     showDialog(
@@ -104,26 +142,29 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               ),
               const SizedBox(width: 10),
               MIHButton(
-                onTap: () async {
-                  String? res = await SimpleBarcodeScanner.scanBarcode(
-                    context,
-                    barcodeAppBar: const BarcodeAppBar(
-                      appBarTitle: 'Test',
-                      centerTitle: false,
-                      enableBackButton: true,
-                      backButtonIcon: Icon(Icons.arrow_back_ios),
-                    ),
-                    isShowFlashIcon: true,
-                    delayMillis: 500,
-                    cameraFace: CameraFace.back,
-                    scanFormat: ScanFormat.ONLY_BARCODE,
-                  );
-                  if (res != null) {
-                    setState(() {
-                      cardNumberController.text = res;
-                    });
-                  }
+                onTap: () {
+                  openscanner();
                 },
+                // () async {
+                //   String? res = await SimpleBarcodeScanner.scanBarcode(
+                //     context,
+                //     barcodeAppBar: const BarcodeAppBar(
+                //       appBarTitle: 'Scan Bardcode',
+                //       centerTitle: true,
+                //       enableBackButton: true,
+                //       backButtonIcon: Icon(Icons.arrow_back),
+                //     ),
+                //     isShowFlashIcon: true,
+                //     delayMillis: 500,
+                //     cameraFace: CameraFace.back,
+                //     scanFormat: ScanFormat.ONLY_BARCODE,
+                //   );
+                //   if (res != null) {
+                //     setState(() {
+                //       cardNumberController.text = res;
+                //     });
+                //   }
+                // },
                 buttonText: "Scan",
                 buttonColor:
                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -138,13 +179,23 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
             height: 50,
             child: MIHButton(
               onTap: () {
-                MIHMzansiWalletApis.addLoyaltyCardAPICall(
-                  widget.signedInUser,
-                  widget.signedInUser.app_id,
-                  shopController.text,
-                  cardNumberController.text,
-                  context,
-                );
+                if (shopController.text == "" ||
+                    cardNumberController.text == "") {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                } else {
+                  MIHMzansiWalletApis.addLoyaltyCardAPICall(
+                    widget.signedInUser,
+                    widget.signedInUser.app_id,
+                    shopController.text,
+                    cardNumberController.text,
+                    context,
+                  );
+                }
               },
               buttonText: "Add",
               buttonColor:

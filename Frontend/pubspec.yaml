@@ -63,7 +63,7 @@ dependencies:
   youtube_player_iframe: ^5.2.0
   syncfusion_flutter_barcodes: ^26.2.10
   simple_barcode_scanner: ^0.2.5
-  qr_bar_code_scanner_dialog: ^0.0.5
+  mobile_scanner: ^6.0.2
 
 dev_dependencies:
   flutter_test:
