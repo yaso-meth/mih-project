@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:simple_barcode_scanner/screens/web.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
 //import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
@@ -333,6 +335,57 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        onTap: () async {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              // return const MIHErrorMessage(errorType: "Input Error");
+              // return const MIHErrorMessage(errorType: "Password Requirements");
+              // return const MIHErrorMessage(errorType: "Invalid Username");
+              // return const MIHErrorMessage(errorType: "Invalid Email");
+              // return const MIHErrorMessage(errorType: "User Exists");
+              // return const MIHErrorMessage(errorType: "Password Match");
+              // return const MIHErrorMessage(errorType: "Invalid Credentials");
+              return MIHWindow(
+                fullscreen: false,
+                windowTitle:
+                    "Test Window title that is too large for mobile devices",
+                windowBody: [
+                  SizedBox(
+                    height: 700,
+                    child: BarcodeScanner(
+                      lineColor: "#ff6666",
+                      cancelButtonText: "Cancel",
+                      isShowFlashIcon: false,
+                      scanType: ScanType.qr,
+                      cameraFace: CameraFace.back,
+                      //barcodeAppBar: barcodeAppBar,
+                      delayMillis: 500,
+                      scanFormat: ScanFormat.ALL_FORMATS,
+                      onScanned: (res) => Navigator.pop(context, res),
+                      //child: child,
+                    ),
+                  ),
+                ],
+                windowTools: [],
+                onWindowTapClose: () {
+                  Navigator.pop(context);
+                },
+              );
+            },
+          );
+        },
+        tileName: "Scanner - Dev",
+        tileIcon: Icon(
+          Icons.scanner,
+          color: getSec(),
+          size: 230,
+        ),
+        p: getPrim(),
+        s: getSec(),
+      ));
       tileList.add(MIHTile(
         onTap: () {
           showDialog(
