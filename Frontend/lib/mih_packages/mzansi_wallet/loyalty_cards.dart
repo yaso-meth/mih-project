@@ -104,17 +104,25 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               ),
               const SizedBox(width: 10),
               MIHButton(
-                onTap: () {
-                  _qrBarCodeScannerDialogPlugin.getPlatformVersion().then((v) {
-                    print(v);
-                  });
-                  _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
-                      context: context,
-                      onCode: (code) {
-                        setState(() {
-                          this.code = code;
-                        });
-                      });
+                onTap: () async {
+                  String? res = await SimpleBarcodeScanner.scanBarcode(
+                    context,
+                    barcodeAppBar: const BarcodeAppBar(
+                      appBarTitle: 'Test',
+                      centerTitle: false,
+                      enableBackButton: true,
+                      backButtonIcon: Icon(Icons.arrow_back_ios),
+                    ),
+                    isShowFlashIcon: true,
+                    delayMillis: 500,
+                    cameraFace: CameraFace.back,
+                    scanFormat: ScanFormat.ONLY_BARCODE,
+                  );
+                  if (res != null) {
+                    setState(() {
+                      cardNumberController.text = res;
+                    });
+                  }
                 },
                 buttonText: "Scan",
                 buttonColor:
