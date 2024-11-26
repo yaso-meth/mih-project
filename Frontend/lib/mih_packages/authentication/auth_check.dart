@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:supertokens_flutter/supertokens.dart';
-
+import 'package:no_screenshot/no_screenshot.dart';
 import '../mih_home/mih_profile_getter.dart';
 import 'signin_or_register.dart';
 
@@ -17,6 +17,8 @@ class AuthCheck extends StatefulWidget {
 }
 
 class _AuthCheckState extends State<AuthCheck> {
+  final _noScreenshot = NoScreenshot.instance;
+
   Future<bool> doesSessionExist() async {
     //wait
     //await Future.delayed(const Duration(seconds: 1));
@@ -24,9 +26,15 @@ class _AuthCheckState extends State<AuthCheck> {
     return signedIn;
   }
 
+  void disableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOff();
+    print('Screenshot Off: $result');
+  }
+
   @override
   void initState() {
     //signedIn = doesSessionExist();
+    disableScreenshot();
     super.initState();
   }
 

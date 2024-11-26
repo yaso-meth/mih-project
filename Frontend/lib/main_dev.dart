@@ -3,7 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../mih_env/env.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +13,7 @@ void main() async {
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
-  setUrlStrategy(PathUrlStrategy());
+  // setUrlStrategy(PathUrlStrategy());
   FlutterNativeSplash.remove();
   runApp(const MzanziInnovationHub());
 }

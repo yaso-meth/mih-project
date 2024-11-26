@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../mih_env/env.dart';
 import '../mih_router/routeGenerator.dart';
 import '../mih_theme/mih_theme.dart';
+
 //import 'package:fpjs_pro_plugin/fpjs_pro_plugin.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
@@ -21,7 +22,7 @@ class MzanziInnovationHub extends StatefulWidget {
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
   late MyTheme theme;
-  // final noscreenshot = NoScreenshot.instance;
+
   Color getPrimany() {
     return theme.primaryColor();
   }
@@ -78,9 +79,6 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
     theme.platform = Theme.of(context).platform;
-    // if (theme.getPlatform() == "Android") {
-    //   noscreenshot.screenshotOff();
-    // }
     theme.mode = "Dark";
     super.initState();
     //doInit();

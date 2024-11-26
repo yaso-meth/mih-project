@@ -8,7 +8,7 @@ import '../../mih_components/mih_layout/mih_tile.dart';
 import '../../main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import "package:universal_html/js.dart" as js;
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class MIHAbout extends StatefulWidget {
   const MIHAbout({
@@ -113,9 +113,9 @@ class _MIHAboutState extends State<MIHAbout> {
                 height: 50,
                 child: MIHButton(
                   onTap: () {
-                    html.window.open(
-                        'https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh',
-                        'new tab');
+                    // html.window.open(
+                    //     'https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh',
+                    //     'new tab');
                   },
                   buttonText: "MIH Beginners Guide",
                   buttonColor:
@@ -335,8 +335,8 @@ class _MIHAboutState extends State<MIHAbout> {
     List<Widget> socials = [];
     socials.add(MIHTile(
       onTap: () {
-        html.window
-            .open('https://www.tiktok.com/@mzansi.innovation.hub', 'new tab');
+        // html.window
+        //     .open('https://www.tiktok.com/@mzansi.innovation.hub', 'new tab');
       },
       tileName: "TikTok",
       tileIcon: Center(
@@ -352,8 +352,8 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window
-            .open('https://www.instagram.com/mzansi.innovation.hub', 'new tab');
+        // html.window
+        //     .open('https://www.instagram.com/mzansi.innovation.hub', 'new tab');
       },
       tileName: "Instagram",
       tileIcon: Center(
@@ -369,8 +369,8 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window.open(
-            'https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F', 'new tab');
+        // html.window.open(
+        //     'https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F', 'new tab');
       },
       tileName: "Whatsapp",
       tileIcon: Center(
@@ -386,8 +386,8 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window
-            .open('https://www.youtube.com/@mzansiinnovationhub', 'new tab');
+        // html.window
+        //     .open('https://www.youtube.com/@mzansiinnovationhub', 'new tab');
       },
       tileName: "YouTube",
       tileIcon: Center(
@@ -403,7 +403,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window.open('https://x.com/mzansi_inno_hub', 'new tab');
+        // html.window.open('https://x.com/mzansi_inno_hub', 'new tab');
       },
       tileName: "X",
       tileIcon: Center(
@@ -419,9 +419,9 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window.open(
-            'https://www.linkedin.com/company/mzansi-innovation-hub/',
-            'new tab');
+        // html.window.open(
+        //     'https://www.linkedin.com/company/mzansi-innovation-hub/',
+        //     'new tab');
       },
       tileName: "LinkedIn",
       tileIcon: Center(
@@ -437,9 +437,9 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        html.window.open(
-            'https://www.facebook.com/profile.php?id=61565345762136',
-            'new tab');
+        // html.window.open(
+        //     'https://www.facebook.com/profile.php?id=61565345762136',
+        //     'new tab');
       },
       tileName: "FaceBook",
       tileIcon: Center(

@@ -93,7 +93,7 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         # return {"message": error}
     if(env == "Dev"):
         return {
-            "minioURL": f"http://localhost:9000/mih/{app_id}/{folder}/{file_name}",
+            "minioURL": f"http://10.0.2.2:9000/mih/{app_id}/{folder}/{file_name}",
         }
     else:
         return {
