@@ -5,7 +5,9 @@ import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
+
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
   final AppUser signedInUser;
@@ -22,6 +24,7 @@ class BuildLoyaltyCardList extends StatefulWidget {
 
 class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   void viewCardWindow(int index) {
+    //print(widget.cardList[index].card_number);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -57,8 +60,21 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           const SizedBox(height: 15),
           SizedBox(
             height: 150,
-            child:
-                SfBarcodeGenerator(value: widget.cardList[index].card_number),
+            width: 500,
+            child: BarcodeWidget(
+              //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              barcode: Barcode.code128(),
+              backgroundColor: Colors.white,
+              data: widget.cardList[index].card_number,
+              drawText: false,
+            ),
+            // SfBarcodeGenerator(
+            //   backgroundColor: Colors.white,
+            //   barColor: Colors.black,
+            //   value: widget.cardList[index].card_number,
+            //   symbology: Code128(),
+            //   //showValue: true,
+            // ),
           ),
           Text(
             "Card Number: ${widget.cardList[index].card_number}",

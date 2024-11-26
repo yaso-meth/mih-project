@@ -27,8 +27,12 @@ class _AuthCheckState extends State<AuthCheck> {
   }
 
   void disableScreenshot() async {
-    bool result = await _noScreenshot.screenshotOff();
-    print('Screenshot Off: $result');
+    try {
+      bool result = await _noScreenshot.screenshotOff();
+      print('Screenshot Off: $result');
+    } on Exception {
+      print("Web");
+    }
   }
 
   @override
