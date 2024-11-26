@@ -60,7 +60,7 @@ dependencies:
   flutter_swipe_detector: ^2.0.0
   youtube_player_iframe: ^5.2.0
   syncfusion_flutter_barcodes: ^26.2.10
-  # simple_barcode_scanner: ^0.2.5
+  simple_barcode_scanner: ^0.2.5
   mobile_scanner: ^6.0.2
   flutter_launcher_icons: ^0.13.1
   flutter_barcode_scanner: ^2.0.0
