@@ -52,7 +52,7 @@ dependencies:
   intl: ^0.19.0
   flutter_native_splash: ^2.4.1
   #google_maps_flutter_web: ^0.5.10
-  url_strategy: ^0.3.0
+  # url_strategy: ^0.3.0
   no_screenshot: ^0.3.1
   printing: ^5.13.3
   pdf: ^3.11.1
@@ -64,6 +64,7 @@ dependencies:
   syncfusion_flutter_barcodes: ^26.2.10
   simple_barcode_scanner: ^0.2.5
   mobile_scanner: ^6.0.2
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +95,7 @@ flutter:
   assets:
     - images/
     - images/loyalty_cards/
+    - images/app_icon/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
