@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
 //import '../objects/sessionST.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 //import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
@@ -125,9 +124,9 @@ class _RegisterState extends State<Register> {
             }
           }
         }
-      } on AuthException catch (error) {
+      } on Exception catch (error) {
         Navigator.of(context).pop();
-        loginError(error.message);
+        loginError(error.toString());
         emailController.clear();
         passwordController.clear();
         confirmPasswordController.clear();

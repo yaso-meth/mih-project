@@ -42,8 +42,6 @@ dependencies:
   universal_html: ^2.2.4
   file_picker: ^8.0.5
   supertokens_flutter: ^0.6.0
-  supabase_auth_ui: ^0.4.1
-  supabase_flutter: ^2.4.0
   http: ^1.2.1
   google_nav_bar: ^5.0.6
   mysql_client: ^0.0.27
@@ -62,10 +60,12 @@ dependencies:
   flutter_swipe_detector: ^2.0.0
   youtube_player_iframe: ^5.2.0
   syncfusion_flutter_barcodes: ^26.2.10
-  simple_barcode_scanner: ^0.2.5
+  # simple_barcode_scanner: ^0.2.5
   mobile_scanner: ^6.0.2
   flutter_launcher_icons: ^0.13.1
-
+  flutter_barcode_scanner: ^2.0.0
+  barcode_widget: ^2.0.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

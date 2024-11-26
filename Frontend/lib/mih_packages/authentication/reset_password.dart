@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
@@ -80,7 +79,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           loginError();
         }
       }
-    } on AuthException {
+    } on Exception {
       Navigator.of(context).pop();
       //loginError();
     }
