@@ -6,7 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+// import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
