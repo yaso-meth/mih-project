@@ -57,31 +57,45 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   shopName: widget.cardList[index].shop_name, height: 250),
             ],
           ),
-          const SizedBox(height: 15),
-          SizedBox(
-            height: 150,
-            width: 500,
-            child: BarcodeWidget(
-              //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              barcode: Barcode.code128(),
-              backgroundColor: Colors.white,
-              data: widget.cardList[index].card_number,
-              drawText: false,
+          //const SizedBox(height: 10),
+          Container(
+            width: 250,
+            //color: Colors.white,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
             ),
-            // SfBarcodeGenerator(
-            //   backgroundColor: Colors.white,
-            //   barColor: Colors.black,
-            //   value: widget.cardList[index].card_number,
-            //   symbology: Code128(),
-            //   //showValue: true,
-            // ),
-          ),
-          Text(
-            "Card Number: ${widget.cardList[index].card_number}",
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 50,
+                  width: 200,
+                  child: BarcodeWidget(
+                    //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    barcode: Barcode.code128(),
+                    backgroundColor: Colors.white,
+                    data: widget.cardList[index].card_number,
+                    drawText: false,
+                  ),
+                  // SfBarcodeGenerator(
+                  //   backgroundColor: Colors.white,
+                  //   barColor: Colors.black,
+                  //   value: widget.cardList[index].card_number,
+                  //   symbology: Code128(),
+                  //   //showValue: true,
+                  // ),
+                ),
+                Text(
+                  "Card Number: ${widget.cardList[index].card_number}",
+                  style: TextStyle(
+                    color: Colors.black,
+                    //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
