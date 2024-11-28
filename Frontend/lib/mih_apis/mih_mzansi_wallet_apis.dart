@@ -85,7 +85,7 @@ class MIHMzansiWalletApis {
         arguments: signedInUser,
       );
       String message =
-          "The note has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
+          "The loyalty card has been deleted successfully. This means it will no longer be visible in your Mzansi Wallet.";
       successPopUp(message, context);
     } else {
       internetConnectionPopUp(context);
@@ -125,7 +125,7 @@ class MIHMzansiWalletApis {
       // Navigator.pushNamed(context, '/patient-manager/patient',
       //     arguments: widget.signedInUser);
       String message =
-          "Your $shop_name Loyalty Card was successfully added to you Mzansi Wallet.";
+          "Your $shop_name Loyalty Card was successfully added to your Mzansi Wallet.";
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.of(context).pushNamed(
