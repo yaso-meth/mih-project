@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +10,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 // import 'package:simple_barcode_scanner/screens/web.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+// import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
 import '../../mih_apis/mih_location_api.dart';
