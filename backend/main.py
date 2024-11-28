@@ -15,6 +15,7 @@ import routers.business as business
 import routers.access_request as access_request
 import routers.patient_access as patient_access
 import routers.mzansi_wallet as mzansi_wallet
+import routers.icd10_codes as icd10_codes
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
 from supertokens_python import get_all_cors_headers
@@ -88,6 +89,7 @@ app.include_router(business_user.router)
 app.include_router(business.router)
 app.include_router(notifications.router)
 app.include_router(mzansi_wallet.router)
+app.include_router(icd10_codes.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])
