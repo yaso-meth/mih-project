@@ -214,8 +214,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   bool isUsernameValid(String username) {
-    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
-        .hasMatch(username);
+    return RegExp(r'^[a-zA-Z][a-zA-Z0-9_]{5,19}$').hasMatch(username);
   }
 
   Future<void> submitForm() async {
