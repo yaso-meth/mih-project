@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/patient_claims_statements.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import '../../main.dart';
@@ -94,8 +95,17 @@ class _PatientViewState extends State<PatientView> {
         businessUser: widget.arguments.businessUser,
         type: widget.arguments.type,
       );
-    } else {
+    } else if (index == 2) {
       return PatientFiles(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
+      );
+    } else {
+      return PatientClaimsOrStatements(
         patientIndex: widget.arguments.selectedPatient!.idpatients,
         selectedPatient: widget.arguments.selectedPatient!,
         signedInUser: widget.arguments.signedInUser,
@@ -217,6 +227,35 @@ class _PatientViewState extends State<PatientView> {
             },
             icon: const Icon(
               Icons.file_present,
+              size: 35,
+            ),
+          ),
+        ),
+        //============ Claims/ Statements ================
+        Visibility(
+          visible: _selectedIndex != 3,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 3;
+              });
+            },
+            icon: const Icon(
+              Icons.file_open_outlined,
+              size: 35,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _selectedIndex == 3,
+          child: IconButton.filled(
+            onPressed: () {
+              setState(() {
+                _selectedIndex = 3;
+              });
+            },
+            icon: const Icon(
+              Icons.file_open_outlined,
               size: 35,
             ),
           ),
