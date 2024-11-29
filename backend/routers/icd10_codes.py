@@ -16,7 +16,7 @@ async def read_all_icd10_codes(session: SessionContainer = Depends(verify_sessio
 
 #get all medicines by search
 @router.get("/icd10-codes/{search}", tags=["ICD10 Code"])
-async def read_icd10_codes_search(search: str): #, session: SessionContainer = Depends(verify_session())
+async def read_icd10_codes_search(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     return getICD10CodesData(search)
 
 def getICD10CodesData(search: str):
