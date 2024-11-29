@@ -85,6 +85,8 @@ class _MIHHomeState extends State<MIHHome> {
       );
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
+    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+
     if (widget.signedInUser.fname == "") {
       tileList.add(MIHTile(
         videoID: "jFV3NN65DtQ",
@@ -94,10 +96,9 @@ class _MIHHomeState extends State<MIHHome> {
                   widget.signedInUser, widget.propicFile));
         },
         tileName: "Setup Profie",
-        tileIcon: Icon(
-          Icons.perm_identity,
-          color: getSec(),
-          size: 230,
+        tileIcon: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Image(image: logo),
         ),
         p: getPrim(),
         s: getSec(),

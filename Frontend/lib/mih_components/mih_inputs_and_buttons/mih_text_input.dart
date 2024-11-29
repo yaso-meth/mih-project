@@ -48,11 +48,15 @@ class _MIHTextFieldState extends State<MIHTextField> {
     if (widget.hintText == "Email" && !isEmailValid(text)) {
       errorMessage += "Enter a valid email address\n";
     }
-    if (widget.hintText == "Username" && text.length < 8) {
-      errorMessage += "• Username must contain at least 8 characters.\n";
-    }
+    // if (widget.hintText == "Username" && text.length < 8) {
+    //   errorMessage += "• Username must contain at least 8 characters.\n";
+    // }
     if (widget.hintText == "Username" && !isUsernameValid(text)) {
-      errorMessage += "• Username can only contain '_' special Chracters.\n";
+      errorMessage += "Let's create a great username for you!\n";
+      errorMessage += "• Your username should start with a letter.\n";
+      errorMessage += "• You can use letters, numbers, and/ or underscores.\n";
+      errorMessage += "• Keep it between 6 and 30 characters.\n";
+      errorMessage += "• Avoid special characters like @, #, or \$.\"\n";
     }
     if (errorMessage.isEmpty) {
       return null;
@@ -62,8 +66,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
   }
 
   bool isUsernameValid(String username) {
-    return RegExp(r'^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$')
-        .hasMatch(username);
+    return RegExp(r'^[a-zA-Z][a-zA-Z0-9_]{5,19}$').hasMatch(username);
   }
 
   bool isEmailValid(String email) {

@@ -287,7 +287,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  "Your username needs a little adjustment. To make sure everyone has a unique username, please start your username with a letter or number and use only letters, numbers or underscores. Let's try that again!",
+                  "Let's create a great username for you! Just a few quick tips:\n• Your username should start with a letter.\n• You can use letters, numbers, and/ or underscores.\n• Keep it between 6 and 20 characters.\n• Avoid special characters like @, #, or \$.\"",
                   style: TextStyle(
                     color:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
