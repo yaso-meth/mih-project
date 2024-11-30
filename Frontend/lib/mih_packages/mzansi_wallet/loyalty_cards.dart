@@ -105,8 +105,10 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               "Best Before",
               "Checkers",
               "Clicks",
+              "Cotton:On",
               "Dis-Chem",
               "Pick n Pay",
+              "Shoprite",
               "Spar",
               "Woolworths"
             ],

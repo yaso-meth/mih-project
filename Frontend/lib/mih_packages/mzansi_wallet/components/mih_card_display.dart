@@ -32,7 +32,7 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
           children: [
             SizedBox(
               height: widget.height,
-              child: Image.asset('images/loyalty_cards/xtraSavings.png'),
+              child: Image.asset('images/loyalty_cards/checkers_xtra.png'),
             ),
           ],
         );
@@ -43,6 +43,16 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
             SizedBox(
               height: widget.height,
               child: Image.asset('images/loyalty_cards/Clicks_Club.png'),
+            ),
+          ],
+        );
+      case "cotton:on":
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: widget.height,
+              child: Image.asset('images/loyalty_cards/cotton_on_perks.png'),
             ),
           ],
         );
@@ -63,6 +73,16 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
             SizedBox(
               height: widget.height,
               child: Image.asset('images/loyalty_cards/pnp_smart.png'),
+            ),
+          ],
+        );
+      case "shoprite":
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: widget.height,
+              child: Image.asset('images/loyalty_cards/shoprite_xtra.png'),
             ),
           ],
         );

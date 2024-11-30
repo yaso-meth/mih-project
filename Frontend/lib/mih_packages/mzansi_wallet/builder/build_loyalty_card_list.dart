@@ -103,36 +103,54 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
+    //final double height = size.height;
     if (widget.cardList.isNotEmpty) {
-      return ListView.separated(
+      return GridView.builder(
+        //physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          );
-        },
+        padding: EdgeInsets.only(
+          left: width / 10,
+          right: width / 10,
+          //bottom: height / 5,
+          //top: 20,
+        ),
+        // physics: ,
+        // shrinkWrap: true,
         itemCount: widget.cardList.length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            mainAxisSpacing: 15, maxCrossAxisExtent: 200),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: MihCardDisplay(
-                shopName: widget.cardList[index].shop_name, height: 200),
-            // subtitle: Text(
-            //   "Card Number: ${widget.cardList[index].card_number}",
-            //   style: TextStyle(
-            //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            //   ),
-            // ),
-            // trailing: Icon(
-            //   Icons.arrow_forward,
-            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            // ),
+          return GestureDetector(
+            child: MihCardDisplay(
+                shopName: widget.cardList[index].shop_name, height: 100),
             onTap: () {
               viewCardWindow(index);
             },
           );
         },
       );
+      // return ListView.separated(
+      //   shrinkWrap: true,
+      //   physics: const NeverScrollableScrollPhysics(),
+      //   separatorBuilder: (BuildContext context, int index) {
+      //     return Divider(
+      //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //     );
+      //   },
+      //   itemCount: widget.cardList.length,
+      //   itemBuilder: (context, index) {
+      //     return ListTile(
+      //       title: MihCardDisplay(
+      //           shopName: widget.cardList[index].shop_name, height: 200),
+
+      //       onTap: () {
+      //         viewCardWindow(index);
+      //       },
+      //     );
+      //   },
+      // );
     } else {
       return const Padding(
         padding: EdgeInsets.only(top: 25.0),
