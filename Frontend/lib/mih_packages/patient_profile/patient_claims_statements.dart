@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_claim_statement_generation_api.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/claim_statement_file.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/Claim_Statement_Window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/builder/build_claim_statement_files_list.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:http/http.dart' as http2;
-import 'package:supertokens_flutter/supertokens.dart';
 
-import '../../mih_components/med_cert_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
-import '../../mih_components/mih_layout/mih_window.dart';
 import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -23,7 +20,6 @@ import '../../mih_objects/business_user.dart';
 import '../../mih_objects/files.dart';
 import '../../mih_objects/patients.dart';
 // import 'builder/build_files_list.dart';
-import 'prescip_input.dart';
 
 class PatientClaimsOrStatements extends StatefulWidget {
   final int patientIndex;
@@ -68,144 +64,10 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
   final noRepeatsController = TextEditingController();
   final outputController = TextEditingController();
 
-  late Future<List<PFile>> futueFiles;
+  late Future<List<ClaimStatementFile>> futueFiles;
   late String userEmail = "";
   late PlatformFile selected;
   final baseAPI = AppEnviroment.baseApiUrl;
-
-  Future<void> generateMedCert() async {
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-
-    var response1 = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/med-cert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": widget.selectedPatient.app_id,
-        "fullName":
-            "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
-        "id_no": widget.selectedPatient.id_no,
-        "docfname":
-            "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-        "startDate": startDateController.text,
-        "busName": widget.business!.Name,
-        "busAddr": "*TO BE ADDED IN THE FUTURE*",
-        "busNo": widget.business!.contact_no,
-        "busEmail": widget.business!.bus_email,
-        "endDate": endDateTextController.text,
-        "returnDate": retDateTextController.text,
-        "logo_path": widget.business!.logo_path,
-        "sig_path": widget.businessUser!.sig_path,
-      }),
-    );
-    //print(response1.statusCode);
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
-    if (response1.statusCode == 200) {
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path":
-              "${widget.selectedPatient.app_id}/patient_files/$fileName",
-          "file_name": fileName,
-          "app_id": widget.selectedPatient.app_id
-        }),
-      );
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        setState(() {
-          startDateController.clear();
-          endDateTextController.clear();
-          retDateTextController.clear();
-          futueFiles = fetchFiles();
-        });
-        // end loading circle
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        String message =
-            "The medical certificate $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> uploadSelectedFile(PlatformFile file) async {
-    //var strem = new http.ByteStream.fromBytes(file.bytes.)
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-
-    var token = await SuperTokens.getAccessToken();
-    //print(t);
-    //print("here1");
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
-    request.headers['accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.selectedPatient.app_id;
-    request.fields['folder'] = "patient_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    //print("here2");
-    var response1 = await request.send();
-    //print("here3");
-    //print(response1.statusCode);
-    //print(response1.toString());
-    if (response1.statusCode == 200) {
-      //print("here3");
-      var fname = file.name.replaceAll(RegExp(r' '), '-');
-      var filePath = "${widget.selectedPatient.app_id}/patient_files/$fname";
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path": filePath,
-          "file_name": fname,
-          "app_id": widget.selectedPatient.app_id
-        }),
-      );
-      //print("here5");
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        setState(() {
-          selectedFileController.clear();
-          futueFiles = fetchFiles();
-        });
-        // end loading circle
-        Navigator.of(context).pop();
-        String message =
-            "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
-    } else {
-      internetConnectionPopUp();
-    }
-  }
 
   Future<List<PFile>> fetchFiles() async {
     final response = await http.get(Uri.parse(
@@ -247,88 +109,6 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
     );
   }
 
-  void medCertPopUp() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => MIHWindow(
-        fullscreen: false,
-        windowTitle: "Create Medical Certificate",
-        windowTools: const [],
-        onWindowTapClose: () {
-          Navigator.pop(context);
-        },
-        windowBody: [
-          Medcertinput(
-            startDateController: startDateController,
-            endDateTextController: endDateTextController,
-            retDateTextController: retDateTextController,
-          ),
-          const SizedBox(height: 15.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Generate",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () async {
-                if (isMedCertFieldsFilled()) {
-                  await generateMedCert();
-                  //Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  void prescritionPopUp() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => MIHWindow(
-        fullscreen: false,
-        windowTitle: "Create Prescription",
-        windowTools: const [],
-        onWindowTapClose: () {
-          medicineController.clear();
-          quantityController.clear();
-          dosageController.clear();
-          timesDailyController.clear();
-          noDaysController.clear();
-          noRepeatsController.clear();
-          Navigator.pop(context);
-        },
-        windowBody: [
-          PrescripInput(
-            medicineController: medicineController,
-            quantityController: quantityController,
-            dosageController: dosageController,
-            timesDailyController: timesDailyController,
-            noDaysController: noDaysController,
-            noRepeatsController: noRepeatsController,
-            outputController: outputController,
-            selectedPatient: widget.selectedPatient,
-            signedInUser: widget.signedInUser,
-            business: widget.business,
-            businessUser: widget.businessUser,
-          ),
-        ],
-      ),
-    );
-  }
-
   void claimOrStatementWindow() {
     showDialog(
       context: context,
@@ -338,68 +118,6 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
         signedInUser: widget.signedInUser,
         business: widget.business,
         businessUser: widget.businessUser,
-      ),
-    );
-  }
-
-  void uploudFilePopUp() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => MIHWindow(
-        fullscreen: false,
-        windowTitle: "Upload File",
-        windowTools: const [],
-        onWindowTapClose: () {
-          Navigator.pop(context);
-        },
-        windowBody: [
-          MIHFileField(
-            controller: selectedFileController,
-            hintText: "Select File",
-            editable: false,
-            required: true,
-            onPressed: () async {
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                type: FileType.custom,
-                allowedExtensions: ['jpg', 'png', 'pdf'],
-              );
-              if (result == null) return;
-              final selectedFile = result.files.first;
-              setState(() {
-                selected = selectedFile;
-              });
-
-              setState(() {
-                selectedFileController.text = selectedFile.name;
-              });
-            },
-          ),
-          const SizedBox(height: 15),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Add File",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                if (isFileFieldsFilled()) {
-                  uploadSelectedFile(selected);
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
-            ),
-          )
-        ],
       ),
     );
   }
@@ -496,7 +214,16 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
 
   @override
   void initState() {
-    futueFiles = fetchFiles();
+    if (widget.business == null) {
+      futueFiles =
+          MIHClaimStatementGenerationApi.getClaimStatementFilesByPatient(
+              widget.signedInUser.app_id);
+    } else {
+      futueFiles =
+          MIHClaimStatementGenerationApi.getClaimStatementFilesByBusiness(
+              widget.business!.business_id);
+    }
+
     //patientDetails = getPatientDetails() as Patient;
     //getUserDetails();
     super.initState();
@@ -512,7 +239,7 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
             child: Mihloadingcircle(),
           );
         } else if (snapshot.hasData) {
-          // final filesList = snapshot.data!;
+          final filesList = snapshot.data!;
           return Column(
             children: [
               Row(
@@ -523,15 +250,15 @@ class _PatientClaimsOrStatementsState extends State<PatientClaimsOrStatements> {
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor()),
               const SizedBox(height: 10),
-              const Placeholder(),
-              // BuildFilesList(
-              //   files: filesList,
-              //   signedInUser: widget.signedInUser,
-              //   selectedPatient: widget.selectedPatient,
-              //   business: widget.business,
-              //   businessUser: widget.businessUser,
-              //   type: widget.type,
-              // ),
+              //const Placeholder(),
+              BuildClaimStatementFileList(
+                files: filesList,
+                signedInUser: widget.signedInUser,
+                selectedPatient: widget.selectedPatient,
+                business: widget.business,
+                businessUser: widget.businessUser,
+                type: widget.type,
+              ),
             ],
           );
         } else {
