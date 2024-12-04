@@ -43,7 +43,7 @@ class _BuildPatientsListState extends State<BuildICD10CodeList> {
         //select code
         setState(() {
           widget.icd10CodeController.text =
-              "${widget.icd10codeList[index].icd10}: ${widget.icd10codeList[index].description}";
+              "${widget.icd10codeList[index].icd10} - ${widget.icd10codeList[index].description}";
         });
         Navigator.of(context).pop();
       },
