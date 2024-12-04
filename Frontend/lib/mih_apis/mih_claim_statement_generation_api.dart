@@ -199,7 +199,7 @@ class MIHClaimStatementGenerationApi {
     if (response.statusCode == 200) {
       //SQL delete
       var response2 = await http.delete(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/claim-statement/delete"),
+        Uri.parse("${AppEnviroment.baseApiUrl}/files/claim-statement/delete/"),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
