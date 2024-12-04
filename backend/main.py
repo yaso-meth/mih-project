@@ -6,6 +6,7 @@ import routers.patients as patients
 import routers.patients_files as patients_files
 import routers.patients_notes as patients_notes
 import routers.patients_queue as patients_queue
+import routers.claim_statement_files as claim_statement_files
 import routers.users as users
 import routers.notifications as notifications
 import routers.fileStorage as fileStorage
@@ -84,6 +85,7 @@ app.include_router(access_request.router)
 app.include_router(patient_access.router)
 app.include_router(users.router)
 app.include_router(fileStorage.router)
+app.include_router(claim_statement_files.router)
 app.include_router(medicine.router)
 app.include_router(business_user.router)
 app.include_router(business.router)
