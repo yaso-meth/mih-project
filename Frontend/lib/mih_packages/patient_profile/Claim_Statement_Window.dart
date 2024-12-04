@@ -1,4 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:Mzansi_Innovation_Hub/mih_apis/mih_icd10_code_api.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
@@ -6,7 +7,9 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/icd10_code.dart.dart';
@@ -49,11 +52,12 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
   final TextEditingController _serviceDescOptionsController =
       TextEditingController();
   final TextEditingController _prcedureNameController = TextEditingController();
-  final TextEditingController _procedureDateController =
-      TextEditingController();
+  // final TextEditingController _procedureDateController =
+  //     TextEditingController();
   final TextEditingController _proceedureAdditionalInfoController =
       TextEditingController();
   final TextEditingController _icd10CodeController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   final TextEditingController _preauthNoController = TextEditingController();
   final ValueNotifier<String> serviceDesc = ValueNotifier("");
   final ValueNotifier<String> medAid = ValueNotifier("");
@@ -81,110 +85,110 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           editable: true,
         ),
         const SizedBox(height: 10),
-        Text(
-          "Patient Details",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _fullNameController,
-          hintText: "Full Name",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _idController,
-          hintText: "ID No.",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _medAidController,
-          hintText: "Has Medical Aid",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        ValueListenableBuilder(
-          valueListenable: serviceDesc,
-          builder: (BuildContext context, String value, Widget? child) {
-            return Visibility(
-              visible: value == "Yes",
-              child: Column(
-                children: [
-                  MIHTextField(
-                    controller: _medAidNoController,
-                    hintText: "Medical Aid No.",
-                    editable: false,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10),
-                  MIHTextField(
-                    controller: _medAidCodeController,
-                    hintText: "Medical Aid Code",
-                    editable: false,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10),
-                  MIHTextField(
-                    controller: _medAidNameController,
-                    hintText: "Medical Aid Name",
-                    editable: false,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10),
-                  MIHTextField(
-                    controller: _medAidSchemeController,
-                    hintText: "Medical Aid Scheme",
-                    editable: false,
-                    required: true,
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            );
-          },
-        ),
-        Text(
-          "Provider Details",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _providerNameController,
-          hintText: "Provider Name",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _practiceNoController,
-          hintText: "Practice No.",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: _vatNoController,
-          hintText: "VAT No.",
-          editable: false,
-          required: true,
-        ),
-        const SizedBox(height: 10),
+        // Text(
+        //   "Patient Details",
+        //   textAlign: TextAlign.center,
+        //   style: TextStyle(
+        //     fontSize: 20,
+        //     fontWeight: FontWeight.bold,
+        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   ),
+        // ),
+        // Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _fullNameController,
+        //   hintText: "Full Name",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _idController,
+        //   hintText: "ID No.",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _medAidController,
+        //   hintText: "Has Medical Aid",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
+        // ValueListenableBuilder(
+        //   valueListenable: serviceDesc,
+        //   builder: (BuildContext context, String value, Widget? child) {
+        //     return Visibility(
+        //       visible: value == "Yes",
+        //       child: Column(
+        //         children: [
+        //           MIHTextField(
+        //             controller: _medAidNoController,
+        //             hintText: "Medical Aid No.",
+        //             editable: false,
+        //             required: true,
+        //           ),
+        //           const SizedBox(height: 10),
+        //           MIHTextField(
+        //             controller: _medAidCodeController,
+        //             hintText: "Medical Aid Code",
+        //             editable: false,
+        //             required: true,
+        //           ),
+        //           const SizedBox(height: 10),
+        //           MIHTextField(
+        //             controller: _medAidNameController,
+        //             hintText: "Medical Aid Name",
+        //             editable: false,
+        //             required: true,
+        //           ),
+        //           const SizedBox(height: 10),
+        //           MIHTextField(
+        //             controller: _medAidSchemeController,
+        //             hintText: "Medical Aid Scheme",
+        //             editable: false,
+        //             required: true,
+        //           ),
+        //           const SizedBox(height: 10),
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // ),
+        // Text(
+        //   "Provider Details",
+        //   textAlign: TextAlign.center,
+        //   style: TextStyle(
+        //     fontSize: 20,
+        //     fontWeight: FontWeight.bold,
+        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   ),
+        // ),
+        // Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _providerNameController,
+        //   hintText: "Provider Name",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _practiceNoController,
+        //   hintText: "Practice No.",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
+        // MIHTextField(
+        //   controller: _vatNoController,
+        //   hintText: "VAT No.",
+        //   editable: false,
+        //   required: true,
+        // ),
+        // const SizedBox(height: 10),
         Text(
           "Service Details",
           textAlign: TextAlign.center,
@@ -207,7 +211,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           hintText: "Service Decription",
           dropdownOptions: const [
             "Consultation",
-            "Precedure",
+            "Procedure",
             "Other",
           ],
           required: true,
@@ -237,22 +241,22 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                     const SizedBox(height: 10),
                   ],
                 );
-              case 'Precedure':
+              case 'Procedure':
                 returnWidget = Column(
                   children: [
                     MIHTextField(
                       controller: _prcedureNameController,
                       hintText: "Procedure Name",
-                      editable: false,
+                      editable: true,
                       required: true,
                     ),
                     const SizedBox(height: 10),
-                    MIHDateField(
-                      controller: _procedureDateController,
-                      lableText: "Procedure Date",
-                      required: true,
-                    ),
-                    const SizedBox(height: 10),
+                    // MIHDateField(
+                    //   controller: _procedureDateController,
+                    //   lableText: "Procedure Date",
+                    //   required: true,
+                    // ),
+                    // const SizedBox(height: 10),
                     MIHTextField(
                       controller: _proceedureAdditionalInfoController,
                       hintText: "Additional Information",
@@ -280,7 +284,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
             return returnWidget;
           },
         ),
-        const SizedBox(height: 10),
+        //const SizedBox(height: 10),
         MIHSearchField(
           controller: _icd10CodeController,
           hintText: "ICD-10 Code & Description",
@@ -293,6 +297,13 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
               icd10SearchWindow(result);
             });
           },
+        ),
+        const SizedBox(height: 10),
+        MIHTextField(
+          controller: _amountController,
+          hintText: "Amount",
+          editable: true,
+          required: true,
         ),
         Text(
           "Additional Infomation",
@@ -318,6 +329,52 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           child: MIHButton(
             onTap: () {
               //generate document and uploud it
+              if (isInputValid()) {
+                MIHClaimStatementGenerationApi().generateClaimStatement(
+                    ClaimStatementGenerationArguments(
+                      _docTypeController.text,
+                      widget.selectedPatient.app_id,
+                      _fullNameController.text,
+                      _idController.text,
+                      _medAidController.text,
+                      _medAidNoController.text,
+                      _medAidCodeController.text,
+                      _medAidNameController.text,
+                      _medAidSchemeController.text,
+                      widget.business!.Name,
+                      "*To-Be Added*",
+                      widget.business!.contact_no,
+                      widget.business!.bus_email,
+                      _providerNameController.text,
+                      _practiceNoController.text,
+                      _vatNoController.text,
+                      _serviceDateController.text,
+                      _serviceDescController.text,
+                      _serviceDescOptionsController.text,
+                      _prcedureNameController.text,
+                      _proceedureAdditionalInfoController.text,
+                      _icd10CodeController.text,
+                      _amountController.text,
+                      _preauthNoController.text,
+                      widget.business!.logo_path,
+                      widget.businessUser!.sig_path,
+                    ),
+                    PatientViewArguments(
+                      widget.signedInUser,
+                      widget.selectedPatient,
+                      widget.businessUser,
+                      widget.business,
+                      "business",
+                    ),
+                    context);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const MIHErrorMessage(errorType: "Input Error");
+                  },
+                );
+              }
             },
             buttonText: "Generate",
             buttonColor:
@@ -346,8 +403,29 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
   }
 
   bool isInputValid() {
-    //Complete Later
-    return false;
+    switch (_serviceDescController.text) {
+      case 'Procedure':
+        if (_docTypeController.text.isEmpty ||
+            _serviceDateController.text.isEmpty ||
+            _icd10CodeController.text.isEmpty ||
+            _amountController.text.isEmpty ||
+            _prcedureNameController.text.isEmpty ||
+            _proceedureAdditionalInfoController.text.isEmpty) {
+          return false;
+        } else {
+          return true;
+        }
+      default:
+        if (_docTypeController.text.isEmpty ||
+            _serviceDateController.text.isEmpty ||
+            _icd10CodeController.text.isEmpty ||
+            _amountController.text.isEmpty ||
+            _serviceDescOptionsController.text.isEmpty) {
+          return false;
+        } else {
+          return true;
+        }
+    }
   }
 
   String getUserTitle() {
@@ -380,7 +458,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     _serviceDescController.dispose();
     _serviceDescOptionsController.dispose();
     _prcedureNameController.dispose();
-    _procedureDateController.dispose();
+    // _procedureDateController.dispose();
     _proceedureAdditionalInfoController.dispose();
     _icd10CodeController.dispose();
     _preauthNoController.dispose();
