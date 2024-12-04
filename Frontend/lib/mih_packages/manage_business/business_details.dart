@@ -48,14 +48,13 @@ class _BusinessDetailsState extends State<BusinessDetails> {
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
+  final practiceNoController = TextEditingController();
+  final vatNoController = TextEditingController();
 
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
 
-  // late Future<BusinessUser?> futureBusinessUser;
-  // BusinessUser? businessUser;
-  // late Future<Business?> futureBusiness;
-  // Business? business;
+  final ValueNotifier<String> busType = ValueNotifier("");
 
   late String business_id;
   late String oldLogoPath;
@@ -78,32 +77,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       internetConnectionPopUp();
     }
   }
-
-  // Future<BusinessUser?> getBusinessUserDetails() async {
-  //   var response = await http
-  //       .get(Uri.parse("$baseAPI/business-user/${widget.signedInUser.app_id}"));
-  //   if (response.statusCode == 200) {
-  //     String body = response.body;
-  //     var decodedData = jsonDecode(body);
-  //     BusinessUser business_User = BusinessUser.fromJson(decodedData);
-  //     return business_User;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  // Future<Business?> getBusinessDetails() async {
-  //   var response = await http.get(
-  //       Uri.parse("$baseAPI/business/app_id/${widget.signedInUser.app_id}"));
-  //   if (response.statusCode == 200) {
-  //     String body = response.body;
-  //     var decodedData = jsonDecode(body);
-  //     Business business = Business.fromJson(decodedData);
-  //     return business;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   Future<void> uploadSelectedFile(
       PlatformFile? file, TextEditingController controller) async {
@@ -183,6 +156,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
         "contact_no": contactController.text,
         "bus_email": emailController.text,
         "gps_location": locationController.text,
+        "practice_no": practiceNoController.text,
+        "vat_no": vatNoController.text,
       }),
     );
     if (response.statusCode == 200) {
@@ -275,6 +250,14 @@ class _BusinessDetailsState extends State<BusinessDetails> {
     }
   }
 
+  void typeSelected() {
+    if (typeController.text.isNotEmpty) {
+      busType.value = typeController.text;
+    } else {
+      busType.value = "";
+    }
+  }
+
   @override
   void dispose() {
     nameController.dispose();
@@ -289,12 +272,15 @@ class _BusinessDetailsState extends State<BusinessDetails> {
     contactController.dispose();
     emailController.dispose();
     locationController.dispose();
+    practiceNoController.dispose();
+    vatNoController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    typeController.addListener(typeSelected);
     setState(() {
       //businessUser = results;
       titleController.text = widget.arguments.businessUser!.title;
@@ -316,6 +302,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       contactController.text = widget.arguments.business!.contact_no;
       emailController.text = widget.arguments.business!.bus_email;
       locationController.text = widget.arguments.business!.gps_location;
+      practiceNoController.text = widget.arguments.business!.practice_no;
+      vatNoController.text = widget.arguments.business!.vat_no;
     });
 
     super.initState();
@@ -372,6 +360,29 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                     dropdownOptions: const ["Doctors Office", "Other"],
                     required: true,
                     editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  ValueListenableBuilder(
+                    valueListenable: busType,
+                    builder:
+                        (BuildContext context, String value, Widget? child) {
+                      return Visibility(
+                        visible: value == "Doctors Office",
+                        child: MIHTextField(
+                          controller: practiceNoController,
+                          hintText: "Practice Number",
+                          editable: true,
+                          required: true,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: vatNoController,
+                    hintText: "VAT Number",
+                    editable: true,
+                    required: true,
                   ),
                   const SizedBox(height: 10.0),
                   MIHTextField(

@@ -10,6 +10,8 @@ class Business {
   final String bus_email;
   final String app_id;
   final String gps_location;
+  final String practice_no;
+  final String vat_no;
 
   const Business(
     this.business_id,
@@ -22,6 +24,8 @@ class Business {
     this.bus_email,
     this.app_id,
     this.gps_location,
+    this.practice_no,
+    this.vat_no,
   );
 
   factory Business.fromJson(dynamic json) {
@@ -36,6 +40,8 @@ class Business {
       json['bus_email'],
       json['app_id'],
       json['gps_location'],
+      json['practice_no'],
+      json['vat_no'],
     );
   }
 }

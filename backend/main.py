@@ -6,6 +6,7 @@ import routers.patients as patients
 import routers.patients_files as patients_files
 import routers.patients_notes as patients_notes
 import routers.patients_queue as patients_queue
+import routers.claim_statement_files as claim_statement_files
 import routers.users as users
 import routers.notifications as notifications
 import routers.fileStorage as fileStorage
@@ -15,6 +16,7 @@ import routers.business as business
 import routers.access_request as access_request
 import routers.patient_access as patient_access
 import routers.mzansi_wallet as mzansi_wallet
+import routers.icd10_codes as icd10_codes
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
 from supertokens_python import get_all_cors_headers
@@ -83,11 +85,13 @@ app.include_router(access_request.router)
 app.include_router(patient_access.router)
 app.include_router(users.router)
 app.include_router(fileStorage.router)
+app.include_router(claim_statement_files.router)
 app.include_router(medicine.router)
 app.include_router(business_user.router)
 app.include_router(business.router)
 app.include_router(notifications.router)
 app.include_router(mzansi_wallet.router)
+app.include_router(icd10_codes.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])
