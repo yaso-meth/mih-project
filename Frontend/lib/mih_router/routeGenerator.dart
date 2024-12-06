@@ -1,3 +1,5 @@
+import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
@@ -36,6 +38,17 @@ class RouteGenerator {
             builder: (_) => ResetPassword(
                   token: Uri.base.queryParameters['token'],
                 ));
+      //Privacy Policy
+      case '/privacy-policy':
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MIHPrivacyPolocy());
+      //===============================================================
+
+      //Terms Of Service
+      case '/terms-of-service':
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MIHTermsOfService());
+      //===============================================================
       default:
         // Internal Navigation
         switch (settings.name) {
@@ -76,6 +89,18 @@ class RouteGenerator {
           case '/about':
             return MaterialPageRoute(
                 settings: settings, builder: (_) => const MIHAbout());
+          //===============================================================
+
+          //Privacy Policy
+          case '/privacy-policy':
+            return MaterialPageRoute(
+                settings: settings, builder: (_) => const MIHPrivacyPolocy());
+          //===============================================================
+
+          //Terms Of Service
+          case '/terms-of-service':
+            return MaterialPageRoute(
+                settings: settings, builder: (_) => const MIHTermsOfService());
           //===============================================================
 
           //User Profile
