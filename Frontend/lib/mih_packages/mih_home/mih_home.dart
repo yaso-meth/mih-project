@@ -244,7 +244,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
-          arguments: widget.signedInUser,
+          //arguments: widget.signedInUser,
         );
       },
       tileName: "About MIH",
@@ -350,6 +350,54 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        videoID: "",
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/terms-of-service',
+            //arguments: widget.signedInUser,
+          );
+        },
+        tileName: "TOS - Dev",
+        tileIcon: Center(
+          child: Icon(
+            Icons.design_services,
+            color: getSec(),
+            size: 230,
+          ),
+        ),
+        //     Icon(
+        //   Icons.info_outline,
+        //   color: getSec(),
+        //   size: 230,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        videoID: "",
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/privacy-policy',
+            //arguments: widget.signedInUser,
+          );
+        },
+        tileName: "Policy - Dev",
+        tileIcon: Center(
+          child: Icon(
+            Icons.policy,
+            color: getSec(),
+            size: 230,
+          ),
+        ),
+        //     Icon(
+        //   Icons.info_outline,
+        //   color: getSec(),
+        //   size: 230,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
       tileList.add(MIHTile(
         onTap: () async {
           showDialog(
