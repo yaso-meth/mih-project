@@ -109,159 +109,245 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
     ImageProvider logoThemeSwitch =
         MzanziInnovationHub.of(context)!.theme.logoImage();
-    return Drawer(
-      //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      child: Stack(children: [
-        ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-              child: SizedBox(
-                height: 400,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+    return SafeArea(
+      child: Drawer(
+        //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return Stack(
+              //fit: StackFit.passthrough,
+              children: [
+                Column(
+                  // reverse: false,
+                  // padding: EdgeInsets.zero,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    profilePictureLoaded,
-                    Text(
-                      "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                    DrawerHeader(
+                      decoration: BoxDecoration(
                         color: MzanziInnovationHub.of(context)!
                             .theme
-                            .primaryColor(),
+                            .secondaryColor(),
+                      ),
+                      child: SizedBox(
+                        height: 400,
+                        width: constraints.maxWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            profilePictureLoaded,
+                            Text(
+                              "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                              ),
+                            ),
+                            Text(
+                              "@${widget.signedInUser.username}",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                              ),
+                            ),
+                            Text(
+                              widget.signedInUser.type.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Text(
-                      "@${widget.signedInUser.username}",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    ),
-                    Text(
-                      widget.signedInUser.type.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                    // ListTile(
+                    //   title: Row(
+                    //     mainAxisSize: MainAxisSize.max,
+                    //     children: [
+                    //       Icon(
+                    //         Icons.home_outlined,
+                    //         color:
+                    //             MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    //       ),
+                    //       const SizedBox(width: 25.0),
+                    //       Text(
+                    //         "Home",
+                    //         style: TextStyle(
+                    //           //fontWeight: FontWeight.bold,
+                    //           color: MzanziInnovationHub.of(context)!
+                    //               .theme
+                    //               .secondaryColor(),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    //   onTap: () {
+                    //     Navigator.of(context)
+                    //         .pushNamedAndRemoveUntil('/', (route) => false);
+                    //   },
+                    // ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.policy,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
+                                ),
+                                const SizedBox(width: 25.0),
+                                Text(
+                                  "Privacy Policy",
+                                  style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .secondaryColor(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                '/privacy-policy',
+                                //arguments: widget.signedInUser,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.design_services_rounded,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
+                                ),
+                                const SizedBox(width: 25.0),
+                                Text(
+                                  "Terms of Service",
+                                  style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .secondaryColor(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                '/terms-of-service',
+                                //arguments: widget.signedInUser,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            title: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.logout,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
+                                ),
+                                const SizedBox(width: 25.0),
+                                Text(
+                                  "Sign Out",
+                                  style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .secondaryColor(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () async {
+                              await SuperTokens.signOut(
+                                  completionHandler: (error) {
+                                //print(error);
+                              });
+                              if (await SuperTokens.doesSessionExist() ==
+                                  false) {
+                                Navigator.of(context).popAndPushNamed('/');
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            ListTile(
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Icon(
-                    Icons.home_outlined,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                Positioned(
+                  top: 5,
+                  right: 5,
+                  width: 30,
+                  height: 30,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (MzanziInnovationHub.of(context)?.theme.mode ==
+                            "Dark") {
+                          //darkm = !darkm;
+                          MzanziInnovationHub.of(context)!
+                              .changeTheme(ThemeMode.light);
+                          //print("Dark Mode: $darkm");
+                        } else {
+                          //darkm = !darkm;
+                          MzanziInnovationHub.of(context)!
+                              .changeTheme(ThemeMode.dark);
+                          //print("Dark Mode: $darkm");
+                        }
+                        Navigator.of(context).popAndPushNamed('/');
+                      });
+                    },
+                    child: Image(image: logoThemeSwitch),
                   ),
-                  const SizedBox(width: 25.0),
-                  Text(
-                    "Home",
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/', (route) => false);
-              },
-            ),
-            ListTile(
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                  const SizedBox(width: 25.0),
-                  Text(
-                    "Sign Out",
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () async {
-                await SuperTokens.signOut(completionHandler: (error) {
-                  //print(error);
-                });
-                if (await SuperTokens.doesSessionExist() == false) {
-                  Navigator.of(context).popAndPushNamed('/');
-                }
-              },
-            )
-          ],
+                  // IconButton(
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
+                  //         //darkm = !darkm;
+                  //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.light);
+                  //         //print("Dark Mode: $darkm");
+                  //       } else {
+                  //         //darkm = !darkm;
+                  //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
+                  //         //print("Dark Mode: $darkm");
+                  //       }
+                  //       Navigator.of(context).popAndPushNamed('/');
+                  //     });
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.light_mode,
+                  //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  //     size: 35,
+                  //   ),
+                  // ),
+                ),
+              ],
+            );
+          },
         ),
-        Positioned(
-          top: 5,
-          right: 5,
-          width: 30,
-          height: 30,
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
-                  //darkm = !darkm;
-                  MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.light);
-                  //print("Dark Mode: $darkm");
-                } else {
-                  //darkm = !darkm;
-                  MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
-                  //print("Dark Mode: $darkm");
-                }
-                Navigator.of(context).popAndPushNamed('/');
-              });
-            },
-            child: Image(image: logoThemeSwitch),
-          ),
-          // IconButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
-          //         //darkm = !darkm;
-          //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.light);
-          //         //print("Dark Mode: $darkm");
-          //       } else {
-          //         //darkm = !darkm;
-          //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
-          //         //print("Dark Mode: $darkm");
-          //       }
-          //       Navigator.of(context).popAndPushNamed('/');
-          //     });
-          //   },
-          //   icon: Icon(
-          //     Icons.light_mode,
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //     size: 35,
-          //   ),
-          // ),
-        ),
-      ]),
+      ),
     );
   }
 }
