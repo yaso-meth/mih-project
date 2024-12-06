@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+<!DOCTYPE html><html><head>
   <base href="/">
 
   <!-- APP Description -->
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description"
-    content="Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.">
+  <meta name="description" content="Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -31,7 +27,15 @@
 
 
   <!-- Splash screen -->
-  <style id="splash-screen-style" defer>
+  
+  
+  <script src="install_pwa.js" defer=""></script>
+  <!-- Splash screen -->
+  <!-- <script>
+    var dartPdfJsBaseUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/";
+  </script> -->
+  <!--------------------->
+  <style id="splash-screen-style">
     html {
       height: 100%
     }
@@ -40,7 +44,7 @@
       margin: 0;
       min-height: 100%;
       background-color: #3A4454;
-      background-size: 100% 100%;
+          background-size: 100% 100%;
     }
 
     .center {
@@ -53,22 +57,19 @@
     }
 
     .contain {
-      display: block;
-      width: 100%;
-      height: 100%;
+      display:block;
+      width:100%; height:100%;
       object-fit: contain;
     }
 
     .stretch {
-      display: block;
-      width: 100%;
-      height: 100%;
+      display:block;
+      width:100%; height:100%;
     }
 
     .cover {
-      display: block;
-      width: 100%;
-      height: 100%;
+      display:block;
+      width:100%; height:100%;
       object-fit: cover;
     }
 
@@ -92,40 +93,28 @@
       right: 0;
     }
   </style>
-  <script id="splash-screen-script" defer>
+  <script id="splash-screen-script">
     function removeSplashFromWeb() {
       document.getElementById("splash")?.remove();
       document.getElementById("splash-branding")?.remove();
       document.body.style.background = "transparent";
     }
   </script>
-  <script src="install_pwa.js" defer></script>
-  <!-- Splash screen -->
-  <!-- <script>
-    var dartPdfJsBaseUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/";
-  </script> -->
-  <!--------------------->
 </head>
 
 <body>
   <picture id="splash-branding">
-    <source
-      srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x"
-      media="(prefers-color-scheme: light)">
-    <source
-      srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x"
-      media="(prefers-color-scheme: dark)">
+    <source srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x" media="(prefers-color-scheme: light)">
+    <source srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x" media="(prefers-color-scheme: dark)">
     <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="">
   </picture>
   <picture id="splash">
-    <source
-      srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x"
-      media="(prefers-color-scheme: light)">
-    <source
-      srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x"
-      media="(prefers-color-scheme: dark)">
-    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
+  
+  
 
   <!-- Versioning -->
   <!-- <script src="flutter.js" defer></script> -->
@@ -149,7 +138,7 @@
     });
   </script> -->
 
-  <script defer>
+  <script defer="">
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
     function loadMainDartJs() {
@@ -257,11 +246,10 @@
 
   </script>
 
-</body>
-<!-- File Picker & PDF viewer -->
-<script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer></script>
-<script id="pdfjs-worker" type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js"
-  defer></script>
+
+
+<script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer=""></script>
+<script id="pdfjs-worker" type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js" defer=""></script>
 <!--------------------->
 
-</html>
+</body><!-- File Picker & PDF viewer --></html>
