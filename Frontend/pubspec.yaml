@@ -63,7 +63,7 @@ dependencies:
   simple_barcode_scanner: ^0.2.5
   mobile_scanner: ^6.0.2
   flutter_launcher_icons: ^0.13.1
-  flutter_barcode_scanner: ^2.0.0
+  # flutter_barcode_scanner: ^2.0.0
   barcode_widget: ^2.0.4
   
 dev_dependencies:

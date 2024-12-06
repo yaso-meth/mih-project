@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 // import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 // import 'package:simple_barcode_scanner/screens/web.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
-// import 'package:supertokens_flutter/http.dart' as http;
+import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
 import '../../mih_apis/mih_location_api.dart';
@@ -949,27 +950,30 @@ class _MIHHomeState extends State<MIHHome> {
   }
 
   Future<void> refreshNotifications() async {
-    html.window.location.reload();
-    //   var responseNotification = await http.get(Uri.parse(
-    //       "$baseAPI/notifications/${widget.signedInUser.app_id}?amount=$amount"));
-    //   List<MIHNotification> notifi;
-    //   if (responseNotification.statusCode == 200) {
-    //     String body = responseNotification.body;
-    //     // var decodedData = jsonDecode(body);
-    //     // MIHNotification notifications = MIHNotification.fromJson(decodedData);
+    if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+      html.window.location.reload();
+    } else {
+      var responseNotification = await http.get(Uri.parse(
+          "$baseAPI/notifications/${widget.signedInUser.app_id}?amount=$amount"));
+      List<MIHNotification> notifi;
+      if (responseNotification.statusCode == 200) {
+        String body = responseNotification.body;
+        // var decodedData = jsonDecode(body);
+        // MIHNotification notifications = MIHNotification.fromJson(decodedData);
 
-    //     Iterable l = jsonDecode(body);
-    //     //print("Here2");
-    //     List<MIHNotification> notifications = List<MIHNotification>.from(
-    //         l.map((model) => MIHNotification.fromJson(model)));
-    //     notifi = notifications;
-    //   } else {
-    //     notifi = [];
-    //   }
-    //   setState(() {
-    //     notifiList = notifi;
-    //   });
-    //   notificationPopUp();
+        Iterable l = jsonDecode(body);
+        //print("Here2");
+        List<MIHNotification> notifications = List<MIHNotification>.from(
+            l.map((model) => MIHNotification.fromJson(model)));
+        notifi = notifications;
+      } else {
+        notifi = [];
+      }
+      setState(() {
+        notifiList = notifi;
+      });
+      notificationPopUp();
+    }
   }
 
   void notificationPopUp() {
