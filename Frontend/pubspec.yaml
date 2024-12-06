@@ -96,6 +96,7 @@ flutter:
     - images/
     - images/loyalty_cards/
     - images/app_icon/
+    - images/splash_screen/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -182,7 +183,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: images\logo_light.png
+    image: images/splash_screen/splash_screen_icon.png
 
     # Splash screen background color.
     color: "#3A4454"
