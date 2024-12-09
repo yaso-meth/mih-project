@@ -103,10 +103,13 @@ class _BuildFileViewState extends State<BuildFileView> {
                 iconSize: 35,
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
-                  html.window.open(
-                      widget.link,
-                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                      'download');
+                  if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                      "Web") {
+                    html.window.open(
+                        widget.link,
+                        // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                        'download');
+                  } else {}
                 },
                 icon: Icon(
                   Icons.download,
@@ -164,10 +167,17 @@ class _BuildFileViewState extends State<BuildFileView> {
                 iconSize: 35,
                 padding: const EdgeInsets.all(0),
                 onPressed: () {
-                  html.window.open(
-                      widget.link,
-                      // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                      'download');
+                  if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                      "Web") {
+                    html.window.open(
+                        widget.link,
+                        // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                        'download');
+                  } else {}
+                  // html.window.open(
+                  //     widget.link,
+                  //     // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                  //     'download');
                 },
                 icon: Icon(
                   Icons.download,

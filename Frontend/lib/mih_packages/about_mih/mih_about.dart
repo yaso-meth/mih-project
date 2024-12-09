@@ -8,6 +8,7 @@ import '../../mih_components/mih_layout/mih_tile.dart';
 import '../../main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import "package:universal_html/js.dart" as js;
+import 'package:url_launcher/url_launcher.dart';
 // import 'dart:html' as html;
 
 class MIHAbout extends StatefulWidget {
@@ -20,6 +21,20 @@ class MIHAbout extends StatefulWidget {
 }
 
 class _MIHAboutState extends State<MIHAbout> {
+  final Uri _tiktokUrl =
+      Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
+  final Uri _instagramUrl =
+      Uri.parse('https://www.instagram.com/mzansi.innovation.hub');
+  final Uri _whatsappUrl =
+      Uri.parse('https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F');
+  final Uri _youtubeUrl =
+      Uri.parse('https://www.youtube.com/@mzansiinnovationhub');
+  final Uri _xUrl = Uri.parse('https://x.com/mzansi_inno_hub');
+  final Uri _linkedinUrl =
+      Uri.parse('https://www.linkedin.com/company/mzansi-innovation-hub/');
+  final Uri _facebookUrl =
+      Uri.parse('https://www.facebook.com/profile.php?id=61565345762136');
+
   MIHAction getActionButton() {
     return MIHAction(
       icon: const Icon(Icons.arrow_back),
@@ -317,7 +332,7 @@ class _MIHAboutState extends State<MIHAbout> {
                 // //bottom: height / 5,
                 // top: 20,
                 ),
-            // physics: ,
+            physics: const NeverScrollableScrollPhysics(),
             // shrinkWrap: true,
             itemCount: getSocialsList().length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -335,8 +350,7 @@ class _MIHAboutState extends State<MIHAbout> {
     List<Widget> socials = [];
     socials.add(MIHTile(
       onTap: () {
-        // html.window
-        //     .open('https://www.tiktok.com/@mzansi.innovation.hub', 'new tab');
+        launchSocialUrl(_tiktokUrl);
       },
       tileName: "TikTok",
       tileIcon: Center(
@@ -352,8 +366,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window
-        //     .open('https://www.instagram.com/mzansi.innovation.hub', 'new tab');
+        launchSocialUrl(_instagramUrl);
       },
       tileName: "Instagram",
       tileIcon: Center(
@@ -369,8 +382,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window.open(
-        //     'https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F', 'new tab');
+        launchSocialUrl(_whatsappUrl);
       },
       tileName: "Whatsapp",
       tileIcon: Center(
@@ -386,8 +398,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window
-        //     .open('https://www.youtube.com/@mzansiinnovationhub', 'new tab');
+        launchSocialUrl(_youtubeUrl);
       },
       tileName: "YouTube",
       tileIcon: Center(
@@ -403,7 +414,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window.open('https://x.com/mzansi_inno_hub', 'new tab');
+        launchSocialUrl(_xUrl);
       },
       tileName: "X",
       tileIcon: Center(
@@ -419,9 +430,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window.open(
-        //     'https://www.linkedin.com/company/mzansi-innovation-hub/',
-        //     'new tab');
+        launchSocialUrl(_linkedinUrl);
       },
       tileName: "LinkedIn",
       tileIcon: Center(
@@ -437,9 +446,7 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        // html.window.open(
-        //     'https://www.facebook.com/profile.php?id=61565345762136',
-        //     'new tab');
+        launchSocialUrl(_facebookUrl);
       },
       tileName: "FaceBook",
       tileIcon: Center(
@@ -454,6 +461,12 @@ class _MIHAboutState extends State<MIHAbout> {
     ));
     //==================================================================
     return socials;
+  }
+
+  Future<void> launchSocialUrl(Uri linkUrl) async {
+    if (!await launchUrl(linkUrl)) {
+      throw Exception('Could not launch $linkUrl');
+    }
   }
 
   @override

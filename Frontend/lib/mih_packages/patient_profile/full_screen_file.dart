@@ -210,10 +210,12 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
           iconSize: 30,
           padding: const EdgeInsets.all(0),
           onPressed: () {
-            html.window.open(
-                widget.arguments.link,
-                // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                'download');
+            if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+              html.window.open(
+                  widget.arguments.link,
+                  // '${AppEnviroment.baseFileUrl}/mih/$filePath',
+                  'download');
+            } else {}
           },
           icon: Icon(
             Icons.download,
