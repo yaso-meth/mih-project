@@ -101,18 +101,26 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
+  double getHorizontalPaddingSize(Size screenSize) {
+    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+      return screenSize.width / 10;
+    } else {
+      return 20;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
-    final double width = size.width;
+    // final double width = size.width;
     //final double height = size.height;
     if (widget.cardList.isNotEmpty) {
       return GridView.builder(
-        //physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         padding: EdgeInsets.only(
-          left: width / 10,
-          right: width / 10,
+          left: getHorizontalPaddingSize(size),
+          right: getHorizontalPaddingSize(size),
           //bottom: height / 5,
           //top: 20,
         ),
@@ -120,7 +128,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         // shrinkWrap: true,
         itemCount: widget.cardList.length,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            mainAxisSpacing: 15, maxCrossAxisExtent: 200),
+          //mainAxisSpacing: 15,
+          maxCrossAxisExtent: 175,
+        ),
         itemBuilder: (context, index) {
           return GestureDetector(
             child: MihCardDisplay(
