@@ -40,7 +40,7 @@ dependencies:
   syncfusion_flutter_core: ^26.2.10
   syncfusion_flutter_pdfviewer: ^26.1.39
   universal_html: ^2.2.4
-  file_picker: ^8.0.5
+  file_picker: ^8.1.4
   supertokens_flutter: ^0.6.0
   http: ^1.2.1
   google_nav_bar: ^5.0.6
@@ -66,6 +66,7 @@ dependencies:
   # flutter_barcode_scanner: ^2.0.0
   barcode_widget: ^2.0.4
   url_launcher: ^6.3.1
+  fl_downloader: ^2.0.2
   
 dev_dependencies:
   flutter_test:

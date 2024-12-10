@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -6,6 +9,7 @@ import "package:universal_html/html.dart" as html;
 import 'package:http/http.dart' as http;
 
 import 'package:printing/printing.dart';
+import 'package:fl_downloader/fl_downloader.dart';
 
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
@@ -30,6 +34,9 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
   int currentPage = 0;
   double startZoomLevel = 1.0;
   double zoomOut = 0;
+
+  int progress = 0;
+  late StreamSubscription progressStream;
 
   String getExtType(String path) {
     //print(pdfLink.split(".")[1]);
@@ -215,7 +222,11 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
                   widget.arguments.link,
                   // '${AppEnviroment.baseFileUrl}/mih/$filePath',
                   'download');
-            } else {}
+            } else {
+              nativeFileDownload(
+                widget.arguments.link,
+              );
+            }
           },
           icon: Icon(
             Icons.download,
@@ -272,9 +283,35 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
     );
   }
 
+  void mihLoadingPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+  }
+
+  void nativeFileDownload(String fileLink) async {
+    var permission = await FlDownloader.requestPermission();
+    if (permission == StoragePermissionStatus.granted) {
+      try {
+        mihLoadingPopUp();
+        await FlDownloader.download(fileLink);
+        Navigator.of(context).pop();
+      } on Exception catch (error) {
+        Navigator.of(context).pop();
+        print(error);
+      }
+    } else {
+      print("denied");
+    }
+  }
+
   @override
   void dispose() {
     pdfViewerController.dispose();
+    progressStream.cancel();
     super.dispose();
   }
 
@@ -282,6 +319,21 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
   void initState() {
     //pdfViewerController = widget.arguments.pdfViewerController!;
     pdfViewerController.addListener(onPageSelect);
+    FlDownloader.initialize();
+    progressStream = FlDownloader.progressStream.listen((event) {
+      if (event.status == DownloadStatus.successful) {
+        setState(() {
+          progress = event.progress;
+        });
+        //Navigator.of(context).pop();
+        print("Progress $progress%: Success Downloading");
+        FlDownloader.openFile(filePath: event.filePath);
+      } else if (event.status == DownloadStatus.failed) {
+        print("Progress $progress%: Error Downloading");
+      } else if (event.status == DownloadStatus.running) {
+        print("Progress $progress%: Download Running");
+      }
+    });
     super.initState();
   }
 
