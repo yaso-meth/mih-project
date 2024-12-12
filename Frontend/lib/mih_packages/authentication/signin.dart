@@ -545,7 +545,7 @@ class _SignInState extends State<SignIn> {
                               //mainAxisSize: MainAxisSize.max,
                               children: [
                                 GridView.builder(
-                                  // physics: ,
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: sandboxProfileList.length,
                                   gridDelegate:
