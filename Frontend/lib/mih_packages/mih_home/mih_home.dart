@@ -111,7 +111,7 @@ class _MIHHomeState extends State<MIHHome> {
     tileList.add(MIHTile(
       videoID: "Nfp4pVBZL78",
       onTap: () {
-        Navigator.of(context).popAndPushNamed(
+        Navigator.of(context).pushNamed(
           '/business-profile/set-up',
           arguments: widget.signedInUser,
         );
@@ -914,10 +914,9 @@ class _MIHHomeState extends State<MIHHome> {
           padding: EdgeInsets.only(
             left: width / 10,
             right: width / 10,
-            //bottom: height / 5,
+            bottom: height / 15,
             //top: 20,
           ),
-          // physics: ,
           // shrinkWrap: true,
           itemCount: searchApp(pbswitch[_selectedIndex], appSearch).length,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
