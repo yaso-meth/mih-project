@@ -159,149 +159,145 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   Widget displayForm() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Text(
-            "Personal Details",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22.0,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
+    return Column(
+      children: [
+        Text(
+          "Personal Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22.0,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: idController,
-            hintText: "13 digit ID Number or Passport",
-            editable: true,
-            required: true,
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: idController,
+          hintText: "13 digit ID Number or Passport",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: fnameController,
+          hintText: "First Name",
+          editable: false,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: lnameController,
+          hintText: "Last Name",
+          editable: false,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: cellController,
+          hintText: "Cell Number",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: emailController,
+          hintText: "Email",
+          editable: false,
+          required: true,
+        ),
+        const SizedBox(height: 10.0),
+        MIHTextField(
+          controller: addressController,
+          hintText: "Address",
+          editable: true,
+          required: true,
+        ),
+        const SizedBox(height: 15.0),
+        Text(
+          "Medical Aid Details",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22.0,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Last Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: cellController,
-            hintText: "Cell Number",
-            editable: true,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: emailController,
-            hintText: "Email",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: addressController,
-            hintText: "Address",
-            editable: true,
-            required: true,
-          ),
-          const SizedBox(height: 15.0),
-          Text(
-            "Medical Aid Details",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22.0,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10.0),
-          MIHDropdownField(
-            controller: medAidController,
-            hintText: "Medical Aid",
-            editable: true,
-            // onSelect: (_) {
-            //   isRequired();
-            // },
-            required: true,
-            dropdownOptions: const ["Yes", "No"],
-          ),
-          ValueListenableBuilder(
-            valueListenable: medRequired,
-            builder: (BuildContext context, bool value, Widget? child) {
-              return Visibility(
-                visible: value,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10.0),
-                    MIHDropdownField(
-                      controller: medMainMemController,
-                      hintText: "Main Member",
-                      editable: value,
-                      required: value,
-                      dropdownOptions: const ["Yes", "No"],
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: medNoController,
-                      hintText: "Medical Aid No.",
-                      editable: value,
-                      required: value,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: medAidCodeController,
-                      hintText: "Medical Aid Code",
-                      editable: value,
-                      required: value,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: medNameController,
-                      hintText: "Medical Aid Name",
-                      editable: value,
-                      required: value,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHTextField(
-                      controller: medSchemeController,
-                      hintText: "Medical Aid Scheme",
-                      editable: value,
-                      required: value,
-                    ),
-                  ],
-                ),
-              );
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10.0),
+        MIHDropdownField(
+          controller: medAidController,
+          hintText: "Medical Aid",
+          editable: true,
+          // onSelect: (_) {
+          //   isRequired();
+          // },
+          required: true,
+          dropdownOptions: const ["Yes", "No"],
+        ),
+        ValueListenableBuilder(
+          valueListenable: medRequired,
+          builder: (BuildContext context, bool value, Widget? child) {
+            return Visibility(
+              visible: value,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10.0),
+                  MIHDropdownField(
+                    controller: medMainMemController,
+                    hintText: "Main Member",
+                    editable: value,
+                    required: value,
+                    dropdownOptions: const ["Yes", "No"],
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: medNoController,
+                    hintText: "Medical Aid No.",
+                    editable: value,
+                    required: value,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: medAidCodeController,
+                    hintText: "Medical Aid Code",
+                    editable: value,
+                    required: value,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: medNameController,
+                    hintText: "Medical Aid Name",
+                    editable: value,
+                    required: value,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHTextField(
+                    controller: medSchemeController,
+                    hintText: "Medical Aid Scheme",
+                    editable: value,
+                    required: value,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 30.0),
+        SizedBox(
+          width: 450.0,
+          height: 50.0,
+          child: MIHButton(
+            onTap: () {
+              submitForm();
             },
+            buttonText: "Add",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
-          const SizedBox(height: 30.0),
-          SizedBox(
-            width: 450.0,
-            height: 50.0,
-            child: MIHButton(
-              onTap: () {
-                submitForm();
-              },
-              buttonText: "Add",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
