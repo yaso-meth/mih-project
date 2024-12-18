@@ -35,6 +35,7 @@ class HomeArguments {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
+  final Patient? patient;
   final List<MIHNotification> notifi;
   final String profilePicUrl;
 
@@ -42,6 +43,7 @@ class HomeArguments {
     this.signedInUser,
     this.businessUser,
     this.business,
+    this.patient,
     this.notifi,
     this.profilePicUrl,
   );

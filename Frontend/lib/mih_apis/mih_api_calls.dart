@@ -46,6 +46,7 @@ class MIHApiCalls {
     AppUser userData;
     Business? busData;
     BusinessUser? bUserData;
+    Patient? patientData;
     List<MIHNotification> notifi;
     String userPic;
 
@@ -129,8 +130,30 @@ class MIHApiCalls {
       notifi = [];
     }
 
+    //get patient profile
+    //print("Patien manager page: $endpoint");
+    final response = await http.get(
+        Uri.parse("${AppEnviroment.baseApiUrl}/patients/${userData.app_id}"));
+    // print("Here");
+    // print("Body: ${response.body}");
+    // print("Code: ${response.statusCode}");
+    // var errorCode = response.statusCode.toString();
+    // var errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      print("Here1");
+      var decodedData = jsonDecode(response.body);
+      print("Here2");
+      Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
+      print("Here3");
+      print(patients);
+      patientData = patients;
+    } else {
+      patientData = null;
+    }
     //print(userPic);
-    return HomeArguments(userData, bUserData, busData, notifi, userPic);
+    return HomeArguments(
+        userData, bUserData, busData, patientData, notifi, userPic);
   }
 
   /// This function is used to get business details by business _id.
