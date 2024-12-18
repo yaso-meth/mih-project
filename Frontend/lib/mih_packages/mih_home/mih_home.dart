@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 // import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
@@ -43,6 +44,7 @@ class MIHHome extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
+  final Patient? patient;
   final List<MIHNotification> notifications;
   final ImageProvider<Object>? propicFile;
   final bool isUserNew;
@@ -55,6 +57,7 @@ class MIHHome extends StatefulWidget {
     required this.signedInUser,
     required this.businessUser,
     required this.business,
+    required this.patient,
     required this.notifications,
     required this.propicFile,
     required this.isUserNew,
@@ -169,29 +172,78 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
-    tileList.add(MIHTile(
-      videoID: "NUDdoWrbXNc",
-      onTap: () {
-        Navigator.of(context).pushNamed('/patient-profile',
-            arguments: PatientViewArguments(
-                widget.signedInUser, null, null, null, "personal"));
-      },
-      tileName: "Patient Profile",
-      tileIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.bookMedical,
-          color: getSec(),
-          size: 200,
+    print("Pat Prof: ${widget.patient}");
+    if (widget.patient != null) {
+      tileList.add(MIHTile(
+        videoID: "NUDdoWrbXNc",
+        onTap: () {
+          Navigator.of(context).pushNamed('/patient-profile',
+              arguments: PatientViewArguments(
+                  widget.signedInUser, null, null, null, "personal"));
+        },
+        tileName: "Patient Profile",
+        tileIcon: Center(
+          child: FaIcon(
+            FontAwesomeIcons.bookMedical,
+            color: getSec(),
+            size: 200,
+          ),
         ),
-      ),
-      // Icon(
-      //   Icons.medication,
-      //   color: getSec(),
-      //   size: 200,
-      // ),
-      p: getPrim(),
-      s: getSec(),
-    ));
+        // Icon(
+        //   Icons.medication,
+        //   color: getSec(),
+        //   size: 200,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    } else {
+      tileList.add(MIHTile(
+        videoID: "NUDdoWrbXNc",
+        onTap: () {
+          Navigator.of(context).pushNamed('/patient-profile/set-up',
+              arguments: widget.signedInUser);
+        },
+        tileName: "Set Up Patient",
+        tileIcon: Center(
+          child: FaIcon(
+            FontAwesomeIcons.bookMedical,
+            color: getSec(),
+            size: 200,
+          ),
+        ),
+        // Icon(
+        //   Icons.medication,
+        //   color: getSec(),
+        //   size: 200,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+    }
+    // tileList.add(MIHTile(
+    //   videoID: "NUDdoWrbXNc",
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed('/patient-profile',
+    //         arguments: PatientViewArguments(
+    //             widget.signedInUser, null, null, null, "personal"));
+    //   },
+    //   tileName: "Patient Profile",
+    //   tileIcon: Center(
+    //     child: FaIcon(
+    //       FontAwesomeIcons.bookMedical,
+    //       color: getSec(),
+    //       size: 200,
+    //     ),
+    //   ),
+    //   // Icon(
+    //   //   Icons.medication,
+    //   //   color: getSec(),
+    //   //   size: 200,
+    //   // ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(

@@ -99,6 +99,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
+              patient: snapshot.data!.patient,
               notifications: snapshot.data!.notifi,
               propicFile: isPictureAvailable(snapshot.data!.profilePicUrl),
               isUserNew: isUserNew(snapshot.requireData.signedInUser),
