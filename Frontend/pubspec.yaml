@@ -40,7 +40,7 @@ dependencies:
   syncfusion_flutter_core: ^26.2.10
   syncfusion_flutter_pdfviewer: ^26.1.39
   universal_html: ^2.2.4
-  file_picker: ^8.1.4
+  file_picker: ^8.1.7
   supertokens_flutter: ^0.6.0
   http: ^1.2.1
   google_nav_bar: ^5.0.6
