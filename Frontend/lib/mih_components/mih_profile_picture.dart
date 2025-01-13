@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
@@ -69,18 +71,54 @@ class _MIHProfilePictureState extends State<MIHProfilePicture> {
                     type: FileType.custom,
                     allowedExtensions: ['jpg', 'png'],
                   );
-                  if (result == null) return;
-                  final selectedFile = result.files.first;
-                  setState(() {
-                    widget.onChange(selectedFile);
-                    widget.proPic = selectedFile;
-                    //print("MIH Profile Picture: ${widget.proPic}");
-                    propicPreview = MemoryImage(widget.proPic!.bytes!);
-                  });
+                  // print(
+                  //     "Platform: ${MzanziInnovationHub.of(context)!.theme.getPlatform()}");
+                  if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                      "Web") {
+                    if (result == null) return;
+                    final selectedFile = result.files.first;
+                    setState(() {
+                      widget.onChange(selectedFile);
+                      widget.proPic = selectedFile;
+                      //print("MIH Profile Picture: ${widget.proPic}");
+                      propicPreview = MemoryImage(widget.proPic!.bytes!);
+                    });
 
-                  setState(() {
-                    widget.proPicController.text = selectedFile.name;
-                  });
+                    setState(() {
+                      widget.proPicController.text = selectedFile.name;
+                    });
+                  } else {
+                    // print(
+                    //     "================\nHere for Android\n========================");
+                    if (result != null) {
+                      // print("here 1");
+                      File file = File(result.files.single.path!);
+                      PlatformFile? androidFile = PlatformFile(
+                        path: file.path,
+                        name: file.path.split('/').last,
+                        size: file.lengthSync(),
+                        bytes: await file.readAsBytes(), // Read file bytes
+                        //extension: fileExtension,
+                      );
+                      // print("here 2");
+                      setState(() {
+                        // print("here 3");
+                        widget.onChange(androidFile);
+                        // print("here 4");
+                        widget.proPic = androidFile;
+                        // print("here 5");
+                        //print("MIH Profile Picture: ${widget.proPic}");
+                        //print("bytes: ${widget.proPic!.bytes!}");
+                        propicPreview = FileImage(file);
+                      });
+
+                      setState(() {
+                        widget.proPicController.text = widget.proPic!.name;
+                      });
+                    } else {
+                      // User canceled the picker
+                    }
+                  }
                 },
                 icon: const Icon(Icons.edit),
               ),

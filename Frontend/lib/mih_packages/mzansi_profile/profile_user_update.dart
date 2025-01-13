@@ -218,8 +218,12 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
   }
 
   Future<void> submitForm() async {
+    // print("============\nsubmiit form\n=================");
     if (isFieldsFilled()) {
       if (oldProPicName != proPicController.text) {
+        // print("here 1");
+        // print("Pro File Name: ${proPic!.name}");
+        // print("Pro File Bytes: ${proPic!.bytes}");
         await uploadSelectedFile(proPic);
       }
       await updateUserApiCall();
@@ -308,6 +312,13 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
             },
           ),
         ),
+        // const SizedBox(height: 10.0),
+        // MIHTextField(
+        //   controller: proPicController,
+        //   hintText: "Pro Pic",
+        //   editable: true,
+        //   required: true,
+        // ),
         const SizedBox(height: 10.0),
         MIHTextField(
           controller: usernameController,
