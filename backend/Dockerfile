@@ -1,4 +1,5 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11-slim AS builder
+FROM tiangolo/uvicorn-gunicorn-fastapi:latest AS builder
+# FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11-slim AS builder
 
 WORKDIR /app
 
