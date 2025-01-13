@@ -38,7 +38,8 @@ services:
   #============== Super Token Auth ====================================================================
   supertokens:
     container_name: MIH-SuperTokens
-    image: registry.supertokens.io/supertokens/supertokens-mysql
+    image: supertokens/supertokens-mysql:latest
+    # image: registry.supertokens.io/supertokens/supertokens-mysql
     depends_on:
       - mysqldb
     ports:
