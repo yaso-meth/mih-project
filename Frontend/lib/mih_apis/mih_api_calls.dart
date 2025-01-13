@@ -141,12 +141,12 @@ class MIHApiCalls {
     // var errorBody = response.body;
 
     if (response.statusCode == 200) {
-      print("Here1");
+      // print("Here1");
       var decodedData = jsonDecode(response.body);
-      print("Here2");
+      // print("Here2");
       Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-      print("Here3");
-      print(patients);
+      // print("Here3");
+      // print(patients);
       patientData = patients;
     } else {
       patientData = null;

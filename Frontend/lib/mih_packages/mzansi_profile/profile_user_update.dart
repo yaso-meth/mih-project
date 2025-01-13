@@ -164,6 +164,7 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       //print("Here4");
       //print(response.statusCode);
       if (response.statusCode == 200) {
+        Navigator.of(context).pop();
         Navigator.of(context)
             .popAndPushNamed('/', arguments: widget.arguments.signedInUser);
         String message =

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MIHButton extends StatefulWidget {
-  final void Function() onTap;
+  final void Function()? onTap;
   final String buttonText;
   final Color buttonColor;
   final Color textColor;

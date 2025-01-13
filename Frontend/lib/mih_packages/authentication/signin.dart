@@ -457,40 +457,56 @@ class _SignInState extends State<SignIn> {
                         ),
                         //spacer
                         const SizedBox(height: 10),
-                        //register text
                         SizedBox(
                           width: 500.0,
-                          //height: 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'New User?',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .messageTextColor()),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              GestureDetector(
-                                onTap: widget.onTap,
-                                child: Text(
-                                  'Register Now',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .secondaryColor(),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          height: 50.0,
+                          child: MIHButton(
+                            buttonText: "Create New Account",
+                            buttonColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .successColor(),
+                            textColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            onTap: widget.onTap,
                           ),
                         ),
+                        //spacer
+                        const SizedBox(height: 10),
+                        //register text
+                        // SizedBox(
+                        //   width: 500.0,
+                        //   //height: 100.0,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       Text(
+                        //         'New User?',
+                        //         style: TextStyle(
+                        //             fontSize: 18,
+                        //             color: MzanziInnovationHub.of(context)!
+                        //                 .theme
+                        //                 .messageTextColor()),
+                        //       ),
+                        //       const SizedBox(
+                        //         width: 6,
+                        //       ),
+                        //       GestureDetector(
+                        //         onTap: widget.onTap,
+                        //         child: Text(
+                        //           'Register Now',
+                        //           style: TextStyle(
+                        //             fontSize: 18,
+                        //             color: MzanziInnovationHub.of(context)!
+                        //                 .theme
+                        //                 .secondaryColor(),
+                        //             fontWeight: FontWeight.bold,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         //spacer
                         const SizedBox(height: 15),
                         SizedBox(

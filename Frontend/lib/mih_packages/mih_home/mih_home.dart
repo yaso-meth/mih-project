@@ -172,7 +172,7 @@ class _MIHHomeState extends State<MIHHome> {
       p: getPrim(),
       s: getSec(),
     ));
-    print("Pat Prof: ${widget.patient}");
+    // print("Pat Prof: ${widget.patient}");
     if (widget.patient != null) {
       tileList.add(MIHTile(
         videoID: "NUDdoWrbXNc",
