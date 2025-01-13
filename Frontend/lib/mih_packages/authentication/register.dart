@@ -297,7 +297,7 @@ class _RegisterState extends State<Register> {
                     const SizedBox(height: 10),
                     //Heading
                     Text(
-                      'Register',
+                      'Create a New Account',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -349,10 +349,10 @@ class _RegisterState extends State<Register> {
                       width: 500.0,
                       height: 50.0,
                       child: MIHButton(
-                        buttonText: "Sign Up",
+                        buttonText: "Create New Account",
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
-                            .secondaryColor(),
+                            .successColor(),
                         textColor: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
@@ -362,6 +362,21 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    // SizedBox(
+                    //   width: 500.0,
+                    //   height: 50.0,
+                    //   child: MIHButton(
+                    //     buttonText: "Sign In",
+                    //     buttonColor: MzanziInnovationHub.of(context)!
+                    //         .theme
+                    //         .secondaryColor(),
+                    //     textColor: MzanziInnovationHub.of(context)!
+                    //         .theme
+                    //         .primaryColor(),
+                    //     onTap: widget.onTap,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 10),
                     //register text
                     SizedBox(
                       width: 500.0,
