@@ -283,7 +283,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                             onTap: () async {
                               await SuperTokens.signOut(
                                   completionHandler: (error) {
-                                //print(error);
+                                print(error);
                               });
                               if (await SuperTokens.doesSessionExist() ==
                                   false) {
