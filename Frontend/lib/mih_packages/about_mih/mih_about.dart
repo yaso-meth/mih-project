@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
@@ -42,7 +43,7 @@ class _MIHAboutState extends State<MIHAbout> {
       onTap: () {
         Navigator.of(context).pushNamedAndRemoveUntil(
           '/',
-          arguments: true,
+          arguments: AuthArguments(true, false),
           (route) => false,
         );
       },

@@ -125,7 +125,7 @@ class _PatientViewState extends State<PatientView> {
           Navigator.of(context).pop();
           Navigator.of(context).popAndPushNamed(
             '/',
-            arguments: true,
+            arguments: AuthArguments(true, false),
           );
         },
       );
