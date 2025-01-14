@@ -159,3 +159,13 @@ class ClaimStatementGenerationArguments {
     this.sig_path,
   );
 }
+
+class AuthArguments {
+  final bool personalSelected;
+  final bool firstBoot;
+
+  AuthArguments(
+    this.personalSelected,
+    this.firstBoot,
+  );
+}
