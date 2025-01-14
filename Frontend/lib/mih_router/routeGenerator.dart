@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
@@ -266,6 +267,12 @@ class RouteGenerator {
               );
             }
             return _errorRoute();
+          case '/calculator':
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => const MIHCalculator(),
+            );
+
           default:
             return _errorRoute();
         }
