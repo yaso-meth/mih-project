@@ -54,21 +54,16 @@ class RouteGenerator {
         switch (settings.name) {
           // Authgentication
           case '/':
-            if (args is bool) {
+            if (args is AuthArguments) {
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => AuthCheck(
-                  personalSelected: args,
-                ),
-              );
-            } else {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => const AuthCheck(
-                  personalSelected: true,
+                  personalSelected: args.personalSelected,
+                  firstBoot: args.firstBoot,
                 ),
               );
             }
+            return _errorRoute();
           case '/notifications':
             if (args is NotificationArguments) {
               return MaterialPageRoute(
@@ -284,6 +279,7 @@ Route<dynamic> _errorRoute() {
       settings: const RouteSettings(name: '/'),
       builder: (_) => const AuthCheck(
             personalSelected: true,
+            firstBoot: true,
           ));
   // return MaterialPageRoute(builder: (_) {
   //   return const Scaffold(

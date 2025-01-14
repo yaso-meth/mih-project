@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../mih_apis/mih_api_calls.dart';
@@ -105,7 +106,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
-          arguments: true,
+          arguments: AuthArguments(true, false),
         );
       },
     );

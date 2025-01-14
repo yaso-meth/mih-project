@@ -2,6 +2,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_action.dart'
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_header.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/policy_and_terms_text.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _MIHPrivacyPolocyState extends State<MIHPrivacyPolocy> {
       onTap: () {
         Navigator.of(context).pushNamedAndRemoveUntil(
           '/',
-          arguments: true,
+          arguments: AuthArguments(true, false),
           (route) => false,
         );
       },

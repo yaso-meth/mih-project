@@ -296,7 +296,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
-          arguments: false,
+          arguments: AuthArguments(false, false),
         );
       },
     );

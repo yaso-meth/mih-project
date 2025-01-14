@@ -89,6 +89,7 @@ class _RegisterState extends State<Register> {
         if (response.statusCode == 200) {
           var userExists = jsonDecode(response.body);
           if (userExists["exists"]) {
+            Navigator.of(context).pop();
             signUpError();
           } else {
             var response2 = await http.post(

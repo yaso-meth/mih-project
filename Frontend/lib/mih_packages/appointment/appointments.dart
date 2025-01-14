@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -268,7 +269,7 @@ class _PatientAccessRequestState extends State<Appointments> {
 
         Navigator.of(context).popAndPushNamed(
           '/',
-          arguments: true,
+          arguments: AuthArguments(true, false),
         );
       },
     );
