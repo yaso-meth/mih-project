@@ -1,15 +1,17 @@
+import 'package:Mzansi_Innovation_Hub/mih_packages/authentication/biometric_check.dart';
 import 'package:flutter/material.dart';
 
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:no_screenshot/no_screenshot.dart';
-import '../mih_home/mih_profile_getter.dart';
 import 'signin_or_register.dart';
 
 class AuthCheck extends StatefulWidget {
   final bool personalSelected;
+  final bool firstBoot;
   const AuthCheck({
     super.key,
     required this.personalSelected,
+    required this.firstBoot,
   });
 
   @override
@@ -53,8 +55,9 @@ class _AuthCheckState extends State<AuthCheck> {
               builder: (context, snapshot) {
                 //print(snapshot.data);
                 if (snapshot.data == true) {
-                  return MIHProfileGetter(
+                  return BiometricCheck(
                     personalSelected: widget.personalSelected,
+                    firstBoot: widget.firstBoot,
                   );
                 } else if (snapshot.data == false) {
                   return const SignInOrRegister();
