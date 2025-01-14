@@ -954,7 +954,7 @@ class _MIHHomeState extends State<MIHHome> {
                 child: SizedBox(
                   child: MIHSearchField(
                     controller: searchController,
-                    hintText: "Search Mzansi Apps",
+                    hintText: "Search Mzansi Tiles",
                     required: false,
                     editable: true,
                     onTap: () {
