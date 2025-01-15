@@ -13,7 +13,8 @@ abstract class AppEnviroment {
     switch (env) {
       case Enviroment.dev:
         {
-          baseApiUrl = "http://10.0.2.2:8080"; //"http://localhost:8080";
+          // baseApiUrl = "http://10.0.2.2:8080"; //Android
+          baseApiUrl = "http://localhost:8080"; //Web
           baseFileUrl = "http://10.0.2.2:9000"; //"http://localhost:9000";
           whatsappAccessToken =
               "EAAPINXuNFdYBOzBjTcvZA2iPXEHbHRF9uNXyP3ihkPRUcBqKNru5g9NKRRKkFaiaITEzO3BMo6CjdUmlDH4qYTW2mzDrZB4Q21ZCEZBgECZCu27vfaOXJZCYQLNxwoXkrZBRYv8ZAP37f69r3z9JxLQxdxn9gwqA3oNZAlBBRapJQzxOr6pZBTdI3bbjbu17ZBIwRcF4JCqPDCNLEZCI3bmHwEd2i2niNMYZD";
