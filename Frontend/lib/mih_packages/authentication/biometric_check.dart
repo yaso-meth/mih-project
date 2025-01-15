@@ -112,6 +112,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   //Heading
                   Text(
                     'Biomentric Authentication',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
