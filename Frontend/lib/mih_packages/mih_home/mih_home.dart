@@ -292,6 +292,31 @@ class _MIHHomeState extends State<MIHHome> {
     ));
 
     tileList.add(MIHTile(
+      videoID: "",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/calculator',
+          //arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Calculator",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.calculator,
+          color: getSec(),
+          size: 200,
+        ),
+      ),
+      //     Icon(
+      //   Icons.info_outline,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
       videoID: "hbKhlmY_56U",
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -929,7 +954,7 @@ class _MIHHomeState extends State<MIHHome> {
                 child: SizedBox(
                   child: MIHSearchField(
                     controller: searchController,
-                    hintText: "Search Mzansi Apps",
+                    hintText: "Search Mzansi Tiles",
                     required: false,
                     editable: true,
                     onTap: () {
