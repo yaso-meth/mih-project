@@ -287,7 +287,11 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               });
                               if (await SuperTokens.doesSessionExist() ==
                                   false) {
-                                Navigator.of(context).popAndPushNamed('/');
+                                Navigator.of(context).pop();
+                                Navigator.of(context).popAndPushNamed(
+                                  '/',
+                                  arguments: AuthArguments(true, false),
+                                );
                               }
                             },
                           ),
@@ -316,7 +320,12 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               .changeTheme(ThemeMode.dark);
                           //print("Dark Mode: $darkm");
                         }
-                        Navigator.of(context).popAndPushNamed('/');
+                        Navigator.of(context).pop();
+                        Navigator.of(context).popAndPushNamed(
+                          '/',
+                          arguments: AuthArguments(true, false),
+                        );
+                        // Navigator.of(context).popAndPushNamed('/',);
                       });
                     },
                     child: Image(image: logoThemeSwitch),
