@@ -1,6 +1,7 @@
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
@@ -267,6 +268,22 @@ class RouteGenerator {
               );
             }
             return _errorRoute();
+          //===============================================================
+
+          //Full Screen File Viewer
+          case '/scanner':
+            if (args is TextEditingController) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MihBarcodeScanner(
+                  cardNumberController: args,
+                ),
+              );
+            }
+            return _errorRoute();
+          //===============================================================
+
+          //Calculator
           case '/calculator':
             return MaterialPageRoute(
               settings: settings,
