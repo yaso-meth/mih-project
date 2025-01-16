@@ -19,8 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.2+12
 
 environment:
-  sdk: '>=3.2.4 <4.0.0'
-
+  sdk: '>=3.5.3 <4.0.0'
+  # flutter: ">=1.17.0"
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -64,7 +64,7 @@ dependencies:
   mobile_scanner: ^6.0.2
   flutter_launcher_icons: ^0.13.1
   # flutter_barcode_scanner: ^2.0.0
-  barcode_widget: ^2.0.4
+  barcode_widget: ^2.0.4 #Generate Barcodes
   url_launcher: ^6.3.1
   fl_downloader: ^2.0.2
   local_auth: ^2.3.0
