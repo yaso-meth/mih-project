@@ -287,7 +287,7 @@ class _PatientViewState extends State<PatientView> {
     checkScreenSize();
     return SwipeDetector(
       onSwipeLeft: (offset) {
-        if (_selectedIndex < 2) {
+        if (_selectedIndex < 3) {
           setState(() {
             _selectedIndex += 1;
           });
