@@ -184,6 +184,13 @@ class _BiometricCheckState extends State<BiometricCheck> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.firstBoot == true) authenticateUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
       return MIHProfileGetter(
