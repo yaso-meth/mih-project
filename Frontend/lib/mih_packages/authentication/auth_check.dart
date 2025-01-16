@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/authentication/biometric_check.dart';
 import 'package:flutter/material.dart';
 
@@ -62,8 +63,9 @@ class _AuthCheckState extends State<AuthCheck> {
                 } else if (snapshot.data == false) {
                   return const SignInOrRegister();
                 } else {
-                  return const SizedBox(width: 5, height: 5);
-                  //const Mihloadingcircle();
+                  return
+                      // const SizedBox(width: 5, height: 5);
+                      const Mihloadingcircle();
                 }
               });
         },

@@ -8,7 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+// import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+// import 'package:mobile_scanner/mobile_scanner.dart';
 // import 'package:simple_barcode_scanner/screens/web.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
@@ -84,9 +86,9 @@ class _MIHHomeState extends State<MIHHome> {
   String appSearch = "";
   int amount = 10;
   final baseAPI = AppEnviroment.baseApiUrl;
-  final MobileScannerController scannerController = MobileScannerController(
-      // required options for the scanner
-      );
+  // final MobileScannerController scannerController = MobileScannerController(
+  //     // required options for the scanner
+  //     );
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
@@ -417,14 +419,6 @@ class _MIHHomeState extends State<MIHHome> {
     ));
   }
 
-  void foundCode(BarcodeCapture bcode) {
-    if (bcode.barcodes.first.rawValue != null) {
-      print(bcode.barcodes.first.rawValue);
-      scannerController.stop();
-      Navigator.of(context).pop();
-    }
-  }
-
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
       tileList.add(MIHTile(
@@ -477,36 +471,37 @@ class _MIHHomeState extends State<MIHHome> {
       ));
       tileList.add(MIHTile(
         onTap: () async {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              // return const MIHErrorMessage(errorType: "Input Error");
-              // return const MIHErrorMessage(errorType: "Password Requirements");
-              // return const MIHErrorMessage(errorType: "Invalid Username");
-              // return const MIHErrorMessage(errorType: "Invalid Email");
-              // return const MIHErrorMessage(errorType: "User Exists");
-              // return const MIHErrorMessage(errorType: "Password Match");
-              // return const MIHErrorMessage(errorType: "Invalid Credentials");
-              return MIHWindow(
-                fullscreen: false,
-                windowTitle: "Scanner",
-                windowBody: [
-                  SizedBox(
-                    height: 1000,
-                    child: MobileScanner(
-                      controller: scannerController,
-                      onDetect: foundCode,
-                    ),
-                  )
-                ],
-                windowTools: [],
-                onWindowTapClose: () {
-                  Navigator.pop(context);
-                },
+          if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+            print("================ Web ====================");
+            print("here 1");
+            try {
+              String? res = await SimpleBarcodeScanner.scanBarcode(
+                context,
+                barcodeAppBar: const BarcodeAppBar(
+                  appBarTitle: 'Scan Barcode',
+                  centerTitle: true,
+                  enableBackButton: true,
+                  backButtonIcon: Icon(Icons.arrow_back),
+                ),
+                isShowFlashIcon: true,
+                delayMillis: 500,
+                cameraFace: CameraFace.back,
+                scanFormat: ScanFormat.ONLY_BARCODE,
               );
-            },
-          );
+              if (res != null) {
+                print(res);
+              }
+            } catch (error) {
+              print(error);
+            }
+          } else {
+            TextEditingController cardNumberController =
+                TextEditingController();
+            Navigator.of(context).pushNamed(
+              '/scanner',
+              arguments: cardNumberController,
+            );
+          }
         },
         tileName: "Scanner - Dev",
         tileIcon: Icon(
@@ -954,7 +949,7 @@ class _MIHHomeState extends State<MIHHome> {
                 child: SizedBox(
                   child: MIHSearchField(
                     controller: searchController,
-                    hintText: "Search Mzansi Tiles",
+                    hintText: "Search Mzansi Packages",
                     required: false,
                     editable: true,
                     onTap: () {

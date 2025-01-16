@@ -112,6 +112,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   //Heading
                   Text(
                     'Biomentric Authentication',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -180,6 +181,13 @@ class _BiometricCheckState extends State<BiometricCheck> {
       pullDownToRefresh: false,
       onPullDown: () async {},
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.firstBoot == true) authenticateUser();
   }
 
   @override
