@@ -24,10 +24,13 @@ class MIHAbout extends StatefulWidget {
 class _MIHAboutState extends State<MIHAbout> {
   final Uri _tiktokUrl =
       Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
-  final Uri _instagramUrl =
-      Uri.parse('https://www.instagram.com/mzansi.innovation.hub');
   final Uri _whatsappUrl =
       Uri.parse('https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F');
+
+  final Uri _threadsUrl =
+      Uri.parse('https://www.threads.net/@mzansi.innovation.hub');
+  final Uri _instagramUrl =
+      Uri.parse('https://www.instagram.com/mzansi.innovation.hub');
   final Uri _youtubeUrl =
       Uri.parse('https://www.youtube.com/@mzansiinnovationhub');
   final Uri _xUrl = Uri.parse('https://x.com/mzansi_inno_hub');
@@ -351,6 +354,22 @@ class _MIHAboutState extends State<MIHAbout> {
     List<Widget> socials = [];
     socials.add(MIHTile(
       onTap: () {
+        launchSocialUrl(_youtubeUrl);
+      },
+      tileName: "YouTube",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.youtube,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          size: 175,
+        ),
+      ),
+      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    ));
+    //==================================================================
+    socials.add(MIHTile(
+      onTap: () {
         launchSocialUrl(_tiktokUrl);
       },
       tileName: "TikTok",
@@ -367,12 +386,12 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        launchSocialUrl(_instagramUrl);
+        launchSocialUrl(_threadsUrl);
       },
-      tileName: "Instagram",
+      tileName: "Threads",
       tileIcon: Center(
         child: FaIcon(
-          FontAwesomeIcons.instagram,
+          FontAwesomeIcons.threads,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
@@ -399,20 +418,21 @@ class _MIHAboutState extends State<MIHAbout> {
     //==================================================================
     socials.add(MIHTile(
       onTap: () {
-        launchSocialUrl(_youtubeUrl);
+        launchSocialUrl(_instagramUrl);
       },
-      tileName: "YouTube",
+      tileName: "Instagram",
       tileIcon: Center(
         child: FaIcon(
-          FontAwesomeIcons.youtube,
+          FontAwesomeIcons.instagram,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          size: 175,
+          size: 200,
         ),
       ),
       p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
+
     socials.add(MIHTile(
       onTap: () {
         launchSocialUrl(_xUrl);
