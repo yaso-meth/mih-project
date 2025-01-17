@@ -5,23 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "16e298750b6d0af7ce8a3ba7c18c69c3785d11b15ec83f6dcd0ad2a0009b3cab"
+      sha256: ae92f5d747aee634b87f89d9946000c2de774be1d6ac3e58268224348cd0101a
       url: "https://pub.dev"
     source: hosted
-    version: "76.0.0"
-  _macros:
-    dependency: transitive
-    description: dart
-    source: sdk
-    version: "0.3.3"
+    version: "61.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "1f14db053a8c23e260789e9b0980fa27f2680dd640932cae5e1137cce0e46e1e"
+      sha256: ea3d8652bda62982addfd92fdc2d0214e5f82e43325104990d4f4c4a2a313562
       url: "https://pub.dev"
     source: hosted
-    version: "6.11.0"
+    version: "5.13.0"
   ansicolor:
     dependency: transitive
     description:
@@ -130,10 +125,10 @@ packages:
     dependency: transitive
     description:
       name: build_modules
-      sha256: "403ba034d94f1a0f26362fe14fd83e9ff33644f5cbe879982920e3d209650b43"
+      sha256: d02a5b40720692c8c4c385741afb1cc50b53f192a33fa5da1f2bdaec3ec6db3e
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.9"
+    version: "4.0.7"
   build_resolvers:
     dependency: transitive
     description:
@@ -162,10 +157,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_web_compilers
-      sha256: e8d818410cc8b4dc96c4960ce0ab84fe3f2b0ca6576cc130fd7277b56eba9d68
+      sha256: ee45348ba9c2dfd2e165c0adf69311970fa620c6669c345ab533e16d0d119e3d
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.11"
+    version: "3.2.7"
   built_collection:
     dependency: transitive
     description:
@@ -282,10 +277,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "7856d364b589d1f08986e140938578ed36ed948581fbc3bc9aef1805039ac5ab"
+      sha256: "1efa911ca7086affd35f463ca2fc1799584fb6aa89883cf0af8e3664d6a02d55"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.2"
   device_info_plus:
     dependency: transitive
     description:
@@ -693,14 +688,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
-  macros:
-    dependency: transitive
-    description:
-      name: macros
-      sha256: "1d9e801cd66f7ea3663c45fc708450db1fa57f988142c64289142c9b7ee80656"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3-main.0"
   matcher:
     dependency: transitive
     description:
@@ -1475,5 +1462,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=3.5.3 <3.7.0"
+  dart: ">=3.5.3 <3.9.0"
   flutter: ">=3.24.0"
