@@ -57,9 +57,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   shopName: widget.cardList[index].shop_name, height: 250),
             ],
           ),
-          //const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Container(
-            width: 250,
+            width: 500,
             //color: Colors.white,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -69,8 +69,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               children: [
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 50,
-                  width: 200,
+                  height: 75,
+                  width: 300,
                   child: BarcodeWidget(
                     //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     barcode: Barcode.code128(),
@@ -86,12 +86,15 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   //   //showValue: true,
                   // ),
                 ),
+                const SizedBox(height: 10),
                 Text(
-                  "Card Number: ${widget.cardList[index].card_number}",
-                  style: TextStyle(
-                    color: Colors.black,
-                    //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
+                  widget.cardList[index].card_number,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold
+                      //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      ),
                 ),
               ],
             ),
@@ -128,7 +131,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         // shrinkWrap: true,
         itemCount: widget.cardList.length,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          //mainAxisSpacing: 15,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 10,
           maxCrossAxisExtent: 175,
         ),
         itemBuilder: (context, index) {
