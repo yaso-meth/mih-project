@@ -210,7 +210,7 @@ class RouteGenerator {
           //===============================================================
 
           // Appointment Page
-          case '/appointments':
+          case '/calendar':
             if (args is AppUser) {
               //print("route generator: $args");
               return MaterialPageRoute(
