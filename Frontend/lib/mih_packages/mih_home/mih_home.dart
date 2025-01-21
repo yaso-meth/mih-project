@@ -249,11 +249,11 @@ class _MIHHomeState extends State<MIHHome> {
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/appointments',
+          '/calendar',
           arguments: widget.signedInUser,
         );
       },
-      tileName: "Appointments",
+      tileName: "Calendar",
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.calendarDays,
