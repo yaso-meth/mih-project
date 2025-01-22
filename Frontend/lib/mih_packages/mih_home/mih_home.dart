@@ -223,29 +223,29 @@ class _MIHHomeState extends State<MIHHome> {
         s: getSec(),
       ));
     }
-    // tileList.add(MIHTile(
-    //   videoID: "NUDdoWrbXNc",
-    //   onTap: () {
-    //     Navigator.of(context).pushNamed('/patient-profile',
-    //         arguments: PatientViewArguments(
-    //             widget.signedInUser, null, null, null, "personal"));
-    //   },
-    //   tileName: "Patient Profile",
-    //   tileIcon: Center(
-    //     child: FaIcon(
-    //       FontAwesomeIcons.bookMedical,
-    //       color: getSec(),
-    //       size: 200,
-    //     ),
-    //   ),
-    //   // Icon(
-    //   //   Icons.medication,
-    //   //   color: getSec(),
-    //   //   size: 200,
-    //   // ),
-    //   p: getPrim(),
-    //   s: getSec(),
-    // ));
+    tileList.add(MIHTile(
+      videoID: "",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/mzansi-ai',
+        );
+      },
+      tileName: "Mzansi AI",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.robot,
+          color: getSec(),
+          size: 180,
+        ),
+      ),
+      // Icon(
+      //   Icons.medication,
+      //   color: getSec(),
+      //   size: 200,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
     tileList.add(MIHTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -265,29 +265,6 @@ class _MIHHomeState extends State<MIHHome> {
       //   Icons.calendar_month,
       //   color: getSec(),
       //   size: 230,
-      // ),
-      p: getPrim(),
-      s: getSec(),
-    ));
-    tileList.add(MIHTile(
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          '/access-review',
-          arguments: widget.signedInUser,
-        );
-      },
-      tileName: "Access",
-      tileIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.userCheck,
-          color: getSec(),
-          size: 170,
-        ),
-      ),
-      // Icon(
-      //   Icons.check_box_outlined,
-      //   color: getSec(),
-      //   size: 200,
       // ),
       p: getPrim(),
       s: getSec(),
@@ -313,6 +290,30 @@ class _MIHHomeState extends State<MIHHome> {
       //   Icons.info_outline,
       //   color: getSec(),
       //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/access-review',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Access",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.userCheck,
+          color: getSec(),
+          size: 170,
+        ),
+      ),
+      // Icon(
+      //   Icons.check_box_outlined,
+      //   color: getSec(),
+      //   size: 200,
       // ),
       p: getPrim(),
       s: getSec(),
