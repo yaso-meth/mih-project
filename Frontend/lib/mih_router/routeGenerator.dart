@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
@@ -288,6 +289,15 @@ class RouteGenerator {
             return MaterialPageRoute(
               settings: settings,
               builder: (_) => const MIHCalculator(),
+            );
+
+          //===============================================================
+
+          //Calculator
+          case '/package-dev':
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => const PackageTest(),
             );
 
           default:
