@@ -294,6 +294,13 @@ class RouteGenerator {
           //===============================================================
 
           //Calculator
+
+          // case '/mzansi-ai':
+          //   return MaterialPageRoute(
+          //     settings: settings,
+          //     builder: (_) => const MzansiAi(),
+          //   );
+            
           case '/package-dev':
             return MaterialPageRoute(
               settings: settings,
