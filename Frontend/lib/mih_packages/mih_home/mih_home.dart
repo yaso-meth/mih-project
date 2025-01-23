@@ -426,6 +426,30 @@ class _MIHHomeState extends State<MIHHome> {
         videoID: "",
         onTap: () {
           Navigator.of(context).pushNamed(
+            '/package-dev',
+            //arguments: widget.signedInUser,
+          );
+        },
+        tileName: "Package - Dev",
+        tileIcon: Center(
+          child: Icon(
+            Icons.warning,
+            color: getSec(),
+            size: 230,
+          ),
+        ),
+        //     Icon(
+        //   Icons.info_outline,
+        //   color: getSec(),
+        //   size: 230,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
+      tileList.add(MIHTile(
+        videoID: "",
+        onTap: () {
+          Navigator.of(context).pushNamed(
             '/terms-of-service',
             //arguments: widget.signedInUser,
           );
