@@ -83,4 +83,7 @@ flutter {
 
 dependencies {
     implementation("com.google.android.material:material:<version>")
+    implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
 }
+
+apply plugin: 'com.huawei.agconnect'
