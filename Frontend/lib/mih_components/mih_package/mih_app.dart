@@ -33,6 +33,7 @@ class _MihAppState extends State<MihApp> {
           width: screenSize.width,
           height: screenSize.height,
           //color: Colors.black,
+          padding: const EdgeInsets.only(top: 5),
           child: Column(
             children: [
               Row(
