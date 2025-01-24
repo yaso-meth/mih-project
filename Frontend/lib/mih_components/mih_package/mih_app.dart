@@ -1,4 +1,3 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 class MihApp extends StatefulWidget {
   final MihAppAction appActionButton;
   final MihAppTools appTools;
-  final List<MihAppToolBody> appBody;
+  final List<Widget> appBody;
   int selectedbodyIndex;
   final onIndexChange;
   MihApp({
@@ -34,6 +33,7 @@ class _MihAppState extends State<MihApp> {
           width: screenSize.width,
           height: screenSize.height,
           //color: Colors.black,
+          padding: const EdgeInsets.only(top: 5),
           child: Column(
             children: [
               Row(

@@ -31,6 +31,7 @@ abstract class AppEnviroment {
         {
           baseApiUrl = "https://api.mzansi-innovation-hub.co.za";
           baseFileUrl = "https://minio.mzansi-innovation-hub.co.za";
+          baseAiUrl = "https://ai.mzansi-innovation-hub.co.za";
           //fingerPrintPluginKey = 'h5X7a5j14iUZCobI1ZeX';
           break;
         }
