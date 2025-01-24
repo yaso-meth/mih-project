@@ -228,6 +228,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-ai',
+          arguments: widget.signedInUser,
         );
       },
       tileName: "Mzansi AI",
