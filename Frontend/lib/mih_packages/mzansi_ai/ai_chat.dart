@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
@@ -24,9 +25,12 @@ class AiChat extends StatefulWidget {
 }
 
 class _AiChatState extends State<AiChat> {
+  TextEditingController _modelCopntroller = TextEditingController();
   List<types.Message> _messages = [];
   late types.User _user;
   late types.User _mihAI;
+  String systemPromt =
+      "You are a helpful and friendly AI assistant. You are running on a system called MIH which was created by \"Mzansi Innovation Hub\" a South African based company.";
   final client = ollama.OllamaClient(baseUrl: "${AppEnviroment.baseAiUrl}/api");
   List<ollama.Message> _chatHistory = [];
 
@@ -108,11 +112,24 @@ class _AiChatState extends State<AiChat> {
   ) async {
     final generated = await client.generateChatCompletion(
       request: ollama.GenerateChatCompletionRequest(
-        model: 'deepseek-r1:1.5b',
+        model: _modelCopntroller.text,
         messages: _chatHistory,
       ),
     );
     return generated.message.content;
+  }
+
+  void _resetChat() {
+    setState(() {
+      _messages = [];
+      _chatHistory = [];
+
+      _loadMessages();
+    });
+    // Navigator.of(context).popAndPushNamed(
+    //   '/mzansi-ai',
+    //   arguments: widget.signedInUser,
+    // );
   }
 
   ChatTheme getChatTheme() {
@@ -158,14 +175,13 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    String systemPromt =
-        "You are a helpful and friendly AI assistant named 'Mzansi AI'(Please make sure you use the exact words 'Mzansi Ai' when asked whats your name or who you are.) who was created by 'Mzansi Innovation Hub'";
-    _chatHistory.add(
-      ollama.Message(
-        role: ollama.MessageRole.system,
-        content: systemPromt,
-      ),
-    );
+    _modelCopntroller.text = 'deepseek-r1:1.5b';
+    // _chatHistory.add(
+    //   ollama.Message(
+    //     role: ollama.MessageRole.system,
+    //     content: systemPromt,
+    //   ),
+    // );
     _loadMessages();
   }
 
@@ -181,7 +197,7 @@ class _AiChatState extends State<AiChat> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Chat with Mzansi AI",
+                "Chat with AI",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25,
@@ -190,12 +206,30 @@ class _AiChatState extends State<AiChat> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              // IconButton(
-              //   onPressed: () {
-              //     _handleMessageBack();
-              //   },
-              //   icon: Icon(Icons.add),
-              // ),
+              IconButton(
+                onPressed: () {
+                  _resetChat();
+                },
+                icon: const Icon(Icons.refresh),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: SizedBox(
+                  width: 300,
+                  child: MIHDropdownField(
+                    controller: _modelCopntroller,
+                    hintText: "AI Model",
+                    dropdownOptions: const ['deepseek-r1:1.5b'],
+                    required: true,
+                    editable: true,
+                  ),
+                ),
+              )
             ],
           ),
           Expanded(
