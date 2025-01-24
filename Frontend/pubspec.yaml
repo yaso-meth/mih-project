@@ -70,6 +70,9 @@ dependencies:
   local_auth: ^2.3.0
   math_expressions: ^2.6.0
   ollama_dart: ^0.2.2+1
+  flutter_chat_ui: ^1.6.15
+  flutter_chat_types: ^3.6.2
+  uuid: ^4.5.1
   
 dev_dependencies:
   flutter_test:
