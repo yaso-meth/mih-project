@@ -2,6 +2,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_te
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
 import 'package:flutter/material.dart';
@@ -293,14 +294,20 @@ class RouteGenerator {
 
           //===============================================================
 
-          //Calculator
+          //Mzansi AI
+          case '/mzansi-ai':
+            if (args is AppUser) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MzansiAi(
+                  signedInUser: args,
+                ),
+              );
+            }
+            return _errorRoute();
+          //===============================================================
 
-          // case '/mzansi-ai':
-          //   return MaterialPageRoute(
-          //     settings: settings,
-          //     builder: (_) => const MzansiAi(),
-          //   );
-            
+          //Package Ttemplate Test
           case '/package-dev':
             return MaterialPageRoute(
               settings: settings,
