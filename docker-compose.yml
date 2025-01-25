@@ -160,6 +160,7 @@ services:
     tty: true
     restart: always
     environment:
+      - OLLAMA_ORIGINS=*
       - OLLAMA_KEEP_ALIVE=24h
       - OLLAMA_HOST=0.0.0.0
     networks:
