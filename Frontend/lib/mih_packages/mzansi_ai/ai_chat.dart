@@ -33,9 +33,6 @@ class _AiChatState extends State<AiChat> {
       "You are a helpful and friendly AI assistant. You are running on a system called MIH which was created by \"Mzansi Innovation Hub\" a South African based company.";
   final client = ollama.OllamaClient(
     baseUrl: "${AppEnviroment.baseAiUrl}/api",
-    headers: {
-      "Content-Type": "application/json",
-    },
   );
   List<ollama.Message> _chatHistory = [];
 
