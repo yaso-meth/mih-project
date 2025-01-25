@@ -34,7 +34,9 @@ class _AiChatState extends State<AiChat> {
   final client = ollama.OllamaClient(
     baseUrl: "${AppEnviroment.baseAiUrl}/api",
     headers: {
-      "Access-Control-Allow-Origin": "https://app.mzansi-innovation-hub.co.za",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
     },
   );
   List<ollama.Message> _chatHistory = [];
