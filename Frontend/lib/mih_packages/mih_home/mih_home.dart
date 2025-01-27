@@ -134,6 +134,7 @@ class _MIHHomeState extends State<MIHHome> {
 
   void setAppsPersonal(List<MIHTile> tileList) {
     ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    ImageProvider aiLogo = MzanziInnovationHub.of(context)!.theme.aiLogoImage();
     tileList.add(MIHTile(
       videoID: "P2bM9eosJ_A",
       onTap: () {
@@ -233,10 +234,9 @@ class _MIHHomeState extends State<MIHHome> {
       },
       tileName: "Mzansi AI",
       tileIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.robot,
-          color: getSec(),
-          size: 180,
+        child: SizedBox(
+          width: 225,
+          child: Image(image: aiLogo),
         ),
       ),
       // Icon(
