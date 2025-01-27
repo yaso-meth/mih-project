@@ -43,6 +43,10 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
         setState(() {
           theme.mode = "Light";
         });
+      } else if (_themeMode == ThemeMode.dark) {
+        setState(() {
+          theme.mode = "Dark";
+        });
       } else {
         setState(() {
           theme.mode = "Dark";
