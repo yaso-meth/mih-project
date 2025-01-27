@@ -191,6 +191,15 @@ class _TipCalcState extends State<TipCalc> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
+          Text(
+            "~ ${double.parse(total).ceil()}.00",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
           const Divider(),
           if (splitBillController.text == "Yes")
             Row(
@@ -219,6 +228,16 @@ class _TipCalcState extends State<TipCalc> {
           if (splitBillController.text == "Yes")
             Text(
               amountPerPerson,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+          if (splitBillController.text == "Yes")
+            Text(
+              "~ ${double.parse(amountPerPerson).ceil()}.00",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30,

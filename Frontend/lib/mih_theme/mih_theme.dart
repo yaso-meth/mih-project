@@ -227,6 +227,18 @@ class MyTheme {
     return loading;
   }
 
+  AssetImage aiLogoImage() {
+    if (mode == "Dark") {
+      return const AssetImage(
+        'images/mzansi_ai-dark.png',
+      );
+    } else {
+      return const AssetImage(
+        'images/mzansi_ai-light.png',
+      );
+    }
+  }
+
   void setScreenType(double width) {
     if (width <= 800) {
       screenType = "mobile";
