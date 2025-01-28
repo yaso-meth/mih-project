@@ -68,7 +68,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
 
   void authenticateUser() async {
     final bool canAuthWithBio = await _auth.canCheckBiometrics;
-    print("Biomentric Available: $canAuthWithBio");
+    // print("Biomentric Available: $canAuthWithBio");
     if (canAuthWithBio) {
       try {
         final bool didBioAuth = await _auth.authenticate(
@@ -82,7 +82,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
             _isBioAuthenticated = true;
           });
         }
-        print("Authenticated: $didBioAuth");
+        // print("Authenticated: $didBioAuth");
       } catch (error) {
         print(error);
       }
@@ -123,22 +123,21 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   ),
                   //spacer
                   const SizedBox(height: 25),
-                  if (!_isBioAuthenticated)
-                    Icon(
-                      Icons.lock,
-                      size: 200,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  if (_isBioAuthenticated)
-                    Icon(
-                      Icons.lock_open,
-                      size: 200,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
+                  // if (!_isBioAuthenticated)
+                  Icon(
+                    Icons.lock,
+                    size: 200,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  // if (_isBioAuthenticated)
+                  //   Icon(
+                  //     Icons.lock_open,
+                  //     size: 200,
+                  //     color: MzanziInnovationHub.of(context)!
+                  //         .theme
+                  //         .secondaryColor(),
+                  //   ),
                   const SizedBox(height: 30),
                   Container(
                     alignment: Alignment.bottomCenter,
@@ -187,7 +186,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.firstBoot == true) authenticateUser();
+    // if (widget.firstBoot == true) authenticateUser();
   }
 
   @override
@@ -206,6 +205,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
           personalSelected: widget.personalSelected,
         );
       } else {
+        authenticateUser();
         return getBiomentricAuthScreen();
       }
     }
