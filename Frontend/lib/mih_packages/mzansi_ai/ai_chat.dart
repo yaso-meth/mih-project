@@ -167,6 +167,14 @@ class _AiChatState extends State<AiChat> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _modelCopntroller.dispose();
+    client.endSession();
+  }
+
+  @override
   void initState() {
     super.initState();
     _user = types.User(
