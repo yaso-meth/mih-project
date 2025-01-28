@@ -10,6 +10,7 @@ class MyTheme {
   late String mode;
   late String screenType;
   late AssetImage loading;
+  late String loadingAssetText;
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
   // Options:-
@@ -225,6 +226,24 @@ class MyTheme {
       );
     }
     return loading;
+  }
+
+  String loadingImageLocation() {
+    if (mode == "Dark") {
+      loadingAssetText = 'images/loading_light.gif';
+    } else {
+      loadingAssetText = 'images/loading_dark.gif';
+    }
+    return loadingAssetText;
+  }
+
+  String altLoadingImageLocation() {
+    if (mode == "Dark") {
+      loadingAssetText = 'images/loading_dark.gif';
+    } else {
+      loadingAssetText = 'images/loading_light.gif';
+    }
+    return loadingAssetText;
   }
 
   AssetImage aiLogoImage() {
