@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
@@ -66,36 +67,116 @@ class _AiChatState extends State<AiChat> {
   }
 
   void _handleMessageBack(String userMessage) async {
+    // types.TextMessage textMessage;
+    // String aiResponse = "";
+    // final aiResponseStream =
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    types.TextMessage textMessage;
-    String aiResponse = "";
-    await _generateChatCompletionWithHistory(userMessage, client)
-        .then((response) {
-      aiResponse = response.split("</think>").last.trim();
+    _generateChatCompletionWithHistoryStream(userMessage, client)
+        .listen((response) {
+      //aiResponse = response; //.split("</think>").last.trim();
     });
-    setState(() {
-      _chatHistory.add(
-        ollama.Message(
-          role: ollama.MessageRole.assistant,
-          content: aiResponse,
-        ),
-      );
-    });
-    textMessage = types.TextMessage(
-        author: _mihAI,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        text: aiResponse //message.text,
-        );
-
-    _addMessage(textMessage);
-    print(_chatHistory.toString());
     Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return responseWindow();
+      },
+    );
+    // setState(() {
+    //   _chatHistory.add(
+    //     ollama.Message(
+    //       role: ollama.MessageRole.assistant,
+    //       content: aiResponse,
+    //     ),
+    //   );
+    // });
+    // textMessage = types.TextMessage(
+    //     author: _mihAI,
+    //     createdAt: DateTime.now().millisecondsSinceEpoch,
+    //     id: const Uuid().v4(),
+    //     text: aiResponse //message.text,
+    //     );
+
+    // _addMessage(textMessage);
+    // print(_chatHistory.toString());
+    // Navigator.of(context).pop();
+  }
+
+  Widget responseWindow() {
+    types.TextMessage textMessage;
+    return StreamBuilder(
+      stream: _generateChatCompletionWithHistoryStream("Hello", client),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return MihAppWindow(
+            fullscreen: false,
+            windowTitle: 'Mzansi AI Thoughts',
+            windowTools: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _chatHistory.add(
+                      ollama.Message(
+                        role: ollama.MessageRole.assistant,
+                        content: snapshot.requireData,
+                      ),
+                    );
+                  });
+                  textMessage = types.TextMessage(
+                    author: _mihAI,
+                    createdAt: DateTime.now().millisecondsSinceEpoch,
+                    id: const Uuid().v4(),
+                    // metadata: <String, dynamic>{
+                    //   "thoughts": snapshot.requireData
+                    // },
+                    text: snapshot.requireData
+                        .replaceAll("<think>\n\n", "Thinking:\n")
+                        .replaceAll(
+                            "</think>\n\n", "Answer:\n"), //message.text,
+                  );
+
+                  _addMessage(textMessage);
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ],
+            onWindowTapClose: () {
+              Navigator.of(context).pop();
+            },
+            windowBody: [
+              Text(
+                snapshot.requireData,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return MihAppWindow(
+            fullscreen: false,
+            windowTitle: 'Mzansi AI Thoughts',
+            windowTools: [],
+            onWindowTapClose: () {
+              Navigator.of(context).pop();
+            },
+            windowBody: const [
+              Mihloadingcircle(),
+            ],
+          );
+        }
+      },
+    );
   }
 
   void _loadMessages() async {
@@ -109,17 +190,35 @@ class _AiChatState extends State<AiChat> {
     });
   }
 
-  Future<String> _generateChatCompletionWithHistory(
+  // Future<String> _generateChatCompletionWithHistory(
+  //   String userMessage,
+  //   final ollama.OllamaClient client,
+  // ) async {
+  //   final generated = await client.generateChatCompletion(
+  //     request: ollama.GenerateChatCompletionRequest(
+  //       model: _modelCopntroller.text,
+  //       messages: _chatHistory,
+  //     ),
+  //   );
+  //   return generated.message.content;
+  // }
+
+  Stream<String> _generateChatCompletionWithHistoryStream(
     String userMessage,
     final ollama.OllamaClient client,
-  ) async {
-    final generated = await client.generateChatCompletion(
+  ) async* {
+    final aiStream = client.generateChatCompletionStream(
       request: ollama.GenerateChatCompletionRequest(
         model: _modelCopntroller.text,
         messages: _chatHistory,
       ),
     );
-    return generated.message.content;
+    String text = '';
+    await for (final res in aiStream) {
+      text += (res.message.content);
+      yield text;
+    }
+    // print(text);
   }
 
   void _resetChat() {
