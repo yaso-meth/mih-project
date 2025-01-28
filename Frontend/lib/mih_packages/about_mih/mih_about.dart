@@ -8,8 +8,9 @@ import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_layout/mih_tile.dart';
 import '../../main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import "package:universal_html/js.dart" as js;
+// import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
+// import 'dart:io' show Platform;
 // import 'dart:html' as html;
 
 class MIHAbout extends StatefulWidget {
@@ -118,7 +119,7 @@ class _MIHAboutState extends State<MIHAbout> {
                 height: 50,
                 child: MIHButton(
                   onTap: () {
-                    js.context.callMethod("presentAddToHome");
+                    installMihTrigger();
                   },
                   buttonText: "Install MIH",
                   buttonColor:
@@ -132,9 +133,11 @@ class _MIHAboutState extends State<MIHAbout> {
                 height: 50,
                 child: MIHButton(
                   onTap: () {
-                    // html.window.open(
-                    //     'https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh',
-                    //     'new tab');
+                    launchSocialUrl(
+                      Uri.parse(
+                        "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                      ),
+                    );
                   },
                   buttonText: "MIH Beginners Guide",
                   buttonColor:
@@ -169,6 +172,26 @@ class _MIHAboutState extends State<MIHAbout> {
         mihSocials(),
       ],
     );
+  }
+
+  void installMihTrigger() {
+    launchSocialUrl(
+      Uri.parse(
+        "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+      ),
+    );
+    // if (Platform.isAndroid) {
+    //   launchSocialUrl(
+    //     Uri.parse(
+    //       "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+    //     ),
+    //   );
+    // } else if (Platform.isIOS) {
+    //   //Show Dialog
+    // } else {
+    //   //Web
+    //   // js.context.callMethod("presentAddToHome");
+    // }
   }
 
   Widget founderBio() {
