@@ -222,7 +222,7 @@ class _AiChatState extends State<AiChat> {
                 icon: const Icon(Icons.settings),
               ),
               Text(
-                "Chat with Mzansi AI",
+                "Mzansi AI",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25,
