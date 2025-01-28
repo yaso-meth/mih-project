@@ -26,6 +26,7 @@ class AiChat extends StatefulWidget {
 
 class _AiChatState extends State<AiChat> {
   TextEditingController _modelCopntroller = TextEditingController();
+  final ValueNotifier<bool> _showModelOptions = ValueNotifier(false);
   List<types.Message> _messages = [];
   late types.User _user;
   late types.User _mihAI;
@@ -206,8 +207,22 @@ class _AiChatState extends State<AiChat> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              IconButton(
+                onPressed: () {
+                  if (_showModelOptions.value == true) {
+                    setState(() {
+                      _showModelOptions.value = false;
+                    });
+                  } else {
+                    setState(() {
+                      _showModelOptions.value = true;
+                    });
+                  }
+                },
+                icon: const Icon(Icons.settings),
+              ),
               Text(
-                "Chat with AI",
+                "Mzansi AI",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25,
@@ -224,23 +239,31 @@ class _AiChatState extends State<AiChat> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: SizedBox(
-                  width: 300,
-                  child: MIHDropdownField(
-                    controller: _modelCopntroller,
-                    hintText: "AI Model",
-                    dropdownOptions: const ['deepseek-r1:1.5b'],
-                    required: true,
-                    editable: true,
-                  ),
+          ValueListenableBuilder(
+            valueListenable: _showModelOptions,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return Visibility(
+                visible: value,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: SizedBox(
+                        width: 300,
+                        child: MIHDropdownField(
+                          controller: _modelCopntroller,
+                          hintText: "AI Model",
+                          dropdownOptions: const ['deepseek-r1:1.5b'],
+                          required: true,
+                          editable: true,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
+              );
+            },
           ),
           Expanded(
             child: Chat(
