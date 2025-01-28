@@ -67,26 +67,29 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             ),
             child: Column(
               children: [
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 75,
-                  width: 300,
-                  child: BarcodeWidget(
-                    //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    barcode: Barcode.code128(),
-                    backgroundColor: Colors.white,
-                    data: widget.cardList[index].card_number,
-                    drawText: false,
+                // const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SizedBox(
+                    height: 75,
+                    width: 300,
+                    child: BarcodeWidget(
+                      //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      barcode: Barcode.code128(),
+                      backgroundColor: Colors.white,
+                      data: widget.cardList[index].card_number,
+                      drawText: false,
+                    ),
+                    // SfBarcodeGenerator(
+                    //   backgroundColor: Colors.white,
+                    //   barColor: Colors.black,
+                    //   value: widget.cardList[index].card_number,
+                    //   symbology: Code128(),
+                    //   //showValue: true,
+                    // ),
                   ),
-                  // SfBarcodeGenerator(
-                  //   backgroundColor: Colors.white,
-                  //   barColor: Colors.black,
-                  //   value: widget.cardList[index].card_number,
-                  //   symbology: Code128(),
-                  //   //showValue: true,
-                  // ),
                 ),
-                const SizedBox(height: 10),
+                // const SizedBox(height: 10),
                 Text(
                   widget.cardList[index].card_number,
                   style: const TextStyle(
