@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import 'package:gif/gif.dart';
+import 'package:gif_view/gif_view.dart';
 
 class Mihloadingcircle extends StatefulWidget {
   const Mihloadingcircle({super.key});
@@ -9,9 +9,8 @@ class Mihloadingcircle extends StatefulWidget {
   State<Mihloadingcircle> createState() => _MihloadingcircleState();
 }
 
-class _MihloadingcircleState extends State<Mihloadingcircle>
-    with TickerProviderStateMixin {
-  late final GifController _controller;
+class _MihloadingcircleState extends State<Mihloadingcircle> {
+  // final GifController _controller = GifController();
   late double popUpPaddingSize;
   late double popUpWidth;
   late double? popUpheight;
@@ -37,60 +36,37 @@ class _MihloadingcircleState extends State<Mihloadingcircle>
 
   @override
   void initState() {
-    _controller = GifController(vsync: this);
     //_controller.animateTo(26);
     super.initState();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    // _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider loading =
-        MzanziInnovationHub.of(context)!.theme.loadingImage();
-    var size = MediaQuery.of(context).size;
-    setState(() {
-      width = size.width;
-      height = size.height;
-    });
     checkScreenSize();
     return Dialog(
-      //backgroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       child: Container(
-        padding: EdgeInsets.all(popUpPaddingSize),
-        width: 250,
-        height: 250,
-        decoration: BoxDecoration(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              width: 5.0),
-        ),
-        child: Gif(
-          image: loading,
-          controller:
-              _controller, // if duration and fps is null, original gif fps will be used.
-          fps: 15,
-          //duration: const Duration(seconds: 3),
-          autostart: Autostart.loop,
-          placeholder: (context) => const Center(
-            child: CircularProgressIndicator(),
+          padding: EdgeInsets.all(popUpPaddingSize),
+          width: 250,
+          height: 250,
+          decoration: BoxDecoration(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                width: 5.0),
           ),
-          onFetchCompleted: () {
-            _controller.reset();
-            _controller.forward();
-          },
-        ),
-      ),
-
-      //   Center(
-      //       child: MzanziInnovationHub.of(context)!.theme.loadingImage()),
-      // ),
+          child: GifView.asset(
+            MzanziInnovationHub.of(context)!.theme.loadingImageLocation(),
+            height: 200,
+            width: 200,
+            frameRate: 30,
+          )),
     );
   }
 }
