@@ -118,6 +118,7 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
               "Dis-Chem",
               "Edgars",
               "Fresh Stop",
+              "Infinity",
               "Jet",
               "Makro",
               "Panarottis",
