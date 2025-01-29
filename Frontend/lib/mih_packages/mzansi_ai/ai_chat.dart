@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -26,17 +29,20 @@ class AiChat extends StatefulWidget {
 }
 
 class _AiChatState extends State<AiChat> {
-  TextEditingController _modelCopntroller = TextEditingController();
+  final TextEditingController _modelCopntroller = TextEditingController();
+  final TextEditingController _fontSizeCopntroller = TextEditingController();
   final ValueNotifier<bool> _showModelOptions = ValueNotifier(false);
   List<types.Message> _messages = [];
   late types.User _user;
   late types.User _mihAI;
   String systemPromt =
       "You are a helpful and friendly AI assistant. You are running on a system called MIH which was created by \"Mzansi Innovation Hub\" a South African based company.";
+  bool _aiThinking = false;
   final client = ollama.OllamaClient(
     baseUrl: "${AppEnviroment.baseAiUrl}/api",
   );
   List<ollama.Message> _chatHistory = [];
+  double _chatFrontSize = 17;
 
   void _addMessage(types.Message message) {
     setState(() {
@@ -67,86 +73,66 @@ class _AiChatState extends State<AiChat> {
   }
 
   void _handleMessageBack(String userMessage) async {
-    // types.TextMessage textMessage;
-    // String aiResponse = "";
-    // final aiResponseStream =
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    _generateChatCompletionWithHistoryStream(userMessage, client)
-        .listen((response) {
-      //aiResponse = response; //.split("</think>").last.trim();
-    });
+    Stream<String> aiChatStream =
+        _generateChatCompletionWithHistoryStream(userMessage, client);
+
     Navigator.of(context).pop();
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
-        return responseWindow();
+        return responseWindow(aiChatStream);
       },
     );
-    // setState(() {
-    //   _chatHistory.add(
-    //     ollama.Message(
-    //       role: ollama.MessageRole.assistant,
-    //       content: aiResponse,
-    //     ),
-    //   );
-    // });
-    // textMessage = types.TextMessage(
-    //     author: _mihAI,
-    //     createdAt: DateTime.now().millisecondsSinceEpoch,
-    //     id: const Uuid().v4(),
-    //     text: aiResponse //message.text,
-    //     );
-
-    // _addMessage(textMessage);
-    // print(_chatHistory.toString());
-    // Navigator.of(context).pop();
   }
 
-  Widget responseWindow() {
+  Widget responseWindow(
+    Stream<String> aiChatStream,
+    // StreamSubscription<String> aiChatSubscription,
+  ) {
+    StreamSubscription<String> aiChatSubscription =
+        aiChatStream.listen((response) {});
     types.TextMessage textMessage;
     return StreamBuilder(
-      stream: _generateChatCompletionWithHistoryStream("Hello", client),
+      stream: _generateChatCompletionWithHistoryStream("", client),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MihAppWindow(
             fullscreen: false,
             windowTitle: 'Mzansi AI Thoughts',
-            windowTools: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _chatHistory.add(
-                      ollama.Message(
-                        role: ollama.MessageRole.assistant,
-                        content: snapshot.requireData,
-                      ),
-                    );
-                  });
-                  textMessage = types.TextMessage(
-                    author: _mihAI,
-                    createdAt: DateTime.now().millisecondsSinceEpoch,
-                    id: const Uuid().v4(),
-                    // metadata: <String, dynamic>{
-                    //   "thoughts": snapshot.requireData
-                    // },
-                    text: snapshot.requireData
-                        .replaceAll("<think>\n\n", "Thinking:\n")
-                        .replaceAll(
-                            "</think>\n\n", "Answer:\n"), //message.text,
-                  );
-
-                  _addMessage(textMessage);
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ],
+            windowTools: const [],
             onWindowTapClose: () {
+              if (_aiThinking) {
+                aiChatSubscription.cancel();
+              }
+              setState(() {
+                _chatHistory.add(
+                  ollama.Message(
+                    role: ollama.MessageRole.assistant,
+                    content: snapshot.requireData,
+                  ),
+                );
+              });
+              textMessage = types.TextMessage(
+                author: _mihAI,
+                createdAt: DateTime.now().millisecondsSinceEpoch,
+                id: const Uuid().v4(),
+                // metadata: <String, dynamic>{
+                //   "thoughts": snapshot.requireData
+                // },
+                text: snapshot.requireData
+                    .replaceAll("<think>\n\n", "Thinking:\n")
+                    .replaceAll("<think>\n", "Thinking:\n")
+                    .replaceAll("</think>\n\n", "Answer:\n"), //message.text,
+              );
+
+              _addMessage(textMessage);
               Navigator.of(context).pop();
             },
             windowBody: [
@@ -156,8 +142,45 @@ class _AiChatState extends State<AiChat> {
                 style: TextStyle(
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontSize: 12,
+                  fontSize: _chatFrontSize,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Visibility(
+                visible: _aiThinking == false,
+                child: MIHButton(
+                  onTap: () {
+                    setState(() {
+                      _chatHistory.add(
+                        ollama.Message(
+                          role: ollama.MessageRole.assistant,
+                          content: snapshot.requireData,
+                        ),
+                      );
+                    });
+                    textMessage = types.TextMessage(
+                      author: _mihAI,
+                      createdAt: DateTime.now().millisecondsSinceEpoch,
+                      id: const Uuid().v4(),
+                      // metadata: <String, dynamic>{
+                      //   "thoughts": snapshot.requireData
+                      // },
+                      text: snapshot.requireData
+                          .replaceAll("<think>\n\n", "Thinking:\n")
+                          .replaceAll("<think>\n", "Thinking:\n")
+                          .replaceAll(
+                              "</think>\n\n", "Answer:\n"), //message.text,
+                    );
+
+                    _addMessage(textMessage);
+                    Navigator.of(context).pop();
+                  },
+                  buttonText: "Continue",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
               ),
             ],
@@ -190,19 +213,6 @@ class _AiChatState extends State<AiChat> {
     });
   }
 
-  // Future<String> _generateChatCompletionWithHistory(
-  //   String userMessage,
-  //   final ollama.OllamaClient client,
-  // ) async {
-  //   final generated = await client.generateChatCompletion(
-  //     request: ollama.GenerateChatCompletionRequest(
-  //       model: _modelCopntroller.text,
-  //       messages: _chatHistory,
-  //     ),
-  //   );
-  //   return generated.message.content;
-  // }
-
   Stream<String> _generateChatCompletionWithHistoryStream(
     String userMessage,
     final ollama.OllamaClient client,
@@ -214,10 +224,16 @@ class _AiChatState extends State<AiChat> {
       ),
     );
     String text = '';
+    setState(() {
+      _aiThinking = true;
+    });
     await for (final res in aiStream) {
       text += (res.message.content);
       yield text;
     }
+    setState(() {
+      _aiThinking = false;
+    });
     // print(text);
   }
 
@@ -247,19 +263,19 @@ class _AiChatState extends State<AiChat> {
       errorColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
       sentMessageBodyTextStyle: TextStyle(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        fontSize: 17,
+        fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
       ),
       receivedMessageBodyTextStyle: TextStyle(
         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        fontSize: 17,
+        fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
       ),
       emptyChatPlaceholderTextStyle: TextStyle(
         color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
-        fontSize: 17,
+        fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
       ),
@@ -286,6 +302,7 @@ class _AiChatState extends State<AiChat> {
       id: const Uuid().v4(),
     );
     _modelCopntroller.text = 'deepseek-r1:1.5b';
+    _fontSizeCopntroller.text = _chatFrontSize.ceil().toString();
     // _chatHistory.add(
     //   ollama.Message(
     //     role: ollama.MessageRole.system,
@@ -300,25 +317,54 @@ class _AiChatState extends State<AiChat> {
     return MihAppToolBody(
       borderOn: false,
       bodyItem: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
-                  if (_showModelOptions.value == true) {
-                    setState(() {
-                      _showModelOptions.value = false;
-                    });
-                  } else {
-                    setState(() {
-                      _showModelOptions.value = true;
-                    });
-                  }
-                },
-                icon: const Icon(Icons.settings),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Visibility(
+                        visible: _showModelOptions.value == false,
+                        child: IconButton(
+                          onPressed: () {
+                            if (_showModelOptions.value == true) {
+                              setState(() {
+                                _showModelOptions.value = false;
+                              });
+                            } else {
+                              setState(() {
+                                _showModelOptions.value = true;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.settings),
+                        ),
+                      ),
+                      Visibility(
+                        visible: _showModelOptions.value == true,
+                        child: IconButton.filled(
+                          onPressed: () {
+                            if (_showModelOptions.value == true) {
+                              setState(() {
+                                _showModelOptions.value = false;
+                              });
+                            } else {
+                              setState(() {
+                                _showModelOptions.value = true;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.settings),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Text(
                 "Mzansi AI",
@@ -330,11 +376,16 @@ class _AiChatState extends State<AiChat> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  _resetChat();
-                },
-                icon: const Icon(Icons.refresh),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: () {
+                      _resetChat();
+                    },
+                    icon: const Icon(Icons.refresh),
+                  ),
+                ),
               ),
             ],
           ),
@@ -343,27 +394,83 @@ class _AiChatState extends State<AiChat> {
             builder: (BuildContext context, bool value, Widget? child) {
               return Visibility(
                 visible: value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: SizedBox(
-                        width: 300,
-                        child: MIHDropdownField(
-                          controller: _modelCopntroller,
-                          hintText: "AI Model",
-                          dropdownOptions: const ['deepseek-r1:1.5b'],
-                          required: true,
-                          editable: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: SizedBox(
+                          width: 300,
+                          child: MIHDropdownField(
+                            controller: _modelCopntroller,
+                            hintText: "AI Model",
+                            dropdownOptions: const ['deepseek-r1:1.5b'],
+                            required: true,
+                            editable: true,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               );
             },
           ),
+          const SizedBox(height: 15),
+          ValueListenableBuilder(
+            valueListenable: _showModelOptions,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return Visibility(
+                visible: value,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton.filled(
+                        onPressed: () {
+                          setState(() {
+                            _chatFrontSize -= 1;
+                            _fontSizeCopntroller.text =
+                                _chatFrontSize.ceil().toString();
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.remove,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: 200,
+                        child: MIHTextField(
+                          controller: _fontSizeCopntroller,
+                          hintText: "Chat Font Size",
+                          editable: false,
+                          required: true,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      IconButton.filled(
+                        onPressed: () {
+                          setState(() {
+                            _chatFrontSize += 1;
+                            _fontSizeCopntroller.text =
+                                _chatFrontSize.ceil().toString();
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 5),
           Expanded(
             child: Chat(
               messages: _messages,
