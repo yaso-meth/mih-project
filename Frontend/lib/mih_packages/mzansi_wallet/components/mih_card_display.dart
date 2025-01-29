@@ -96,6 +96,11 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
           height: widget.height,
           child: Image.asset('images/loyalty_cards/spur.png'),
         );
+      case "infinity":
+        return SizedBox(
+          height: widget.height,
+          child: Image.asset('images/loyalty_cards/infinity.png'),
+        );
       default:
         return SizedBox(
           height: widget.height,
