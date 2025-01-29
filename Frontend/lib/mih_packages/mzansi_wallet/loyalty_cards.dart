@@ -2,7 +2,7 @@ import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -152,11 +152,12 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Flexible(
-                child: MIHTextField(
+                child: MIHNumberField(
                   controller: cardNumberController,
                   hintText: "Card Number",
                   editable: true,
                   required: true,
+                  enableDecimal: false,
                 ),
               ),
               const SizedBox(width: 10),
