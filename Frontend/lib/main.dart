@@ -84,6 +84,21 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
     theme.platform = Theme.of(context).platform;
+    // var brightness =
+    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    // bool isDarkMode = brightness == Brightness.dark;
+    // if (isDarkMode) {
+    //   theme.mode = "Dark";
+    // } else {
+    //   theme.mode = "Light";
+    // }
+
+    super.initState();
+    //doInit();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var brightness =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -92,13 +107,6 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     } else {
       theme.mode = "Light";
     }
-
-    super.initState();
-    //doInit();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
