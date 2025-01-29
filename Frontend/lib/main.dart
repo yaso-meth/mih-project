@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-//import 'package:fpjs_pro_plugin/error.dart';
 import '../mih_env/env.dart';
 import '../mih_router/routeGenerator.dart';
 import '../mih_theme/mih_theme.dart';
-
-//import 'package:fpjs_pro_plugin/fpjs_pro_plugin.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({
@@ -84,14 +80,14 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     _themeMode = ThemeMode.dark;
     theme = MyTheme();
     theme.platform = Theme.of(context).platform;
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
-    if (isDarkMode) {
-      theme.mode = "Dark";
-    } else {
-      theme.mode = "Light";
-    }
+    // var brightness =
+    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    // bool isDarkMode = brightness == Brightness.dark;
+    // if (isDarkMode) {
+    //   theme.mode = "Dark";
+    // } else {
+    //   theme.mode = "Light";
+    // }
 
     super.initState();
     //doInit();
@@ -99,6 +95,14 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
 
   @override
   Widget build(BuildContext context) {
+    // var brightness =
+    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    // bool isDarkMode = brightness == Brightness.dark;
+    // if (isDarkMode) {
+    //   theme.mode = "Dark";
+    // } else {
+    //   theme.mode = "Light";
+    // }
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
