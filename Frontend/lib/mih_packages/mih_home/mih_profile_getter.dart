@@ -84,12 +84,13 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
   @override
   void initState() {
     //profile = getProfile();
-    profile = MIHApiCalls().getProfile(amount);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    profile = MIHApiCalls().getProfile(amount);
     return FutureBuilder(
       future: profile,
       builder: (BuildContext context, snapshot) {
