@@ -36,7 +36,7 @@ class _AiChatState extends State<AiChat> {
   late types.User _user;
   late types.User _mihAI;
   String systemPromt =
-      "You are a helpful and friendly AI assistant. You are running on a system called MIH which was created by \"Mzansi Innovation Hub\" a South African based company.";
+      "You are a helpful and friendly AI assistant. You are running on a system called 'MIH' which was created by 'Mzansi Innovation Hub' a South African based company. The name we have given you is 'Mzansi Ai'. Please keep your thinking to a few paragraphs and your answer to one short paragraph.";
   bool _aiThinking = false;
   final client = ollama.OllamaClient(
     baseUrl: "${AppEnviroment.baseAiUrl}/api",
@@ -47,6 +47,17 @@ class _AiChatState extends State<AiChat> {
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
+    });
+  }
+
+  void _loadMessages() async {
+    final response = await rootBundle.loadString('assets/messages.json');
+    final messages = (jsonDecode(response) as List)
+        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    setState(() {
+      _messages = messages;
     });
   }
 
@@ -94,13 +105,9 @@ class _AiChatState extends State<AiChat> {
 
   Widget responseWindow(
     Stream<String> aiChatStream,
-    // StreamSubscription<String> aiChatSubscription,
   ) {
-    StreamSubscription<String> aiChatSubscription =
-        aiChatStream.listen((response) {});
-    types.TextMessage textMessage;
     return StreamBuilder(
-      stream: _generateChatCompletionWithHistoryStream("", client),
+      stream: aiChatStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MihAppWindow(
@@ -108,80 +115,62 @@ class _AiChatState extends State<AiChat> {
             windowTitle: 'Mzansi AI Thoughts',
             windowTools: const [],
             onWindowTapClose: () {
-              if (_aiThinking) {
-                aiChatSubscription.cancel();
-              }
-              setState(() {
-                _chatHistory.add(
-                  ollama.Message(
-                    role: ollama.MessageRole.assistant,
-                    content: snapshot.requireData,
-                  ),
-                );
-              });
-              textMessage = types.TextMessage(
-                author: _mihAI,
-                createdAt: DateTime.now().millisecondsSinceEpoch,
-                id: const Uuid().v4(),
-                // metadata: <String, dynamic>{
-                //   "thoughts": snapshot.requireData
-                // },
-                text: snapshot.requireData
-                    .replaceAll("<think>\n\n", "Thinking:\n")
-                    .replaceAll("<think>\n", "Thinking:\n")
-                    .replaceAll("</think>\n\n", "Answer:\n"), //message.text,
-              );
-
-              _addMessage(textMessage);
+              _captureAIResponse(snapshot.requireData);
               Navigator.of(context).pop();
             },
             windowBody: [
-              Text(
-                snapshot.requireData,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontSize: _chatFrontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Visibility(
-                visible: _aiThinking == false,
-                child: MIHButton(
-                  onTap: () {
-                    setState(() {
-                      _chatHistory.add(
-                        ollama.Message(
-                          role: ollama.MessageRole.assistant,
-                          content: snapshot.requireData,
+              Stack(
+                children: [
+                  Text(
+                    snapshot.requireData,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: _chatFrontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Visibility(
+                      visible: _aiThinking == false,
+                      child: IconButton.filled(
+                        iconSize: 25,
+                        autofocus: true,
+                        onPressed: () {
+                          _captureAIResponse(snapshot.requireData);
+                          Navigator.of(context).pop();
+                        },
+                        focusColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        icon: Icon(
+                          Icons.check,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
                         ),
-                      );
-                    });
-                    textMessage = types.TextMessage(
-                      author: _mihAI,
-                      createdAt: DateTime.now().millisecondsSinceEpoch,
-                      id: const Uuid().v4(),
-                      // metadata: <String, dynamic>{
-                      //   "thoughts": snapshot.requireData
-                      // },
-                      text: snapshot.requireData
-                          .replaceAll("<think>\n\n", "Thinking:\n")
-                          .replaceAll("<think>\n", "Thinking:\n")
-                          .replaceAll(
-                              "</think>\n\n", "Answer:\n"), //message.text,
-                    );
+                      ),
 
-                    _addMessage(textMessage);
-                    Navigator.of(context).pop();
-                  },
-                  buttonText: "Continue",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
+                      // MIHButton(
+                      //   onTap: () {
+                      //     _captureAIResponse(snapshot.requireData);
+                      //     Navigator.of(context).pop();
+                      //   },
+                      //   buttonText: "Continue",
+                      //   buttonColor: MzanziInnovationHub.of(context)!
+                      //       .theme
+                      //       .successColor(),
+                      //   textColor: MzanziInnovationHub.of(context)!
+                      //       .theme
+                      //       .primaryColor(),
+                      // ),
+                    ),
+                  ),
+                ],
               ),
             ],
           );
@@ -202,15 +191,28 @@ class _AiChatState extends State<AiChat> {
     );
   }
 
-  void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
-
+  void _captureAIResponse(String responseMessage) {
+    types.TextMessage textMessage;
     setState(() {
-      _messages = messages;
+      _chatHistory.add(
+        ollama.Message(
+          role: ollama.MessageRole.assistant,
+          content: responseMessage,
+        ),
+      );
     });
+    textMessage = types.TextMessage(
+      author: _mihAI,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: const Uuid().v4(),
+
+      text: responseMessage
+          .replaceAll("<think>\n\n", "**Thinking:**\n")
+          .replaceAll("<think>\n", "**Thinking:**\n")
+          .replaceAll("</think>\n\n", "\n**Answer:**\n"), //message.text,
+    );
+
+    _addMessage(textMessage);
   }
 
   Stream<String> _generateChatCompletionWithHistoryStream(
@@ -234,20 +236,14 @@ class _AiChatState extends State<AiChat> {
     setState(() {
       _aiThinking = false;
     });
-    // print(text);
   }
 
   void _resetChat() {
     setState(() {
       _messages = [];
       _chatHistory = [];
-
       _loadMessages();
     });
-    // Navigator.of(context).popAndPushNamed(
-    //   '/mzansi-ai',
-    //   arguments: widget.signedInUser,
-    // );
   }
 
   ChatTheme getChatTheme() {
@@ -301,14 +297,14 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    _modelCopntroller.text = 'deepseek-r1:1.5b';
+    _modelCopntroller.text = 'deepseek-r1';
     _fontSizeCopntroller.text = _chatFrontSize.ceil().toString();
-    // _chatHistory.add(
-    //   ollama.Message(
-    //     role: ollama.MessageRole.system,
-    //     content: systemPromt,
-    //   ),
-    // );
+    _chatHistory.add(
+      ollama.Message(
+        role: ollama.MessageRole.system,
+        content: systemPromt,
+      ),
+    );
     _loadMessages();
   }
 
@@ -406,7 +402,10 @@ class _AiChatState extends State<AiChat> {
                           child: MIHDropdownField(
                             controller: _modelCopntroller,
                             hintText: "AI Model",
-                            dropdownOptions: const ['deepseek-r1:1.5b'],
+                            dropdownOptions: const [
+                              'deepseek-r1:1.5b',
+                              'deepseek-r1'
+                            ],
                             required: true,
                             editable: true,
                           ),
