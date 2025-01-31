@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import '../mih_env/env.dart';
 import '../mih_router/routeGenerator.dart';
 import '../mih_theme/mih_theme.dart';
@@ -18,7 +19,7 @@ class MzanziInnovationHub extends StatefulWidget {
 
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
   late ThemeMode _themeMode;
-  late MyTheme theme;
+  late MihTheme theme;
 
   Color getPrimany() {
     return theme.primaryColor();
@@ -51,58 +52,26 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     });
   }
 
-  // void doInit() async {
-  //   print(
-  //       "FpjsProPlugin.initFpjs Token: ${AppEnviroment.fingerPrintPluginKey}");
-  //   await FpjsProPlugin.initFpjs(
-  //     AppEnviroment.fingerPrintPluginKey, // insert your actual API key here
-  //     endpoint: "https://mzansi-innovation-hub.co.za",
-  //     scriptUrlPattern:
-  //         'https://mzansi-innovation-hub.co.za/web/v<version>/<apiKey>/loader_v<loaderVersion>.js',
-  //   );
-  //   identify();
-  // }
-
-  // void identify() async {
-  //   try {
-  //     var visitorId = await FpjsProPlugin.getVisitorId() ?? 'Unknown';
-  //     print(visitorId);
-  //     // use the visitor id
-  //   } on FingerprintProError catch (e) {
-  //     print("Error on Init: $e");
-  //     // process an error somehow
-  //     // check lib/error.dart to get more info about error types
-  //   }
-  // }
-
   @override
   void initState() {
-    _themeMode = ThemeMode.dark;
-    theme = MyTheme();
+    var systemTheme =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    bool isDarkMode = systemTheme == Brightness.dark;
+    if (isDarkMode) {
+      theme.mode = "Dark";
+      _themeMode = ThemeMode.dark;
+    } else {
+      theme.mode = "Light";
+      _themeMode = ThemeMode.light;
+    }
+    theme = MihTheme();
     theme.platform = Theme.of(context).platform;
-    // var brightness =
-    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    // bool isDarkMode = brightness == Brightness.dark;
-    // if (isDarkMode) {
-    //   theme.mode = "Dark";
-    // } else {
-    //   theme.mode = "Light";
-    // }
-
     super.initState();
     //doInit();
   }
 
   @override
   Widget build(BuildContext context) {
-    // var brightness =
-    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    // bool isDarkMode = brightness == Brightness.dark;
-    // if (isDarkMode) {
-    //   theme.mode = "Dark";
-    // } else {
-    //   theme.mode = "Light";
-    // }
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
@@ -111,8 +80,8 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     return MaterialApp(
       title: getTitle(),
       themeMode: _themeMode,
-      theme: theme.darkMode(),
-      darkTheme: theme.lightMode(),
+      theme: theme.getThemeData(),
+      darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
