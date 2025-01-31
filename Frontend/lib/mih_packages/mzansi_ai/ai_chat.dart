@@ -296,7 +296,7 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    _modelCopntroller.text = 'deepseek-r1';
+    _modelCopntroller.text = 'gemma2:2b';
     _fontSizeCopntroller.text = _chatFrontSize.ceil().toString();
     _chatHistory.add(
       ollama.Message(
@@ -403,7 +403,7 @@ class _AiChatState extends State<AiChat> {
                             hintText: "AI Model",
                             dropdownOptions: const [
                               'deepseek-r1:1.5b',
-                              'deepseek-r1'
+                              'gemma2:2b'
                             ],
                             required: true,
                             editable: true,
