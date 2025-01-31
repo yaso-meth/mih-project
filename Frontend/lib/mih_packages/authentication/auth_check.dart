@@ -1,8 +1,6 @@
-import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/authentication/biometric_check.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:no_screenshot/no_screenshot.dart';
@@ -44,14 +42,14 @@ class _AuthCheckState extends State<AuthCheck> {
   void initState() {
     //signedIn = doesSessionExist();
     disableScreenshot();
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
-    if (isDarkMode) {
-      MzanziInnovationHub.of(context)!.theme.mode = "Dark";
-    } else {
-      MzanziInnovationHub.of(context)!.theme.mode = "Light";
-    }
+    // var brightness =
+    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    // bool isDarkMode = brightness == Brightness.dark;
+    // if (isDarkMode) {
+    //   MzanziInnovationHub.of(context)!.theme.mode = "Dark";
+    // } else {
+    //   MzanziInnovationHub.of(context)!.theme.mode = "Light";
+    // }
     super.initState();
   }
 
