@@ -54,6 +54,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
 
   @override
   void initState() {
+    theme = MihTheme();
     var systemTheme =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     bool isDarkMode = systemTheme == Brightness.dark;
@@ -64,7 +65,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
       theme.mode = "Light";
       _themeMode = ThemeMode.light;
     }
-    theme = MihTheme();
+
     theme.platform = Theme.of(context).platform;
     super.initState();
     //doInit();
