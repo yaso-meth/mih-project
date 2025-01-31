@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:flutter/material.dart';
@@ -109,6 +110,7 @@ class MIHMzansiWalletApis {
     String card_number,
     BuildContext context,
   ) async {
+    loadingPopUp(context);
     var response = await http.post(
       Uri.parse(
           "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/insert/"),
@@ -122,8 +124,7 @@ class MIHMzansiWalletApis {
       }),
     );
     if (response.statusCode == 201) {
-      // Navigator.pushNamed(context, '/patient-manager/patient',
-      //     arguments: widget.signedInUser);
+      Navigator.pop(context);
       String message =
           "Your $shop_name Loyalty Card was successfully added to your Mzansi Wallet.";
       Navigator.pop(context);
@@ -132,21 +133,9 @@ class MIHMzansiWalletApis {
         '/mzansi-wallet',
         arguments: signedInUser,
       );
-      // Navigator.pop(context);
-      // setState(() {
-      //   dateController.text = "";
-      //   timeController.text = "";
-      // });
-      // Navigator.of(context).pushNamed(
-      //   '/patient-manager',
-      //   arguments: BusinessArguments(
-      //     widget.arguments.signedInUser,
-      //     widget.arguments.businessUser,
-      //     widget.arguments.business,
-      //   ),
-      // );
       successPopUp(message, context);
     } else {
+      Navigator.pop(context);
       internetConnectionPopUp(context);
     }
   }
@@ -172,6 +161,15 @@ class MIHMzansiWalletApis {
           successType: "Success",
           successMessage: message,
         );
+      },
+    );
+  }
+
+  static void loadingPopUp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
       },
     );
   }
