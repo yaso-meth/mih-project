@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:universal_html/html.dart" as html;
 
-class MyTheme {
+class MihTheme {
   late int _mainColor;
   late int _secondColor;
   //late int _errColor;
@@ -24,7 +24,7 @@ class MyTheme {
   // a63446 = red
   //747474
 
-  MyTheme() {
+  MihTheme() {
     mode = "Dark";
     //_errColor = 0xffD87E8B;
     //_succColor = 0xffB0F2B4;
@@ -102,6 +102,10 @@ class MyTheme {
 
   void setMode(String m) {
     mode;
+  }
+
+  ThemeData getThemeData() {
+    return getData();
   }
 
   ThemeData darkMode() {
