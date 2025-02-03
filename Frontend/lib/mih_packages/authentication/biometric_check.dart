@@ -107,27 +107,28 @@ class _BiometricCheckState extends State<BiometricCheck> {
           },
         );
       }
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return MihAppAlert(
-            alertIcon: Icon(
-              Icons.warning,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-            ),
-            alertTitle: "Biometric Error",
-            alertBody: Text(
-              "Auth not allowed",
-              style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              ),
-            ),
-            alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
-          );
-        },
-      );
     }
+    // else {
+    //   showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return MihAppAlert(
+    //         alertIcon: Icon(
+    //           Icons.warning,
+    //           color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //         ),
+    //         alertTitle: "Biometric Error",
+    //         alertBody: Text(
+    //           "Auth not allowed",
+    //           style: TextStyle(
+    //             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //           ),
+    //         ),
+    //         alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+    //       );
+    //     },
+    //   );
+    // }
   }
 
   MIHBody getBody() {
