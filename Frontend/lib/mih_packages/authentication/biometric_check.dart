@@ -4,6 +4,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_action.dart'
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_header.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_alert.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -68,8 +69,10 @@ class _BiometricCheckState extends State<BiometricCheck> {
 
   void authenticateUser() async {
     final bool canAuthWithBio = await _auth.canCheckBiometrics;
-    // print("Biomentric Available: $canAuthWithBio");
-    if (canAuthWithBio) {
+    final bool canAuthenticate =
+        canAuthWithBio || await _auth.isDeviceSupported();
+    print("Auth Available: $canAuthenticate");
+    if (canAuthenticate) {
       try {
         final bool didBioAuth = await _auth.authenticate(
           localizedReason: "Authenticate to access MIH",
@@ -84,8 +87,46 @@ class _BiometricCheckState extends State<BiometricCheck> {
         }
         // print("Authenticated: $didBioAuth");
       } catch (error) {
-        print(error);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return MihAppAlert(
+              alertIcon: Icon(
+                Icons.warning,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              ),
+              alertTitle: "Biometric Error",
+              alertBody: Text(
+                error.toString(),
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                ),
+              ),
+              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            );
+          },
+        );
       }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return MihAppAlert(
+            alertIcon: Icon(
+              Icons.warning,
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            ),
+            alertTitle: "Biometric Error",
+            alertBody: Text(
+              "Auth not allowed",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              ),
+            ),
+            alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          );
+        },
+      );
     }
   }
 
