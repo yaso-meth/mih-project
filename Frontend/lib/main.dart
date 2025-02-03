@@ -55,13 +55,13 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     theme = MihTheme();
     var systemTheme =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    bool isDarkMode = systemTheme == Brightness.dark;
-    if (isDarkMode) {
-      theme.mode = "Dark";
-    } else {
-      theme.mode = "Light";
-    }
-
+    // bool isDarkMode = systemTheme == Brightness.dark;
+    // if (isDarkMode) {
+    //   theme.mode = "Dark";
+    // } else {
+    //   theme.mode = "Light";
+    // }
+    theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
     super.initState();
     //doInit();
@@ -76,7 +76,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     precacheImage(theme.logoFrame(), context);
     return MaterialApp(
       title: getTitle(),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       theme: theme.getThemeData(),
       darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
