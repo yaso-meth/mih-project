@@ -277,6 +277,123 @@ class _AiChatState extends State<AiChat> {
     );
   }
 
+  Widget _getSettings() {
+    return ValueListenableBuilder(
+      valueListenable: _showModelOptions,
+      builder: (BuildContext context, bool value, Widget? child) {
+        return Visibility(
+          visible: value,
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: FittedBox(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  decoration: BoxDecoration(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 3.0),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Settings",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: SizedBox(
+                              width: 300,
+                              child: MIHDropdownField(
+                                controller: _modelCopntroller,
+                                hintText: "AI Model",
+                                dropdownOptions: const [
+                                  'deepseek-r1:1.5b',
+                                  'gemma2:2b'
+                                ],
+                                required: true,
+                                editable: true,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton.filled(
+                            onPressed: () {
+                              setState(() {
+                                _chatFrontSize -= 1;
+                                _fontSizeCopntroller.text =
+                                    _chatFrontSize.ceil().toString();
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.remove,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 200,
+                            child: MIHTextField(
+                              controller: _fontSizeCopntroller,
+                              hintText: "Chat Font Size",
+                              editable: false,
+                              required: true,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          IconButton.filled(
+                            onPressed: () {
+                              setState(() {
+                                _chatFrontSize += 1;
+                                _fontSizeCopntroller.text =
+                                    _chatFrontSize.ceil().toString();
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -384,91 +501,7 @@ class _AiChatState extends State<AiChat> {
               ),
             ],
           ),
-          ValueListenableBuilder(
-            valueListenable: _showModelOptions,
-            builder: (BuildContext context, bool value, Widget? child) {
-              return Visibility(
-                visible: value,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: SizedBox(
-                          width: 300,
-                          child: MIHDropdownField(
-                            controller: _modelCopntroller,
-                            hintText: "AI Model",
-                            dropdownOptions: const [
-                              'deepseek-r1:1.5b',
-                              'gemma2:2b'
-                            ],
-                            required: true,
-                            editable: true,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 15),
-          ValueListenableBuilder(
-            valueListenable: _showModelOptions,
-            builder: (BuildContext context, bool value, Widget? child) {
-              return Visibility(
-                visible: value,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton.filled(
-                        onPressed: () {
-                          setState(() {
-                            _chatFrontSize -= 1;
-                            _fontSizeCopntroller.text =
-                                _chatFrontSize.ceil().toString();
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.remove,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 200,
-                        child: MIHTextField(
-                          controller: _fontSizeCopntroller,
-                          hintText: "Chat Font Size",
-                          editable: false,
-                          required: true,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      IconButton.filled(
-                        onPressed: () {
-                          setState(() {
-                            _chatFrontSize += 1;
-                            _fontSizeCopntroller.text =
-                                _chatFrontSize.ceil().toString();
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 5),
+          _getSettings(),
           Expanded(
             child: Chat(
               messages: _messages,
