@@ -25,6 +25,13 @@ class BuildLoyaltyCardList extends StatefulWidget {
 class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   void viewCardWindow(int index) {
     //print(widget.cardList[index].card_number);
+    String formattedCardNumber = "";
+    for (int i = 0; i <= widget.cardList[index].card_number.length - 1; i++) {
+      formattedCardNumber += widget.cardList[index].card_number[i];
+      if ((i + 1) % 4 == 0) {
+        formattedCardNumber += "\t";
+      }
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -91,7 +98,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 ),
                 // const SizedBox(height: 10),
                 Text(
-                  widget.cardList[index].card_number,
+                  formattedCardNumber,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 25,
