@@ -123,7 +123,11 @@ class _BusinessDetailsState extends State<BusinessDetails> {
         deleteFileApiCall(oldSigPath);
       }
 
-      Navigator.of(context).pushNamed('/');
+      Navigator.of(context).pop();
+      Navigator.of(context).popAndPushNamed(
+        '/',
+        arguments: AuthArguments(false, false),
+      );
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);
