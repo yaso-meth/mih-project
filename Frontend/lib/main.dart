@@ -18,7 +18,6 @@ class MzanziInnovationHub extends StatefulWidget {
 }
 
 class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
-  late ThemeMode _themeMode;
   late MihTheme theme;
 
   Color getPrimany() {
@@ -35,12 +34,11 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
 
   void changeTheme(ThemeMode themeMode) {
     setState(() {
-      _themeMode = themeMode;
-      if (_themeMode == ThemeMode.light) {
+      if (themeMode == ThemeMode.light) {
         setState(() {
           theme.mode = "Light";
         });
-      } else if (_themeMode == ThemeMode.dark) {
+      } else if (themeMode == ThemeMode.dark) {
         setState(() {
           theme.mode = "Dark";
         });
@@ -60,10 +58,8 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     bool isDarkMode = systemTheme == Brightness.dark;
     if (isDarkMode) {
       theme.mode = "Dark";
-      _themeMode = ThemeMode.dark;
     } else {
       theme.mode = "Light";
-      _themeMode = ThemeMode.light;
     }
 
     theme.platform = Theme.of(context).platform;
@@ -80,7 +76,7 @@ class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
     precacheImage(theme.logoFrame(), context);
     return MaterialApp(
       title: getTitle(),
-      themeMode: _themeMode,
+      themeMode: ThemeMode.system,
       theme: theme.getThemeData(),
       darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
