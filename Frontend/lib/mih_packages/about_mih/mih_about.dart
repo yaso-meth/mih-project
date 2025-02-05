@@ -193,6 +193,7 @@ class _MIHAboutState extends State<MIHAbout> {
     } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
         "Android") {
       //Installed Android App
+      // _showIOSInstallationGuide();
       launchSocialUrl(
         Uri.parse(
           "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
@@ -218,6 +219,20 @@ class _MIHAboutState extends State<MIHAbout> {
             Navigator.of(context).pop();
           },
           windowBody: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "In order to install MIH on your iPhone, please follow the below steps:- ",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -249,7 +264,7 @@ class _MIHAboutState extends State<MIHAbout> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "3. Scroll down and tap Add to Home Screen.",
+                "3. Scroll down and tap \"Add to Home Screen\".",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color:
@@ -277,7 +292,7 @@ class _MIHAboutState extends State<MIHAbout> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "5. Tap Add",
+                "5. Tap \"Add\".",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color:
@@ -287,19 +302,52 @@ class _MIHAboutState extends State<MIHAbout> {
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "That's it! Now you can tap the MIH icon on your home screen to open it quickly.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "If you are still having trouble, please click on the button below to view a video guide.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             const SizedBox(height: 15),
-            // SizedBox(
-            //   width: 300,
-            //   height: 50,
-            //   child: MIHButton(
-            //     onTap: () {},
-            //     buttonText: "Video Guide",
-            //     buttonColor:
-            //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            //     textColor:
-            //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //   ),
-            // ),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  launchSocialUrl(
+                    Uri.parse(
+                      "https://www.youtube.com/watch?v=KVK78IV28JY",
+                    ),
+                  );
+                },
+                buttonText: "Video Guide",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
           ],
         );
       },
