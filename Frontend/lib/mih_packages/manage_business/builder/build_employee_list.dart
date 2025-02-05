@@ -189,6 +189,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
             dropdownOptions: const ["Doctor", "Assistant"],
             required: true,
             editable: true,
+            enableSearch: false,
           ),
           const SizedBox(height: 10.0),
           MIHDropdownField(
@@ -197,6 +198,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
             dropdownOptions: const ["Full", "Partial"],
             required: true,
             editable: true,
+            enableSearch: false,
           ),
           const SizedBox(height: 15.0),
           SizedBox(

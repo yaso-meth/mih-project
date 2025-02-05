@@ -468,6 +468,7 @@ class _EditPatientState extends State<EditPatient> {
             // },
             editable: true,
             required: true,
+            enableSearch: false,
             dropdownOptions: const ["Yes", "No"],
           ),
           ValueListenableBuilder(
@@ -483,6 +484,7 @@ class _EditPatientState extends State<EditPatient> {
                       hintText: "Main Member.",
                       editable: value,
                       required: value,
+                      enableSearch: false,
                       dropdownOptions: const ["Yes", "No"],
                     ),
                     const SizedBox(height: 10.0),

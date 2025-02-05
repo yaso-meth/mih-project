@@ -293,6 +293,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   dropdownOptions: const ["Doctors Office", "Other"],
                   required: true,
                   editable: true,
+                  enableSearch: false,
                 ),
                 const SizedBox(height: 10.0),
                 ValueListenableBuilder(
@@ -416,6 +417,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   dropdownOptions: const ["Doctor", "Assistant"],
                   required: true,
                   editable: true,
+                  enableSearch: false,
                 ),
                 const SizedBox(height: 10.0),
                 MIHTextField(
@@ -460,6 +462,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   dropdownOptions: const ["Full", "Partial"],
                   required: true,
                   editable: false,
+                  enableSearch: false,
                 ),
                 const SizedBox(height: 30.0),
                 SizedBox(

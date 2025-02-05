@@ -229,6 +229,7 @@ class _AddPatientState extends State<AddPatient> {
           controller: medAidController,
           hintText: "Medical Aid",
           editable: true,
+          enableSearch: false,
           // onSelect: (_) {
           //   isRequired();
           // },
@@ -248,6 +249,7 @@ class _AddPatientState extends State<AddPatient> {
                     hintText: "Main Member",
                     editable: value,
                     required: value,
+                    enableSearch: false,
                     dropdownOptions: const ["Yes", "No"],
                   ),
                   const SizedBox(height: 10.0),

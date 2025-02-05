@@ -369,6 +369,7 @@ class _BusinessAboutState extends State<BusinessAbout> {
                       dropdownOptions: const ["Doctors Office", "Other"],
                       required: true,
                       editable: true,
+                      enableSearch: false,
                     ),
                     const SizedBox(height: 10.0),
                     MIHTextField(
@@ -431,6 +432,7 @@ class _BusinessAboutState extends State<BusinessAbout> {
                     dropdownOptions: const ["Doctor", "Assistant"],
                     required: true,
                     editable: true,
+                    enableSearch: false,
                   ),
                   const SizedBox(height: 10.0),
                   MIHTextField(
@@ -475,6 +477,7 @@ class _BusinessAboutState extends State<BusinessAbout> {
                     dropdownOptions: const ["Full", "Partial"],
                     required: true,
                     editable: false,
+                    enableSearch: false,
                   ),
                   // const SizedBox(height: 15.0),
                   // const Text(

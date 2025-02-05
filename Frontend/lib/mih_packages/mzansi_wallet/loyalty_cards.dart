@@ -132,6 +132,7 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
             ],
             required: true,
             editable: true,
+            enableSearch: false,
           ),
           ValueListenableBuilder(
             valueListenable: shopName,
