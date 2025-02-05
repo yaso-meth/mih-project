@@ -150,6 +150,7 @@ class _BuildUserListState extends State<BuildUserList> {
                 dropdownOptions: const ["Doctor", "Assistant"],
                 required: true,
                 editable: true,
+                enableSearch: false,
               ),
               const SizedBox(height: 10.0),
               MIHDropdownField(
@@ -158,6 +159,7 @@ class _BuildUserListState extends State<BuildUserList> {
                 dropdownOptions: const ["Full", "Partial"],
                 required: true,
                 editable: true,
+                enableSearch: false,
               ),
               const SizedBox(height: 15.0),
               SizedBox(

@@ -384,6 +384,7 @@ class _PrescripInputState extends State<PrescripInput> {
           dropdownOptions: numberOptions,
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10.0),
         MIHDropdownField(
@@ -392,6 +393,7 @@ class _PrescripInputState extends State<PrescripInput> {
           dropdownOptions: numberOptions,
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10.0),
         MIHDropdownField(
@@ -400,6 +402,7 @@ class _PrescripInputState extends State<PrescripInput> {
           dropdownOptions: numberOptions,
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10.0),
         MIHDropdownField(
@@ -408,6 +411,7 @@ class _PrescripInputState extends State<PrescripInput> {
           dropdownOptions: numberOptions,
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 15.0),
         SizedBox(

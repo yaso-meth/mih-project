@@ -83,6 +83,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           dropdownOptions: const ["Claim", "Statement"],
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10),
         // Text(
@@ -216,6 +217,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           ],
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder(
@@ -237,6 +239,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       ],
                       required: true,
                       editable: true,
+                      enableSearch: false,
                     ),
                     const SizedBox(height: 10),
                   ],

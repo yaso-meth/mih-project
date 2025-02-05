@@ -336,6 +336,7 @@ class _AiChatState extends State<AiChat> {
                                 ],
                                 required: true,
                                 editable: true,
+                                enableSearch: false,
                               ),
                             ),
                           ),

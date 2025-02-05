@@ -8,6 +8,7 @@ class MIHDropdownField extends StatefulWidget {
   final List<String> dropdownOptions;
   // final void Function(String?)? onSelect;
   final bool editable;
+  final bool enableSearch;
 
   const MIHDropdownField({
     super.key,
@@ -16,6 +17,7 @@ class MIHDropdownField extends StatefulWidget {
     required this.dropdownOptions,
     required this.required,
     required this.editable,
+    required this.enableSearch,
     // this.onSelect,
   });
 
@@ -99,6 +101,7 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
   void initState() {
     menu = buidMenueOptions(widget.dropdownOptions);
     _focus.addListener(_onFocusChange);
+    _focus.canRequestFocus = widget.enableSearch;
     super.initState();
   }
 
@@ -106,6 +109,9 @@ class _MIHDropdownFieldState extends State<MIHDropdownField> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
+      enableSearch: widget.enableSearch,
+      enableFilter: widget.enableSearch,
+      // requestFocusOnTap: true,
       initialSelection: widget.controller.text,
       enabled: widget.editable,
       trailingIcon: Icon(

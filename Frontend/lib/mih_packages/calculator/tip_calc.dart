@@ -296,6 +296,7 @@ class _TipCalcState extends State<TipCalc> {
           dropdownOptions: const ["Yes", "No"],
           required: true,
           editable: true,
+          enableSearch: false,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder(

@@ -149,6 +149,7 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
                 ],
                 required: true,
                 editable: true,
+                enableSearch: false,
               ),
             ),
             IconButton(

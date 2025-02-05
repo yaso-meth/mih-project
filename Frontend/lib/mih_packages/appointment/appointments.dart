@@ -138,6 +138,7 @@ class _PatientAccessRequestState extends State<Appointments> {
               dropdownOptions: const ["All", "Approved", "Pending", "Declined"],
               required: true,
               editable: true,
+              enableSearch: false,
             ),
           ),
           const SizedBox(height: 10),
