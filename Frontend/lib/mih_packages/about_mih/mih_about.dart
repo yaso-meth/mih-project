@@ -1,4 +1,6 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
@@ -8,7 +10,7 @@ import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_layout/mih_tile.dart';
 import '../../main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import "package:universal_html/js.dart" as js;
+import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
 // import 'dart:io' show Platform;
 // import 'dart:html' as html;
@@ -175,23 +177,181 @@ class _MIHAboutState extends State<MIHAbout> {
   }
 
   void installMihTrigger() {
-    launchSocialUrl(
-      Uri.parse(
-        "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-      ),
+    final isWebAndroid =
+        kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
+    final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
+
+    if (isWebAndroid) {
+      launchSocialUrl(
+        Uri.parse(
+          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+        ),
+      );
+    } else if (isWebIos) {
+      //Show pop up for IOS
+      _showIOSInstallationGuide();
+    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+        "Android") {
+      //Installed Android App
+      // _showIOSInstallationGuide();
+      launchSocialUrl(
+        Uri.parse(
+          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+        ),
+      );
+    } else {
+      //Web
+      js.context.callMethod("presentAddToHome");
+    }
+  }
+
+  void _showIOSInstallationGuide() {
+    double windowFontSize = 17.0;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MihAppWindow(
+          fullscreen: false,
+          windowTitle: "MIH Installation Guide (iOS)",
+          windowTools: const [],
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+          },
+          windowBody: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "In order to install MIH on your iPhone, please follow the below steps:- ",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "1. Launch MIH on Safari.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "2. Tap the Share Button.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "3. Scroll down and tap \"Add to Home Screen\".",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "4. Choose a name for the shortcut (Optional).",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "5. Tap \"Add\".",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "That's it! Now you can tap the MIH icon on your home screen to open it quickly.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "If you are still having trouble, please click on the button below to view a video guide.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  fontSize: windowFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  launchSocialUrl(
+                    Uri.parse(
+                      "https://www.youtube.com/watch?v=KVK78IV28JY",
+                    ),
+                  );
+                },
+                buttonText: "Video Guide",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+          ],
+        );
+      },
     );
-    // if (Platform.isAndroid) {
-    //   launchSocialUrl(
-    //     Uri.parse(
-    //       "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-    //     ),
-    //   );
-    // } else if (Platform.isIOS) {
-    //   //Show Dialog
-    // } else {
-    //   //Web
-    //   // js.context.callMethod("presentAddToHome");
-    // }
   }
 
   Widget founderBio() {
