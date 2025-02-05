@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ollama_dart/ollama_dart.dart' as ollama;
 import 'package:uuid/uuid.dart';
 
@@ -28,9 +29,14 @@ class AiChat extends StatefulWidget {
 }
 
 class _AiChatState extends State<AiChat> {
-  final TextEditingController _modelCopntroller = TextEditingController();
-  final TextEditingController _fontSizeCopntroller = TextEditingController();
+  final TextEditingController _modelController = TextEditingController();
+  final TextEditingController _fontSizeController = TextEditingController();
+  final TextEditingController _ttsController = TextEditingController();
   final ValueNotifier<bool> _showModelOptions = ValueNotifier(false);
+  FlutterTts _flutterTts = FlutterTts();
+  String? textStream;
+  List<Map> _voices = [];
+  Map? _currentVoice;
   List<types.Message> _messages = [];
   late types.User _user;
   late types.User _mihAI;
@@ -109,12 +115,67 @@ class _AiChatState extends State<AiChat> {
       stream: aiChatStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          textStream = snapshot.requireData;
+          // print("Text: $textStream");
+          // _speakText(textStream!);
           return MihAppWindow(
             fullscreen: false,
             windowTitle: 'Mzansi AI Thoughts',
-            windowTools: const [],
+            windowTools: [
+              Visibility(
+                visible: _aiThinking == false,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    //color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
+                    child: IconButton(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onPressed: () {
+                        print("Start TTS now");
+                        _speakText(snapshot.requireData);
+                      },
+                      icon: const Icon(Icons.volume_up),
+                    ),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: _aiThinking == true,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    // color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    decoration: BoxDecoration(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
+                    child: IconButton(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onPressed: () {
+                        //print("Start TTS now");
+                        _flutterTts.stop();
+                      },
+                      icon: const Icon(Icons.volume_off),
+                    ),
+                  ),
+                ),
+              ),
+            ],
             onWindowTapClose: () {
               _captureAIResponse(snapshot.requireData);
+              _flutterTts.stop();
               Navigator.of(context).pop();
             },
             windowBody: [
@@ -141,6 +202,7 @@ class _AiChatState extends State<AiChat> {
                         autofocus: true,
                         onPressed: () {
                           _captureAIResponse(snapshot.requireData);
+                          _flutterTts.stop();
                           Navigator.of(context).pop();
                         },
                         focusColor: MzanziInnovationHub.of(context)!
@@ -220,7 +282,7 @@ class _AiChatState extends State<AiChat> {
   ) async* {
     final aiStream = client.generateChatCompletionStream(
       request: ollama.GenerateChatCompletionRequest(
-        model: _modelCopntroller.text,
+        model: _modelController.text,
         messages: _chatHistory,
       ),
     );
@@ -328,7 +390,7 @@ class _AiChatState extends State<AiChat> {
                             child: SizedBox(
                               width: 300,
                               child: MIHDropdownField(
-                                controller: _modelCopntroller,
+                                controller: _modelController,
                                 hintText: "AI Model",
                                 dropdownOptions: const [
                                   'deepseek-r1:1.5b',
@@ -350,7 +412,7 @@ class _AiChatState extends State<AiChat> {
                             onPressed: () {
                               setState(() {
                                 _chatFrontSize -= 1;
-                                _fontSizeCopntroller.text =
+                                _fontSizeController.text =
                                     _chatFrontSize.ceil().toString();
                               });
                             },
@@ -362,7 +424,7 @@ class _AiChatState extends State<AiChat> {
                           SizedBox(
                             width: 200,
                             child: MIHTextField(
-                              controller: _fontSizeCopntroller,
+                              controller: _fontSizeController,
                               hintText: "Chat Font Size",
                               editable: false,
                               required: true,
@@ -373,12 +435,34 @@ class _AiChatState extends State<AiChat> {
                             onPressed: () {
                               setState(() {
                                 _chatFrontSize += 1;
-                                _fontSizeCopntroller.text =
+                                _fontSizeController.text =
                                     _chatFrontSize.ceil().toString();
                               });
                             },
                             icon: const Icon(
                               Icons.add,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: SizedBox(
+                              width: 300,
+                              child: MIHDropdownField(
+                                controller: _ttsController,
+                                hintText: "AI Voice",
+                                dropdownOptions: _voices
+                                    .map((_voice) => _voice["name"] as String)
+                                    .toList(),
+                                required: true,
+                                editable: true,
+                                enableSearch: false,
+                              ),
                             ),
                           ),
                         ],
@@ -395,12 +479,58 @@ class _AiChatState extends State<AiChat> {
     );
   }
 
+  void setTtsVoice(String voiceName) {
+    _flutterTts.setVoice(
+      {
+        "name": voiceName,
+        "locale": _voices
+            .where((_voice) => _voice["name"].contains(voiceName))
+            .first["locale"]
+      },
+    );
+    _ttsController.text = _currentVoice!["name"];
+  }
+
+  void _speakText(String text) async {
+    try {
+      await _flutterTts.stop(); // Stop any ongoing speech
+      await _flutterTts.speak(text); // Speak the new text
+    } catch (e) {
+      print("TTS Error: $e");
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _modelCopntroller.dispose();
+    _modelController.dispose();
+    _fontSizeController.dispose();
+    _ttsController.dispose();
     client.endSession();
+    _flutterTts.stop();
+  }
+
+  void initTTS() {
+    _flutterTts.setVolume(0.7);
+    _flutterTts.getVoices.then(
+      (data) {
+        try {
+          _voices = List<Map>.from(data);
+
+          print("=================== Voices ===================\n$_voices");
+          setState(() {
+            _voices = _voices
+                .where((_voice) => _voice["name"].contains("en"))
+                .toList();
+            _currentVoice = _voices.first;
+            setTtsVoice(_currentVoice!["name"]);
+          });
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
   }
 
   @override
@@ -414,8 +544,8 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    _modelCopntroller.text = 'gemma2:2b';
-    _fontSizeCopntroller.text = _chatFrontSize.ceil().toString();
+    _modelController.text = 'gemma2:2b';
+    _fontSizeController.text = _chatFrontSize.ceil().toString();
     _chatHistory.add(
       ollama.Message(
         role: ollama.MessageRole.system,
@@ -423,6 +553,7 @@ class _AiChatState extends State<AiChat> {
       ),
     );
     _loadMessages();
+    initTTS();
   }
 
   @override
