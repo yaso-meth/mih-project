@@ -31,12 +31,14 @@ class AiChat extends StatefulWidget {
 class _AiChatState extends State<AiChat> {
   final TextEditingController _modelController = TextEditingController();
   final TextEditingController _fontSizeController = TextEditingController();
-  final TextEditingController _ttsController = TextEditingController();
+  final TextEditingController _ttsVoiceController = TextEditingController();
   final ValueNotifier<bool> _showModelOptions = ValueNotifier(false);
   FlutterTts _flutterTts = FlutterTts();
+  final ValueNotifier<String> _ttsVoiceName = ValueNotifier("");
+  // bool _ttsOn = false;
   String? textStream;
   List<Map> _voices = [];
-  Map? _currentVoice;
+  List<String> _voicesString = [];
   List<types.Message> _messages = [];
   late types.User _user;
   late types.User _mihAI;
@@ -138,8 +140,9 @@ class _AiChatState extends State<AiChat> {
                     child: IconButton(
                       color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onPressed: () {
+                      onPressed: () async {
                         print("Start TTS now");
+
                         _speakText(snapshot.requireData);
                       },
                       icon: const Icon(Icons.volume_up),
@@ -351,7 +354,7 @@ class _AiChatState extends State<AiChat> {
               alignment: Alignment.centerLeft,
               child: FittedBox(
                 child: Container(
-                  padding: const EdgeInsets.only(top: 5.0),
+                  padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     color:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
@@ -385,20 +388,61 @@ class _AiChatState extends State<AiChat> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            width: 300,
+                            child: MIHDropdownField(
+                              controller: _modelController,
+                              hintText: "AI Model",
+                              dropdownOptions: const [
+                                'deepseek-r1:1.5b',
+                                'gemma2:2b'
+                              ],
+                              required: true,
+                              editable: true,
+                              enableSearch: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 230,
+                            child: MIHDropdownField(
+                              controller: _ttsVoiceController,
+                              hintText: "AI Voice",
+                              dropdownOptions: _voicesString,
+                              required: true,
+                              editable: true,
+                              enableSearch: false,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: SizedBox(
-                              width: 300,
-                              child: MIHDropdownField(
-                                controller: _modelController,
-                                hintText: "AI Model",
-                                dropdownOptions: const [
-                                  'deepseek-r1:1.5b',
-                                  'gemma2:2b'
-                                ],
-                                required: true,
-                                editable: true,
-                                enableSearch: false,
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              //color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                              decoration: BoxDecoration(
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .successColor(),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(100),
+                                ),
+                              ),
+                              child: IconButton(
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                                onPressed: () {
+                                  print("Start TTS now");
+
+                                  _speakText(
+                                      "This is the sample of the Mzansi A.I Voice.");
+                                },
+                                icon: const Icon(Icons.volume_up),
                               ),
                             ),
                           ),
@@ -445,29 +489,7 @@ class _AiChatState extends State<AiChat> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: SizedBox(
-                              width: 300,
-                              child: MIHDropdownField(
-                                controller: _ttsController,
-                                hintText: "AI Voice",
-                                dropdownOptions: _voices
-                                    .map((_voice) => _voice["name"] as String)
-                                    .toList(),
-                                required: true,
-                                editable: true,
-                                enableSearch: false,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 ),
@@ -479,18 +501,6 @@ class _AiChatState extends State<AiChat> {
     );
   }
 
-  void setTtsVoice(String voiceName) {
-    _flutterTts.setVoice(
-      {
-        "name": voiceName,
-        "locale": _voices
-            .where((_voice) => _voice["name"].contains(voiceName))
-            .first["locale"]
-      },
-    );
-    _ttsController.text = _currentVoice!["name"];
-  }
-
   void _speakText(String text) async {
     try {
       await _flutterTts.stop(); // Stop any ongoing speech
@@ -500,31 +510,62 @@ class _AiChatState extends State<AiChat> {
     }
   }
 
+  void setTtsVoice(String voiceName) {
+    _flutterTts.setVoice(
+      {
+        "name": voiceName,
+        "locale": _voices
+            .where((_voice) => _voice["name"].contains(voiceName))
+            .first["locale"]
+      },
+    );
+    _ttsVoiceController.text = voiceName;
+  }
+
+  void voiceSelected() {
+    if (_ttsVoiceController.text.isNotEmpty) {
+      _ttsVoiceName.value = _ttsVoiceController.text;
+      // print(
+      //     "======================================== Voice Set ========================================");
+      setTtsVoice(_ttsVoiceController.text);
+    } else {
+      _ttsVoiceName.value = "";
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _modelController.dispose();
     _fontSizeController.dispose();
-    _ttsController.dispose();
+    _ttsVoiceController.dispose();
+    _ttsVoiceController.removeListener(voiceSelected);
     client.endSession();
     _flutterTts.stop();
   }
 
   void initTTS() {
     _flutterTts.setVolume(0.7);
+    // _flutterTts.setSpeechRate(0.6);
+    // _flutterTts.setPitch(1.0);
     _flutterTts.getVoices.then(
       (data) {
         try {
           _voices = List<Map>.from(data);
 
-          print("=================== Voices ===================\n$_voices");
           setState(() {
             _voices = _voices
-                .where((_voice) => _voice["name"].contains("en"))
+                .where(
+                    (_voice) => _voice["name"].toLowerCase().contains("en-us"))
                 .toList();
-            _currentVoice = _voices.first;
-            setTtsVoice(_currentVoice!["name"]);
+            _voicesString =
+                _voices.map((_voice) => _voice["name"] as String).toList();
+            _voicesString.sort();
+            // print(
+            //     "=================== Voices ===================\n$_voicesString");
+
+            setTtsVoice(_voicesString.first);
           });
         } catch (e) {
           print(e);
@@ -546,6 +587,7 @@ class _AiChatState extends State<AiChat> {
     );
     _modelController.text = 'gemma2:2b';
     _fontSizeController.text = _chatFrontSize.ceil().toString();
+
     _chatHistory.add(
       ollama.Message(
         role: ollama.MessageRole.system,
@@ -554,6 +596,7 @@ class _AiChatState extends State<AiChat> {
     );
     _loadMessages();
     initTTS();
+    _ttsVoiceController.addListener(voiceSelected);
   }
 
   @override
