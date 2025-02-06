@@ -49,7 +49,7 @@ class _AiChatState extends State<AiChat> {
     baseUrl: "${AppEnviroment.baseAiUrl}/api",
   );
   List<ollama.Message> _chatHistory = [];
-  double _chatFrontSize = 17;
+  double _chatFrontSize = 15;
 
   void _addMessage(types.Message message) {
     setState(() {
