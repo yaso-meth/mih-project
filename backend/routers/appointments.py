@@ -35,8 +35,8 @@ async def read_all_appointments_by_business_id(business_id: str, date: str, sess
     db = database.dbConnection.dbMzansiCalendarConnect()
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     cursor = db.cursor()
-    query = "SELECT appointments.idappointments, appointments.business_id, "
-    query += "appointments.app_id, appointments.date_time, "
+    query = "SELECT appointments.idappointments, appointments.app_id, "
+    query += "appointments.business_id, appointments.date_time, "
     query += "appointments.title, appointments.description "
     query += "from mzansi_calendar.appointments "
     query = query + "where appointments.business_id = %s and date_time like '" + str(requestDate) + "%' "
@@ -45,8 +45,8 @@ async def read_all_appointments_by_business_id(business_id: str, date: str, sess
     items = [
         {
             "idappointments": item[0],
-            "business_id": item[1],
-            "app_id": item[2],
+            "app_id": item[1],
+            "business_id": item[2],
             "date_time": item[3],
             "title": item[4],
             "description": item[5],
