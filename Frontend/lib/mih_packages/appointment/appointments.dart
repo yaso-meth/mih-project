@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../mih_apis/mih_api_calls.dart';
 import '../../mih_components/mih_calendar.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
@@ -17,7 +13,6 @@ import '../../mih_env/env.dart';
 import '../../mih_objects/access_request.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/patient_queue.dart';
-import '../access_review/builder/build_access_request_list.dart';
 import 'builder/build_appointment_list.dart';
 
 class Appointments extends StatefulWidget {
@@ -47,183 +42,6 @@ class _PatientAccessRequestState extends State<Appointments> {
 
   late Future<List<AccessRequest>> accessRequestResults;
   late Future<List<PatientQueue>> personalQueueResults;
-
-  Future<List<AccessRequest>> fetchAccessRequests() async {
-    //print("Patien manager page: $endpoint");
-    final response = await http.get(
-        Uri.parse("$baseUrl/access-requests/${widget.signedInUser.app_id}"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    errorCode = response.statusCode.toString();
-    errorBody = response.body;
-
-    if (response.statusCode == 200) {
-      //print("Here1");
-      Iterable l = jsonDecode(response.body);
-      //print("Here2");
-      List<AccessRequest> patientQueue = List<AccessRequest>.from(
-          l.map((model) => AccessRequest.fromJson(model)));
-      //print("Here3");
-      //print(patientQueue);
-      return patientQueue;
-    } else {
-      throw Exception('failed to load patients');
-    }
-  }
-
-  List<AccessRequest> filterSearchResults(List<AccessRequest> accessList) {
-    List<AccessRequest> templist = [];
-
-    for (var item in accessList) {
-      if (filterController.text == "All") {
-        if (item.date_time.contains(datefilter)) {
-          templist.add(item);
-        }
-      } else {
-        if (item.date_time.contains(datefilter) &&
-            item.access.contains(filterController.text.toLowerCase())) {
-          templist.add(item);
-        }
-      }
-    }
-    return templist;
-  }
-
-  Widget displayAccessRequestList(List<AccessRequest> accessRequestList) {
-    if (accessRequestList.isNotEmpty) {
-      return BuildAccessRequestList(
-        signedInUser: widget.signedInUser,
-        accessRequests: accessRequestList,
-
-        // BuildPatientQueueList(
-        //   patientQueue: patientQueueList,
-        //   signedInUser: widget.signedInUser,
-        // ),
-      );
-    } else {
-      return Center(
-        child: Text(
-          "No Request have been made.",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-  }
-
-  Widget viewAccessRequest(double w, double h) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SizedBox(
-        width: w,
-        height: h,
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          //const SizedBox(height: 15),
-          const Text(
-            "Access Request",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 25),
-          SizedBox(
-            width: 500,
-            child: MIHDropdownField(
-              controller: filterController,
-              hintText: "Access Types",
-              dropdownOptions: const ["All", "Approved", "Pending", "Declined"],
-              required: true,
-              editable: true,
-              enableSearch: false,
-            ),
-          ),
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: accessRequestResults,
-            builder: (context, snapshot) {
-              //print("patient Queue List  ${snapshot.hasData}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                  child: Container(
-                    //height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 3.0),
-                    ),
-                    child: const Mihloadingcircle(),
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                List<AccessRequest> accessRequestList;
-                accessRequestList = filterSearchResults(snapshot.requireData);
-                if (accessRequestList.isNotEmpty) {
-                  return BuildAccessRequestList(
-                    signedInUser: widget.signedInUser,
-                    accessRequests: accessRequestList,
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      "No Request have been made.",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .messageTextColor()),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }
-
-                // return Expanded(
-                //   child: displayAccessRequestList(accessRequestList),
-                // );
-              } else {
-                return Center(
-                  child: Text(
-                    "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-            },
-          ),
-        ]),
-      ),
-    );
-  }
-
-  void refreshList() {
-    if (forceRefresh == true) {
-      setState(() {
-        accessRequestResults = fetchAccessRequests();
-        forceRefresh = false;
-      });
-    } else if (selectedDropdown != filterController.text) {
-      setState(() {
-        accessRequestResults = fetchAccessRequests();
-        selectedDropdown = filterController.text;
-      });
-    }
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
-  }
 
   Widget displayQueueList(List<PatientQueue> patientQueueList) {
     if (patientQueueList.isNotEmpty) {
@@ -313,7 +131,6 @@ class _PatientAccessRequestState extends State<Appointments> {
             FutureBuilder(
                 future: personalQueueResults,
                 builder: (context, snapshot) {
-                  //return displayQueueList(snapshot.requireData);
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Expanded(
                         child: Center(child: Mihloadingcircle()));
@@ -349,12 +166,6 @@ class _PatientAccessRequestState extends State<Appointments> {
 
   @override
   void initState() {
-    // selectedDropdown = "All";
-    // filterController.text = "All";
-    // filterController.addListener(refreshList);
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
     appointmentDateController.addListener(checkforchange);
     setState(() {
       personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
