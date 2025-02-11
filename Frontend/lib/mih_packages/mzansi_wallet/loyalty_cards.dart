@@ -3,6 +3,7 @@ import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -28,9 +29,13 @@ class LoyaltyCards extends StatefulWidget {
 class _LoyaltyCardsState extends State<LoyaltyCards> {
   final TextEditingController shopController = TextEditingController();
   final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController cardSearchController = TextEditingController();
   late Future<List<MIHLoyaltyCard>> cardList;
+  List<MIHLoyaltyCard> listOfCards = [];
   //bool showSelectedCardType = false;
   final ValueNotifier<String> shopName = ValueNotifier("");
+  final ValueNotifier<List<MIHLoyaltyCard>> searchShopName = ValueNotifier([]);
+
   final MobileScannerController scannerController = MobileScannerController(
     detectionSpeed: DetectionSpeed.unrestricted,
   );
@@ -219,11 +224,31 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
     }
   }
 
+  void searchShop() {
+    if (cardSearchController.text.isEmpty) {
+      searchShopName.value = listOfCards;
+    } else {
+      List<MIHLoyaltyCard> temp = [];
+      for (var item in listOfCards) {
+        if (item.shop_name
+            .toLowerCase()
+            .contains(cardSearchController.text.toLowerCase())) {
+          temp.add(item);
+        }
+      }
+      searchShopName.value = temp;
+    }
+  }
+
   @override
   void dispose() {
     cardNumberController.dispose();
-    shopController.dispose();
+
     shopController.removeListener(shopSelected);
+    shopController.dispose();
+    cardSearchController.removeListener(searchShop);
+    cardSearchController.dispose();
+    searchShopName.dispose();
     shopName.dispose();
     super.dispose();
   }
@@ -232,6 +257,7 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
   void initState() {
     cardList = MIHMzansiWalletApis.getLoyaltyCards(widget.signedInUser.app_id);
     shopController.addListener(shopSelected);
+    cardSearchController.addListener(searchShop);
     super.initState();
   }
 
@@ -247,7 +273,9 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
           );
         } else if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
-          final cardList = snapshot.data!;
+          listOfCards = snapshot.data!;
+          searchShop();
+          //print(listOfCards);
           return Column(
             children: [
               Row(
@@ -275,14 +303,49 @@ class _LoyaltyCardsState extends State<LoyaltyCards> {
                   )
                 ],
               ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              // Divider(
+              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              // ),
               const SizedBox(height: 10),
-              BuildLoyaltyCardList(
-                cardList: cardList,
-                signedInUser: widget.signedInUser,
-              )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 4,
+                    child: SizedBox(
+                      height: 50,
+                      child: MIHSearchField(
+                        controller: cardSearchController,
+                        hintText: "Shop Name",
+                        required: false,
+                        editable: true,
+                        onTap: () {},
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: IconButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        cardSearchController.clear();
+                      },
+                      icon: const Icon(Icons.filter_alt_off),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ValueListenableBuilder(
+                valueListenable: searchShopName,
+                builder: (BuildContext context, List<MIHLoyaltyCard> value,
+                    Widget? child) {
+                  return BuildLoyaltyCardList(
+                    cardList: searchShopName.value,
+                    signedInUser: widget.signedInUser,
+                  );
+                },
+              ),
             ],
           );
         } else {
