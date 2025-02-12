@@ -1,4 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/appointment/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
@@ -8,7 +9,6 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.d
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
 import '../mih_components/mih_pop_up_messages/mih_notification_message.dart';
-import '../mih_packages/appointment/appointments.dart';
 import '../mih_packages/authentication/auth_check.dart';
 import '../mih_packages/patient_profile/add_or_view_patient.dart';
 import '../mih_packages/patient_profile/patient_add.dart';
@@ -217,9 +217,26 @@ class RouteGenerator {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => Appointments(
+                builder: (_) => MzansiCalendar(
                   signedInUser: args,
                 ),
+                //     Appointments(
+                //   signedInUser: args,
+                // ),
+              );
+            }
+            return _errorRoute();
+          case '/appointments':
+            if (args is AppUser) {
+              //print("route generator: $args");
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MzansiCalendar(
+                  signedInUser: args,
+                ),
+                //     Appointments(
+                //   signedInUser: args,
+                // ),
               );
             }
             return _errorRoute();
