@@ -68,6 +68,7 @@ class MIHMzansiWalletApis {
     int idloyalty_cards,
     BuildContext context,
   ) async {
+    loadingPopUp(context);
     var response = await http.delete(
       Uri.parse(
           "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/delete/"),
@@ -79,6 +80,7 @@ class MIHMzansiWalletApis {
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
