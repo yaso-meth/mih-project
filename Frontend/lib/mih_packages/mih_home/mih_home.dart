@@ -958,6 +958,7 @@ class _MIHHomeState extends State<MIHHome> {
     return MIHBody(
       borderOn: false,
       bodyItems: [
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
