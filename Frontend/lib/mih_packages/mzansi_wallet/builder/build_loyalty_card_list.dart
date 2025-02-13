@@ -1,6 +1,7 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
@@ -23,6 +24,24 @@ class BuildLoyaltyCardList extends StatefulWidget {
 }
 
 class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
+  void deleteCardWindow(BuildContext ctxt, int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MIHDeleteMessage(
+            deleteType: "Loyalty Card",
+            onTap: () {
+              MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
+                widget.signedInUser,
+                widget.cardList[index].idloyalty_cards,
+                context,
+              );
+            });
+      },
+    );
+  }
+
   void viewCardWindow(int index) {
     //print(widget.cardList[index].card_number);
     String formattedCardNumber = "";
@@ -41,11 +60,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         windowTools: [
           IconButton(
             onPressed: () {
-              MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
-                widget.signedInUser,
-                widget.cardList[index].idloyalty_cards,
-                context,
-              );
+              deleteCardWindow(context, index);
             },
             icon: Icon(
               Icons.delete,
