@@ -1,24 +1,27 @@
-import 'dart:convert';
-
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_calendar_apis.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/appointment/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../mih_apis/mih_api_calls.dart';
 import '../../mih_components/mih_calendar.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_env/env.dart';
 import '../../mih_objects/access_request.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/patient_queue.dart';
-import '../access_review/builder/build_access_request_list.dart';
-import 'builder/build_appointment_list.dart';
 
 class Appointments extends StatefulWidget {
   final AppUser signedInUser;
@@ -35,6 +38,14 @@ class Appointments extends StatefulWidget {
 class _PatientAccessRequestState extends State<Appointments> {
   TextEditingController filterController = TextEditingController();
   TextEditingController appointmentDateController = TextEditingController();
+  final TextEditingController _appointmentTitleController =
+      TextEditingController();
+  final TextEditingController _appointmentDescriptionIDController =
+      TextEditingController();
+  final TextEditingController _appointmentDateController =
+      TextEditingController();
+  final TextEditingController _appointmentTimeController =
+      TextEditingController();
   String baseUrl = AppEnviroment.baseApiUrl;
 
   String errorCode = "";
@@ -47,197 +58,26 @@ class _PatientAccessRequestState extends State<Appointments> {
 
   late Future<List<AccessRequest>> accessRequestResults;
   late Future<List<PatientQueue>> personalQueueResults;
+  late Future<List<Appointment>> personalAppointmentResults;
 
-  Future<List<AccessRequest>> fetchAccessRequests() async {
-    //print("Patien manager page: $endpoint");
-    final response = await http.get(
-        Uri.parse("$baseUrl/access-requests/${widget.signedInUser.app_id}"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    errorCode = response.statusCode.toString();
-    errorBody = response.body;
-
-    if (response.statusCode == 200) {
-      //print("Here1");
-      Iterable l = jsonDecode(response.body);
-      //print("Here2");
-      List<AccessRequest> patientQueue = List<AccessRequest>.from(
-          l.map((model) => AccessRequest.fromJson(model)));
-      //print("Here3");
-      //print(patientQueue);
-      return patientQueue;
-    } else {
-      throw Exception('failed to load patients');
-    }
-  }
-
-  List<AccessRequest> filterSearchResults(List<AccessRequest> accessList) {
-    List<AccessRequest> templist = [];
-
-    for (var item in accessList) {
-      if (filterController.text == "All") {
-        if (item.date_time.contains(datefilter)) {
-          templist.add(item);
-        }
-      } else {
-        if (item.date_time.contains(datefilter) &&
-            item.access.contains(filterController.text.toLowerCase())) {
-          templist.add(item);
-        }
-      }
-    }
-    return templist;
-  }
-
-  Widget displayAccessRequestList(List<AccessRequest> accessRequestList) {
-    if (accessRequestList.isNotEmpty) {
-      return BuildAccessRequestList(
-        signedInUser: widget.signedInUser,
-        accessRequests: accessRequestList,
-
-        // BuildPatientQueueList(
-        //   patientQueue: patientQueueList,
-        //   signedInUser: widget.signedInUser,
-        // ),
-      );
-    } else {
-      return Center(
-        child: Text(
-          "No Request have been made.",
-          style: TextStyle(
-              fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-  }
-
-  Widget viewAccessRequest(double w, double h) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SizedBox(
-        width: w,
-        height: h,
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          //const SizedBox(height: 15),
-          const Text(
-            "Access Request",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 25),
-          SizedBox(
-            width: 500,
-            child: MIHDropdownField(
-              controller: filterController,
-              hintText: "Access Types",
-              dropdownOptions: const ["All", "Approved", "Pending", "Declined"],
-              required: true,
-              editable: true,
-              enableSearch: false,
-            ),
-          ),
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: accessRequestResults,
-            builder: (context, snapshot) {
-              //print("patient Queue List  ${snapshot.hasData}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                  child: Container(
-                    //height: 500,
-                    decoration: BoxDecoration(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 3.0),
-                    ),
-                    child: const Mihloadingcircle(),
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                List<AccessRequest> accessRequestList;
-                accessRequestList = filterSearchResults(snapshot.requireData);
-                if (accessRequestList.isNotEmpty) {
-                  return BuildAccessRequestList(
-                    signedInUser: widget.signedInUser,
-                    accessRequests: accessRequestList,
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      "No Request have been made.",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .messageTextColor()),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }
-
-                // return Expanded(
-                //   child: displayAccessRequestList(accessRequestList),
-                // );
-              } else {
-                return Center(
-                  child: Text(
-                    "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-            },
-          ),
-        ]),
-      ),
-    );
-  }
-
-  void refreshList() {
-    if (forceRefresh == true) {
-      setState(() {
-        accessRequestResults = fetchAccessRequests();
-        forceRefresh = false;
-      });
-    } else if (selectedDropdown != filterController.text) {
-      setState(() {
-        accessRequestResults = fetchAccessRequests();
-        selectedDropdown = filterController.text;
-      });
-    }
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
-  }
-
-  Widget displayQueueList(List<PatientQueue> patientQueueList) {
-    if (patientQueueList.isNotEmpty) {
+  Widget displayAppointmentList(List<Appointment> appointmentList) {
+    if (appointmentList.isNotEmpty) {
       return Expanded(
         child: BuildAppointmentList(
-          patientQueue: patientQueueList,
+          appointmentList: appointmentList,
           signedInUser: widget.signedInUser,
+          titleController: _appointmentTitleController,
+          descriptionIDController: _appointmentDescriptionIDController,
+          dateController: _appointmentDateController,
+          timeController: _appointmentTimeController,
         ),
       );
     }
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 35.0),
-        child: Center(
+        child: Align(
+          alignment: Alignment.center,
           child: Text(
             "No Appointments for $selectedDay",
             style: TextStyle(
@@ -252,8 +92,122 @@ class _PatientAccessRequestState extends State<Appointments> {
     );
   }
 
+  void addAppointmentWindow() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MIHWindow(
+          fullscreen: false,
+          windowTitle: "Add Appointment",
+          windowTools: [],
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+            _appointmentDateController.clear();
+            _appointmentTimeController.clear();
+            _appointmentTitleController.clear();
+            _appointmentDescriptionIDController.clear();
+          },
+          windowBody: [
+            SizedBox(
+              // width: 500,
+              child: MIHTextField(
+                controller: _appointmentTitleController,
+                hintText: "Title",
+                editable: true,
+                required: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              // width: 500,
+              child: MIHDateField(
+                controller: _appointmentDateController,
+                lableText: "Date",
+                required: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              // width: 500,
+              child: MIHTimeField(
+                controller: _appointmentTimeController,
+                lableText: "Time",
+                required: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              // width: 500,
+              height: 250,
+              child: MIHMLTextField(
+                controller: _appointmentDescriptionIDController,
+                hintText: "Description",
+                editable: true,
+                required: true,
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  addAppointmentCall();
+                },
+                buttonText: "Add",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool isAppointmentInputValid() {
+    if (_appointmentTitleController.text.isEmpty ||
+        _appointmentDescriptionIDController.text.isEmpty ||
+        _appointmentDateController.text.isEmpty ||
+        _appointmentTimeController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void addAppointmentCall() {
+    if (isAppointmentInputValid()) {
+      MihMzansiCalendarApis.addPersonalAppointment(
+        widget.signedInUser,
+        widget.signedInUser.app_id,
+        _appointmentTitleController.text,
+        _appointmentDescriptionIDController.text,
+        _appointmentDateController.text,
+        _appointmentTimeController.text,
+        context,
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
+    checkforchange();
+  }
+
   void checkforchange() {
     setState(() {
+      personalAppointmentResults =
+          MihMzansiCalendarApis.getPersonalAppointments(
+        widget.signedInUser.app_id,
+        selectedDay,
+      );
       personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
         selectedDay,
         widget.signedInUser.app_id,
@@ -291,51 +245,80 @@ class _PatientAccessRequestState extends State<Appointments> {
     );
   }
 
-  MIHBody getBody() {
-    return MIHBody(
-      borderOn: true,
-      bodyItems: [
-        MIHCalendar(
-            calendarWidth: 500,
-            rowHeight: 35,
-            setDate: (value) {
-              setState(() {
-                selectedDay = value;
-                appointmentDateController.text = selectedDay;
-              });
-            }),
-        Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
+  Widget getBody() {
+    return Stack(
+      children: [
+        Column(
           children: [
-            FutureBuilder(
-                future: personalQueueResults,
-                builder: (context, snapshot) {
-                  //return displayQueueList(snapshot.requireData);
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Expanded(
-                        child: Center(child: Mihloadingcircle()));
-                  } else if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    return displayQueueList(snapshot.requireData);
-                  } else {
-                    return Center(
-                      child: Text(
-                        "Error pulling appointments",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .errorColor()),
-                        textAlign: TextAlign.center,
-                      ),
-                    );
-                  }
+            // const Text(
+            //   "Appointments",
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 25,
+            //   ),
+            // ),
+            MIHCalendar(
+                calendarWidth: 500,
+                rowHeight: 35,
+                setDate: (value) {
+                  setState(() {
+                    selectedDay = value;
+                    appointmentDateController.text = selectedDay;
+                  });
                 }),
+            // Divider(
+            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            // ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                FutureBuilder(
+                    future: personalAppointmentResults,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Expanded(
+                            child: Center(child: Mihloadingcircle()));
+                      } else if (snapshot.connectionState ==
+                              ConnectionState.done &&
+                          snapshot.hasData) {
+                        return displayAppointmentList(snapshot.requireData);
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Error pulling appointments",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .errorColor()),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+                    }),
+              ],
+            )
           ],
-        )
+        ),
+        Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+              child: IconButton(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onPressed: () {
+                  addAppointmentWindow();
+                },
+                icon: const Icon(
+                  Icons.add,
+                  size: 50,
+                ),
+              ),
+            ))
       ],
     );
   }
@@ -344,19 +327,22 @@ class _PatientAccessRequestState extends State<Appointments> {
   void dispose() {
     filterController.dispose();
     appointmentDateController.dispose();
+    _appointmentDateController.dispose();
+    _appointmentTimeController.dispose();
+    _appointmentTitleController.dispose();
+    _appointmentDescriptionIDController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    // selectedDropdown = "All";
-    // filterController.text = "All";
-    // filterController.addListener(refreshList);
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
     appointmentDateController.addListener(checkforchange);
     setState(() {
+      personalAppointmentResults =
+          MihMzansiCalendarApis.getPersonalAppointments(
+        widget.signedInUser.app_id,
+        selectedDay,
+      );
       personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
         selectedDay,
         widget.signedInUser.app_id,
@@ -367,16 +353,9 @@ class _PatientAccessRequestState extends State<Appointments> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
     );
   }
 }

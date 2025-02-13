@@ -32,6 +32,14 @@ def dbMzansiWalletConnect():
         database="mzansi_wallet"
     )
 
+def dbMzansiCalendarConnect():
+    return mysql.connector.connect(
+        host="mysqldb",
+        user="root",
+        passwd="C@rtoon1995",
+        database="mzansi_calendar"
+    )
+
 def dbAllConnect():
     return mysql.connector.connect(
         host="mysqldb",

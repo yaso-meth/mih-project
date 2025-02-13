@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 # from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
 import routers.docOffices as docOffices
+import routers.appointments as appointments
 import routers.patients as patients
 import routers.patients_files as patients_files
 import routers.patients_notes as patients_notes
@@ -92,6 +93,7 @@ app.include_router(business.router)
 app.include_router(notifications.router)
 app.include_router(mzansi_wallet.router)
 app.include_router(icd10_codes.router)
+app.include_router(appointments.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])

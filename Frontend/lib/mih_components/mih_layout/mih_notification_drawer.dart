@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -35,6 +36,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         "/",
+        arguments: AuthArguments(true, false),
       );
       Navigator.of(context).pushNamed(
         widget.notifications[index].action_path,
