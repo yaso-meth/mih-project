@@ -253,7 +253,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/calendar',
-          arguments: widget.signedInUser,
+          arguments: CalendarArguments(widget.signedInUser, true),
         );
       },
       tileName: "Calendar",
@@ -350,6 +350,7 @@ class _MIHHomeState extends State<MIHHome> {
   }
 
   void setAppsBusiness(List<MIHTile> tileList) {
+    ImageProvider aiLogo = MzanziInnovationHub.of(context)!.theme.aiLogoImage();
     tileList.add(MIHTile(
       videoID: "NWyJZq2ZYOM",
       onTap: () {
@@ -416,6 +417,105 @@ class _MIHHomeState extends State<MIHHome> {
       ),
       // Icon(
       //   Icons.medication,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      videoID: "nfzhJFY_W4Y",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/calendar',
+          arguments: CalendarArguments(widget.signedInUser, false),
+        );
+      },
+      tileName: "Calendar",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.calendarDays,
+          color: getSec(),
+          size: 200,
+        ),
+      ),
+      //     Icon(
+      //   Icons.calendar_month,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      videoID: "dYuLqZWzMnM",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/mzansi-ai',
+          arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Mzansi AI",
+      tileIcon: Center(
+        child: SizedBox(
+          width: 225,
+          child: Image(image: aiLogo),
+        ),
+      ),
+      // Icon(
+      //   Icons.medication,
+      //   color: getSec(),
+      //   size: 200,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      videoID: "woQ5hND5EaU",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/calculator',
+          //arguments: widget.signedInUser,
+        );
+      },
+      tileName: "Calculator",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.calculator,
+          color: getSec(),
+          size: 200,
+        ),
+      ),
+      //     Icon(
+      //   Icons.info_outline,
+      //   color: getSec(),
+      //   size: 230,
+      // ),
+      p: getPrim(),
+      s: getSec(),
+    ));
+
+    tileList.add(MIHTile(
+      videoID: "hbKhlmY_56U",
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          //arguments: widget.signedInUser,
+        );
+      },
+      tileName: "About MIH",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.circleInfo,
+          color: getSec(),
+          size: 200,
+        ),
+      ),
+      //     Icon(
+      //   Icons.info_outline,
       //   color: getSec(),
       //   size: 230,
       // ),
@@ -944,7 +1044,7 @@ class _MIHHomeState extends State<MIHHome> {
       headerAlignment: MainAxisAlignment.center,
       headerItems: [
         Text(
-          "Mzanzi Innovation Hub",
+          "MIH",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
