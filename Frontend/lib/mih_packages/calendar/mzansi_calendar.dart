@@ -1,16 +1,15 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/appointment/appointments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/appointments.dart';
 import 'package:flutter/material.dart';
 
 class MzansiCalendar extends StatefulWidget {
-  final AppUser signedInUser;
+  final CalendarArguments arguments;
   const MzansiCalendar({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
   });
 
   @override
@@ -44,7 +43,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
         Navigator.of(context).pop();
         Navigator.of(context).popAndPushNamed(
           '/',
-          arguments: AuthArguments(true, false),
+          arguments: AuthArguments(widget.arguments.personalSelected, false),
         );
       },
     );
@@ -67,7 +66,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       //appointment here
-      Appointments(signedInUser: widget.signedInUser),
+      Appointments(signedInUser: widget.arguments.signedInUser),
     ];
     return toolBodies;
   }

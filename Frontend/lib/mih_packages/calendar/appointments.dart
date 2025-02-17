@@ -9,7 +9,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_bo
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/appointment/builder/build_appointment_list.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 

@@ -169,3 +169,13 @@ class AuthArguments {
     this.firstBoot,
   );
 }
+
+class CalendarArguments {
+  final AppUser signedInUser;
+  final bool personalSelected;
+
+  CalendarArguments(
+    this.signedInUser,
+    this.personalSelected,
+  );
+}

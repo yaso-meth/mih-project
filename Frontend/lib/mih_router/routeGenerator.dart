@@ -1,5 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/appointment/mzansi_calendar.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
@@ -213,12 +213,12 @@ class RouteGenerator {
 
           // Appointment Page
           case '/calendar':
-            if (args is AppUser) {
+            if (args is CalendarArguments) {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => MzansiCalendar(
-                  signedInUser: args,
+                  arguments: args,
                 ),
                 //     Appointments(
                 //   signedInUser: args,
@@ -227,12 +227,12 @@ class RouteGenerator {
             }
             return _errorRoute();
           case '/appointments':
-            if (args is AppUser) {
+            if (args is CalendarArguments) {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => MzansiCalendar(
-                  signedInUser: args,
+                  arguments: args,
                 ),
                 //     Appointments(
                 //   signedInUser: args,
