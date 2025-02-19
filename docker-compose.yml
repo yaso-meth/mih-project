@@ -21,6 +21,7 @@ services:
   #============== My SQL DB ==================================================================== 
   mysqldb:
     #build: ./database/
+    platform: linux/amd64
     image: mysql:5.7
     container_name: MIH-Database
     restart: always
@@ -65,6 +66,7 @@ services:
       retries: 5
   #============== PHP My Admin ====================================================================        
   phpmyadmin:
+    platform: linux/amd64
     image: phpmyadmin/phpmyadmin
     container_name: MIH-phpmyadmin
     environment:
@@ -122,6 +124,7 @@ services:
     profiles: [ 'withCert' ]
   #============== Minio File Storage ====================================================================  
   minio:
+    platform: linux/amd64
     container_name: MIH-Minio
     hostname: minio
     image: docker.io/bitnami/minio:2022
