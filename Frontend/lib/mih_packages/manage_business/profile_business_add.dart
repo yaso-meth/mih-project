@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
@@ -97,7 +98,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
     if (response.statusCode == 201) {
       uploadSelectedFile(selectedSignature, signtureController);
-      Navigator.of(context).pushNamed('/');
+      // Navigator.of(context).pushNamed('/');
+      Navigator.of(context).popAndPushNamed(
+        '/',
+        arguments: AuthArguments(false, false),
+      );
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);
@@ -136,7 +141,9 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     if (response.statusCode == 201) {
       var businessResponse = jsonDecode(response.body);
       createBusinessUserAPICall(businessResponse['business_id']);
-      uploadSelectedFile(selectedLogo, logonameController);
+
+      Navigator.of(context).pop();
+      // uploadSelectedFile(selectedLogo, logonameController);
     } else {
       internetConnectionPopUp();
     }
