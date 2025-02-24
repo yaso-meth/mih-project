@@ -132,7 +132,7 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business "
-    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email, gps_location, practice_no, vat_no), "
+    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email, gps_location, practice_no, vat_no) "
     query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     uuidString = str(uuid.uuid1())
     userData = (uuidString,
@@ -147,6 +147,9 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
                 itemRequest.practice_no,
                 itemRequest.vat_no)
     try:
+
+        print(query)
+        print(userData)
         cursor.execute(query, userData) 
     except Exception as error:
          raise HTTPException(status_code=404, detail=error)
