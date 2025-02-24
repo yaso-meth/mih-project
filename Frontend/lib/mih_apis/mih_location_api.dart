@@ -1,3 +1,4 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -13,6 +14,12 @@ class MIHLocationAPI {
   ///if user has blocked permission (denied or denied forver), user will get error pop up.
   ///if user has granted permission (while in use), function will return Position object.
   Future<Position?> getGPSPosition(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
     //Check the type of permission granted
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -39,6 +46,7 @@ class MIHLocationAPI {
       Position location = await Geolocator.getCurrentPosition(
           locationSettings: locationSettings);
       //print(location);
+      Navigator.of(context).pop();
       return location;
     }
   }
