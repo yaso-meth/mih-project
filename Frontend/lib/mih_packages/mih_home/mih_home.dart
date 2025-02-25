@@ -249,7 +249,11 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/calendar',
-          arguments: CalendarArguments(widget.signedInUser, true),
+          arguments: CalendarArguments(
+            widget.signedInUser,
+            true,
+            widget.business,
+          ),
         );
       },
       tileName: "Calendar",
@@ -425,7 +429,11 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/calendar',
-          arguments: CalendarArguments(widget.signedInUser, false),
+          arguments: CalendarArguments(
+            widget.signedInUser,
+            false,
+            widget.business,
+          ),
         );
       },
       tileName: "Calendar",
