@@ -66,7 +66,11 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       //appointment here
-      Appointments(signedInUser: widget.arguments.signedInUser),
+      Appointments(
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        personalSelected: widget.arguments.personalSelected,
+      ),
     ];
     return toolBodies;
   }

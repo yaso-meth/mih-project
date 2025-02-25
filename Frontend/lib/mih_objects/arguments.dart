@@ -173,9 +173,11 @@ class AuthArguments {
 class CalendarArguments {
   final AppUser signedInUser;
   final bool personalSelected;
+  final Business? business;
 
   CalendarArguments(
     this.signedInUser,
     this.personalSelected,
+    this.business,
   );
 }

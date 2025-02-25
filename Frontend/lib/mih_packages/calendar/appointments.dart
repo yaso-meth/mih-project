@@ -9,26 +9,28 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_bo
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 
-import '../../mih_apis/mih_api_calls.dart';
 import '../../mih_components/mih_calendar.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_env/env.dart';
-import '../../mih_objects/access_request.dart';
 import '../../mih_objects/app_user.dart';
-import '../../mih_objects/patient_queue.dart';
 
 class Appointments extends StatefulWidget {
   final AppUser signedInUser;
+  final Business? business;
+  final bool personalSelected;
 
   const Appointments({
     super.key,
     required this.signedInUser,
+    required this.business,
+    required this.personalSelected,
   });
 
   @override
@@ -56,9 +58,9 @@ class _PatientAccessRequestState extends State<Appointments> {
   late String selectedDropdown;
   String selectedDay = DateTime.now().toString().split(" ")[0];
 
-  late Future<List<AccessRequest>> accessRequestResults;
-  late Future<List<PatientQueue>> personalQueueResults;
   late Future<List<Appointment>> personalAppointmentResults;
+  late Future<List<Appointment>> businessAppointmentResults;
+  late Future<List<Appointment>> appointmentResults;
 
   Widget displayAppointmentList(List<Appointment> appointmentList) {
     if (appointmentList.isNotEmpty) {
@@ -181,15 +183,26 @@ class _PatientAccessRequestState extends State<Appointments> {
 
   void addAppointmentCall() {
     if (isAppointmentInputValid()) {
-      MihMzansiCalendarApis.addPersonalAppointment(
-        widget.signedInUser,
-        widget.signedInUser.app_id,
-        _appointmentTitleController.text,
-        _appointmentDescriptionIDController.text,
-        _appointmentDateController.text,
-        _appointmentTimeController.text,
-        context,
-      );
+      if (widget.personalSelected == false) {
+        MihMzansiCalendarApis.addBusinessAppointment(
+          widget.signedInUser,
+          widget.business!,
+          _appointmentTitleController.text,
+          _appointmentDescriptionIDController.text,
+          _appointmentDateController.text,
+          _appointmentTimeController.text,
+          context,
+        );
+      } else {
+        MihMzansiCalendarApis.addPersonalAppointment(
+          widget.signedInUser,
+          _appointmentTitleController.text,
+          _appointmentDescriptionIDController.text,
+          _appointmentDateController.text,
+          _appointmentTimeController.text,
+          context,
+        );
+      }
     } else {
       showDialog(
         context: context,
@@ -201,17 +214,27 @@ class _PatientAccessRequestState extends State<Appointments> {
     checkforchange();
   }
 
+  String getTitle() {
+    if (widget.personalSelected == false) {
+      return "Business Appointments";
+    } else {
+      return "Personal Appointments";
+    }
+  }
+
   void checkforchange() {
     setState(() {
-      personalAppointmentResults =
-          MihMzansiCalendarApis.getPersonalAppointments(
-        widget.signedInUser.app_id,
-        selectedDay,
-      );
-      personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
-        selectedDay,
-        widget.signedInUser.app_id,
-      );
+      if (widget.personalSelected == false) {
+        appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
+          widget.business!.business_id,
+          selectedDay,
+        );
+      } else {
+        appointmentResults = MihMzansiCalendarApis.getPersonalAppointments(
+          widget.signedInUser.app_id,
+          selectedDay,
+        );
+      }
     });
   }
 
@@ -250,13 +273,13 @@ class _PatientAccessRequestState extends State<Appointments> {
       children: [
         Column(
           children: [
-            // const Text(
-            //   "Appointments",
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 25,
-            //   ),
-            // ),
+            Text(
+              getTitle(),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
             MIHCalendar(
                 calendarWidth: 500,
                 rowHeight: 35,
@@ -273,7 +296,7 @@ class _PatientAccessRequestState extends State<Appointments> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 FutureBuilder(
-                    future: personalAppointmentResults,
+                    future: appointmentResults,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Expanded(
@@ -338,15 +361,17 @@ class _PatientAccessRequestState extends State<Appointments> {
   void initState() {
     appointmentDateController.addListener(checkforchange);
     setState(() {
-      personalAppointmentResults =
-          MihMzansiCalendarApis.getPersonalAppointments(
-        widget.signedInUser.app_id,
-        selectedDay,
-      );
-      personalQueueResults = MIHApiCalls.fetchPersonalAppointmentsAPICall(
-        selectedDay,
-        widget.signedInUser.app_id,
-      );
+      if (widget.personalSelected == false) {
+        appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
+          widget.business!.business_id,
+          selectedDay,
+        );
+      } else {
+        appointmentResults = MihMzansiCalendarApis.getPersonalAppointments(
+          widget.signedInUser.app_id,
+          selectedDay,
+        );
+      }
     });
     super.initState();
   }
