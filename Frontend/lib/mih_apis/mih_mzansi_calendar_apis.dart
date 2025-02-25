@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -54,7 +56,41 @@ class MihMzansiCalendarApis {
       //print(patientQueue);
       return personalAppointments;
     } else {
-      throw Exception('failed to fatch loyalty cards');
+      throw Exception('failed to fatch personal appointments');
+    }
+  }
+
+  /// This function is used to fetch a list of appointment for a personal user.
+  ///
+  /// Patameters:
+  /// app_id,
+  /// date (yyyy-mm-dd),
+  ///
+  /// Returns Future<List<Appointment>>.
+  static Future<List<Appointment>> getBusinessAppointments(
+    String business_id,
+    String date,
+  ) async {
+    //print("Patien manager page: $endpoint");
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/appointments/business/$business_id?date=$date"));
+    // print("Here");
+    // print("Body: ${response.body}");
+    // print("Code: ${response.statusCode}");
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+
+    if (response.statusCode == 200) {
+      //print("Here1");
+      Iterable l = jsonDecode(response.body);
+      //print("Here2");
+      List<Appointment> businessAppointments =
+          List<Appointment>.from(l.map((model) => Appointment.fromJson(model)));
+      //print("Here3");
+      //print(patientQueue);
+      return businessAppointments;
+    } else {
+      throw Exception('failed to fatch business appointments');
     }
   }
 
@@ -109,7 +145,6 @@ class MihMzansiCalendarApis {
   /// Returns VOID (TRIGGERS SUCCESS pop up)
   static Future<void> addPersonalAppointment(
     AppUser signedInUser,
-    String app_id,
     String title,
     String description,
     String date,
@@ -123,7 +158,7 @@ class MihMzansiCalendarApis {
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
+        "app_id": signedInUser.app_id,
         "business_id": "",
         "title": title,
         "description": description,
@@ -141,7 +176,70 @@ class MihMzansiCalendarApis {
       // Navigator.pop(context);
       Navigator.of(context).pushNamed(
         '/calendar',
-        arguments: signedInUser,
+        arguments: CalendarArguments(
+          signedInUser,
+          true,
+          null,
+        ),
+      );
+      successPopUp(message, context);
+    } else {
+      Navigator.pop(context);
+      internetConnectionPopUp(context);
+    }
+  }
+
+  /// This function is used to add an appointment to users mzansi Calendar.
+  ///
+  /// Patameters:-
+  /// AppUser signedInUser,
+  /// String app_id,
+  /// String title,
+  /// String description,
+  /// String date,
+  /// String time,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS SUCCESS pop up)
+  static Future<void> addBusinessAppointment(
+    AppUser signedInUser,
+    Business business,
+    String title,
+    String description,
+    String date,
+    String time,
+    BuildContext context,
+  ) async {
+    loadingPopUp(context);
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/appointment/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": "",
+        "business_id": business.business_id,
+        "title": title,
+        "description": description,
+        "date": date,
+        "time": time,
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+      String message =
+          "Your appointment \"$title\" for the $date $title has been deleted.";
+
+      // Navigator.pop(context);
+      Navigator.of(context).pushNamed(
+        '/calendar',
+        arguments: CalendarArguments(
+          signedInUser,
+          false,
+          business,
+        ),
       );
       successPopUp(message, context);
     } else {
