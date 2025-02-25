@@ -214,6 +214,14 @@ class _PatientAccessRequestState extends State<Appointments> {
     checkforchange();
   }
 
+  String getTitle() {
+    if (widget.personalSelected == false) {
+      return "Business Appointments";
+    } else {
+      return "Personal Appointments";
+    }
+  }
+
   void checkforchange() {
     setState(() {
       if (widget.personalSelected == false) {
@@ -265,13 +273,13 @@ class _PatientAccessRequestState extends State<Appointments> {
       children: [
         Column(
           children: [
-            // const Text(
-            //   "Appointments",
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 25,
-            //   ),
-            // ),
+            Text(
+              getTitle(),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
             MIHCalendar(
                 calendarWidth: 500,
                 rowHeight: 35,
