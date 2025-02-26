@@ -363,7 +363,7 @@ class _MIHHomeState extends State<MIHHome> {
           ),
         );
       },
-      tileName: "Business Profile",
+      tileName: "Biz Profile",
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.buildingUser,
@@ -407,7 +407,7 @@ class _MIHHomeState extends State<MIHHome> {
           ),
         );
       },
-      tileName: "Manage Patient",
+      tileName: "Pat Manager",
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.bookMedical,
@@ -1118,8 +1118,8 @@ class _MIHHomeState extends State<MIHHome> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           padding: EdgeInsets.only(
-            left: width / 10,
-            right: width / 10,
+            left: width / 13,
+            right: width / 13,
             bottom: height / 15,
             //top: 20,
           ),
