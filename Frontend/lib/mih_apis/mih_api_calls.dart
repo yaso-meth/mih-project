@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_notification_apis.dart';
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -317,6 +318,7 @@ class MIHApiCalls {
   static Future<void> reapplyPatientAccessAPICall(
     String business_id,
     String app_id,
+    bool personalSelected,
     BusinessArguments args,
     BuildContext context,
   ) async {
@@ -335,7 +337,8 @@ class MIHApiCalls {
       }),
     );
     if (response.statusCode == 200) {
-      reapplyAccessRequestNotificationAPICall(app_id, args, context);
+      MihNotificationApis.reapplyAccessRequestNotificationAPICall(
+          app_id, personalSelected, args, context);
       //notification here
     } else {
       internetConnectionPopUp(context);
@@ -357,6 +360,7 @@ class MIHApiCalls {
     String app_id,
     String type,
     String requested_by,
+    bool personalSelected,
     BusinessArguments args,
     BuildContext context,
   ) async {
@@ -377,7 +381,8 @@ class MIHApiCalls {
       }),
     );
     if (response.statusCode == 201) {
-      addAccessRequestNotificationAPICall(app_id, requested_by, args, context);
+      MihNotificationApis.addAccessRequestNotificationAPICall(
+          app_id, requested_by, personalSelected, args, context);
     } else {
       internetConnectionPopUp(context);
     }
@@ -428,248 +433,6 @@ class MIHApiCalls {
       return patient;
     } else {
       throw Exception('failed to load patient');
-    }
-  }
-
-  //================== Notifications ==========================================================================
-
-  /// This function is used to create notification to patient for access reviews
-  ///
-  /// Patameters:-
-  /// String app_id,
-  /// String business_name,
-  /// BuildContext context,
-  ///
-  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
-  static Future<void> addAccessRequestNotificationAPICall(
-    String app_id,
-    String business_name,
-    BusinessArguments args,
-    BuildContext context,
-  ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "notification_type": "Forever Access Request",
-        "notification_message":
-            "A new Forever Access Request has been sent by $business_name in order to access your Patient Profile. Please review request.",
-        "action_path": "/access-review",
-      }),
-    );
-    if (response.statusCode == 201) {
-      String message =
-          "A request has been sent to the patient advising that you have requested access to their profile. Only once access has been granted will you be able to book an appointment.";
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          args.signedInUser,
-          args.businessUser,
-          args.business,
-        ),
-      );
-      successPopUp(message, context);
-    } else {
-      internetConnectionPopUp(context);
-    }
-  }
-
-  /// This function is used to create notification to patient for access reviews
-  ///
-  /// Patameters:-
-  /// String app_id,
-  /// String business_name,
-  /// BuildContext context,
-  ///
-  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
-  static Future<void> reapplyAccessRequestNotificationAPICall(
-    String app_id,
-    BusinessArguments args,
-    BuildContext context,
-  ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "notification_type": "Re-applying for Access",
-        "notification_message":
-            "${args.business!.Name} is re-applying for access to your Patient Profile. Please review request.",
-        "action_path": "/access-review",
-      }),
-    );
-    if (response.statusCode == 201) {
-      String message =
-          "A request has been sent to the patient advising that you have re-applied for access to their profile. Only once access has been granted will you be able to book an appointment.";
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: args,
-      );
-      successPopUp(message, context);
-    } else {
-      internetConnectionPopUp(context);
-    }
-  }
-
-  /// This function is used to create notification to patient for access reviews
-  ///
-  /// Patameters:-
-  /// String app_id,
-  /// String business_name,
-  /// String origDate_time,
-  /// String date,
-  /// String time,
-  /// BusinessArguments args,
-  /// BuildContext context,
-  ///
-  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
-  static Future<void> addRescheduledAppointmentNotificationAPICall(
-    String app_id,
-    String business_name,
-    String origDate_time,
-    String date,
-    String time,
-    BusinessArguments args,
-    BuildContext context,
-  ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "notification_type": "Appointment Rescheduled",
-        "notification_message":
-            "Your appointment with $business_name for the ${origDate_time.replaceAll("T", " ").substring(0, origDate_time.length - 3)} has been rescheduled to the ${date} ${time}.",
-        "action_path": "/appointments",
-      }),
-    );
-    if (response.statusCode == 201) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          args.signedInUser,
-          args.businessUser,
-          args.business,
-        ),
-      );
-      String message = "The appointment has been successfully rescheduled.";
-
-      successPopUp(message, context);
-    } else {
-      internetConnectionPopUp(context);
-    }
-  }
-
-  /// This function is used to create notification to patient for access reviews
-  ///
-  /// Patameters:-
-  /// String app_id,
-  /// String business_name,
-  /// String origDate_time,
-  /// String date,
-  /// String time,
-  /// BusinessArguments args,
-  /// BuildContext context,
-  ///
-  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
-  static Future<void> addCancelledAppointmentNotificationAPICall(
-    String app_id,
-    String date_time,
-    BusinessArguments args,
-    BuildContext context,
-  ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "notification_type": "Appointment Cancelled",
-        "notification_message":
-            "Your appointment with ${args.business!.Name} for the ${date_time.replaceAll("T", " ")} has been cancelled.",
-        "action_path": "/appointments",
-      }),
-    );
-    if (response.statusCode == 201) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          args.signedInUser,
-          args.businessUser,
-          args.business,
-        ),
-      );
-      String message =
-          "The appointment has been cancelled successfully. This means it will no longer be visible in your waiting room and calender.";
-      successPopUp(message, context);
-    } else {
-      internetConnectionPopUp(context);
-    }
-  }
-
-  /// This function is used to create notification to patient for access reviews
-  ///
-  /// Patameters:-
-  /// String app_id,
-  /// String business_name,
-  /// String origDate_time,
-  /// String date,
-  /// String time,
-  /// BusinessArguments args,
-  /// BuildContext context,
-  ///
-  /// Returns void. (ON SUCCESS 201 , NAVIGATE TO /patient-manager)
-  static Future<void> addNewAppointmentNotificationAPICall(
-    String app_id,
-    String date,
-    String time,
-    BusinessArguments args,
-    BuildContext context,
-  ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "notification_type": "New Appointment Booked",
-        "notification_message":
-            "An appointment with ${args.business!.Name} has been booked for the $date $time.",
-        "action_path": "/appointments",
-      }),
-    );
-    if (response.statusCode == 201) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: args,
-      );
-      String message =
-          "The appointment was been created successfully. This means it will now be visible in your waiting room and calender.";
-      successPopUp(message, context);
-    } else {
-      internetConnectionPopUp(context);
     }
   }
 
@@ -755,6 +518,7 @@ class MIHApiCalls {
   static Future<void> updateApointmentAPICall(
     int idpatient_queue,
     String app_id,
+    bool personalSelected,
     String business_name,
     String origDate_time,
     String date,
@@ -774,8 +538,9 @@ class MIHApiCalls {
       }),
     );
     if (response.statusCode == 200) {
-      addRescheduledAppointmentNotificationAPICall(
+      MihNotificationApis.addRescheduledAppointmentNotificationAPICall(
         app_id,
+        personalSelected,
         business_name,
         origDate_time,
         date,
@@ -799,6 +564,7 @@ class MIHApiCalls {
   static Future<void> deleteApointmentAPICall(
     int idpatient_queue,
     String app_id,
+    bool personalSelected,
     String date_time,
     BusinessArguments args,
     BuildContext context,
@@ -813,8 +579,9 @@ class MIHApiCalls {
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
-      addCancelledAppointmentNotificationAPICall(
+      MihNotificationApis.addCancelledAppointmentNotificationAPICall(
         app_id,
+        personalSelected,
         date_time,
         args,
         context,
@@ -840,6 +607,7 @@ class MIHApiCalls {
   static Future<void> addAppointmentAPICall(
     String business_id,
     String app_id,
+    bool personalSelected,
     String date,
     String time,
     BusinessArguments args,
@@ -884,8 +652,9 @@ class MIHApiCalls {
       // String time,
       // BusinessArguments args,
       // BuildContext context,
-      addNewAppointmentNotificationAPICall(
+      MihNotificationApis.addNewAppointmentNotificationAPICall(
         app_id,
+        personalSelected,
         date,
         time,
         args,
