@@ -11,13 +11,20 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_err
 import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
 
 class BuildAppointmentList extends StatefulWidget {
   final List<Appointment> appointmentList;
   final AppUser signedInUser;
+  final Business? business;
+  final BusinessUser? businessUser;
+  final bool personalSelected;
+  final bool inWaitingRoom;
   final TextEditingController titleController;
   final TextEditingController descriptionIDController;
+  final TextEditingController? patientIdController;
   final TextEditingController dateController;
   final TextEditingController timeController;
 
@@ -25,8 +32,13 @@ class BuildAppointmentList extends StatefulWidget {
     super.key,
     required this.appointmentList,
     required this.signedInUser,
+    required this.business,
+    required this.businessUser,
+    required this.personalSelected,
+    required this.inWaitingRoom,
     required this.titleController,
     required this.descriptionIDController,
+    required this.patientIdController,
     required this.dateController,
     required this.timeController,
   });
@@ -37,6 +49,7 @@ class BuildAppointmentList extends StatefulWidget {
 
 class _BuildAppointmentListState extends State<BuildAppointmentList> {
   String baseAPI = AppEnviroment.baseApiUrl;
+  TextEditingController patientIdController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController idController = TextEditingController();
@@ -122,7 +135,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                   .split('T')[1]
                   .substring(0, 5);
             });
-            appointmentDetailsWindow(index);
+            if (widget.inWaitingRoom == false) {
+              appointmentDetailsWindow(index);
+            } else {
+              waitingRiinAppointmentDetailsWindow(index);
+            }
           },
         ),
       ),
@@ -161,6 +178,120 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               child: MIHTextField(
                 controller: widget.titleController,
                 hintText: "Title",
+                editable: false,
+                required: false,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+                // width: 500,
+                child: MIHTextField(
+              controller: widget.dateController,
+              hintText: "Date",
+              editable: false,
+              required: false,
+            )),
+            const SizedBox(height: 10),
+            SizedBox(
+                // width: 500,
+                child: MIHTextField(
+              controller: widget.timeController,
+              hintText: "Time",
+              editable: false,
+              required: false,
+            )),
+            const SizedBox(height: 10),
+            SizedBox(
+              // width: 500,
+              height: 250,
+              child: MIHMLTextField(
+                controller: widget.descriptionIDController,
+                hintText: "Description",
+                editable: false,
+                required: false,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Visibility(
+              visible: canEditAppointment(index),
+              child: SizedBox(
+                width: 500,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    appointmentUpdateWindow(index);
+                  },
+                  buttonText: "Edit",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ),
+            // SizedBox(
+            //   width: 500,
+            //   height: 50,
+            //   child: MIHButton(
+            //     onTap: () {
+            //       addAppointmentCall();
+            //       checkforchange();
+            //     },
+            //     buttonText: "Add",
+            //     buttonColor:
+            //         MzanziInnovationHub.of(context)!.theme.successColor(),
+            //     textColor:
+            //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+          ],
+        );
+      },
+    );
+  }
+
+  void waitingRiinAppointmentDetailsWindow(int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MIHWindow(
+          fullscreen: false,
+          windowTitle: "Appointment Details",
+          windowTools: [
+            Visibility(
+              visible: canEditAppointment(index),
+              child: IconButton(
+                onPressed: () {
+                  deleteAppointmentConfirmationWindow(index);
+                },
+                icon: const Icon(Icons.delete),
+              ),
+            ),
+          ],
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+            widget.dateController.clear();
+            widget.timeController.clear();
+            widget.titleController.clear();
+            widget.descriptionIDController.clear();
+          },
+          windowBody: [
+            SizedBox(
+              // width: 500,
+              child: MIHTextField(
+                controller: widget.titleController,
+                hintText: "Title",
+                editable: false,
+                required: false,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              // width: 500,
+              child: MIHTextField(
+                controller: widget.titleController,
+                hintText: "Patient ID Number",
                 editable: false,
                 required: false,
               ),
@@ -315,33 +446,33 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
-                SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      setState(() {
-                        widget.titleController.text =
-                            widget.appointmentList[index].title;
-                        widget.descriptionIDController.text =
-                            widget.appointmentList[index].description;
-                        widget.dateController.text = widget
-                            .appointmentList[index].date_time
-                            .split('T')[0];
-                        widget.timeController.text = widget
-                            .appointmentList[index].date_time
-                            .split('T')[1]
-                            .substring(0, 5);
-                      });
-                      Navigator.of(context).pop();
-                    },
-                    buttonText: "Cancel",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                ),
+                // SizedBox(
+                //   width: 500,
+                //   height: 50,
+                //   child: MIHButton(
+                //     onTap: () {
+                //       setState(() {
+                //         widget.titleController.text =
+                //             widget.appointmentList[index].title;
+                //         widget.descriptionIDController.text =
+                //             widget.appointmentList[index].description;
+                //         widget.dateController.text = widget
+                //             .appointmentList[index].date_time
+                //             .split('T')[0];
+                //         widget.timeController.text = widget
+                //             .appointmentList[index].date_time
+                //             .split('T')[1]
+                //             .substring(0, 5);
+                //       });
+                //       Navigator.of(context).pop();
+                //     },
+                //     buttonText: "Cancel",
+                //     buttonColor:
+                //         MzanziInnovationHub.of(context)!.theme.errorColor(),
+                //     textColor:
+                //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                //   ),
+                // ),
               ],
             )
           ],
@@ -377,15 +508,44 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
 
   void updateAppointmentCall(int index) {
     if (isAppointmentInputValid()) {
-      MihMzansiCalendarApis.updatePersonalAppointment(
-        widget.signedInUser,
-        widget.appointmentList[index].idappointments,
-        widget.titleController.text,
-        widget.descriptionIDController.text,
-        widget.dateController.text,
-        widget.timeController.text,
-        context,
-      );
+      if (widget.personalSelected == true) {
+        MihMzansiCalendarApis.updatePersonalAppointment(
+          widget.signedInUser,
+          widget.business,
+          null,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      } else if (widget.personalSelected == false &&
+          widget.inWaitingRoom == false) {
+        MihMzansiCalendarApis.updateBusinessAppointment(
+          widget.signedInUser,
+          widget.business,
+          widget.businessUser,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      } else {
+        MihMzansiCalendarApis.updatePatientAppointment(
+          widget.signedInUser,
+          widget.business,
+          widget.businessUser,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      }
     } else {
       showDialog(
         context: context,
@@ -397,15 +557,32 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   }
 
   void deleteAppointmentCall(int index) {
-    MihMzansiCalendarApis.deleteLoyaltyCardAPICall(
+    print("personal selected: ${widget.personalSelected}");
+    MihMzansiCalendarApis.deleteAppointmentAPICall(
       widget.signedInUser,
+      widget.personalSelected,
+      widget.business,
+      widget.businessUser,
+      widget.inWaitingRoom,
       widget.appointmentList[index].idappointments,
       context,
     );
   }
 
   bool canEditAppointment(int index) {
-    if (widget.appointmentList[index].business_id == "") {
+    if (widget.personalSelected == true &&
+        widget.appointmentList[index].app_id == widget.signedInUser.app_id &&
+        widget.appointmentList[index].business_id == "") {
+      return true;
+    } else if (widget.personalSelected == false &&
+        widget.appointmentList[index].business_id ==
+            widget.business!.business_id &&
+        widget.appointmentList[index].app_id.isEmpty) {
+      return true;
+    } else if (widget.personalSelected == false &&
+        widget.appointmentList[index].business_id ==
+            widget.business!.business_id &&
+        widget.appointmentList[index].app_id.isNotEmpty) {
       return true;
     } else {
       return false;

@@ -475,6 +475,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                       MIHApiCalls.deleteApointmentAPICall(
                         widget.patientQueue[index].idpatient_queue,
                         widget.patientQueue[index].app_id,
+                        false,
                         widget.patientQueue[index].date_time,
                         BusinessArguments(
                           widget.signedInUser,
@@ -500,6 +501,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
                       MIHApiCalls.updateApointmentAPICall(
                         widget.patientQueue[index].idpatient_queue,
                         widget.patientQueue[index].app_id,
+                        false,
                         widget.business!.Name,
                         widget.patientQueue[index].date_time,
                         dateController.text,

@@ -174,10 +174,26 @@ class CalendarArguments {
   final AppUser signedInUser;
   final bool personalSelected;
   final Business? business;
+  final BusinessUser? businessUser;
 
   CalendarArguments(
     this.signedInUser,
     this.personalSelected,
     this.business,
+    this.businessUser,
+  );
+}
+
+class PatManagerArguments {
+  final AppUser signedInUser;
+  final bool personalSelected;
+  final Business? business;
+  final BusinessUser? businessUser;
+
+  PatManagerArguments(
+    this.signedInUser,
+    this.personalSelected,
+    this.business,
+    this.businessUser,
   );
 }

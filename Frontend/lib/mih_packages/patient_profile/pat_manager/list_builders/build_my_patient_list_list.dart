@@ -1,44 +1,41 @@
-import 'dart:convert';
-
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_api_calls.dart';
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_calendar_apis.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/patient_access.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
-import '../../../main.dart';
-import '../../../mih_apis/mih_api_calls.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_time_input.dart';
-import '../../../mih_components/mih_layout/mih_window.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_env/env.dart';
-import '../../../mih_objects/app_user.dart';
-import '../../../mih_objects/arguments.dart';
-import '../../../mih_objects/business.dart';
-import '../../../mih_objects/patient_access.dart';
-import '../../../mih_objects/patients.dart';
-
-class BuildPatientAccessList extends StatefulWidget {
+class BuildMyPatientListList extends StatefulWidget {
   final List<PatientAccess> patientAccesses;
   final AppUser signedInUser;
   final Business? business;
-  final BusinessArguments arguments;
+  final BusinessUser? businessUser;
 
-  const BuildPatientAccessList({
+  const BuildMyPatientListList({
     super.key,
     required this.patientAccesses,
     required this.signedInUser,
     required this.business,
-    required this.arguments,
+    required this.businessUser,
   });
 
   @override
-  State<BuildPatientAccessList> createState() => _BuildPatientsListState();
+  State<BuildMyPatientListList> createState() => _BuildPatientsListState();
 }
 
-class _BuildPatientsListState extends State<BuildPatientAccessList> {
+class _BuildPatientsListState extends State<BuildMyPatientListList> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController idController = TextEditingController();
@@ -47,101 +44,40 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  Future<void> addPatientAppointmentAPICall(int index) async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/queue/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": widget.business!.business_id,
-        "app_id": widget.patientAccesses[index].app_id,
-        "date": dateController.text,
-        "time": timeController.text,
-        "access": "pending",
-      }),
-    );
-    if (response.statusCode == 201) {
-      // Navigator.pushNamed(context, '/patient-manager/patient',
-      //     arguments: widget.signedInUser);
-      String message =
-          "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patientAccesses profile. ou can check the status of your request in patient queue under the appointment.";
-      //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
-      Navigator.pop(context);
-      Navigator.pop(context);
-      setState(() {
-        dateController.text = "";
-        timeController.text = "";
-      });
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          widget.arguments.signedInUser,
-          widget.arguments.businessUser,
-          widget.arguments.business,
-        ),
-      );
-      successPopUp(message);
-      addAccessReviewNotificationAPICall(index);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> addAccessReviewNotificationAPICall(int index) async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": widget.patientAccesses[index].app_id,
-        "notification_type": "New Appointment Booked",
-        "notification_message":
-            "A new Appointment has been booked by ${widget.arguments.business!.Name} for the ${dateController.text} ${timeController.text}. Please approve the Access Review request.",
-        "action_path": "/access-review",
-      }),
-    );
-    if (response.statusCode == 201) {
-      // Navigator.pushNamed(context, '/patient-manager/patient',
-      //     arguments: widget.signedInUser);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
   void submitApointment(int index) {
-    MIHApiCalls.addAppointmentAPICall(
-      widget.arguments.business!.business_id,
-      widget.patientAccesses[index].app_id,
+    //To-Do: Add the appointment to the database
+    // print("To-Do: Add the appointment to the database");
+    String description =
+        "Date: ${dateController.text}\nTime: ${timeController.text}\n";
+    description += "Medical Practice: ${widget.business!.Name}\n";
+    description += "Contact Number: ${widget.business!.contact_no}";
+    MihMzansiCalendarApis.addPatientAppointment(
+      widget.signedInUser,
       false,
+      widget.patientAccesses[index].app_id,
+      BusinessArguments(
+        widget.signedInUser,
+        widget.businessUser,
+        widget.business,
+      ),
+      "${widget.patientAccesses[index].fname} ${widget.patientAccesses[index].lname} - Doctors Visit",
+      description,
       dateController.text,
       timeController.text,
-      widget.arguments,
       context,
     );
-    //addPatientAppointmentAPICall(index);
+    // MIHApiCalls.addAppointmentAPICall(
+    //   widget.business!.business_id,
+    //   widget.patientAccesses[index].app_id,
+    //   dateController.text,
+    //   timeController.text,
+    //   BusinessArguments(
+    //     widget.signedInUser,
+    //     widget.businessUser,
+    //     widget.business,
+    //   ),
+    //   context,
+    // );
   }
 
   bool isAppointmentFieldsFilled() {
@@ -318,24 +254,7 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
                 textColor:
                     MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 onTap: () {
-                  print("Book an Appointment!!!");
                   appointmentPopUp(index);
-
-                  // //print("here1");
-                  // bool filled = isAppointmentFieldsFilled();
-                  // //print("fields filled: $filled");
-                  // if (filled) {
-                  //   //print("here2");
-                  //   submitApointment(index);
-                  //   //print("here3");
-                  // } else {
-                  //   showDialog(
-                  //     context: context,
-                  //     builder: (context) {
-                  //       return const MIHErrorMessage(errorType: "Input Error");
-                  //     },
-                  //   );
-                  // }
                 },
               ),
             ),
@@ -349,12 +268,12 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
                 textColor:
                     MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
                   Navigator.of(context).pushNamed('/patient-manager/patient',
                       arguments: PatientViewArguments(
                         widget.signedInUser,
                         patientProfile,
-                        widget.arguments.businessUser,
+                        widget.businessUser,
                         widget.business,
                         "business",
                       ));
@@ -367,7 +286,7 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
     );
   }
 
-  Widget displayAccessTile(int index) {
+  Widget displayMyPatientTile(int index) {
     var firstName = "";
     var lastName = "";
     String access = widget.patientAccesses[index].status.toUpperCase();
@@ -459,9 +378,7 @@ class _BuildPatientsListState extends State<BuildPatientAccessList> {
       },
       itemCount: widget.patientAccesses.length,
       itemBuilder: (context, index) {
-        //final patient = widget.patientAccesses[index].id_no.contains(widget.searchString);
-        //print(index);
-        return displayAccessTile(index);
+        return displayMyPatientTile(index);
       },
     );
   }

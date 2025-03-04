@@ -6,6 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_s
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
 import '../mih_components/mih_pop_up_messages/mih_notification_message.dart';
@@ -13,7 +14,7 @@ import '../mih_packages/authentication/auth_check.dart';
 import '../mih_packages/patient_profile/add_or_view_patient.dart';
 import '../mih_packages/patient_profile/patient_add.dart';
 import '../mih_packages/patient_profile/patient_edit.dart';
-import '../mih_packages/patient_profile/patient_manager.dart';
+// import '../mih_packages/patient_profile/patient_manager.dart';
 import '../mih_objects/app_user.dart';
 import '../mih_objects/arguments.dart';
 import '../mih_packages/about_mih/mih_about.dart';
@@ -244,13 +245,16 @@ class RouteGenerator {
 
           //Patient Manager Pages
           case '/patient-manager':
-            if (args is BusinessArguments) {
+            if (args is PatManagerArguments) {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => PatientManager(
+                builder: (_) => PatManager(
                   arguments: args,
                 ),
+                // PatientManager(
+                //   arguments: args,
+                // ),
               );
             }
             return _errorRoute();

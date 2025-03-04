@@ -1,4 +1,6 @@
+import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_calendar_apis.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
@@ -7,37 +9,35 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
 
-import '../../mih_components/mih_calendar.dart';
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-
-class Appointments extends StatefulWidget {
+class WaitingRoom extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
   final BusinessUser? businessUser;
   final bool personalSelected;
-
-  const Appointments({
+  final Function(int) onIndexChange;
+  const WaitingRoom({
     super.key,
     required this.signedInUser,
     required this.business,
     required this.businessUser,
     required this.personalSelected,
+    required this.onIndexChange,
   });
 
   @override
-  State<Appointments> createState() => _PatientAccessRequestState();
+  State<WaitingRoom> createState() => _WaitingRoomState();
 }
 
-class _PatientAccessRequestState extends State<Appointments> {
+class _WaitingRoomState extends State<WaitingRoom> {
   TextEditingController selectedAppointmentDateController =
       TextEditingController();
   final TextEditingController _appointmentTitleController =
@@ -48,13 +48,95 @@ class _PatientAccessRequestState extends State<Appointments> {
       TextEditingController();
   final TextEditingController _appointmentTimeController =
       TextEditingController();
+  final TextEditingController _patientController = TextEditingController();
   String baseUrl = AppEnviroment.baseApiUrl;
 
   String selectedDay = DateTime.now().toString().split(" ")[0];
 
-  late Future<List<Appointment>> personalAppointmentResults;
   late Future<List<Appointment>> businessAppointmentResults;
   late Future<List<Appointment>> appointmentResults;
+  bool inWaitingRoom = true;
+
+  // Business Appointment Tool
+  Widget getBusinessAppointmentsTool() {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            const Text(
+              "Waiting Room",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+            MIHCalendar(
+                calendarWidth: 500,
+                rowHeight: 35,
+                setDate: (value) {
+                  setState(() {
+                    selectedDay = value;
+                    selectedAppointmentDateController.text = selectedDay;
+                  });
+                }),
+            // Divider(
+            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            // ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                FutureBuilder(
+                    future: appointmentResults,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Expanded(
+                            child: Center(child: Mihloadingcircle()));
+                      } else if (snapshot.connectionState ==
+                              ConnectionState.done &&
+                          snapshot.hasData) {
+                        return
+                            // Container(child: const Placeholder());
+                            displayAppointmentList(snapshot.requireData);
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Error pulling appointments",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .errorColor()),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+                    }),
+              ],
+            )
+          ],
+        ),
+        Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+              child: IconButton(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onPressed: () {
+                  appointmentTypeSelection();
+                },
+                icon: const Icon(
+                  Icons.add,
+                  size: 50,
+                ),
+              ),
+            ))
+      ],
+    );
+  }
 
   Widget displayAppointmentList(List<Appointment> appointmentList) {
     if (appointmentList.isNotEmpty) {
@@ -65,10 +147,10 @@ class _PatientAccessRequestState extends State<Appointments> {
           business: widget.business,
           businessUser: widget.businessUser,
           personalSelected: widget.personalSelected,
-          inWaitingRoom: false,
+          inWaitingRoom: true,
           titleController: _appointmentTitleController,
           descriptionIDController: _appointmentDescriptionIDController,
-          patientIdController: null,
+          patientIdController: _patientController,
           dateController: _appointmentDateController,
           timeController: _appointmentTimeController,
         ),
@@ -93,7 +175,89 @@ class _PatientAccessRequestState extends State<Appointments> {
     );
   }
 
+  void appointmentTypeSelection() {
+    String question = "What type of appointment would you like to add?";
+    question +=
+        "\n\nExisting Patient: Add an appointment for an patient your practice has access to.";
+    question +=
+        "\nExisting MIH User: Add an appointment for an existing MIH user your practice does not have access to.";
+    question +=
+        "\nSkeleton Appointment: Add an appointment without a patient linked.";
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MIHWindow(
+          fullscreen: false,
+          windowTitle: "Appointment Type",
+          windowTools: [],
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+          },
+          windowBody: [
+            Text(
+              question,
+              style: TextStyle(
+                  fontSize: 20,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(height: 15),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  widget.onIndexChange(1);
+                  Navigator.of(context).pop();
+                },
+                buttonText: "Existing Patient",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  widget.onIndexChange(2);
+                  Navigator.of(context).pop();
+                },
+                buttonText: "Existing MIH User",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  addAppointmentWindow();
+                },
+                buttonText: "Skeleton Appointment",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void addAppointmentWindow() {
+    print(widget.personalSelected);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -108,6 +272,7 @@ class _PatientAccessRequestState extends State<Appointments> {
             _appointmentTimeController.clear();
             _appointmentTitleController.clear();
             _appointmentDescriptionIDController.clear();
+            _patientController.clear();
           },
           windowBody: [
             SizedBox(
@@ -169,17 +334,6 @@ class _PatientAccessRequestState extends State<Appointments> {
     );
   }
 
-  bool isAppointmentInputValid() {
-    if (_appointmentTitleController.text.isEmpty ||
-        _appointmentDescriptionIDController.text.isEmpty ||
-        _appointmentDateController.text.isEmpty ||
-        _appointmentTimeController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   void addAppointmentCall() {
     if (isAppointmentInputValid()) {
       if (widget.personalSelected == false) {
@@ -187,7 +341,7 @@ class _PatientAccessRequestState extends State<Appointments> {
           widget.signedInUser,
           widget.business!,
           widget.businessUser!,
-          false,
+          true,
           _appointmentTitleController.text,
           _appointmentDescriptionIDController.text,
           _appointmentDateController.text,
@@ -215,107 +369,25 @@ class _PatientAccessRequestState extends State<Appointments> {
     checkforchange();
   }
 
-  String getTitle() {
-    if (widget.personalSelected == false) {
-      return "Business Appointments";
+  bool isAppointmentInputValid() {
+    if (_appointmentTitleController.text.isEmpty ||
+        _appointmentDescriptionIDController.text.isEmpty ||
+        _appointmentDateController.text.isEmpty ||
+        _appointmentTimeController.text.isEmpty) {
+      return false;
     } else {
-      return "Personal Appointments";
+      return true;
     }
   }
 
   void checkforchange() {
     setState(() {
-      if (widget.personalSelected == false) {
-        appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
-          widget.business!.business_id,
-          false,
-          selectedDay,
-        );
-      } else {
-        appointmentResults = MihMzansiCalendarApis.getPersonalAppointments(
-          widget.signedInUser.app_id,
-          selectedDay,
-        );
-      }
+      appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
+        widget.business!.business_id,
+        true,
+        selectedDay,
+      );
     });
-  }
-
-  Widget getBody() {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Text(
-              getTitle(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
-            MIHCalendar(
-                calendarWidth: 500,
-                rowHeight: 35,
-                setDate: (value) {
-                  setState(() {
-                    selectedDay = value;
-                    selectedAppointmentDateController.text = selectedDay;
-                  });
-                }),
-            // Divider(
-            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            // ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                FutureBuilder(
-                    future: appointmentResults,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Expanded(
-                            child: Center(child: Mihloadingcircle()));
-                      } else if (snapshot.connectionState ==
-                              ConnectionState.done &&
-                          snapshot.hasData) {
-                        return displayAppointmentList(snapshot.requireData);
-                      } else {
-                        return Center(
-                          child: Text(
-                            "Error pulling appointments",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .errorColor()),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                    }),
-              ],
-            )
-          ],
-        ),
-        Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-              child: IconButton(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onPressed: () {
-                  addAppointmentWindow();
-                },
-                icon: const Icon(
-                  Icons.add,
-                  size: 50,
-                ),
-              ),
-            ))
-      ],
-    );
   }
 
   @override
@@ -332,18 +404,11 @@ class _PatientAccessRequestState extends State<Appointments> {
   void initState() {
     selectedAppointmentDateController.addListener(checkforchange);
     setState(() {
-      if (widget.personalSelected == false) {
-        appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
-          widget.business!.business_id,
-          false,
-          selectedDay,
-        );
-      } else {
-        appointmentResults = MihMzansiCalendarApis.getPersonalAppointments(
-          widget.signedInUser.app_id,
-          selectedDay,
-        );
-      }
+      appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
+        widget.business!.business_id,
+        true,
+        selectedDay,
+      );
     });
     super.initState();
   }
@@ -352,7 +417,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   Widget build(BuildContext context) {
     return MihAppToolBody(
       borderOn: true,
-      bodyItem: getBody(),
+      bodyItem: getBusinessAppointmentsTool(),
     );
   }
 }
