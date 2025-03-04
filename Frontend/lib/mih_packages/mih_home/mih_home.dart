@@ -400,10 +400,11 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/patient-manager',
-          arguments: BusinessArguments(
+          arguments: PatManagerArguments(
             widget.signedInUser,
-            widget.businessUser,
+            widget.personalSelected,
             widget.business,
+            widget.businessUser,
           ),
         );
       },

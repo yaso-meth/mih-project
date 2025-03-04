@@ -73,11 +73,13 @@ class _PatientManagerState extends State<PatientManager> {
 
   Widget displayQueueList(List<PatientQueue> patientQueueList) {
     if (patientQueueList.isNotEmpty) {
-      return BuildPatientQueueList(
-        patientQueue: patientQueueList,
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
+      return Expanded(
+        child: BuildPatientQueueList(
+          patientQueue: patientQueueList,
+          signedInUser: widget.arguments.signedInUser,
+          business: widget.arguments.business,
+          businessUser: widget.arguments.businessUser,
+        ),
       );
     }
     return Padding(
@@ -95,67 +97,105 @@ class _PatientManagerState extends State<PatientManager> {
   }
 
   Widget patientQueue() {
-    return Column(mainAxisSize: MainAxisSize.max, children: [
-      //const SizedBox(height: 15),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+      child: Stack(
         children: [
-          const Text(
-            "Waiting Room",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              //const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Waiting Room",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    iconSize: 20,
+                    icon: const Icon(
+                      Icons.refresh,
+                    ),
+                    onPressed: () {
+                      refreshQueue();
+                    },
+                  ),
+                ],
+              ),
+              // Divider(
+              //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              MIHCalendar(
+                  calendarWidth: 500,
+                  rowHeight: 35,
+                  setDate: (value) {
+                    setState(() {
+                      queueDateController.text = value;
+                    });
+                  }),
+              //spacer
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FutureBuilder(
+                    future: patientQueueResults,
+                    builder: (context, snapshot) {
+                      //print("patient Queue List  ${snapshot.hasData}");
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Mihloadingcircle();
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.done) {
+                        List<PatientQueue> patientQueueList;
+                        // if (searchString == "") {
+                        //   patientQueueList = [];
+                        // } else {
+                        patientQueueList = filterQueueResults(
+                            snapshot.requireData, queueDateController.text);
+                        //   print(patientQueueList);
+                        // }
+
+                        return displayQueueList(patientQueueList);
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Error pulling Patients Data\n$baseUrl/patients/search/$searchString",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .errorColor()),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
-          IconButton(
-            iconSize: 20,
-            icon: const Icon(
-              Icons.refresh,
-            ),
-            onPressed: () {
-              refreshQueue();
-            },
-          ),
+          Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                child: IconButton(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onPressed: () {
+                    // addAppointmentWindow();
+                  },
+                  icon: const Icon(
+                    Icons.add,
+                    size: 50,
+                  ),
+                ),
+              ))
         ],
       ),
-      Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      MIHCalendar(
-          calendarWidth: 500,
-          rowHeight: 35,
-          setDate: (value) {
-            setState(() {
-              queueDateController.text = value;
-            });
-          }),
-      //spacer
-      FutureBuilder(
-        future: patientQueueResults,
-        builder: (context, snapshot) {
-          //print("patient Queue List  ${snapshot.hasData}");
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Mihloadingcircle();
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            List<PatientQueue> patientQueueList;
-            // if (searchString == "") {
-            //   patientQueueList = [];
-            // } else {
-            patientQueueList = filterQueueResults(
-                snapshot.requireData, queueDateController.text);
-            //   print(patientQueueList);
-            // }
-
-            return displayQueueList(patientQueueList);
-          } else {
-            return Center(
-              child: Text(
-                "Error pulling Patients Data\n$baseUrl/patients/search/$searchString",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor()),
-                textAlign: TextAlign.center,
-              ),
-            );
-          }
-        },
-      ),
-    ]);
+    );
   }
 
   void refreshQueue() {
@@ -259,7 +299,6 @@ class _PatientManagerState extends State<PatientManager> {
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-
         //spacer
         const SizedBox(height: 10),
         Row(
@@ -309,7 +348,6 @@ class _PatientManagerState extends State<PatientManager> {
                     filterSearchResults(snapshot.data!, searchString);
                 //print(patientsList);
               }
-
               return displayPatientList(patientsList, searchString);
             } else {
               return Center(
@@ -347,7 +385,6 @@ class _PatientManagerState extends State<PatientManager> {
   }
 
   //Patient Access Widgets/ Functions
-
   List<PatientAccess> filterAccessResults(
       List<PatientAccess> patAccList, String query) {
     List<PatientAccess> templist = [];
@@ -414,7 +451,6 @@ class _PatientManagerState extends State<PatientManager> {
           ],
         ),
         Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-
         //spacer
         const SizedBox(height: 10),
         Row(
@@ -446,7 +482,6 @@ class _PatientManagerState extends State<PatientManager> {
                 ))
           ],
         ),
-
         //spacer
         const SizedBox(height: 10),
         FutureBuilder(
@@ -465,7 +500,6 @@ class _PatientManagerState extends State<PatientManager> {
                     filterAccessResults(snapshot.data!, accessSearchString);
                 //print(patientsList);
               }
-
               return displayPatientAccessList(patientsAccessList);
             } else {
               return Center(
