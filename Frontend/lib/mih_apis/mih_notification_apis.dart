@@ -252,6 +252,7 @@ class MihNotificationApis {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         '/patient-manager',
         arguments: PatManagerArguments(

@@ -411,7 +411,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                   ),
                 ),
                 Text(
-                  "By pressing the \"Request Access\" button you accept the above terms.",
+                  "By pressing the \"Request Access\" button you accept the above terms.\n",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: MzanziInnovationHub.of(context)!.theme.errorColor(),
@@ -420,29 +420,29 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
               ],
             ),
           ),
-          const SizedBox(height: 20.0),
+          // const SizedBox(height: 15.0),
           Wrap(runSpacing: 10, spacing: 10, children: [
-            Visibility(
-              visible: hasAccess,
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "Book Appointment",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    if (hasAccess) {
-                      appointmentPopUp(index);
-                    } else {
-                      noAccessWarning();
-                    }
-                  },
-                ),
-              ),
-            ),
+            // Visibility(
+            //   visible: hasAccess,
+            //   child: SizedBox(
+            //     width: 300,
+            //     height: 50,
+            //     child: MIHButton(
+            //       buttonText: "Book Appointment",
+            //       buttonColor:
+            //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //       textColor:
+            //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //       onTap: () {
+            //         if (hasAccess) {
+            //           appointmentPopUp(index);
+            //         } else {
+            //           noAccessWarning();
+            //         }
+            //       },
+            //     ),
+            //   ),
+            // ),
             Visibility(
               visible: hasAccess,
               child: SizedBox(

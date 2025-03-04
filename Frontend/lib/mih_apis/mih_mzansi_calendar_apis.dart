@@ -135,7 +135,8 @@ class MihMzansiCalendarApis {
     if (response.statusCode == 200) {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
-      if (inWaitingRoom) {
+      Navigator.of(context).pop();
+      if (inWaitingRoom == true && personalSelected == false) {
         Navigator.of(context).pushNamed(
           '/patient-manager',
           arguments: PatManagerArguments(
@@ -150,7 +151,7 @@ class MihMzansiCalendarApis {
           '/calendar',
           arguments: CalendarArguments(
             signedInUser,
-            false,
+            personalSelected,
             business,
             businessUser,
           ),
@@ -262,6 +263,7 @@ class MihMzansiCalendarApis {
       }),
     );
     if (response.statusCode == 201) {
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
@@ -391,7 +393,7 @@ class MihMzansiCalendarApis {
       }),
     );
     if (response.statusCode == 200) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       String message =
@@ -453,7 +455,7 @@ class MihMzansiCalendarApis {
       }),
     );
     if (response.statusCode == 200) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       String message =
@@ -515,13 +517,14 @@ class MihMzansiCalendarApis {
       }),
     );
     if (response.statusCode == 200) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       String message =
           "Your appointment \"$title\" has been updates to the $date $title.";
 
-      Navigator.pop(context);
+      // Navigator.pop(context);
       Navigator.of(context).pushNamed(
         '/patient-manager',
         arguments: PatManagerArguments(

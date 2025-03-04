@@ -446,33 +446,33 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
-                SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      setState(() {
-                        widget.titleController.text =
-                            widget.appointmentList[index].title;
-                        widget.descriptionIDController.text =
-                            widget.appointmentList[index].description;
-                        widget.dateController.text = widget
-                            .appointmentList[index].date_time
-                            .split('T')[0];
-                        widget.timeController.text = widget
-                            .appointmentList[index].date_time
-                            .split('T')[1]
-                            .substring(0, 5);
-                      });
-                      Navigator.of(context).pop();
-                    },
-                    buttonText: "Cancel",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                ),
+                // SizedBox(
+                //   width: 500,
+                //   height: 50,
+                //   child: MIHButton(
+                //     onTap: () {
+                //       setState(() {
+                //         widget.titleController.text =
+                //             widget.appointmentList[index].title;
+                //         widget.descriptionIDController.text =
+                //             widget.appointmentList[index].description;
+                //         widget.dateController.text = widget
+                //             .appointmentList[index].date_time
+                //             .split('T')[0];
+                //         widget.timeController.text = widget
+                //             .appointmentList[index].date_time
+                //             .split('T')[1]
+                //             .substring(0, 5);
+                //       });
+                //       Navigator.of(context).pop();
+                //     },
+                //     buttonText: "Cancel",
+                //     buttonColor:
+                //         MzanziInnovationHub.of(context)!.theme.errorColor(),
+                //     textColor:
+                //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                //   ),
+                // ),
               ],
             )
           ],
@@ -557,6 +557,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   }
 
   void deleteAppointmentCall(int index) {
+    print("personal selected: ${widget.personalSelected}");
     MihMzansiCalendarApis.deleteAppointmentAPICall(
       widget.signedInUser,
       widget.personalSelected,
