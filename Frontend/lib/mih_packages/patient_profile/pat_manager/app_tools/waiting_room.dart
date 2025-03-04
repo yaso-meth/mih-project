@@ -4,7 +4,6 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
@@ -15,19 +14,23 @@ import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 
 class WaitingRoom extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
+  final BusinessUser? businessUser;
   final bool personalSelected;
-
+  final Function(int) onIndexChange;
   const WaitingRoom({
     super.key,
     required this.signedInUser,
-    this.business,
+    required this.business,
+    required this.businessUser,
     required this.personalSelected,
+    required this.onIndexChange,
   });
 
   @override
@@ -52,6 +55,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
 
   late Future<List<Appointment>> businessAppointmentResults;
   late Future<List<Appointment>> appointmentResults;
+  bool inWaitingRoom = true;
 
   // Business Appointment Tool
   Widget getBusinessAppointmentsTool() {
@@ -122,7 +126,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               child: IconButton(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 onPressed: () {
-                  addAppointmentWindow();
+                  appointmentTypeSelection();
                 },
                 icon: const Icon(
                   Icons.add,
@@ -141,6 +145,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
           appointmentList: appointmentList,
           signedInUser: widget.signedInUser,
           business: widget.business,
+          businessUser: widget.businessUser,
           personalSelected: widget.personalSelected,
           inWaitingRoom: true,
           titleController: _appointmentTitleController,
@@ -170,7 +175,89 @@ class _WaitingRoomState extends State<WaitingRoom> {
     );
   }
 
+  void appointmentTypeSelection() {
+    String question = "What type of appointment would you like to add?";
+    question +=
+        "\n\nExisting Patient: Add an appointment for an patient your practice has access to.";
+    question +=
+        "\nExisting MIH User: Add an appointment for an existing MIH user your practice does not have access to.";
+    question +=
+        "\nSkeleton Appointment: Add an appointment without a patient linked.";
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MIHWindow(
+          fullscreen: false,
+          windowTitle: "Appointment Type",
+          windowTools: [],
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+          },
+          windowBody: [
+            Text(
+              question,
+              style: TextStyle(
+                  fontSize: 20,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(height: 15),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  widget.onIndexChange(1);
+                  Navigator.of(context).pop();
+                },
+                buttonText: "Existing Patient",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  widget.onIndexChange(2);
+                  Navigator.of(context).pop();
+                },
+                buttonText: "Existing MIH User",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 500,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  addAppointmentWindow();
+                },
+                buttonText: "Skeleton Appointment",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void addAppointmentWindow() {
+    print(widget.personalSelected);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -195,18 +282,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
                 hintText: "Title",
                 editable: true,
                 required: true,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              child: MIHSearchField(
-                controller: _patientController,
-                hintText: "Patient ID Number",
-                required: false,
-                editable: true,
-                onTap: () {
-                  //To-Do: Add search functionality
-                },
               ),
             ),
             const SizedBox(height: 10),
@@ -244,9 +319,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               height: 50,
               child: MIHButton(
                 onTap: () {
-                  //To-Do: Add appointment
-                  print("To-Do: Add appointment");
-                  // addAppointmentCall();
+                  addAppointmentCall();
                 },
                 buttonText: "Add",
                 buttonColor:
@@ -267,6 +340,8 @@ class _WaitingRoomState extends State<WaitingRoom> {
         MihMzansiCalendarApis.addBusinessAppointment(
           widget.signedInUser,
           widget.business!,
+          widget.businessUser!,
+          true,
           _appointmentTitleController.text,
           _appointmentDescriptionIDController.text,
           _appointmentDateController.text,

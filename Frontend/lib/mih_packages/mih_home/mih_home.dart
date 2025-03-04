@@ -38,6 +38,7 @@ import '../../mih_objects/business_user.dart';
 import '../../mih_objects/notification.dart';
 import '../test/test.dart';
 
+// ignore: must_be_immutable
 class MIHHome extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
@@ -49,8 +50,8 @@ class MIHHome extends StatefulWidget {
   final bool isBusinessUser;
   final bool isBusinessUserNew;
   final bool isDevActive;
-  final bool personalSelected;
-  const MIHHome({
+  bool personalSelected;
+  MIHHome({
     super.key,
     required this.signedInUser,
     required this.businessUser,
@@ -253,6 +254,7 @@ class _MIHHomeState extends State<MIHHome> {
             widget.signedInUser,
             true,
             widget.business,
+            null,
           ),
         );
       },
@@ -434,6 +436,7 @@ class _MIHHomeState extends State<MIHHome> {
             widget.signedInUser,
             false,
             widget.business,
+            widget.businessUser,
           ),
         );
       },
@@ -1171,8 +1174,10 @@ class _MIHHomeState extends State<MIHHome> {
               text: "Personal",
               onPressed: () {
                 setState(() {
+                  widget.personalSelected = true;
                   _selectedIndex = 0;
                 });
+                print("personal selected: ${widget.personalSelected}");
               },
             ),
             GButton(
@@ -1180,8 +1185,10 @@ class _MIHHomeState extends State<MIHHome> {
               text: "Business",
               onPressed: () {
                 setState(() {
+                  widget.personalSelected = false;
                   _selectedIndex = 1;
                 });
+                print("personal selected: ${widget.personalSelected}");
               },
             ),
           ],

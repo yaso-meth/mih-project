@@ -9,6 +9,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_bo
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
@@ -21,12 +22,14 @@ import '../../mih_objects/app_user.dart';
 class Appointments extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
+  final BusinessUser? businessUser;
   final bool personalSelected;
 
   const Appointments({
     super.key,
     required this.signedInUser,
     required this.business,
+    required this.businessUser,
     required this.personalSelected,
   });
 
@@ -60,6 +63,7 @@ class _PatientAccessRequestState extends State<Appointments> {
           appointmentList: appointmentList,
           signedInUser: widget.signedInUser,
           business: widget.business,
+          businessUser: widget.businessUser,
           personalSelected: widget.personalSelected,
           inWaitingRoom: false,
           titleController: _appointmentTitleController,
@@ -182,6 +186,8 @@ class _PatientAccessRequestState extends State<Appointments> {
         MihMzansiCalendarApis.addBusinessAppointment(
           widget.signedInUser,
           widget.business!,
+          widget.businessUser!,
+          false,
           _appointmentTitleController.text,
           _appointmentDescriptionIDController.text,
           _appointmentDateController.text,

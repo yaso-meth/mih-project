@@ -12,12 +12,14 @@ import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
 
 class BuildAppointmentList extends StatefulWidget {
   final List<Appointment> appointmentList;
   final AppUser signedInUser;
   final Business? business;
+  final BusinessUser? businessUser;
   final bool personalSelected;
   final bool inWaitingRoom;
   final TextEditingController titleController;
@@ -31,6 +33,7 @@ class BuildAppointmentList extends StatefulWidget {
     required this.appointmentList,
     required this.signedInUser,
     required this.business,
+    required this.businessUser,
     required this.personalSelected,
     required this.inWaitingRoom,
     required this.titleController,
@@ -505,16 +508,44 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
 
   void updateAppointmentCall(int index) {
     if (isAppointmentInputValid()) {
-      MihMzansiCalendarApis.updatePersonalAppointment(
-        widget.signedInUser,
-        widget.business,
-        widget.appointmentList[index].idappointments,
-        widget.titleController.text,
-        widget.descriptionIDController.text,
-        widget.dateController.text,
-        widget.timeController.text,
-        context,
-      );
+      if (widget.personalSelected == true) {
+        MihMzansiCalendarApis.updatePersonalAppointment(
+          widget.signedInUser,
+          widget.business,
+          null,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      } else if (widget.personalSelected == false &&
+          widget.inWaitingRoom == false) {
+        MihMzansiCalendarApis.updateBusinessAppointment(
+          widget.signedInUser,
+          widget.business,
+          widget.businessUser,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      } else {
+        MihMzansiCalendarApis.updatePatientAppointment(
+          widget.signedInUser,
+          widget.business,
+          widget.businessUser,
+          widget.appointmentList[index].idappointments,
+          widget.titleController.text,
+          widget.descriptionIDController.text,
+          widget.dateController.text,
+          widget.timeController.text,
+          context,
+        );
+      }
     } else {
       showDialog(
         context: context,
@@ -526,8 +557,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   }
 
   void deleteAppointmentCall(int index) {
-    MihMzansiCalendarApis.deleteLoyaltyCardAPICall(
+    MihMzansiCalendarApis.deleteAppointmentAPICall(
       widget.signedInUser,
+      widget.personalSelected,
+      widget.business,
+      widget.businessUser,
+      widget.inWaitingRoom,
       widget.appointmentList[index].idappointments,
       context,
     );

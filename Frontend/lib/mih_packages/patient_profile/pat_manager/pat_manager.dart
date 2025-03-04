@@ -20,6 +20,13 @@ class PatManager extends StatefulWidget {
 
 class _PatManagerState extends State<PatManager> {
   int _selcetedIndex = 0;
+
+  void updateIndex(int index) {
+    setState(() {
+      _selcetedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihApp(
@@ -82,7 +89,9 @@ class _PatManagerState extends State<PatManager> {
       WaitingRoom(
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
         personalSelected: widget.arguments.personalSelected,
+        onIndexChange: updateIndex,
       ),
       MyPatientList(
         signedInUser: widget.arguments.signedInUser,

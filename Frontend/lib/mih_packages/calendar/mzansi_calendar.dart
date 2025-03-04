@@ -69,6 +69,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       Appointments(
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
         personalSelected: widget.arguments.personalSelected,
       ),
     ];
