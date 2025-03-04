@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_notification_apis.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/appointment.dart';
@@ -69,6 +70,7 @@ class MihMzansiCalendarApis {
   /// Returns Future<List<Appointment>>.
   static Future<List<Appointment>> getBusinessAppointments(
     String business_id,
+    bool waitingRoom,
     String date,
   ) async {
     //print("Patien manager page: $endpoint");
@@ -88,6 +90,15 @@ class MihMzansiCalendarApis {
           List<Appointment>.from(l.map((model) => Appointment.fromJson(model)));
       //print("Here3");
       //print(patientQueue);
+      if (waitingRoom == true) {
+        businessAppointments = businessAppointments
+            .where((element) => element.app_id != "")
+            .toList();
+      } else {
+        businessAppointments = businessAppointments
+            .where((element) => element.app_id == "")
+            .toList();
+      }
       return businessAppointments;
     } else {
       throw Exception('failed to fatch business appointments');
@@ -248,6 +259,60 @@ class MihMzansiCalendarApis {
     }
   }
 
+  /// This function is used to add an appointment to users mzansi Calendar.
+  ///
+  /// Patameters:-
+  /// AppUser signedInUser,
+  /// String app_id,
+  /// String title,
+  /// String description,
+  /// String date,
+  /// String time,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS SUCCESS pop up)
+  static Future<void> addPatientAppointment(
+    AppUser signedInUser,
+    bool personalSelected,
+    String patientAppId,
+    BusinessArguments businessArgs,
+    String title,
+    String description,
+    String date,
+    String time,
+    BuildContext context,
+  ) async {
+    loadingPopUp(context);
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/appointment/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": patientAppId,
+        "business_id": businessArgs.business?.business_id,
+        "title": title,
+        "description": description,
+        "date": date,
+        "time": time,
+      }),
+    );
+    if (response.statusCode == 201) {
+      MihNotificationApis.addNewAppointmentNotificationAPICall(
+        patientAppId,
+        personalSelected,
+        date,
+        time,
+        businessArgs,
+        context,
+      );
+      // Navigator.pop(context);
+    } else {
+      Navigator.pop(context);
+      internetConnectionPopUp(context);
+    }
+  }
+
   /// This function is used to update an appointment to users mzansi Calendar.
   ///
   /// Patameters:-
@@ -263,6 +328,7 @@ class MihMzansiCalendarApis {
   /// Returns VOID (TRIGGERS SUCCESS pop up)
   static Future<void> updatePersonalAppointment(
     AppUser signedInUser,
+    Business? business,
     int idappointments,
     String title,
     String description,
@@ -285,7 +351,7 @@ class MihMzansiCalendarApis {
       }),
     );
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       Navigator.pop(context);
       Navigator.pop(context);
       String message =
@@ -294,7 +360,11 @@ class MihMzansiCalendarApis {
       Navigator.pop(context);
       Navigator.of(context).pushNamed(
         '/calendar',
-        arguments: signedInUser,
+        arguments: CalendarArguments(
+          signedInUser,
+          true,
+          business,
+        ),
       );
       successPopUp(message, context);
     } else {
