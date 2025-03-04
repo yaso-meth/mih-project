@@ -19,7 +19,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
     'C',
     '(',
     ')',
-    'Del',
+    'D',
     '7',
     '8',
     '9',
