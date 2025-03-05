@@ -393,6 +393,7 @@ class _SignInState extends State<SignIn> {
                             editable: true,
                             required: true,
                             autoFillHintGroup: const [AutofillHints.email],
+                            textInputAction: TextInputAction.next,
                           ),
                         ),
 
