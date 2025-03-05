@@ -59,7 +59,7 @@ dependencies:
   table_calendar: ^3.1.2
   flutter_swipe_detector: ^2.0.0
   youtube_player_iframe: ^5.2.0
-  simple_barcode_scanner: ^0.3.0
+  # simple_barcode_scanner: ^0.3.0
   mobile_scanner: ^6.0.6
   flutter_launcher_icons: ^0.13.1
   # flutter_barcode_scanner: ^2.0.0
