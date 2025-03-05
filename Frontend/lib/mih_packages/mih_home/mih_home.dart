@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
@@ -607,42 +606,17 @@ class _MIHHomeState extends State<MIHHome> {
         s: getSec(),
       ));
       tileList.add(MIHTile(
-        onTap: () async {
-          if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
-            print("================ Web ====================");
-            print("here 1");
-            try {
-              String? res = await SimpleBarcodeScanner.scanBarcode(
-                context,
-                barcodeAppBar: const BarcodeAppBar(
-                  appBarTitle: 'Scan Barcode',
-                  centerTitle: true,
-                  enableBackButton: true,
-                  backButtonIcon: Icon(Icons.arrow_back),
-                ),
-                isShowFlashIcon: true,
-                delayMillis: 500,
-                cameraFace: CameraFace.back,
-                scanFormat: ScanFormat.ONLY_BARCODE,
-              );
-              if (res != null) {
-                print(res);
-              }
-            } catch (error) {
-              print(error);
-            }
-          } else {
-            TextEditingController cardNumberController =
-                TextEditingController();
-            Navigator.of(context).pushNamed(
-              '/scanner',
-              arguments: cardNumberController,
-            );
-          }
+        onTap: () {
+          TextEditingController cardNumberController = TextEditingController();
+          Navigator.of(context).pushNamed(
+            '/scanner',
+            arguments: cardNumberController,
+          );
+          print(cardNumberController.text);
         },
         tileName: "Scanner - Dev",
         tileIcon: Icon(
-          Icons.scanner,
+          Icons.camera_alt_outlined,
           color: getSec(),
           size: 230,
         ),

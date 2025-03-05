@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +16,73 @@ class MihBarcodeScanner extends StatefulWidget {
   State<MihBarcodeScanner> createState() => _MihBarcodeScannerState();
 }
 
-class _MihBarcodeScannerState extends State<MihBarcodeScanner> {
-  final MobileScannerController scannerController = MobileScannerController(
+class _MihBarcodeScannerState extends State<MihBarcodeScanner>
+    with WidgetsBindingObserver {
+  final MobileScannerController _scannerController = MobileScannerController(
     detectionSpeed: DetectionSpeed.normal,
   );
+  StreamSubscription<Object>? _subscription;
+  bool _isScannerStarting = false;
+  bool barcodeScanned = false;
 
   void foundCode(BarcodeCapture bcode) {
-    if (bcode.barcodes.first.rawValue != null) {
+    if (mounted &&
+        barcodeScanned == false &&
+        bcode.barcodes.isNotEmpty &&
+        bcode.barcodes.first.rawValue != null) {
       setState(() {
+        barcodeScanned = true;
         widget.cardNumberController.text = bcode.barcodes.first.rawValue!;
       });
-      //print(bcode.barcodes.first.rawValue);
-      scannerController.stop();
+      print(bcode.barcodes.first.rawValue);
+      _scannerController.stop();
       Navigator.of(context).pop();
     }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_scannerController.value.hasCameraPermission) {
+      return;
+    }
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        if (!_scannerController.value.isRunning && !_isScannerStarting) {
+          _isScannerStarting = true;
+          _subscription = _scannerController.barcodes.listen(foundCode);
+          unawaited(_scannerController.start().then((_) {
+            _isScannerStarting = false;
+          }));
+        }
+      case AppLifecycleState.inactive:
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        unawaited(_scannerController.stop().then((_) {
+          _isScannerStarting = false;
+        }));
+    }
+  }
+
+  @override
+  Future<void> dispose() async {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    super.dispose();
+    await _scannerController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _subscription = _scannerController.barcodes.listen(foundCode);
+    unawaited(_scannerController.start());
   }
 
   @override
@@ -37,6 +92,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner> {
         body: Stack(
           children: [
             MobileScanner(
+              controller: _scannerController,
               onDetect: foundCode,
             ),
             Align(
@@ -66,7 +122,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner> {
                     padding: const EdgeInsets.all(10.0),
                     child: MIHButton(
                       onTap: () {
-                        scannerController.stop();
+                        _scannerController.stop();
                         Navigator.of(context).pop();
                       },
                       buttonText: "Cancel",
