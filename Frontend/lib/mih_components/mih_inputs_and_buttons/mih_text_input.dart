@@ -6,6 +6,7 @@ class MIHTextField extends StatefulWidget {
   final String hintText;
   final bool editable;
   final bool required;
+  final TextInputAction? textInputAction;
   final Iterable<String>? autoFillHintGroup;
 
   const MIHTextField({
@@ -15,6 +16,7 @@ class MIHTextField extends StatefulWidget {
     required this.editable,
     required this.required,
     this.autoFillHintGroup,
+    this.textInputAction,
   });
 
   @override
@@ -131,6 +133,7 @@ class _MIHTextFieldState extends State<MIHTextField> {
   Widget build(BuildContext context) {
     return TextField(
       autofillHints: widget.autoFillHintGroup,
+      textInputAction: widget.textInputAction,
       style: TextStyle(
         color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       ),
