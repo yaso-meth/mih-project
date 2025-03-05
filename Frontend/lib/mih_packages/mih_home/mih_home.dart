@@ -280,7 +280,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/calculator',
-          //arguments: widget.signedInUser,
+          arguments: widget.personalSelected,
         );
       },
       tileName: "Calculator",
@@ -486,7 +486,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/calculator',
-          //arguments: widget.signedInUser,
+          arguments: widget.personalSelected,
         );
       },
       tileName: "Calculator",
