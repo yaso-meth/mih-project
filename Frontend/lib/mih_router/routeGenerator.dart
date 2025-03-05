@@ -1,6 +1,6 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/calculator.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
@@ -308,10 +308,16 @@ class RouteGenerator {
 
           //Calculator
           case '/calculator':
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const MIHCalculator(),
-            );
+            if (args is bool) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => MIHCalculator(
+                  personalSelected: args,
+                ),
+              );
+            }
+            return _errorRoute();
+          //===============================================================
 
           //===============================================================
 

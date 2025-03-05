@@ -9,7 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 class MIHCalculator extends StatefulWidget {
-  const MIHCalculator({super.key});
+  final bool personalSelected;
+  const MIHCalculator({
+    super.key,
+    required this.personalSelected,
+  });
 
   @override
   State<MIHCalculator> createState() => _MIHCalculatorState();
@@ -26,7 +30,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
         Navigator.of(context).pop();
         Navigator.of(context).popAndPushNamed(
           '/',
-          arguments: AuthArguments(true, false),
+          arguments: AuthArguments(widget.personalSelected, false),
         );
       },
     );
