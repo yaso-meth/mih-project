@@ -241,6 +241,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               height: 50,
               child: MIHButton(
                 onTap: () {
+                  Navigator.pop(context);
                   addAppointmentWindow();
                 },
                 buttonText: "Skeleton Appointment",
