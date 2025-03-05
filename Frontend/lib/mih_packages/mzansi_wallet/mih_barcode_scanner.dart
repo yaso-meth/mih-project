@@ -23,10 +23,15 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
   );
   StreamSubscription<Object>? _subscription;
   bool _isScannerStarting = false;
+  bool barcodeScanned = false;
 
   void foundCode(BarcodeCapture bcode) {
-    if (bcode.barcodes.isNotEmpty && bcode.barcodes.first.rawValue != null) {
+    if (mounted &&
+        barcodeScanned == false &&
+        bcode.barcodes.isNotEmpty &&
+        bcode.barcodes.first.rawValue != null) {
       setState(() {
+        barcodeScanned = true;
         widget.cardNumberController.text = bcode.barcodes.first.rawValue!;
       });
       print(bcode.barcodes.first.rawValue);
