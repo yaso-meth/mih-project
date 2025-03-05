@@ -124,9 +124,14 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       }
 
       Navigator.of(context).pop();
-      Navigator.of(context).popAndPushNamed(
-        '/',
-        arguments: AuthArguments(false, false),
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/business-profile/manage',
+        arguments: BusinessArguments(
+          widget.arguments.signedInUser,
+          widget.arguments.businessUser,
+          widget.arguments.business,
+        ),
       );
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
