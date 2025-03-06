@@ -243,7 +243,7 @@ class _RegisterState extends State<Register> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
-          //arguments: widget.signedInUser,
+          arguments: 0,
         );
       },
     );
