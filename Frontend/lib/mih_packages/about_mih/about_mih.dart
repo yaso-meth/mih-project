@@ -7,14 +7,26 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/app_tools/mih_terms
 import 'package:flutter/material.dart';
 
 class AboutMih extends StatefulWidget {
-  const AboutMih({super.key});
+  final int packageIndex;
+  const AboutMih({
+    super.key,
+    required this.packageIndex,
+  });
 
   @override
   State<AboutMih> createState() => _AboutMihState();
 }
 
 class _AboutMihState extends State<AboutMih> {
-  int _selcetedIndex = 0;
+  late int _selcetedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _selcetedIndex = widget.packageIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
