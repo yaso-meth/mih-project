@@ -90,8 +90,15 @@ class RouteGenerator {
 
           //About MIH
           case '/about':
-            return MaterialPageRoute(
-                settings: settings, builder: (_) => const AboutMih());
+            if (args is int) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => AboutMih(
+                  packageIndex: args,
+                ),
+              );
+            }
+            return _errorRoute();
           //===============================================================
 
           //Privacy Policy
