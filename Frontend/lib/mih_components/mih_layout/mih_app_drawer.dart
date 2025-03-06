@@ -224,8 +224,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                             ),
                             onTap: () {
                               Navigator.of(context).pushNamed(
-                                '/privacy-policy',
-                                //arguments: widget.signedInUser,
+                                '/about',
+                                arguments: 1,
                               );
                             },
                           ),
@@ -253,8 +253,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                             ),
                             onTap: () {
                               Navigator.of(context).pushNamed(
-                                '/terms-of-service',
-                                //arguments: widget.signedInUser,
+                                '/about',
+                                arguments: 2,
                               );
                             },
                           ),

@@ -3,17 +3,18 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_header.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/policy_and_terms_text.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/policy_and_terms_text.dart';
 import 'package:flutter/material.dart';
 
-class MIHPrivacyPolocy extends StatefulWidget {
-  const MIHPrivacyPolocy({super.key});
+class MIHTermsOfServiceExternal extends StatefulWidget {
+  const MIHTermsOfServiceExternal({super.key});
 
   @override
-  State<MIHPrivacyPolocy> createState() => _MIHPrivacyPolocyState();
+  State<MIHTermsOfServiceExternal> createState() =>
+      _MIHTermsOfServiceExternalState();
 }
 
-class _MIHPrivacyPolocyState extends State<MIHPrivacyPolocy> {
+class _MIHTermsOfServiceExternalState extends State<MIHTermsOfServiceExternal> {
   MIHAction getActionButton() {
     return MIHAction(
       icon: const Icon(Icons.arrow_back),
@@ -31,22 +32,14 @@ class _MIHPrivacyPolocyState extends State<MIHPrivacyPolocy> {
   MIHHeader getHeader() {
     return const MIHHeader(
       headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Privacy Policy",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
+      headerItems: [],
     );
   }
 
   MIHBody getBody() {
     return MIHBody(
       borderOn: false,
-      bodyItems: PolicyAndTermsText().getPrivacyPolicyText(context),
+      bodyItems: PolicyAndTermsText().getTermsOfServiceText(context),
     );
   }
 

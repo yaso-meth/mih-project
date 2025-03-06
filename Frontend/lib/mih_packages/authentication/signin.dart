@@ -291,7 +291,7 @@ class _SignInState extends State<SignIn> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
-          //arguments: widget.signedInUser,
+          arguments: 0,
         );
       },
     );

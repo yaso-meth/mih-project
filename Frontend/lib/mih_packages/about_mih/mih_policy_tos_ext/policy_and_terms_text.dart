@@ -29,8 +29,17 @@ class PolicyAndTermsText {
         child:
             Image(image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
       ),
-      const SizedBox(
-        height: 10,
+      const SizedBox(height: 10),
+      const Text(
+        "Privacy Policy",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        child: Divider(),
       ),
       //=============== Effective Date ===============
       SizedBox(
@@ -426,6 +435,17 @@ class PolicyAndTermsText {
       ),
       const SizedBox(
         height: 10,
+      ),
+      const Text(
+        "Terms of Service",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        child: Divider(),
       ),
       //=============== Effective Date ===============
       SizedBox(

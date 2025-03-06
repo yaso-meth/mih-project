@@ -1,30 +1,22 @@
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
-import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
-import '../../mih_components/mih_layout/mih_tile.dart';
-import '../../main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
-// import 'dart:io' show Platform;
-// import 'dart:html' as html;
 
-class MIHAbout extends StatefulWidget {
-  const MIHAbout({
-    super.key,
-  });
+class MihInfo extends StatefulWidget {
+  const MihInfo({super.key});
 
   @override
-  State<MIHAbout> createState() => _MIHAboutState();
+  State<MihInfo> createState() => _MihInfoState();
 }
 
-class _MIHAboutState extends State<MIHAbout> {
+class _MihInfoState extends State<MihInfo> {
   final Uri _tiktokUrl =
       Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
   final Uri _whatsappUrl =
@@ -41,140 +33,6 @@ class _MIHAboutState extends State<MIHAbout> {
       Uri.parse('https://www.linkedin.com/company/mzansi-innovation-hub/');
   final Uri _facebookUrl =
       Uri.parse('https://www.facebook.com/profile.php?id=61565345762136');
-
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          '/',
-          arguments: AuthArguments(true, false),
-          (route) => false,
-        );
-      },
-    );
-  }
-
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "About",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
-  }
-
-  MIHBody getBody() {
-    return MIHBody(
-      borderOn: false,
-      bodyItems: [
-        SizedBox(
-          width: 165,
-          child: Image(
-              image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          "Mzansi Innovation Hub",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: Divider(),
-        ),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        Wrap(
-          alignment: WrapAlignment.start,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            ourVision(),
-            ourMission(),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    installMihTrigger();
-                  },
-                  buttonText: "Install MIH",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    launchSocialUrl(
-                      Uri.parse(
-                        "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                      ),
-                    );
-                  },
-                  buttonText: "MIH Beginners Guide",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ]),
-        const SizedBox(
-          height: 10,
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: Divider(),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          // spacing: 10,
-          // runSpacing: 10,
-          children: [
-            founderTitle(),
-            founderBio(),
-          ],
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: Divider(),
-        ),
-        mihSocials(),
-      ],
-    );
-  }
 
   void installMihTrigger() {
     final isWebAndroid =
@@ -674,27 +532,121 @@ class _MIHAboutState extends State<MIHAbout> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      secondaryActionButton: null,
-      header: getHeader(),
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return MihAppToolBody(
+      borderOn: false,
+      bodyItem: getBody(),
+    );
+  }
+
+  Widget getBody() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 165,
+              child: Image(
+                  image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "Mzansi Innovation Hub",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Divider(),
+            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                ourVision(),
+                ourMission(),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: () {
+                        installMihTrigger();
+                      },
+                      buttonText: "Install MIH",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: () {
+                        launchSocialUrl(
+                          Uri.parse(
+                            "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                          ),
+                        );
+                      },
+                      buttonText: "MIH Beginners Guide",
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  ),
+                ]),
+            const SizedBox(
+              height: 10,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Divider(),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              // spacing: 10,
+              // runSpacing: 10,
+              children: [
+                founderTitle(),
+                founderBio(),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Divider(),
+            ),
+            mihSocials(),
+          ],
+        ),
+      ),
     );
   }
 }

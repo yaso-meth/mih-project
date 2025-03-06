@@ -1,8 +1,9 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/about_mih.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_privacy_polocy_external.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_terms_of_service_external.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_privacy_polocy.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/mih_terms_of_service.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
@@ -17,7 +18,7 @@ import '../mih_packages/patient_profile/patient_edit.dart';
 // import '../mih_packages/patient_profile/patient_manager.dart';
 import '../mih_objects/app_user.dart';
 import '../mih_objects/arguments.dart';
-import '../mih_packages/about_mih/mih_about.dart';
+// import '../mih_packages/about_mih/mih_about.dart';
 import '../mih_packages/authentication/forgot_password.dart';
 import '../mih_packages/authentication/reset_password.dart';
 import '../mih_packages/patient_profile/full_screen_file.dart';
@@ -46,13 +47,15 @@ class RouteGenerator {
       //Privacy Policy
       case '/privacy-policy':
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const MIHPrivacyPolocy());
+            settings: settings,
+            builder: (_) => const MIHPrivacyPolocyExternal());
       //===============================================================
 
       //Terms Of Service
       case '/terms-of-service':
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const MIHTermsOfService());
+            settings: settings,
+            builder: (_) => const MIHTermsOfServiceExternal());
       //===============================================================
       default:
         // Internal Navigation
@@ -87,20 +90,29 @@ class RouteGenerator {
 
           //About MIH
           case '/about':
-            return MaterialPageRoute(
-                settings: settings, builder: (_) => const MIHAbout());
+            if (args is int) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => AboutMih(
+                  packageIndex: args,
+                ),
+              );
+            }
+            return _errorRoute();
           //===============================================================
 
           //Privacy Policy
           case '/privacy-policy':
             return MaterialPageRoute(
-                settings: settings, builder: (_) => const MIHPrivacyPolocy());
+                settings: settings,
+                builder: (_) => const MIHPrivacyPolocyExternal());
           //===============================================================
 
           //Terms Of Service
           case '/terms-of-service':
             return MaterialPageRoute(
-                settings: settings, builder: (_) => const MIHTermsOfService());
+                settings: settings,
+                builder: (_) => const MIHTermsOfServiceExternal());
           //===============================================================
 
           //User Profile

@@ -3,17 +3,18 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_header.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mih_policy_tos/policy_and_terms_text.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/policy_and_terms_text.dart';
 import 'package:flutter/material.dart';
 
-class MIHTermsOfService extends StatefulWidget {
-  const MIHTermsOfService({super.key});
+class MIHPrivacyPolocyExternal extends StatefulWidget {
+  const MIHPrivacyPolocyExternal({super.key});
 
   @override
-  State<MIHTermsOfService> createState() => _MIHTermsOfServiceState();
+  State<MIHPrivacyPolocyExternal> createState() =>
+      _MIHPrivacyPolocyExternalState();
 }
 
-class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
+class _MIHPrivacyPolocyExternalState extends State<MIHPrivacyPolocyExternal> {
   MIHAction getActionButton() {
     return MIHAction(
       icon: const Icon(Icons.arrow_back),
@@ -31,22 +32,14 @@ class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
   MIHHeader getHeader() {
     return const MIHHeader(
       headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Terms of Service",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
+      headerItems: [],
     );
   }
 
   MIHBody getBody() {
     return MIHBody(
       borderOn: false,
-      bodyItems: PolicyAndTermsText().getTermsOfServiceText(context),
+      bodyItems: PolicyAndTermsText().getPrivacyPolicyText(context),
     );
   }
 
