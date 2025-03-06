@@ -329,7 +329,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
-          //arguments: widget.signedInUser,
+          arguments: 0,
         );
       },
       tileName: "About MIH",
@@ -510,7 +510,7 @@ class _MIHHomeState extends State<MIHHome> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',
-          //arguments: widget.signedInUser,
+          arguments: 0,
         );
       },
       tileName: "About MIH",
