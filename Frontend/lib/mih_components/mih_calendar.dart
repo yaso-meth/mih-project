@@ -64,7 +64,7 @@ class _MIHCalendarState extends State<MIHCalendar> {
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
           todayDecoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+            color: MzanziInnovationHub.of(context)!.theme.successColor(),
             shape: BoxShape.circle,
           ),
           selectedTextStyle: TextStyle(
