@@ -33,6 +33,8 @@ class _MihInfoState extends State<MihInfo> {
       Uri.parse('https://www.linkedin.com/company/mzansi-innovation-hub/');
   final Uri _facebookUrl =
       Uri.parse('https://www.facebook.com/profile.php?id=61565345762136');
+  final Uri _redditUrl =
+      Uri.parse('https://www.reddit.com/r/Mzani_Innovation_Hub/');
 
   void installMihTrigger() {
     final isWebAndroid =
@@ -514,6 +516,22 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          size: 200,
+        ),
+      ),
+      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    ));
+    //==================================================================
+    socials.add(MIHTile(
+      onTap: () {
+        launchSocialUrl(_redditUrl);
+      },
+      tileName: "Reddit",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.reddit,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
