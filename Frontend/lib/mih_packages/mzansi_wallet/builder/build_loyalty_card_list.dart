@@ -143,35 +143,32 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     // final double width = size.width;
     //final double height = size.height;
     if (widget.cardList.isNotEmpty) {
-      return SizedBox(
-        height: size.height,
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.only(
-            left: getHorizontalPaddingSize(size),
-            right: getHorizontalPaddingSize(size),
-            //bottom: height / 5,
-            //top: 20,
-          ),
-          // physics: ,
-          // shrinkWrap: true,
-          itemCount: widget.cardList.length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            mainAxisSpacing: 0,
-            crossAxisSpacing: 10,
-            maxCrossAxisExtent: 200,
-          ),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: MihCardDisplay(
-                  shopName: widget.cardList[index].shop_name, height: 100),
-              onTap: () {
-                viewCardWindow(index);
-              },
-            );
-          },
+      return GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.only(
+          left: getHorizontalPaddingSize(size),
+          right: getHorizontalPaddingSize(size),
+          //bottom: height / 5,
+          //top: 20,
         ),
+        // physics: ,
+        // shrinkWrap: true,
+        itemCount: widget.cardList.length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 10,
+          maxCrossAxisExtent: 200,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            child: MihCardDisplay(
+                shopName: widget.cardList[index].shop_name, height: 100),
+            onTap: () {
+              viewCardWindow(index);
+            },
+          );
+        },
       );
       // return ListView.separated(
       //   shrinkWrap: true,

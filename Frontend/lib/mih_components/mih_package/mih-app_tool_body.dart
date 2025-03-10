@@ -76,6 +76,7 @@ class _MihAppToolBodyState extends State<MihAppToolBody> {
         top: 0,
       ),
       child: Container(
+        height: screenSize.height,
         decoration: getBoader(),
         child: Padding(
           padding: EdgeInsets.all(_innerBodyPadding),
