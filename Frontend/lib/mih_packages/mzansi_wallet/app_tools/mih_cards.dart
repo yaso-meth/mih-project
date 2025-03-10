@@ -226,25 +226,15 @@ class _MihCardsState extends State<MihCards> {
   Widget build(BuildContext context) {
     return MihAppToolBody(
       borderOn: true,
-      bodyItem: bodyItem(),
+      bodyItem: getBody(),
     );
   }
 
-  Widget bodyItem() {
-    return FutureBuilder(
-      future: cardList,
-      builder: (context, snapshot) {
-        //print(snapshot.connectionState);
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Mihloadingcircle(),
-          );
-        } else if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          listOfCards = snapshot.data!;
-          searchShop();
-          //print(listOfCards);
-          return Column(
+  Widget getBody() {
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -260,20 +250,8 @@ class _MihCardsState extends State<MihCards> {
                           .secondaryColor(),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.add_card),
-                    alignment: Alignment.topRight,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    onPressed: () {
-                      addCardWindow(context);
-                    },
-                  )
                 ],
               ),
-              // Divider(
-              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              // ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -304,24 +282,57 @@ class _MihCardsState extends State<MihCards> {
                 ],
               ),
               const SizedBox(height: 10),
-              ValueListenableBuilder(
-                valueListenable: searchShopName,
-                builder: (BuildContext context, List<MIHLoyaltyCard> value,
-                    Widget? child) {
-                  return BuildLoyaltyCardList(
-                    cardList: searchShopName.value,
-                    signedInUser: widget.signedInUser,
-                  );
+              FutureBuilder(
+                future: cardList,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: Mihloadingcircle(),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    listOfCards = snapshot.data!;
+                    searchShop();
+                    return ValueListenableBuilder(
+                      valueListenable: searchShopName,
+                      builder: (BuildContext context,
+                          List<MIHLoyaltyCard> value, Widget? child) {
+                        return BuildLoyaltyCardList(
+                          cardList: searchShopName.value,
+                          signedInUser: widget.signedInUser,
+                        );
+                      },
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("Error Loading Loyalty Cards"),
+                    );
+                  }
                 },
               ),
             ],
-          );
-        } else {
-          return const Center(
-            child: Text("Error Loading Loyalty Cards"),
-          );
-        }
-      },
+          ),
+        ),
+        Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+              child: IconButton(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onPressed: () {
+                  addCardWindow(context);
+                },
+                icon: const Icon(
+                  Icons.add_card,
+                  size: 50,
+                ),
+              ),
+            ))
+      ],
     );
   }
 }
