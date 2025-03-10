@@ -61,59 +61,62 @@ class _WaitingRoomState extends State<WaitingRoom> {
   Widget getBusinessAppointmentsTool() {
     return Stack(
       children: [
-        Column(
-          children: [
-            const Text(
-              "Waiting Room",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text(
+                "Waiting Room",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
               ),
-            ),
-            MIHCalendar(
-                calendarWidth: 500,
-                rowHeight: 35,
-                setDate: (value) {
-                  setState(() {
-                    selectedDay = value;
-                    selectedAppointmentDateController.text = selectedDay;
-                  });
-                }),
-            // Divider(
-            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            // ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                FutureBuilder(
-                    future: appointmentResults,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Expanded(
-                            child: Center(child: Mihloadingcircle()));
-                      } else if (snapshot.connectionState ==
-                              ConnectionState.done &&
-                          snapshot.hasData) {
-                        return
-                            // Container(child: const Placeholder());
-                            displayAppointmentList(snapshot.requireData);
-                      } else {
-                        return Center(
-                          child: Text(
-                            "Error pulling appointments",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .errorColor()),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                    }),
-              ],
-            )
-          ],
+              MIHCalendar(
+                  calendarWidth: 500,
+                  rowHeight: 35,
+                  setDate: (value) {
+                    setState(() {
+                      selectedDay = value;
+                      selectedAppointmentDateController.text = selectedDay;
+                    });
+                  }),
+              // Divider(
+              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              // ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FutureBuilder(
+                      future: appointmentResults,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Expanded(
+                              child: Center(child: Mihloadingcircle()));
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.done &&
+                            snapshot.hasData) {
+                          return
+                              // Container(child: const Placeholder());
+                              displayAppointmentList(snapshot.requireData);
+                        } else {
+                          return Center(
+                            child: Text(
+                              "Error pulling appointments",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .errorColor()),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+                      }),
+                ],
+              )
+            ],
+          ),
         ),
         Positioned(
             right: 0,
