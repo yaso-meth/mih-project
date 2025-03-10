@@ -243,57 +243,60 @@ class _PatientAccessRequestState extends State<Appointments> {
   Widget getBody() {
     return Stack(
       children: [
-        Column(
-          children: [
-            Text(
-              getTitle(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                getTitle(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
               ),
-            ),
-            MIHCalendar(
-                calendarWidth: 500,
-                rowHeight: 35,
-                setDate: (value) {
-                  setState(() {
-                    selectedDay = value;
-                    selectedAppointmentDateController.text = selectedDay;
-                  });
-                }),
-            // Divider(
-            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            // ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                FutureBuilder(
-                    future: appointmentResults,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Expanded(
-                            child: Center(child: Mihloadingcircle()));
-                      } else if (snapshot.connectionState ==
-                              ConnectionState.done &&
-                          snapshot.hasData) {
-                        return displayAppointmentList(snapshot.requireData);
-                      } else {
-                        return Center(
-                          child: Text(
-                            "Error pulling appointments",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .errorColor()),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                    }),
-              ],
-            )
-          ],
+              MIHCalendar(
+                  calendarWidth: 500,
+                  rowHeight: 35,
+                  setDate: (value) {
+                    setState(() {
+                      selectedDay = value;
+                      selectedAppointmentDateController.text = selectedDay;
+                    });
+                  }),
+              // Divider(
+              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              // ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FutureBuilder(
+                      future: appointmentResults,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Expanded(
+                              child: Center(child: Mihloadingcircle()));
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.done &&
+                            snapshot.hasData) {
+                          return displayAppointmentList(snapshot.requireData);
+                        } else {
+                          return Center(
+                            child: Text(
+                              "Error pulling appointments",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .errorColor()),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+                      }),
+                ],
+              )
+            ],
+          ),
         ),
         Positioned(
             right: 0,
