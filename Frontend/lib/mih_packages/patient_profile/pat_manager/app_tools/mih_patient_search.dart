@@ -51,82 +51,87 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           // print("To-Do: Implement the search function");
         }
       },
-      child: Column(mainAxisSize: MainAxisSize.max, children: [
-        const Text(
-          "MIH Patient Lookup",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        //spacer
-        const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              flex: 1,
-              child: MIHSearchField(
-                controller: _mihPatientSearchController,
-                hintText: "ID or Medical Aid No. Search",
-                required: false,
-                editable: true,
-                onTap: () {
-                  // submitPatientForm();
-                  submitPatientSearch();
-                  //To-Do: Implement the search function
-                  // print("To-Do: Implement the search function");
-                },
-              ),
-            ),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    _mihPatientSearchController.clear();
-                    _mihPatientSearchString = "";
-                  });
-                  submitPatientSearch();
-                  //To-Do: Implement the search function
-                  // print("To-Do: Implement the search function");
-                },
-                icon: const Icon(
-                  Icons.filter_alt_off,
-                  size: 25,
-                ))
-          ],
-        ),
-        //spacer
-        const SizedBox(height: 10),
-        FutureBuilder(
-          future: _mihPatientSearchResults,
-          builder: (context, snapshot) {
-            //print("patient Liust  ${snapshot.data}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              List<Patient> patientsList;
-              if (_mihPatientSearchString == "") {
-                patientsList = [];
-              } else {
-                patientsList = filterSearchResults(
-                    snapshot.data!, _mihPatientSearchString);
-                //print(patientsList);
-              }
-              return displayPatientList(patientsList, _mihPatientSearchString);
-            } else {
-              return Center(
-                child: Text(
-                  "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
-                  textAlign: TextAlign.center,
+      child: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          const Text(
+            "MIH Patient Lookup",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          //spacer
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                flex: 1,
+                child: MIHSearchField(
+                  controller: _mihPatientSearchController,
+                  hintText: "ID or Medical Aid No. Search",
+                  required: false,
+                  editable: true,
+                  onTap: () {
+                    // submitPatientForm();
+                    submitPatientSearch();
+                    //To-Do: Implement the search function
+                    // print("To-Do: Implement the search function");
+                  },
                 ),
-              );
-            }
-          },
-        ),
-      ]),
+              ),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _mihPatientSearchController.clear();
+                      _mihPatientSearchString = "";
+                    });
+                    submitPatientSearch();
+                    //To-Do: Implement the search function
+                    // print("To-Do: Implement the search function");
+                  },
+                  icon: const Icon(
+                    Icons.filter_alt_off,
+                    size: 25,
+                  ))
+            ],
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: _mihPatientSearchResults,
+            builder: (context, snapshot) {
+              //print("patient Liust  ${snapshot.data}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Mihloadingcircle();
+              } else if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                List<Patient> patientsList;
+                if (_mihPatientSearchString == "") {
+                  patientsList = [];
+                } else {
+                  patientsList = filterSearchResults(
+                      snapshot.data!, _mihPatientSearchString);
+                  //print(patientsList);
+                }
+                return displayPatientList(
+                    patientsList, _mihPatientSearchString);
+              } else {
+                return Center(
+                  child: Text(
+                    "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .errorColor()),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
+            },
+          ),
+        ]),
+      ),
     );
   }
 
