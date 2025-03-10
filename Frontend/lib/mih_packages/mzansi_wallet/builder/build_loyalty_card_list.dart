@@ -72,12 +72,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           Navigator.pop(context);
         },
         windowBody: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MihCardDisplay(
-                  shopName: widget.cardList[index].shop_name, height: 250),
-            ],
+          Container(
+            child: MihCardDisplay(
+                shopName: widget.cardList[index].shop_name, height: 250),
           ),
           const SizedBox(height: 20),
           Container(
