@@ -72,12 +72,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           Navigator.pop(context);
         },
         windowBody: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MihCardDisplay(
-                  shopName: widget.cardList[index].shop_name, height: 250),
-            ],
+          Container(
+            child: MihCardDisplay(
+                shopName: widget.cardList[index].shop_name, height: 250),
           ),
           const SizedBox(height: 20),
           Container(
@@ -158,7 +155,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           mainAxisSpacing: 0,
           crossAxisSpacing: 10,
-          maxCrossAxisExtent: 175,
+          maxCrossAxisExtent: 200,
         ),
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -191,13 +188,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       //   },
       // );
     } else {
-      return const Padding(
-        padding: EdgeInsets.only(top: 25.0),
-        child: Center(
-          child: Text(
-            "No Cards Available",
-            style: TextStyle(fontSize: 25, color: Colors.grey),
-            textAlign: TextAlign.center,
+      return Padding(
+        padding: const EdgeInsets.only(top: 25.0),
+        child: SizedBox(
+          height: size.height,
+          child: const Align(
+            alignment: Alignment.topCenter,
+            child: Text(
+              "No Cards Available",
+              style: TextStyle(fontSize: 25, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       );

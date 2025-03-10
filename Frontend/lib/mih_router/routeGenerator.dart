@@ -5,8 +5,8 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_barcode_scanner.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mzansi_wallet.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
@@ -202,9 +202,12 @@ class RouteGenerator {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => MzansiWallet(
+                builder: (_) => MihWallet(
                   signedInUser: args,
                 ),
+                // MzansiWallet(
+                //   signedInUser: args,
+                // ),
               );
             }
             return _errorRoute();
