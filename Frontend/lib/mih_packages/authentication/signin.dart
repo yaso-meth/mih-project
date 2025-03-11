@@ -185,7 +185,7 @@ class _SignInState extends State<SignIn> {
     } else {
       await signUserIn();
       if (successfulSignIn) {
-        TextInput.finishAutofillContext();
+        // TextInput.finishAutofillContext();
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       }
     }
@@ -606,6 +606,7 @@ class _SignInState extends State<SignIn> {
     emailController.dispose();
     passwordController.dispose();
     _focusNode.dispose();
+    TextInput.finishAutofillContext();
     super.dispose();
   }
 
