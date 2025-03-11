@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
@@ -53,8 +54,15 @@ class _RegisterState extends State<Register> {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-      signUpSuccess();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/',
+        (route) => false,
+        arguments: AuthArguments(
+          true,
+          true,
+        ),
+      );
+      // signUpSuccess();
       // setState(() {
       //   successfulSignUp = true;
       // });
