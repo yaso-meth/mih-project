@@ -127,96 +127,99 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
   }
 
   Widget getBody() {
-    return Column(
-      children: [
-        const Text(
-          "Access List",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const Text(
+            "Access List",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Flexible(
-              child: MIHDropdownField(
-                controller: filterController,
-                hintText: "Access Types",
-                dropdownOptions: const [
-                  "All",
-                  "Approved",
-                  "Pending",
-                  "Declined",
-                  "Cancelled"
-                ],
-                required: true,
-                editable: true,
-                enableSearch: false,
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                child: MIHDropdownField(
+                  controller: filterController,
+                  hintText: "Access Types",
+                  dropdownOptions: const [
+                    "All",
+                    "Approved",
+                    "Pending",
+                    "Declined",
+                    "Cancelled"
+                  ],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  forceRefresh = true;
-                });
-                refreshList();
-              },
-              icon: const Icon(
-                Icons.refresh,
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    forceRefresh = true;
+                  });
+                  refreshList();
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        FutureBuilder(
-          future: accessList,
-          builder: (context, snapshot) {
-            //print("patient Queue List  ${snapshot.hasData}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              List<PatientAccess> accessRequestList;
-              accessRequestList = filterSearchResults(snapshot.requireData);
-              if (accessRequestList.isNotEmpty) {
-                return BuildBusinessAccessList(
-                  signedInUser: widget.signedInUser,
-                  patientAccessList: accessRequestList,
-                );
+            ],
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: accessList,
+            builder: (context, snapshot) {
+              //print("patient Queue List  ${snapshot.hasData}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Mihloadingcircle();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                List<PatientAccess> accessRequestList;
+                accessRequestList = filterSearchResults(snapshot.requireData);
+                if (accessRequestList.isNotEmpty) {
+                  return BuildBusinessAccessList(
+                    signedInUser: widget.signedInUser,
+                    patientAccessList: accessRequestList,
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      "No Request have been made.",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .messageTextColor()),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+
+                // return Expanded(
+                //   child: displayAccessRequestList(accessRequestList),
+                // );
               } else {
                 return Center(
                   child: Text(
-                    "No Request have been made.",
+                    "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
                     style: TextStyle(
                         fontSize: 25,
                         color: MzanziInnovationHub.of(context)!
                             .theme
-                            .messageTextColor()),
+                            .errorColor()),
                     textAlign: TextAlign.center,
                   ),
                 );
               }
-
-              // return Expanded(
-              //   child: displayAccessRequestList(accessRequestList),
-              // );
-            } else {
-              return Center(
-                child: Text(
-                  "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 
