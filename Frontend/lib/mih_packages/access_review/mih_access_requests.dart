@@ -1,31 +1,30 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../mih_apis/mih_api_calls.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_env/env.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/patient_access.dart';
 import 'builder/build_business_access_list.dart';
 
-class PatientAccessRequest extends StatefulWidget {
+class MihAccessRequest extends StatefulWidget {
   final AppUser signedInUser;
 
-  const PatientAccessRequest({
+  const MihAccessRequest({
     super.key,
     required this.signedInUser,
   });
 
   @override
-  State<PatientAccessRequest> createState() => _PatientAccessRequestState();
+  State<MihAccessRequest> createState() => _MihAccessRequestState();
 }
 
-class _PatientAccessRequestState extends State<PatientAccessRequest> {
+class _MihAccessRequestState extends State<MihAccessRequest> {
   TextEditingController filterController = TextEditingController();
 
   String baseUrl = AppEnviroment.baseApiUrl;
@@ -127,10 +126,16 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     );
   }
 
-  MIHBody getBody() {
-    return MIHBody(
-      borderOn: true,
-      bodyItems: [
+  Widget getBody() {
+    return Column(
+      children: [
+        const Text(
+          "Access List",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -235,16 +240,9 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
     );
   }
 }
