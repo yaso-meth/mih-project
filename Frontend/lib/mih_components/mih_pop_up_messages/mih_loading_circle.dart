@@ -38,6 +38,7 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
   void initState() {
     //_controller.animateTo(26);
     super.initState();
+    checkScreenSize();
   }
 
   @override
@@ -48,7 +49,6 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
 
   @override
   Widget build(BuildContext context) {
-    checkScreenSize();
     return Dialog(
       child: Container(
           padding: EdgeInsets.all(popUpPaddingSize),

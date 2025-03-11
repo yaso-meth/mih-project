@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
@@ -186,7 +187,14 @@ class _SignInState extends State<SignIn> {
       await signUserIn();
       if (successfulSignIn) {
         // TextInput.finishAutofillContext();
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/',
+          (route) => false,
+          arguments: AuthArguments(
+            true,
+            true,
+          ),
+        );
       }
     }
   }
