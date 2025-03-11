@@ -1,33 +1,23 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/app_tools/mih_info.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/app_tools/mih_privacy_policy.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/app_tools/mih_terms_of_service.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/mih_access_requests.dart';
 import 'package:flutter/material.dart';
 
-class AboutMih extends StatefulWidget {
-  final int packageIndex;
-  const AboutMih({
+class MihAccess extends StatefulWidget {
+  final AppUser signedInUser;
+  const MihAccess({
     super.key,
-    required this.packageIndex,
+    required this.signedInUser,
   });
 
   @override
-  State<AboutMih> createState() => _AboutMihState();
+  State<MihAccess> createState() => _MihAccessState();
 }
 
-class _AboutMihState extends State<AboutMih> {
-  late int _selcetedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _selcetedIndex = widget.packageIndex;
-    });
-  }
-
+class _MihAccessState extends State<MihAccess> {
+  int _selcetedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MihApp(
@@ -56,19 +46,9 @@ class _AboutMihState extends State<AboutMih> {
 
   MihAppTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.info)] = () {
+    temp[const Icon(Icons.people)] = () {
       setState(() {
         _selcetedIndex = 0;
-      });
-    };
-    temp[const Icon(Icons.policy)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
-    };
-    temp[const Icon(Icons.design_services)] = () {
-      setState(() {
-        _selcetedIndex = 2;
       });
     };
     return MihAppTools(
@@ -79,9 +59,9 @@ class _AboutMihState extends State<AboutMih> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      const MihInfo(),
-      const MihPrivacyPolicy(),
-      const MIHTermsOfService(),
+      MihAccessRequest(
+        signedInUser: widget.signedInUser,
+      ),
     ];
     return toolBodies;
   }

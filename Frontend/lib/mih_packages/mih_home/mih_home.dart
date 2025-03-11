@@ -303,11 +303,11 @@ class _MIHHomeState extends State<MIHHome> {
       videoID: "",
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/access-review',
+          '/mih-access',
           arguments: widget.signedInUser,
         );
       },
-      tileName: "Access",
+      tileName: "MIH Access",
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.userCheck,
@@ -383,7 +383,7 @@ class _MIHHomeState extends State<MIHHome> {
     // tileList.add(MIHTile(
     //   onTap: () {
     //     Navigator.of(context).pushNamed(
-    //       '/access-review',
+    //       '/mih-access',
     //       arguments: widget.signedInUser,
     //     );
     //   },

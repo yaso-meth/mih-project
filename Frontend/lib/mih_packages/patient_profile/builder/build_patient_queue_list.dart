@@ -325,7 +325,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         "notification_type": "Appointment Cancelled",
         "notification_message":
             "Your appointment with ${widget.business!.Name} for the ${widget.patientQueue[index].date_time.replaceAll("T", " ")} has been cancelled.",
-        "action_path": "/access-review",
+        "action_path": "/mih-access",
       }),
     );
     if (response.statusCode == 201) {
@@ -361,7 +361,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
         "notification_type": "Rescheduled Appointment",
         "notification_message":
             "Your appointment with ${widget.business!.Name} for the ${widget.patientQueue[index].date_time.replaceAll("T", " ").substring(0, widget.patientQueue[index].date_time.length - 3)} has been rescheduled to the ${dateController.text} ${timeController.text}.",
-        "action_path": "/access-review",
+        "action_path": "/mih-access",
       }),
     );
     if (response.statusCode == 201) {
@@ -397,7 +397,7 @@ class _BuildPatientsListState extends State<BuildPatientQueueList> {
   //       "notification_type": "Access Extension Request",
   //       "notification_message":
   //           "${widget.business!.Name} - access expiry date extension for appointment: ${widget.patientQueue[index].date_time.split("T")[0]}. Expiry Date: from ${widget.patientQueue[index].revoke_date.split("T")[0]} to ${revokeDate.split(" ")[0]}.",
-  //       "action_path": "/access-review",
+  //       "action_path": "/mih-access",
   //     }),
   //   );
   //   if (response.statusCode == 201) {

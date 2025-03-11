@@ -36,7 +36,7 @@ class MihNotificationApis {
         "notification_type": "Forever Access Request",
         "notification_message":
             "A new Forever Access Request has been sent by $business_name in order to access your Patient Profile. Please review request.",
-        "action_path": "/access-review",
+        "action_path": "/mih-access",
       }),
     );
     if (response.statusCode == 201) {
@@ -83,7 +83,7 @@ class MihNotificationApis {
         "notification_type": "Re-applying for Access",
         "notification_message":
             "${args.business!.Name} is re-applying for access to your Patient Profile. Please review request.",
-        "action_path": "/access-review",
+        "action_path": "/mih-access",
       }),
     );
     if (response.statusCode == 201) {

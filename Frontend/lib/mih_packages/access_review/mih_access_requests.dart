@@ -1,31 +1,30 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../mih_apis/mih_api_calls.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_env/env.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/patient_access.dart';
 import 'builder/build_business_access_list.dart';
 
-class PatientAccessRequest extends StatefulWidget {
+class MihAccessRequest extends StatefulWidget {
   final AppUser signedInUser;
 
-  const PatientAccessRequest({
+  const MihAccessRequest({
     super.key,
     required this.signedInUser,
   });
 
   @override
-  State<PatientAccessRequest> createState() => _PatientAccessRequestState();
+  State<MihAccessRequest> createState() => _MihAccessRequestState();
 }
 
-class _PatientAccessRequestState extends State<PatientAccessRequest> {
+class _MihAccessRequestState extends State<MihAccessRequest> {
   TextEditingController filterController = TextEditingController();
 
   String baseUrl = AppEnviroment.baseApiUrl;
@@ -127,91 +126,100 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
     );
   }
 
-  MIHBody getBody() {
-    return MIHBody(
-      borderOn: true,
-      bodyItems: [
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Flexible(
-              child: MIHDropdownField(
-                controller: filterController,
-                hintText: "Access Types",
-                dropdownOptions: const [
-                  "All",
-                  "Approved",
-                  "Pending",
-                  "Declined",
-                  "Cancelled"
-                ],
-                required: true,
-                editable: true,
-                enableSearch: false,
-              ),
+  Widget getBody() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const Text(
+            "Access List",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
             ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  forceRefresh = true;
-                });
-                refreshList();
-              },
-              icon: const Icon(
-                Icons.refresh,
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                child: MIHDropdownField(
+                  controller: filterController,
+                  hintText: "Access Types",
+                  dropdownOptions: const [
+                    "All",
+                    "Approved",
+                    "Pending",
+                    "Declined",
+                    "Cancelled"
+                  ],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        FutureBuilder(
-          future: accessList,
-          builder: (context, snapshot) {
-            //print("patient Queue List  ${snapshot.hasData}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              List<PatientAccess> accessRequestList;
-              accessRequestList = filterSearchResults(snapshot.requireData);
-              if (accessRequestList.isNotEmpty) {
-                return BuildBusinessAccessList(
-                  signedInUser: widget.signedInUser,
-                  patientAccessList: accessRequestList,
-                );
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    forceRefresh = true;
+                  });
+                  refreshList();
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: accessList,
+            builder: (context, snapshot) {
+              //print("patient Queue List  ${snapshot.hasData}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Mihloadingcircle();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                List<PatientAccess> accessRequestList;
+                accessRequestList = filterSearchResults(snapshot.requireData);
+                if (accessRequestList.isNotEmpty) {
+                  return BuildBusinessAccessList(
+                    signedInUser: widget.signedInUser,
+                    patientAccessList: accessRequestList,
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      "No Request have been made.",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .messageTextColor()),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+
+                // return Expanded(
+                //   child: displayAccessRequestList(accessRequestList),
+                // );
               } else {
                 return Center(
                   child: Text(
-                    "No Request have been made.",
+                    "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
                     style: TextStyle(
                         fontSize: 25,
                         color: MzanziInnovationHub.of(context)!
                             .theme
-                            .messageTextColor()),
+                            .errorColor()),
                     textAlign: TextAlign.center,
                   ),
                 );
               }
-
-              // return Expanded(
-              //   child: displayAccessRequestList(accessRequestList),
-              // );
-            } else {
-              return Center(
-                child: Text(
-                  "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -235,16 +243,9 @@ class _PatientAccessRequestState extends State<PatientAccessRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
     );
   }
 }
