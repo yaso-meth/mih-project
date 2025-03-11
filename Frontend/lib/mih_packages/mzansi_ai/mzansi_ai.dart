@@ -3,7 +3,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/ai_chat.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/app_tools/ai_chat.dart';
 import 'package:flutter/material.dart';
 
 class MzansiAi extends StatefulWidget {
