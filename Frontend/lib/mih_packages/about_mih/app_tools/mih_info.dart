@@ -549,6 +549,25 @@ class _MihInfoState extends State<MihInfo> {
     }
   }
 
+  String getInstallButtonText() {
+    final isWebAndroid =
+        kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
+    final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
+
+    if (isWebAndroid) {
+      return "Install MIH (Play Store)";
+    } else if (isWebIos) {
+      return "Install MIH (PWA)";
+    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+        "Android") {
+      return "Update MIH (Play Store)";
+    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
+      return "Update MIH (App Store)";
+    } else {
+      return "Install MIH (PWA)";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
@@ -611,7 +630,7 @@ class _MihInfoState extends State<MihInfo> {
                       onTap: () {
                         installMihTrigger();
                       },
-                      buttonText: "Install MIH",
+                      buttonText: getInstallButtonText(),
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
