@@ -71,7 +71,6 @@ class _AboutMihState extends State<AboutMih> {
         _selcetedIndex = 2;
       });
     };
-
     return MihAppTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
