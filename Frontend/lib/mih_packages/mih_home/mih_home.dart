@@ -307,7 +307,7 @@ class _MIHHomeState extends State<MIHHome> {
           arguments: widget.signedInUser,
         );
       },
-      tileName: "Access",
+      tileName: "MIH Access",
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.userCheck,
