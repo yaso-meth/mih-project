@@ -258,7 +258,7 @@ class MIHApiCalls {
   /// AppUser signedInUser,
   /// BuildContext context,
   ///
-  /// Returns void (on success 200 navigate to /access-review ).
+  /// Returns void (on success 200 navigate to /mih-access ).
   static Future<void> updatePatientAccessAPICall(
     String business_id,
     String business_name,
@@ -290,7 +290,7 @@ class MIHApiCalls {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
-        '/access-review',
+        '/mih-access',
         arguments: signedInUser,
       );
       String message = "";
@@ -314,7 +314,7 @@ class MIHApiCalls {
   /// String app_id,
   /// BuildContext context,
   ///
-  /// Returns void (on success 200 navigate to /access-review ).
+  /// Returns void (on success 200 navigate to /mih-access ).
   static Future<void> reapplyPatientAccessAPICall(
     String business_id,
     String app_id,

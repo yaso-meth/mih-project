@@ -2,6 +2,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_te
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/about_mih.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_privacy_polocy_external.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_terms_of_service_external.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/mih_access.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
@@ -23,8 +24,6 @@ import '../mih_packages/authentication/forgot_password.dart';
 import '../mih_packages/authentication/reset_password.dart';
 import '../mih_packages/patient_profile/full_screen_file.dart';
 import '../mih_packages/manage_business/manage_business_profile.dart';
-import '../mih_packages/access_review/patient_access_review.dart';
-
 import '../mih_packages/patient_profile/patient_view.dart';
 import '../mih_packages/manage_business/profile_business_add.dart';
 import '../mih_packages/manage_business/business_details.dart';
@@ -214,14 +213,17 @@ class RouteGenerator {
           //===============================================================
 
           // Access Review Page
-          case '/access-review':
+          case '/mih-access':
             if (args is AppUser) {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => PatientAccessRequest(
+                builder: (_) => MihAccess(
                   signedInUser: args,
                 ),
+                // PatientAccessRequest(
+                //   signedInUser: args,
+                // ),
               );
             }
             return _errorRoute();

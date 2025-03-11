@@ -303,7 +303,7 @@ class _MIHHomeState extends State<MIHHome> {
       videoID: "",
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/access-review',
+          '/mih-access',
           arguments: widget.signedInUser,
         );
       },
@@ -383,7 +383,7 @@ class _MIHHomeState extends State<MIHHome> {
     // tileList.add(MIHTile(
     //   onTap: () {
     //     Navigator.of(context).pushNamed(
-    //       '/access-review',
+    //       '/mih-access',
     //       arguments: widget.signedInUser,
     //     );
     //   },
