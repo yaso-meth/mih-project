@@ -262,102 +262,97 @@ class _TipCalcState extends State<TipCalc> {
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
-      borderOn: false,
+      borderOn: true,
       bodyItem: getBody(),
     );
   }
 
   Widget getBody() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Text(
-            "Tip Calculator",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Text(
+          "Tip Calculator",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          MIHNumberField(
-            controller: billAmountController,
-            hintText: "Bill Amount",
-            editable: true,
-            required: true,
-            enableDecimal: true,
-          ),
-          const SizedBox(height: 10),
-          MIHNumberField(
-            controller: tipPercentageController,
-            hintText: "Tip %",
-            editable: true,
-            required: true,
-            enableDecimal: false,
-          ),
-          const SizedBox(height: 10),
-          MIHDropdownField(
-            controller: splitBillController,
-            hintText: "Split Bill",
-            dropdownOptions: const ["Yes", "No"],
-            required: true,
-            editable: true,
-            enableSearch: false,
-          ),
-          const SizedBox(height: 10),
-          ValueListenableBuilder(
-            valueListenable: splitValue,
-            builder: (BuildContext context, String value, Widget? child) {
-              return Visibility(
-                visible: value == "Yes",
-                child: Column(
-                  children: [
-                    MIHNumberField(
-                      controller: noPeopleController,
-                      hintText: "No. of People",
-                      editable: true,
-                      required: true,
-                      enableDecimal: false,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              );
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10),
+        MIHNumberField(
+          controller: billAmountController,
+          hintText: "Bill Amount",
+          editable: true,
+          required: true,
+          enableDecimal: true,
+        ),
+        const SizedBox(height: 10),
+        MIHNumberField(
+          controller: tipPercentageController,
+          hintText: "Tip %",
+          editable: true,
+          required: true,
+          enableDecimal: false,
+        ),
+        const SizedBox(height: 10),
+        MIHDropdownField(
+          controller: splitBillController,
+          hintText: "Split Bill",
+          dropdownOptions: const ["Yes", "No"],
+          required: true,
+          editable: true,
+          enableSearch: false,
+        ),
+        const SizedBox(height: 10),
+        ValueListenableBuilder(
+          valueListenable: splitValue,
+          builder: (BuildContext context, String value, Widget? child) {
+            return Visibility(
+              visible: value == "Yes",
+              child: Column(
+                children: [
+                  MIHNumberField(
+                    controller: noPeopleController,
+                    hintText: "No. of People",
+                    editable: true,
+                    required: true,
+                    enableDecimal: false,
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            );
+          },
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: MIHButton(
+            onTap: () {
+              validateInput();
             },
+            buttonText: "Calculate",
+            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: MIHButton(
-              onTap: () {
-                validateInput();
-              },
-              buttonText: "Calculate",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: MIHButton(
+            onTap: () {
+              clearInput();
+            },
+            buttonText: "Clear",
+            buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: MIHButton(
-              onTap: () {
-                clearInput();
-              },
-              buttonText: "Clear",
-              buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
