@@ -54,7 +54,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
-      borderOn: false,
+      borderOn: true,
       bodyItem: getBody(),
     );
   }
@@ -73,232 +73,219 @@ class _SimpleCalcState extends State<SimpleCalc> {
         calcWidth = 300;
       }
     }
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            "Simple Calculator",
-            textAlign: TextAlign.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          "Simple Calculator",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10),
+        Container(
+          //color: Colors.white,
+          padding: const EdgeInsets.all(20),
+          alignment: Alignment.centerRight,
+          child: Text(
+            userInput,
             style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+              fontSize: 18,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          Container(
-            //color: Colors.white,
-            padding: const EdgeInsets.all(20),
-            alignment: Alignment.centerRight,
-            child: Text(
-              userInput,
-              style: TextStyle(
-                fontSize: 18,
+        ),
+        Container(
+          width: double.infinity,
+          //color: Colors.white,
+          padding: const EdgeInsets.all(15),
+          alignment: Alignment.centerRight,
+          child: Text(
+            answer,
+            style: TextStyle(
+                fontSize: 30,
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        Container(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+            width: calcWidth,
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              // padding: EdgeInsets.only(
+              //   left: width / 10,
+              //   right: width / 10,
+              //   bottom: height / 15,
+              //   //top: 20,
+              // ),
+              // shrinkWrap: true,
+              itemCount: buttons.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                //mainAxisExtent: 150,
               ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            //color: Colors.white,
-            padding: const EdgeInsets.all(15),
-            alignment: Alignment.centerRight,
-            child: Text(
-              answer,
-              style: TextStyle(
-                  fontSize: 30,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: calcWidth,
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                // padding: EdgeInsets.only(
-                //   left: width / 10,
-                //   right: width / 10,
-                //   bottom: height / 15,
-                //   //top: 20,
-                // ),
-                // shrinkWrap: true,
-                itemCount: buttons.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  //mainAxisExtent: 150,
-                ),
-                itemBuilder: (context, index) {
-                  // Clear Button
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            userInput = '';
-                            answer = '0';
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
+              itemBuilder: (context, index) {
+                // Clear Button
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          userInput = '';
+                          answer = '0';
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .messageTextColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
 
-                  // +/- button
-                  else if (index == 1) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                // +/- button
+                else if (index == 1) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          userInput += buttons[index];
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .messageTextColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+                // % Button
+                else if (index == 2) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          userInput += buttons[index];
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .messageTextColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+                // Delete Button
+                else if (index == 3) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          userInput =
+                              userInput.substring(0, userInput.length - 1);
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+                // Equal_to Button
+                else if (index == 18) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          equalPressed();
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+                //  +, -, / x buttons
+                else if (index == 7 ||
+                    index == 11 ||
+                    index == 15 ||
+                    index == 19) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        if (answer == "0") {
                           setState(() {
                             userInput += buttons[index];
                           });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  // % Button
-                  else if (index == 2) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                        } else {
                           setState(() {
+                            userInput = answer;
+                            answer = "0";
                             userInput += buttons[index];
                           });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  // Delete Button
-                  else if (index == 3) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            userInput =
-                                userInput.substring(0, userInput.length - 1);
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  // Equal_to Button
-                  else if (index == 18) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            equalPressed();
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  //  +, -, / x buttons
-                  else if (index == 7 ||
-                      index == 11 ||
-                      index == 15 ||
-                      index == 19) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          if (answer == "0") {
-                            setState(() {
-                              userInput += buttons[index];
-                            });
-                          } else {
-                            setState(() {
-                              userInput = answer;
-                              answer = "0";
-                              userInput += buttons[index];
-                            });
-                          }
-                          // setState(() {
-                          //   userInput += buttons[index];
-                          // });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  //  other buttons
-                  else {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            userInput += buttons[index];
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                },
-              ),
+                        }
+                        // setState(() {
+                        //   userInput += buttons[index];
+                        // });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .messageTextColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+                //  other buttons
+                else {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: MIHButton(
+                      onTap: () {
+                        setState(() {
+                          userInput += buttons[index];
+                        });
+                      },
+                      buttonText: buttons[index],
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  );
+                }
+              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
