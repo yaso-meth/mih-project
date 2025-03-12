@@ -6,6 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/mih_access.dart
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
@@ -27,7 +28,6 @@ import '../mih_packages/manage_business/manage_business_profile.dart';
 import '../mih_packages/patient_profile/patient_view.dart';
 import '../mih_packages/manage_business/profile_business_add.dart';
 import '../mih_packages/manage_business/business_details.dart';
-import '../mih_packages/mzansi_profile/profile_user_update.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -119,9 +119,10 @@ class RouteGenerator {
             if (args is AppProfileUpdateArguments) {
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => ProfileUserUpdate(
-                  arguments: args,
-                ),
+                builder: (_) => MzansiProfile(arguments: args),
+                // ProfileUserUpdate(
+                //   arguments: args,
+                // ),
               );
             }
             return _errorRoute();

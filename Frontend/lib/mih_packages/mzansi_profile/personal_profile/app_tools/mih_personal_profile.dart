@@ -1,92 +1,83 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_profile_picture.dart';
+import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
-import 'package:supertokens_flutter/supertokens.dart';
 
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
-import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
-import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../mih_components/mih_profile_picture.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/arguments.dart';
-
-class ProfileUserUpdate extends StatefulWidget {
+class MihPersonalProfile extends StatefulWidget {
   final AppProfileUpdateArguments arguments;
-  // final AppUser signedInUser;
-  // final ImageProvider<Object>? propicFile;
-  const ProfileUserUpdate({
+  const MihPersonalProfile({
     super.key,
     required this.arguments,
   });
 
   @override
-  State<ProfileUserUpdate> createState() => _ProfileUserUpdateState();
+  State<MihPersonalProfile> createState() => _MihPersonalProfileState();
 }
 
-class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
+class _MihPersonalProfileState extends State<MihPersonalProfile> {
   final proPicController = TextEditingController();
   final usernameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
-
   PlatformFile? proPic;
   late ImageProvider<Object>? propicPreview;
   late bool businessUser;
-  final FocusNode _focusNode = FocusNode();
-
   late String oldProPicName;
 
-  Future<void> deleteFileApiCall(String filename) async {
-    // delete file from minio
-    var fname = filename.replaceAll(RegExp(r' '), '-');
-    var filePath =
-        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
-    var response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/minio/delete/file/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
-    );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      //SQL delete
+  Future<void> submitForm() async {
+    // print("============\nsubmiit form\n=================");
+    if (isFieldsFilled()) {
+      if (oldProPicName != proPicController.text) {
+        // print("here 1");
+        // print("Pro File Name: ${proPic!.name}");
+        // print("Pro File Bytes: ${proPic!.bytes}");
+        await uploadSelectedFile(proPic);
+      }
+      await updateUserApiCall();
     } else {
-      internetConnectionPopUp();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
     }
   }
 
-  Future<String> getFileUrlApiCall(String filePath) async {
-    if (widget.arguments.signedInUser.pro_pic_path == "") {
-      return "";
-    } else if (AppEnviroment.getEnv() == "Dev") {
-      return "${AppEnviroment.baseFileUrl}/mih/$filePath";
+  bool isFieldsFilled() {
+    if (fnameController.text.isEmpty ||
+        lnameController.text.isEmpty ||
+        usernameController.text.isEmpty) {
+      return false;
     } else {
-      var url = "${AppEnviroment.baseApiUrl}/minio/pull/file/$filePath/prod";
-      var response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        String body = response.body;
-        var decodedData = jsonDecode(body);
-
-        return decodedData['minioURL'];
-      } else {
-        throw Exception(
-            "Error: GetUserData status code ${response.statusCode}");
-      }
+      return true;
     }
+  }
+
+  bool isBusinessUser() {
+    if (widget.arguments.signedInUser.type == "personal") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool isUsernameValid(String username) {
+    return RegExp(r'^[a-zA-Z][a-zA-Z0-9_]{5,19}$').hasMatch(username);
   }
 
   Future<void> uploadSelectedFile(PlatformFile? file) async {
@@ -99,7 +90,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
         return const Mihloadingcircle();
       },
     );
-
     var token = await SuperTokens.getAccessToken();
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
@@ -113,7 +103,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     var response1 = await request.send();
     if (response1.statusCode == 200) {
       deleteFileApiCall(oldProPicName);
-
       // end loading circle
       //Navigator.of(context).pop();
       // String message =
@@ -121,16 +110,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       // successPopUp(message);
     } else {
       internetConnectionPopUp();
-    }
-  }
-
-  bool isFieldsFilled() {
-    if (fnameController.text.isEmpty ||
-        lnameController.text.isEmpty ||
-        usernameController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
     }
   }
 
@@ -165,9 +144,10 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
       //print(response.statusCode);
       if (response.statusCode == 200) {
         Navigator.of(context).pop();
-        Navigator.of(context).popAndPushNamed(
-          '/',
-          arguments: AuthArguments(true, false),
+        Navigator.of(context).pushNamed(
+          '/user-profile',
+          arguments: AppProfileUpdateArguments(
+              widget.arguments.signedInUser, widget.arguments.propicFile),
         );
         String message =
             "${widget.arguments.signedInUser.email}'s information has been updated successfully!";
@@ -178,21 +158,25 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     }
   }
 
-  bool isBusinessUser() {
-    if (widget.arguments.signedInUser.type == "personal") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
+  Future<void> deleteFileApiCall(String filename) async {
+    // delete file from minio
+    var fname = filename.replaceAll(RegExp(r' '), '-');
+    var filePath =
+        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
+    var response = await http.delete(
+      Uri.parse("${AppEnviroment.baseApiUrl}/minio/delete/file/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
       },
+      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
     );
+    //print("Here4");
+    //print(response.statusCode);
+    if (response.statusCode == 200) {
+      //SQL delete
+    } else {
+      internetConnectionPopUp();
+    }
   }
 
   void successPopUp(String message) {
@@ -207,6 +191,15 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     );
   }
 
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
+  }
+
   void usernamePopUp() {
     showDialog(
       context: context,
@@ -216,64 +209,44 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
     );
   }
 
-  bool isUsernameValid(String username) {
-    return RegExp(r'^[a-zA-Z][a-zA-Z0-9_]{5,19}$').hasMatch(username);
+  @override
+  void dispose() {
+    proPicController.dispose();
+    usernameController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    super.dispose();
   }
 
-  Future<void> submitForm() async {
-    // print("============\nsubmiit form\n=================");
-    if (isFieldsFilled()) {
-      if (oldProPicName != proPicController.text) {
-        // print("here 1");
-        // print("Pro File Name: ${proPic!.name}");
-        // print("Pro File Bytes: ${proPic!.bytes}");
-        await uploadSelectedFile(proPic);
-      }
-      await updateUserApiCall();
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
+  @override
+  void initState() {
+    var proPicName = "";
+    if (widget.arguments.signedInUser.pro_pic_path.isNotEmpty) {
+      proPicName = widget.arguments.signedInUser.pro_pic_path.split("/").last;
     }
+    setState(() {
+      propicPreview = widget.arguments.propicFile;
+      oldProPicName = proPicName;
+      proPicController.text = proPicName;
+      fnameController.text = widget.arguments.signedInUser.fname;
+      lnameController.text = widget.arguments.signedInUser.lname;
+      usernameController.text = widget.arguments.signedInUser.username;
+      businessUser = isBusinessUser();
+    });
+    super.initState();
   }
 
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        Navigator.of(context).pop();
-
-        Navigator.of(context).popAndPushNamed(
-          '/',
-          arguments: AuthArguments(true, false),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
     );
   }
 
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Mzansi Profile",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
-  }
-
-  MIHBody getBody() {
-    return MIHBody(
-      borderOn: false,
-      bodyItems: [
+  Widget getBody() {
+    return Column(
+      children: [
         //displayProPic(),
         MIHProfilePicture(
           profilePictureFile: widget.arguments.propicFile,
@@ -383,50 +356,6 @@ class _ProfileUserUpdateState extends State<ProfileUserUpdate> {
           ),
         ),
       ],
-    );
-  }
-
-  @override
-  void dispose() {
-    proPicController.dispose();
-    usernameController.dispose();
-    fnameController.dispose();
-    lnameController.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    var proPicName = "";
-    if (widget.arguments.signedInUser.pro_pic_path.isNotEmpty) {
-      proPicName = widget.arguments.signedInUser.pro_pic_path.split("/").last;
-    }
-    setState(() {
-      propicPreview = widget.arguments.propicFile;
-      oldProPicName = proPicName;
-      proPicController.text = proPicName;
-      fnameController.text = widget.arguments.signedInUser.fname;
-      lnameController.text = widget.arguments.signedInUser.lname;
-      usernameController.text = widget.arguments.signedInUser.username;
-      businessUser = isBusinessUser();
-    });
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
     );
   }
 }
