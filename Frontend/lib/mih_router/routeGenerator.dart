@@ -6,6 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/mih_access.dart
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/mzansi_ai.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_wallet.dart';
@@ -17,17 +18,13 @@ import '../mih_packages/authentication/auth_check.dart';
 import '../mih_packages/patient_profile/add_or_view_patient.dart';
 import '../mih_packages/patient_profile/patient_add.dart';
 import '../mih_packages/patient_profile/patient_edit.dart';
-// import '../mih_packages/patient_profile/patient_manager.dart';
 import '../mih_objects/app_user.dart';
 import '../mih_objects/arguments.dart';
-// import '../mih_packages/about_mih/mih_about.dart';
 import '../mih_packages/authentication/forgot_password.dart';
 import '../mih_packages/authentication/reset_password.dart';
 import '../mih_packages/patient_profile/full_screen_file.dart';
-import '../mih_packages/manage_business/manage_business_profile.dart';
 import '../mih_packages/patient_profile/patient_view.dart';
 import '../mih_packages/manage_business/profile_business_add.dart';
-import '../mih_packages/manage_business/business_details.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -129,16 +126,6 @@ class RouteGenerator {
           //===============================================================
 
           //Business Profile Pages
-          case '/business-profile':
-            if (args is BusinessArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => BusinessDetails(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
           case '/business-profile/set-up':
             if (args is AppUser) {
               return MaterialPageRoute(
@@ -153,9 +140,12 @@ class RouteGenerator {
             if (args is BusinessArguments) {
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => ManageBusinessProfile(
+                builder: (_) => MzansiBusinessProfile(
                   arguments: args,
                 ),
+                // ManageBusinessProfile(
+                //   arguments: args,
+                // ),
               );
             }
             return _errorRoute();
