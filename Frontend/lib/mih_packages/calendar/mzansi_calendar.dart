@@ -41,10 +41,6 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
-        Navigator.of(context).popAndPushNamed(
-          '/',
-          arguments: AuthArguments(widget.arguments.personalSelected, false),
-        );
       },
     );
   }
