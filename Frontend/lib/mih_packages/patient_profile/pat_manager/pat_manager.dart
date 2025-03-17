@@ -38,7 +38,6 @@ class _PatManagerState extends State<PatManager> {
         setState(() {
           _selcetedIndex = newValue;
         });
-        print("Index: $_selcetedIndex");
       },
     );
   }
@@ -96,6 +95,7 @@ class _PatManagerState extends State<PatManager> {
       MyPatientList(
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
         personalSelected: widget.arguments.personalSelected,
       ),
       MihPatientSearch(

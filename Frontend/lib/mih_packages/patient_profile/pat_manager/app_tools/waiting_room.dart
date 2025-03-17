@@ -262,7 +262,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
   }
 
   void addAppointmentWindow() {
-    print(widget.personalSelected);
     showDialog(
       context: context,
       barrierDismissible: false,
