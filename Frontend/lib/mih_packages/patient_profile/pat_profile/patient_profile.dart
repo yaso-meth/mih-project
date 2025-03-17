@@ -23,7 +23,6 @@ class _PatientProfileState extends State<PatientProfile> {
   int _selcetedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    print("Pat Profile: ${widget.arguments.businessUser!.business_id}");
     return MihApp(
       appActionButton: getAction(),
       appTools: getTools(),
