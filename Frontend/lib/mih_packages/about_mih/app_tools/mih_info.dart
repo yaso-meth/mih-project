@@ -1,5 +1,6 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
@@ -577,7 +578,7 @@ class _MihInfoState extends State<MihInfo> {
   }
 
   Widget getBody() {
-    return SingleChildScrollView(
+    return MihSingleChildScroll(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(

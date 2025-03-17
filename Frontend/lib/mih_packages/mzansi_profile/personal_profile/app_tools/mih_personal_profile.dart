@@ -4,6 +4,7 @@ import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -245,117 +246,119 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Widget getBody() {
-    return Column(
-      children: [
-        //displayProPic(),
-        MIHProfilePicture(
-          profilePictureFile: widget.arguments.propicFile,
-          proPicController: proPicController,
-          proPic: proPic,
-          width: 155,
-          radius: 70,
-          drawerMode: false,
-          editable: true,
-          onChange: (newProPic) {
-            setState(() {
-              proPic = newProPic;
-            });
-          },
-        ),
-        const SizedBox(height: 25.0),
-        Visibility(
-          visible: false,
-          child: MIHFileField(
-            controller: proPicController,
-            hintText: "Profile Picture",
-            editable: false,
-            required: false,
-            onPressed: () async {
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                type: FileType.custom,
-                allowedExtensions: ['jpg', 'png'],
-              );
-              if (result == null) return;
-              final selectedFile = result.files.first;
+    return MihSingleChildScroll(
+      child: Column(
+        children: [
+          //displayProPic(),
+          MIHProfilePicture(
+            profilePictureFile: widget.arguments.propicFile,
+            proPicController: proPicController,
+            proPic: proPic,
+            width: 155,
+            radius: 70,
+            drawerMode: false,
+            editable: true,
+            onChange: (newProPic) {
               setState(() {
-                proPic = selectedFile;
-                propicPreview = MemoryImage(proPic!.bytes!);
-              });
-
-              setState(() {
-                proPicController.text = selectedFile.name;
+                proPic = newProPic;
               });
             },
           ),
-        ),
-        // const SizedBox(height: 10.0),
-        // MIHTextField(
-        //   controller: proPicController,
-        //   hintText: "Pro Pic",
-        //   editable: true,
-        //   required: true,
-        // ),
-        const SizedBox(height: 10.0),
-        MIHTextField(
-          controller: usernameController,
-          hintText: "Username",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        MIHTextField(
-          controller: fnameController,
-          hintText: "First Name",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        MIHTextField(
-          controller: lnameController,
-          hintText: "Last Name",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Activate Business Account",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Switch(
-              value: businessUser,
-              onChanged: (bool value) {
+          const SizedBox(height: 25.0),
+          Visibility(
+            visible: false,
+            child: MIHFileField(
+              controller: proPicController,
+              hintText: "Profile Picture",
+              editable: false,
+              required: false,
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['jpg', 'png'],
+                );
+                if (result == null) return;
+                final selectedFile = result.files.first;
                 setState(() {
-                  businessUser = value;
+                  proPic = selectedFile;
+                  propicPreview = MemoryImage(proPic!.bytes!);
+                });
+
+                setState(() {
+                  proPicController.text = selectedFile.name;
                 });
               },
             ),
-          ],
-        ),
-        const SizedBox(height: 30.0),
-        SizedBox(
-          width: 500.0,
-          height: 50.0,
-          child: MIHButton(
-            buttonText: "Update",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onTap: () {
-              submitForm();
-            },
           ),
-        ),
-      ],
+          // const SizedBox(height: 10.0),
+          // MIHTextField(
+          //   controller: proPicController,
+          //   hintText: "Pro Pic",
+          //   editable: true,
+          //   required: true,
+          // ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: usernameController,
+            hintText: "Username",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: fnameController,
+            hintText: "First Name",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          MIHTextField(
+            controller: lnameController,
+            hintText: "Last Name",
+            editable: true,
+            required: true,
+          ),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Activate Business Account",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Switch(
+                value: businessUser,
+                onChanged: (bool value) {
+                  setState(() {
+                    businessUser = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 30.0),
+          SizedBox(
+            width: 500.0,
+            height: 50.0,
+            child: MIHButton(
+              buttonText: "Update",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onTap: () {
+                submitForm();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

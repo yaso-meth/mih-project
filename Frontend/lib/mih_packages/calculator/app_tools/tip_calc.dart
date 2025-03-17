@@ -2,6 +2,7 @@ import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -268,91 +269,95 @@ class _TipCalcState extends State<TipCalc> {
   }
 
   Widget getBody() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Text(
-          "Tip Calculator",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    return MihSingleChildScroll(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Text(
+            "Tip Calculator",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
           ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        MIHNumberField(
-          controller: billAmountController,
-          hintText: "Bill Amount",
-          editable: true,
-          required: true,
-          enableDecimal: true,
-        ),
-        const SizedBox(height: 10),
-        MIHNumberField(
-          controller: tipPercentageController,
-          hintText: "Tip %",
-          editable: true,
-          required: true,
-          enableDecimal: false,
-        ),
-        const SizedBox(height: 10),
-        MIHDropdownField(
-          controller: splitBillController,
-          hintText: "Split Bill",
-          dropdownOptions: const ["Yes", "No"],
-          required: true,
-          editable: true,
-          enableSearch: false,
-        ),
-        const SizedBox(height: 10),
-        ValueListenableBuilder(
-          valueListenable: splitValue,
-          builder: (BuildContext context, String value, Widget? child) {
-            return Visibility(
-              visible: value == "Yes",
-              child: Column(
-                children: [
-                  MIHNumberField(
-                    controller: noPeopleController,
-                    hintText: "No. of People",
-                    editable: true,
-                    required: true,
-                    enableDecimal: false,
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            );
-          },
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: 50,
-          child: MIHButton(
-            onTap: () {
-              validateInput();
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          const SizedBox(height: 10),
+          MIHNumberField(
+            controller: billAmountController,
+            hintText: "Bill Amount",
+            editable: true,
+            required: true,
+            enableDecimal: true,
+          ),
+          const SizedBox(height: 10),
+          MIHNumberField(
+            controller: tipPercentageController,
+            hintText: "Tip %",
+            editable: true,
+            required: true,
+            enableDecimal: false,
+          ),
+          const SizedBox(height: 10),
+          MIHDropdownField(
+            controller: splitBillController,
+            hintText: "Split Bill",
+            dropdownOptions: const ["Yes", "No"],
+            required: true,
+            editable: true,
+            enableSearch: false,
+          ),
+          const SizedBox(height: 10),
+          ValueListenableBuilder(
+            valueListenable: splitValue,
+            builder: (BuildContext context, String value, Widget? child) {
+              return Visibility(
+                visible: value == "Yes",
+                child: Column(
+                  children: [
+                    MIHNumberField(
+                      controller: noPeopleController,
+                      hintText: "No. of People",
+                      editable: true,
+                      required: true,
+                      enableDecimal: false,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              );
             },
-            buttonText: "Calculate",
-            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
-        ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: double.infinity,
-          height: 50,
-          child: MIHButton(
-            onTap: () {
-              clearInput();
-            },
-            buttonText: "Clear",
-            buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: MIHButton(
+              onTap: () {
+                validateInput();
+              },
+              buttonText: "Calculate",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.successColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: MIHButton(
+              onTap: () {
+                clearInput();
+              },
+              buttonText: "Clear",
+              buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
@@ -80,45 +81,48 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   }
 
   Widget getBody() {
-    return Column(mainAxisSize: MainAxisSize.max, children: [
-      const Text(
-        "Business Team",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
+    return MihSingleChildScroll(
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        const Text(
+          "Business Team",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
-      ),
-      Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-      const SizedBox(height: 10),
-      FutureBuilder(
-        future: employeeList,
-        builder: (context, snapshot) {
-          //print("patient Queue List  ${snapshot.hasData}");
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Mihloadingcircle();
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            //List<BusinessEmployee> employeeListResults;
-            // if (searchString == "") {
-            //   patientQueueList = [];
-            // } else {
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: employeeList,
+          builder: (context, snapshot) {
+            //print("patient Queue List  ${snapshot.hasData}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Mihloadingcircle();
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              //List<BusinessEmployee> employeeListResults;
+              // if (searchString == "") {
+              //   patientQueueList = [];
+              // } else {
 
-            //   print(patientQueueList);
-            // }
+              //   print(patientQueueList);
+              // }
 
-            return displayEmployeeList(snapshot.requireData);
-          } else {
-            return Center(
-              child: Text(
-                "$errorCode: Error pulling Patients Data\n${AppEnviroment.baseApiUrl}/business-user/users/${widget.arguments.businessUser!.business_id}\n$errorBody",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor()),
-                textAlign: TextAlign.center,
-              ),
-            );
-          }
-        },
-      ),
-    ]);
+              return displayEmployeeList(snapshot.requireData);
+            } else {
+              return Center(
+                child: Text(
+                  "$errorCode: Error pulling Patients Data\n${AppEnviroment.baseApiUrl}/business-user/users/${widget.arguments.businessUser!.business_id}\n$errorBody",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          },
+        ),
+      ]),
+    );
   }
 }

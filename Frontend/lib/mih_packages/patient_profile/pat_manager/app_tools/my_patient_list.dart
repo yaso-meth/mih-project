@@ -1,6 +1,7 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_apis/mih_api_calls.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
@@ -39,20 +40,20 @@ class _MyPatientListState extends State<MyPatientList> {
   final FocusNode _focusNode = FocusNode();
 
   Widget myPatientListTool() {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      autofocus: true,
-      onKeyEvent: (event) async {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.enter) {
-          setState(() {
-            _myPatientIdSearchString = _myPatientSearchController.text;
-            _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-                widget.business!.business_id);
-          });
-        }
-      },
-      child: SingleChildScrollView(
+    return MihSingleChildScroll(
+      child: KeyboardListener(
+        focusNode: _focusNode,
+        autofocus: true,
+        onKeyEvent: (event) async {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.enter) {
+            setState(() {
+              _myPatientIdSearchString = _myPatientSearchController.text;
+              _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+                  widget.business!.business_id);
+            });
+          }
+        },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

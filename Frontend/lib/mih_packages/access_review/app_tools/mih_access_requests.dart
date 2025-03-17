@@ -1,16 +1,17 @@
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import '../../mih_apis/mih_api_calls.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/patient_access.dart';
-import 'builder/build_business_access_list.dart';
+import '../../../main.dart';
+import '../../../mih_apis/mih_api_calls.dart';
+import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import '../../../mih_components/mih_layout/mih_action.dart';
+import '../../../mih_components/mih_layout/mih_header.dart';
+import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import '../../../mih_env/env.dart';
+import '../../../mih_objects/app_user.dart';
+import '../../../mih_objects/patient_access.dart';
+import '../builder/build_business_access_list.dart';
 
 class MihAccessRequest extends StatefulWidget {
   final AppUser signedInUser;
@@ -127,7 +128,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
   }
 
   Widget getBody() {
-    return SingleChildScrollView(
+    return MihSingleChildScroll(
       child: Column(
         children: [
           const Text(
