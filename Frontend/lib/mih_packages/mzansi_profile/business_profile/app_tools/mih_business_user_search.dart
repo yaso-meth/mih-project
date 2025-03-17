@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -97,65 +98,69 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   }
 
   Widget getBody() {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      autofocus: true,
-      onKeyEvent: (event) async {
-        if (event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.enter) {
-          submitUserForm();
-        }
-      },
-      child: Column(mainAxisSize: MainAxisSize.max, children: [
-        const Text(
-          "User Search",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        //spacer
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        MIHSearchField(
-          controller: searchController,
-          hintText: "Username or Email Search",
-          required: true,
-          editable: true,
-          onTap: () {
+    return MihSingleChildScroll(
+      child: KeyboardListener(
+        focusNode: _focusNode,
+        autofocus: true,
+        onKeyEvent: (event) async {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.enter) {
             submitUserForm();
-          },
-        ),
-        //spacer
-        const SizedBox(height: 10),
-        FutureBuilder(
-          future: userSearchResults,
-          builder: (context, snapshot) {
-            //print("patient Liust  ${snapshot.data}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              List<AppUser> patientsList;
-              if (userSearch == "") {
-                patientsList = [];
+          }
+        },
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          const Text(
+            "User Search",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          //spacer
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          const SizedBox(height: 10),
+          MIHSearchField(
+            controller: searchController,
+            hintText: "Username or Email Search",
+            required: true,
+            editable: true,
+            onTap: () {
+              submitUserForm();
+            },
+          ),
+          //spacer
+          const SizedBox(height: 10),
+          FutureBuilder(
+            future: userSearchResults,
+            builder: (context, snapshot) {
+              //print("patient Liust  ${snapshot.data}");
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Mihloadingcircle();
+              } else if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                List<AppUser> patientsList;
+                if (userSearch == "") {
+                  patientsList = [];
+                } else {
+                  patientsList = snapshot.data!;
+                  //print(patientsList);
+                }
+                return displayUserList(patientsList);
               } else {
-                patientsList = snapshot.data!;
-                //print(patientsList);
+                return Center(
+                  child: Text(
+                    "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .errorColor()),
+                    textAlign: TextAlign.center,
+                  ),
+                );
               }
-              return displayUserList(patientsList);
-            } else {
-              return Center(
-                child: Text(
-                  "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-          },
-        ),
-      ]),
+            },
+          ),
+        ]),
+      ),
     );
   }
 }
