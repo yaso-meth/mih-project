@@ -14,7 +14,7 @@ import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/icd10_code.dart.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/icd10_search_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/components/icd10_search_window.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -86,110 +86,6 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           enableSearch: false,
         ),
         const SizedBox(height: 10),
-        // Text(
-        //   "Patient Details",
-        //   textAlign: TextAlign.center,
-        //   style: TextStyle(
-        //     fontSize: 20,
-        //     fontWeight: FontWeight.bold,
-        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        //   ),
-        // ),
-        // Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _fullNameController,
-        //   hintText: "Full Name",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _idController,
-        //   hintText: "ID No.",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _medAidController,
-        //   hintText: "Has Medical Aid",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
-        // ValueListenableBuilder(
-        //   valueListenable: serviceDesc,
-        //   builder: (BuildContext context, String value, Widget? child) {
-        //     return Visibility(
-        //       visible: value == "Yes",
-        //       child: Column(
-        //         children: [
-        //           MIHTextField(
-        //             controller: _medAidNoController,
-        //             hintText: "Medical Aid No.",
-        //             editable: false,
-        //             required: true,
-        //           ),
-        //           const SizedBox(height: 10),
-        //           MIHTextField(
-        //             controller: _medAidCodeController,
-        //             hintText: "Medical Aid Code",
-        //             editable: false,
-        //             required: true,
-        //           ),
-        //           const SizedBox(height: 10),
-        //           MIHTextField(
-        //             controller: _medAidNameController,
-        //             hintText: "Medical Aid Name",
-        //             editable: false,
-        //             required: true,
-        //           ),
-        //           const SizedBox(height: 10),
-        //           MIHTextField(
-        //             controller: _medAidSchemeController,
-        //             hintText: "Medical Aid Scheme",
-        //             editable: false,
-        //             required: true,
-        //           ),
-        //           const SizedBox(height: 10),
-        //         ],
-        //       ),
-        //     );
-        //   },
-        // ),
-        // Text(
-        //   "Provider Details",
-        //   textAlign: TextAlign.center,
-        //   style: TextStyle(
-        //     fontSize: 20,
-        //     fontWeight: FontWeight.bold,
-        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        //   ),
-        // ),
-        // Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _providerNameController,
-        //   hintText: "Provider Name",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _practiceNoController,
-        //   hintText: "Practice No.",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
-        // MIHTextField(
-        //   controller: _vatNoController,
-        //   hintText: "VAT No.",
-        //   editable: false,
-        //   required: true,
-        // ),
-        // const SizedBox(height: 10),
         Text(
           "Service Details",
           textAlign: TextAlign.center,
