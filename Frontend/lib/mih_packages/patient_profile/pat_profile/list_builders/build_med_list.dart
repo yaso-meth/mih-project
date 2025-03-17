@@ -1,7 +1,6 @@
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/medicine.dart';
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
-import '../../../mih_objects/medicine.dart';
 
 class BuildMedicinesList extends StatefulWidget {
   final TextEditingController contoller;

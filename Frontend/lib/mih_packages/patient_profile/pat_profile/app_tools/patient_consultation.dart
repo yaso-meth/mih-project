@@ -1,32 +1,32 @@
 import 'dart:convert';
-
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/notes.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/list_builders/build_notes_list.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../mih_components/mih_layout/mih_window.dart';
-import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/business.dart';
-import '../../mih_objects/business_user.dart';
-import '../../mih_objects/notes.dart';
-import '../../mih_objects/patients.dart';
-import 'builder/build_notes_list.dart';
-
-class PatientNotes extends StatefulWidget {
+class PatientConsultation extends StatefulWidget {
   final String patientAppId;
   final Patient selectedPatient;
   final AppUser signedInUser;
   final Business? business;
   final BusinessUser? businessUser;
   final String type;
-  const PatientNotes({
+  const PatientConsultation({
     super.key,
     required this.patientAppId,
     required this.selectedPatient,
@@ -37,20 +37,18 @@ class PatientNotes extends StatefulWidget {
   });
 
   @override
-  State<PatientNotes> createState() => _PatientNotesState();
+  State<PatientConsultation> createState() => _PatientConsultationState();
 }
 
-class _PatientNotesState extends State<PatientNotes> {
-  String endpoint = "${AppEnviroment.baseApiUrl}/notes/patients/";
-  String apiUrlAddNote = "${AppEnviroment.baseApiUrl}/notes/insert/";
+class _PatientConsultationState extends State<PatientConsultation> {
+  late Future<List<Note>> futueNotes;
   final titleController = TextEditingController();
   final noteTextController = TextEditingController();
   final officeController = TextEditingController();
   final dateController = TextEditingController();
   final doctorController = TextEditingController();
-  late Future<List<Note>> futueNotes;
-  //int noteDetailCount = 0;
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
+  String endpoint = "${AppEnviroment.baseApiUrl}/notes/patients/";
 
   Future<List<Note>> fetchNotes(String endpoint) async {
     final response = await http.get(Uri.parse(
@@ -67,75 +65,12 @@ class _PatientNotesState extends State<PatientNotes> {
     }
   }
 
-  Future<void> addPatientNoteAPICall() async {
-    // String title = "";
-    // if (widget.businessUser!.title == "Doctor") {
-    //   title = "Dr.";
-    // }
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notes/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "note_name": titleController.text,
-        "note_text": noteTextController.text,
-        "doc_office": officeController.text,
-        "doctor": doctorController.text,
-        "app_id": widget.selectedPatient.app_id,
-      }),
-    );
-    if (response.statusCode == 201) {
-      setState(() {
-        futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
-      });
-      // Navigator.of(context)
-      //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-      String message =
-          "Your note has been successfully added to the patients medical record. You can now view it alongside their other important information.";
-      successPopUp(message);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void messagePopUp(error) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(error),
-        );
-      },
-    );
-  }
-
   void addNotePopUp() {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     var title = "";
-    if (widget.businessUser!.title == "Doctor") {
+    print("Business User: ${widget.businessUser}");
+    if (widget.businessUser?.title == "Doctor") {
       title = "Dr.";
     }
     setState(() {
@@ -251,11 +186,35 @@ class _PatientNotesState extends State<PatientNotes> {
     );
   }
 
-  Color getNoteDetailLimitColor() {
-    if (_counter.value <= 512) {
-      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+  Future<void> addPatientNoteAPICall() async {
+    // String title = "";
+    // if (widget.businessUser!.title == "Doctor") {
+    //   title = "Dr.";
+    // }
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/notes/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "note_name": titleController.text,
+        "note_text": noteTextController.text,
+        "doc_office": officeController.text,
+        "doctor": doctorController.text,
+        "app_id": widget.selectedPatient.app_id,
+      }),
+    );
+    if (response.statusCode == 201) {
+      setState(() {
+        futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
+      });
+      // Navigator.of(context)
+      //     .pushNamed('/patient-manager', arguments: widget.userEmail);
+      String message =
+          "Your note has been successfully added to the patients medical record. You can now view it alongside their other important information.";
+      successPopUp(message);
     } else {
-      return MzanziInnovationHub.of(context)!.theme.errorColor();
+      internetConnectionPopUp();
     }
   }
 
@@ -269,11 +228,19 @@ class _PatientNotesState extends State<PatientNotes> {
     }
   }
 
+  Color getNoteDetailLimitColor() {
+    if (_counter.value <= 512) {
+      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzanziInnovationHub.of(context)!.theme.errorColor();
+    }
+  }
+
   List<Widget> setIcons() {
     if (widget.type == "personal") {
       return [
         Text(
-          "Notes",
+          "Consultation Notes",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 25,
@@ -284,7 +251,7 @@ class _PatientNotesState extends State<PatientNotes> {
     } else {
       return [
         Text(
-          "Notes",
+          "Consultation Notes",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 25,
@@ -293,6 +260,7 @@ class _PatientNotesState extends State<PatientNotes> {
         ),
         IconButton(
           onPressed: () {
+            // addConsultationNotePopUp();
             addNotePopUp();
           },
           icon: Icon(Icons.add,
@@ -300,6 +268,27 @@ class _PatientNotesState extends State<PatientNotes> {
         )
       ];
     }
+  }
+
+  void successPopUp(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MIHSuccessMessage(
+          successType: "Success",
+          successMessage: message,
+        );
+      },
+    );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(errorType: "Internet Connection");
+      },
+    );
   }
 
   @override
@@ -315,52 +304,58 @@ class _PatientNotesState extends State<PatientNotes> {
   @override
   void initState() {
     futueNotes = fetchNotes(endpoint + widget.patientAppId);
-    // setState(() {
-    //   noteDetailCount = noteTextController.text.length;
-    // });
     noteTextController.addListener(() {
       setState(() {
         _counter.value = noteTextController.text.characters.length;
       });
-      print(_counter.value);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: futueNotes,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Mihloadingcircle(),
-          );
-        } else if (snapshot.hasData) {
-          final notesList = snapshot.data!;
-          return Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: setIcons(),
-            ),
-            Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-            const SizedBox(height: 10),
-            BuildNotesList(
-              notes: notesList,
-              signedInUser: widget.signedInUser,
-              selectedPatient: widget.selectedPatient,
-              business: widget.business,
-              businessUser: widget.businessUser,
-              type: widget.type,
-            ),
-          ]);
-        } else {
-          return const Center(
-            child: Text("Error Loading Notes"),
-          );
-        }
-      },
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
+    );
+  }
+
+  Widget getBody() {
+    return MihSingleChildScroll(
+      child: FutureBuilder(
+        future: futueNotes,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: Mihloadingcircle(),
+            );
+          } else if (snapshot.hasData) {
+            final notesList = snapshot.data!;
+            return Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: setIcons(),
+              ),
+              Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              const SizedBox(height: 10),
+              BuildNotesList(
+                notes: notesList,
+                signedInUser: widget.signedInUser,
+                selectedPatient: widget.selectedPatient,
+                business: widget.business,
+                businessUser: widget.businessUser,
+                type: widget.type,
+              ),
+            ]);
+          } else {
+            return const Center(
+              child: Text("Error Loading Notes"),
+            );
+          }
+        },
+      ),
     );
   }
 }

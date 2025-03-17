@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/patient_add.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/arguments.dart';
-import '../../mih_objects/patients.dart';
-import 'patient_add.dart';
-import 'patient_view.dart';
 
 class AddOrViewPatient extends StatefulWidget {
   //final AppUser signedInUser;
@@ -70,7 +69,7 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
             snapshot.hasData) {
           // Extracting data from snapshot object
           //final data = snapshot.data as String;
-          return PatientView(
+          return PatientProfile(
               arguments: PatientViewArguments(
             widget.arguments.signedInUser,
             snapshot.requireData,

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import '../../../../main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import "package:universal_html/html.dart" as html;
@@ -11,11 +11,11 @@ import 'package:http/http.dart' as http;
 import 'package:printing/printing.dart';
 import 'package:fl_downloader/fl_downloader.dart';
 
-import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_body.dart';
-import '../../mih_components/mih_layout/mih_header.dart';
-import '../../mih_components/mih_layout/mih_layout_builder.dart';
-import '../../mih_objects/arguments.dart';
+import '../../../../mih_components/mih_layout/mih_action.dart';
+import '../../../../mih_components/mih_layout/mih_body.dart';
+import '../../../../mih_components/mih_layout/mih_header.dart';
+import '../../../../mih_components/mih_layout/mih_layout_builder.dart';
+import '../../../../mih_objects/arguments.dart';
 
 class FullScreenFileViewer extends StatefulWidget {
   final FileViewArguments arguments;

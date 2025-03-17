@@ -11,19 +11,19 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profi
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/add_or_view_patient.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/patient_add.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
 import 'package:flutter/material.dart';
 import '../mih_components/mih_layout/mih_print_prevew.dart';
 import '../mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import '../mih_packages/authentication/auth_check.dart';
-import '../mih_packages/patient_profile/add_or_view_patient.dart';
-import '../mih_packages/patient_profile/patient_add.dart';
-import '../mih_packages/patient_profile/patient_edit.dart';
 import '../mih_objects/app_user.dart';
 import '../mih_objects/arguments.dart';
 import '../mih_packages/authentication/forgot_password.dart';
 import '../mih_packages/authentication/reset_password.dart';
-import '../mih_packages/patient_profile/full_screen_file.dart';
-import '../mih_packages/patient_profile/patient_view.dart';
+import '../mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
 import '../mih_packages/manage_business/profile_business_add.dart';
 
 class RouteGenerator {
@@ -270,7 +270,7 @@ class RouteGenerator {
             if (args is PatientViewArguments) {
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => PatientView(
+                builder: (_) => PatientProfile(
                   arguments: args,
                 ),
               );

@@ -1,15 +1,17 @@
+import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/arguments.dart';
-import '../../mih_objects/patients.dart';
 
-class PatientDetails extends StatefulWidget {
+class PatientInfo extends StatefulWidget {
   final AppUser signedInUser;
   final Patient selectedPatient;
   final String type;
-  const PatientDetails({
+  const PatientInfo({
     super.key,
     required this.signedInUser,
     required this.selectedPatient,
@@ -17,10 +19,10 @@ class PatientDetails extends StatefulWidget {
   });
 
   @override
-  State<PatientDetails> createState() => _PatientDetailsState();
+  State<PatientInfo> createState() => _PatientInfoState();
 }
 
-class _PatientDetailsState extends State<PatientDetails> {
+class _PatientInfoState extends State<PatientInfo> {
   final idController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
@@ -33,8 +35,6 @@ class _PatientDetailsState extends State<PatientDetails> {
   final medAidController = TextEditingController();
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
-  double? headingFontSize = 35.0;
-  double? bodyFonstSize = 20.0;
   double textFieldWidth = 400.0;
   late String medAid;
 
@@ -173,50 +173,11 @@ class _PatientDetailsState extends State<PatientDetails> {
       ),
       //),
     ]);
-
     return Wrap(
       spacing: 10,
       runSpacing: 10,
       children: medAidDet,
     );
-  }
-
-  List<Widget> setIcons() {
-    if (widget.type == "personal") {
-      return [
-        Text(
-          "Personal Details",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.edit),
-          alignment: Alignment.topRight,
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          onPressed: () {
-            Navigator.of(context).pushNamed('/patient-profile/edit',
-                arguments: PatientEditArguments(
-                    widget.signedInUser, widget.selectedPatient));
-          },
-        )
-      ];
-    } else {
-      return [
-        Text(
-          "Patient Details",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-      ];
-    }
   }
 
   @override
@@ -269,30 +230,65 @@ class _PatientDetailsState extends State<PatientDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: ,
-          children: setIcons(),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        getPatientDetailsField(),
-        const SizedBox(height: 10),
-        Text(
-          "Medical Aid Details",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    return MihAppToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
+    );
+  }
+
+  Widget getBody() {
+    return MihSingleChildScroll(
+      child: Column(
+        children: [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: ,
+              children: [
+                Text(
+                  "Personal Details",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+                Visibility(
+                  visible: widget.type == "personal",
+                  child: IconButton(
+                    icon: const Icon(Icons.edit),
+                    alignment: Alignment.topRight,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/patient-profile/edit',
+                          arguments: PatientEditArguments(
+                              widget.signedInUser, widget.selectedPatient));
+                    },
+                  ),
+                )
+              ]),
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          const SizedBox(height: 10),
+          getPatientDetailsField(),
+          const SizedBox(height: 10),
+          Text(
+            "Medical Aid Details",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
           ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
-        getMedAidDetailsFields(),
-      ],
+          Divider(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          const SizedBox(height: 10),
+          getMedAidDetailsFields(),
+        ],
+      ),
     );
   }
 }

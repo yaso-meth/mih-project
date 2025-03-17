@@ -2,35 +2,29 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/app_tools/mih_patient_search.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/app_tools/my_patient_list.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/app_tools/waiting_room.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/app_tools/patient_claim_or_statement.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/app_tools/patient_consultation.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/app_tools/patient_documents.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/app_tools/patient_info.dart';
 import 'package:flutter/material.dart';
 
-class PatManager extends StatefulWidget {
-  final PatManagerArguments arguments;
-  const PatManager({
+class PatientProfile extends StatefulWidget {
+  final PatientViewArguments arguments;
+  const PatientProfile({
     super.key,
     required this.arguments,
   });
 
   @override
-  State<PatManager> createState() => _PatManagerState();
+  State<PatientProfile> createState() => _PatientProfileState();
 }
 
-class _PatManagerState extends State<PatManager> {
+class _PatientProfileState extends State<PatientProfile> {
   int _selcetedIndex = 0;
-
-  void updateIndex(int index) {
-    setState(() {
-      _selcetedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MihApp(
-      appActionButton: getActionButton(),
+      appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
       selectedbodyIndex: _selcetedIndex,
@@ -42,7 +36,7 @@ class _PatManagerState extends State<PatManager> {
     );
   }
 
-  MihAppAction getActionButton() {
+  MihAppAction getAction() {
     return MihAppAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
@@ -54,21 +48,24 @@ class _PatManagerState extends State<PatManager> {
 
   MihAppTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.calendar_month)] = () {
+    temp[const Icon(Icons.perm_identity)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
     };
-
-    temp[const Icon(Icons.check_box_outlined)] = () {
+    temp[const Icon(Icons.article_outlined)] = () {
       setState(() {
         _selcetedIndex = 1;
       });
     };
-
-    temp[const Icon(Icons.search)] = () {
+    temp[const Icon(Icons.file_present)] = () {
       setState(() {
         _selcetedIndex = 2;
+      });
+    };
+    temp[const Icon(Icons.file_open_outlined)] = () {
+      setState(() {
+        _selcetedIndex = 3;
       });
     };
     return MihAppTools(
@@ -79,30 +76,34 @@ class _PatManagerState extends State<PatManager> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      //appointment here
-      // Appointments(
-      //   signedInUser: widget.arguments.signedInUser,
-      //   business: widget.arguments.business,
-      //   personalSelected: widget.arguments.personalSelected,
-      // ),
-      WaitingRoom(
+      PatientInfo(
         signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
-        onIndexChange: updateIndex,
+        selectedPatient: widget.arguments.selectedPatient!,
+        type: widget.arguments.type,
       ),
-      MyPatientList(
+      PatientConsultation(
+        patientAppId: widget.arguments.selectedPatient!.app_id,
+        selectedPatient: widget.arguments.selectedPatient!,
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
         businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
+        type: widget.arguments.type,
       ),
-      MihPatientSearch(
+      PatientDocuments(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
-        personalSelected: widget.arguments.personalSelected,
         businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
+      ),
+      PatientClaimOrStatement(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
       ),
     ];
     return toolBodies;
