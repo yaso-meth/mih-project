@@ -1,7 +1,7 @@
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+// import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 // ignore: must_be_immutable
 class MihApp extends StatefulWidget {
@@ -9,7 +9,7 @@ class MihApp extends StatefulWidget {
   final MihAppTools appTools;
   final List<Widget> appBody;
   int selectedbodyIndex;
-  final onIndexChange;
+  final Function(int) onIndexChange;
   MihApp({
     super.key,
     required this.appActionButton,
@@ -24,6 +24,32 @@ class MihApp extends StatefulWidget {
 }
 
 class _MihAppState extends State<MihApp> {
+  late PageController _pageController;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant MihApp oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedbodyIndex != widget.selectedbodyIndex) {
+      _pageController.animateToPage(
+        widget.selectedbodyIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: widget.selectedbodyIndex);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -45,34 +71,49 @@ class _MihAppState extends State<MihApp> {
                 ],
               ),
               Expanded(
-                  child: SwipeDetector(
-                onSwipeLeft: (offset) {
-                  if (widget.selectedbodyIndex <
-                      widget.appTools.tools.length - 1) {
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: widget.appBody.length,
+                  itemBuilder: (context, index) {
+                    return widget.appBody[index];
+                  },
+                  onPageChanged: (index) {
                     setState(() {
-                      widget.selectedbodyIndex += 1;
+                      widget.selectedbodyIndex = index;
                       widget.onIndexChange(widget.selectedbodyIndex);
                     });
-                  }
-                  // print("swipe left");
-                },
-                onSwipeRight: (offset) {
-                  if (widget.selectedbodyIndex > 0) {
-                    setState(() {
-                      widget.selectedbodyIndex -= 1;
-                      widget.onIndexChange(widget.selectedbodyIndex);
-                    });
-                  }
-                  // print("swipe right");
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: widget.appBody[widget.selectedbodyIndex],
-                    )
-                  ],
+                  },
                 ),
-              )),
+              ),
+              // Expanded(
+              //     child: SwipeDetector(
+              //   onSwipeLeft: (offset) {
+              //     if (widget.selectedbodyIndex <
+              //         widget.appTools.tools.length - 1) {
+              //       setState(() {
+              //         widget.selectedbodyIndex += 1;
+              //         widget.onIndexChange(widget.selectedbodyIndex);
+              //       });
+              //     }
+              //     // print("swipe left");
+              //   },
+              //   onSwipeRight: (offset) {
+              //     if (widget.selectedbodyIndex > 0) {
+              //       setState(() {
+              //         widget.selectedbodyIndex -= 1;
+              //         widget.onIndexChange(widget.selectedbodyIndex);
+              //       });
+              //     }
+              //     // print("swipe right");
+              //   },
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: widget.appBody[widget.selectedbodyIndex],
+              //       )
+              //     ],
+              //   ),
+              // )),
             ],
           ),
         ),
