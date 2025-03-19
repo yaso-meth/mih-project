@@ -394,8 +394,7 @@ class _AiChatState extends State<AiChat> {
                               controller: _modelController,
                               hintText: "AI Model",
                               dropdownOptions: const [
-                                'deepseek-r1:1.5b',
-                                'gemma2:2b'
+                                'gemma3:1b',
                               ],
                               required: true,
                               editable: true,
@@ -585,7 +584,7 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    _modelController.text = 'gemma2:2b';
+    _modelController.text = 'gemma3:1b';
     _fontSizeController.text = _chatFrontSize.ceil().toString();
 
     _chatHistory.add(
