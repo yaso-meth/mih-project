@@ -572,118 +572,113 @@ class _MihInfoState extends State<MihInfo> {
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
-      borderOn: false,
+      borderOn: true,
       bodyItem: getBody(),
     );
   }
 
   Widget getBody() {
     return MihSingleChildScroll(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          children: [
-            SizedBox(
-              width: 165,
-              child: Image(
-                  image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+      child: Column(
+        children: [
+          SizedBox(
+            width: 165,
+            child: Image(
+                image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            "Mzansi Innovation Hub",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "Mzansi Innovation Hub",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Divider(),
-            ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            Wrap(
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Divider(),
+          ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ourVision(),
+              ourMission(),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,
               spacing: 10,
               runSpacing: 10,
               children: [
-                ourVision(),
-                ourMission(),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        installMihTrigger();
-                      },
-                      buttonText: getInstallButtonText(),
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      installMihTrigger();
+                    },
+                    buttonText: getInstallButtonText(),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        launchSocialUrl(
-                          Uri.parse(
-                            "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                          ),
-                        );
-                      },
-                      buttonText: "MIH Beginners Guide",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
+                ),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    onTap: () {
+                      launchSocialUrl(
+                        Uri.parse(
+                          "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                        ),
+                      );
+                    },
+                    buttonText: "MIH Beginners Guide",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
-                ]),
-            const SizedBox(
-              height: 10,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Divider(),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // spacing: 10,
-              // runSpacing: 10,
-              children: [
-                founderTitle(),
-                founderBio(),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Divider(),
-            ),
-            mihSocials(),
-          ],
-        ),
+                ),
+              ]),
+          const SizedBox(
+            height: 10,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Divider(),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            // spacing: 10,
+            // runSpacing: 10,
+            children: [
+              founderTitle(),
+              founderBio(),
+            ],
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Divider(),
+          ),
+          mihSocials(),
+        ],
       ),
     );
   }
