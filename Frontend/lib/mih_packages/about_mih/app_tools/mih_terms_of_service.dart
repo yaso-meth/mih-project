@@ -9,18 +9,15 @@ class MIHTermsOfService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
-      borderOn: false,
+      borderOn: true,
       bodyItem: getBody(context),
     );
   }
 
   Widget getBody(BuildContext context) {
     return MihSingleChildScroll(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          children: PolicyAndTermsText().getTermsOfServiceText(context),
-        ),
+      child: Column(
+        children: PolicyAndTermsText().getTermsOfServiceText(context),
       ),
     );
   }
