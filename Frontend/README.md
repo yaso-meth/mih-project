@@ -1,4 +1,4 @@
-# patient_manager
+# mzansi_innovation_hub
 
 A new Flutter project.
 
