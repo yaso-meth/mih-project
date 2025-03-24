@@ -16,6 +16,8 @@ class MihCardDisplay extends StatefulWidget {
 class _MihCardDisplayState extends State<MihCardDisplay> {
   Widget displayLoyaltyCard() {
     switch (widget.shopName.toLowerCase()) {
+      case "apple tree":
+        return Image.asset('images/loyalty_cards/apple_tree.png');
       case "best before":
         return Image.asset('images/loyalty_cards/best_before.png');
       case "checkers":

@@ -103,6 +103,7 @@ class _MihCardsState extends State<MihCards> {
             controller: shopController,
             hintText: "Shop Name",
             dropdownOptions: const [
+              "Apple Tree",
               "Best Before",
               "Checkers",
               "Clicks",
