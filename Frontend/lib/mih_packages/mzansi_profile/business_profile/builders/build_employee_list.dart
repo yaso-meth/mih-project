@@ -103,7 +103,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
         ),
       );
       String message =
-          "The employee has been deleted successfully. This means it will no longer have access to your business profile";
+          "The employee has been deleted successfully. This means they will no longer have access to your business profile";
       successPopUp(message);
     } else {
       internetConnectionPopUp();

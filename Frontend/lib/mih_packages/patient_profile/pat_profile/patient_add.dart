@@ -109,7 +109,7 @@ class _AddPatientState extends State<AddPatient> {
           arguments: PatientViewArguments(
               widget.signedInUser, null, null, null, "personal"));
       String message =
-          "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
+          "${fnameController.text} ${lnameController.text} patient profile has been successfully added!\n";
       successPopUp(message);
     } else {
       internetConnectionPopUp();
