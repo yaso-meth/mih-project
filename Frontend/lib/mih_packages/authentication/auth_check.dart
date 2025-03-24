@@ -41,7 +41,7 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   void initState() {
     //signedIn = doesSessionExist();
-    disableScreenshot();
+    // disableScreenshot(); Screenshot
     // var brightness =
     //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
     // bool isDarkMode = brightness == Brightness.dark;
