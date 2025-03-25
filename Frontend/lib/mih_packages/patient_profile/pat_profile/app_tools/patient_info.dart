@@ -166,7 +166,7 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MIHTextField(
               controller: medSchemeController,
-              hintText: "Scheme",
+              hintText: "Plan",
               editable: false,
               required: false),
         ),
