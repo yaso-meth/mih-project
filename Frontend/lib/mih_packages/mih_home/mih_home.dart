@@ -38,7 +38,7 @@ import '../../mih_objects/notification.dart';
 import '../test/test.dart';
 
 // ignore: must_be_immutable
-class MIHHome extends StatefulWidget {
+class MIHHomeLegacy extends StatefulWidget {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
   final Business? business;
@@ -50,7 +50,7 @@ class MIHHome extends StatefulWidget {
   final bool isBusinessUserNew;
   final bool isDevActive;
   bool personalSelected;
-  MIHHome({
+  MIHHomeLegacy({
     super.key,
     required this.signedInUser,
     required this.businessUser,
@@ -66,10 +66,10 @@ class MIHHome extends StatefulWidget {
   });
 
   @override
-  State<MIHHome> createState() => _MIHHomeState();
+  State<MIHHomeLegacy> createState() => _MIHHomeLegacyState();
 }
 
-class _MIHHomeState extends State<MIHHome> {
+class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   final proPicController = TextEditingController();
   final TextEditingController searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();

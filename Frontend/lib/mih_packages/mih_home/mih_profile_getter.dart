@@ -242,7 +242,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            return MIHHome(
+            return MIHHomeLegacy(
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
