@@ -441,7 +441,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                       ),
                       const SizedBox(width: 10.0),
                       SizedBox(
-                        width: 80.0,
+                        width: 100.0,
                         height: 50.0,
                         child: MIHButton(
                           buttonText: "Set",
