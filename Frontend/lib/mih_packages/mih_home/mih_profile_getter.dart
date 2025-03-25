@@ -12,7 +12,7 @@ import '../../mih_env/env.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/arguments.dart';
 import '../../mih_objects/business_user.dart';
-import 'mih_home.dart';
+import 'mih_home_legacy.dart';
 
 class MIHProfileGetter extends StatefulWidget {
   final bool personalSelected;
