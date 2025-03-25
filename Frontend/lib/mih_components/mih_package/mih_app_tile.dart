@@ -52,55 +52,69 @@ class _MihAppTileState extends State<MihAppTile> {
 
   @override
   Widget build(BuildContext context) {
-    double borderRadius = widget.iconSize * 0.25;
+    double borderRadius = widget.iconSize * 0.15;
     return SizedBox(
       width: widget.iconSize,
+      height: widget.iconSize,
       child: Container(
         alignment: Alignment.topCenter,
-        // color: Colors.black,
-        // constraints: BoxConstraints(),
         child: Column(
           children: [
-            AnimatedContainer(
-              //alignment: Alignment.center,
-              width: widget.iconSize,
-              height: widget.iconSize,
-              duration: const Duration(seconds: 2),
-              child: Material(
-                color: widget.primaryColor,
-                // shadowColor:
-                //     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                // elevation: 5,
-                borderRadius: BorderRadius.circular(borderRadius),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  // ho
-                  onTap: widget.onTap,
-                  onLongPress: () {
-                    displayHint();
-                  },
-                  // hoverDuration: ,
-                  splashColor:
-                      MzanziInnovationHub.of(context)!.theme.highlightColor(),
-                  highlightColor:
-                      MzanziInnovationHub.of(context)!.theme.highlightColor(),
-                  child: FittedBox(child: widget.appIcon),
-                ),
+            Flexible(
+              flex: 3,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  double iconHeight = constraints.maxWidth;
+                  return AnimatedContainer(
+                    height: iconHeight,
+                    duration: const Duration(seconds: 2),
+                    child: Material(
+                      color: widget.primaryColor,
+                      // shadowColor:
+                      //     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      // elevation: 5,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        // ho
+                        onTap: widget.onTap,
+                        onLongPress: () {
+                          displayHint();
+                        },
+                        // hoverDuration: ,
+                        splashColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .highlightColor(),
+                        highlightColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .highlightColor(),
+                        child: FittedBox(child: widget.appIcon),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 10),
-            FittedBox(
-              child: Text(
-                widget.appName,
-                textAlign: TextAlign.center,
-                // softWrap: true,
-                // overflow: TextOverflow.visible,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.appName,
+                    textAlign: TextAlign.center,
+                    // softWrap: true,
+                    // overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             )
           ],
