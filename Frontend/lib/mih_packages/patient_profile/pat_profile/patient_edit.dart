@@ -510,7 +510,7 @@ class _EditPatientState extends State<EditPatient> {
                     const SizedBox(height: 10.0),
                     MIHTextField(
                       controller: medSchemeController,
-                      hintText: "Medical Aid Scheme",
+                      hintText: "Medical Aid Plan",
                       editable: value,
                       required: value,
                     ),
