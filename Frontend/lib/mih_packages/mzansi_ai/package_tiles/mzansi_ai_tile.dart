@@ -29,12 +29,9 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
         );
       },
       appName: "Mzansi AI",
-      appIcon: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SizedBox(
-          width: widget.packageSize,
-          child: Image(image: aiLogo),
-        ),
+      appIcon: Container(
+        padding: const EdgeInsets.all(25),
+        child: Image(image: aiLogo),
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
