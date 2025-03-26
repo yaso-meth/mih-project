@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/arguments.dart';
+import '../../../main.dart';
+import '../../../mih_objects/app_user.dart';
+import '../../../mih_objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import '../mih_profile_picture.dart';
+import '../../../mih_components/mih_profile_picture.dart';
 
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
