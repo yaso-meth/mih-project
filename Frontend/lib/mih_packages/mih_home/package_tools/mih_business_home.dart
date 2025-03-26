@@ -7,69 +7,71 @@ import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/business_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/package_tile/mih_access_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_profile_tile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/package_tiles/mih_wallet_tile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/package_tiles/patient_profile_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_business_profile_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/package_tiles/pat_manager_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class MihPersonalHome extends StatefulWidget {
+class MihBusinessHome extends StatefulWidget {
   final AppUser signedInUser;
   final bool personalSelected;
   final Business? business;
   final BusinessUser? businessUser;
-  final ImageProvider<Object>? propicFile;
-
-  const MihPersonalHome({
+  const MihBusinessHome({
     super.key,
     required this.signedInUser,
     required this.personalSelected,
     required this.business,
     required this.businessUser,
-    required this.propicFile,
   });
 
   @override
-  State<MihPersonalHome> createState() => _MihPersonalHomeState();
+  State<MihBusinessHome> createState() => _MihBusinessHomeState();
 }
 
-class _MihPersonalHomeState extends State<MihPersonalHome> {
+class _MihBusinessHomeState extends State<MihBusinessHome> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController searchController = TextEditingController();
   String packageSearch = "";
-  late List<Widget> personalPackages;
+  late List<Widget> businessPackages;
   double packageSize = 200;
 
-  List<Widget> setPersonalPackages() {
+  List<Widget> setBusinessPackages() {
     List<Widget> temp = [];
-    //=============== Mzansi Profile ===============
+    //=============== Biz Profile ===============
     temp.add(
-      MzansiProfileTile(
-        signedInUser: widget.signedInUser,
-        propicFile: widget.propicFile,
-        packageSize: packageSize,
-      ),
-    );
-    //=============== Mzansi Wallet ===============
-    temp.add(
-      MihWalletTile(
-        signedInUser: widget.signedInUser,
-        packageSize: packageSize,
-      ),
-    );
-    //=============== Patient Profile ===============
-    temp.add(
-      PatientProfileTile(
-        arguments: PatientViewArguments(
+      MzansiBusinessProfileTile(
+        arguments: BusinessArguments(
           widget.signedInUser,
-          null,
-          null,
-          null,
-          "personal",
+          widget.businessUser,
+          widget.business,
+        ),
+        packageSize: packageSize,
+      ),
+    );
+    //=============== Pat Manager ===============
+    temp.add(
+      PatManagerTile(
+        arguments: PatManagerArguments(
+          widget.signedInUser,
+          false,
+          widget.business,
+          widget.businessUser,
+        ),
+        packageSize: packageSize,
+      ),
+    );
+    //=============== Calendar ===============
+    temp.add(
+      MzansiCalendarTile(
+        arguments: CalendarArguments(
+          widget.signedInUser,
+          false,
+          widget.business,
+          widget.businessUser,
         ),
         packageSize: packageSize,
       ),
@@ -81,29 +83,10 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
         packageSize: packageSize,
       ),
     );
-    //=============== Calendar ===============
-    temp.add(
-      MzansiCalendarTile(
-        arguments: CalendarArguments(
-          widget.signedInUser,
-          true,
-          widget.business,
-          widget.businessUser,
-        ),
-        packageSize: packageSize,
-      ),
-    );
     //=============== Calculator ===============
     temp.add(
       MihCalculatorTile(
         personalSelected: widget.personalSelected,
-        packageSize: packageSize,
-      ),
-    );
-    //=============== MIH Access ===============
-    temp.add(
-      MihAccessTile(
-        signedInUser: widget.signedInUser,
         packageSize: packageSize,
       ),
     );
@@ -140,7 +123,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
   @override
   void initState() {
     super.initState();
-    personalPackages = setPersonalPackages();
+    businessPackages = setBusinessPackages();
   }
 
   @override
@@ -148,7 +131,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     final double height = size.height;
-
     return MihAppToolBody(
       borderOn: true,
       bodyItem: getBody(width, height),
@@ -160,7 +142,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
       child: Column(
         children: [
           const Text(
-            "Personal Home",
+            "Business Home",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 25,
@@ -225,12 +207,12 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
             shrinkWrap: true,
             padding: getPadding(width, height),
             // shrinkWrap: true,
-            itemCount: personalPackages.length,
+            itemCount: businessPackages.length,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: packageSize,
             ),
             itemBuilder: (context, index) {
-              return personalPackages[index];
+              return businessPackages[index];
             },
           ),
         ],

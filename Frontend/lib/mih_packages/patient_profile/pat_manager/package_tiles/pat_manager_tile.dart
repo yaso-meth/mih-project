@@ -28,7 +28,7 @@ class _PatManagerTileState extends State<PatManagerTile> {
       },
       appName: "Patient Manager",
       appIcon: Container(
-        padding: const EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(1),
         child: Icon(
           Icons.medical_services,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
