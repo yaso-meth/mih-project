@@ -15,7 +15,7 @@ import "package:universal_html/html.dart" as html;
 import '../../mih_apis/mih_location_api.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
-import '../../mih_components/mih_layout/mih_app_drawer.dart';
+import 'components/mih_app_drawer.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
 import '../../mih_components/mih_layout/mih_layout_builder.dart';
@@ -135,9 +135,11 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
       videoID: "P2bM9eosJ_A",
       onTap: () {
         Navigator.of(context).pushNamed(
-          '/user-profile',
-          arguments:
-              AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
+          '/mzansi-profile',
+          arguments: AppProfileUpdateArguments(
+            widget.signedInUser,
+            widget.propicFile,
+          ),
         );
       },
       tileName: "Mzansi Profile",
@@ -533,6 +535,30 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
 
   void setAppsDev(List<MIHTile> tileList) {
     if (AppEnviroment.getEnv() == "Dev") {
+      tileList.add(MIHTile(
+        videoID: "",
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/home-dev',
+            //arguments: widget.signedInUser,
+          );
+        },
+        tileName: "Home - Dev",
+        tileIcon: Center(
+          child: Icon(
+            Icons.warning,
+            color: getSec(),
+            size: 230,
+          ),
+        ),
+        //     Icon(
+        //   Icons.info_outline,
+        //   color: getSec(),
+        //   size: 230,
+        // ),
+        p: getPrim(),
+        s: getSec(),
+      ));
       tileList.add(MIHTile(
         videoID: "",
         onTap: () {
