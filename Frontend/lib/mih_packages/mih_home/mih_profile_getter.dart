@@ -4,6 +4,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_bo
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
 import '../../mih_apis/mih_api_calls.dart';
@@ -12,7 +13,6 @@ import '../../mih_env/env.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/arguments.dart';
 import '../../mih_objects/business_user.dart';
-import 'mih_home_legacy.dart';
 
 class MIHProfileGetter extends StatefulWidget {
   final bool personalSelected;
@@ -242,7 +242,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            return MIHHomeLegacy(
+            return MihHome(
               signedInUser: snapshot.requireData.signedInUser,
               businessUser: snapshot.data!.businessUser,
               business: snapshot.data!.business,
@@ -255,6 +255,19 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               isDevActive: isDevActive(),
               personalSelected: widget.personalSelected,
             );
+            // return MIHHomeLegacy(
+            //   signedInUser: snapshot.requireData.signedInUser,
+            //   businessUser: snapshot.data!.businessUser,
+            //   business: snapshot.data!.business,
+            //   patient: snapshot.data!.patient,
+            //   notifications: snapshot.data!.notifi,
+            //   propicFile: isPictureAvailable(snapshot.data!.profilePicUrl),
+            //   isUserNew: isUserNew(snapshot.requireData.signedInUser),
+            //   isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
+            //   isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),
+            //   isDevActive: isDevActive(),
+            //   personalSelected: widget.personalSelected,
+            // );
           } else {
             return errorPage(snapshot.error.toString());
           }
