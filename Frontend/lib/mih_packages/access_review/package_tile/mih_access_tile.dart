@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 
 class MihAccessTile extends StatefulWidget {
   final AppUser signedInUser;
+  final double packageSize;
+
   const MihAccessTile({
     super.key,
     required this.signedInUser,
+    required this.packageSize,
   });
 
   @override
@@ -25,14 +28,14 @@ class _MihAccessTileState extends State<MihAccessTile> {
         );
       },
       appName: "MIH Access",
-      appIcon: Padding(
+      appIcon: Container(
         padding: const EdgeInsets.all(1),
         child: Icon(
           Icons.check_box,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         ),
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

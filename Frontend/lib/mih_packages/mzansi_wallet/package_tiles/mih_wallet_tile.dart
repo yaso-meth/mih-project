@@ -6,9 +6,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MihWalletTile extends StatefulWidget {
   final AppUser signedInUser;
+  final double packageSize;
+
   const MihWalletTile({
     super.key,
     required this.signedInUser,
+    required this.packageSize,
   });
 
   @override
@@ -26,12 +29,12 @@ class _MihWalletTileState extends State<MihWalletTile> {
         );
       },
       appName: "Mzansi Wallet",
-      appIcon: Padding(
-        padding: const EdgeInsets.all(20.0),
+      appIcon: Container(
+        padding: const EdgeInsets.all(25),
         child: FaIcon(
           FontAwesomeIcons.wallet,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          size: 200,
+          size: widget.packageSize,
         ),
       ),
       iconSize: 200,

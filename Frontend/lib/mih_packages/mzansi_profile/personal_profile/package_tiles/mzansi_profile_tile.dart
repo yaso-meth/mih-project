@@ -7,10 +7,13 @@ import 'package:flutter/material.dart';
 class MzansiProfileTile extends StatefulWidget {
   final AppUser signedInUser;
   final ImageProvider<Object>? propicFile;
+  final double packageSize;
+
   const MzansiProfileTile({
     super.key,
     required this.signedInUser,
     required this.propicFile,
+    required this.packageSize,
   });
 
   @override
@@ -32,14 +35,11 @@ class _MzansiProfileTileState extends State<MzansiProfileTile> {
         );
       },
       appName: "Mzansi Profile",
-      appIcon: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SizedBox(
-          width: 225,
-          child: Image(image: logo),
-        ),
+      appIcon: Container(
+        padding: const EdgeInsets.all(25),
+        child: Image(image: logo),
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 
 class MzansiAiTile extends StatefulWidget {
   final AppUser signedInUser;
+  final double packageSize;
+
   const MzansiAiTile({
     super.key,
     required this.signedInUser,
+    required this.packageSize,
   });
 
   @override
@@ -29,11 +32,11 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
       appIcon: Padding(
         padding: const EdgeInsets.all(15.0),
         child: SizedBox(
-          width: 225,
+          width: widget.packageSize,
           child: Image(image: aiLogo),
         ),
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutMihTile extends StatefulWidget {
-  const AboutMihTile({super.key});
+  final double packageSize;
+  const AboutMihTile({
+    super.key,
+    required this.packageSize,
+  });
 
   @override
   State<AboutMihTile> createState() => _AboutMihTileState();
@@ -27,14 +31,14 @@ class _AboutMihTileState extends State<AboutMihTile> {
         child: FaIcon(
           FontAwesomeIcons.circleInfo,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          size: 200,
+          size: widget.packageSize,
         ),
       ),
       // Icon(
       //   Icons.info,
       //   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
       // ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 
 class MzansiCalendarTile extends StatefulWidget {
   final CalendarArguments arguments;
+  final double packageSize;
+
   const MzansiCalendarTile({
     super.key,
     required this.arguments,
+    required this.packageSize,
   });
 
   @override
@@ -25,14 +28,14 @@ class _MzansiCalendarTileState extends State<MzansiCalendarTile> {
         );
       },
       appName: "Calendar",
-      appIcon: Padding(
-        padding: const EdgeInsets.all(1),
+      appIcon: Container(
+        padding: const EdgeInsets.all(0.5),
         child: Icon(
           Icons.calendar_month,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         ),
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

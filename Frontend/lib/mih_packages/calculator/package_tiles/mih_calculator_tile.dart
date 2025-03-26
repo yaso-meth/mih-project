@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 
 class MihCalculatorTile extends StatefulWidget {
   final bool personalSelected;
+  final double packageSize;
+
   const MihCalculatorTile({
     super.key,
     required this.personalSelected,
+    required this.packageSize,
   });
 
   @override
@@ -24,14 +27,14 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
         );
       },
       appName: "Calculator",
-      appIcon: Padding(
+      appIcon: Container(
         padding: const EdgeInsets.all(0),
         child: Icon(
           Icons.calculate,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         ),
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );
