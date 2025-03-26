@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../main.dart';
+import '../../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:http/http.dart' as http2;
 
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/arguments.dart';
+import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
+import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import '../../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
+import '../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
+import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
+import '../../../mih_env/env.dart';
+import '../../../mih_objects/arguments.dart';
 
 class BusinessAbout extends StatefulWidget {
   final BusinessArguments arguments;

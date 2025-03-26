@@ -2,9 +2,9 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/app_tools/mih_business_profile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/app_tools/mih_business_user_search.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/app_tools/mih_my_business_team.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_profile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:flutter/material.dart';
 
 class MzansiBusinessProfile extends StatefulWidget {

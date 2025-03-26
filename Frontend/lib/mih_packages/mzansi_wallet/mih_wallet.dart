@@ -2,7 +2,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/app_tools/mih_cards.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/package_tools/mih_cards.dart';
 import 'package:flutter/material.dart';
 
 class MihWallet extends StatefulWidget {

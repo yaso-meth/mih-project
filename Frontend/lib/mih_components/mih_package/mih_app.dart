@@ -1,13 +1,14 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 // ignore: must_be_immutable
 class MihApp extends StatefulWidget {
-  final MihAppAction appActionButton;
+  final Widget appActionButton;
   final MihAppTools appTools;
   final List<Widget> appBody;
+  final MIHAppDrawer? actionDrawer;
   int selectedbodyIndex;
   final Function(int) onIndexChange;
   MihApp({
@@ -15,6 +16,7 @@ class MihApp extends StatefulWidget {
     required this.appActionButton,
     required this.appTools,
     required this.appBody,
+    this.actionDrawer,
     required this.selectedbodyIndex,
     required this.onIndexChange,
   });
@@ -54,6 +56,7 @@ class _MihAppState extends State<MihApp> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: widget.actionDrawer,
       body: SafeArea(
         child: Container(
           width: screenSize.width,

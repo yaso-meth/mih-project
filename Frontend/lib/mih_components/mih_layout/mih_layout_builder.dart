@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'mih_app_drawer.dart';
+import '../../mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'mih_body.dart';
 import 'mih_header.dart';
 
