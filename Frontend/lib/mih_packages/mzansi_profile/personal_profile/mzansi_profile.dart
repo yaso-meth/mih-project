@@ -2,7 +2,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/app_tools/mih_personal_profile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
 import 'package:flutter/material.dart';
 
 class MzansiProfile extends StatefulWidget {
