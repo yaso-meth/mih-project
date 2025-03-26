@@ -26,10 +26,13 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
         );
       },
       appName: "Patient Profile",
-      appIcon: FaIcon(
-        FontAwesomeIcons.circleInfo,
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        size: 200,
+      appIcon: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: FaIcon(
+          FontAwesomeIcons.bookMedical,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          size: 200,
+        ),
       ),
       iconSize: 200,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
