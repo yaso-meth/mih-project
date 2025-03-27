@@ -38,32 +38,32 @@ class MihPersonalHome extends StatefulWidget {
 }
 
 class _MihPersonalHomeState extends State<MihPersonalHome> {
-  final FocusNode _focusNode = FocusNode();
   final TextEditingController searchController = TextEditingController();
-  String packageSearch = "";
-  late List<Widget> personalPackages;
+  late List<Map<String, Widget>> personalPackagesMap;
+  final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
+      ValueNotifier([]);
   double packageSize = 200;
 
-  List<Widget> setPersonalPackages() {
-    List<Widget> temp = [];
+  List<Map<String, Widget>> setPersonalPackagesMap() {
+    List<Map<String, Widget>> temp = [];
     //=============== Mzansi Profile ===============
-    temp.add(
-      MzansiProfileTile(
+    temp.add({
+      "Mzansi Profile": MzansiProfileTile(
         signedInUser: widget.signedInUser,
         propicFile: widget.propicFile,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Mzansi Wallet ===============
-    temp.add(
-      MihWalletTile(
+    temp.add({
+      "Mzansi Wallet": MihWalletTile(
         signedInUser: widget.signedInUser,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Patient Profile ===============
-    temp.add(
-      PatientProfileTile(
+    temp.add({
+      "Patient Profile": PatientProfileTile(
         arguments: PatientViewArguments(
           widget.signedInUser,
           null,
@@ -72,18 +72,18 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
           "personal",
         ),
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Mzansi AI ===============
-    temp.add(
-      MzansiAiTile(
+    temp.add({
+      "Mzansi AI": MzansiAiTile(
         signedInUser: widget.signedInUser,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Calendar ===============
-    temp.add(
-      MzansiCalendarTile(
+    temp.add({
+      "Calendar": MzansiCalendarTile(
         arguments: CalendarArguments(
           widget.signedInUser,
           true,
@@ -91,26 +91,24 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
           widget.businessUser,
         ),
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Calculator ===============
-    temp.add(
-      MihCalculatorTile(
+    temp.add({
+      "Calculator": MihCalculatorTile(
         personalSelected: widget.personalSelected,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== MIH Access ===============
-    temp.add(
-      MihAccessTile(
+    temp.add({
+      "MIH Access": MihAccessTile(
         signedInUser: widget.signedInUser,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== About MIH ===============
-    temp.add(
-      AboutMihTile(packageSize: packageSize),
-    );
+    temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
     return temp;
   }
 
@@ -131,16 +129,33 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
     }
   }
 
+  void searchPackage() {
+    if (searchController.text.isEmpty) {
+      searchPackageName.value = personalPackagesMap;
+    } else {
+      List<Map<String, Widget>> temp = [];
+      for (var item in personalPackagesMap) {
+        if (item.keys.first.toLowerCase().contains(searchController.text)) {
+          temp.add(item);
+        }
+      }
+      searchPackageName.value = temp;
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
+    searchController.removeListener(searchPackage);
     searchController.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    personalPackages = setPersonalPackages();
+    searchController.addListener(searchPackage);
+    personalPackagesMap = setPersonalPackagesMap();
+    searchPackage();
   }
 
   @override
@@ -175,29 +190,13 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
             children: [
               Flexible(
                 flex: 4,
-                child: KeyboardListener(
-                  focusNode: _focusNode,
-                  autofocus: true,
-                  onKeyEvent: (event) async {
-                    if (event is KeyDownEvent &&
-                        event.logicalKey == LogicalKeyboardKey.enter) {
-                      setState(() {
-                        packageSearch = searchController.text;
-                      });
-                    }
-                  },
-                  child: SizedBox(
-                    child: MIHSearchField(
-                      controller: searchController,
-                      hintText: "Search Mzansi Packages",
-                      required: false,
-                      editable: true,
-                      onTap: () {
-                        setState(() {
-                          packageSearch = searchController.text;
-                        });
-                      },
-                    ),
+                child: SizedBox(
+                  child: MIHSearchField(
+                    controller: searchController,
+                    hintText: "Search Mzansi Packages",
+                    required: false,
+                    editable: true,
+                    onTap: () {},
                   ),
                 ),
               ),
@@ -207,7 +206,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
                   //padding: const EdgeInsets.all(0),
                   onPressed: () {
                     setState(() {
-                      packageSearch = "";
                       searchController.clear();
                     });
                   },
@@ -220,17 +218,29 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
             ],
           ),
           const SizedBox(height: 10),
-          GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: getPadding(width, height),
-            // shrinkWrap: true,
-            itemCount: personalPackages.length,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: packageSize,
-            ),
-            itemBuilder: (context, index) {
-              return personalPackages[index];
+          ValueListenableBuilder(
+            valueListenable: searchPackageName,
+            builder: (context, value, child) {
+              List<Widget> filteredPackages = value
+                  .where((package) => package.keys.first
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()))
+                  .map((package) => package.values.first)
+                  .toList();
+              return GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: getPadding(width, height),
+                // shrinkWrap: true,
+                itemCount: filteredPackages.length,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: packageSize,
+                ),
+                itemBuilder: (context, index) {
+                  return filteredPackages[index];
+                  // return personalPackages[index];
+                },
+              );
             },
           ),
         ],
