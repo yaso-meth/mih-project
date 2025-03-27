@@ -33,28 +33,28 @@ class MihBusinessHome extends StatefulWidget {
 }
 
 class _MihBusinessHomeState extends State<MihBusinessHome> {
-  final FocusNode _focusNode = FocusNode();
   final TextEditingController searchController = TextEditingController();
-  String packageSearch = "";
-  late List<Widget> businessPackages;
+  late List<Map<String, Widget>> businessPackagesMap;
+  final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
+      ValueNotifier([]);
   double packageSize = 200;
 
-  List<Widget> setBusinessPackages() {
-    List<Widget> temp = [];
+  List<Map<String, Widget>> setBusinessPackages() {
+    List<Map<String, Widget>> temp = [];
     //=============== Biz Profile ===============
-    temp.add(
-      MzansiBusinessProfileTile(
+    temp.add({
+      "Business Profile": MzansiBusinessProfileTile(
         arguments: BusinessArguments(
           widget.signedInUser,
           widget.businessUser,
           widget.business,
         ),
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Pat Manager ===============
-    temp.add(
-      PatManagerTile(
+    temp.add({
+      "Patient Manager": PatManagerTile(
         arguments: PatManagerArguments(
           widget.signedInUser,
           false,
@@ -62,11 +62,11 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
           widget.businessUser,
         ),
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Calendar ===============
-    temp.add(
-      MzansiCalendarTile(
+    temp.add({
+      "Calendar": MzansiCalendarTile(
         arguments: CalendarArguments(
           widget.signedInUser,
           false,
@@ -74,26 +74,24 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
           widget.businessUser,
         ),
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Mzansi AI ===============
-    temp.add(
-      MzansiAiTile(
+    temp.add({
+      "Mzansi AI": MzansiAiTile(
         signedInUser: widget.signedInUser,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== Calculator ===============
-    temp.add(
-      MihCalculatorTile(
+    temp.add({
+      "Calculator": MihCalculatorTile(
         personalSelected: widget.personalSelected,
         packageSize: packageSize,
-      ),
-    );
+      )
+    });
     //=============== About MIH ===============
-    temp.add(
-      AboutMihTile(packageSize: packageSize),
-    );
+    temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
     return temp;
   }
 
@@ -114,16 +112,33 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
     }
   }
 
+  void searchPackage() {
+    if (searchController.text.isEmpty) {
+      searchPackageName.value = businessPackagesMap;
+    } else {
+      List<Map<String, Widget>> temp = [];
+      for (var item in businessPackagesMap) {
+        if (item.keys.first.toLowerCase().contains(searchController.text)) {
+          temp.add(item);
+        }
+      }
+      searchPackageName.value = temp;
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
+    searchController.removeListener(searchPackage);
     searchController.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    businessPackages = setBusinessPackages();
+    searchController.addListener(searchPackage);
+    businessPackagesMap = setBusinessPackages();
+    searchPackage();
   }
 
   @override
@@ -157,29 +172,15 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
             children: [
               Flexible(
                 flex: 4,
-                child: KeyboardListener(
-                  focusNode: _focusNode,
-                  autofocus: true,
-                  onKeyEvent: (event) async {
-                    if (event is KeyDownEvent &&
-                        event.logicalKey == LogicalKeyboardKey.enter) {
-                      setState(() {
-                        packageSearch = searchController.text;
-                      });
-                    }
-                  },
-                  child: SizedBox(
-                    child: MIHSearchField(
-                      controller: searchController,
-                      hintText: "Search Mzansi Packages",
-                      required: false,
-                      editable: true,
-                      onTap: () {
-                        setState(() {
-                          packageSearch = searchController.text;
-                        });
-                      },
-                    ),
+                child: SizedBox(
+                  child: MIHSearchField(
+                    controller: searchController,
+                    hintText: "Search Mzansi Packages",
+                    required: false,
+                    editable: true,
+                    onTap: () {
+                      setState(() {});
+                    },
                   ),
                 ),
               ),
@@ -189,7 +190,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
                   //padding: const EdgeInsets.all(0),
                   onPressed: () {
                     setState(() {
-                      packageSearch = "";
                       searchController.clear();
                     });
                   },
@@ -202,17 +202,28 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
             ],
           ),
           const SizedBox(height: 10),
-          GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: getPadding(width, height),
-            // shrinkWrap: true,
-            itemCount: businessPackages.length,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: packageSize,
-            ),
-            itemBuilder: (context, index) {
-              return businessPackages[index];
+          ValueListenableBuilder(
+            valueListenable: searchPackageName,
+            builder: (context, value, child) {
+              List<Widget> filteredPackages = value
+                  .where((package) => package.keys.first
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()))
+                  .map((package) => package.values.first)
+                  .toList();
+              return GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: getPadding(width, height),
+                // shrinkWrap: true,
+                itemCount: filteredPackages.length,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: packageSize,
+                ),
+                itemBuilder: (context, index) {
+                  return filteredPackages[index];
+                },
+              );
             },
           ),
         ],
