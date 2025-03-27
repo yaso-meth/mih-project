@@ -3,7 +3,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/authentication/biometric_chec
 import 'package:flutter/material.dart';
 
 import 'package:supertokens_flutter/supertokens.dart';
-import 'package:no_screenshot/no_screenshot.dart';
+// import 'package:no_screenshot/no_screenshot.dart';
 import 'signin_or_register.dart';
 
 class AuthCheck extends StatefulWidget {
@@ -20,7 +20,7 @@ class AuthCheck extends StatefulWidget {
 }
 
 class _AuthCheckState extends State<AuthCheck> {
-  final _noScreenshot = NoScreenshot.instance;
+  // final _noScreenshot = NoScreenshot.instance;
 
   Future<bool> doesSessionExist() async {
     //wait
@@ -29,14 +29,14 @@ class _AuthCheckState extends State<AuthCheck> {
     return signedIn;
   }
 
-  void disableScreenshot() async {
-    try {
-      bool result = await _noScreenshot.screenshotOff();
-      print('Screenshot Off: $result');
-    } on Exception {
-      print("Web");
-    }
-  }
+  // void disableScreenshot() async {
+  //   try {
+  //     bool result = await _noScreenshot.screenshotOff();
+  //     print('Screenshot Off: $result');
+  //   } on Exception {
+  //     print("Web");
+  //   }
+  // }
 
   @override
   void initState() {
