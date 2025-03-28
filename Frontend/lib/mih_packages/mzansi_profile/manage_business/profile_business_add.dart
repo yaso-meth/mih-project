@@ -98,7 +98,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
     if (response.statusCode == 201) {
       uploadSelectedFile(selectedSignature, signtureController);
-      // Navigator.of(context).pushNamed('/');
+      Navigator.of(context).pop();
       Navigator.of(context).popAndPushNamed(
         '/',
         arguments: AuthArguments(false, false),
