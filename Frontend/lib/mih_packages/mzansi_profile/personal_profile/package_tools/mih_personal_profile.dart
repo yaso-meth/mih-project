@@ -145,11 +145,19 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       //print(response.statusCode);
       if (response.statusCode == 200) {
         Navigator.of(context).pop();
+        Navigator.of(context).pop();
         Navigator.of(context).pushNamed(
-          '/user-profile',
-          arguments: AppProfileUpdateArguments(
-              widget.arguments.signedInUser, widget.arguments.propicFile),
+          '/',
+          arguments: AuthArguments(
+            true,
+            false,
+          ),
         );
+        // Navigator.of(context).pushNamed(
+        //   '/mzansi-profile',
+        //   arguments: AppProfileUpdateArguments(
+        //       widget.arguments.signedInUser, widget.arguments.propicFile),
+        // );
         String message =
             "${widget.arguments.signedInUser.email}'s information has been updated successfully!";
         successPopUp(message);
