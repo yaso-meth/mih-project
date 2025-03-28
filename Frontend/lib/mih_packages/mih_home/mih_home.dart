@@ -46,7 +46,7 @@ class MihHome extends StatefulWidget {
 
 class _MihHomeState extends State<MihHome> {
   final proPicController = TextEditingController();
-  int _selcetedIndex = 0;
+  late int _selcetedIndex;
   late bool _personalSelected;
 
   @override
@@ -57,7 +57,18 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
-    _personalSelected = widget.personalSelected;
+
+    if (widget.personalSelected == true) {
+      setState(() {
+        _selcetedIndex = 0;
+        _personalSelected = true;
+      });
+    } else {
+      setState(() {
+        _selcetedIndex = 1;
+        _personalSelected = false;
+      });
+    }
   }
 
   @override
@@ -69,15 +80,14 @@ class _MihHomeState extends State<MihHome> {
       actionDrawer: getActionDrawer(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        if (newValue == 0) {
+        if (_selcetedIndex == 0) {
           setState(() {
+            _selcetedIndex = newValue;
             _personalSelected = true;
           });
         } else {
           setState(() {
+            _selcetedIndex = newValue;
             _personalSelected = false;
           });
         }
@@ -121,12 +131,14 @@ class _MihHomeState extends State<MihHome> {
     temp[const Icon(Icons.person)] = () {
       setState(() {
         _selcetedIndex = 0;
+        _personalSelected = true;
       });
     };
     if (widget.isBusinessUser) {
       temp[const Icon(Icons.business_center)] = () {
         setState(() {
           _selcetedIndex = 1;
+          _personalSelected = false;
         });
       };
     }
@@ -145,6 +157,7 @@ class _MihHomeState extends State<MihHome> {
         business: widget.business,
         businessUser: widget.businessUser,
         propicFile: widget.propicFile,
+        isUserNew: widget.isUserNew,
       ),
     );
     if (widget.isBusinessUser) {
