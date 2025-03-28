@@ -26,6 +26,7 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
   late double width;
   late double height;
   late Widget loading;
+  late Future<Patient?> patient;
 
   Future<Patient?> fetchPatient() async {
     //print("Patien manager page: $endpoint");
@@ -56,14 +57,22 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    patient = fetchPatient();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("AddOrViewPatient");
     var size = MediaQuery.of(context).size;
     setState(() {
       width = size.width;
       height = size.height;
     });
     return FutureBuilder(
-      future: fetchPatient(),
+      future: patient,
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
