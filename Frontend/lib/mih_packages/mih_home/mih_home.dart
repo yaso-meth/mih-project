@@ -167,6 +167,7 @@ class _MihHomeState extends State<MihHome> {
           personalSelected: _personalSelected,
           businessUser: widget.businessUser,
           business: widget.business,
+          isBusinessUserNew: widget.isBusinessUserNew,
         ),
       );
     }
