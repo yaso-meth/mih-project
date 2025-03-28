@@ -93,7 +93,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
       tileList.add(MIHTile(
         videoID: "jFV3NN65DtQ",
         onTap: () {
-          Navigator.of(context).pushNamed('/user-profile',
+          Navigator.of(context).pushNamed('/mzansi-profile',
               arguments: AppProfileUpdateArguments(
                   widget.signedInUser, widget.propicFile));
         },
