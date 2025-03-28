@@ -11,6 +11,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/package_tiles/mih_
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_business_profile_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/package_tiles/pat_manager_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,12 +21,14 @@ class MihBusinessHome extends StatefulWidget {
   final bool personalSelected;
   final Business? business;
   final BusinessUser? businessUser;
+  final bool isBusinessUserNew;
   const MihBusinessHome({
     super.key,
     required this.signedInUser,
     required this.personalSelected,
     required this.business,
     required this.businessUser,
+    required this.isBusinessUserNew,
   });
 
   @override
@@ -38,6 +41,17 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
   final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
       ValueNotifier([]);
   double packageSize = 200;
+
+  List<Map<String, Widget>> setNewBusinessUserPackages() {
+    List<Map<String, Widget>> temp = [];
+    temp.add({
+      "Setup Business": MzansiSetupBusinessProfileTile(
+        signedInUser: widget.signedInUser,
+        packageSize: packageSize,
+      )
+    });
+    return temp;
+  }
 
   List<Map<String, Widget>> setBusinessPackages() {
     List<Map<String, Widget>> temp = [];
@@ -137,7 +151,11 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
   void initState() {
     super.initState();
     searchController.addListener(searchPackage);
-    businessPackagesMap = setBusinessPackages();
+    if (widget.isBusinessUserNew) {
+      businessPackagesMap = setNewBusinessUserPackages();
+    } else {
+      businessPackagesMap = setBusinessPackages();
+    }
     searchPackage();
   }
 

@@ -12,6 +12,7 @@ import 'package:Mzansi_Innovation_Hub/mih_packages/calculator/package_tiles/mih_
 import 'package:Mzansi_Innovation_Hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_profile_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_setup_profile_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/package_tiles/mih_wallet_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_profile/package_tiles/patient_profile_tile.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class MihPersonalHome extends StatefulWidget {
   final Business? business;
   final BusinessUser? businessUser;
   final ImageProvider<Object>? propicFile;
+  final bool isUserNew;
 
   const MihPersonalHome({
     super.key,
@@ -31,6 +33,7 @@ class MihPersonalHome extends StatefulWidget {
     required this.business,
     required this.businessUser,
     required this.propicFile,
+    required this.isUserNew,
   });
 
   @override
@@ -43,6 +46,18 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
   final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
       ValueNotifier([]);
   double packageSize = 200;
+
+  List<Map<String, Widget>> setNerUserPersonalPackage() {
+    List<Map<String, Widget>> temp = [];
+    temp.add({
+      "Setup Profile": MzansiSetupProfileTile(
+        signedInUser: widget.signedInUser,
+        propicFile: widget.propicFile,
+        packageSize: packageSize,
+      )
+    });
+    return temp;
+  }
 
   List<Map<String, Widget>> setPersonalPackagesMap() {
     List<Map<String, Widget>> temp = [];
@@ -154,7 +169,11 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
   void initState() {
     super.initState();
     searchController.addListener(searchPackage);
-    personalPackagesMap = setPersonalPackagesMap();
+    if (widget.isUserNew) {
+      personalPackagesMap = setNerUserPersonalPackage();
+    } else {
+      personalPackagesMap = setPersonalPackagesMap();
+    }
     searchPackage();
   }
 
@@ -193,7 +212,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
                 child: SizedBox(
                   child: MIHSearchField(
                     controller: searchController,
-                    hintText: "Search Mzansi Packages",
+                    hintText: "Search MIH Packages",
                     required: false,
                     editable: true,
                     onTap: () {},

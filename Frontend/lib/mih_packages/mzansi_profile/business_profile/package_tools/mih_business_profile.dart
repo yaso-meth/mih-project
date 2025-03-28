@@ -122,12 +122,12 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
       }
       Navigator.of(context).pop();
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
-        '/business-profile/manage',
-        arguments: BusinessArguments(
-          widget.arguments.signedInUser,
-          widget.arguments.businessUser,
-          widget.arguments.business,
+        '/',
+        arguments: AuthArguments(
+          false,
+          false,
         ),
       );
       String message =

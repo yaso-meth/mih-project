@@ -330,7 +330,7 @@ class _AddPatientState extends State<AddPatient> {
       headerAlignment: MainAxisAlignment.center,
       headerItems: [
         Text(
-          "Add Patient Details",
+          "Set Up Patient Profile",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,

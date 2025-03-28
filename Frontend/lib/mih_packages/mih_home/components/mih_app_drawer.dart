@@ -47,7 +47,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         onTap: () {
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed(
-            '/user-profile',
+            '/mzansi-profile',
             arguments: AppProfileUpdateArguments(
                 widget.signedInUser, widget.propicFile),
           );
