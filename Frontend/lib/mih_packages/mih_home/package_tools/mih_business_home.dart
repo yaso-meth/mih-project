@@ -193,7 +193,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
                 child: SizedBox(
                   child: MIHSearchField(
                     controller: searchController,
-                    hintText: "Search Mzansi Packages",
+                    hintText: "Search MIH Packages",
                     required: false,
                     editable: true,
                     onTap: () {
