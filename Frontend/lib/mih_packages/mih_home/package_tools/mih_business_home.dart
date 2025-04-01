@@ -237,6 +237,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
                 itemCount: filteredPackages.length,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: packageSize,
+                  crossAxisSpacing: 5,
                 ),
                 itemBuilder: (context, index) {
                   return filteredPackages[index];
