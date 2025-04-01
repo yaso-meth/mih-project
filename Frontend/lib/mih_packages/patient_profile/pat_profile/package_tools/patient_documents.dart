@@ -58,7 +58,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   final noDaysController = TextEditingController();
   final noRepeatsController = TextEditingController();
   final outputController = TextEditingController();
-  late PlatformFile selected;
+  late PlatformFile? selected;
 
   Future<List<PFile>> fetchFiles() async {
     final response = await http.get(Uri.parse(
@@ -76,7 +76,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  Future<void> uploadSelectedFile(PlatformFile file) async {
+  Future<void> uploadSelectedFile(PlatformFile? file) async {
+    print("File: $file");
     //var strem = new http.ByteStream.fromBytes(file.bytes.)
     //start loading circle
     showDialog(
@@ -87,7 +88,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     );
     var token = await SuperTokens.getAccessToken();
     //print(t);
-    //print("here1");
+    print("here1");
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
     request.headers['accept'] = 'application/json';
@@ -95,13 +96,13 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     request.headers['Content-Type'] = 'multipart/form-data';
     request.fields['app_id'] = widget.selectedPatient.app_id;
     request.fields['folder'] = "patient_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
+    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
-    //print("here2");
+    print("here2");
     var response1 = await request.send();
-    //print("here3");
-    //print(response1.statusCode);
-    //print(response1.toString());
+    print("here3");
+    print(response1.statusCode);
+    print(response1.toString());
     if (response1.statusCode == 200) {
       //print("here3");
       var fname = file.name.replaceAll(RegExp(r' '), '-');
@@ -229,9 +230,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
                 allowedExtensions: ['jpg', 'png', 'pdf'],
+                withData: true,
               );
               if (result == null) return;
               final selectedFile = result.files.first;
+              print("Selected file: $selectedFile");
               setState(() {
                 selected = selectedFile;
               });

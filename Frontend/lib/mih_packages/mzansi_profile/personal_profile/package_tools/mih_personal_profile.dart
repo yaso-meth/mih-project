@@ -284,6 +284,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                   type: FileType.custom,
                   allowedExtensions: ['jpg', 'png'],
+                  withData: true,
                 );
                 if (result == null) return;
                 final selectedFile = result.files.first;
