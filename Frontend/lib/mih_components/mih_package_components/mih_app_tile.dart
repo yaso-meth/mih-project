@@ -98,25 +98,19 @@ class _MihAppTileState extends State<MihAppTile> {
           const SizedBox(height: 10),
           Flexible(
             flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FittedBox(
-                  child: Text(
-                    widget.appName,
-                    textAlign: TextAlign.center,
-                    // softWrap: true,
-                    // overflow: TextOverflow.visible,
-                    style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            child: FittedBox(
+              child: Text(
+                widget.appName,
+                textAlign: TextAlign.center,
+                // softWrap: true,
+                // overflow: TextOverflow.visible,
+                style: TextStyle(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+              ),
             ),
           )
         ],
