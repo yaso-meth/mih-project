@@ -56,10 +56,13 @@ class userUpdateRequest(BaseModel):
 async def read_all_users(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM users "
-    query += "where email like lower('%%%s%%') " % search
-    query += "or username like lower('%%%s%%')" % search
-    cursor.execute(query)
+    query = "SELECT * FROM users WHERE LOWER(email) LIKE %s OR LOWER(username) LIKE %s"
+    search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
+    cursor.execute(query, (search_term, search_term))
+    # query = "SELECT * FROM users "
+    # query += "where email like lower('%%%s%%') " % search
+    # query += "or username like lower('%%%s%%')" % search
+    # cursor.execute(query)
     items = [
         {
             "idUser": item[0],
@@ -145,3 +148,34 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
     cursor.close()
     db.close()
     return {"message": "Successfully Updated Record"}
+
+# Get List of all files
+@router.delete("/user/delete/all/{app_id}", tags=["MIH Users"])
+async def delete_users_data_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAllConnect()
+    cursor = db.cursor()
+    db.start_transaction()
+    try:
+        queries = [
+            "DELETE FROM app_data.notifications where app_id = %s",
+            "DELETE FROM app_data.business_users where app_id = %s",
+            "DELETE FROM data_access.patient_business_access where app_id = %s",
+            "DELETE FROM mzansi_calendar.appointments where app_id = %s",
+            "DELETE FROM mzansi_wallet.loyalty_cards where app_id = %s",
+            "DELETE FROM patient_manager.patients where app_id = %s",
+            "DELETE FROM patient_manager.patient_notes where app_id = %s",
+            "DELETE FROM patient_manager.patient_files where app_id = %s",
+            "DELETE FROM patient_manager.claim_statement_file where app_id = %s",
+            "DELETE FROM app_data.users where app_id = %s",
+        ]
+
+        for query in queries:
+            cursor.execute(query, (app_id,))
+        db.commit()
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=error)
+    finally:
+        cursor.close()
+        db.close()
+    return {"message": "Successfully Deleted User Account & Data"}
