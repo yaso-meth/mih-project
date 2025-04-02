@@ -6,7 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_success_message.dart';

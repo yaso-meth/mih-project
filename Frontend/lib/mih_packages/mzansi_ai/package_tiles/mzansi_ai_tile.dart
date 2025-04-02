@@ -1,5 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tile.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 
