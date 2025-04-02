@@ -1,5 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_window.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
 
@@ -101,16 +101,19 @@ class _MihAppTileState extends State<MihAppTile> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  widget.appName,
-                  textAlign: TextAlign.center,
-                  // softWrap: true,
-                  // overflow: TextOverflow.visible,
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+                FittedBox(
+                  child: Text(
+                    widget.appName,
+                    textAlign: TextAlign.center,
+                    // softWrap: true,
+                    // overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

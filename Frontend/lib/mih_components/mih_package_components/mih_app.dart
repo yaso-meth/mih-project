@@ -1,5 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/mih_packages/mih_home/components/mih_app_drawer.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 

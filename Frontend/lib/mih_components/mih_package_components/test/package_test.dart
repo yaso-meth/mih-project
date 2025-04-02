@@ -1,12 +1,12 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_alert.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tile.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_window.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih-app_tool_body.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
