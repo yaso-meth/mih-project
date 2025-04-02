@@ -384,14 +384,14 @@ class _EditPatientState extends State<EditPatient> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                //alignment: Alignment.topRight,
-                onPressed: () {
-                  deletePatientPopUp();
-                },
-              ),
+              // IconButton(
+              //   icon: const Icon(Icons.delete),
+              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //   //alignment: Alignment.topRight,
+              //   onPressed: () {
+              //     deletePatientPopUp();
+              //   },
+              // ),
             ],
           ),
           Divider(
