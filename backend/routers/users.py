@@ -5,11 +5,12 @@ import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
-from supertokens_python.syncio import delete_user
+from supertokens_python.asyncio import delete_user
 
 from fastapi import Depends
 
 import database.dbConnection
+import Minio_Storage.minioConnection
 
 router = APIRouter()
 
@@ -29,6 +30,10 @@ class userUpdateRequest(BaseModel):
     type: str
     pro_pic_path: str
     
+class userDeleteRequest(BaseModel):
+    app_id: str
+    env: str
+
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
 # async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
@@ -152,8 +157,8 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
     return {"message": "Successfully Updated Record"}
 
 # Get List of all files
-@router.delete("/user/delete/all/{app_id}", tags=["MIH Users"])
-async def delete_users_data_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+@router.delete("/user/delete/all/", tags=["MIH Users"])
+async def delete_users_data_by_app_id(itemRequest:  userDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAllConnect()
     cursor = db.cursor()
     db.start_transaction()
@@ -170,19 +175,29 @@ async def delete_users_data_by_app_id(app_id: str, session: SessionContainer = D
             "DELETE FROM patient_manager.claim_statement_file where app_id = %s",
             "DELETE FROM app_data.users where app_id = %s",
         ]
-        #delete user from all tables
+        # Delete user from all tables
         for query in queries:
-            cursor.execute(query, (app_id,))
+            cursor.execute(query, (itemRequest.app_id,))
+        # Delete user files
+        try:
+            client = Minio_Storage.minioConnection.minioConnect(itemRequest.env)
+            objects_to_delete = client.list_objects("mih", prefix=itemRequest.app_id, recursive=True)
+            for obj in objects_to_delete:
+                client.remove_object("mih", obj.object_name)
+        except Exception as error:
+            raise HTTPException(status_code=500, detail="Failed to delete files from Minio - " + str(error))
         # Delete user from SuperTokens
         try:
-            delete_user(app_id)
+            await delete_user(itemRequest.app_id)
         except Exception as error:
             raise HTTPException(status_code=500, detail="Failed to delete user from SuperTokens - " + str(error))
         db.commit()
     except Exception as error:
         db.rollback()
-        raise HTTPException(status_code=500, detail=error)
+        raise HTTPException(status_code=500, detail=str(error))
     finally:
-        cursor.close()
-        db.close()
-    return {"message": "Successfully Deleted User Account & Data"}
+        if cursor:
+            cursor.close()
+        if db:  
+            db.close()
+    return {"message": "Successfully Deleted User Account, Data &  Files"}
