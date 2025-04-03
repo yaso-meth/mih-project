@@ -5,6 +5,8 @@ import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
+from supertokens_python.syncio import delete_user
+
 from fastapi import Depends
 
 import database.dbConnection
@@ -168,9 +170,14 @@ async def delete_users_data_by_app_id(app_id: str, session: SessionContainer = D
             "DELETE FROM patient_manager.claim_statement_file where app_id = %s",
             "DELETE FROM app_data.users where app_id = %s",
         ]
-
+        #delete user from all tables
         for query in queries:
             cursor.execute(query, (app_id,))
+        # Delete user from SuperTokens
+        try:
+            delete_user(app_id)
+        except Exception as error:
+            raise HTTPException(status_code=500, detail="Failed to delete user from SuperTokens - " + str(error))
         db.commit()
     except Exception as error:
         db.rollback()

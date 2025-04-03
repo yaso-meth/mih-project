@@ -1,8 +1,9 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
+import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
 import 'package:flutter/material.dart';
 
 class MzansiProfile extends StatefulWidget {
@@ -51,6 +52,11 @@ class _MzansiProfileState extends State<MzansiProfile> {
         _selcetedIndex = 0;
       });
     };
+    temp[const Icon(Icons.settings)] = () {
+      setState(() {
+        _selcetedIndex = 1;
+      });
+    };
     return MihAppTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -58,11 +64,13 @@ class _MzansiProfileState extends State<MzansiProfile> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihPersonalProfile(
-        arguments: widget.arguments,
-      ),
-    ];
+    List<Widget> toolBodies = [];
+    toolBodies.add(MihPersonalProfile(
+      arguments: widget.arguments,
+    ));
+    toolBodies.add(MihPersonalSettings(
+      signedInUser: widget.arguments.signedInUser,
+    ));
     return toolBodies;
   }
 }
