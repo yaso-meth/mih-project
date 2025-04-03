@@ -1,4 +1,5 @@
 import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:Mzansi_Innovation_Hub/mih_apis/mih_user_apis.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih-app_tool_body.dart';
@@ -58,7 +59,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                     height: 50,
                     child: MIHButton(
                       onTap: () {
-                        print("Delete account");
+                        MihUserApis.deleteAccount(
+                            widget.signedInUser.app_id, context);
                       },
                       buttonText: "Delete",
                       buttonColor:
