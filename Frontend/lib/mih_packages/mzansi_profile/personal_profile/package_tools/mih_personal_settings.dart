@@ -6,6 +6,7 @@ import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih-
 import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MihPersonalSettings extends StatefulWidget {
   final AppUser signedInUser;
@@ -109,7 +110,15 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           Divider(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 10.0),
+          Center(
+            child: FaIcon(
+              FontAwesomeIcons.trashCan,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              size: 150,
+            ),
+          ),
+          const SizedBox(height: 10.0),
           Wrap(
             spacing: 10,
             runSpacing: 10,
