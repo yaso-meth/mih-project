@@ -1,4 +1,4 @@
-import 'package:Mzansi_Innovation_Hub/main.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 
 class MihAppToolBody extends StatefulWidget {

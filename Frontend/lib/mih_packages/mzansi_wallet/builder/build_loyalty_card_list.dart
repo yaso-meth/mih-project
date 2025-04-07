@@ -1,10 +1,10 @@
-import 'package:Mzansi_Innovation_Hub/main.dart';
-import 'package:Mzansi_Innovation_Hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_layout/mih_window.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/loyalty_card.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:syncfusion_flutter_barcodes/barcodes.dart';

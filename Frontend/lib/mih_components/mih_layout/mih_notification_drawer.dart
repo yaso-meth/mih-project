@@ -1,4 +1,4 @@
-import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;

@@ -1,6 +1,6 @@
-import 'package:Mzansi_Innovation_Hub/main.dart';
-import 'package:Mzansi_Innovation_Hub/mih_env/env.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/icd10_code.dart.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
+import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:flutter/material.dart';
 
 class BuildICD10CodeList extends StatefulWidget {
