@@ -1,9 +1,9 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_action.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/package_tools/mih_info.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/package_tools/mih_privacy_policy.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/package_tools/mih_terms_of_service.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_privacy_policy.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_terms_of_service.dart';
 import 'package:flutter/material.dart';
 
 class AboutMih extends StatefulWidget {

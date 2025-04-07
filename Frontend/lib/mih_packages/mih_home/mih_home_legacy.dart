@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 // import 'dart:convert';
 
-import 'package:Mzansi_Innovation_Hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';

@@ -1,4 +1,4 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_yt_video_player.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'mih_window.dart';

@@ -1,10 +1,10 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_action.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
-import 'package:Mzansi_Innovation_Hub/mih_objects/arguments.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/package_tools/mih_patient_search.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/package_tools/my_patient_list.dart';
-import 'package:Mzansi_Innovation_Hub/mih_packages/patient_profile/pat_manager/package_tools/waiting_room.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/mih_patient_search.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/my_patient_list.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
 
 class PatManager extends StatefulWidget {
