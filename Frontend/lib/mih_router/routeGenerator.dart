@@ -1,4 +1,4 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/test/package_test.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/test/package_test.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/about_mih.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_privacy_polocy_external.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/about_mih/mih_policy_tos_ext/mih_terms_of_service_external.dart';

@@ -101,7 +101,7 @@ class _MihAppAlertState extends State<MihAppAlert> {
               },
               icon: Icon(
                 Icons.close,
-                color: widget.alertColour,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                 size: 35,
               ),
             ),

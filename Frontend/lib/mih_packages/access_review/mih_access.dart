@@ -1,6 +1,6 @@
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_action.dart';
-import 'package:Mzansi_Innovation_Hub/mih_components/mih_package/mih_app_tools.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:Mzansi_Innovation_Hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:Mzansi_Innovation_Hub/mih_objects/app_user.dart';
 import 'package:Mzansi_Innovation_Hub/mih_packages/access_review/package_tools/mih_access_requests.dart';
 import 'package:flutter/material.dart';

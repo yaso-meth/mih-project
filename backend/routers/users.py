@@ -5,9 +5,12 @@ import database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
+from supertokens_python.asyncio import delete_user
+
 from fastapi import Depends
 
 import database.dbConnection
+import Minio_Storage.minioConnection
 
 router = APIRouter()
 
@@ -27,6 +30,10 @@ class userUpdateRequest(BaseModel):
     type: str
     pro_pic_path: str
     
+class userDeleteRequest(BaseModel):
+    app_id: str
+    env: str
+
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
 # async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
@@ -56,10 +63,13 @@ class userUpdateRequest(BaseModel):
 async def read_all_users(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM users "
-    query += "where email like lower('%%%s%%') " % search
-    query += "or username like lower('%%%s%%')" % search
-    cursor.execute(query)
+    query = "SELECT * FROM users WHERE LOWER(email) LIKE %s OR LOWER(username) LIKE %s"
+    search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
+    cursor.execute(query, (search_term, search_term))
+    # query = "SELECT * FROM users "
+    # query += "where email like lower('%%%s%%') " % search
+    # query += "or username like lower('%%%s%%')" % search
+    # cursor.execute(query)
     items = [
         {
             "idUser": item[0],
@@ -145,3 +155,49 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
     cursor.close()
     db.close()
     return {"message": "Successfully Updated Record"}
+
+# Get List of all files
+@router.delete("/user/delete/all/", tags=["MIH Users"])
+async def delete_users_data_by_app_id(itemRequest:  userDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAllConnect()
+    cursor = db.cursor()
+    db.start_transaction()
+    try:
+        queries = [
+            "DELETE FROM app_data.notifications where app_id = %s",
+            "DELETE FROM app_data.business_users where app_id = %s",
+            "DELETE FROM data_access.patient_business_access where app_id = %s",
+            "DELETE FROM mzansi_calendar.appointments where app_id = %s",
+            "DELETE FROM mzansi_wallet.loyalty_cards where app_id = %s",
+            "DELETE FROM patient_manager.patients where app_id = %s",
+            "DELETE FROM patient_manager.patient_notes where app_id = %s",
+            "DELETE FROM patient_manager.patient_files where app_id = %s",
+            "DELETE FROM patient_manager.claim_statement_file where app_id = %s",
+            "DELETE FROM app_data.users where app_id = %s",
+        ]
+        # Delete user from all tables
+        for query in queries:
+            cursor.execute(query, (itemRequest.app_id,))
+        # Delete user files
+        try:
+            client = Minio_Storage.minioConnection.minioConnect(itemRequest.env)
+            objects_to_delete = client.list_objects("mih", prefix=itemRequest.app_id, recursive=True)
+            for obj in objects_to_delete:
+                client.remove_object("mih", obj.object_name)
+        except Exception as error:
+            raise HTTPException(status_code=500, detail="Failed to delete files from Minio - " + str(error))
+        # Delete user from SuperTokens
+        try:
+            await delete_user(itemRequest.app_id)
+        except Exception as error:
+            raise HTTPException(status_code=500, detail="Failed to delete user from SuperTokens - " + str(error))
+        db.commit()
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(error))
+    finally:
+        if cursor:
+            cursor.close()
+        if db:  
+            db.close()
+    return {"message": "Successfully Deleted User Account, Data &  Files"}
