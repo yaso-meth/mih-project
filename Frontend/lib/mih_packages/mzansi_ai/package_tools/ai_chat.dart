@@ -500,11 +500,24 @@ class _AiChatState extends State<AiChat> {
     );
   }
 
+  static void loadingPopUp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+  }
+
   void _speakText(String text) async {
     try {
+      loadingPopUp(context);
       await _flutterTts.stop(); // Stop any ongoing speech
-      await _flutterTts.speak(text); // Speak the new text
+      await _flutterTts.speak(text).then((value) {
+        Navigator.of(context).pop();
+      }); // Speak the new text
     } catch (e) {
+      Navigator.of(context).pop();
       print("TTS Error: $e");
     }
   }
