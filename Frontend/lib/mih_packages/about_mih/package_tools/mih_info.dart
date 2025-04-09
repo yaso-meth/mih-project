@@ -248,7 +248,8 @@ class _MihInfoState extends State<MihInfo> {
               CircleAvatar(
                 backgroundColor:
                     MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                backgroundImage: const AssetImage("images/founder.jpg"),
+                backgroundImage: const AssetImage(
+                    "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
                 //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
                 radius: 75,
               ),

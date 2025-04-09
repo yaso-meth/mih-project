@@ -32,7 +32,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
           height: 50,
-          child: Image.asset('images/logo_light.png'),
+          child: Image.asset(
+              'lib/mih_components/mih_package_components/assets/images/logo_light.png'),
         ),
       ),
       iconSize: 35,

@@ -101,10 +101,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/
-    - images/loyalty_cards/
-    - images/app_icon/
-    - images/splash_screen/
+    - lib/mih_components/mih_package_components/assets/images/
+    - lib/mih_components/mih_package_components/assets/images/loyalty_cards/
+    - lib/mih_components/mih_package_components/assets/images/app_icon/
+    - lib/mih_components/mih_package_components/assets/images/splash_screen/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -156,12 +156,12 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: images/logo_light.png
+  image: lib/mih_components/mih_package_components/assets/images/logo_light.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
   # see the Android 12 section below.
-  branding: images/branding_text.png
+  branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
 
   # To position the branding image at the bottom of the screen you can use bottom, bottomRight,
   # and bottomLeft. The default values is bottom if not specified or specified something else.
@@ -191,7 +191,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: images/splash_screen/splash_screen_icon.png
+    image: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_icon.png
 
     # Splash screen background color.
     color: "#3A4454"
@@ -200,7 +200,7 @@ flutter_native_splash:
     #icon_background_color: "#111111"
 
     # The branding property allows you to specify an image used as branding in the splash screen.
-    branding: images/branding_text.png
+    branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
 
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the

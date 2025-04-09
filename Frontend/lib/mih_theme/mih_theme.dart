@@ -161,11 +161,11 @@ class MihTheme {
   AssetImage logoFrame() {
     if (mode == "Dark") {
       return const AssetImage(
-        'images/frame_dark.png',
+        'lib/mih_components/mih_package_components/assets/images/frame_dark.png',
       );
     } else {
       return const AssetImage(
-        'images/frame_light.png',
+        'lib/mih_components/mih_package_components/assets/images/frame_light.png',
       );
     }
   }
@@ -173,11 +173,11 @@ class MihTheme {
   AssetImage altLogoFrame() {
     if (mode == "Light") {
       return const AssetImage(
-        'images/frame_dark.png',
+        'lib/mih_components/mih_package_components/assets/images/frame_dark.png',
       );
     } else {
       return const AssetImage(
-        'images/frame_light.png',
+        'lib/mih_components/mih_package_components/assets/images/frame_light.png',
       );
     }
   }
@@ -185,11 +185,11 @@ class MihTheme {
   AssetImage logoImage() {
     if (mode == "Dark") {
       return const AssetImage(
-        'images/logo_dark.png',
+        'lib/mih_components/mih_package_components/assets/images/logo_dark.png',
       );
     } else {
       return const AssetImage(
-        'images/logo_light.png',
+        'lib/mih_components/mih_package_components/assets/images/logo_light.png',
       );
     }
   }
@@ -197,11 +197,11 @@ class MihTheme {
   AssetImage altLogoImage() {
     if (mode == "Light") {
       return const AssetImage(
-        'images/logo_dark.png',
+        'lib/mih_components/mih_package_components/assets/images/logo_dark.png',
       );
     } else {
       return const AssetImage(
-        'images/logo_light.png',
+        'lib/mih_components/mih_package_components/assets/images/logo_light.png',
       );
     }
   }
@@ -209,11 +209,11 @@ class MihTheme {
   AssetImage loadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(
-        'images/loading_light.gif',
+        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
       );
     } else {
       loading = const AssetImage(
-        'images/loading_dark.gif',
+        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
       );
     }
     return loading;
@@ -222,11 +222,11 @@ class MihTheme {
   AssetImage altLoadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(
-        'images/loading_dark.gif',
+        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
       );
     } else {
       loading = const AssetImage(
-        'images/loading_light.gif',
+        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
       );
     }
     return loading;
@@ -234,18 +234,22 @@ class MihTheme {
 
   String loadingImageLocation() {
     if (mode == "Dark") {
-      loadingAssetText = 'images/loading_light.gif';
+      loadingAssetText =
+          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
     } else {
-      loadingAssetText = 'images/loading_dark.gif';
+      loadingAssetText =
+          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
     }
     return loadingAssetText;
   }
 
   String altLoadingImageLocation() {
     if (mode == "Dark") {
-      loadingAssetText = 'images/loading_dark.gif';
+      loadingAssetText =
+          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
     } else {
-      loadingAssetText = 'images/loading_light.gif';
+      loadingAssetText =
+          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
     }
     return loadingAssetText;
   }
@@ -253,11 +257,11 @@ class MihTheme {
   AssetImage aiLogoImage() {
     if (mode == "Dark") {
       return const AssetImage(
-        'images/mzansi_ai-dark.png',
+        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-dark.png',
       );
     } else {
       return const AssetImage(
-        'images/mzansi_ai-light.png',
+        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-light.png',
       );
     }
   }

@@ -37,7 +37,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
 
   ImageProvider<Object>? isPictureAvailable(String url) {
     if (url == "") {
-      return const AssetImage('images/i-dont-know-2.png');
+      return const AssetImage(
+          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
     } else if (url != "") {
       return NetworkImage(url);
     } else {
