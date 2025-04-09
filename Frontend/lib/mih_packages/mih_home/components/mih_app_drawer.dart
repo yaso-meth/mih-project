@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import '../../../main.dart';
 import '../../../mih_objects/app_user.dart';
 import '../../../mih_objects/arguments.dart';
@@ -60,6 +61,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
           radius: 27,
           drawerMode: true,
           editable: false,
+          frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           onChange: (newProPic) {},
         ),
 
@@ -107,8 +109,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   Widget build(BuildContext context) {
     // precacheImage(
     //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
-    ImageProvider logoThemeSwitch =
-        MzanziInnovationHub.of(context)!.theme.logoImage();
     return SafeArea(
       child: Drawer(
         //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
@@ -328,7 +328,11 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                         // Navigator.of(context).popAndPushNamed('/',);
                       });
                     },
-                    child: Image(image: logoThemeSwitch),
+                    child: Icon(
+                      MihIcons.mihLogo,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
                   ),
                   // IconButton(
                   //   onPressed: () {

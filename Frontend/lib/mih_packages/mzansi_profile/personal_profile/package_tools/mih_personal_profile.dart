@@ -266,6 +266,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             radius: 70,
             drawerMode: false,
             editable: true,
+            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             onChange: (newProPic) {
               setState(() {
                 proPic = newProPic;

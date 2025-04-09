@@ -15,7 +15,9 @@ class MIHProfilePicture extends StatefulWidget {
   final double radius;
   final bool drawerMode;
   final bool editable;
+  final Color frameColor;
   final onChange;
+
   MIHProfilePicture({
     super.key,
     required this.profilePictureFile,
@@ -26,6 +28,7 @@ class MIHProfilePicture extends StatefulWidget {
     required this.drawerMode,
     required this.editable,
     required this.onChange,
+    required this.frameColor,
   });
 
   @override
@@ -50,9 +53,12 @@ class _MIHProfilePictureState extends State<MIHProfilePicture> {
           ),
           SizedBox(
             width: widget.width,
-            child: Icon(
-              MihIcons.mihCircleFrame,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Icon(
+                MihIcons.mihCircleFrame,
+                color: widget.frameColor,
+              ),
             ),
           ),
           Visibility(

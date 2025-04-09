@@ -1,3 +1,4 @@
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
@@ -108,6 +109,7 @@ class _MihHomeState extends State<MihHome> {
             radius: 21,
             drawerMode: false,
             editable: false,
+            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             onChange: (newProPic) {},
           ),
         ),
