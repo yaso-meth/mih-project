@@ -50,6 +50,7 @@ class _AboutMihState extends State<AboutMih> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }

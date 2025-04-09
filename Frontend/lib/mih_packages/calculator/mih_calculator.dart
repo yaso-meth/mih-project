@@ -41,6 +41,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }
