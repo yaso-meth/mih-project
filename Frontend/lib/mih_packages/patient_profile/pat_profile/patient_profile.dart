@@ -42,6 +42,7 @@ class _PatientProfileState extends State<PatientProfile> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }

@@ -41,6 +41,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }

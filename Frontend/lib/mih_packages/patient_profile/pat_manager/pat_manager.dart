@@ -48,6 +48,7 @@ class _PatManagerState extends State<PatManager> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }

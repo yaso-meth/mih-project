@@ -41,6 +41,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
       iconSize: 35,
       onTap: () {
         Navigator.of(context).pop();
+        FocusScope.of(context).unfocus();
       },
     );
   }

@@ -28,6 +28,10 @@ class MihApp extends StatefulWidget {
 class _MihAppState extends State<MihApp> {
   late PageController _pageController;
 
+  void unfocusAll() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -55,69 +59,72 @@ class _MihAppState extends State<MihApp> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      drawer: widget.actionDrawer,
-      body: SafeArea(
-        child: Container(
-          width: screenSize.width,
-          height: screenSize.height,
-          //color: Colors.black,
-          padding: const EdgeInsets.only(top: 5),
-          child: Column(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  widget.appActionButton,
-                  Flexible(child: widget.appTools),
-                ],
-              ),
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: widget.appBody.length,
-                  itemBuilder: (context, index) {
-                    return widget.appBody[index];
-                  },
-                  onPageChanged: (index) {
-                    setState(() {
-                      widget.selectedbodyIndex = index;
-                      widget.onIndexChange(widget.selectedbodyIndex);
-                    });
-                  },
+    return GestureDetector(
+      onTap: unfocusAll,
+      child: Scaffold(
+        drawer: widget.actionDrawer,
+        body: SafeArea(
+          child: Container(
+            width: screenSize.width,
+            height: screenSize.height,
+            //color: Colors.black,
+            padding: const EdgeInsets.only(top: 5),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.appActionButton,
+                    Flexible(child: widget.appTools),
+                  ],
                 ),
-              ),
-              // Expanded(
-              //     child: SwipeDetector(
-              //   onSwipeLeft: (offset) {
-              //     if (widget.selectedbodyIndex <
-              //         widget.appTools.tools.length - 1) {
-              //       setState(() {
-              //         widget.selectedbodyIndex += 1;
-              //         widget.onIndexChange(widget.selectedbodyIndex);
-              //       });
-              //     }
-              //     // print("swipe left");
-              //   },
-              //   onSwipeRight: (offset) {
-              //     if (widget.selectedbodyIndex > 0) {
-              //       setState(() {
-              //         widget.selectedbodyIndex -= 1;
-              //         widget.onIndexChange(widget.selectedbodyIndex);
-              //       });
-              //     }
-              //     // print("swipe right");
-              //   },
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: widget.appBody[widget.selectedbodyIndex],
-              //       )
-              //     ],
-              //   ),
-              // )),
-            ],
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: widget.appBody.length,
+                    itemBuilder: (context, index) {
+                      return widget.appBody[index];
+                    },
+                    onPageChanged: (index) {
+                      setState(() {
+                        widget.selectedbodyIndex = index;
+                        widget.onIndexChange(widget.selectedbodyIndex);
+                      });
+                    },
+                  ),
+                ),
+                // Expanded(
+                //     child: SwipeDetector(
+                //   onSwipeLeft: (offset) {
+                //     if (widget.selectedbodyIndex <
+                //         widget.appTools.tools.length - 1) {
+                //       setState(() {
+                //         widget.selectedbodyIndex += 1;
+                //         widget.onIndexChange(widget.selectedbodyIndex);
+                //       });
+                //     }
+                //     // print("swipe left");
+                //   },
+                //   onSwipeRight: (offset) {
+                //     if (widget.selectedbodyIndex > 0) {
+                //       setState(() {
+                //         widget.selectedbodyIndex -= 1;
+                //         widget.onIndexChange(widget.selectedbodyIndex);
+                //       });
+                //     }
+                //     // print("swipe right");
+                //   },
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: widget.appBody[widget.selectedbodyIndex],
+                //       )
+                //     ],
+                //   ),
+                // )),
+              ],
+            ),
           ),
         ),
       ),
