@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -594,8 +595,12 @@ class _MihInfoState extends State<MihInfo> {
         children: [
           SizedBox(
             width: 165,
-            child: Image(
-                image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+            child: FittedBox(
+              child: Icon(
+                MihIcons.mihLogo,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,

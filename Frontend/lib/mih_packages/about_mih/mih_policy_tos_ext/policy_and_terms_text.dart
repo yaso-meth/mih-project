@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 
 class PolicyAndTermsText {
   List<Widget> getPrivacyPolicyText(BuildContext context) {
@@ -26,8 +27,12 @@ class PolicyAndTermsText {
     return [
       SizedBox(
         width: 165,
-        child:
-            Image(image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+        child: FittedBox(
+          child: Icon(
+            MihIcons.mihLogo,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
       ),
       const SizedBox(height: 10),
       const Text(
@@ -430,8 +435,12 @@ class PolicyAndTermsText {
     return [
       SizedBox(
         width: 165,
-        child:
-            Image(image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+        child: FittedBox(
+          child: Icon(
+            MihIcons.mihLogo,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+        ),
       ),
       const SizedBox(
         height: 10,
