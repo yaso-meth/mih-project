@@ -2,6 +2,8 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/test/package_test.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -25,6 +27,7 @@ class MihPersonalHome extends StatefulWidget {
   final BusinessUser? businessUser;
   final ImageProvider<Object>? propicFile;
   final bool isUserNew;
+  final bool isDevActive;
 
   const MihPersonalHome({
     super.key,
@@ -34,6 +37,7 @@ class MihPersonalHome extends StatefulWidget {
     required this.businessUser,
     required this.propicFile,
     required this.isUserNew,
+    required this.isDevActive,
   });
 
   @override
@@ -124,6 +128,28 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
     });
     //=============== About MIH ===============
     temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
+    //=============== Dev ===============
+    temp.add({
+      "test": MihAppTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/package-dev',
+            //arguments: widget.signedInUser,
+          );
+        },
+        appName: "Test",
+        appIcon: Container(
+          padding: const EdgeInsets.all(0.5),
+          child: Icon(
+            Icons.warning_amber_rounded,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+        ),
+        iconSize: packageSize,
+        primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      )
+    });
     return temp;
   }
 

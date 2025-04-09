@@ -158,6 +158,7 @@ class _MihHomeState extends State<MihHome> {
         businessUser: widget.businessUser,
         propicFile: widget.propicFile,
         isUserNew: widget.isUserNew,
+        isDevActive: widget.isDevActive,
       ),
     );
     if (widget.isBusinessUser) {
