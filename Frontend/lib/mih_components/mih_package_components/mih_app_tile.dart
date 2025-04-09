@@ -88,7 +88,11 @@ class _MihAppTileState extends State<MihAppTile> {
                       highlightColor: MzanziInnovationHub.of(context)!
                           .theme
                           .highlightColor(),
-                      child: FittedBox(child: widget.appIcon),
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        alignment: Alignment.center,
+                        child: widget.appIcon,
+                      ),
                     ),
                   ),
                 );

@@ -994,6 +994,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
             radius: 21,
             drawerMode: false,
             editable: false,
+            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             onChange: (newProPic) {},
           ),
         ),

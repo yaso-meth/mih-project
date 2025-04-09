@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import '../../main.dart';
 
 // ignore: must_be_immutable
@@ -14,7 +15,9 @@ class MIHProfilePicture extends StatefulWidget {
   final double radius;
   final bool drawerMode;
   final bool editable;
+  final Color frameColor;
   final onChange;
+
   MIHProfilePicture({
     super.key,
     required this.profilePictureFile,
@@ -25,6 +28,7 @@ class MIHProfilePicture extends StatefulWidget {
     required this.drawerMode,
     required this.editable,
     required this.onChange,
+    required this.frameColor,
   });
 
   @override
@@ -33,16 +37,8 @@ class MIHProfilePicture extends StatefulWidget {
 
 class _MIHProfilePictureState extends State<MIHProfilePicture> {
   late ImageProvider<Object>? propicPreview;
-  //late PlatformFile proPic;
 
   Widget displayEditableProPic() {
-    ImageProvider logoFrame;
-    if (!widget.drawerMode) {
-      logoFrame = MzanziInnovationHub.of(context)!.theme.altLogoFrame();
-    } else {
-      logoFrame = MzanziInnovationHub.of(context)!.theme.logoFrame();
-    }
-
     if (widget.profilePictureFile != null) {
       return Stack(
         alignment: Alignment.center,
@@ -57,7 +53,13 @@ class _MIHProfilePictureState extends State<MIHProfilePicture> {
           ),
           SizedBox(
             width: widget.width,
-            child: Image(image: logoFrame),
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Icon(
+                MihIcons.mihCircleFrame,
+                color: widget.frameColor,
+              ),
+            ),
           ),
           Visibility(
             visible: widget.editable,
@@ -134,7 +136,10 @@ class _MIHProfilePictureState extends State<MIHProfilePicture> {
     } else {
       return SizedBox(
         width: widget.width,
-        child: Image(image: logoFrame),
+        child: Icon(
+          MihIcons.mihCircleFrame,
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        ),
       );
     }
   }

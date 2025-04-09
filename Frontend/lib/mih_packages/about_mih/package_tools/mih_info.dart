@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -248,7 +249,8 @@ class _MihInfoState extends State<MihInfo> {
               CircleAvatar(
                 backgroundColor:
                     MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                backgroundImage: const AssetImage("images/founder.jpg"),
+                backgroundImage: const AssetImage(
+                    "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
                 //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
                 radius: 75,
               ),
@@ -593,8 +595,12 @@ class _MihInfoState extends State<MihInfo> {
         children: [
           SizedBox(
             width: 165,
-            child: Image(
-                image: MzanziInnovationHub.of(context)!.theme.altLogoImage()),
+            child: FittedBox(
+              child: Icon(
+                MihIcons.mihLogo,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,

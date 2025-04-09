@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class MzansiSetupProfileTile extends StatefulWidget {
 class _MzansiSetupProfileTileState extends State<MzansiSetupProfileTile> {
   @override
   Widget build(BuildContext context) {
-    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
     return MihAppTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -36,8 +36,15 @@ class _MzansiSetupProfileTileState extends State<MzansiSetupProfileTile> {
       },
       appName: "Setup Profile",
       appIcon: Container(
-        padding: const EdgeInsets.all(25),
-        child: Image(image: logo),
+        padding: const EdgeInsets.all(1),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Icon(
+            MihIcons.mihLogo,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            // size: widget.packageSize,
+          ),
+        ),
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

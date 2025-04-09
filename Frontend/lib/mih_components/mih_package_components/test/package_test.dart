@@ -1,12 +1,12 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
@@ -167,7 +167,7 @@ class _PackageTestState extends State<PackageTest> {
     List<MihAppToolBody> toolBodies = [
       MihAppToolBody(
         borderOn: true,
-        bodyItem: SingleChildScrollView(
+        bodyItem: MihSingleChildScroll(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -182,116 +182,22 @@ class _PackageTestState extends State<PackageTest> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              const SizedBox(height: 15),
-              const Divider(),
-              const SizedBox(height: 15),
-              MIHButton(
-                onTap: () {
-                  showAlert();
-                },
-                buttonText: "Test MIH Alert",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MIHButton(
-                onTap: () {
-                  showFullScreenWindow();
-                },
-                buttonText: "Test MIH Window Full Screen",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MIHButton(
-                onTap: () {
-                  showNormalWindow();
-                },
-                buttonText: "Test MIH Window Normal",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MihAppTile(
-                onTap: () {},
-                appName: "Package Tets",
-                appIcon: Icon(
-                  Icons.warning_amber_rounded,
-                  //size: 250,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              const SizedBox(height: 10),
+              Container(
+                color: Colors.black,
+                width: 200,
+                height: 200,
+                padding: EdgeInsets.zero,
+                alignment: Alignment.center,
+                child: IconButton.filled(
+                  onPressed: () {},
+                  icon: Icon(
+                    MihIcons.mihLogo,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
                 ),
-                iconSize: 200,
-                primaryColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                secondaryColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MihAppTile(
-                onTap: () {},
-                appName: "Package Tets",
-                appIcon: Icon(
-                  Icons.warning_amber_rounded,
-                  //size: 250,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                iconSize: 200,
-                primaryColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                secondaryColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MihAppTile(
-                onTap: () {},
-                appName: "Package Tets",
-                appIcon: Icon(
-                  Icons.warning_amber_rounded,
-                  //size: 250,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                iconSize: 200,
-                primaryColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                secondaryColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MihAppTile(
-                onTap: () {},
-                appName: "Package Tets",
-                appIcon: Icon(
-                  Icons.warning_amber_rounded,
-                  //size: 250,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                iconSize: 200,
-                primaryColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                secondaryColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              const SizedBox(height: 15),
-              MihAppTile(
-                onTap: () {},
-                appName: "Package Tets",
-                appIcon: Icon(
-                  Icons.warning_amber_rounded,
-                  //size: 250,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                iconSize: 200,
-                primaryColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                secondaryColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
+              )
             ],
           ),
         ),
