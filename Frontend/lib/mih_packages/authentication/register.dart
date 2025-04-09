@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -238,14 +239,48 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  MIHAction getSecondaryActionButton() {
+    return MIHAction(
+      icon: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: 150,
+          child: MIHButton(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/about',
+                arguments: 0,
+              );
+            },
+            buttonText: "Install MIH",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+        ),
+      ),
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          arguments: 0,
+        );
+      },
+    );
+  }
+
   MIHAction getActionButton() {
     return MIHAction(
       icon: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
           height: 50,
-          child: Image.asset(
-              'lib/mih_components/mih_package_components/assets/images/logo_light.png'),
+          child: FittedBox(
+            child: Icon(
+              MihIcons.mihLogo,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
         ),
       ),
       iconSize: 35,
@@ -441,7 +476,7 @@ class _RegisterState extends State<Register> {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
-      secondaryActionButton: null,
+      secondaryActionButton: getSecondaryActionButton(),
       body: getBody(),
       actionDrawer: null,
       secondaryActionDrawer: null,

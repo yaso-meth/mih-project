@@ -287,6 +287,36 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  MIHAction getSecondaryActionButton() {
+    return MIHAction(
+      icon: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: 150,
+          child: MIHButton(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/about',
+                arguments: 0,
+              );
+            },
+            buttonText: "Install MIH",
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+        ),
+      ),
+      iconSize: 35,
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/about',
+          arguments: 0,
+        );
+      },
+    );
+  }
+
   MIHAction getActionButton() {
     return MIHAction(
       icon: Padding(
@@ -637,7 +667,7 @@ class _SignInState extends State<SignIn> {
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
-      secondaryActionButton: null,
+      secondaryActionButton: getSecondaryActionButton(),
       body: getBody(),
       actionDrawer: null,
       secondaryActionDrawer: null,

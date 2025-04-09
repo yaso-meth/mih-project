@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -32,8 +33,12 @@ class _BiometricCheckState extends State<BiometricCheck> {
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
           height: 50,
-          child: Image.asset(
-              'lib/mih_components/mih_package_components/assets/images/logo_light.png'),
+          child: FittedBox(
+            child: Icon(
+              MihIcons.mihLogo,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
         ),
       ),
       iconSize: 35,
