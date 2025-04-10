@@ -1,4 +1,3 @@
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ class MihApp extends StatefulWidget {
   final MihAppTools appTools;
   final List<Widget> appBody;
   final MIHAppDrawer? actionDrawer;
-  final MihFloatingMenu? appFloatingMenu;
   int selectedbodyIndex;
   final Function(int) onIndexChange;
   MihApp({
@@ -21,7 +19,6 @@ class MihApp extends StatefulWidget {
     this.actionDrawer,
     required this.selectedbodyIndex,
     required this.onIndexChange,
-    this.appFloatingMenu,
   });
 
   @override
@@ -66,7 +63,6 @@ class _MihAppState extends State<MihApp> {
       onTap: unfocusAll,
       child: Scaffold(
         drawer: widget.actionDrawer,
-        floatingActionButton: widget.appFloatingMenu,
         body: SafeArea(
           child: Container(
             width: screenSize.width,
