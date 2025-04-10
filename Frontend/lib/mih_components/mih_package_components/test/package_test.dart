@@ -201,6 +201,7 @@ class _PackageTestState extends State<PackageTest> {
                   ),
                   backgroundColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  onTap: () {},
                 )
               ]),
               Container(
@@ -251,28 +252,6 @@ class _PackageTestState extends State<PackageTest> {
       appTools: getTools(),
       appBody: getToolBody(),
       selectedbodyIndex: _selcetedIndex,
-      appFloatingMenu: MihFloatingMenu(
-        children: [
-          SpeedDialChild(
-            child: Icon(
-              Icons.add,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-            label: "Add",
-            labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            onTap: () {
-              showFullScreenWindow();
-            },
-          )
-        ],
-      ),
       onIndexChange: (newValue) {
         setState(() {
           _selcetedIndex = newValue;
