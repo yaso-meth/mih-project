@@ -3,9 +3,13 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 
 class MihFloatingMenu extends StatefulWidget {
+  final IconData? icon;
+  final AnimatedIconData? animatedIcon;
   final List<SpeedDialChild> children;
   const MihFloatingMenu({
     super.key,
+    this.icon,
+    this.animatedIcon,
     required this.children,
   });
 
@@ -22,7 +26,8 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
         bottom: 5.0,
       ),
       child: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
+        icon: widget.icon,
+        animatedIcon: widget.animatedIcon,
         activeIcon: Icons.close,
         backgroundColor:
             MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -30,7 +35,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
             MzanziInnovationHub.of(context)!.theme.errorColor(),
         foregroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         overlayColor: Colors.black,
-        overlayOpacity: 0,
+        overlayOpacity: 0.5,
         children: widget.children,
         onOpen: () => debugPrint('OPENING DIAL'),
         onClose: () => debugPrint('DIAL CLOSED'),
