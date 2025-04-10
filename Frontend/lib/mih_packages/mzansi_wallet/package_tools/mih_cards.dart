@@ -320,25 +320,30 @@ class _MihCardsState extends State<MihCards> {
         Positioned(
           right: 0,
           bottom: 0,
-          child: MihFloatingMenu(children: [
-            SpeedDialChild(
-              child: Icon(
-                Icons.add,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              label: "Add",
-              labelBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              labelStyle: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              onTap: () {
-                addCardWindow(context);
-              },
-            )
-          ]),
+          child: MihFloatingMenu(
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.add,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Add Card",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    addCardWindow(context);
+                  },
+                )
+              ]),
         )
       ],
     );
