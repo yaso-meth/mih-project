@@ -239,33 +239,36 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  MIHAction getSecondaryActionButton() {
-    return MIHAction(
-      icon: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SizedBox(
-          width: 150,
-          child: MIHButton(
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                '/about',
-                arguments: 0,
-              );
-            },
-            buttonText: "Install MIH",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+  Widget getSecondaryActionButton() {
+    return Visibility(
+      visible: MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web",
+      child: MIHAction(
+        icon: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            width: 150,
+            child: MIHButton(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/about',
+                  arguments: 0,
+                );
+              },
+              buttonText: "Install MIH",
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
           ),
         ),
+        iconSize: 35,
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/about',
+            arguments: 0,
+          );
+        },
       ),
-      iconSize: 35,
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          '/about',
-          arguments: 0,
-        );
-      },
     );
   }
 
