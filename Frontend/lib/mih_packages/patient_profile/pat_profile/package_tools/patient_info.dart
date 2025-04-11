@@ -1,7 +1,9 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
@@ -237,58 +239,87 @@ class _PatientInfoState extends State<PatientInfo> {
   }
 
   Widget getBody() {
-    return MihSingleChildScroll(
-      child: Column(
-        children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: ,
-              children: [
-                Text(
-                  "Personal Details",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
+    return Stack(
+      children: [
+        MihSingleChildScroll(
+          child: Column(
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: ,
+                  children: [
+                    Text(
+                      "Personal Details",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ]),
+              Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              const SizedBox(height: 10),
+              getPatientDetailsField(),
+              const SizedBox(height: 10),
+              Text(
+                "Medical Aid Details",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
-                Visibility(
-                  visible: widget.type == "personal",
-                  child: IconButton(
-                    icon: const Icon(Icons.edit),
-                    alignment: Alignment.topRight,
+              ),
+              Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              const SizedBox(height: 10),
+              getMedAidDetailsFields(),
+            ],
+          ),
+        ),
+        Visibility(
+          visible: widget.type == "personal",
+          child: Positioned(
+            right: 0,
+            bottom: 0,
+            child: MihFloatingMenu(
+              icon: Icons.add,
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.edit,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/patient-profile/edit',
-                          arguments: PatientEditArguments(
-                              widget.signedInUser, widget.selectedPatient));
-                    },
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
+                  label: "Edit Profile",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/patient-profile/edit',
+                        arguments: PatientEditArguments(
+                            widget.signedInUser, widget.selectedPatient));
+                  },
                 )
-              ]),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          getPatientDetailsField(),
-          const SizedBox(height: 10),
-          Text(
-            "Medical Aid Details",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ],
             ),
           ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
-          getMedAidDetailsFields(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

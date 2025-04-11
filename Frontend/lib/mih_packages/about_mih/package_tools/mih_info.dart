@@ -1,3 +1,4 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
@@ -6,9 +7,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MihInfo extends StatefulWidget {
   const MihInfo({super.key});
@@ -581,6 +584,13 @@ class _MihInfoState extends State<MihInfo> {
     }
   }
 
+  void shareMIHLink(BuildContext context, String message, String link) {
+    String shareText = "$message: $link";
+    Share.share(
+      shareText,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihAppToolBody(
@@ -590,112 +600,196 @@ class _MihInfoState extends State<MihInfo> {
   }
 
   Widget getBody() {
-    return MihSingleChildScroll(
-      child: Column(
-        children: [
-          SizedBox(
-            width: 165,
-            child: FittedBox(
-              child: Icon(
-                MihIcons.mihLogo,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+    return Stack(
+      children: [
+        MihSingleChildScroll(
+          child: Column(
+            children: [
+              SizedBox(
+                width: 165,
+                child: FittedBox(
+                  child: Icon(
+                    MihIcons.mihLogo,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Text(
-            "Mzansi Innovation Hub",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Divider(),
-          ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              ourVision(),
-              ourMission(),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Mzansi Innovation Hub",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Divider(),
+              ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  ourVision(),
+                  ourMission(),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: MIHButton(
+                        onTap: () {
+                          installMihTrigger();
+                        },
+                        buttonText: getInstallButtonText(),
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: MIHButton(
+                        onTap: () {
+                          launchSocialUrl(
+                            Uri.parse(
+                              "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                            ),
+                          );
+                        },
+                        buttonText: "MIH Beginners Guide",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                  ]),
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Divider(),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                // spacing: 10,
+                // runSpacing: 10,
+                children: [
+                  founderTitle(),
+                  founderBio(),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Divider(),
+              ),
+              mihSocials(),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Wrap(
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      installMihTrigger();
-                    },
-                    buttonText: getInstallButtonText(),
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                ),
-                SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      launchSocialUrl(
-                        Uri.parse(
-                          "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                        ),
-                      );
-                    },
-                    buttonText: "MIH Beginners Guide",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                ),
-              ]),
-          const SizedBox(
-            height: 10,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Divider(),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            // spacing: 10,
-            // runSpacing: 10,
+        ),
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: MihFloatingMenu(
+            icon: Icons.share,
             children: [
-              founderTitle(),
-              founderBio(),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.vpn_lock,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "MIH - Web",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  shareMIHLink(
+                    context,
+                    "Check out the MIH app on the Web",
+                    "https://app.mzansi-innovation-hub.co.za/",
+                  );
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.apple,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "MIH - iOS",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  shareMIHLink(
+                    context,
+                    "Check out the MIH app on the App Store",
+                    "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",
+                  );
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.android,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "MIH - Android",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  shareMIHLink(
+                    context,
+                    "Check out the MIH app on the Play Store",
+                    "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+                  );
+                },
+              ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Divider(),
-          ),
-          mihSocials(),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

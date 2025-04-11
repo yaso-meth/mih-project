@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
@@ -6,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -321,41 +323,88 @@ class _PatientConsultationState extends State<PatientConsultation> {
   }
 
   Widget getBody() {
-    return MihSingleChildScroll(
-      child: FutureBuilder(
-        future: futueNotes,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Mihloadingcircle(),
-            );
-          } else if (snapshot.hasData) {
-            final notesList = snapshot.data!;
-            return Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: setIcons(),
-              ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10),
-              BuildNotesList(
-                notes: notesList,
-                signedInUser: widget.signedInUser,
-                selectedPatient: widget.selectedPatient,
-                business: widget.business,
-                businessUser: widget.businessUser,
-                type: widget.type,
-              ),
-            ]);
-          } else {
-            return const Center(
-              child: Text("Error Loading Notes"),
-            );
-          }
-        },
-      ),
+    return Stack(
+      children: [
+        MihSingleChildScroll(
+          child: FutureBuilder(
+            future: futueNotes,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: Mihloadingcircle(),
+                );
+              } else if (snapshot.hasData) {
+                final notesList = snapshot.data!;
+                return Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Consultation Notes",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor()),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                  const SizedBox(height: 10),
+                  BuildNotesList(
+                    notes: notesList,
+                    signedInUser: widget.signedInUser,
+                    selectedPatient: widget.selectedPatient,
+                    business: widget.business,
+                    businessUser: widget.businessUser,
+                    type: widget.type,
+                  ),
+                ]);
+              } else {
+                return const Center(
+                  child: Text("Error Loading Notes"),
+                );
+              }
+            },
+          ),
+        ),
+        Visibility(
+          visible: widget.type != "personal",
+          child: Positioned(
+            right: 0,
+            bottom: 0,
+            child: MihFloatingMenu(
+              icon: Icons.add,
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.add,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Add Note",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {},
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

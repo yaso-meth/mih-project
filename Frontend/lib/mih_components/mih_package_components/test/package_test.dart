@@ -1,3 +1,4 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
@@ -6,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
@@ -183,6 +185,25 @@ class _PackageTestState extends State<PackageTest> {
                 ),
               ),
               const SizedBox(height: 10),
+              MihFloatingMenu(children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.add,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Add",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  onTap: () {},
+                )
+              ]),
               Container(
                 color: Colors.black,
                 width: 200,

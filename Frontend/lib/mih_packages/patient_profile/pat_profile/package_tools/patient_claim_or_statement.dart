@@ -1,6 +1,8 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -110,42 +112,92 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
   }
 
   Widget getBody() {
-    return FutureBuilder(
-      future: futueFiles,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Mihloadingcircle(),
-          );
-        } else if (snapshot.hasData) {
-          final filesList = snapshot.data!;
-          return Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: setIcons(),
-              ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10),
-              //const Placeholder(),
-              BuildClaimStatementFileList(
-                files: filesList,
-                signedInUser: widget.signedInUser,
-                selectedPatient: widget.selectedPatient,
-                business: widget.business,
-                businessUser: widget.businessUser,
-                type: widget.type,
-              ),
-            ],
-          );
-        } else {
-          return const Center(
-            child: Text("Error Loading Notes"),
-          );
-        }
-      },
+    return Stack(
+      children: [
+        FutureBuilder(
+          future: futueFiles,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: Mihloadingcircle(),
+              );
+            } else if (snapshot.hasData) {
+              final filesList = snapshot.data!;
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Claims/ Statements",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                  const SizedBox(height: 10),
+                  //const Placeholder(),
+                  BuildClaimStatementFileList(
+                    files: filesList,
+                    signedInUser: widget.signedInUser,
+                    selectedPatient: widget.selectedPatient,
+                    business: widget.business,
+                    businessUser: widget.businessUser,
+                    type: widget.type,
+                  ),
+                ],
+              );
+            } else {
+              return const Center(
+                child: Text("Error Loading Notes"),
+              );
+            }
+          },
+        ),
+        Visibility(
+          visible: widget.type != "personal",
+          child: Positioned(
+            right: 0,
+            bottom: 0,
+            child: MihFloatingMenu(
+              icon: Icons.file_copy,
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.add,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Generate Claim/ Statement",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    claimOrStatementWindow();
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
@@ -7,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -300,24 +302,33 @@ class _PatientAccessRequestState extends State<Appointments> {
           ),
         ),
         Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-              child: IconButton(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onPressed: () {
+          right: 0,
+          bottom: 0,
+          child: MihFloatingMenu(
+            icon: Icons.add,
+            animatedIcon: AnimatedIcons.menu_close,
+            children: [
+              SpeedDialChild(
+                child: Icon(
+                  Icons.add,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "Add Card",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
                   addAppointmentWindow();
                 },
-                icon: const Icon(
-                  Icons.add,
-                  size: 50,
-                ),
-              ),
-            ))
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
