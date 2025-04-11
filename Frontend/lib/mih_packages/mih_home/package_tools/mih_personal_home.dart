@@ -128,27 +128,29 @@ class _MihPersonalHomeState extends State<MihPersonalHome> {
     //=============== About MIH ===============
     temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
     //=============== Dev ===============
-    temp.add({
-      "test": MihAppTile(
-        onTap: () {
-          Navigator.of(context).pushNamed(
-            '/package-dev',
-            //arguments: widget.signedInUser,
-          );
-        },
-        appName: "Test",
-        appIcon: Container(
-          padding: const EdgeInsets.all(0.5),
-          child: Icon(
-            Icons.warning_amber_rounded,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    if (widget.isDevActive) {
+      temp.add({
+        "test": MihAppTile(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              '/package-dev',
+              //arguments: widget.signedInUser,
+            );
+          },
+          appName: "Test",
+          appIcon: Container(
+            padding: const EdgeInsets.all(0.5),
+            child: Icon(
+              Icons.warning_amber_rounded,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
           ),
-        ),
-        iconSize: packageSize,
-        primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      )
-    });
+          iconSize: packageSize,
+          primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        )
+      });
+    }
     return temp;
   }
 
