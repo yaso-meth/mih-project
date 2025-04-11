@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -69,6 +71,7 @@ class _AiChatState extends State<AiChat> {
   }
 
   void _handleSendPressed(types.PartialText message) {
+    FocusScope.of(context).unfocus();
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -349,7 +352,7 @@ class _AiChatState extends State<AiChat> {
         return Visibility(
           visible: value,
           child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(10.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: FittedBox(
@@ -615,95 +618,169 @@ class _AiChatState extends State<AiChat> {
   Widget build(BuildContext context) {
     return MihAppToolBody(
       borderOn: false,
-      bodyItem: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      bodyItem: getBody(),
+    );
+  }
+
+  Widget getBody() {
+    return Stack(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Visibility(
+                //   visible: _showModelOptions.value == true,
+                //   child: IconButton.filled(
+                //     iconSize: 20,
+                //     onPressed: () {
+                //       if (_showModelOptions.value == true) {
+                //         setState(() {
+                //           _showModelOptions.value = false;
+                //         });
+                //       } else {
+                //         setState(() {
+                //           _showModelOptions.value = true;
+                //         });
+                //       }
+                //     },
+                //     icon: const Icon(
+                //       Icons.settings,
+                //     ),
+                //   ),
+                // ),
+                Expanded(
+                  child: Text(
+                    "Mzansi AI",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ),
+                // Expanded(
+                //   child: Container(
+                //     alignment: Alignment.centerRight,
+                //     child: IconButton(
+                //       onPressed: () {
+                //         _resetChat();
+                //       },
+                //       icon: const Icon(Icons.refresh),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+            _getSettings(),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  if (_showModelOptions.value == true) {
+                    setState(() {
+                      _showModelOptions.value = false;
+                    });
+                  }
+                },
+                child: Chat(
+                  messages: _messages,
+                  // onAttachmentPressed: _handleAttachmentPressed,
+                  // onMessageTap: _handleMessageTap,
+                  // onPreviewDataFetched: _handlePreviewDataFetched,
+                  onSendPressed: _handleSendPressed,
+                  showUserAvatars: false,
+                  showUserNames: false,
+                  user: _user,
+                  theme: getChatTheme(),
+                ),
+              ),
+            )
+          ],
+        ),
+        Positioned(
+          left: 0,
+          top: 0,
+          child: Visibility(
+            visible: _showModelOptions.value == true,
+            child: IconButton.filled(
+              iconSize: 20,
+              onPressed: () {
+                if (_showModelOptions.value == true) {
+                  setState(() {
+                    _showModelOptions.value = false;
+                  });
+                } else {
+                  setState(() {
+                    _showModelOptions.value = true;
+                  });
+                }
+              },
+              icon: const Icon(
+                Icons.settings,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          right: 0,
+          bottom: 70,
+          child: MihFloatingMenu(
+            animatedIcon: AnimatedIcons.menu_close,
             children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Visibility(
-                        visible: _showModelOptions.value == false,
-                        child: IconButton(
-                          onPressed: () {
-                            if (_showModelOptions.value == true) {
-                              setState(() {
-                                _showModelOptions.value = false;
-                              });
-                            } else {
-                              setState(() {
-                                _showModelOptions.value = true;
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.settings),
-                        ),
-                      ),
-                      Visibility(
-                        visible: _showModelOptions.value == true,
-                        child: IconButton.filled(
-                          onPressed: () {
-                            if (_showModelOptions.value == true) {
-                              setState(() {
-                                _showModelOptions.value = false;
-                              });
-                            } else {
-                              setState(() {
-                                _showModelOptions.value = true;
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.settings),
-                        ),
-                      ),
-                    ],
-                  ),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.refresh,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
-              ),
-              Text(
-                "Mzansi AI",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
+                label: "New Chat",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  _resetChat();
+                },
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    onPressed: () {
-                      _resetChat();
-                    },
-                    icon: const Icon(Icons.refresh),
-                  ),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.settings,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
+                label: "Settings",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  if (_showModelOptions.value == true) {
+                    setState(() {
+                      _showModelOptions.value = false;
+                    });
+                  } else {
+                    setState(() {
+                      _showModelOptions.value = true;
+                    });
+                  }
+                },
               ),
             ],
           ),
-          _getSettings(),
-          Expanded(
-            child: Chat(
-              messages: _messages,
-              // onAttachmentPressed: _handleAttachmentPressed,
-              // onMessageTap: _handleMessageTap,
-              // onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              showUserAvatars: false,
-              showUserNames: false,
-              user: _user,
-              theme: getChatTheme(),
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
