@@ -329,7 +329,7 @@ class _MihCardsState extends State<MihCards> {
                     color:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
-                  label: "Add Card",
+                  label: "Add Loyalty Card",
                   labelBackgroundColor:
                       MzanziInnovationHub.of(context)!.theme.successColor(),
                   labelStyle: TextStyle(
