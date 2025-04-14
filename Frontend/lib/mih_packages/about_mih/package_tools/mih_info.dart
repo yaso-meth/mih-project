@@ -625,6 +625,13 @@ class _MihInfoState extends State<MihInfo> {
                   fontSize: 30,
                 ),
               ),
+              Text(
+                "Version: ${MzanziInnovationHub.of(context)!.theme.getLatestVersion()}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Divider(),
