@@ -626,7 +626,7 @@ class _MihInfoState extends State<MihInfo> {
                 ),
               ),
               Text(
-                "Version: ${MzanziInnovationHub.of(context)!.theme.getLatestVersion()}",
+                "MIH App Version: ${MzanziInnovationHub.of(context)!.theme.getLatestVersion()}",
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
