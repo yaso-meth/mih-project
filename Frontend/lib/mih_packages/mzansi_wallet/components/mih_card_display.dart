@@ -73,6 +73,36 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
       case "eskom":
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/eskom.png');
+      case "+more":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/plus_more.png');
+      case "bp":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/bp.png');
+      case "builders warehouse":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/builders.png');
+      case "exclusive books":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/exclusive_books.png');
+      case "pna":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/pna.png');
+      case "pq clothing":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/pq.png');
+      case "rage":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/rage.png');
+      case "sasol":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/sasol.png');
+      case "tfg group":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/tfg.png');
+      case "toys r us":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/toysrus.png');
       default:
         return const Placeholder();
     }
