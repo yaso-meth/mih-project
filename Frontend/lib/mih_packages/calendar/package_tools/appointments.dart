@@ -313,7 +313,7 @@ class _PatientAccessRequestState extends State<Appointments> {
                   Icons.add,
                   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 ),
-                label: "Add Card",
+                label: "Add Appointment",
                 labelBackgroundColor:
                     MzanziInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
