@@ -75,6 +75,7 @@ dependencies:
   flutter_tts: ^4.2.2
   flutter_speed_dial: ^7.0.0 
   share_plus: ^10.1.4
+  app_settings: ^6.1.1
 
 dev_dependencies:
   flutter_test:
