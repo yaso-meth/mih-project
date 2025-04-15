@@ -18,38 +18,55 @@ class _SimpleCalcState extends State<SimpleCalc> {
 
   // Array of button
   final List<String> buttons = [
-    'C',
+    'AC',
     '(',
     ')',
-    'D',
+    '÷',
     '7',
     '8',
     '9',
-    '/',
+    'x',
     '4',
     '5',
     '6',
-    'x',
+    '-',
     '1',
     '2',
     '3',
-    '-',
+    '+',
     '0',
     '.',
+    'D',
     '=',
-    '+',
   ];
 
 // function to calculate the input operation
   void equalPressed() {
     String finaluserinput = userInput;
-    finaluserinput = userInput.replaceAll('x', '*');
+    finaluserinput = finaluserinput.replaceAll('x', '*');
+    finaluserinput = finaluserinput.replaceAll('÷', '/');
+    print(finaluserinput);
 
     Parser p = Parser();
     Expression exp = p.parse(finaluserinput);
     ContextModel cm = ContextModel();
     double eval = exp.evaluate(EvaluationType.REAL, cm);
-    answer = eval.toString();
+    if (eval.toString().length <= 1) {
+    } else if (eval
+            .toString()
+            .substring(eval.toString().length - 2, eval.toString().length) ==
+        ".0") {
+      answer = eval.toString().substring(0, eval.toString().length - 2);
+    } else {
+      answer = eval.toString();
+    }
+  }
+
+  bool isNumeric(String? s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
   }
 
   @override
@@ -61,13 +78,13 @@ class _SimpleCalcState extends State<SimpleCalc> {
   }
 
   Widget getBody() {
-    double width = MediaQuery.sizeOf(context).width;
+    // double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
-    var padding = MediaQuery.paddingOf(context);
-    double newheight = height - padding.top - padding.bottom;
-    print("width: $width");
-    print("height: $height");
-    print("newheight: $newheight");
+    // var padding = MediaQuery.paddingOf(context);
+    // double newheight = height - padding.top - padding.bottom;
+    // print("width: $width");
+    // print("height: $height");
+    // print("newheight: $newheight");
     double calcWidth = 500;
     if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
       if (height < 700) {
@@ -92,14 +109,18 @@ class _SimpleCalcState extends State<SimpleCalc> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
           const SizedBox(height: 10),
           Container(
-            //color: Colors.white,
             padding: const EdgeInsets.all(20),
             alignment: Alignment.centerRight,
-            child: Text(
-              userInput,
-              style: TextStyle(
-                fontSize: 18,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              child: Text(
+                userInput,
+                style: TextStyle(
+                  fontSize: 40,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
               ),
             ),
           ),
@@ -149,9 +170,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                           });
                         },
                         buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .messageTextColor(),
+                        buttonColor: Color.fromRGBO(214, 171, 255, 1),
                         textColor: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
@@ -159,7 +178,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                     );
                   }
 
-                  // +/- button
+                  // ( button
                   else if (index == 1) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -179,7 +198,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                       ),
                     );
                   }
-                  // % Button
+                  // ) Button
                   else if (index == 2) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -199,51 +218,11 @@ class _SimpleCalcState extends State<SimpleCalc> {
                       ),
                     );
                   }
-                  // Delete Button
-                  else if (index == 3) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            userInput =
-                                userInput.substring(0, userInput.length - 1);
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
-                  // Equal_to Button
-                  else if (index == 18) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
-                          setState(() {
-                            equalPressed();
-                          });
-                        },
-                        buttonText: buttons[index],
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                    );
-                  }
                   //  +, -, / x buttons
-                  else if (index == 7 ||
+                  else if (index == 3 ||
+                      index == 7 ||
                       index == 11 ||
-                      index == 15 ||
-                      index == 19) {
+                      index == 15) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: MIHButton(
@@ -254,8 +233,8 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             });
                           } else {
                             setState(() {
-                              userInput = answer;
-                              answer = "0";
+                              // userInput = answer;
+                              // answer = "0";
                               userInput += buttons[index];
                             });
                           }
@@ -273,6 +252,59 @@ class _SimpleCalcState extends State<SimpleCalc> {
                       ),
                     );
                   }
+
+                  // delete Button
+                  else if (index == 18) {
+                    return Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: MIHButton(
+                        onTap: () {
+                          setState(() {
+                            if (userInput.length == 1) {
+                              userInput = '0';
+                            } else if (userInput.length > 1) {
+                              userInput =
+                                  userInput.substring(0, userInput.length - 1);
+                            }
+                            if (!isNumeric(userInput[userInput.length - 1])) {
+                              userInput =
+                                  userInput.substring(0, userInput.length - 1);
+                            }
+                            // userInput =
+                            // userInput.substring(0, userInput.length - 1);
+                            equalPressed();
+                          });
+                        },
+                        buttonText: buttons[index],
+                        buttonColor:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    );
+                  }
+                  // Equal_to Button
+                  else if (index == 19) {
+                    return Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: MIHButton(
+                        onTap: () {
+                          setState(() {
+                            equalPressed();
+                            userInput = answer;
+                          });
+                        },
+                        buttonText: buttons[index],
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    );
+                  }
                   //  other buttons
                   else {
                     return Padding(
@@ -281,6 +313,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         onTap: () {
                           setState(() {
                             userInput += buttons[index];
+                            equalPressed();
                           });
                         },
                         buttonText: buttons[index],
