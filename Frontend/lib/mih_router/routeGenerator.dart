@@ -188,12 +188,12 @@ class RouteGenerator {
 
           // /mzansi wallet
           case '/mzansi-wallet':
-            if (args is AppUser) {
+            if (args is WalletArguments) {
               //print("route generator: $args");
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => MihWallet(
-                  signedInUser: args,
+                  arguments: args,
                 ),
                 // MzansiWallet(
                 //   signedInUser: args,

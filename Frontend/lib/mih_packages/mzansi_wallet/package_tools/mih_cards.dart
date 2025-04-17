@@ -201,6 +201,9 @@ class _MihCardsState extends State<MihCards> {
                     widget.signedInUser.app_id,
                     shopController.text,
                     cardNumberController.text,
+                    "",
+                    0,
+                    1,
                     context,
                   );
                 }
@@ -314,6 +317,7 @@ class _MihCardsState extends State<MihCards> {
                         return BuildLoyaltyCardList(
                           cardList: searchShopName.value,
                           signedInUser: widget.signedInUser,
+                          navIndex: 1,
                         );
                       },
                     );
