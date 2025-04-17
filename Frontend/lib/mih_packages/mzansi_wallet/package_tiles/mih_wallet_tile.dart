@@ -3,6 +3,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihWalletTile extends StatefulWidget {
   final AppUser signedInUser;
@@ -25,7 +26,7 @@ class _MihWalletTileState extends State<MihWalletTile> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-wallet',
-          arguments: widget.signedInUser,
+          arguments: WalletArguments(widget.signedInUser, 0),
         );
       },
       appName: "Mzansi Wallet",

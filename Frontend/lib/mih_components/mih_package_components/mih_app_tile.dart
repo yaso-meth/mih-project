@@ -35,15 +35,13 @@ class _MihAppTileState extends State<MihAppTile> {
           return MihAppWindow(
             fullscreen: false,
             windowTitle: widget.appName,
-            windowTools: const [],
+            // windowTools: const [],
             onWindowTapClose: () {
               Navigator.pop(context);
             },
-            windowBody: [
-              MIHYTVideoPlayer(
-                videoYTLink: widget.ytVideoID!,
-              ),
-            ],
+            windowBody: MIHYTVideoPlayer(
+              videoYTLink: widget.ytVideoID!,
+            ),
           );
         },
       );

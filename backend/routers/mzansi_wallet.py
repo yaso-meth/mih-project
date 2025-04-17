@@ -17,7 +17,13 @@ class MzansiWalletInsertRequest(BaseModel):
     app_id: str
     shop_name: str
     card_number: str
+    favourite: str
+    priority_index: int
 
+class MzansiWalletUpdateRequest(BaseModel):
+    idloyalty_cards: int
+    favourite: str
+    priority_index: int
 # class patientNoteUpdateRequest(BaseModel):
 #     idpatient_notes: int
 #     note_name: str
@@ -39,6 +45,30 @@ async def read_all_loyalty_cards_by_app_id(app_id: str, session: SessionContaine
             "app_id": item[1],
             "shop_name": item[2],
             "card_number": item[3],
+            "favourite": item[4],
+            "priority_index": item[5],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items
+
+# Get List of favourite loyalty cards by user
+@router.get("/mzasni-wallet/loyalty-cards/favourites/{app_id}", tags=["Mzansi Wallet"])
+async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbMzansiWalletConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM loyalty_cards where app_id = %s and favourite != '' ORDER BY priority_index Asc"
+    cursor.execute(query, (app_id,))
+    items = [
+        {
+            "idloyalty_cards": item[0],
+            "app_id": item[1],
+            "shop_name": item[2],
+            "card_number": item[3],
+            "favourite": item[4],
+            "priority_index": item[5],
         }
         for item in cursor.fetchall()
     ]
@@ -76,11 +106,13 @@ async def insert_loyalty_card(itemRequest : MzansiWalletInsertRequest): #, sessi
     db = database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "insert into loyalty_cards "
-    query += "(app_id, shop_name, card_number) "
-    query += "values (%s, %s, %s)"
+    query += "(app_id, shop_name, card_number, favourite, priority_index) "
+    query += "values (%s, %s, %s, %s, %s)"
     notetData = (itemRequest.app_id, 
                    itemRequest.shop_name,
                    itemRequest.card_number,
+                     itemRequest.favourite,
+                     itemRequest.priority_index,
                    )
     try:
        cursor.execute(query, notetData) 
@@ -113,26 +145,25 @@ async def Delete_loyalty_card(itemRequest : LoyaltyCardDeleteRequest, session: S
     db.close()
     return {"message": "Successfully deleted Record"}
 
-# Update Patient note on table
-# @router.put("/notes/update/", tags="patients_notes")
-# async def UpdatePatient(itemRequest : patientNoteUpdateRequest, session: SessionContainer = Depends(verify_session())):
-#     today = date.today()
-#     db = database.dbConnection.dbPatientManagerConnect()
-#     cursor = db.cursor()
-#     query = "update patient_notes "
-#     query += "set note_name=%s, note_text=%s, patient_id=%s, insert_date=%s "
-#     query += "where idpatient_notes=%s"
-#     notetData = (itemRequest.note_name, 
-#                     itemRequest.note_text,
-#                     itemRequest.patient_id,
-#                     today,
-#                     itemRequest.idpatient_notes)
-#     try:
-#        cursor.execute(query, notetData) 
-#     except Exception as error:
-#         raise HTTPException(status_code=404, detail="Failed to Update Record")
-#         #return {"query": query, "message": error}
-#     db.commit()
-#     cursor.close()
-#     db.close()
-#     return {"message": "Successfully Updated Record"}
+# Update on table
+@router.put("/mzasni-wallet/loyalty-cards/update/", tags=["Mzansi Wallet"])
+async def UpdatePatient(itemRequest : MzansiWalletUpdateRequest, session: SessionContainer = Depends(verify_session())):
+    today = date.today()
+    db = database.dbConnection.dbMzansiWalletConnect()
+    cursor = db.cursor()
+    query = "update loyalty_cards "
+    query += "set favourite=%s, priority_index=%s "
+    query += "where idloyalty_cards=%s"
+    notetData = (itemRequest.favourite, 
+                    itemRequest.priority_index,
+                    itemRequest.idloyalty_cards,
+                )
+    try:
+       cursor.execute(query, notetData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Failed to Update Record")
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}

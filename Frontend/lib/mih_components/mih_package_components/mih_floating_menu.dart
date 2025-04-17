@@ -5,11 +5,13 @@ import 'package:mzansi_innovation_hub/main.dart';
 class MihFloatingMenu extends StatefulWidget {
   final IconData? icon;
   final AnimatedIconData? animatedIcon;
+  final SpeedDialDirection? direction;
   final List<SpeedDialChild> children;
   const MihFloatingMenu({
     super.key,
     this.icon,
     this.animatedIcon,
+    this.direction,
     required this.children,
   });
 
@@ -28,6 +30,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
       child: SpeedDial(
         icon: widget.icon,
         animatedIcon: widget.animatedIcon,
+        direction: widget.direction ?? SpeedDialDirection.up,
         activeIcon: Icons.close,
         backgroundColor:
             MzanziInnovationHub.of(context)!.theme.secondaryColor(),

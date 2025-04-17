@@ -1,6 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
@@ -13,10 +15,13 @@ import 'package:barcode_widget/barcode_widget.dart';
 class BuildLoyaltyCardList extends StatefulWidget {
   final AppUser signedInUser;
   final List<MIHLoyaltyCard> cardList;
+  final int navIndex;
+
   const BuildLoyaltyCardList({
     super.key,
     required this.signedInUser,
     required this.cardList,
+    required this.navIndex,
   });
 
   @override
@@ -24,6 +29,8 @@ class BuildLoyaltyCardList extends StatefulWidget {
 }
 
 class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
+  late int _noFavourites;
+
   void deleteCardWindow(BuildContext ctxt, int index) {
     showDialog(
       context: context,
@@ -35,9 +42,118 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
                 widget.signedInUser,
                 widget.cardList[index].idloyalty_cards,
+                widget.navIndex,
                 context,
               );
             });
+      },
+    );
+  }
+
+  void addToFavCardWindow(BuildContext ctxt, int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MihAppAlert(
+          alertIcon: Icon(
+            Icons.favorite,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            size: 100,
+          ),
+          alertTitle: "Add to Favourites",
+          alertBody: Column(
+            children: [
+              Text(
+                "Are you sure you want to add this card to your favourites?",
+                style: TextStyle(
+                  fontSize: 20,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                      widget.signedInUser,
+                      widget.cardList[index].idloyalty_cards,
+                      "Yes",
+                      _noFavourites,
+                      0,
+                      ctxt,
+                    );
+                  },
+                  buttonText: "Add",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ],
+          ),
+          alertColour: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        );
+      },
+    );
+  }
+
+  void removeFromFavCardWindow(BuildContext ctxt, int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MihAppAlert(
+          alertIcon: Icon(
+            Icons.favorite_border,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            size: 100,
+          ),
+          alertTitle: "Remove From Favourites",
+          alertBody: Column(
+            children: [
+              Text(
+                "Are you sure you want to remove this card from your favourites?",
+                style: TextStyle(
+                  fontSize: 20,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                      widget.signedInUser,
+                      widget.cardList[index].idloyalty_cards,
+                      "",
+                      0,
+                      0,
+                      ctxt,
+                    );
+                  },
+                  buttonText: "Remove",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ],
+          ),
+          alertColour: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        );
       },
     );
   }
@@ -54,74 +170,104 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihAppWindow(
         fullscreen: false,
         windowTitle: widget.cardList[index].shop_name.toUpperCase(),
-        windowTools: [
-          IconButton(
-            onPressed: () {
-              deleteCardWindow(context, index);
-            },
-            icon: Icon(
-              Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        windowTools: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                deleteCardWindow(context, index);
+              },
+              icon: Icon(
+                Icons.delete,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: widget.cardList[index].favourite == "",
+              child: IconButton(
+                onPressed: () {
+                  addToFavCardWindow(context, index);
+                },
+                icon: Icon(
+                  Icons.favorite,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: widget.cardList[index].favourite != "",
+              child: IconButton(
+                onPressed: () {
+                  removeFromFavCardWindow(context, index);
+                },
+                icon: Icon(
+                  Icons.favorite_border,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            ),
+          ],
+        ),
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          Container(
-            child: MihCardDisplay(
-                shopName: widget.cardList[index].shop_name, height: 250),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: 500,
-            //color: Colors.white,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+        windowBody: Column(
+          children: [
+            Container(
+              child: MihCardDisplay(
+                  shopName: widget.cardList[index].shop_name, height: 250),
             ),
-            child: Column(
-              children: [
-                // const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    height: 75,
-                    width: 300,
-                    child: BarcodeWidget(
-                      //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                      barcode: Barcode.code128(),
-                      backgroundColor: Colors.white,
-                      data: widget.cardList[index].card_number,
-                      drawText: false,
-                    ),
-                    // SfBarcodeGenerator(
-                    //   backgroundColor: Colors.white,
-                    //   barColor: Colors.black,
-                    //   value: widget.cardList[index].card_number,
-                    //   symbology: Code128(),
-                    //   //showValue: true,
-                    // ),
-                  ),
-                ),
-                // const SizedBox(height: 10),
-                Text(
-                  formattedCardNumber,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold
-                      //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            const SizedBox(height: 20),
+            Container(
+              width: 500,
+              //color: Colors.white,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  // const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      height: 75,
+                      width: 300,
+                      child: BarcodeWidget(
+                        //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        barcode: Barcode.code128(),
+                        backgroundColor: Colors.white,
+                        data: widget.cardList[index].card_number,
+                        drawText: false,
                       ),
-                ),
-              ],
-            ),
-          )
-        ],
+                      // SfBarcodeGenerator(
+                      //   backgroundColor: Colors.white,
+                      //   barColor: Colors.black,
+                      //   value: widget.cardList[index].card_number,
+                      //   symbology: Code128(),
+                      //   //showValue: true,
+                      // ),
+                    ),
+                  ),
+                  // const SizedBox(height: 10),
+                  Text(
+                    formattedCardNumber,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                        //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -132,6 +278,24 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     } else {
       return 20;
     }
+  }
+
+  int countFavourites() {
+    int count = 0;
+    for (var card in widget.cardList) {
+      if (card.favourite != "") {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _noFavourites = countFavourites();
+    });
   }
 
   @override
