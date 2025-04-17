@@ -1,15 +1,18 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_card_favourites.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_cards.dart';
 import 'package:flutter/material.dart';
 
 class MihWallet extends StatefulWidget {
-  final AppUser signedInUser;
+  final WalletArguments arguments;
+  // final AppUser signedInUser;
   const MihWallet({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
+    // required this.signedInUser,
   });
 
   @override
@@ -23,7 +26,7 @@ class _MihWalletState extends State<MihWallet> {
   void initState() {
     super.initState();
     setState(() {
-      _selcetedIndex = 0;
+      _selcetedIndex = widget.arguments.index;
     });
   }
 
@@ -56,9 +59,14 @@ class _MihWalletState extends State<MihWallet> {
 
   MihAppTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.card_membership)] = () {
+    temp[const Icon(Icons.favorite)] = () {
       setState(() {
         _selcetedIndex = 0;
+      });
+    };
+    temp[const Icon(Icons.card_membership)] = () {
+      setState(() {
+        _selcetedIndex = 1;
       });
     };
 
@@ -70,8 +78,11 @@ class _MihWalletState extends State<MihWallet> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
+      MihCardFavourites(
+        signedInUser: widget.arguments.signedInUser,
+      ),
       MihCards(
-        signedInUser: widget.signedInUser,
+        signedInUser: widget.arguments.signedInUser,
       ),
     ];
     return toolBodies;
