@@ -197,3 +197,13 @@ class PatManagerArguments {
     this.businessUser,
   );
 }
+
+class WalletArguments {
+  final AppUser signedInUser;
+  final int index;
+
+  WalletArguments(
+    this.signedInUser,
+    this.index,
+  );
+}
