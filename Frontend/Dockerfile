@@ -34,7 +34,7 @@ COPY . /app/
 
 
 WORKDIR /app
-RUN flutter upgrade
+# RUN flutter upgrade
 RUN flutter build web --release -t ./lib/main_prod.dart
 # RUN flutter build web --release --web-renderer canvaskit -t ./lib/main_prod.dart
 
