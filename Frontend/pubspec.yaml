@@ -41,7 +41,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^28.2.6
   universal_html: ^2.2.4
   file_picker: ^9.0.0
-  supertokens_flutter: ^0.6.0
+  supertokens_flutter: ^0.6.3
   http: ^1.2.1
   google_nav_bar: ^5.0.6
   mysql_client: ^0.0.27
