@@ -13,31 +13,28 @@ RUN apt-get install python3 -y
 # download Flutter SDK from Flutter Github repo
 RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
 #RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
-WORKDIR /usr/local/flutter
-RUN git checkout 3.22.0
 
 # Set flutter environment path
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 #ENV PATH "$PATH:/home/developer/flutter/bin"
-# WORKDIR /app
 
 RUN flutter doctor -v
 
 # Enable flutter web
-# RUN flutter channel master
+RUN flutter channel stable
 # RUN flutter upgrade
 #RUN flutter pub add web:^0.5.0
 RUN flutter config --enable-web
 
 # Copy files to container and build
-# RUN mkdir /app/
+RUN mkdir /app/
 COPY . /app/
 # COPY ./server/MIH_web_server.py /app/build/web/
 # VOLUME ["/app"]
 
 
 WORKDIR /app
-# RUN flutter upgrade
+RUN flutter upgrade
 RUN flutter build web --release -t ./lib/main_prod.dart
 # RUN flutter build web --release --web-renderer canvaskit -t ./lib/main_prod.dart
 
