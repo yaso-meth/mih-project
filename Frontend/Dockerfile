@@ -19,7 +19,7 @@ RUN git checkout 3.19.6
 # Set flutter environment path
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 #ENV PATH "$PATH:/home/developer/flutter/bin"
-WORKDIR /app
+# WORKDIR /app
 
 RUN flutter doctor -v
 
@@ -30,14 +30,14 @@ RUN flutter channel master
 RUN flutter config --enable-web
 
 # Copy files to container and build
-# RUN mkdir /app/
+RUN mkdir /app/
 COPY . /app/
 # COPY ./server/MIH_web_server.py /app/build/web/
 # VOLUME ["/app"]
 
 
 WORKDIR /app
-RUN flutter upgrade
+# RUN flutter upgrade
 RUN flutter build web --release -t ./lib/main_prod.dart
 # RUN flutter build web --release --web-renderer canvaskit -t ./lib/main_prod.dart
 
