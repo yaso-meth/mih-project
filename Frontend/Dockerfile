@@ -11,7 +11,7 @@ RUN apt-get install python3 -y
 # RUN apt-get update --fix-missing
 # RUN apt-get install python3-Jinja2
 # download Flutter SDK from Flutter Github repo
-RUN git clone -b master https://github.com/flutter/flutter.git /usr/local/flutter
+RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
 #RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 
 # Set flutter environment path
