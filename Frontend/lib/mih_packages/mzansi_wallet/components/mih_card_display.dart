@@ -103,6 +103,12 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
       case "toys r us":
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/toysrus.png');
+      case "leroy merlin":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/leroy_merlin.png');
+      case "signature cosmetics & fragrances":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/signature_cosmetics.png');
       default:
         return const Placeholder();
     }
