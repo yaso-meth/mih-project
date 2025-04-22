@@ -25,7 +25,7 @@ RUN flutter doctor -v
 
 # Enable flutter web
 RUN flutter channel master
-RUN flutter upgrade
+# RUN flutter upgrade
 #RUN flutter pub add web:^0.5.0
 RUN flutter config --enable-web
 
