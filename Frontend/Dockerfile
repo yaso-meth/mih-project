@@ -14,7 +14,7 @@ RUN apt-get install python3 -y
 RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
 #RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 WORKDIR /usr/local/flutter
-RUN git checkout 3.19.6
+RUN git checkout 3.22.0
 
 # Set flutter environment path
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
