@@ -24,13 +24,13 @@ ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PAT
 RUN flutter doctor -v
 
 # Enable flutter web
-RUN flutter channel master
+# RUN flutter channel master
 # RUN flutter upgrade
 #RUN flutter pub add web:^0.5.0
 RUN flutter config --enable-web
 
 # Copy files to container and build
-RUN mkdir /app/
+# RUN mkdir /app/
 COPY . /app/
 # COPY ./server/MIH_web_server.py /app/build/web/
 # VOLUME ["/app"]
