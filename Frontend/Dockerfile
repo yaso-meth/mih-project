@@ -13,10 +13,13 @@ RUN apt-get install python3 -y
 # download Flutter SDK from Flutter Github repo
 RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
 #RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+WORKDIR /usr/local/flutter
+RUN git checkout 3.19.6
 
 # Set flutter environment path
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 #ENV PATH "$PATH:/home/developer/flutter/bin"
+WORKDIR /app
 
 RUN flutter doctor -v
 
