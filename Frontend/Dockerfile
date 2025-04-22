@@ -30,7 +30,7 @@ RUN flutter channel master
 RUN flutter config --enable-web
 
 # Copy files to container and build
-RUN mkdir /app/
+# RUN mkdir /app/
 COPY . /app/
 # COPY ./server/MIH_web_server.py /app/build/web/
 # VOLUME ["/app"]
