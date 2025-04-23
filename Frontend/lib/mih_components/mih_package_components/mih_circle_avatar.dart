@@ -11,12 +11,16 @@ class MihCircleAvatar extends StatefulWidget {
   final bool editable;
   final TextEditingController fileNameController;
   final onChange;
+  final PlatformFile? userSelectedfile;
+  final Color frameColor;
   const MihCircleAvatar({
     super.key,
     required this.imageFile,
     required this.width,
     required this.editable,
     required this.fileNameController,
+    required this.userSelectedfile,
+    required this.frameColor,
     required this.onChange,
   });
 
@@ -38,23 +42,25 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // color: Colors.white,
+      alignment: Alignment.center,
       width: widget.width,
       height: widget.width,
       child: Stack(
+        alignment: Alignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: CircleAvatar(
-              radius: widget.width / 2,
-              backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              backgroundImage: imagePreview,
-            ),
+          CircleAvatar(
+            radius: widget.width / 2.2,
+            backgroundColor: widget.frameColor,
+            backgroundImage: imagePreview,
           ),
-          Icon(
-            size: widget.width,
-            MihIcons.mihCircleFrame,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          FittedBox(
+            fit: BoxFit.fill,
+            child: Icon(
+              size: widget.width,
+              MihIcons.mihCircleFrame,
+              color: widget.frameColor,
+            ),
           ),
           Visibility(
             visible: widget.editable,
@@ -77,7 +83,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                       PlatformFile? selectedFile = result.files.first;
                       setState(() {
                         // print("Here 4");
-                        widget.onChange(MemoryImage(selectedFile.bytes!));
+                        widget.onChange(selectedFile);
                         // print("Here 5");
                         imagePreview = MemoryImage(selectedFile.bytes!);
                       });
@@ -96,7 +102,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                           //extension: fileExtension,
                         );
                         setState(() {
-                          widget.onChange(MemoryImage(androidFile.bytes!));
+                          widget.onChange(androidFile);
                           imagePreview = FileImage(file);
                         });
 
