@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import '../../../main.dart';
 import '../../../mih_objects/app_user.dart';
 import '../../../mih_objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import '../../../mih_components/mih_profile_picture.dart';
 
 class MIHAppDrawer extends StatefulWidget {
   final AppUser signedInUser;
@@ -53,17 +53,26 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                 widget.signedInUser, widget.propicFile),
           );
         },
-        child: MIHProfilePicture(
-          profilePictureFile: widget.propicFile,
-          proPicController: proPicController,
-          proPic: null,
+        child: MihCircleAvatar(
+          imageFile: widget.propicFile,
           width: 60,
-          radius: 27,
-          drawerMode: true,
           editable: false,
+          fileNameController: proPicController,
+          onChange: (_) {},
+          userSelectedfile: null,
           frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          onChange: (newProPic) {},
         ),
+        // MIHProfilePicture(
+        //   profilePictureFile: widget.propicFile,
+        //   proPicController: proPicController,
+        //   proPic: null,
+        //   width: 60,
+        //   radius: 27,
+        //   drawerMode: true,
+        //   editable: false,
+        //   frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   onChange: (newProPic) {},
+        // ),
 
         // Stack(
         //   alignment: Alignment.center,

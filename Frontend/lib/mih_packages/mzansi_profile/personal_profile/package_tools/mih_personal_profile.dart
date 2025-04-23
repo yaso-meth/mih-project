@@ -1,22 +1,20 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_profile_picture.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:http/http.dart' as http2;
 
 class MihPersonalProfile extends StatefulWidget {
   final AppProfileUpdateArguments arguments;
@@ -82,33 +80,14 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> uploadSelectedFile(PlatformFile? file) async {
-    //print("MIH Profile Picture: $file");
-    //var strem = new http.ByteStream.fromBytes(file.bytes.)
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
+    var response = await MihFileApi.uploadFile(
+      widget.arguments.signedInUser.app_id,
+      "profile_files",
+      file,
+      context,
     );
-    var token = await SuperTokens.getAccessToken();
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
-    request.headers['accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.arguments.signedInUser.app_id;
-    request.fields['folder'] = "profile_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    var response1 = await request.send();
-    if (response1.statusCode == 200) {
+    if (response == 200) {
       deleteFileApiCall(oldProPicName);
-      // end loading circle
-      //Navigator.of(context).pop();
-      // String message =
-      //     "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.signedInUser.fname} ${widget.signedInUser.lname}'s record. You can now access and download it for their use.";
-      // successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
@@ -153,11 +132,6 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             false,
           ),
         );
-        // Navigator.of(context).pushNamed(
-        //   '/mzansi-profile',
-        //   arguments: AppProfileUpdateArguments(
-        //       widget.arguments.signedInUser, widget.arguments.propicFile),
-        // );
         String message =
             "${widget.arguments.signedInUser.email}'s information has been updated successfully!";
         successPopUp(message);
@@ -168,20 +142,13 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> deleteFileApiCall(String filename) async {
-    // delete file from minio
-    var fname = filename.replaceAll(RegExp(r' '), '-');
-    var filePath =
-        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
-    var response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/minio/delete/file/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+    var response = await MihFileApi.deleteFile(
+      widget.arguments.signedInUser.app_id,
+      "profile_files",
+      filename,
+      context,
     );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response == 200) {
       //SQL delete
     } else {
       internetConnectionPopUp();
@@ -258,21 +225,34 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       child: Column(
         children: [
           //displayProPic(),
-          MIHProfilePicture(
-            profilePictureFile: widget.arguments.propicFile,
-            proPicController: proPicController,
-            proPic: proPic,
-            width: 155,
-            radius: 70,
-            drawerMode: false,
+          MihCircleAvatar(
+            imageFile: propicPreview,
+            width: 150,
             editable: true,
+            fileNameController: proPicController,
+            userSelectedfile: proPic,
             frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            onChange: (newProPic) {
+            onChange: (selectedImage) {
               setState(() {
-                proPic = newProPic;
+                proPic = selectedImage;
               });
             },
           ),
+          // MIHProfilePicture(
+          //   profilePictureFile: widget.arguments.propicFile,
+          //   proPicController: proPicController,
+          //   proPic: proPic,
+          //   width: 155,
+          //   radius: 70,
+          //   drawerMode: false,
+          //   editable: true,
+          //   frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   onChange: (newProPic) {
+          //     setState(() {
+          //       proPic = newProPic;
+          //     });
+          //   },
+          // ),
           const SizedBox(height: 25.0),
           Visibility(
             visible: false,

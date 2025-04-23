@@ -2,7 +2,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_profile_picture.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
@@ -101,17 +101,27 @@ class _MihHomeState extends State<MihHome> {
       return MihAppAction(
         icon: Padding(
           padding: const EdgeInsets.only(left: 5.0),
-          child: MIHProfilePicture(
-            profilePictureFile: widget.propicFile,
-            proPicController: proPicController,
-            proPic: null,
-            width: 45,
-            radius: 21,
-            drawerMode: false,
+          child: MihCircleAvatar(
+            imageFile: widget.propicFile,
+            width: 50,
             editable: false,
+            fileNameController: proPicController,
+            userSelectedfile: null,
+            // frameColor: frameColor,
             frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            onChange: (newProPic) {},
+            onChange: (_) {},
           ),
+          // MIHProfilePicture(
+          //   profilePictureFile: widget.propicFile,
+          //   proPicController: proPicController,
+          //   proPic: null,
+          //   width: 45,
+          //   radius: 21,
+          //   drawerMode: false,
+          //   editable: false,
+          //   frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   onChange: (newProPic) {},
+          // ),
         ),
         iconSize: 45,
         onTap: () {
