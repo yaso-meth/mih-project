@@ -116,10 +116,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
               const SizedBox(height: 10),
               MihCircleAvatar(
                 imageFile: imagePreview,
-                width: 150,
-                editable: true,
+                width: 50,
+                editable: false,
                 fileNameController: _fileNameController,
                 userSelectedfile: file,
+                frameColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 onChange: (selectedImage) {
                   setState(() {
                     file = selectedImage;
