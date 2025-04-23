@@ -232,7 +232,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
   @override
   void initState() {
     //profile = getProfile();
-    profile = MIHApiCalls().getProfile(amount);
+    profile = MIHApiCalls().getProfile(amount, context);
     super.initState();
   }
 
