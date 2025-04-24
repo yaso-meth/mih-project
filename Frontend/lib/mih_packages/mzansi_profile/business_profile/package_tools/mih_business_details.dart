@@ -117,7 +117,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         showDialog(
           context: context,
           builder: (context) {
-            return const MIHErrorMessage(errorType: "Error");
+            return const MIHErrorMessage(errorType: "Internet Connection");
           },
         );
       }
