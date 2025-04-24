@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
@@ -11,14 +12,13 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_profile_picture.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:http/http.dart' as http2;
-import 'package:supertokens_flutter/supertokens.dart';
 
 class MihBusinessProfile extends StatefulWidget {
   final BusinessArguments arguments;
@@ -52,14 +52,18 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
 
   late PlatformFile? selectedLogo = null;
   late PlatformFile? selectedSignature = null;
+  PlatformFile? logoFile;
+  ImageProvider<Object>? logoPreview = null;
 
   final ValueNotifier<String> busType = ValueNotifier("");
 
   late String business_id;
   late String oldLogoPath;
   late String oldSigPath;
+  String logoUri = "";
 
   Future<void> updateBusinessProfileAPICall(String business_id) async {
+    print("inside update business profile api call");
     showDialog(
       context: context,
       builder: (context) {
@@ -89,9 +93,8 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     if (response.statusCode == 200) {
       //var businessResponse = jsonDecode(response.body);
       //print(selectedLogo != null);
-      if (selectedLogo != null) {
-        uploadSelectedFile(selectedLogo, logonameController);
-        deleteFileApiCall(oldLogoPath);
+      if (logoFile != null) {
+        uploadSelectedFile(logoFile);
       }
       updateBusinessUserAPICall(business_id);
     } else {
@@ -117,7 +120,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     );
     if (response.statusCode == 200) {
       if (selectedSignature != null) {
-        uploadSelectedFile(selectedSignature, signtureController);
+        uploadSelectedFile(selectedSignature);
         deleteFileApiCall(oldSigPath);
       }
       Navigator.of(context).pop();
@@ -138,23 +141,16 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     }
   }
 
-  Future<void> uploadSelectedFile(
-      PlatformFile? file, TextEditingController controller) async {
-    //to-do delete file when changed
-    var token = await SuperTokens.getAccessToken();
-    //print(t);
-    //print("here1");
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
-    request.headers['accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.arguments.signedInUser.app_id;
-    request.fields['folder'] = "business_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    var response1 = await request.send();
-    if (response1.statusCode == 200) {
+  Future<void> uploadSelectedFile(PlatformFile? file) async {
+    print("Inside upload selected file");
+    var response = await MihFileApi.uploadFile(
+      widget.arguments.signedInUser.app_id,
+      "business_files",
+      file,
+      context,
+    );
+    if (response == 200) {
+      deleteFileApiCall(oldLogoPath);
     } else {
       internetConnectionPopUp();
     }
@@ -162,16 +158,13 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
 
   Future<void> deleteFileApiCall(String filePath) async {
     // delete file from minio
-    var response = await http.delete(
-      Uri.parse("$baseAPI/minio/delete/file/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+    var response = await MihFileApi.deleteFile(
+      widget.arguments.signedInUser.app_id,
+      "business_files",
+      filePath.split("/").last,
+      context,
     );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response == 200) {
       //SQL delete
     } else {
       internetConnectionPopUp();
@@ -222,6 +215,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     if (!validEmail()) {
       emailError();
     } else if (isFieldsFilled()) {
+      print("inside submit form mthod");
       updateBusinessProfileAPICall(business_id);
     } else {
       showDialog(
@@ -261,6 +255,20 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
         return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
+  }
+
+  ImageProvider<Object>? isPictureAvailable(String url) {
+    print("logo Url: $url");
+    if (url == "") {
+      return const AssetImage(
+          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
+    } else if (url != "") {
+      return NetworkImage(url);
+    } else {
+      return const AssetImage(
+          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
+      // return null;
+    }
   }
 
   @override
@@ -306,6 +314,15 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
       practiceNoController.text = widget.arguments.business!.practice_no;
       vatNoController.text = widget.arguments.business!.vat_no;
     });
+    MihFileApi.getMinioFileUrl(
+      widget.arguments.business!.logo_path,
+      context,
+    ).then((value) {
+      setState(() {
+        logoUri = value;
+      });
+      logoPreview = isPictureAvailable(logoUri);
+    });
     super.initState();
   }
 
@@ -343,8 +360,48 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                     ),
                   ),
                   Divider(
-                    color:
-                        MzanziInnovationHub.of(context)?.theme.secondaryColor(),
+                      color: MzanziInnovationHub.of(context)
+                          ?.theme
+                          .secondaryColor()),
+                  const SizedBox(height: 10.0),
+                  MIHProfilePicture(
+                    profilePictureFile: logoPreview,
+                    proPicController: logonameController,
+                    proPic: logoFile,
+                    width: 155,
+                    radius: 70,
+                    drawerMode: false,
+                    editable: true,
+                    frameColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    onChange: (newProPic) {
+                      setState(() {
+                        logoFile = newProPic;
+                      });
+                      print("logoFile: ${logoFile?.bytes}");
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MIHFileField(
+                    controller: logonameController,
+                    hintText: "Logo",
+                    editable: false,
+                    required: true,
+                    onPressed: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'png'],
+                      );
+                      if (result == null) return;
+                      final selectedFile = result.files.first;
+                      setState(() {
+                        selectedLogo = selectedFile;
+                      });
+                      setState(() {
+                        logonameController.text = selectedFile.name;
+                      });
+                    },
                   ),
                   const SizedBox(height: 10.0),
                   MIHTextField(
@@ -407,28 +464,6 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                     required: true,
                   ),
                   const SizedBox(height: 10.0),
-                  MIHFileField(
-                    controller: logonameController,
-                    hintText: "Logo",
-                    editable: false,
-                    required: true,
-                    onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ['jpg', 'png', 'pdf'],
-                      );
-                      if (result == null) return;
-                      final selectedFile = result.files.first;
-                      setState(() {
-                        selectedLogo = selectedFile;
-                      });
-                      setState(() {
-                        logonameController.text = selectedFile.name;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10.0),
                   Row(
                     children: [
                       Flexible(
@@ -489,7 +524,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                 MIHDropdownField(
                   controller: titleController,
                   hintText: "Title",
-                  dropdownOptions: const ["Doctor", "Assistant"],
+                  dropdownOptions: const ["Doctor", "Assistant", "Other"],
                   required: true,
                   editable: true,
                   enableSearch: false,
@@ -551,6 +586,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                     onTap: () {
                       //print(business_id);
+                      print("submit form call");
                       submitForm(business_id);
                     },
                   ),
