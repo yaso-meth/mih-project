@@ -183,7 +183,7 @@ async def upload_perscription_to_user(requestItem: claimStatementUploud, session
     return {"message": "Successfully Generated File"}
 
 def uploudFile(app_id, folder, fileName, extension, content):
-    client = Minio_Storage.minioConnection.minioConnect("Dev")
+    client = Minio_Storage.minioConnection.minioConnect("Prod")
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
@@ -198,7 +198,7 @@ def uploudFile(app_id, folder, fileName, extension, content):
                     content_type=f"application/{extension}")
         
 def uploudMedCert(requestItem: medCertUploud):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect("Dev")
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
