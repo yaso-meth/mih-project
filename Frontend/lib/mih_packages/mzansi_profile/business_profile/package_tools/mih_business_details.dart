@@ -10,8 +10,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
@@ -98,7 +98,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 alertBody: Column(
                   children: [
                     Text(
-                      "Hi there! To jump into the MIH Home Package, you'll need to set up biometric authentication (like fingerprint or face ID) on your device first. It looks like it's not quite ready yet.\n\nPlease head over to your device's settings to enable it, or press the button below to start the set up process now.",
+                      "An error occurred while updating the business details. Please check internet connection and try again.",
                       style: TextStyle(
                         color: MzanziInnovationHub.of(context)!
                             .theme
@@ -245,49 +245,53 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20),
+        Divider(color: MzanziInnovationHub.of(context)?.theme.secondaryColor()),
+        const SizedBox(height: 10),
         FutureBuilder(
-            future: fileUrlFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Mihloadingcircle());
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data.toString().isNotEmpty) {
-                return MihCircleAvatar(
-                  imageFile: NetworkImage(snapshot.data.toString()),
-                  width: 150,
-                  editable: true,
-                  fileNameController: fileNameController,
-                  userSelectedfile: imageFile,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  onChange: (selectedfile) {
-                    setState(() {
-                      imageFile = selectedfile;
-                    });
-                  },
-                );
-                // MIHProfilePicture(
-                //   profilePictureFile: NetworkImage(snapshot.data.toString()),
-                //   proPicController: TextEditingController(),
-                //   proPic: null,
-                //   width: 100,
-                //   radius: 50,
-                //   drawerMode: false,
-                //   editable: false,
-                //   onChange: () {},
-                //   frameColor: Colors.white,
-                // );
-              } else if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                return const Text("Error loading image");
-              }
-            }),
+          future: fileUrlFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                // alignment: Alignment.center,
+                width: 150,
+                height: 150,
+                child: FittedBox(
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  child: Icon(
+                    MihIcons.mihCircleFrame,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData &&
+                snapshot.data != null &&
+                snapshot.data.toString().isNotEmpty) {
+              return MihCircleAvatar(
+                imageFile: NetworkImage(snapshot.data.toString()),
+                width: 150,
+                editable: true,
+                fileNameController: fileNameController,
+                userSelectedfile: imageFile,
+                frameColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                onChange: (selectedfile) {
+                  setState(() {
+                    imageFile = selectedfile;
+                  });
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text("Error: ${snapshot.error}");
+            } else {
+              return const Text("Error loading image");
+            }
+          },
+        ),
         Visibility(
-          visible: true,
+          visible: false,
           child: MIHTextField(
             controller: fileNameController,
             hintText: "Selected File Name",
@@ -379,34 +383,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             ),
           ],
         ),
-        // MIHTextField(
-        //   controller: locationController,
-        //   hintText: "Location",
-        //   editable: false,
-        //   required: false,
-        // ),
-        // const SizedBox(height: 10),
-        // SizedBox(
-        //   width: 100.0,
-        //   height: 50.0,
-        //   child: MIHButton(
-        //     buttonText: "Set",
-        //     buttonColor:
-        //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        //     textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        //     onTap: () {
-        //       MIHLocationAPI().getGPSPosition(context).then((position) {
-        //         if (position != null) {
-        //           setState(() {
-        //             locationController.text =
-        //                 "${position.latitude}, ${position.longitude}";
-        //           });
-        //         }
-        //       });
-        //     },
-        //   ),
-        // ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 15),
         SizedBox(
           width: 500.0,
           height: 50.0,
