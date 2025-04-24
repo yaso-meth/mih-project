@@ -2,21 +2,11 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsApi {
-  final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
-  );
-
-  ///This function is to get the current location of the signed in user.
-  ///First checks the permission, if permission is denied (new user), request permission from user.
-  ///if user has blocked permission (denied or denied forver), user will get error pop up.
-  ///if user has granted permission (while in use), function will return Position object.
   Future<int> updateBusinessDetails(
     String business_id,
     String business_name,
@@ -36,7 +26,6 @@ class MihBusinessDetailsApi {
         return const Mihloadingcircle();
       },
     );
-    print("Here 1");
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/update/"),
       headers: <String, String>{
@@ -56,13 +45,10 @@ class MihBusinessDetailsApi {
         "vat_no": business_vat_no,
       }),
     );
-    print("Here 2");
     Navigator.of(context).pop();
     if (response.statusCode == 200) {
-      print("Here 3");
       return 200;
     } else {
-      print("Here 4");
       internetConnectionPopUp(context);
       return 500;
     }
