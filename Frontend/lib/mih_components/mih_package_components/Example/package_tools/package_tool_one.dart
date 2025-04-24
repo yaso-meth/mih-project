@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 
 class PackageToolOne extends StatefulWidget {
   const PackageToolOne({super.key});
@@ -20,7 +21,9 @@ class PackageToolOne extends StatefulWidget {
 class _PackageToolOneState extends State<PackageToolOne> {
   late ImageProvider<Object>? imagePreview;
   PlatformFile? file;
+  PlatformFile? imageFile;
   TextEditingController _fileNameController = TextEditingController();
+  TextEditingController _imagefileController = TextEditingController();
   void showTestFullWindow() {
     showDialog(
       context: context,
@@ -131,10 +134,30 @@ class _PackageToolOneState extends State<PackageToolOne> {
               const SizedBox(height: 10),
               MIHTextField(
                 controller: _fileNameController,
-                hintText: "Selected File",
+                hintText: "Selected Avatar File",
                 editable: false,
                 required: false,
-              )
+              ),
+              const SizedBox(height: 10),
+              MihImageDisplay(
+                imageFile: imagePreview,
+                width: 300,
+                editable: true,
+                fileNameController: _imagefileController,
+                userSelectedfile: imageFile,
+                onChange: (selectedFile) {
+                  setState(() {
+                    imageFile = selectedFile;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              MIHTextField(
+                controller: _imagefileController,
+                hintText: "Selected Image File",
+                editable: false,
+                required: false,
+              ),
             ],
           ),
         ),
