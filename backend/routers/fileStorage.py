@@ -198,7 +198,7 @@ def uploudFile(app_id, folder, fileName, extension, content):
                     content_type=f"application/{extension}")
         
 def uploudMedCert(requestItem: medCertUploud):
-    client = Minio_Storage.minioConnection.minioConnect("Dev")
+    client = Minio_Storage.minioConnection.minioConnect("Prod")
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
