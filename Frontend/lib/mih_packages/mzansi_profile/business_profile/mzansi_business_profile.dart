@@ -2,10 +2,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
 
 class MzansiBusinessProfile extends StatefulWidget {
   final BusinessArguments arguments;
@@ -53,14 +54,24 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.people_outline)] = () {
+    temp[const Icon(Icons.person)] = () {
       setState(() {
         _selcetedIndex = 1;
       });
     };
-    temp[const Icon(Icons.add)] = () {
+    // temp[const Icon(Icons.warning)] = () {
+    //   setState(() {
+    //     _selcetedIndex = 2;
+    //   });
+    // };
+    temp[const Icon(Icons.people)] = () {
       setState(() {
         _selcetedIndex = 2;
+      });
+    };
+    temp[const Icon(Icons.add)] = () {
+      setState(() {
+        _selcetedIndex = 3;
       });
     };
     return MihAppTools(
@@ -71,7 +82,9 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      MihBusinessProfile(arguments: widget.arguments),
+      MihBusinessDetails(arguments: widget.arguments),
+      MihMyBusinessUser(arguments: widget.arguments),
+      // MihBusinessProfile(arguments: widget.arguments),
       MihMyBusinessTeam(arguments: widget.arguments),
       MihBusinessUserSearch(arguments: widget.arguments),
     ];
