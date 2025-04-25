@@ -338,21 +338,34 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
             future: userSignatureUrlFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  // alignment: Alignment.center,
+                return MihImageDisplay(
+                  imageFile: null,
                   width: 300,
                   height: 200,
-                  child: FittedBox(
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
-                    child: Icon(
-                      MihIcons.mihCircleFrame,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
+                  editable: true,
+                  fileNameController: signtureController,
+                  userSelectedfile: userSignatureFile,
+                  onChange: (selectedFile) {
+                    setState(() {
+                      userSignatureFile = selectedFile;
+                    });
+                  },
                 );
+                // return Container(
+                //   // alignment: Alignment.center,
+                //   width: 300,
+                //   height: 200,
+                //   child: FittedBox(
+                //     alignment: Alignment.center,
+                //     fit: BoxFit.fill,
+                //     child: Icon(
+                //       MihIcons.mihCircleFrame,
+                //       color: MzanziInnovationHub.of(context)!
+                //           .theme
+                //           .secondaryColor(),
+                //     ),
+                //   ),
+                // );
               } else if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData &&
                   snapshot.data != null &&
