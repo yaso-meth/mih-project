@@ -109,6 +109,8 @@ class _MihHomeState extends State<MihHome> {
             userSelectedfile: null,
             // frameColor: frameColor,
             frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
             onChange: (_) {},
           ),
           // MIHProfilePicture(

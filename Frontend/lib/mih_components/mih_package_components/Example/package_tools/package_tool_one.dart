@@ -125,6 +125,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 userSelectedfile: file,
                 frameColor:
                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 onChange: (selectedImage) {
                   setState(() {
                     file = selectedImage;
