@@ -232,6 +232,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             fileNameController: proPicController,
             userSelectedfile: proPic,
             frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
             onChange: (selectedImage) {
               setState(() {
                 proPic = selectedImage;

@@ -144,6 +144,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
               MihImageDisplay(
                 imageFile: imagePreview,
                 width: 300,
+                height: 200,
                 editable: true,
                 fileNameController: _imagefileController,
                 userSelectedfile: imageFile,

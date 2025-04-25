@@ -42,10 +42,13 @@ class MihFileApi {
         var decodedData = jsonDecode(response.body);
         fileUrl = decodedData['minioURL'];
       } else {
-        internetConnectionPopUp(context);
+        // internetConnectionPopUp(context);
+        print("Error: ${response.statusCode}");
+        print("Error: ${response.body}");
       }
     } catch (e) {
-      internetConnectionPopUp(context);
+      // internetConnectionPopUp(context);
+      print("Error getting url");
     } finally {
       // Navigator.of(context).pop(); // Always pop loading dialog
     }

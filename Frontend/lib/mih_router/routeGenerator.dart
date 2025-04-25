@@ -24,7 +24,7 @@ import '../mih_objects/arguments.dart';
 import '../mih_packages/authentication/forgot_password.dart';
 import '../mih_packages/authentication/reset_password.dart';
 import '../mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
-import '../mih_packages/mzansi_profile/manage_business/profile_business_add.dart';
+import '../mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

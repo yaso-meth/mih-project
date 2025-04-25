@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 class MihImageDisplay extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
   final double width;
+  final double height;
   final bool editable;
   final TextEditingController fileNameController;
   final onChange;
@@ -15,6 +16,7 @@ class MihImageDisplay extends StatefulWidget {
     super.key,
     required this.imageFile,
     required this.width,
+    required this.height,
     required this.editable,
     required this.fileNameController,
     required this.userSelectedfile,
@@ -28,11 +30,28 @@ class MihImageDisplay extends StatefulWidget {
 class _MihImageDisplayState extends State<MihImageDisplay> {
   late ImageProvider<Object>? imagePreview;
 
+  ImageProvider<Object>? getImage() {
+    Color dark = const Color(0XFF3A4454);
+    if (widget.imageFile == null) {
+      if (MzanziInnovationHub.of(context)!.theme.secondaryColor() == dark) {
+        print("here in light icon");
+        return const AssetImage(
+            'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
+      } else {
+        print("here in dark icon");
+        return const AssetImage(
+            'lib/mih_components/mih_package_components/assets/images/i-dont-know-light.png');
+      }
+    } else {
+      return widget.imageFile;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     setState(() {
-      imagePreview = widget.imageFile;
+      imagePreview = getImage();
     });
   }
 
@@ -42,6 +61,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
       // color: Colors.white,
       alignment: Alignment.center,
       width: widget.width,
+      height: widget.height,
       child: Stack(
         alignment: Alignment.center,
         children: [

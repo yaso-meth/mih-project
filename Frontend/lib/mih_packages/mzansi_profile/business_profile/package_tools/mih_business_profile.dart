@@ -257,20 +257,6 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     );
   }
 
-  ImageProvider<Object>? isPictureAvailable(String url) {
-    print("logo Url: $url");
-    if (url == "") {
-      return const AssetImage(
-          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
-    } else if (url != "") {
-      return NetworkImage(url);
-    } else {
-      return const AssetImage(
-          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
-      // return null;
-    }
-  }
-
   @override
   void dispose() {
     nameController.dispose();
@@ -321,7 +307,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
       setState(() {
         logoUri = value;
       });
-      logoPreview = isPictureAvailable(logoUri);
+      logoPreview = NetworkImage(logoUri);
     });
     super.initState();
   }

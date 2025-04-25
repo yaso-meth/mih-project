@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -7,6 +8,47 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsApi {
+  Future<Response> createBusinessDetails(
+    String appId,
+    String busineName,
+    String businessType,
+    String businessRegistrationNo,
+    String businessPracticeNo,
+    String businessVatNo,
+    String businessEmail,
+    String businessPhoneNumber,
+    String businessLocation,
+    String businessLogoFilename,
+    BuildContext context,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "Name": busineName,
+        "type": businessType,
+        "registration_no": businessRegistrationNo,
+        "logo_name": businessLogoFilename,
+        "logo_path": "$appId/business_files/$businessLogoFilename",
+        "contact_no": businessPhoneNumber,
+        "bus_email": businessEmail,
+        "gps_location": businessLocation,
+        "practice_no": businessPracticeNo,
+        "vat_no": businessVatNo,
+      }),
+    );
+    Navigator.of(context).pop();
+    return response;
+  }
+
   Future<int> updateBusinessDetails(
     String business_id,
     String business_name,
