@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_notification_apis.dart';
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -43,7 +44,10 @@ class MIHApiCalls {
   /// - Business User details.
   /// - notifications.
   /// - user profile picture.
-  Future<HomeArguments> getProfile(int notificationAmount) async {
+  Future<HomeArguments> getProfile(
+    int notificationAmount,
+    BuildContext context,
+  ) async {
     AppUser userData;
     Business? busData;
     BusinessUser? bUserData;
@@ -98,20 +102,8 @@ class MIHApiCalls {
     //   userPic = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
     // }
     else {
-      var url =
-          "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/${userData.pro_pic_path}";
-      var response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        String body = response.body;
-        var decodedData = jsonDecode(body);
-
-        userPic = decodedData['minioURL'];
-      } else {
-        userPic = "";
-        // throw Exception(
-        //     "Error: GetUserData status code ${response.statusCode}");
-      }
+      userPic =
+          await MihFileApi.getMinioFileUrl(userData.pro_pic_path, context);
     }
 
     //Get Notifications

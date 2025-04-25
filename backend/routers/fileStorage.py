@@ -183,7 +183,7 @@ async def upload_perscription_to_user(requestItem: claimStatementUploud, session
     return {"message": "Successfully Generated File"}
 
 def uploudFile(app_id, folder, fileName, extension, content):
-    client = Minio_Storage.minioConnection.minioConnect("Dev")
+    client = Minio_Storage.minioConnection.minioConnect("Prod")
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")

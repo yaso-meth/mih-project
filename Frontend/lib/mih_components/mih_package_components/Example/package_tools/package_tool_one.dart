@@ -1,11 +1,15 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 
 class PackageToolOne extends StatefulWidget {
   const PackageToolOne({super.key});
@@ -15,6 +19,11 @@ class PackageToolOne extends StatefulWidget {
 }
 
 class _PackageToolOneState extends State<PackageToolOne> {
+  late ImageProvider<Object>? imagePreview;
+  PlatformFile? file;
+  PlatformFile? imageFile;
+  TextEditingController _fileNameController = TextEditingController();
+  TextEditingController _imagefileController = TextEditingController();
   void showTestFullWindow() {
     showDialog(
       context: context,
@@ -47,6 +56,15 @@ class _PackageToolOneState extends State<PackageToolOne> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      imagePreview = const NetworkImage(
+          "https://lh3.googleusercontent.com/nW4ZZ89Q1ATz7Ht3nsAVWXL_cwNi4gNusqQZiL60UuuI3FG-VM7bTYDoJ-sUr2kDTdorfQYjxo5PjDM-0MO5rA=s512");
+    });
   }
 
   @override
@@ -97,7 +115,49 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 10),
+              MihCircleAvatar(
+                imageFile: imagePreview,
+                width: 50,
+                editable: false,
+                fileNameController: _fileNameController,
+                userSelectedfile: file,
+                frameColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                onChange: (selectedImage) {
+                  setState(() {
+                    file = selectedImage;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              MIHTextField(
+                controller: _fileNameController,
+                hintText: "Selected Avatar File",
+                editable: false,
+                required: false,
+              ),
+              const SizedBox(height: 10),
+              MihImageDisplay(
+                imageFile: imagePreview,
+                width: 300,
+                editable: true,
+                fileNameController: _imagefileController,
+                userSelectedfile: imageFile,
+                onChange: (selectedFile) {
+                  setState(() {
+                    imageFile = selectedFile;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              MIHTextField(
+                controller: _imagefileController,
+                hintText: "Selected Image File",
+                editable: false,
+                required: false,
+              ),
             ],
           ),
         ),
