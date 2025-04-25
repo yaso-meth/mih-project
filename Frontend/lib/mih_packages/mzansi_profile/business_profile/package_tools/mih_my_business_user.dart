@@ -55,8 +55,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
 
   Future<bool> uploadFile() async {
     if (userSignatureFile != null) {
-      print(userSignatureFile!.name);
-      print(userSignatureFile!.bytes);
       int uploadStatusCode = 0;
       uploadStatusCode = await MihFileApi.uploadFile(
         widget.arguments.signedInUser.app_id,
@@ -86,10 +84,8 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   }
 
   Future<void> submitForm() async {
-    print("Here 1");
     if (isFormFilled()) {
-      print("Here 1");
-      int statusCode = await MihMyBusinessUserApi().updateBusinessDetails(
+      int statusCode = await MihMyBusinessUserApi().updateBusinessUser(
         widget.arguments.signedInUser.app_id,
         widget.arguments.businessUser!.business_id,
         titleDropdownController.text,
@@ -98,9 +94,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
         context,
       );
       if (statusCode == 200) {
-        print("Here 1");
         bool successfullyUploadedFile = await uploadFile();
-        print("Here 4");
         if (successfullyUploadedFile) {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
@@ -259,12 +253,26 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   userSelectedfile: userPicFile,
                   frameColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   onChange: (_) {},
                 );
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}");
               } else {
-                return const Text("Error loading image");
+                return MihCircleAvatar(
+                  imageFile: null,
+                  width: 150,
+                  editable: false,
+                  fileNameController: fileNameController,
+                  userSelectedfile: userPicFile,
+                  frameColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: (_) {},
+                );
+                // return const Text("Error loading image");
               }
             },
           ),
@@ -319,7 +327,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
             width: 300,
             alignment: Alignment.topLeft,
             child: const Text(
-              "Signature",
+              "Signature:",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -352,6 +360,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 return MihImageDisplay(
                   imageFile: NetworkImage(snapshot.data.toString()),
                   width: 300,
+                  height: 200,
                   editable: true,
                   fileNameController: signtureController,
                   userSelectedfile: userSignatureFile,
@@ -364,7 +373,20 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}");
               } else {
-                return const Text("Error loading image");
+                return MihImageDisplay(
+                  imageFile: null,
+                  width: 300,
+                  height: 200,
+                  editable: true,
+                  fileNameController: signtureController,
+                  userSelectedfile: userSignatureFile,
+                  onChange: (selectedFile) {
+                    setState(() {
+                      userSignatureFile = selectedFile;
+                    });
+                  },
+                );
+                // return const Text("Error loading image");
               }
             },
           ),

@@ -277,6 +277,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 userSelectedfile: imageFile,
                 frameColor:
                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 onChange: (selectedfile) {
                   setState(() {
                     imageFile = selectedfile;
@@ -286,7 +288,23 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             } else if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
             } else {
-              return const Text("Error loading image");
+              return MihCircleAvatar(
+                imageFile: null,
+                width: 150,
+                editable: true,
+                fileNameController: fileNameController,
+                userSelectedfile: imageFile,
+                frameColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onChange: (selectedfile) {
+                  setState(() {
+                    imageFile = selectedfile;
+                  });
+                },
+              );
+              // return const Text("Error loading image");
             }
           },
         ),

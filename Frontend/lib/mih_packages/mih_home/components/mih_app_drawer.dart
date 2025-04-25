@@ -41,63 +41,56 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     //         onChange: (newProPic) {},
     //       ),
     //print(widget.propicFile);
-    ImageProvider logoFrame =
-        MzanziInnovationHub.of(context)!.theme.logoFrame();
-    if (widget.propicFile != null) {
-      return GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(
-            '/mzansi-profile',
-            arguments: AppProfileUpdateArguments(
-                widget.signedInUser, widget.propicFile),
-          );
-        },
-        child: MihCircleAvatar(
-          imageFile: widget.propicFile,
-          width: 60,
-          editable: false,
-          fileNameController: proPicController,
-          onChange: (_) {},
-          userSelectedfile: null,
-          frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        ),
-        // MIHProfilePicture(
-        //   profilePictureFile: widget.propicFile,
-        //   proPicController: proPicController,
-        //   proPic: null,
-        //   width: 60,
-        //   radius: 27,
-        //   drawerMode: true,
-        //   editable: false,
-        //   frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        //   onChange: (newProPic) {},
-        // ),
-
-        // Stack(
-        //   alignment: Alignment.center,
-        //   fit: StackFit.loose,
-        //   children: [
-        //     CircleAvatar(
-        //       backgroundColor:
-        //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        //       backgroundImage: widget.propicFile,
-        //       //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-        //       radius: 27,
-        //     ),
-        //     SizedBox(
-        //       width: 60,
-        //       child: Image(image: logoFrame),
-        //     )
-        //   ],
-        // ),
-      );
-    } else {
-      return SizedBox(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(
+          '/mzansi-profile',
+          arguments:
+              AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
+        );
+      },
+      child: MihCircleAvatar(
+        imageFile: widget.propicFile,
         width: 60,
-        child: Image(image: logoFrame),
-      );
-    }
+        editable: false,
+        fileNameController: proPicController,
+        onChange: (_) {},
+        userSelectedfile: null,
+        frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        backgroundColor:
+            MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      ),
+      // MIHProfilePicture(
+      //   profilePictureFile: widget.propicFile,
+      //   proPicController: proPicController,
+      //   proPic: null,
+      //   width: 60,
+      //   radius: 27,
+      //   drawerMode: true,
+      //   editable: false,
+      //   frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //   onChange: (newProPic) {},
+      // ),
+
+      // Stack(
+      //   alignment: Alignment.center,
+      //   fit: StackFit.loose,
+      //   children: [
+      //     CircleAvatar(
+      //       backgroundColor:
+      //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //       backgroundImage: widget.propicFile,
+      //       //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+      //       radius: 27,
+      //     ),
+      //     SizedBox(
+      //       width: 60,
+      //       child: Image(image: logoFrame),
+      //     )
+      //   ],
+      // ),
+    );
   }
 
   @override

@@ -13,6 +13,7 @@ class MihCircleAvatar extends StatefulWidget {
   final onChange;
   final PlatformFile? userSelectedfile;
   final Color frameColor;
+  final Color? backgroundColor;
   const MihCircleAvatar({
     super.key,
     required this.imageFile,
@@ -21,6 +22,7 @@ class MihCircleAvatar extends StatefulWidget {
     required this.fileNameController,
     required this.userSelectedfile,
     required this.frameColor,
+    required this.backgroundColor,
     required this.onChange,
   });
 
@@ -31,11 +33,29 @@ class MihCircleAvatar extends StatefulWidget {
 class _MihCircleAvatarState extends State<MihCircleAvatar> {
   late ImageProvider<Object>? imagePreview;
 
+  ImageProvider<Object>? getAvatar() {
+    Color dark = const Color(0XFF3A4454);
+    if (widget.imageFile == null) {
+      if (widget.backgroundColor == dark) {
+        print("here in light icon");
+        return const AssetImage(
+            'lib/mih_components/mih_package_components/assets/images/i-dont-know-light.png');
+      } else {
+        print("here in dark icon");
+        return const AssetImage(
+            'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
+      }
+    } else {
+      return widget.imageFile;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    print("Avatar started");
     setState(() {
-      imagePreview = widget.imageFile;
+      imagePreview = getAvatar();
     });
   }
 
@@ -51,7 +71,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
         children: [
           CircleAvatar(
             radius: widget.width / 2.2,
-            backgroundColor: widget.frameColor,
+            backgroundColor: widget.backgroundColor,
             backgroundImage: imagePreview,
           ),
           FittedBox(

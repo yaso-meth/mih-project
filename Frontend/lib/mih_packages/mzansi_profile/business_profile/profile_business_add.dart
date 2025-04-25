@@ -1,28 +1,26 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_business_details_apis.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../main.dart';
-import 'package:supertokens_flutter/http.dart' as http;
-import 'package:supertokens_flutter/supertokens.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http2;
-
-import '../../../mih_apis/mih_location_api.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../../mih_components/mih_layout/mih_action.dart';
-import '../../../mih_components/mih_layout/mih_body.dart';
-import '../../../mih_components/mih_layout/mih_header.dart';
-import '../../../mih_components/mih_layout/mih_layout_builder.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../../mih_env/env.dart';
-import '../../../mih_objects/app_user.dart';
 
 class ProfileBusinessAdd extends StatefulWidget {
   //final BusinessUserScreenArguments arguments;
@@ -56,48 +54,80 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final practiceNoController = TextEditingController();
   final vatNoController = TextEditingController();
 
-  late PlatformFile selectedLogo;
-  late PlatformFile selectedSignature;
+  ImageProvider<Object>? logoPreview;
+  ImageProvider<Object>? signaturePreview;
+  PlatformFile? selectedLogo;
+  PlatformFile? selectedSignature;
 
   final ValueNotifier<String> busType = ValueNotifier("");
 
-  Future<void> uploadSelectedFile(
-      PlatformFile file, TextEditingController controller) async {
-    var token = await SuperTokens.getAccessToken();
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
-    request.headers['accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.signedInUser.app_id;
-    request.fields['folder'] = "business_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    var response1 = await request.send();
-    if (response1.statusCode == 200) {
+  // Future<void> uploadSelectedFile(
+  // PlatformFile file, TextEditingController controller) async {
+  // var token = await supertokens.getaccesstoken();
+  // var request = http2.multipartrequest(
+  //     'post', uri.parse("${appenviroment.baseapiurl}/minio/upload/file/"));
+  // request.headers['accept'] = 'application/json';
+  // request.headers['authorization'] = 'bearer $token';
+  // request.headers['content-type'] = 'multipart/form-data';
+  // request.fields['app_id'] = widget.signedinuser.app_id;
+  // request.fields['folder'] = "business_files";
+  // request.files.add(await http2.multipartfile.frombytes('file', file.bytes!,
+  //     filename: file.name.replaceall(regexp(r' '), '-')));
+  // var response1 = await request.send();
+  // if (response1.statuscode == 200) {
+  // } else {
+  //   internetconnectionpopup();
+  // }
+  // }
+
+  Future<bool> uploadFile(String id, PlatformFile? selectedFile) async {
+    print("Inside uploud file method");
+    int uploadStatusCode = 0;
+    uploadStatusCode = await MihFileApi.uploadFile(
+      id,
+      "business_files",
+      selectedFile,
+      context,
+    );
+    print("Status code: $uploadStatusCode");
+    if (uploadStatusCode == 200) {
+      return true;
     } else {
-      internetConnectionPopUp();
+      return false;
     }
   }
 
   Future<void> createBusinessUserAPICall(String business_id) async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/business-user/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": business_id,
-        "app_id": widget.signedInUser.app_id,
-        "signature": signtureController.text,
-        "sig_path":
-            "${widget.signedInUser.app_id}/business_files/${signtureController.text}",
-        "title": titleController.text,
-        "access": accessController.text,
-      }),
+    print("Inside create bus user method");
+    int statusCode = await MihMyBusinessUserApi().createBusinessUser(
+      business_id,
+      widget.signedInUser.app_id,
+      signtureController.text,
+      titleController.text,
+      accessController.text,
+      context,
     );
-    if (response.statusCode == 201) {
-      uploadSelectedFile(selectedSignature, signtureController);
+    // var response = await http.post(
+    //   Uri.parse("$baseAPI/business-user/insert/"),
+    //   headers: <String, String>{
+    //     "Content-Type": "application/json; charset=UTF-8"
+    //   },
+    //   body: jsonEncode(<String, dynamic>{
+    //     "business_id": business_id,
+    //     "app_id": widget.signedInUser.app_id,
+    //     "signature": signtureController.text,
+    //     "sig_path":
+    //         "${widget.signedInUser.app_id}/business_files/${signtureController.text}",
+    //     "title": titleController.text,
+    //     "access": accessController.text,
+    //   }),
+    // );
+    print("Status code: $statusCode");
+    if (statusCode == 201) {
+      // uploadSelectedFile(selectedSignature, signtureController);
+      // bool successfullyUploadedFile =
+      //     await uploadFile(business_id, selectedSignature);
+      // if (successfullyUploadedFile) {
       Navigator.of(context).pop();
       Navigator.of(context).popAndPushNamed(
         '/',
@@ -106,44 +136,58 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);
+      // } else {
+      //   internetConnectionPopUp();
+      // }
     } else {
       internetConnectionPopUp();
     }
   }
 
   Future<void> createBusinessProfileAPICall() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
+    print("Inside create business profile method");
+    Response response = await MihBusinessDetailsApi().createBusinessDetails(
+      widget.signedInUser.app_id,
+      nameController.text,
+      typeController.text,
+      regController.text,
+      practiceNoController.text,
+      vatNoController.text,
+      emailController.text,
+      contactController.text,
+      locationController.text,
+      logonameController.text,
+      context,
     );
-
-    var response = await http.post(
-      Uri.parse("$baseAPI/business/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "Name": nameController.text,
-        "type": typeController.text,
-        "registration_no": regController.text,
-        "logo_name": logonameController.text,
-        "logo_path":
-            "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
-        "contact_no": contactController.text,
-        "bus_email": emailController.text,
-        "gps_location": locationController.text,
-        "practice_no": practiceNoController.text,
-        "vat_no": vatNoController.text,
-      }),
-    );
+    // var response = await http.post(
+    //   Uri.parse("$baseAPI/business/insert/"),
+    //   headers: <String, String>{
+    //     "Content-Type": "application/json; charset=UTF-8"
+    //   },
+    //   body: jsonEncode(<String, dynamic>{
+    //     "Name": nameController.text,
+    //     "type": typeController.text,
+    //     "registration_no": regController.text,
+    //     "logo_name": logonameController.text,
+    //     "logo_path":
+    //         "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
+    //     "contact_no": contactController.text,
+    //     "bus_email": emailController.text,
+    //     "gps_location": locationController.text,
+    //     "practice_no": practiceNoController.text,
+    //     "vat_no": vatNoController.text,
+    //   }),
+    // );
+    print(response.body);
     if (response.statusCode == 201) {
       var businessResponse = jsonDecode(response.body);
+      // bool successfullyUploadedFile =
+      //     await uploadFile(widget.signedInUser.app_id, selectedSignature);
+      // if (successfullyUploadedFile) {
       createBusinessUserAPICall(businessResponse['business_id']);
-
-      Navigator.of(context).pop();
-      // uploadSelectedFile(selectedLogo, logonameController);
+      // } else {
+      //   internetConnectionPopUp();
+      // }
     } else {
       internetConnectionPopUp();
     }
@@ -174,11 +218,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     if (nameController.text.isEmpty ||
         typeController.text.isEmpty ||
         regController.text.isEmpty ||
-        logonameController.text.isEmpty ||
+        // logonameController.text.isEmpty ||
         fnameController.text.isEmpty ||
         lnameController.text.isEmpty ||
         titleController.text.isEmpty ||
-        signtureController.text.isEmpty ||
+        // signtureController.text.isEmpty ||
         accessController.text.isEmpty ||
         contactController.text.isEmpty ||
         emailController.text.isEmpty) {
@@ -189,9 +233,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   }
 
   void submitForm() {
-    if (!validEmail()) {
+    if (!isEmailValid()) {
       emailError();
     } else if (isFieldsFilled()) {
+      print("Inside submit method");
       createBusinessProfileAPICall();
     } else {
       showDialog(
@@ -212,11 +257,17 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
   }
 
-  bool validEmail() {
+  bool isEmailValid() {
     String text = emailController.text;
     var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
     return regex.hasMatch(text);
   }
+
+  // bool validEmail() {
+  //   String text = emailController.text;
+  //   var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
+  //   return regex.hasMatch(text);
+  // }
 
   void typeSelected() {
     if (typeController.text.isNotEmpty) {
@@ -280,6 +331,33 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         .theme
                         .secondaryColor()),
                 const SizedBox(height: 10.0),
+                // MihCircleAvatar(
+                //   imageFile: logoPreview,
+                //   width: 150,
+                //   editable: true,
+                //   fileNameController: logonameController,
+                //   userSelectedfile: selectedLogo,
+                //   frameColor:
+                //       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                //   backgroundColor:
+                //       MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                //   onChange: (selectedfile) {
+                //     setState(() {
+                //       selectedLogo = selectedfile;
+                //     });
+                //   },
+                // ),
+                // const SizedBox(height: 10.0),
+                // Visibility(
+                //   visible: true,
+                //   child: MIHTextField(
+                //     controller: logonameController,
+                //     hintText: "Selected Logo File Name",
+                //     editable: false,
+                //     required: true,
+                //   ),
+                // ),
+                // const SizedBox(height: 10.0),
                 MIHTextField(
                   controller: regController,
                   hintText: "Registration No.",
@@ -339,27 +417,27 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   required: true,
                 ),
                 const SizedBox(height: 10.0),
-                MIHFileField(
-                  controller: logonameController,
-                  hintText: "Logo",
-                  editable: false,
-                  required: true,
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png', 'pdf'],
-                    );
-                    if (result == null) return;
-                    final selectedFile = result.files.first;
-                    setState(() {
-                      selectedLogo = selectedFile;
-                    });
-                    setState(() {
-                      logonameController.text = selectedFile.name;
-                    });
-                  },
-                ),
+                // MIHFileField(
+                //   controller: logonameController,
+                //   hintText: "Logo",
+                //   editable: false,
+                //   required: true,
+                //   onPressed: () async {
+                //     FilePickerResult? result =
+                //         await FilePicker.platform.pickFiles(
+                //       type: FileType.custom,
+                //       allowedExtensions: ['jpg', 'png', 'pdf'],
+                //     );
+                //     if (result == null) return;
+                //     final selectedFile = result.files.first;
+                //     setState(() {
+                //       selectedLogo = selectedFile;
+                //     });
+                //     setState(() {
+                //       logonameController.text = selectedFile.name;
+                //     });
+                //   },
+                // ),
                 const SizedBox(height: 10.0),
                 Row(
                   children: [
@@ -441,27 +519,59 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   required: true,
                 ),
                 const SizedBox(height: 10.0),
-                MIHFileField(
-                  controller: signtureController,
-                  hintText: "Signature",
-                  editable: false,
-                  required: true,
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png', 'pdf'],
-                    );
-                    if (result == null) return;
-                    final selectedFile = result.files.first;
-                    setState(() {
-                      selectedSignature = selectedFile;
-                    });
-                    setState(() {
-                      signtureController.text = selectedFile.name;
-                    });
-                  },
-                ),
+                // const SizedBox(height: 10),
+                // Container(
+                //   width: 300,
+                //   alignment: Alignment.topLeft,
+                //   child: const Text(
+                //     "Signature:",
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
+                // MihImageDisplay(
+                //   imageFile: signaturePreview,
+                //   width: 300,
+                //   editable: true,
+                //   fileNameController: signtureController,
+                //   userSelectedfile: selectedSignature,
+                //   onChange: (selectedFile) {
+                //     setState(() {
+                //       selectedSignature = selectedFile;
+                //     });
+                //   },
+                // ),
+                // const SizedBox(height: 10.0),
+                // MIHTextField(
+                //   controller: signtureController,
+                //   hintText: "Selected Signature File Name",
+                //   editable: false,
+                //   required: true,
+                // ),
+                const SizedBox(height: 10.0),
+                // MIHFileField(
+                //   controller: signtureController,
+                //   hintText: "Signature",
+                //   editable: false,
+                //   required: true,
+                //   onPressed: () async {
+                //     FilePickerResult? result =
+                //         await FilePicker.platform.pickFiles(
+                //       type: FileType.custom,
+                //       allowedExtensions: ['jpg', 'png', 'pdf'],
+                //     );
+                //     if (result == null) return;
+                //     final selectedFile = result.files.first;
+                //     setState(() {
+                //       selectedSignature = selectedFile;
+                //     });
+                //     setState(() {
+                //       signtureController.text = selectedFile.name;
+                //     });
+                //   },
+                // ),
                 const SizedBox(height: 15.0),
                 MIHDropdownField(
                   controller: accessController,

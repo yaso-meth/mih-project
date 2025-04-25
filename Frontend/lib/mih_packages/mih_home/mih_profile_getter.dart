@@ -35,17 +35,6 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
   ImageProvider<Object>? propicFile;
   int _selcetedIndex = 0;
 
-  ImageProvider<Object>? isPictureAvailable(String url) {
-    if (url == "") {
-      return const AssetImage(
-          'lib/mih_components/mih_package_components/assets/images/i-dont-know-2.png');
-    } else if (url != "") {
-      return NetworkImage(url);
-    } else {
-      return null;
-    }
-  }
-
   bool isUserNew(AppUser signedInUser) {
     if (signedInUser.fname == "") {
       return true;
@@ -249,7 +238,9 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               business: snapshot.data!.business,
               patient: snapshot.data!.patient,
               notifications: snapshot.data!.notifi,
-              propicFile: isPictureAvailable(snapshot.data!.profilePicUrl),
+              propicFile: snapshot.data!.profilePicUrl != ""
+                  ? NetworkImage(snapshot.data!.profilePicUrl)
+                  : null,
               isUserNew: isUserNew(snapshot.requireData.signedInUser),
               isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
               isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),

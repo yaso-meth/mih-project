@@ -7,8 +7,45 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMyBusinessUserApi {
+  Future<int> createBusinessUser(
+    String business_id,
+    String app_id,
+    String signatureFilename,
+    String title,
+    String access,
+    BuildContext context,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+    var response = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "app_id": app_id,
+        "signature": signatureFilename,
+        "sig_path": "$business_id/business_files/$signatureFilename",
+        "title": title,
+        "access": access,
+      }),
+    );
+    Navigator.of(context).pop();
+    if (response.statusCode == 201) {
+      return 201;
+    } else {
+      internetConnectionPopUp(context);
+      return 500;
+    }
+  }
+
   /// This function updates the business user details.
-  Future<int> updateBusinessDetails(
+  Future<int> updateBusinessUser(
     String app_id,
     String business_id,
     String bUserTitle,
