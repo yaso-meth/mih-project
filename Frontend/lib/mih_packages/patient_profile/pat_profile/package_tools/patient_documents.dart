@@ -171,7 +171,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         "sig_path": widget.businessUser!.sig_path,
       }),
     );
-    //print(response1.statusCode);
+    print(response1.statusCode);
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     String fileName =
