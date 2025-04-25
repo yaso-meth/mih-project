@@ -398,7 +398,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   ),
                   backgroundColor:
                       MzanziInnovationHub.of(context)!.theme.successColor(),
-                  onTap: () {},
+                  onTap: () {
+                    // addConsultationNotePopUp();
+                    addNotePopUp();
+                  },
                 )
               ],
             ),
