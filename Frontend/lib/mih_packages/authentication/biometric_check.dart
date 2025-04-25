@@ -261,7 +261,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // if (widget.firstBoot == true) authenticateUser();
+    if (widget.firstBoot == true) authenticateUser();
   }
 
   @override
@@ -280,7 +280,6 @@ class _BiometricCheckState extends State<BiometricCheck> {
           personalSelected: widget.personalSelected,
         );
       } else {
-        authenticateUser();
         return getBiomentricAuthScreen();
       }
     }
