@@ -129,6 +129,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                 AppSettings.openAppSettings(
                   type: AppSettingsType.security,
                 );
+                Navigator.of(context).pop();
               },
               buttonText: "Set Up Authentication",
               buttonColor:
