@@ -32,8 +32,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
         animatedIcon: widget.animatedIcon,
         direction: widget.direction ?? SpeedDialDirection.up,
         activeIcon: Icons.close,
-        backgroundColor:
-            MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
         activeBackgroundColor:
             MzanziInnovationHub.of(context)!.theme.errorColor(),
         foregroundColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
