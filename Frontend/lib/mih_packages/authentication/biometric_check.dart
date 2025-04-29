@@ -91,34 +91,18 @@ class _BiometricCheckState extends State<BiometricCheck> {
           setState(() {
             _isBioAuthenticated = true;
           });
+        } else {
+          authErrorPopUp();
         }
         // print("Authenticated: $didBioAuth");
       } catch (error) {
         print("Auth Error: $error");
         authErrorPopUp();
       }
+    } else {
+      print("Auth Error: No Biometrics Available");
+      authErrorPopUp();
     }
-    // else {
-    //   showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return MihAppAlert(
-    //         alertIcon: Icon(
-    //           Icons.warning,
-    //           color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //         ),
-    //         alertTitle: "Biometric Error",
-    //         alertBody: Text(
-    //           "Auth not allowed",
-    //           style: TextStyle(
-    //             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //           ),
-    //         ),
-    //         alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //       );
-    //     },
-    //   );
-    // }
   }
 
   void authErrorPopUp() {
