@@ -10,7 +10,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -18,9 +17,14 @@ import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihMyBusinessUser extends StatefulWidget {
   final BusinessArguments arguments;
+  final ImageProvider<Object>? userProPicImage;
+  final ImageProvider<Object>? userSignatureImage;
+
   const MihMyBusinessUser({
     super.key,
     required this.arguments,
+    required this.userProPicImage,
+    required this.userSignatureImage,
   });
 
   @override
@@ -28,8 +32,6 @@ class MihMyBusinessUser extends StatefulWidget {
 }
 
 class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
-  late Future<String> userPicUrlFuture;
-  late Future<String> userSignatureUrlFuture;
   PlatformFile? userPicFile;
   PlatformFile? userSignatureFile;
   final fileNameController = TextEditingController();
@@ -190,14 +192,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
       lnameController.text = widget.arguments.signedInUser.lname;
       accessController.text = widget.arguments.businessUser!.access;
     });
-    userPicUrlFuture = MihFileApi.getMinioFileUrl(
-      widget.arguments.signedInUser.pro_pic_path,
-      context,
-    );
-    userSignatureUrlFuture = MihFileApi.getMinioFileUrl(
-      widget.arguments.businessUser!.sig_path,
-      context,
-    );
   }
 
   @override
@@ -222,59 +216,16 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
           Divider(
               color: MzanziInnovationHub.of(context)?.theme.secondaryColor()),
           const SizedBox(height: 10),
-          FutureBuilder(
-            future: userPicUrlFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  // alignment: Alignment.center,
-                  width: 150,
-                  height: 150,
-                  child: FittedBox(
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
-                    child: Icon(
-                      MihIcons.mihCircleFrame,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data.toString().isNotEmpty) {
-                return MihCircleAvatar(
-                  imageFile: NetworkImage(snapshot.data.toString()),
-                  width: 150,
-                  editable: false,
-                  fileNameController: fileNameController,
-                  userSelectedfile: userPicFile,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: (_) {},
-                );
-              } else if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                return MihCircleAvatar(
-                  imageFile: null,
-                  width: 150,
-                  editable: false,
-                  fileNameController: fileNameController,
-                  userSelectedfile: userPicFile,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: (_) {},
-                );
-                // return const Text("Error loading image");
-              }
-            },
+          MihCircleAvatar(
+            imageFile: widget.userProPicImage,
+            width: 150,
+            editable: false,
+            fileNameController: fileNameController,
+            userSelectedfile: userPicFile,
+            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onChange: (_) {},
           ),
           Visibility(
             visible: false,
@@ -334,73 +285,17 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               ),
             ),
           ),
-          FutureBuilder(
-            future: userSignatureUrlFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return MihImageDisplay(
-                  imageFile: null,
-                  width: 300,
-                  height: 200,
-                  editable: true,
-                  fileNameController: signtureController,
-                  userSelectedfile: userSignatureFile,
-                  onChange: (selectedFile) {
-                    setState(() {
-                      userSignatureFile = selectedFile;
-                    });
-                  },
-                );
-                // return Container(
-                //   // alignment: Alignment.center,
-                //   width: 300,
-                //   height: 200,
-                //   child: FittedBox(
-                //     alignment: Alignment.center,
-                //     fit: BoxFit.fill,
-                //     child: Icon(
-                //       MihIcons.mihCircleFrame,
-                //       color: MzanziInnovationHub.of(context)!
-                //           .theme
-                //           .secondaryColor(),
-                //     ),
-                //   ),
-                // );
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null &&
-                  snapshot.data.toString().isNotEmpty) {
-                return MihImageDisplay(
-                  imageFile: NetworkImage(snapshot.data.toString()),
-                  width: 300,
-                  height: 200,
-                  editable: true,
-                  fileNameController: signtureController,
-                  userSelectedfile: userSignatureFile,
-                  onChange: (selectedFile) {
-                    setState(() {
-                      userSignatureFile = selectedFile;
-                    });
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                return MihImageDisplay(
-                  imageFile: null,
-                  width: 300,
-                  height: 200,
-                  editable: true,
-                  fileNameController: signtureController,
-                  userSelectedfile: userSignatureFile,
-                  onChange: (selectedFile) {
-                    setState(() {
-                      userSignatureFile = selectedFile;
-                    });
-                  },
-                );
-                // return const Text("Error loading image");
-              }
+          MihImageDisplay(
+            imageFile: widget.userSignatureImage,
+            width: 300,
+            height: 200,
+            editable: true,
+            fileNameController: signtureController,
+            userSelectedfile: userSignatureFile,
+            onChange: (selectedFile) {
+              setState(() {
+                userSignatureFile = selectedFile;
+              });
             },
           ),
           const SizedBox(height: 10),

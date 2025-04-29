@@ -10,16 +10,17 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihBusinessDetails extends StatefulWidget {
   final BusinessArguments arguments;
+  final ImageProvider<Object>? logoImage;
   const MihBusinessDetails({
     super.key,
     required this.arguments,
+    required this.logoImage,
   });
 
   @override
@@ -27,7 +28,6 @@ class MihBusinessDetails extends StatefulWidget {
 }
 
 class _MihBusinessDetailsState extends State<MihBusinessDetails> {
-  late Future<String> fileUrlFuture;
   PlatformFile? imageFile;
   final fileNameController = TextEditingController();
   final regController = TextEditingController();
@@ -220,10 +220,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
       emailController.text = widget.arguments.business!.bus_email;
       locationController.text = widget.arguments.business!.gps_location;
     });
-    fileUrlFuture = MihFileApi.getMinioFileUrl(
-      widget.arguments.business!.logo_path,
-      context,
-    );
   }
 
   @override
@@ -247,65 +243,19 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         ),
         Divider(color: MzanziInnovationHub.of(context)?.theme.secondaryColor()),
         const SizedBox(height: 10),
-        FutureBuilder(
-          future: fileUrlFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                // alignment: Alignment.center,
-                width: 150,
-                height: 150,
-                child: FittedBox(
-                  alignment: Alignment.center,
-                  fit: BoxFit.fill,
-                  child: Icon(
-                    MihIcons.mihCircleFrame,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                ),
-              );
-            } else if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData &&
-                snapshot.data != null &&
-                snapshot.data.toString().isNotEmpty) {
-              return MihCircleAvatar(
-                imageFile: NetworkImage(snapshot.data.toString()),
-                width: 150,
-                editable: true,
-                fileNameController: fileNameController,
-                userSelectedfile: imageFile,
-                frameColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onChange: (selectedfile) {
-                  setState(() {
-                    imageFile = selectedfile;
-                  });
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            } else {
-              return MihCircleAvatar(
-                imageFile: null,
-                width: 150,
-                editable: true,
-                fileNameController: fileNameController,
-                userSelectedfile: imageFile,
-                frameColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onChange: (selectedfile) {
-                  setState(() {
-                    imageFile = selectedfile;
-                  });
-                },
-              );
-              // return const Text("Error loading image");
-            }
+        MihCircleAvatar(
+          imageFile: widget.logoImage,
+          width: 150,
+          editable: true,
+          fileNameController: fileNameController,
+          userSelectedfile: imageFile,
+          frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          onChange: (selectedfile) {
+            setState(() {
+              imageFile = selectedfile;
+            });
           },
         ),
         Visibility(
