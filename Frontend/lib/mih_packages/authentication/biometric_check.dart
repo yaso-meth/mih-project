@@ -116,24 +116,43 @@ class _BiometricCheckState extends State<BiometricCheck> {
       alertBody: Column(
         children: [
           Text(
-            "Hi there! To jump into the MIH Home Package, you'll need to set up biometric authentication (like fingerprint or face ID) on your device first. It looks like it's not quite ready yet.\n\nPlease head over to your device's settings to enable it, or press the button below to start the set up process now.",
+            "Hi there! To jump into the MIH Home Package, you'll need to authenticate yourself with your phones biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
             style: TextStyle(
+              fontSize: 15,
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           const SizedBox(height: 20),
+          Wrap(
+            children: [
+              SizedBox(
+                width: 300,
+                child: MIHButton(
+                  onTap: () {
+                    AppSettings.openAppSettings(
+                      type: AppSettingsType.security,
+                    );
+                    Navigator.of(context).pop();
+                  },
+                  buttonText: "Set Up Authentication",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
             width: 300,
             child: MIHButton(
               onTap: () {
-                AppSettings.openAppSettings(
-                  type: AppSettingsType.security,
-                );
                 Navigator.of(context).pop();
+                authenticateUser();
               },
-              buttonText: "Set Up Authentication",
+              buttonText: "Authenticate Now",
               buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
           )
@@ -205,7 +224,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                       width: 500.0,
                       height: 50.0,
                       child: MIHButton(
-                        buttonText: "Unlock",
+                        buttonText: "Authenticate Now",
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
