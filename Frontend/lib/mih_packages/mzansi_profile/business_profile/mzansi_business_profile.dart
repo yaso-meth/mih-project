@@ -1,6 +1,8 @@
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
@@ -21,6 +23,27 @@ class MzansiBusinessProfile extends StatefulWidget {
 
 class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
   int _selcetedIndex = 0;
+  late Future<String> futureLogoUrl;
+  late Future<String> futureProPicUrl;
+  late Future<String> futureUserSignatureUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    futureLogoUrl = MihFileApi.getMinioFileUrl(
+      widget.arguments.business!.logo_path,
+      context,
+    );
+    futureProPicUrl = MihFileApi.getMinioFileUrl(
+      widget.arguments.signedInUser.pro_pic_path,
+      context,
+    );
+    futureUserSignatureUrl = MihFileApi.getMinioFileUrl(
+      widget.arguments.businessUser!.sig_path,
+      context,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihApp(
@@ -82,8 +105,40 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      MihBusinessDetails(arguments: widget.arguments),
-      MihMyBusinessUser(arguments: widget.arguments),
+      FutureBuilder(
+          future: futureLogoUrl,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: Mihloadingcircle());
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              return MihBusinessDetails(
+                arguments: widget.arguments,
+                logoImage: NetworkImage(snapshot.requireData),
+              );
+            } else {
+              return Text("Error: ${snapshot.error}");
+            }
+          }),
+      FutureBuilder<List<String>>(
+        future: Future.wait([futureProPicUrl, futureUserSignatureUrl]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: Mihloadingcircle());
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            final proPicUrl = NetworkImage(snapshot.data![0]);
+            final signatureUrl = NetworkImage(snapshot.data![1]);
+            return MihMyBusinessUser(
+              arguments: widget.arguments,
+              userProPicImage: proPicUrl,
+              userSignatureImage: signatureUrl,
+            );
+          } else {
+            return Text("Error: ${snapshot.error}");
+          }
+        },
+      ),
       // MihBusinessProfile(arguments: widget.arguments),
       MihMyBusinessTeam(arguments: widget.arguments),
       MihBusinessUserSearch(arguments: widget.arguments),
