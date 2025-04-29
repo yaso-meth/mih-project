@@ -152,7 +152,7 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
     path = requestItem.file_path
     try:
         # uploudFile(app_id, file.filename, extension[1], content)
-        client = Minio_Storage.minioConnection.minioConnect("Prd")
+        client = Minio_Storage.minioConnection.minioConnect("Prod")
     
         minioError = client.remove_object("mih", path)
     except Exception as error:
