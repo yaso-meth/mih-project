@@ -25,7 +25,8 @@ class _MihInfoState extends State<MihInfo> {
       Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
   final Uri _whatsappUrl =
       Uri.parse('https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F');
-
+  final Uri _twitch = Uri.parse('https://www.twitch.tv/mzansi_innovation_hub');
+  final Uri _kick = Uri.parse('https://kick.com/mzansi-innovation-hub');
   final Uri _threadsUrl =
       Uri.parse('https://www.threads.net/@mzansi.innovation.hub');
   final Uri _instagramUrl =
@@ -387,7 +388,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
         SizedBox(
           width: 500,
-          height: 450,
+          height: 600,
           child: GridView.builder(
             padding: const EdgeInsets.only(
                 // left: width / 10,
@@ -435,6 +436,22 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          size: 200,
+        ),
+      ),
+      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    ));
+    //==================================================================
+    socials.add(MIHTile(
+      onTap: () {
+        launchSocialUrl(_twitch);
+      },
+      tileName: "Twitch",
+      tileIcon: Center(
+        child: FaIcon(
+          FontAwesomeIcons.twitch,
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
@@ -551,6 +568,30 @@ class _MihInfoState extends State<MihInfo> {
           color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
+      ),
+      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+    ));
+    //==================================================================
+    socials.add(MIHTile(
+      onTap: () {
+        launchSocialUrl(_kick);
+      },
+      tileName: "Kick",
+      tileIcon: Center(
+        child: Text(
+          "KICK",
+          style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+            fontSize: 100,
+          ),
+        ),
+        // FaIcon(
+        //   FontAwesomeIcons.tv,
+        //   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   size: 200,
+        // ),
       ),
       p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
