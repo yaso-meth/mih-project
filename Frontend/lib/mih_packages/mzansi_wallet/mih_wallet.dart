@@ -59,14 +59,14 @@ class _MihWalletState extends State<MihWallet> {
 
   MihAppTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.favorite)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
-    };
     temp[const Icon(Icons.card_membership)] = () {
       setState(() {
         _selcetedIndex = 1;
+      });
+    };
+    temp[const Icon(Icons.favorite)] = () {
+      setState(() {
+        _selcetedIndex = 0;
       });
     };
 
