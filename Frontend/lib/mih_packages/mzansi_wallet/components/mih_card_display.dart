@@ -109,6 +109,45 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
       case "signature cosmetics & fragrances":
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/signature_cosmetics-min.png');
+      case "ok foods":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/ok_food-min.png');
+      case "choppies":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/choppies-min.png');
+      case "boxer":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/boxer-min.png');
+      case "carrefour":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/carrefour-min.png');
+      case "sefalana":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/sefalana-min.png');
+      case "big save":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/big_save-min.png');
+      case "justrite":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/justrite-min.png');
+      case "naivas":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/naivas-min.png');
+      case "kero":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/kero-min.png');
+      case "auchan":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/auchan-min.png');
+      case "woermann brock":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/woermann_brock-min.png');
+      case "continente":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/continente-min.png');
+      case "fresmart":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/fresmart-min.png');
       default:
         return const Placeholder();
     }
