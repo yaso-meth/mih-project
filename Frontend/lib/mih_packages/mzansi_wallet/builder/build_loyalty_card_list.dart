@@ -318,7 +318,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         itemCount: widget.cardList.length,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           mainAxisSpacing: 0,
-          crossAxisSpacing: 10,
+          crossAxisSpacing: 5,
           maxCrossAxisExtent: 200,
         ),
         itemBuilder: (context, index) {

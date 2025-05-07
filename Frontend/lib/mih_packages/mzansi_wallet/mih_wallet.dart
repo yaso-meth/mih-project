@@ -78,10 +78,10 @@ class _MihWalletState extends State<MihWallet> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      MihCardFavourites(
+      MihCards(
         signedInUser: widget.arguments.signedInUser,
       ),
-      MihCards(
+      MihCardFavourites(
         signedInUser: widget.arguments.signedInUser,
       ),
     ];
