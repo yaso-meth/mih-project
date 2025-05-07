@@ -99,6 +99,8 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
       child: Scaffold(
         drawer: widget.actionDrawer,
         body: SafeArea(
+          bottom: false,
+          minimum: EdgeInsets.only(bottom: 5),
           child: Container(
             width: screenSize.width,
             height: screenSize.height,
@@ -114,6 +116,7 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
                     Flexible(child: widget.appTools),
                   ],
                 ),
+                const SizedBox(height: 5),
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,

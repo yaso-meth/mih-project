@@ -15,6 +15,8 @@ class _MihSingleChildScrollState extends State<MihSingleChildScroll> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
+      minimum: EdgeInsets.only(bottom: 5),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
         child: SingleChildScrollView(
