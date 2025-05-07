@@ -155,6 +155,9 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    return displayLoyaltyCard();
+    return SizedBox(
+      width: 500,
+      child: displayLoyaltyCard(),
+    );
   }
 }
