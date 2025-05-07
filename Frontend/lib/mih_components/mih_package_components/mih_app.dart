@@ -1,3 +1,4 @@
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:flutter/material.dart';
@@ -82,11 +83,12 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-
-    // Trigger the peak animation on start (or call this elsewhere)
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _peakAnimation();
-    });
+    if (!MzanziInnovationHub.of(context)!.theme.kIsWeb) {
+      // Trigger the peak animation on start (or call this elsewhere)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _peakAnimation();
+      });
+    }
   }
 
   @override
