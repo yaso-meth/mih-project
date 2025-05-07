@@ -25,17 +25,41 @@ class MihApp extends StatefulWidget {
   State<MihApp> createState() => _MihAppState();
 }
 
-class _MihAppState extends State<MihApp> {
+class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
   late PageController _pageController;
+  late AnimationController _animationController;
 
   void unfocusAll() {
     FocusScope.of(context).unfocus();
+  }
+
+  Future<void> _peakAnimation() async {
+    int currentPage = widget.selectedbodyIndex;
+    double peakOffset = _pageController.position.viewportDimension * 0.05;
+    double currentOffset =
+        _pageController.page! * _pageController.position.viewportDimension;
+    int nextPage =
+        currentPage + 1 < widget.appBody.length ? currentPage + 1 : currentPage;
+    if (nextPage != currentPage) {
+      await Future.delayed(const Duration(milliseconds: 150));
+      await _pageController.animateTo(
+        currentOffset + peakOffset,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+      await _pageController.animateTo(
+        currentPage * _pageController.position.viewportDimension,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
+    _animationController.dispose();
   }
 
   @override
@@ -54,6 +78,15 @@ class _MihAppState extends State<MihApp> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.selectedbodyIndex);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    // Trigger the peak animation on start (or call this elsewhere)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _peakAnimation();
+    });
   }
 
   @override
