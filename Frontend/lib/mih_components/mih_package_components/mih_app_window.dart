@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 
 class MihAppWindow extends StatefulWidget {
   final String windowTitle;
@@ -134,20 +135,29 @@ class _MihAppWindowState extends State<MihAppWindow> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   getWindowHeader(),
-                  Expanded(child: widget.windowBody),
+                  Expanded(
+                      child: SingleChildScrollView(child: widget.windowBody)),
                 ],
               )
             : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   getWindowHeader(),
-                  Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        bottom: 15,
-                      ),
-                      child: widget.windowBody),
+                  Flexible(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          bottom: 15,
+                        ),
+                        child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight: windowHeight * 0.7,
+                              maxWidth: windowWidth * 0.7,
+                            ),
+                            child: MihSingleChildScroll(
+                                child: widget.windowBody))),
+                  ),
                 ],
               ),
       ),
