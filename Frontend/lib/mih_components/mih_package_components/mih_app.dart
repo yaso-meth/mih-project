@@ -36,18 +36,19 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
 
   Future<void> _peakAnimation() async {
     int currentPage = widget.selectedbodyIndex;
-    double peakOffset = _pageController.position.viewportDimension * 0.05;
+    double peakOffset = _pageController.position.viewportDimension * 0.075;
     double currentOffset =
         _pageController.page! * _pageController.position.viewportDimension;
     int nextPage =
         currentPage + 1 < widget.appBody.length ? currentPage + 1 : currentPage;
     if (nextPage != currentPage) {
-      await Future.delayed(const Duration(milliseconds: 150));
+      await Future.delayed(const Duration(milliseconds: 300));
       await _pageController.animateTo(
         currentOffset + peakOffset,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
+      // await Future.delayed(const Duration(milliseconds: 100));
       await _pageController.animateTo(
         currentPage * _pageController.position.viewportDimension,
         duration: const Duration(milliseconds: 300),
