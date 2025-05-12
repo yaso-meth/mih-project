@@ -216,8 +216,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           Navigator.pop(context);
         },
         windowBody: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Container(
+              width: 500,
               child: MihCardDisplay(
                   shopName: widget.cardList[index].shop_name, height: 250),
             ),
@@ -236,7 +238,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     padding: const EdgeInsets.all(10.0),
                     child: SizedBox(
                       height: 75,
-                      width: 300,
+                      // width: 300,
                       child: BarcodeWidget(
                         //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                         barcode: Barcode.code128(),

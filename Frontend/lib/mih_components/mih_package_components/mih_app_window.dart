@@ -145,15 +145,15 @@ class _MihAppWindowState extends State<MihAppWindow> {
                   getWindowHeader(),
                   Flexible(
                     child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          bottom: 15,
+                        padding: EdgeInsets.only(
+                          left: horizontralWindowPadding,
+                          right: horizontralWindowPadding,
+                          bottom: vertticalWindowPadding,
                         ),
                         child: ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxHeight: windowHeight * 0.7,
-                              maxWidth: windowWidth * 0.7,
+                              maxHeight: windowHeight * 0.85,
+                              maxWidth: windowWidth * 0.85,
                             ),
                             child: MihSingleChildScroll(
                                 child: widget.windowBody))),
