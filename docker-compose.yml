@@ -97,7 +97,7 @@ services:
     networks:
       - MIH-network
     profiles: [ 'prod' ]
-  #============== Flutter App ====================================================================
+  #============== MIH-UX Flutter ====================================================================
   user-interface:
     container_name: MIH-UX
     build:
@@ -108,7 +108,7 @@ services:
       - MIH-network
     depends_on:
       - api
-  #============== Cert Not ==================================================================== 
+  #============== Cert Bot ==================================================================== 
   certbot:
     image: certbot/certbot
     container_name: certbot
@@ -116,7 +116,7 @@ services:
       - certbotConf:/etc/letsencrypt
       - certbotChall:/var/www/certbot
     #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d app.mzansi-innovation-hub.co.za -d api.mzansi-innovation-hub.co.za -d minio.mzansi-innovation-hub.co.za -d monitor.mzansi-innovation-hub.co.za -d ai.mzansi-innovation-hub.co.za --agree-tos
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email ${CERTBOT_EMAIL} -d ${CERTBOT_APP_DOMAIN} -d ${CERTBOT_API_DOMAIN} -d ${CERTBOT_STORAGE_DOMAIN} -d ${CERTBOT_MONITOR_DOMAIN} -d ${CERTBOT_AI_DOMAIN} --agree-tos
     networks:
       - MIH-network
     depends_on:
@@ -138,7 +138,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PW}
     networks:
       - MIH-network
-  #============== Minio File Storage ==================================================================== 
+  #============== MIH-Monitor Portainer ==================================================================== 
   portainer:
     container_name: MIH-Monitor
     image: portainer/portainer-ce:2.20.3
@@ -150,7 +150,7 @@ services:
     restart: unless-stopped
     networks:
       - MIH-network
-  #============== Minio File Storage ==================================================================== 
+  #============== MIH-AI Ollama ==================================================================== 
   ollama:
     container_name: MIH-AI
     image: ollama/ollama:latest
@@ -168,26 +168,35 @@ services:
       - OLLAMA_HOST=0.0.0.0
     networks:
       - MIH-network
-  #============== Firebaase ====================================================================   
-  # firebase:
-  #   container_name: MIH-firebase-emulator
-  #   build:
-  #     context: ./Firebase-emulator
-  #   environment:
-  #     DATA_DIRECTORY: "firebase/data"
-  #     FIREBASE_PROJECT: "mzansi-innovation-hub"
-  #   ports:
-  #     - 8082:8080 # FIRESTORE_PORT
-  #     - 5005:5005 # FIRESTORE_WS_PORT
-  #     - 4000:4000 # UI_PORT
-  #     - 9099:9099 # AUTH_PORT
-  #     - 5000:6001 # Hosting
-  #   volumes:
-  #     - ./Firebase-emulator:/srv/firebase:rw
-  #     # - ./cache:/root/.cache/:rw
-  #     # - ~/.config/:/root/.config
-  #     - ./Firebase-emulator/firebase/data:/srv/firebase/data:rw
-  #============== Named Volumes ====================================================================   
+    # === Added section for NVIDIA GPU acceleration ===
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all # or specify a number of GPUs
+    #           capabilities: [ gpu ]
+    #============== Firebaase ====================================================================   
+    # firebase:
+    #   container_name: MIH-firebase-emulator
+    #   build:
+    #     context: ./Firebase-emulator
+    #   environment:
+    #     DATA_DIRECTORY: "firebase/data"
+    #     FIREBASE_PROJECT: "mzansi-innovation-hub"
+    #   ports:
+    #     - 8082:8080 # FIRESTORE_PORT
+    #     - 5005:5005 # FIRESTORE_WS_PORT
+    #     - 4000:4000 # UI_PORT
+    #     - 9099:9099 # AUTH_PORT
+    #     - 5000:6001 # Hosting
+    #   volumes:
+    #     - ./Firebase-emulator:/srv/firebase:rw
+    #     # - ./cache:/root/.cache/:rw
+    #     # - ~/.config/:/root/.config
+    #     - ./Firebase-emulator/firebase/data:/srv/firebase/data:rw
+    #============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
   certbotChall:
