@@ -14,7 +14,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tiles/pat_manager_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MihBusinessHome extends StatefulWidget {
   final AppUser signedInUser;
@@ -35,12 +34,32 @@ class MihBusinessHome extends StatefulWidget {
   State<MihBusinessHome> createState() => _MihBusinessHomeState();
 }
 
-class _MihBusinessHomeState extends State<MihBusinessHome> {
+class _MihBusinessHomeState extends State<MihBusinessHome>
+    with SingleTickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
   late List<Map<String, Widget>> businessPackagesMap;
   final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
       ValueNotifier([]);
   double packageSize = 200;
+  late final AnimationController _marqueeController;
+  late final ScrollController _scrollController;
+  final String maintenanceMsg =
+      "\tHeads up! We're doing maintenance on Thur, 15 May 2025 at 10 PM (CAT). MIH may be unavailable briefly.";
+
+  void _startMarquee() async {
+    while (mounted) {
+      final double maxScroll = _scrollController.position.maxScrollExtent;
+      await Future.delayed(const Duration(milliseconds: 500));
+      await _scrollController.animateTo(
+        maxScroll,
+        duration: _marqueeController.duration!,
+        curve: Curves.linear,
+      );
+      await Future.delayed(const Duration(milliseconds: 500));
+      _scrollController.jumpTo(0);
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+  }
 
   List<Map<String, Widget>> setNewBusinessUserPackages() {
     List<Map<String, Widget>> temp = [];
@@ -157,6 +176,12 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
       businessPackagesMap = setBusinessPackages();
     }
     searchPackage();
+    _marqueeController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 12),
+    );
+    _scrollController = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startMarquee());
   }
 
   @override
@@ -174,6 +199,44 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
     return MihSingleChildScroll(
       child: Column(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            ),
+            height: 40,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  size: 40,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      maintenanceMsg,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
           const Text(
             "Business Home",
             style: TextStyle(
@@ -237,7 +300,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome> {
                 itemCount: filteredPackages.length,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: packageSize,
-                  crossAxisSpacing: 5,
                 ),
                 itemBuilder: (context, index) {
                   return filteredPackages[index];
