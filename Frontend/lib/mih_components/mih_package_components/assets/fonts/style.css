@@ -1,0 +1,83 @@
+@font-face {
+  font-family: 'Mih_Icons';
+  src: url('fonts/Mih_Icons.eot?h906ip');
+  src: url('fonts/Mih_Icons.eot?h906ip#iefix') format('embedded-opentype'),
+    url('fonts/Mih_Icons.ttf?h906ip') format('truetype'),
+    url('fonts/Mih_Icons.woff?h906ip') format('woff'),
+    url('fonts/Mih_Icons.svg?h906ip#Mih_Icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Mih_Icons' !important;
+  /* speak: never; */
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-i_dont_know:before {
+  content: "\e90d";
+}
+
+.icon-business_setup:before {
+  content: "\e90b";
+}
+
+.icon-profile_setup:before {
+  content: "\e90c";
+}
+
+.icon-mih_ring:before {
+  content: "\e90a";
+}
+
+.icon-about_mih:before {
+  content: "\e900";
+}
+
+.icon-access_control:before {
+  content: "\e901";
+}
+
+.icon-business_profile:before {
+  content: "\e902";
+}
+
+.icon-calculator:before {
+  content: "\e903";
+}
+
+.icon-calendar:before {
+  content: "\e904";
+}
+
+.icon-mih_logo:before {
+  content: "\e905";
+}
+
+.icon-mzansi_ai:before {
+  content: "\e906";
+}
+
+.icon-mzansi_wallet:before {
+  content: "\e907";
+}
+
+.icon-patient_manager:before {
+  content: "\e908";
+}
+
+.icon-patient_profile:before {
+  content: "\e909";
+}
