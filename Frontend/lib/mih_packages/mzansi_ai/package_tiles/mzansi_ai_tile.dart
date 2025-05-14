@@ -29,19 +29,10 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
         );
       },
       appName: "Mzansi AI",
-      appIcon: Container(
-        padding: const EdgeInsets.all(1),
-        alignment: Alignment.center,
-        // color: Colors.black,
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: Icon(
-            MihIcons.mzansiAiLogo,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            // size: widget.packageSize,
-          ),
-        ),
-        // child: Image(image: logo),
+      appIcon: Icon(
+        MihIcons.mzansiAi,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

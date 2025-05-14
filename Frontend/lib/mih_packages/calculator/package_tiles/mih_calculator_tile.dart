@@ -1,6 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 
 class MihCalculatorTile extends StatefulWidget {
   final bool personalSelected;
@@ -27,12 +28,10 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
         );
       },
       appName: "Calculator",
-      appIcon: Container(
-        padding: const EdgeInsets.all(0),
-        child: Icon(
-          Icons.calculate,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        ),
+      appIcon: Icon(
+        MihIcons.calculator,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

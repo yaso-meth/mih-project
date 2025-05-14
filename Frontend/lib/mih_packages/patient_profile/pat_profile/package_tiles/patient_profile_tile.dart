@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +29,11 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
         );
       },
       appName: "Patient Profile",
-      appIcon: Container(
-          padding: const EdgeInsets.all(15),
-          child: Icon(
-            Icons.medical_information_outlined,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            size: widget.packageSize,
-          )),
+      appIcon: Icon(
+        MihIcons.patientProfile,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
+      ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),

@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +29,10 @@ class _MzansiCalendarTileState extends State<MzansiCalendarTile> {
         );
       },
       appName: "Calendar",
-      appIcon: Container(
-        padding: const EdgeInsets.all(0.5),
-        child: Icon(
-          Icons.calendar_month,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        ),
+      appIcon: Icon(
+        MihIcons.calendar,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

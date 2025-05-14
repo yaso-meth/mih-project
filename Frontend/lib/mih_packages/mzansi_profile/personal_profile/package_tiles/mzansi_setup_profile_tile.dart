@@ -35,16 +35,10 @@ class _MzansiSetupProfileTileState extends State<MzansiSetupProfileTile> {
         );
       },
       appName: "Setup Profile",
-      appIcon: Container(
-        padding: const EdgeInsets.all(1),
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: Icon(
-            MihIcons.mihLogo,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            // size: widget.packageSize,
-          ),
-        ),
+      appIcon: Icon(
+        MihIcons.profileSetup,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
