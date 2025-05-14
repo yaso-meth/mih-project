@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihWalletTile extends StatefulWidget {
@@ -30,15 +30,12 @@ class _MihWalletTileState extends State<MihWalletTile> {
         );
       },
       appName: "Mzansi Wallet",
-      appIcon: Container(
-        padding: const EdgeInsets.all(25),
-        child: FaIcon(
-          FontAwesomeIcons.wallet,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          size: widget.packageSize,
-        ),
+      appIcon: Icon(
+        MihIcons.mzansiWallet,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
-      iconSize: 200,
+      iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
     );

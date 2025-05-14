@@ -78,7 +78,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
             fit: BoxFit.fill,
             child: Icon(
               size: widget.width,
-              MihIcons.mihCircleFrame,
+              MihIcons.mihRing,
               color: widget.frameColor,
             ),
           ),

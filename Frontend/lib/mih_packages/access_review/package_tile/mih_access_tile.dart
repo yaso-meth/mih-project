@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 
@@ -27,13 +28,11 @@ class _MihAccessTileState extends State<MihAccessTile> {
           arguments: widget.signedInUser,
         );
       },
-      appName: "MIH Access",
-      appIcon: Container(
-        padding: const EdgeInsets.all(1),
-        child: Icon(
-          Icons.check_box,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        ),
+      appName: "Access Controls",
+      appIcon: Icon(
+        MihIcons.accessControl,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

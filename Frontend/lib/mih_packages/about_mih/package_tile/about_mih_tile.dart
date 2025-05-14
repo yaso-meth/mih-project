@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 
 class AboutMihTile extends StatefulWidget {
   final double packageSize;
@@ -25,19 +25,11 @@ class _AboutMihTileState extends State<AboutMihTile> {
         );
       },
       appName: "About MIH",
-      appIcon: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(25),
-        child: FaIcon(
-          FontAwesomeIcons.circleInfo,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          size: widget.packageSize,
-        ),
+      appIcon: Icon(
+        MihIcons.aboutMih,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        // size: widget.packageSize,
       ),
-      // Icon(
-      //   Icons.info,
-      //   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-      // ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),

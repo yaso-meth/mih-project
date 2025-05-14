@@ -190,7 +190,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     final double width = size.width;
     final double height = size.height;
     return MihAppToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(width, height),
     );
   }

@@ -28,7 +28,6 @@ import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../mih_components/mih_profile_picture.dart';
 import '../../mih_env/env.dart';
 import '../../mih_objects/app_user.dart';
 import '../../mih_objects/arguments.dart';
@@ -985,18 +984,18 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
     return Builder(builder: (context) {
       return MIHAction(
         icon: Padding(
-          padding: const EdgeInsets.only(left: 5.0),
-          child: MIHProfilePicture(
-            profilePictureFile: widget.propicFile,
-            proPicController: proPicController,
-            proPic: null,
-            width: 45,
-            radius: 21,
-            drawerMode: false,
-            editable: false,
-            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            onChange: (newProPic) {},
-          ),
+          padding: const EdgeInsets.only(left: 5.0), child: Placeholder(),
+          // MIHProfilePicture(
+          //   profilePictureFile: widget.propicFile,
+          //   proPicController: proPicController,
+          //   proPic: null,
+          //   width: 45,
+          //   radius: 21,
+          //   drawerMode: false,
+          //   editable: false,
+          //   frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   onChange: (newProPic) {},
+          // ),
         ),
         // const Icon(Icons.apps),
         iconSize: 45,

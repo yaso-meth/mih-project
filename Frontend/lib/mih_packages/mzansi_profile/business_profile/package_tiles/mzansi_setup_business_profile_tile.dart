@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 
@@ -29,12 +30,9 @@ class _MzansiSetupBusinessProfileTileState
         );
       },
       appName: "Setup Business",
-      appIcon: Container(
-        padding: const EdgeInsets.all(0.5),
-        child: Icon(
-          Icons.business_center,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        ),
+      appIcon: Icon(
+        MihIcons.profileSetup,
+        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
       ),
       iconSize: widget.packageSize,
       primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

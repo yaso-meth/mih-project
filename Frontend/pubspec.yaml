@@ -126,7 +126,8 @@ flutter:
   fonts:
     - family: MihIcons
       fonts:
-        - asset: lib/mih_components/mih_package_components/assets/fonts/MihIcons.ttf
+        # - asset: lib/mih_components/mih_package_components/assets/fonts/MihIcons.ttf
+        - asset: lib/mih_components/mih_package_components/assets/fonts/Mih_Icons.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -8,16 +8,49 @@ class MihIcons {
   // Set to your package name ONLY if this font is part of a separate package you created
   static const String? _mihFontPkg = null;
 
-  // IconData constant for 'mih_circle_frame' using its code 59392
-  // Note: We use lowerCamelCase for Dart variable names
-  static const IconData mihCircleFrame =
-      IconData(59393, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+// IconData constants based on your style.css file
+  // Note: We convert the hex code from CSS (\eXXX) to an integer (0xeXXX)
 
-  // IconData constant for 'mih_logo' using its code 59393
+  static const IconData aboutMih =
+      IconData(0xe900, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData accessControl =
+      IconData(0xe901, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData businessProfile =
+      IconData(0xe902, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData calculator =
+      IconData(0xe903, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData calendar =
+      IconData(0xe904, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  // Note: Updated codepoint for mih_logo based on CSS (\e905)
   static const IconData mihLogo =
-      IconData(59392, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+      IconData(0xe905, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  // IconData constant for 'mzansi_ai_logo' using its code 59394
-  static const IconData mzansiAiLogo =
-      IconData(59394, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+  // Note: Updated codepoint and name for mzansi_ai based on CSS (\e906)
+  static const IconData mzansiAi =
+      IconData(0xe906, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  // Note: Added mzansi_wallet based on CSS (\e907)
+  static const IconData mzansiWallet =
+      IconData(0xe907, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData patientManager =
+      IconData(0xe908, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData patientProfile =
+      IconData(0xe909, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  // Added the new icon 'mih_ring' from your updated CSS (\e90a)
+  static const IconData mihRing =
+      IconData(0xe90a, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData profileSetup =
+      IconData(0xe90c, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData businessSetup =
+      IconData(0xe90b, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 }
