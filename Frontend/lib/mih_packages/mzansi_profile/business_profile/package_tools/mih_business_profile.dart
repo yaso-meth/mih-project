@@ -9,10 +9,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_profile_picture.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
@@ -350,13 +350,11 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                           ?.theme
                           .secondaryColor()),
                   const SizedBox(height: 10.0),
-                  MIHProfilePicture(
-                    profilePictureFile: logoPreview,
-                    proPicController: logonameController,
-                    proPic: logoFile,
+                  MihCircleAvatar(
+                    imageFile: logoPreview,
+                    fileNameController: logonameController,
+                    userSelectedfile: logoFile,
                     width: 155,
-                    radius: 70,
-                    drawerMode: false,
                     editable: true,
                     frameColor:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -366,6 +364,8 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
                       });
                       print("logoFile: ${logoFile?.bytes}");
                     },
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                   const SizedBox(height: 10.0),
                   MIHFileField(

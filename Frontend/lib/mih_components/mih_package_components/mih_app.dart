@@ -101,7 +101,7 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
         drawer: widget.actionDrawer,
         body: SafeArea(
           bottom: false,
-          minimum: EdgeInsets.only(bottom: 5),
+          minimum: EdgeInsets.only(bottom: 0),
           child: Container(
             width: screenSize.width,
             height: screenSize.height,

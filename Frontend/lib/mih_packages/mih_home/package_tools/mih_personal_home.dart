@@ -157,12 +157,9 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
             );
           },
           appName: "Test",
-          appIcon: Container(
-            padding: const EdgeInsets.all(0.5),
-            child: Icon(
-              Icons.warning_amber_rounded,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
+          appIcon: Icon(
+            Icons.warning_amber_rounded,
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           ),
           iconSize: packageSize,
           primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -238,7 +235,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     final double height = size.height;
 
     return MihAppToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(width, height),
     );
   }
