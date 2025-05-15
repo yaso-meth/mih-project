@@ -1,6 +1,7 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_%20attributes.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_privacy_policy.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_terms_of_service.dart';
@@ -39,7 +40,7 @@ class _AboutMihState extends State<AboutMih> {
         setState(() {
           _selcetedIndex = newValue;
         });
-        print("Index: $_selcetedIndex");
+        // print("Index: $_selcetedIndex");
       },
     );
   }
@@ -72,6 +73,11 @@ class _AboutMihState extends State<AboutMih> {
         _selcetedIndex = 2;
       });
     };
+    temp[const Icon(Icons.star_rounded)] = () {
+      setState(() {
+        _selcetedIndex = 3;
+      });
+    };
     return MihAppTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -83,6 +89,7 @@ class _AboutMihState extends State<AboutMih> {
       const MihInfo(),
       const MihPrivacyPolicy(),
       const MIHTermsOfService(),
+      const MihAttributes(),
     ];
     return toolBodies;
   }
