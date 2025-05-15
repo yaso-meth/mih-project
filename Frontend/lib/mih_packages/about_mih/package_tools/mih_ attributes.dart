@@ -182,6 +182,8 @@ class _MihAttributesState extends State<MihAttributes> {
                 ),
                 displayIcon(MihIcons.mihLogo, "Tarah Meth",
                     "https://www.linkedin.com/in/tarah-meth-3b6309254/"),
+                displayIcon(MihIcons.mihRing, "Tarah Meth",
+                    "https://www.linkedin.com/in/tarah-meth-3b6309254/"),
                 displayIcon(MihIcons.mzansiWallet, "Freepik",
                     "https://www.flaticon.com/free-icon/wallet-passes-app_3884407?term=wallet&page=1&position=21&origin=search&related_id=3884407"),
                 displayIcon(MihIcons.patientProfile, "RaftelDesign",
