@@ -232,7 +232,7 @@ class _MihInfoState extends State<MihInfo> {
 
   Widget founderBio() {
     String bio = "";
-    bio += "BSc Comnputer Science & Information Systems\n";
+    bio += "BSc Computer Science & Information Systems\n";
     bio += "(University of the Western Cape)\n";
     bio +=
         "6 Year of banking experience with one of the big 5 banks of South Africa.";
