@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/med_cert_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
@@ -22,9 +23,7 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/c
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_files_list.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import 'package:http/http.dart' as http2;
 
 class PatientDocuments extends StatefulWidget {
   final int patientIndex;
@@ -61,10 +60,24 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   final noRepeatsController = TextEditingController();
   final outputController = TextEditingController();
   late PlatformFile? selected;
+  late String env;
+
+  Future<void> submitDocUploadForm() async {
+    if (isFileFieldsFilled()) {
+      await uploadSelectedFile(selected);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
+    }
+  }
 
   Future<List<PFile>> fetchFiles() async {
     final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/files/patients/${widget.selectedPatient.app_id}"));
+        "${AppEnviroment.baseApiUrl}/patient_files/get/${widget.selectedPatient.app_id}"));
     //print(response.statusCode);
     //print(response.body);
     if (response.statusCode == 200) {
@@ -78,63 +91,53 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  Future<void> uploadSelectedFile(PlatformFile? file) async {
-    print("File: $file");
-    //var strem = new http.ByteStream.fromBytes(file.bytes.)
-    //start loading circle
+  Future<void> addPatientFileLocationToDB(PlatformFile? file) async {
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    var token = await SuperTokens.getAccessToken();
-    //print(t);
-    print("here1");
-    var request = http2.MultipartRequest(
-        'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
-    request.headers['accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'multipart/form-data';
-    request.fields['app_id'] = widget.selectedPatient.app_id;
-    request.fields['folder'] = "patient_files";
-    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
-    print("here2");
-    var response1 = await request.send();
-    print("here3");
-    print(response1.statusCode);
-    print(response1.toString());
-    if (response1.statusCode == 200) {
-      //print("here3");
-      var fname = file.name.replaceAll(RegExp(r' '), '-');
-      var filePath = "${widget.selectedPatient.app_id}/patient_files/$fname";
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path": filePath,
-          "file_name": fname,
-          "app_id": widget.selectedPatient.app_id
-        }),
-      );
-      //print("here5");
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        setState(() {
-          selectedFileController.clear();
-          futueFiles = fetchFiles();
-        });
-        // end loading circle
-        Navigator.of(context).pop();
-        String message =
-            "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
+    var fname = file!.name.replaceAll(RegExp(r' '), '-');
+    var filePath = "${widget.selectedPatient.app_id}/patient_files/$fname";
+    var response2 = await http.post(
+      Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "file_path": filePath,
+        "file_name": fname,
+        "app_id": widget.selectedPatient.app_id
+      }),
+    );
+    //print("here5");
+    //print(response2.statusCode);
+    if (response2.statusCode == 201) {
+      setState(() {
+        selectedFileController.clear();
+        futueFiles = fetchFiles();
+      });
+      // end loading circle
+      Navigator.of(context).pop();
+      String message =
+          "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<void> uploadSelectedFile(PlatformFile? file) async {
+    var response = await MihFileApi.uploadFile(
+      widget.selectedPatient.app_id,
+      env,
+      "patient_files",
+      file,
+      context,
+    );
+    if (response == 200) {
+      await addPatientFileLocationToDB(file);
     } else {
       internetConnectionPopUp();
     }
@@ -148,6 +151,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         return const Mihloadingcircle();
       },
     );
+    DateTime now = DateTime.now();
+    // DateTime date = new DateTime(now.year, now.month, now.day);
+    String fileName =
+        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${now.toString().substring(0, 19)}.pdf"
+            .replaceAll(RegExp(r' '), '-');
     var response1 = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/med-cert/"),
       headers: <String, String>{
@@ -155,8 +163,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       },
       body: jsonEncode(<String, dynamic>{
         "app_id": widget.selectedPatient.app_id,
-        "fullName":
+        "env": env,
+        "patient_full_name":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+        "fileName": fileName,
         "id_no": widget.selectedPatient.id_no,
         "docfname":
             "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
@@ -172,13 +182,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       }),
     );
     print(response1.statusCode);
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
     if (response1.statusCode == 200) {
       var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
+        Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
@@ -256,7 +262,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               onTap: () {
                 if (isFileFieldsFilled()) {
-                  uploadSelectedFile(selected);
+                  submitDocUploadForm();
+                  // uploadSelectedFile(selected);
                   Navigator.pop(context);
                 } else {
                   showDialog(
@@ -350,6 +357,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             signedInUser: widget.signedInUser,
             business: widget.business,
             businessUser: widget.businessUser,
+            env: env,
           ),
         ],
       ),
@@ -576,6 +584,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   @override
   void initState() {
     futueFiles = fetchFiles();
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
     super.initState();
   }
 
@@ -629,6 +642,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                     business: widget.business,
                     businessUser: widget.businessUser,
                     type: widget.type,
+                    env: env,
                   ),
                 ]);
               } else {

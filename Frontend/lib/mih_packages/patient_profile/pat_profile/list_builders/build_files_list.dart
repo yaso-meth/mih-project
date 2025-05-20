@@ -60,7 +60,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
 
   Future<void> deleteFileApiCall(String filePath, int fileID) async {
     var response = await MihFileApi.deleteFile(
-      widget.signedInUser.app_id,
+      widget.selectedPatient.app_id,
       widget.env,
       "patient_files",
       filePath.split("/").last,
@@ -70,7 +70,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
       // delete file from database
       await deletePatientFileLocationToDB(fileID);
     } else {
-      Navigator.of(context).pop();
       String message =
           "The File has not been deleted successfully. Please try again.";
       successPopUp(message);
@@ -89,11 +88,16 @@ class _BuildFilesListState extends State<BuildFilesList> {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-      body: jsonEncode(<String, dynamic>{"idpatient_files": fileID}),
+      body: jsonEncode(<String, dynamic>{
+        "idpatient_files": fileID,
+        "env": widget.env,
+      }),
     );
     if (response2.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(); //Remove Loading Dialog
+      Navigator.of(context).pop(); //Remove Delete Dialog
+      Navigator.of(context).pop(); //Remove File View Dialog
+      Navigator.of(context).pop(); //Remove File List Dialog
       //print(widget.business);
       if (widget.business == null) {
         Navigator.of(context).pushNamed('/patient-manager/patient',

@@ -64,7 +64,8 @@ class perscription(BaseModel):
 class perscriptionList(BaseModel):
     app_id: str
     env: str
-    fullName: str 
+    patient_full_name: str
+    fileName: str 
     id_no: str 
     docfname: str 
     busName: str 
@@ -288,7 +289,7 @@ def uploudPerscription(requestItem: perscriptionList):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.app_id}/patient_files/Perscription-{requestItem.fullName}-{today}.pdf"
+    fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-perscription.pdf")    
 
 def generatePerscriptionPDF(requestItem: perscriptionList):
@@ -302,7 +303,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
     w,h = A4
     
     
-    myCanvas = canvas.Canvas("temp-claim.pdf", pagesize=A4)
+    myCanvas = canvas.Canvas("temp-perscription.pdf", pagesize=A4)
 
     #Business Logo
     myCanvas.drawImage(imageLogo, 50, h - 125,100,100, mask='auto')
@@ -326,7 +327,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
 
     #Body
     myCanvas.setFont('Helvetica-Bold', 12)
-    myCanvas.drawString(50, h-250, f"Patient: {requestItem.fullName}")
+    myCanvas.drawString(50, h-250, f"Patient: {requestItem.patient_full_name}")
     myCanvas.drawString(50, h-270, f"Patient ID: {requestItem.id_no}")
     
     #boday headings 
@@ -367,7 +368,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
     myCanvas.drawString(50, h-y-30, requestItem.docfname.upper())
 
     #QR Verification
-    qrText = f"Perscription generated on {issueDate} by {requestItem.docfname} for {requestItem.fullName}.\nPowered by Mzansi Innovation Hub."
+    qrText = f"Perscription generated on {issueDate} by {requestItem.docfname} for {requestItem.patient_full_name}.\nPowered by Mzansi Innovation Hub."
     qrText = qrText.replace(" ","+")
     
     url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
