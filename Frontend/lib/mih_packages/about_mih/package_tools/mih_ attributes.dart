@@ -25,13 +25,19 @@ class _MihAttributesState extends State<MihAttributes> {
       children: [
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: Center(
-              child: Icon(
-                icon,
-                size: 125,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          child: SizedBox(
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: FittedBox(
+                child: Center(
+                  child: Icon(
+                    icon,
+                    // size: 125,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
               ),
             ),
           ),
@@ -39,10 +45,11 @@ class _MihAttributesState extends State<MihAttributes> {
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
+            padding: const EdgeInsets.all(15.0),
             child: Center(
               child: Text(
                 creator,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
