@@ -36,6 +36,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   late ImageProvider<Object>? propicPreview;
   late bool businessUser;
   late String oldProPicName;
+  late String env;
 
   Future<void> submitForm() async {
     // print("============\nsubmiit form\n=================");
@@ -82,6 +83,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Future<void> uploadSelectedFile(PlatformFile? file) async {
     var response = await MihFileApi.uploadFile(
       widget.arguments.signedInUser.app_id,
+      env,
       "profile_files",
       file,
       context,
@@ -144,6 +146,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Future<void> deleteFileApiCall(String filename) async {
     var response = await MihFileApi.deleteFile(
       widget.arguments.signedInUser.app_id,
+      env,
       "profile_files",
       filename,
       context,
@@ -199,6 +202,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     var proPicName = "";
     if (widget.arguments.signedInUser.pro_pic_path.isNotEmpty) {
       proPicName = widget.arguments.signedInUser.pro_pic_path.split("/").last;
+    }
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
     }
     setState(() {
       propicPreview = widget.arguments.propicFile;

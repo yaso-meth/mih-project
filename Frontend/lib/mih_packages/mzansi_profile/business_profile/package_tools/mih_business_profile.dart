@@ -61,6 +61,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
   late String oldLogoPath;
   late String oldSigPath;
   String logoUri = "";
+  late String env;
 
   Future<void> updateBusinessProfileAPICall(String business_id) async {
     print("inside update business profile api call");
@@ -145,6 +146,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     print("Inside upload selected file");
     var response = await MihFileApi.uploadFile(
       widget.arguments.signedInUser.app_id,
+      env,
       "business_files",
       file,
       context,
@@ -160,6 +162,7 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
     // delete file from minio
     var response = await MihFileApi.deleteFile(
       widget.arguments.signedInUser.app_id,
+      env,
       "business_files",
       filePath.split("/").last,
       context,
@@ -309,6 +312,11 @@ class _MihBusinessProfileState extends State<MihBusinessProfile> {
       });
       logoPreview = NetworkImage(logoUri);
     });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
     super.initState();
   }
 

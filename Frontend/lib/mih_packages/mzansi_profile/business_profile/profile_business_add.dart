@@ -60,6 +60,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   PlatformFile? selectedSignature;
 
   final ValueNotifier<String> busType = ValueNotifier("");
+  late String env;
 
   // Future<void> uploadSelectedFile(
   // PlatformFile file, TextEditingController controller) async {
@@ -85,6 +86,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     int uploadStatusCode = 0;
     uploadStatusCode = await MihFileApi.uploadFile(
       id,
+      env,
       "business_files",
       selectedFile,
       context,
@@ -632,6 +634,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       lnameController.text = widget.signedInUser.lname;
       accessController.text = "Full";
     });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
     super.initState();
   }
 
