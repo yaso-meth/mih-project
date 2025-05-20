@@ -57,6 +57,7 @@ class MihFileApi {
 
   static Future<int> uploadFile(
     String app_id,
+    String env,
     String folderName,
     PlatformFile? file,
     BuildContext context,
@@ -69,6 +70,7 @@ class MihFileApi {
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'multipart/form-data';
     request.fields['app_id'] = app_id;
+    request.fields['env'] = env;
     request.fields['folder'] = folderName;
     request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
@@ -79,6 +81,7 @@ class MihFileApi {
 
   static Future<int> deleteFile(
     String app_id,
+    String env,
     String folderName,
     String fileName,
     BuildContext context,
@@ -91,7 +94,10 @@ class MihFileApi {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+      body: jsonEncode(<String, dynamic>{
+        "file_path": filePath,
+        "env": env,
+      }),
     );
     Navigator.of(context).pop(); // Pop loading dialog
     return response.statusCode;
