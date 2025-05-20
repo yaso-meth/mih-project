@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -24,6 +25,7 @@ class BuildFilesList extends StatefulWidget {
   final Business? business;
   final BusinessUser? businessUser;
   final String type;
+  final String env;
   const BuildFilesList({
     super.key,
     required this.files,
@@ -32,6 +34,7 @@ class BuildFilesList extends StatefulWidget {
     required this.business,
     required this.businessUser,
     required this.type,
+    required this.env,
   });
 
   @override
@@ -45,109 +48,73 @@ class _BuildFilesListState extends State<BuildFilesList> {
   String fileUrl = "";
 
   Future<String> getFileUrlApiCall(String filePath) async {
-    var url = "$baseAPI/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-    //print(url);
-    var response = await http.get(Uri.parse(url));
-    // print("here1");
-    //print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      //print("here2");
-      String body = response.body;
-      //print(body);
-      //print("here3");
-      var decodedData = jsonDecode(body);
-      //print("Dedoced: ${decodedData['minioURL']}");
-
-      return decodedData['minioURL'];
-      //AppUser u = AppUser.fromJson(decodedData);
-      // print(u.email);
-      //return "AlometThere";
-    } else {
-      throw Exception("Error: GetUserData status code ${response.statusCode}");
-    }
-
-    //print(url);
-    // var response = await http.get(Uri.parse(url));
-    // // print("here1");
-    // //print(response.statusCode);
-
-    // if (response.statusCode == 200) {
-    //   //print("here2");
-    //   String body = response.body;
-    //   //print(body);
-    //   //print("here3");
-    //   var decodedData = jsonDecode(body);
-    //   //print("Dedoced: ${decodedData['minioURL']}");
-
-    //   return decodedData['minioURL'];
-    //   //AppUser u = AppUser.fromJson(decodedData);
-    //   // print(u.email);
-    //   //return "AlometThere";
-    // } else {
-    //   throw Exception("Error: GetUserData status code ${response.statusCode}");
-    // }
+    String teporaryFileUrl = "";
+    await MihFileApi.getMinioFileUrl(
+      filePath,
+      context,
+    ).then((value) {
+      teporaryFileUrl = value;
+    });
+    return teporaryFileUrl;
   }
 
   Future<void> deleteFileApiCall(String filePath, int fileID) async {
+    var response = await MihFileApi.deleteFile(
+      widget.signedInUser.app_id,
+      widget.env,
+      "patient_files",
+      filePath.split("/").last,
+      context,
+    );
+    if (response == 200) {
+      // delete file from database
+      await deletePatientFileLocationToDB(fileID);
+    } else {
+      Navigator.of(context).pop();
+      String message =
+          "The File has not been deleted successfully. Please try again.";
+      successPopUp(message);
+    }
+  }
+
+  Future<void> deletePatientFileLocationToDB(int fileID) async {
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    // delete file from minio
-    var response = await http.delete(
-      Uri.parse("$baseAPI/minio/delete/file/"),
+    var response2 = await http.delete(
+      Uri.parse("$baseAPI/patient_files/delete/"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+      body: jsonEncode(<String, dynamic>{"idpatient_files": fileID}),
     );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      //SQL delete
-      var response2 = await http.delete(
-        Uri.parse("$baseAPI/files/delete/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{"idpatient_files": fileID}),
-      );
-      if (response2.statusCode == 200) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        //print(widget.business);
-        if (widget.business == null) {
-          Navigator.of(context).pushNamed('/patient-manager/patient',
-              arguments: PatientViewArguments(
-                  widget.signedInUser,
-                  widget.selectedPatient,
-                  widget.businessUser,
-                  widget.business,
-                  "personal"));
-        } else {
-          Navigator.of(context).pushNamed('/patient-manager/patient',
-              arguments: PatientViewArguments(
-                  widget.signedInUser,
-                  widget.selectedPatient,
-                  widget.businessUser,
-                  widget.business,
-                  "business"));
-        }
-
-        // Navigator.of(context)
-        //     .pushNamed('/patient-profile', arguments: widget.signedInUser);
-        // setState(() {});
-        String message =
-            "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
-        successPopUp(message);
+    if (response2.statusCode == 200) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      //print(widget.business);
+      if (widget.business == null) {
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "personal"));
       } else {
-        internetConnectionPopUp();
+        Navigator.of(context).pushNamed('/patient-manager/patient',
+            arguments: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "business"));
       }
+      String message =
+          "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
+      successPopUp(message);
     } else {
       internetConnectionPopUp();
     }
