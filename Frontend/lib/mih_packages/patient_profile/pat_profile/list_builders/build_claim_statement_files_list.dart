@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -15,7 +14,6 @@ import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class BuildClaimStatementFileList extends StatefulWidget {
   final AppUser signedInUser;
@@ -24,6 +22,7 @@ class BuildClaimStatementFileList extends StatefulWidget {
   final Business? business;
   final BusinessUser? businessUser;
   final String type;
+  final String env;
   const BuildClaimStatementFileList({
     super.key,
     required this.files,
@@ -32,6 +31,7 @@ class BuildClaimStatementFileList extends StatefulWidget {
     required this.business,
     required this.businessUser,
     required this.type,
+    required this.env,
   });
 
   @override
@@ -47,27 +47,14 @@ class _BuildClaimStatementFileListState
   String fileUrl = "";
 
   Future<String> getFileUrlApiCall(String filePath) async {
-    var url = "$baseAPI/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-    //print(url);
-    var response = await http.get(Uri.parse(url));
-    // print("here1");
-    //print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      //print("here2");
-      String body = response.body;
-      //print(body);
-      //print("here3");
-      var decodedData = jsonDecode(body);
-      //print("Dedoced: ${decodedData['minioURL']}");
-
-      return decodedData['minioURL'];
-      //AppUser u = AppUser.fromJson(decodedData);
-      // print(u.email);
-      //return "AlometThere";
-    } else {
-      throw Exception("Error: GetUserData status code ${response.statusCode}");
-    }
+    String teporaryFileUrl = "";
+    await MihFileApi.getMinioFileUrl(
+      filePath,
+      context,
+    ).then((value) {
+      teporaryFileUrl = value;
+    });
+    return teporaryFileUrl;
   }
 
   void internetConnectionPopUp() {
@@ -108,6 +95,7 @@ class _BuildClaimStatementFileListState
               widget.business,
               "business",
             ),
+            widget.env,
             filePath,
             fileID,
             context,

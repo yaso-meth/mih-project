@@ -13,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihMyBusinessUser extends StatefulWidget {
@@ -41,6 +42,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   final lnameController = TextEditingController();
   final accessController = TextEditingController();
   final signtureController = TextEditingController();
+  late String env;
 
   bool isFormFilled() {
     if (signtureController.text.isEmpty ||
@@ -60,6 +62,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
       int uploadStatusCode = 0;
       uploadStatusCode = await MihFileApi.uploadFile(
         widget.arguments.signedInUser.app_id,
+        env,
         "business_files",
         userSignatureFile!,
         context,
@@ -68,6 +71,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
         int deleteStatusCode = 0;
         deleteStatusCode = await MihFileApi.deleteFile(
           widget.arguments.signedInUser.app_id,
+          env,
           "business_files",
           widget.arguments.businessUser!.sig_path.split("/").last,
           context,
@@ -192,6 +196,11 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
       lnameController.text = widget.arguments.signedInUser.lname;
       accessController.text = widget.arguments.businessUser!.access;
     });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
   }
 
   @override

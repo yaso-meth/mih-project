@@ -31,10 +31,13 @@ class minioPullRequest(BaseModel):
 
 class minioDeleteRequest(BaseModel):
     file_path: str
+    env: str
 
 class medCertUploud(BaseModel):
     app_id: str
-    fullName: str 
+    env: str
+    patient_full_name: str
+    fileName: str 
     id_no: str 
     docfname: str 
     busName: str 
@@ -60,7 +63,9 @@ class perscription(BaseModel):
 
 class perscriptionList(BaseModel):
     app_id: str
-    fullName: str 
+    env: str
+    patient_full_name: str
+    fileName: str 
     id_no: str 
     docfname: str 
     busName: str 
@@ -74,7 +79,9 @@ class perscriptionList(BaseModel):
 class claimStatementUploud(BaseModel):
     document_type: str 
     patient_app_id: str
+    env: str
     patient_full_name: str
+    fileName: str 
     patient_id_no: str 
     has_med_aid: str 
     med_aid_no: str 
@@ -131,11 +138,11 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         }
 
 @router.post("/minio/upload/file/", tags=["Minio"])
-async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), folder: str= Form(...), session: SessionContainer = Depends(verify_session())):
+async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(...), env: str= Form(...), folder: str= Form(...), session: SessionContainer = Depends(verify_session())):
     extension = file.filename.split(".")
     content = file.file 
     try:
-        uploudFile(app_id, folder, file.filename, extension[1], content)
+        uploudFile(app_id, env, folder, file.filename, extension[1], content)
     except Exception as error:
         raise HTTPException(status_code=404, detail="Failed to Uploud Record")
     return {"message": f"Successfully Uploaded {file.filename}"}
@@ -152,7 +159,7 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
     path = requestItem.file_path
     try:
         # uploudFile(app_id, file.filename, extension[1], content)
-        client = Minio_Storage.minioConnection.minioConnect("Prod")
+        client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     
         minioError = client.remove_object("mih", path)
     except Exception as error:
@@ -182,8 +189,8 @@ async def upload_perscription_to_user(requestItem: claimStatementUploud, session
     uploudClaimStatement(requestItem)
     return {"message": "Successfully Generated File"}
 
-def uploudFile(app_id, folder, fileName, extension, content):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+def uploudFile(app_id, env, folder, fileName, extension, content):
+    client = Minio_Storage.minioConnection.minioConnect(env)
     found = client.bucket_exists("mih")
     if not found:
         client.make_bucket("mih")
@@ -198,7 +205,7 @@ def uploudFile(app_id, folder, fileName, extension, content):
                     content_type=f"application/{extension}")
         
 def uploudMedCert(requestItem: medCertUploud):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
@@ -206,11 +213,11 @@ def uploudMedCert(requestItem: medCertUploud):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.app_id}/patient_files/Med-Cert-{requestItem.fullName}-{today}.pdf"
+    fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-med-cert.pdf")
 
 def generateMedCertPDF(requestItem: medCertUploud):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     new_logo_path = requestItem.logo_path.replace(" ","-")
     new_sig_path = requestItem.sig_path.replace(" ","-")
     minioLogo = client.get_object("mih", new_logo_path).read()
@@ -243,7 +250,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     #Body
     myCanvas.setFont('Helvetica', 12)
     body = ""
-    body += "This is to certify that " + requestItem.fullName.upper() + " (" + requestItem.id_no+ ") was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
+    body += "This is to certify that " + requestItem.patient_full_name.upper() + " (" + requestItem.id_no+ ") was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
     body += "\nHe/She is unfit to attend work/school from " + requestItem.startDate + " up to and including " + requestItem.endDate + "."
     body += "\nHe/She will return on " + requestItem.returnDate + "."
     
@@ -261,7 +268,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     myCanvas.drawString(50, h-720, requestItem.docfname.upper())
 
     #QR Verification
-    qrText = requestItem.fullName.upper() + " booked off from " + requestItem.startDate + " to " + requestItem.endDate + " by " + requestItem.docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
+    qrText = requestItem.patient_full_name.upper() + " booked off from " + requestItem.startDate + " to " + requestItem.endDate + " by " + requestItem.docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
     qrText = qrText.replace(" ","+")
     
     url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
@@ -275,7 +282,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     myCanvas.save()
 
 def uploudPerscription(requestItem: perscriptionList):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     generatePerscriptionPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists("mih")
@@ -283,11 +290,11 @@ def uploudPerscription(requestItem: perscriptionList):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.app_id}/patient_files/Perscription-{requestItem.fullName}-{today}.pdf"
+    fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-perscription.pdf")    
 
 def generatePerscriptionPDF(requestItem: perscriptionList):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     new_logo_path = requestItem.logo_path.replace(" ","-")
     new_sig_path = requestItem.sig_path.replace(" ","-")
     minioLogo = client.get_object("mih", new_logo_path).read()
@@ -297,7 +304,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
     w,h = A4
     
     
-    myCanvas = canvas.Canvas("temp-claim.pdf", pagesize=A4)
+    myCanvas = canvas.Canvas("temp-perscription.pdf", pagesize=A4)
 
     #Business Logo
     myCanvas.drawImage(imageLogo, 50, h - 125,100,100, mask='auto')
@@ -321,7 +328,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
 
     #Body
     myCanvas.setFont('Helvetica-Bold', 12)
-    myCanvas.drawString(50, h-250, f"Patient: {requestItem.fullName}")
+    myCanvas.drawString(50, h-250, f"Patient: {requestItem.patient_full_name}")
     myCanvas.drawString(50, h-270, f"Patient ID: {requestItem.id_no}")
     
     #boday headings 
@@ -362,7 +369,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
     myCanvas.drawString(50, h-y-30, requestItem.docfname.upper())
 
     #QR Verification
-    qrText = f"Perscription generated on {issueDate} by {requestItem.docfname} for {requestItem.fullName}.\nPowered by Mzansi Innovation Hub."
+    qrText = f"Perscription generated on {issueDate} by {requestItem.docfname} for {requestItem.patient_full_name}.\nPowered by Mzansi Innovation Hub."
     qrText = qrText.replace(" ","+")
     
     url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
@@ -377,7 +384,7 @@ def generatePerscriptionPDF(requestItem: perscriptionList):
 
 def uploudClaimStatement(requestItem: claimStatementUploud):
     try:
-        client = Minio_Storage.minioConnection.minioConnect("Prod")
+        client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
         print("connected")
     except Exception:
         print("error")
@@ -389,11 +396,11 @@ def uploudClaimStatement(requestItem: claimStatementUploud):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.patient_app_id}/claims-statements/{requestItem.document_type}-{requestItem.patient_full_name}-{today}.pdf"
+    fileName = f"{requestItem.patient_app_id}/claims-statements/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-claim-statement.pdf")    
 
 def generateClaimStatementPDF(requestItem: claimStatementUploud):
-    client = Minio_Storage.minioConnection.minioConnect("Prod")
+    client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     # print("buckets: " + client.list_buckets)
     new_logo_path = requestItem.logo_path.replace(" ","-")
     new_sig_path = requestItem.sig_path.replace(" ","-")

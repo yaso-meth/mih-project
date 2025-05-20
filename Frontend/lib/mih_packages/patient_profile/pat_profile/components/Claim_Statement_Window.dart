@@ -23,12 +23,14 @@ class ClaimStatementWindow extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
   final BusinessUser? businessUser;
+  final String env;
   const ClaimStatementWindow({
     super.key,
     required this.selectedPatient,
     required this.signedInUser,
     required this.business,
     required this.businessUser,
+    required this.env,
   });
 
   @override
@@ -265,6 +267,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       widget.business,
                       "business",
                     ),
+                    widget.env,
                     context);
               } else {
                 showDialog(

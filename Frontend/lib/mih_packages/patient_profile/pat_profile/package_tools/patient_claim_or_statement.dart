@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_ap
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
@@ -37,6 +38,7 @@ class PatientClaimOrStatement extends StatefulWidget {
 
 class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
   late Future<List<ClaimStatementFile>> futueFiles;
+  late String env;
 
   void claimOrStatementWindow() {
     showDialog(
@@ -47,6 +49,7 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
         signedInUser: widget.signedInUser,
         business: widget.business,
         businessUser: widget.businessUser,
+        env: env,
       ),
     );
   }
@@ -99,6 +102,11 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
       futueFiles =
           MIHClaimStatementGenerationApi.getClaimStatementFilesByBusiness(
               widget.business!.business_id);
+    }
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
     }
     super.initState();
   }
@@ -154,6 +162,7 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
                     business: widget.business,
                     businessUser: widget.businessUser,
                     type: widget.type,
+                    env: env,
                   ),
                 ],
               );

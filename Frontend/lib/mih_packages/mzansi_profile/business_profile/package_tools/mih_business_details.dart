@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MihBusinessDetails extends StatefulWidget {
@@ -38,6 +39,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
+  late String env;
 
   Future<void> submitForm() async {
     if (!isEmailValid()) {
@@ -136,6 +138,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
       int uploadStatusCode = 0;
       uploadStatusCode = await MihFileApi.uploadFile(
         widget.arguments.business!.business_id,
+        env,
         "business_files",
         imageFile!,
         context,
@@ -144,6 +147,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         int deleteStatusCode = 0;
         deleteStatusCode = await MihFileApi.deleteFile(
           widget.arguments.business!.logo_path.split("/").first,
+          env,
           "business_files",
           widget.arguments.business!.logo_path.split("/").last,
           context,
@@ -220,6 +224,11 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
       emailController.text = widget.arguments.business!.bus_email;
       locationController.text = widget.arguments.business!.gps_location;
     });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
   }
 
   @override

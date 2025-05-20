@@ -31,6 +31,7 @@ class PrescripInput extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
   final BusinessUser? businessUser;
+  final String env;
   const PrescripInput({
     super.key,
     required this.medicineController,
@@ -44,6 +45,7 @@ class PrescripInput extends StatefulWidget {
     required this.signedInUser,
     required this.business,
     required this.businessUser,
+    required this.env,
   });
 
   @override
@@ -98,6 +100,11 @@ class _PrescripInputState extends State<PrescripInput> {
         return const Mihloadingcircle();
       },
     );
+    DateTime now = new DateTime.now();
+    // DateTime date = new DateTime(now.year, now.month, now.day);
+    String fileName =
+        "Perscription-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${now.toString().substring(0, 19)}.pdf"
+            .replaceAll(RegExp(r' '), '-');
 
     var response1 = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/perscription/"),
@@ -106,8 +113,10 @@ class _PrescripInputState extends State<PrescripInput> {
       },
       body: jsonEncode(<String, dynamic>{
         "app_id": widget.selectedPatient.app_id,
-        "fullName":
+        "env": widget.env,
+        "patient_full_name":
             "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+        "fileName": fileName,
         "id_no": widget.selectedPatient.id_no,
         "docfname":
             "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
@@ -121,13 +130,9 @@ class _PrescripInputState extends State<PrescripInput> {
       }),
     );
     //print(response1.statusCode);
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "Perscription-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${date.toString().substring(0, 10)}.pdf";
     if (response1.statusCode == 200) {
       var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/files/insert/"),
+        Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
@@ -153,6 +158,7 @@ class _PrescripInputState extends State<PrescripInput> {
           // futueFiles = fetchFiles();
         });
         // end loading circle
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context).pushNamed('/patient-manager/patient',

@@ -41,7 +41,7 @@ class fileInsertRequest(BaseModel):
 #     return items
 
 # Get List of all files by patient
-@router.get("/files/patients/{app_id}", tags=["Patients Files"])
+@router.get("/patient_files/get/{app_id}", tags=["Patients Files"])
 async def read_all_patient_files_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
@@ -89,7 +89,7 @@ async def read_all_patient_files_by_app_id(app_id: str, session: SessionContaine
 #     return items
 
 # Delete Patient note on table
-@router.delete("/files/delete/", tags=["Patients Files"])
+@router.delete("/patient_files/delete/", tags=["Patients Files"])
 async def Delete_Patient_File(itemRequest : fileDeleteRequest, session: SessionContainer = Depends(verify_session())): #session: SessionContainer = Depends(verify_session())
     # today = date.today()
     db = database.dbConnection.dbPatientManagerConnect()
@@ -108,7 +108,7 @@ async def Delete_Patient_File(itemRequest : fileDeleteRequest, session: SessionC
     return {"message": "Successfully deleted Record"}
 
 # Insert Patient note into table
-@router.post("/files/insert/", tags=["Patients Files"], status_code=201)
+@router.post("/patient_files/insert/", tags=["Patients Files"], status_code=201)
 async def insert_Patient_Files(itemRequest : fileInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
     db = database.dbConnection.dbPatientManagerConnect()
