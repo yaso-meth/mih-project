@@ -36,7 +36,8 @@ class minioDeleteRequest(BaseModel):
 class medCertUploud(BaseModel):
     app_id: str
     env: str
-    fullName: str 
+    patient_full_name: str
+    fileName: str 
     id_no: str 
     docfname: str 
     busName: str 
@@ -210,7 +211,7 @@ def uploudMedCert(requestItem: medCertUploud):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.app_id}/patient_files/Med-Cert-{requestItem.fullName}-{today}.pdf"
+    fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-med-cert.pdf")
 
 def generateMedCertPDF(requestItem: medCertUploud):
@@ -247,7 +248,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     #Body
     myCanvas.setFont('Helvetica', 12)
     body = ""
-    body += "This is to certify that " + requestItem.fullName.upper() + " (" + requestItem.id_no+ ") was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
+    body += "This is to certify that " + requestItem.patient_full_name.upper() + " (" + requestItem.id_no+ ") was seen by " + requestItem.docfname.upper() + " on " + requestItem.startDate + "."
     body += "\nHe/She is unfit to attend work/school from " + requestItem.startDate + " up to and including " + requestItem.endDate + "."
     body += "\nHe/She will return on " + requestItem.returnDate + "."
     
@@ -265,7 +266,7 @@ def generateMedCertPDF(requestItem: medCertUploud):
     myCanvas.drawString(50, h-720, requestItem.docfname.upper())
 
     #QR Verification
-    qrText = requestItem.fullName.upper() + " booked off from " + requestItem.startDate + " to " + requestItem.endDate + " by " + requestItem.docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
+    qrText = requestItem.patient_full_name.upper() + " booked off from " + requestItem.startDate + " to " + requestItem.endDate + " by " + requestItem.docfname.upper() + ".\nPowered by Mzansi Innovation Hub."
     qrText = qrText.replace(" ","+")
     
     url = f"https://api.qrserver.com/v1/create-qr-code/?data={qrText}&size=100x100"
