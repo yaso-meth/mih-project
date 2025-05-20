@@ -25,15 +25,18 @@ class _MihAttributesState extends State<MihAttributes> {
       children: [
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: FittedBox(
-              child: Center(
-                child: Icon(
-                  icon,
-                  // size: 125,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          child: SizedBox(
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: FittedBox(
+                child: Center(
+                  child: Icon(
+                    icon,
+                    // size: 125,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
                 ),
               ),
             ),
