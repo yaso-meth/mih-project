@@ -21,6 +21,7 @@ class MIHClaimStatementGenerationApi {
   Future<void> generateClaimStatement(
     ClaimStatementGenerationArguments data,
     PatientViewArguments args,
+    String env,
     BuildContext context,
   ) async {
     //start loading circle
@@ -31,6 +32,11 @@ class MIHClaimStatementGenerationApi {
       },
     );
 
+    DateTime now = new DateTime.now();
+    // DateTime date = new DateTime(now.year, now.month, now.day);
+    String fileName =
+        "${data.document_type}-${data.patient_full_name}-${now.toString().substring(0, 19)}.pdf"
+            .replaceAll(RegExp(r' '), '-');
     var response1 = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/claim-statement/"),
       headers: <String, String>{
@@ -39,7 +45,9 @@ class MIHClaimStatementGenerationApi {
       body: jsonEncode(<String, dynamic>{
         "document_type": data.document_type,
         "patient_app_id": data.patient_app_id,
+        "env": env,
         "patient_full_name": data.patient_full_name,
+        "fileName": fileName,
         "patient_id_no": data.patient_id_no,
         "has_med_aid": data.has_med_aid,
         "med_aid_no": data.med_aid_no,
@@ -66,10 +74,6 @@ class MIHClaimStatementGenerationApi {
       }),
     );
     //print(response1.statusCode);
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "${data.document_type}-${data.patient_full_name}-${date.toString().substring(0, 10)}.pdf";
     if (response1.statusCode == 200) {
       //Update this API
       var response2 = await http.post(
@@ -176,6 +180,7 @@ class MIHClaimStatementGenerationApi {
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
   static Future<void> deleteClaimStatementFilesByFileID(
     PatientViewArguments args,
+    String env,
     String filePath,
     int fileID,
     BuildContext context,
@@ -192,7 +197,10 @@ class MIHClaimStatementGenerationApi {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-      body: jsonEncode(<String, dynamic>{"file_path": filePath}),
+      body: jsonEncode(<String, dynamic>{
+        "file_path": filePath,
+        "env": env,
+      }),
     );
     //print("Here4");
     //print(response.statusCode);
@@ -203,7 +211,8 @@ class MIHClaimStatementGenerationApi {
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
-        body: jsonEncode(<String, dynamic>{"idclaim_statement_file": fileID}),
+        body: jsonEncode(
+            <String, dynamic>{"idclaim_statement_file": fileID, "env": env}),
       );
       if (response2.statusCode == 200) {
         Navigator.of(context).pop();

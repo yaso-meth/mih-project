@@ -81,6 +81,7 @@ class claimStatementUploud(BaseModel):
     patient_app_id: str
     env: str
     patient_full_name: str
+    fileName: str 
     patient_id_no: str 
     has_med_aid: str 
     med_aid_no: str 
@@ -395,7 +396,7 @@ def uploudClaimStatement(requestItem: claimStatementUploud):
         client.make_bucket("mih")
     else:
         print("Bucket already exists")
-    fileName = f"{requestItem.patient_app_id}/claims-statements/{requestItem.document_type}-{requestItem.patient_full_name}-{today}.pdf"
+    fileName = f"{requestItem.patient_app_id}/claims-statements/{requestItem.fileName}"
     client.fput_object("mih", fileName, "temp-claim-statement.pdf")    
 
 def generateClaimStatementPDF(requestItem: claimStatementUploud):
