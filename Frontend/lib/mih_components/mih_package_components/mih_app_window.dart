@@ -146,8 +146,8 @@ class _MihAppWindowState extends State<MihAppWindow> {
                   Flexible(
                     child: Padding(
                         padding: EdgeInsets.only(
-                          left: horizontralWindowPadding,
-                          right: horizontralWindowPadding,
+                          left: 25,
+                          right: 25,
                           bottom: vertticalWindowPadding,
                         ),
                         child: ConstrainedBox(

@@ -235,67 +235,68 @@ class _AiChatState extends State<AiChat> {
               _flutterTts.stop();
               Navigator.of(context).pop();
             },
-            windowBody: Column(
-              children: [
-                Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          snapshot.requireData,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            fontSize: _chatFrontSize,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Visibility(
-                        visible: _aiThinking == false,
-                        child: IconButton.filled(
-                          iconSize: 25,
-                          autofocus: true,
-                          onPressed: () {
-                            _captureAIResponse(snapshot.requireData);
-                            _flutterTts.stop();
-                            Navigator.of(context).pop();
-                          },
-                          focusColor: MzanziInnovationHub.of(context)!
+            windowBody: SizedBox(
+              width: double.infinity,
+              // color: Colors.black,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Stack(
+                    children: [
+                      Text(
+                        snapshot.requireData,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
                               .theme
-                              .successColor(),
-                          icon: Icon(
-                            Icons.check,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
+                              .secondaryColor(),
+                          fontSize: _chatFrontSize,
+                          fontWeight: FontWeight.bold,
                         ),
-
-                        // MIHButton(
-                        //   onTap: () {
-                        //     _captureAIResponse(snapshot.requireData);
-                        //     Navigator.of(context).pop();
-                        //   },
-                        //   buttonText: "Continue",
-                        //   buttonColor: MzanziInnovationHub.of(context)!
-                        //       .theme
-                        //       .successColor(),
-                        //   textColor: MzanziInnovationHub.of(context)!
-                        //       .theme
-                        //       .primaryColor(),
-                        // ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Visibility(
+                          visible: _aiThinking == false,
+                          child: IconButton.filled(
+                            iconSize: 25,
+                            autofocus: true,
+                            onPressed: () {
+                              _captureAIResponse(snapshot.requireData);
+                              _flutterTts.stop();
+                              Navigator.of(context).pop();
+                            },
+                            focusColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .successColor(),
+                            icon: Icon(
+                              Icons.check,
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                            ),
+                          ),
+
+                          // MIHButton(
+                          //   onTap: () {
+                          //     _captureAIResponse(snapshot.requireData);
+                          //     Navigator.of(context).pop();
+                          //   },
+                          //   buttonText: "Continue",
+                          //   buttonColor: MzanziInnovationHub.of(context)!
+                          //       .theme
+                          //       .successColor(),
+                          //   textColor: MzanziInnovationHub.of(context)!
+                          //       .theme
+                          //       .primaryColor(),
+                          // ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         } else {
@@ -657,7 +658,7 @@ class _AiChatState extends State<AiChat> {
     );
     _modelController.text = 'gemma3:4b';
     _fontSizeController.text = _chatFrontSize.ceil().toString();
-    systemPromt = setSystemPromt();
+
     _chatHistory.add(
       ollama.Message(
         role: ollama.MessageRole.system,
