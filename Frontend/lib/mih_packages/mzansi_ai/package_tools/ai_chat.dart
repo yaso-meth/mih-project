@@ -236,23 +236,20 @@ class _AiChatState extends State<AiChat> {
               Navigator.of(context).pop();
             },
             windowBody: Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Stack(
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          snapshot.requireData,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            fontSize: _chatFrontSize,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      snapshot.requireData,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        fontSize: _chatFrontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Positioned(
                       bottom: 0,
@@ -657,7 +654,7 @@ class _AiChatState extends State<AiChat> {
     );
     _modelController.text = 'gemma3:4b';
     _fontSizeController.text = _chatFrontSize.ceil().toString();
-    systemPromt = setSystemPromt();
+
     _chatHistory.add(
       ollama.Message(
         role: ollama.MessageRole.system,
