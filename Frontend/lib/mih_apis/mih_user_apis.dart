@@ -12,6 +12,23 @@ import 'package:supertokens_flutter/supertokens.dart';
 class MihUserApis {
   final baseAPI = AppEnviroment.baseApiUrl;
 
+  static Future<bool> isUsernameUnique(
+    String username,
+    BuildContext context,
+  ) async {
+    var response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/users/validate/username/$username"));
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+
+      return jsonBody["available"];
+    } else {
+      throw Exception(
+          "Error: isUsernameUnique status code ${response.statusCode}");
+    }
+  }
+
   static Future<void> deleteAccount(
     String app_id,
     BuildContext context,
