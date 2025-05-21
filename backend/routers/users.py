@@ -66,10 +66,6 @@ async def read_all_users(search: str, session: SessionContainer = Depends(verify
     query = "SELECT * FROM users WHERE LOWER(email) LIKE %s OR LOWER(username) LIKE %s"
     search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
     cursor.execute(query, (search_term, search_term))
-    # query = "SELECT * FROM users "
-    # query += "where email like lower('%%%s%%') " % search
-    # query += "or username like lower('%%%s%%')" % search
-    # cursor.execute(query)
     items = [
         {
             "idUser": item[0],
@@ -86,6 +82,19 @@ async def read_all_users(search: str, session: SessionContainer = Depends(verify
     cursor.close()
     db.close()
     return items
+
+# Get List of all files
+@router.get("/users/validate/username/{username}", tags=["MIH Users"])
+async def read_all_users(username: str, session: SessionContainer = Depends(verify_session()) ): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "SELECT * FROM users WHERE LOWER(username) = %s"
+    # search_term = f"%{username.lower()}%"  # Add wildcards and lowercase
+    cursor.execute(query, (username.lower(),))
+    available = cursor.fetchone() is None
+    cursor.close()
+    db.close()
+    return {"available": available}
 
 # Get List of all files
 @router.get("/user/{app_id}", tags=["MIH Users"])
