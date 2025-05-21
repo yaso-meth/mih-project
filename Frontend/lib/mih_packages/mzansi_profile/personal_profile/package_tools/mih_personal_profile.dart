@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_user_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -38,13 +40,42 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   late String oldProPicName;
   late String env;
 
+  void notUniqueAlert() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihAppAlert(
+          alertIcon: Icon(
+            Icons.warning_amber_rounded,
+            size: 100,
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          ),
+          alertTitle: "Too Slow, That Username is Taken",
+          alertBody: const Text(
+            "The username you have entered is already taken by another member of Mzansi. Please choose a different username and try again.",
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+        );
+      },
+    );
+  }
+
   Future<void> submitForm() async {
     // print("============\nsubmiit form\n=================");
     if (isFieldsFilled()) {
+      if (widget.arguments.signedInUser.username != usernameController.text) {
+        bool isUsernameUnique = await MihUserApis.isUsernameUnique(
+            usernameController.text, context);
+        print("isUsernameUnique: $isUsernameUnique");
+        if (isUsernameUnique == false) {
+          notUniqueAlert();
+          return;
+        }
+      }
       if (oldProPicName != proPicController.text) {
-        // print("here 1");
-        // print("Pro File Name: ${proPic!.name}");
-        // print("Pro File Bytes: ${proPic!.bytes}");
         await uploadSelectedFile(proPic);
       }
       await updateUserApiCall();
@@ -134,8 +165,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             false,
           ),
         );
-        String message =
-            "${widget.arguments.signedInUser.email}'s information has been updated successfully!";
+        String message = "Your information has been updated successfully!";
         successPopUp(message);
       } else {
         internetConnectionPopUp();
