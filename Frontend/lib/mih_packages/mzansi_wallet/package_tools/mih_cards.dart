@@ -175,7 +175,7 @@ class _MihCardsState extends State<MihCards> {
           const SizedBox(height: 10),
           MIHTextField(
             controller: _nicknameController,
-            hintText: "Card Nickname",
+            hintText: "Card Title",
             editable: true,
             required: false,
           ),

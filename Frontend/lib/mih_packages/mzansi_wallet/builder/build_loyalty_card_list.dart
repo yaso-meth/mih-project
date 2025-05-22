@@ -64,7 +64,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         windowBody: [
           MIHTextField(
             controller: _nicknameController,
-            hintText: "Card Nickname",
+            hintText: "Card Title",
             editable: true,
             required: false,
           ),
@@ -189,7 +189,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       _noFavourites,
                       widget.cardList[index].nickname,
                       widget.cardList[index].card_number,
-                      0,
+                      1,
                       ctxt,
                     );
                   },
