@@ -195,6 +195,8 @@ class MIHMzansiWalletApis {
     int idloyalty_cards,
     String favourite,
     int priority_index,
+    String nickname,
+    String card_number,
     int navIndex,
     BuildContext context,
   ) async {
@@ -209,6 +211,8 @@ class MIHMzansiWalletApis {
         "idloyalty_cards": idloyalty_cards,
         "favourite": favourite,
         "priority_index": priority_index,
+        "nickname": nickname,
+        "card_number": card_number,
       }),
     );
     //print("Here4");
