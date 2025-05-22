@@ -99,6 +99,7 @@ class _MihCardsState extends State<MihCards> {
         onWindowTapClose: () {
           shopController.clear();
           cardNumberController.clear();
+          _nicknameController.clear();
           shopName.value = "";
           Navigator.pop(context);
         },
