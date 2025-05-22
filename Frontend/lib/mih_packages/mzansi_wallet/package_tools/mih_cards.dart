@@ -344,7 +344,7 @@ class _MihCardsState extends State<MihCards> {
                         return BuildLoyaltyCardList(
                           cardList: searchShopName.value,
                           signedInUser: widget.signedInUser,
-                          navIndex: 1,
+                          navIndex: 0,
                         );
                       },
                     );
