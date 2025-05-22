@@ -61,7 +61,37 @@ class _MihAppWindowState extends State<MihAppWindow> {
       height: 50,
       child: Row(
         children: [
-          widget.windowTools != null ? widget.windowTools! : Container(),
+          Container(
+            // color: Colors.white,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(25), // Optional: rounds the corners
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromARGB(
+                      60, 0, 0, 0), // 0.2 opacity = 51 in alpha (255 * 0.2)
+                  spreadRadius: -5,
+                  blurRadius: 5,
+                  offset: Offset(0, 5),
+                ),
+              ],
+            ),
+            child: IconButton.filled(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all<Color>(
+                    MzanziInnovationHub.of(context)!.theme.errorColor()),
+              ),
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              iconSize: 20,
+              onPressed: () {
+                widget.onWindowTapClose();
+              },
+              icon: const Icon(
+                Icons.close,
+              ),
+            ),
+          ),
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
@@ -78,20 +108,7 @@ class _MihAppWindowState extends State<MihAppWindow> {
               ),
             ),
           ),
-          Container(
-            // color: Colors.white,
-            alignment: Alignment.center,
-            child: IconButton(
-              iconSize: 35,
-              onPressed: () {
-                widget.onWindowTapClose();
-              },
-              icon: Icon(
-                Icons.close,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              ),
-            ),
-          ),
+          widget.windowTools != null ? widget.windowTools! : Container(),
         ],
       ),
     );
