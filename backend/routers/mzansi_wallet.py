@@ -19,6 +19,7 @@ class MzansiWalletInsertRequest(BaseModel):
     card_number: str
     favourite: str
     priority_index: int
+    nickname: str
 
 class MzansiWalletUpdateRequest(BaseModel):
     idloyalty_cards: int
@@ -47,6 +48,7 @@ async def read_all_loyalty_cards_by_app_id(app_id: str, session: SessionContaine
             "card_number": item[3],
             "favourite": item[4],
             "priority_index": item[5],
+            "nickname": item[6],
         }
         for item in cursor.fetchall()
     ]
@@ -69,6 +71,7 @@ async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionCo
             "card_number": item[3],
             "favourite": item[4],
             "priority_index": item[5],
+            "nickname": item[6],
         }
         for item in cursor.fetchall()
     ]
@@ -106,13 +109,14 @@ async def insert_loyalty_card(itemRequest : MzansiWalletInsertRequest): #, sessi
     db = database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "insert into loyalty_cards "
-    query += "(app_id, shop_name, card_number, favourite, priority_index) "
-    query += "values (%s, %s, %s, %s, %s)"
+    query += "(app_id, shop_name, card_number, favourite, priority_index, nickname) "
+    query += "values (%s, %s, %s, %s, %s, %s)"
     notetData = (itemRequest.app_id, 
                    itemRequest.shop_name,
                    itemRequest.card_number,
                      itemRequest.favourite,
                      itemRequest.priority_index,
+                     itemRequest.nickname,
                    )
     try:
        cursor.execute(query, notetData) 
