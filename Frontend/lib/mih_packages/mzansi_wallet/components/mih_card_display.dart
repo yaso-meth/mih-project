@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class MihCardDisplay extends StatefulWidget {
   final String shopName;
+  final String nickname;
   final double height;
   const MihCardDisplay({
     super.key,
     required this.shopName,
     required this.height,
+    required this.nickname,
   });
 
   @override
@@ -155,6 +157,19 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    return displayLoyaltyCard();
+    return Column(
+      children: [
+        displayLoyaltyCard(),
+        FittedBox(
+          child: Text(
+            widget.nickname,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
