@@ -5,6 +5,7 @@ class MIHLoyaltyCard {
   final String card_number;
   final String favourite;
   final int priority_index;
+  final String nickname;
 
   const MIHLoyaltyCard({
     required this.idloyalty_cards,
@@ -13,6 +14,7 @@ class MIHLoyaltyCard {
     required this.card_number,
     required this.favourite,
     required this.priority_index,
+    required this.nickname,
   });
 
   factory MIHLoyaltyCard.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class MIHLoyaltyCard {
         "card_number": String card_number,
         "favourite": String favourite,
         "priority_index": int priority_index,
+        "nickname": String nickname,
       } =>
         MIHLoyaltyCard(
           idloyalty_cards: idloyalty_cards,
@@ -32,6 +35,7 @@ class MIHLoyaltyCard {
           card_number: card_number,
           favourite: favourite,
           priority_index: priority_index,
+          nickname: nickname,
         ),
       _ => throw const FormatException('Failed to load loyalty card objects'),
     };
