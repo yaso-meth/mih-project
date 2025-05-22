@@ -25,6 +25,8 @@ class MzansiWalletUpdateRequest(BaseModel):
     idloyalty_cards: int
     favourite: str
     priority_index: int
+    nickname: str
+    card_number: str
 # class patientNoteUpdateRequest(BaseModel):
 #     idpatient_notes: int
 #     note_name: str
@@ -156,10 +158,12 @@ async def UpdatePatient(itemRequest : MzansiWalletUpdateRequest, session: Sessio
     db = database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "update loyalty_cards "
-    query += "set favourite=%s, priority_index=%s "
+    query += "set favourite=%s, priority_index=%s, nickname=%s, card_number=%s "
     query += "where idloyalty_cards=%s"
     notetData = (itemRequest.favourite, 
                     itemRequest.priority_index,
+                    itemRequest.nickname,
+                    itemRequest.card_number,
                     itemRequest.idloyalty_cards,
                 )
     try:
