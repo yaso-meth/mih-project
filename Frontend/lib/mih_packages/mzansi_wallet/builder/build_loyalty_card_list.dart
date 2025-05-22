@@ -1,8 +1,10 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
@@ -175,39 +177,102 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         windowTitle: widget.cardList[index].shop_name.toUpperCase(),
         windowTools: Row(
           children: [
-            IconButton(
-              onPressed: () {
-                deleteCardWindow(context, index);
-              },
-              icon: Icon(
-                Icons.delete,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-            ),
-            Visibility(
-              visible: widget.cardList[index].favourite == "",
-              child: IconButton(
-                onPressed: () {
-                  addToFavCardWindow(context, index);
-                },
-                icon: Icon(
-                  Icons.favorite,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: widget.cardList[index].favourite != "",
-              child: IconButton(
-                onPressed: () {
-                  removeFromFavCardWindow(context, index);
-                },
-                icon: Icon(
-                  Icons.favorite_border,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
+            // IconButton(
+            //   onPressed: () {
+            //     deleteCardWindow(context, index);
+            //   },
+            //   icon: Icon(
+            //     Icons.delete,
+            //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //   ),
+            // ),
+            // Visibility(
+            //   visible: widget.cardList[index].favourite == "",
+            //   child: IconButton(
+            //     onPressed: () {
+            //       addToFavCardWindow(context, index);
+            //     },
+            //     icon: Icon(
+            //       Icons.favorite,
+            //       color:
+            //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //     ),
+            //   ),
+            // ),
+            // Visibility(
+            //   visible: widget.cardList[index].favourite != "",
+            //   child: IconButton(
+            //     onPressed: () {
+            //       removeFromFavCardWindow(context, index);
+            //     },
+            //     icon: Icon(
+            //       Icons.favorite_border,
+            //       color:
+            //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: MihFloatingMenu(
+                animatedIcon: AnimatedIcons.menu_close,
+                direction: SpeedDialDirection.down,
+                children: [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Delete Card",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      deleteCardWindow(context, index);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: widget.cardList[index].favourite == ""
+                        ? Icon(
+                            Icons.favorite,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                          )
+                        : Icon(
+                            Icons.favorite_border,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                          ),
+                    label: widget.cardList[index].favourite == ""
+                        ? "Add to Favourite"
+                        : "Remove from Favourite",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      if (widget.cardList[index].favourite == "") {
+                        addToFavCardWindow(context, index);
+                      } else {
+                        removeFromFavCardWindow(context, index);
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ],
@@ -221,7 +286,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             Container(
               width: 500,
               child: MihCardDisplay(
-                  shopName: widget.cardList[index].shop_name, height: 250),
+                shopName: widget.cardList[index].shop_name,
+                nickname: widget.cardList[index].nickname,
+                height: 250,
+              ),
             ),
             const SizedBox(height: 20),
             Container(
@@ -326,7 +394,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         itemBuilder: (context, index) {
           return GestureDetector(
             child: MihCardDisplay(
-                shopName: widget.cardList[index].shop_name, height: 100),
+              shopName: widget.cardList[index].shop_name,
+              nickname: widget.cardList[index].nickname,
+              height: 100,
+            ),
             onTap: () {
               viewCardWindow(index);
             },
