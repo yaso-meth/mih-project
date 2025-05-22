@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
@@ -31,6 +32,7 @@ class MihCards extends StatefulWidget {
 
 class _MihCardsState extends State<MihCards> {
   final TextEditingController shopController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController cardSearchController = TextEditingController();
   late Future<List<MIHLoyaltyCard>> cardList;
@@ -97,6 +99,7 @@ class _MihCardsState extends State<MihCards> {
         onWindowTapClose: () {
           shopController.clear();
           cardNumberController.clear();
+          _nicknameController.clear();
           shopName.value = "";
           Navigator.pop(context);
         },
@@ -162,11 +165,19 @@ class _MihCardsState extends State<MihCards> {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
-                    MihCardDisplay(shopName: shopName.value, height: 200),
+                    MihCardDisplay(
+                        shopName: shopName.value, nickname: "", height: 200),
                   ],
                 ),
               );
             },
+          ),
+          const SizedBox(height: 10),
+          MIHTextField(
+            controller: _nicknameController,
+            hintText: "Card Title",
+            editable: true,
+            required: false,
           ),
           const SizedBox(height: 10),
           Row(
@@ -218,7 +229,8 @@ class _MihCardsState extends State<MihCards> {
                     cardNumberController.text,
                     "",
                     0,
-                    1,
+                    _nicknameController.text,
+                    0,
                     context,
                   );
                 }
@@ -242,6 +254,7 @@ class _MihCardsState extends State<MihCards> {
     cardSearchController.removeListener(searchShop);
     cardSearchController.dispose();
     searchShopName.dispose();
+    _nicknameController.dispose();
     shopName.dispose();
     super.dispose();
   }
@@ -332,7 +345,7 @@ class _MihCardsState extends State<MihCards> {
                         return BuildLoyaltyCardList(
                           cardList: searchShopName.value,
                           signedInUser: widget.signedInUser,
-                          navIndex: 1,
+                          navIndex: 0,
                         );
                       },
                     );
