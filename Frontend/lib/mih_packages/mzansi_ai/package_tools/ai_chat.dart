@@ -658,7 +658,7 @@ class _AiChatState extends State<AiChat> {
     );
     _modelController.text = 'gemma3:4b';
     _fontSizeController.text = _chatFrontSize.ceil().toString();
-
+    systemPromt = setSystemPromt();
     _chatHistory.add(
       ollama.Message(
         role: ollama.MessageRole.system,
