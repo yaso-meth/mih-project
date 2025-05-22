@@ -219,26 +219,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 direction: SpeedDialDirection.down,
                 children: [
                   SpeedDialChild(
-                    child: Icon(
-                      Icons.delete,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                    label: "Delete Card",
-                    labelBackgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    labelStyle: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    onTap: () {
-                      deleteCardWindow(context, index);
-                    },
-                  ),
-                  SpeedDialChild(
                     child: widget.cardList[index].favourite == ""
                         ? Icon(
                             Icons.favorite,
@@ -270,6 +250,26 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       } else {
                         removeFromFavCardWindow(context, index);
                       }
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Delete Card",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      deleteCardWindow(context, index);
                     },
                   ),
                 ],
