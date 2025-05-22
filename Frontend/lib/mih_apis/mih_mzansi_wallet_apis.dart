@@ -145,6 +145,7 @@ class MIHMzansiWalletApis {
     String card_number,
     String favourite,
     int priority_index,
+    String nickname,
     int navIndex,
     BuildContext context,
   ) async {
@@ -161,6 +162,7 @@ class MIHMzansiWalletApis {
         "card_number": card_number,
         "favourite": favourite,
         "priority_index": priority_index,
+        "nickname": nickname,
       }),
     );
     if (response.statusCode == 201) {
