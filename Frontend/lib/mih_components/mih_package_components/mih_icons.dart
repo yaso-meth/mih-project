@@ -26,15 +26,12 @@ class MihIcons {
   static const IconData calendar =
       IconData(0xe904, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  // Note: Updated codepoint for mih_logo based on CSS (\e905)
   static const IconData mihLogo =
       IconData(0xe905, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  // Note: Updated codepoint and name for mzansi_ai based on CSS (\e906)
   static const IconData mzansiAi =
       IconData(0xe906, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  // Note: Added mzansi_wallet based on CSS (\e907)
   static const IconData mzansiWallet =
       IconData(0xe907, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
@@ -44,7 +41,6 @@ class MihIcons {
   static const IconData patientProfile =
       IconData(0xe909, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  // Added the new icon 'mih_ring' from your updated CSS (\e90a)
   static const IconData mihRing =
       IconData(0xe90a, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
@@ -53,4 +49,7 @@ class MihIcons {
 
   static const IconData businessSetup =
       IconData(0xe90b, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData notifications =
+      IconData(0xe90e, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 }
