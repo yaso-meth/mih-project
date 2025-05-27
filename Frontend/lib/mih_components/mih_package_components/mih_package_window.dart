@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 
-class MihAppWindow extends StatefulWidget {
+class MihPackageWindow extends StatefulWidget {
   final String windowTitle;
   final Widget windowBody;
   final Widget? windowTools;
   // final List<SpeedDialChild> menuOptions;
   final void Function() onWindowTapClose;
   final bool fullscreen;
-  const MihAppWindow({
+  const MihPackageWindow({
     super.key,
     required this.fullscreen,
     required this.windowTitle,
@@ -20,10 +20,10 @@ class MihAppWindow extends StatefulWidget {
   });
 
   @override
-  State<MihAppWindow> createState() => _MihAppWindowState();
+  State<MihPackageWindow> createState() => _MihPackageWindowState();
 }
 
-class _MihAppWindowState extends State<MihAppWindow> {
+class _MihPackageWindowState extends State<MihPackageWindow> {
   late double windowTitleSize;
   late double horizontralWindowPadding;
   late double vertticalWindowPadding;

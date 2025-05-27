@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -29,7 +29,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MihAppWindow(
+        return MihPackageWindow(
           fullscreen: true,
           windowTitle: "Test Full",
           onWindowTapClose: () {
@@ -46,7 +46,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MihAppWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Test No Full",
           onWindowTapClose: () {

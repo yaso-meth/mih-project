@@ -87,7 +87,7 @@ class _MihInfoState extends State<MihInfo> {
   //     context: context,
   //     barrierDismissible: false,
   //     builder: (context) {
-  //       return MihAppWindow(
+  //       return MihPackageWindow(
   //         fullscreen: false,
   //         windowTitle: "MIH Installation Guide (iOS)",
   //         windowTools: const [],
