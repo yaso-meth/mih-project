@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -166,34 +168,53 @@ class _BuildFilesListState extends State<BuildFilesList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: true,
         windowTitle: fileName,
-        windowBody: [
-          BuildFileView(
-            link: url,
-            path: filePath,
-            //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
-          ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
-        windowTools: [
-          Visibility(
-            visible: hasAccessToDelete,
-            child: IconButton(
-              onPressed: () {
-                deleteFilePopUp(filePath, fileID);
-              },
-              icon: Icon(
-                size: 35,
-                Icons.delete,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
+        windowBody: Column(
+          children: [
+            BuildFileView(
+              link: url,
+              path: filePath,
+              //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
+            ),
+            const SizedBox(
+              height: 10,
+            )
+          ],
+        ),
+        windowTools: Visibility(
+          visible: hasAccessToDelete,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: MihFloatingMenu(
+              animatedIcon: AnimatedIcons.menu_close,
+              direction: SpeedDialDirection.down,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.delete,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Delete Document",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    deleteFilePopUp(filePath, fileID);
+                  },
+                ),
+              ],
             ),
           ),
-        ],
+        ),
         onWindowTapClose: () {
           Navigator.pop(context);
         },

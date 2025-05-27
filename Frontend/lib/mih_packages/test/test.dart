@@ -50,7 +50,7 @@ class _MIHTestState extends State<MIHTest> {
         ],
       ),
       secondaryActionButton: null,
-      body: MIHBody(
+      body: const MIHBody(
         borderOn: false,
         bodyItems: [
           // YoutubePlayer(
@@ -64,18 +64,5 @@ class _MIHTestState extends State<MIHTest> {
       pullDownToRefresh: false,
       onPullDown: () async {},
     );
-    // return MIHWindow(
-    //   fullscreen: false,
-    //   windowTitle: "Test",
-    //   windowTools: const [],
-    //   onWindowTapClose: () {
-    //     Navigator.pop(context);
-    //   },
-    //   windowBody: [
-    //     YoutubePlayer(
-    //       controller: videoController,
-    //     ),
-    //   ],
-    // );
   }
 }

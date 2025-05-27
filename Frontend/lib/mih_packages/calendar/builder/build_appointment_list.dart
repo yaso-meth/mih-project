@@ -1,3 +1,4 @@
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
@@ -5,7 +6,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -151,20 +153,61 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MIHWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Appointment Details",
-          windowTools: [
-            Visibility(
-              visible: canEditAppointment(index),
-              child: IconButton(
-                onPressed: () {
-                  deleteAppointmentConfirmationWindow(index);
-                },
-                icon: const Icon(Icons.delete),
+          windowTools: Visibility(
+            visible: canEditAppointment(index),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: MihFloatingMenu(
+                animatedIcon: AnimatedIcons.menu_close,
+                direction: SpeedDialDirection.down,
+                children: [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.edit,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Edit Appointment",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      appointmentUpdateWindow(index);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Delete Appointment",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      deleteAppointmentConfirmationWindow(index);
+                    },
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
           onWindowTapClose: () {
             Navigator.of(context).pop();
             widget.dateController.clear();
@@ -172,79 +215,82 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             widget.titleController.clear();
             widget.descriptionIDController.clear();
           },
-          windowBody: [
-            SizedBox(
-              // width: 500,
-              child: MIHTextField(
-                controller: widget.titleController,
-                hintText: "Title",
-                editable: false,
-                required: false,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
+          windowBody: Column(
+            children: [
+              const SizedBox(height: 10),
+              SizedBox(
                 // width: 500,
                 child: MIHTextField(
-              controller: widget.dateController,
-              hintText: "Date",
-              editable: false,
-              required: false,
-            )),
-            const SizedBox(height: 10),
-            SizedBox(
-                // width: 500,
-                child: MIHTextField(
-              controller: widget.timeController,
-              hintText: "Time",
-              editable: false,
-              required: false,
-            )),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              height: 250,
-              child: MIHMLTextField(
-                controller: widget.descriptionIDController,
-                hintText: "Description",
-                editable: false,
-                required: false,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Visibility(
-              visible: canEditAppointment(index),
-              child: SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    appointmentUpdateWindow(index);
-                  },
-                  buttonText: "Edit",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.titleController,
+                  hintText: "Title",
+                  editable: false,
+                  required: false,
                 ),
               ),
-            ),
-            // SizedBox(
-            //   width: 500,
-            //   height: 50,
-            //   child: MIHButton(
-            //     onTap: () {
-            //       addAppointmentCall();
-            //       checkforchange();
-            //     },
-            //     buttonText: "Add",
-            //     buttonColor:
-            //         MzanziInnovationHub.of(context)!.theme.successColor(),
-            //     textColor:
-            //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //   ),
-            // ),
-          ],
+              const SizedBox(height: 10),
+              SizedBox(
+                  // width: 500,
+                  child: MIHTextField(
+                controller: widget.dateController,
+                hintText: "Date",
+                editable: false,
+                required: false,
+              )),
+              const SizedBox(height: 10),
+              SizedBox(
+                  // width: 500,
+                  child: MIHTextField(
+                controller: widget.timeController,
+                hintText: "Time",
+                editable: false,
+                required: false,
+              )),
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                height: 250,
+                child: MIHMLTextField(
+                  controller: widget.descriptionIDController,
+                  hintText: "Description",
+                  editable: false,
+                  required: false,
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Visibility(
+              //   visible: canEditAppointment(index),
+              //   child: SizedBox(
+              //     width: 500,
+              //     height: 50,
+              //     child: MIHButton(
+              //       onTap: () {
+              //         appointmentUpdateWindow(index);
+              //       },
+              //       buttonText: "Edit",
+              //       buttonColor:
+              //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //       textColor:
+              //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 500,
+              //   height: 50,
+              //   child: MIHButton(
+              //     onTap: () {
+              //       addAppointmentCall();
+              //       checkforchange();
+              //     },
+              //     buttonText: "Add",
+              //     buttonColor:
+              //         MzanziInnovationHub.of(context)!.theme.successColor(),
+              //     textColor:
+              //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //   ),
+              // ),
+            ],
+          ),
         );
       },
     );
@@ -255,20 +301,61 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MIHWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Appointment Details",
-          windowTools: [
-            Visibility(
-              visible: canEditAppointment(index),
-              child: IconButton(
-                onPressed: () {
-                  deleteAppointmentConfirmationWindow(index);
-                },
-                icon: const Icon(Icons.delete),
+          windowTools: Visibility(
+            visible: canEditAppointment(index),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: MihFloatingMenu(
+                animatedIcon: AnimatedIcons.menu_close,
+                direction: SpeedDialDirection.down,
+                children: [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.edit,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Edit Appointment",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      appointmentUpdateWindow(index);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Delete Appointment",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {
+                      deleteAppointmentConfirmationWindow(index);
+                    },
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
           onWindowTapClose: () {
             Navigator.of(context).pop();
             widget.dateController.clear();
@@ -276,89 +363,91 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             widget.titleController.clear();
             widget.descriptionIDController.clear();
           },
-          windowBody: [
-            SizedBox(
-              // width: 500,
-              child: MIHTextField(
-                controller: widget.titleController,
-                hintText: "Title",
-                editable: false,
-                required: false,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              child: MIHTextField(
-                controller: widget.titleController,
-                hintText: "Patient ID Number",
-                editable: false,
-                required: false,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
+          windowBody: Column(
+            children: [
+              SizedBox(
                 // width: 500,
                 child: MIHTextField(
-              controller: widget.dateController,
-              hintText: "Date",
-              editable: false,
-              required: false,
-            )),
-            const SizedBox(height: 10),
-            SizedBox(
-                // width: 500,
-                child: MIHTextField(
-              controller: widget.timeController,
-              hintText: "Time",
-              editable: false,
-              required: false,
-            )),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              height: 250,
-              child: MIHMLTextField(
-                controller: widget.descriptionIDController,
-                hintText: "Description",
-                editable: false,
-                required: false,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Visibility(
-              visible: canEditAppointment(index),
-              child: SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    appointmentUpdateWindow(index);
-                  },
-                  buttonText: "Edit",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.titleController,
+                  hintText: "Title",
+                  editable: false,
+                  required: false,
                 ),
               ),
-            ),
-            // SizedBox(
-            //   width: 500,
-            //   height: 50,
-            //   child: MIHButton(
-            //     onTap: () {
-            //       addAppointmentCall();
-            //       checkforchange();
-            //     },
-            //     buttonText: "Add",
-            //     buttonColor:
-            //         MzanziInnovationHub.of(context)!.theme.successColor(),
-            //     textColor:
-            //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //   ),
-            // ),
-          ],
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                child: MIHTextField(
+                  controller: widget.titleController,
+                  hintText: "Patient ID Number",
+                  editable: false,
+                  required: false,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                  // width: 500,
+                  child: MIHTextField(
+                controller: widget.dateController,
+                hintText: "Date",
+                editable: false,
+                required: false,
+              )),
+              const SizedBox(height: 10),
+              SizedBox(
+                  // width: 500,
+                  child: MIHTextField(
+                controller: widget.timeController,
+                hintText: "Time",
+                editable: false,
+                required: false,
+              )),
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                height: 250,
+                child: MIHMLTextField(
+                  controller: widget.descriptionIDController,
+                  hintText: "Description",
+                  editable: false,
+                  required: false,
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Visibility(
+              //   visible: canEditAppointment(index),
+              //   child: SizedBox(
+              //     width: 500,
+              //     height: 50,
+              //     child: MIHButton(
+              //       onTap: () {
+              //         appointmentUpdateWindow(index);
+              //       },
+              //       buttonText: "Edit",
+              //       buttonColor:
+              //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //       textColor:
+              //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 500,
+              //   height: 50,
+              //   child: MIHButton(
+              //     onTap: () {
+              //       addAppointmentCall();
+              //       checkforchange();
+              //     },
+              //     buttonText: "Add",
+              //     buttonColor:
+              //         MzanziInnovationHub.of(context)!.theme.successColor(),
+              //     textColor:
+              //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //   ),
+              // ),
+            ],
+          ),
         );
       },
     );
@@ -369,10 +458,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MIHWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Update Appointment",
-          windowTools: [],
+          windowTools: null,
           onWindowTapClose: () {
             setState(() {
               widget.titleController.text = widget.appointmentList[index].title;
@@ -387,95 +476,70 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             });
             Navigator.of(context).pop();
           },
-          windowBody: [
-            SizedBox(
-              // width: 500,
-              child: MIHTextField(
-                controller: widget.titleController,
-                hintText: "Title",
-                editable: true,
-                required: true,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              child: MIHDateField(
-                controller: widget.dateController,
-                lableText: "Date",
-                required: true,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              child: MIHTimeField(
-                controller: widget.timeController,
-                lableText: "Time",
-                required: true,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              height: 250,
-              child: MIHMLTextField(
-                controller: widget.descriptionIDController,
-                hintText: "Description",
-                editable: true,
-                required: true,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Wrap(
-              alignment: WrapAlignment.center,
-              runSpacing: 10,
-              spacing: 10,
-              children: [
-                SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      updateAppointmentCall(index);
-                    },
-                    buttonText: "Update",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
+          windowBody: Column(
+            children: [
+              SizedBox(
+                // width: 500,
+                child: MIHTextField(
+                  controller: widget.titleController,
+                  hintText: "Title",
+                  editable: true,
+                  required: true,
                 ),
-                // SizedBox(
-                //   width: 500,
-                //   height: 50,
-                //   child: MIHButton(
-                //     onTap: () {
-                //       setState(() {
-                //         widget.titleController.text =
-                //             widget.appointmentList[index].title;
-                //         widget.descriptionIDController.text =
-                //             widget.appointmentList[index].description;
-                //         widget.dateController.text = widget
-                //             .appointmentList[index].date_time
-                //             .split('T')[0];
-                //         widget.timeController.text = widget
-                //             .appointmentList[index].date_time
-                //             .split('T')[1]
-                //             .substring(0, 5);
-                //       });
-                //       Navigator.of(context).pop();
-                //     },
-                //     buttonText: "Cancel",
-                //     buttonColor:
-                //         MzanziInnovationHub.of(context)!.theme.errorColor(),
-                //     textColor:
-                //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                //   ),
-                // ),
-              ],
-            )
-          ],
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                child: MIHDateField(
+                  controller: widget.dateController,
+                  lableText: "Date",
+                  required: true,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                child: MIHTimeField(
+                  controller: widget.timeController,
+                  lableText: "Time",
+                  required: true,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                height: 250,
+                child: MIHMLTextField(
+                  controller: widget.descriptionIDController,
+                  hintText: "Description",
+                  editable: true,
+                  required: true,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                alignment: WrapAlignment.center,
+                runSpacing: 10,
+                spacing: 10,
+                children: [
+                  SizedBox(
+                    width: 500,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: () {
+                        updateAppointmentCall(index);
+                      },
+                      buttonText: "Update",
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         );
       },
     );

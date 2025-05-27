@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../../main.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../../mih_components/mih_layout/mih_window.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -221,65 +221,67 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
           fullscreen: false,
           windowTitle: "Update Appointment Access",
-          windowBody: [
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(
-                subtitle,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontSize: popUpBodySize,
-                  //fontWeight: FontWeight.bold,
+          windowBody: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Wrap(
-              runSpacing: 10,
-              spacing: 10,
-              children: [
-                SizedBox(
-                  width: popUpButtonWidth,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      updateAccessAPICall(index, "declined");
-                    },
-                    buttonText: "Decline",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              Wrap(
+                runSpacing: 10,
+                spacing: 10,
+                children: [
+                  SizedBox(
+                    width: popUpButtonWidth,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: () {
+                        updateAccessAPICall(index, "declined");
+                      },
+                      buttonText: "Decline",
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: popUpButtonWidth,
-                  height: 50,
-                  child: MIHButton(
-                    onTap: () {
-                      updateAccessAPICall(index, "approved");
-                    },
-                    buttonText: "Approve",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  SizedBox(
+                    width: popUpButtonWidth,
+                    height: 50,
+                    child: MIHButton(
+                      onTap: () {
+                        updateAccessAPICall(index, "approved");
+                      },
+                      buttonText: "Approve",
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      textColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-          windowTools: const [],
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+          windowTools: null,
           onWindowTapClose: () {
             Navigator.pop(context);
           }),

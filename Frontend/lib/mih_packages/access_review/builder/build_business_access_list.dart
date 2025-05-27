@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
-import '../../../mih_apis/mih_api_calls.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
-import '../../../mih_components/mih_layout/mih_window.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_env/env.dart';
-import '../../../mih_objects/app_user.dart';
-import '../../../mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_env/env.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
   final List<PatientAccess> patientAccessList;
@@ -216,217 +215,228 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
           fullscreen: false,
           windowTitle: "Profile Access",
-          windowBody: [
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 1000,
-              child: Text(
-                subtitle,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  fontSize: popUpBodySize,
-                  //fontWeight: FontWeight.bold,
+          windowBody: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 1000,
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    fontSize: popUpBodySize,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20.0),
-            Visibility(
-              visible: widget.patientAccessList[index].status == 'pending',
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Important Notice: Approving Profile Access",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+              const SizedBox(height: 20.0),
+              Visibility(
+                visible: widget.patientAccessList[index].status == 'pending',
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Important Notice: Approving Profile Access",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      ),
                     ),
-                  ),
-                  Text(
-                    "You are about to accept access to your patient's profile. Please be aware of the following important points:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "1. Permanent Access: Once you accepts this access request, it will become permanent.",
+                    Text(
+                      "You are about to accept access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color:
                             MzanziInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "1. Permanent Access: Once you accepts this access request, it will become permanent.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "3. Irreversible Access: Once granted, you cannot revoke access to your patient's profile.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "By pressing the \"Approve\" button you accept the above terms.",
                       style: TextStyle(
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         color:
                             MzanziInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "3. Irreversible Access: Once granted, you cannot revoke access to your patient's profile.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "By pressing the \"Approve\" button you accept the above terms.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Visibility(
-              visible: widget.patientAccessList[index].status == 'approved',
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Important Notice: Approved Profile Access",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+              Visibility(
+                visible: widget.patientAccessList[index].status == 'approved',
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Important Notice: Approved Profile Access",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      ),
                     ),
-                  ),
-                  Text(
-                    "You have accepted access to your patient's profile. Please be aware of the following important points:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "1. Permanent Access: This access is permanent.",
+                    Text(
+                      "You have accepted access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color:
                             MzanziInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "1. Permanent Access: This access is permanent.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 700,
-                    child: Text(
-                      "3. Irreversible Access: You cannot revoke this access to your patient's profile.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 700,
+                      child: Text(
+                        "3. Irreversible Access: You cannot revoke this access to your patient's profile.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .errorColor(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20.0),
-            const SizedBox(
-              height: 20,
-            ),
-            Visibility(
-              visible: widget.patientAccessList[index].status == 'pending',
-              child: Wrap(
-                runSpacing: 10,
-                spacing: 10,
-                children: [
-                  SizedBox(
-                    width: popUpButtonWidth,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        print("request declined");
-                        MIHApiCalls.updatePatientAccessAPICall(
-                          widget.patientAccessList[index].business_id,
-                          widget.patientAccessList[index].requested_by,
-                          widget.patientAccessList[index].app_id,
-                          "declined",
-                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                          widget.signedInUser,
-                          context,
-                        );
-                        //updateAccessAPICall(index, "declined");
-                      },
-                      buttonText: "Decline",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: popUpButtonWidth,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        print("request approved");
-                        MIHApiCalls.updatePatientAccessAPICall(
-                          widget.patientAccessList[index].business_id,
-                          widget.patientAccessList[index].requested_by,
-                          widget.patientAccessList[index].app_id,
-                          "approved",
-                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                          widget.signedInUser,
-                          context,
-                        );
-                        //updateAccessAPICall(index, "approved");
-                      },
-                      buttonText: "Approve",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 20.0),
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-          windowTools: const [],
+              Visibility(
+                visible: widget.patientAccessList[index].status == 'pending',
+                child: Wrap(
+                  runSpacing: 10,
+                  spacing: 10,
+                  children: [
+                    SizedBox(
+                      width: popUpButtonWidth,
+                      height: 50,
+                      child: MIHButton(
+                        onTap: () {
+                          print("request declined");
+                          MIHApiCalls.updatePatientAccessAPICall(
+                            widget.patientAccessList[index].business_id,
+                            widget.patientAccessList[index].requested_by,
+                            widget.patientAccessList[index].app_id,
+                            "declined",
+                            "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                            widget.signedInUser,
+                            context,
+                          );
+                          //updateAccessAPICall(index, "declined");
+                        },
+                        buttonText: "Decline",
+                        buttonColor:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: popUpButtonWidth,
+                      height: 50,
+                      child: MIHButton(
+                        onTap: () {
+                          print("request approved");
+                          MIHApiCalls.updatePatientAccessAPICall(
+                            widget.patientAccessList[index].business_id,
+                            widget.patientAccessList[index].requested_by,
+                            widget.patientAccessList[index].app_id,
+                            "approved",
+                            "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                            widget.signedInUser,
+                            context,
+                          );
+                          //updateAccessAPICall(index, "approved");
+                        },
+                        buttonText: "Approve",
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        textColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+          windowTools: null,
           onWindowTapClose: () {
             Navigator.pop(context);
           }),

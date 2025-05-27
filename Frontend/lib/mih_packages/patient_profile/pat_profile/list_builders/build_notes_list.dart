@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -136,64 +138,84 @@ class _BuildNotesListState extends State<BuildNotesList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: true,
         windowTitle: selectednote.note_name,
-        windowTools: [
-          Visibility(
-            visible: hasAccessToDelete,
-            child: IconButton(
-              onPressed: () {
-                deletePatientPopUp(selectednote.idpatient_notes);
-              },
-              icon: Icon(
-                Icons.delete,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
+        windowTools: Visibility(
+          visible: hasAccessToDelete,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: MihFloatingMenu(
+              animatedIcon: AnimatedIcons.menu_close,
+              direction: SpeedDialDirection.down,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.delete,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Delete Document",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    deletePatientPopUp(selectednote.idpatient_notes);
+                  },
+                ),
+              ],
             ),
           ),
-        ],
+        ),
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: businessNameController,
-            hintText: "Office",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: userNameController,
-            hintText: "Created By",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: dateController,
-            hintText: "Created Date",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: noteTitleController,
-            hintText: "Note Title",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          Expanded(
-            child: MIHMLTextField(
-              controller: noteTextController,
-              hintText: "Note Details",
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: businessNameController,
+              hintText: "Office",
               editable: false,
               required: false,
             ),
-          ),
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: userNameController,
+              hintText: "Created By",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: dateController,
+              hintText: "Created Date",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: noteTitleController,
+              hintText: "Note Title",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            Expanded(
+              child: MIHMLTextField(
+                controller: noteTextController,
+                hintText: "Note Details",
+                editable: false,
+                required: false,
+              ),
+            ),
+          ],
+        ),
       ),
     );
     // showDialog(

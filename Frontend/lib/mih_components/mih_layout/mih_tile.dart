@@ -1,7 +1,7 @@
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import 'mih_window.dart';
 
 class MIHTile extends StatefulWidget {
   final String tileName;
@@ -47,16 +47,18 @@ class _MIHTileState extends State<MIHTile> {
       showDialog(
         context: context,
         builder: (context) {
-          return MIHWindow(
+          return MihPackageWindow(
             fullscreen: false,
             windowTitle: widget.tileName,
-            windowTools: const [],
+            windowTools: null,
             onWindowTapClose: () {
               Navigator.pop(context);
             },
-            windowBody: [
-              MIHYTVideoPlayer(videoYTLink: widget.videoID!),
-            ],
+            windowBody: Column(
+              children: [
+                MIHYTVideoPlayer(videoYTLink: widget.videoID!),
+              ],
+            ),
           );
         },
       );

@@ -5,9 +5,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -84,106 +84,109 @@ class _PatientConsultationState extends State<PatientConsultation> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Add Note",
-        windowTools: const [],
+        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
           titleController.clear();
           noteTextController.clear();
         },
-        windowBody: [
-          MIHTextField(
-            controller: officeController,
-            hintText: "Office",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: doctorController,
-            hintText: "Created By",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: dateController,
-            hintText: "Created Date",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: titleController,
-            hintText: "Note Title",
-            editable: true,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          SizedBox(
-            //width: 700,
-            height: 250,
-            child: MIHMLTextField(
-              controller: noteTextController,
-              hintText: "Note Details",
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: officeController,
+              hintText: "Office",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: doctorController,
+              hintText: "Created By",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: dateController,
+              hintText: "Created Date",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: titleController,
+              hintText: "Note Title",
               editable: true,
               required: true,
             ),
-          ),
-          SizedBox(
-            height: 15,
-            child: ValueListenableBuilder(
-              builder: (BuildContext context, int value, Widget? child) {
-                return Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "$value",
-                      style: TextStyle(
-                        color: getNoteDetailLimitColor(),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      "/512",
-                      style: TextStyle(
-                        color: getNoteDetailLimitColor(),
-                      ),
-                    ),
-                  ],
-                );
-              },
-              valueListenable: _counter,
+            const SizedBox(height: 10.0),
+            SizedBox(
+              //width: 700,
+              height: 250,
+              child: MIHMLTextField(
+                controller: noteTextController,
+                hintText: "Note Details",
+                editable: true,
+                required: true,
+              ),
             ),
-          ),
-          const SizedBox(height: 15.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              onTap: () {
-                if (isFieldsFilled()) {
-                  addPatientNoteAPICall();
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
+            SizedBox(
+              height: 15,
+              child: ValueListenableBuilder(
+                builder: (BuildContext context, int value, Widget? child) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "$value",
+                        style: TextStyle(
+                          color: getNoteDetailLimitColor(),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        "/512",
+                        style: TextStyle(
+                          color: getNoteDetailLimitColor(),
+                        ),
+                      ),
+                    ],
                   );
-                }
-              },
-              buttonText: "Add Note",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                },
+                valueListenable: _counter,
+              ),
             ),
-          )
-        ],
+            const SizedBox(height: 15.0),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                onTap: () {
+                  if (isFieldsFilled()) {
+                    addPatientNoteAPICall();
+                    Navigator.pop(context);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+                buttonText: "Add Note",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

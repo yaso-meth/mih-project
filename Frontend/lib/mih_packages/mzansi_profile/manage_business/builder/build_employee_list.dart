@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../../../main.dart';
 import '../../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import '../../../../mih_components/mih_layout/mih_window.dart';
 import '../../../../mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import '../../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -150,80 +152,99 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Employee Details",
-        windowTools: [
-          IconButton(
-            onPressed: () {
-              showDeleteWarning(index);
-            },
-            icon: Icon(
-              Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              size: 35,
-            ),
+        windowTools: Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: MihFloatingMenu(
+            animatedIcon: AnimatedIcons.menu_close,
+            direction: SpeedDialDirection.down,
+            children: [
+              SpeedDialChild(
+                child: Icon(
+                  Icons.delete,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "Delete Employee",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  showDeleteWarning(index);
+                },
+              ),
+            ],
           ),
-        ],
+        ),
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHDropdownField(
-            controller: typeController,
-            hintText: "Title",
-            dropdownOptions: const ["Doctor", "Assistant"],
-            required: true,
-            editable: true,
-            enableSearch: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHDropdownField(
-            controller: accessController,
-            hintText: "Access",
-            dropdownOptions: const ["Full", "Partial"],
-            required: true,
-            editable: true,
-            enableSearch: false,
-          ),
-          const SizedBox(height: 15.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Update",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                if (isRequiredFieldsCaptured()) {
-                  updateEmployeeAPICall(index);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
+        windowBody: Column(
+          children: [
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
             ),
-          )
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHDropdownField(
+              controller: typeController,
+              hintText: "Title",
+              dropdownOptions: const ["Doctor", "Assistant"],
+              required: true,
+              editable: true,
+              enableSearch: false,
+            ),
+            const SizedBox(height: 10.0),
+            MIHDropdownField(
+              controller: accessController,
+              hintText: "Access",
+              dropdownOptions: const ["Full", "Partial"],
+              required: true,
+              editable: true,
+              enableSearch: false,
+            ),
+            const SizedBox(height: 15.0),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                buttonText: "Update",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onTap: () {
+                  if (isRequiredFieldsCaptured()) {
+                    updateEmployeeAPICall(index);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
     // showDialog(

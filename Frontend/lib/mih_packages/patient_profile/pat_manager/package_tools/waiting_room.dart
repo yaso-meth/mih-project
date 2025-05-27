@@ -8,9 +8,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -222,71 +222,74 @@ class _WaitingRoomState extends State<WaitingRoom> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MIHWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Appointment Type",
-          windowTools: [],
+          windowTools: null,
           onWindowTapClose: () {
             Navigator.of(context).pop();
           },
-          windowBody: [
-            Text(
-              question,
-              style: TextStyle(
-                  fontSize: 20,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(height: 15),
-            SizedBox(
-              width: 500,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  widget.onIndexChange(1);
-                  Navigator.of(context).pop();
-                },
-                buttonText: "Existing Patient",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          windowBody: Column(
+            children: [
+              Text(
+                question,
+                style: TextStyle(
+                    fontSize: 20,
+                    color: MzanziInnovationHub.of(context)!
+                        .theme
+                        .secondaryColor()),
+                textAlign: TextAlign.left,
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 500,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  widget.onIndexChange(2);
-                  Navigator.of(context).pop();
-                },
-                buttonText: "Existing MIH User",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              const SizedBox(height: 15),
+              SizedBox(
+                width: 500,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    widget.onIndexChange(1);
+                    Navigator.of(context).pop();
+                  },
+                  buttonText: "Existing Patient",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 500,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  Navigator.pop(context);
-                  addAppointmentWindow();
-                },
-                buttonText: "Skeleton Appointment",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: 500,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    widget.onIndexChange(2);
+                    Navigator.of(context).pop();
+                  },
+                  buttonText: "Existing MIH User",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              SizedBox(
+                width: 500,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    Navigator.pop(context);
+                    addAppointmentWindow();
+                  },
+                  buttonText: "Skeleton Appointment",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -297,10 +300,10 @@ class _WaitingRoomState extends State<WaitingRoom> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MIHWindow(
+        return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Add Appointment",
-          windowTools: [],
+          windowTools: null,
           onWindowTapClose: () {
             Navigator.of(context).pop();
             _appointmentDateController.clear();
@@ -309,61 +312,63 @@ class _WaitingRoomState extends State<WaitingRoom> {
             _appointmentDescriptionIDController.clear();
             _patientController.clear();
           },
-          windowBody: [
-            SizedBox(
-              // width: 500,
-              child: MIHTextField(
-                controller: _appointmentTitleController,
-                hintText: "Title",
-                editable: true,
-                required: true,
+          windowBody: Column(
+            children: [
+              SizedBox(
+                // width: 500,
+                child: MIHTextField(
+                  controller: _appointmentTitleController,
+                  hintText: "Title",
+                  editable: true,
+                  required: true,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              child: MIHDateField(
-                controller: _appointmentDateController,
-                lableText: "Date",
-                required: true,
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                child: MIHDateField(
+                  controller: _appointmentDateController,
+                  lableText: "Date",
+                  required: true,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              child: MIHTimeField(
-                controller: _appointmentTimeController,
-                lableText: "Time",
-                required: true,
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                child: MIHTimeField(
+                  controller: _appointmentTimeController,
+                  lableText: "Time",
+                  required: true,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              // width: 500,
-              height: 250,
-              child: MIHMLTextField(
-                controller: _appointmentDescriptionIDController,
-                hintText: "Description",
-                editable: true,
-                required: true,
+              const SizedBox(height: 10),
+              SizedBox(
+                // width: 500,
+                height: 250,
+                child: MIHMLTextField(
+                  controller: _appointmentDescriptionIDController,
+                  hintText: "Description",
+                  editable: true,
+                  required: true,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 500,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  addAppointmentCall();
-                },
-                buttonText: "Add",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 500,
+                height: 50,
+                child: MIHButton(
+                  onTap: () {
+                    addAppointmentCall();
+                  },
+                  buttonText: "Add",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

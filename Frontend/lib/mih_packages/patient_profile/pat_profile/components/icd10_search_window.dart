@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_icd10_code_list.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +37,10 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHWindow(
+    return MihPackageWindow(
       fullscreen: false,
       windowTitle: "ICD-10 Search",
-      windowTools: const [],
+      windowTools: null,
       onWindowTapClose: () {
         // medicineController.clear();
         // quantityController.clear();
@@ -50,9 +50,7 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
         // noRepeatsController.clear();
         Navigator.pop(context);
       },
-      windowBody: [
-        getWindowBody(),
-      ],
+      windowBody: getWindowBody(),
     );
   }
 }

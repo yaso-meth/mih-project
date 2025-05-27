@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -66,47 +65,49 @@ class _MedicineSearchState extends State<MedicineSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHWindow(
+    return MihPackageWindow(
       fullscreen: false,
       windowTitle: "Select Medicine",
-      windowTools: [],
+      windowTools: null,
       onWindowTapClose: () {
         Navigator.pop(context);
       },
-      windowBody: [
-        FutureBuilder(
-          future: futueMeds,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox(
-                height: 400,
-                child: Mihloadingcircle(),
-              );
-            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              final medsList = snapshot.data!;
-              return SizedBox(
-                height: 400,
-                child: BuildMedicinesList(
-                  contoller: widget.searchVlaue,
-                  medicines: medsList,
-                  //searchString: searchString,
-                ),
-              );
-            } else {
-              return const SizedBox(
-                height: 400,
-                child: Center(
-                  child: Text(
-                    "No Match Found\nPlease close and manually capture medicine",
-                    style: TextStyle(fontSize: 25, color: Colors.grey),
-                    textAlign: TextAlign.center,
+      windowBody: Column(
+        children: [
+          FutureBuilder(
+            future: futueMeds,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox(
+                  height: 400,
+                  child: Mihloadingcircle(),
+                );
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                final medsList = snapshot.data!;
+                return SizedBox(
+                  height: 400,
+                  child: BuildMedicinesList(
+                    contoller: widget.searchVlaue,
+                    medicines: medsList,
+                    //searchString: searchString,
                   ),
-                ),
-              );
-            }
-          },
-        ),
-      ],
+                );
+              } else {
+                return const SizedBox(
+                  height: 400,
+                  child: Center(
+                    child: Text(
+                      "No Match Found\nPlease close and manually capture medicine",
+                      style: TextStyle(fontSize: 25, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }
