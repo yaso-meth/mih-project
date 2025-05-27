@@ -8,7 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -44,7 +44,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     showDialog(
       context: context,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,

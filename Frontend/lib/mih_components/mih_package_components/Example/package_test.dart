@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
@@ -54,7 +54,7 @@ class _PackageTestState extends State<PackageTest> {
     showDialog(
       context: context,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,

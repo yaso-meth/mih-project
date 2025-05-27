@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
@@ -157,7 +157,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.favorite,
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -213,7 +213,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.favorite_border,
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),

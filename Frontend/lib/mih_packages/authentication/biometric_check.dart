@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
   }
 
   void authErrorPopUp() {
-    Widget alertpopUp = MihAppAlert(
+    Widget alertpopUp = MihPackageAlert(
       alertIcon: Icon(
         Icons.fingerprint,
         color: MzanziInnovationHub.of(context)!.theme.errorColor(),
