@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
@@ -18,8 +18,8 @@ class PackageTest extends StatefulWidget {
 class _PackageTestState extends State<PackageTest> {
   int _selcetedIndex = 0;
 
-  MihAppAction getAction() {
-    return MihAppAction(
+  MihPackageAction getAction() {
+    return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {

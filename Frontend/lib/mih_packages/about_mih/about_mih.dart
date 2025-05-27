@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_%20attributes.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
@@ -45,8 +45,8 @@ class _AboutMihState extends State<AboutMih> {
     );
   }
 
-  MihAppAction getAction() {
-    return MihAppAction(
+  MihPackageAction getAction() {
+    return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {

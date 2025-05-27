@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MihAppAction extends StatefulWidget {
+class MihPackageAction extends StatefulWidget {
   final void Function()? onTap;
   final double iconSize;
   final Widget icon;
-  const MihAppAction({
+  const MihPackageAction({
     super.key,
     required this.icon,
     required this.iconSize,
@@ -12,10 +12,10 @@ class MihAppAction extends StatefulWidget {
   });
 
   @override
-  State<MihAppAction> createState() => _MihAppActionState();
+  State<MihPackageAction> createState() => _MihPackageActionState();
 }
 
-class _MihAppActionState extends State<MihAppAction> {
+class _MihPackageActionState extends State<MihPackageAction> {
   @override
   void dispose() {
     super.dispose();
