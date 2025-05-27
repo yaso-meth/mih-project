@@ -1,4 +1,4 @@
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -20,7 +20,7 @@ class _MihAccessState extends State<MihAccess> {
   int _selcetedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return MihApp(
+    return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),

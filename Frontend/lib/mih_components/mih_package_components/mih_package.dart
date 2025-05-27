@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 // ignore: must_be_immutable
-class MihApp extends StatefulWidget {
+class MihPackage extends StatefulWidget {
   final Widget appActionButton;
   final MihAppTools appTools;
   final List<Widget> appBody;
   final MIHAppDrawer? actionDrawer;
   int selectedbodyIndex;
   final Function(int) onIndexChange;
-  MihApp({
+  MihPackage({
     super.key,
     required this.appActionButton,
     required this.appTools,
@@ -23,10 +23,11 @@ class MihApp extends StatefulWidget {
   });
 
   @override
-  State<MihApp> createState() => _MihAppState();
+  State<MihPackage> createState() => _MihPackageState();
 }
 
-class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
+class _MihPackageState extends State<MihPackage>
+    with SingleTickerProviderStateMixin {
   late PageController _pageController;
   late AnimationController _animationController;
 
@@ -65,7 +66,7 @@ class _MihAppState extends State<MihApp> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(covariant MihApp oldWidget) {
+  void didUpdateWidget(covariant MihPackage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedbodyIndex != widget.selectedbodyIndex) {
       _pageController.animateToPage(

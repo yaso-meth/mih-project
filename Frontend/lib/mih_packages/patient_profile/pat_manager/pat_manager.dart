@@ -1,4 +1,4 @@
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -29,7 +29,7 @@ class _PatManagerState extends State<PatManager> {
 
   @override
   Widget build(BuildContext context) {
-    return MihApp(
+    return MihPackage(
       appActionButton: getActionButton(),
       appTools: getTools(),
       appBody: getToolBody(),
