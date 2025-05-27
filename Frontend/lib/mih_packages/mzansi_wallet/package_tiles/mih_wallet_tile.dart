@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class MihWalletTile extends StatefulWidget {
 class _MihWalletTileState extends State<MihWalletTile> {
   @override
   Widget build(BuildContext context) {
-    return MihAppTile(
+    return MihPackageTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-wallet',

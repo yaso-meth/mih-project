@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class PatManagerTile extends StatefulWidget {
 class _PatManagerTileState extends State<PatManagerTile> {
   @override
   Widget build(BuildContext context) {
-    return MihAppTile(
+    return MihPackageTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/patient-manager',

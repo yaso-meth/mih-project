@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 
@@ -17,7 +17,7 @@ class AboutMihTile extends StatefulWidget {
 class _AboutMihTileState extends State<AboutMihTile> {
   @override
   Widget build(BuildContext context) {
-    return MihAppTile(
+    return MihPackageTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/about',

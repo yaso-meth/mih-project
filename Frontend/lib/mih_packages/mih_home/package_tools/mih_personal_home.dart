@@ -2,7 +2,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -149,7 +149,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Dev ===============
     if (widget.isDevActive) {
       temp.add({
-        "test": MihAppTile(
+        "test": MihPackageTile(
           onTap: () {
             Navigator.of(context).pushNamed(
               '/package-dev',
