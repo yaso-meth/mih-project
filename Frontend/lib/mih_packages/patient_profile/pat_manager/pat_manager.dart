@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/mih_patient_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/my_patient_list.dart';
@@ -53,7 +53,7 @@ class _PatManagerState extends State<PatManager> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.calendar_month)] = () {
       setState(() {
@@ -72,7 +72,7 @@ class _PatManagerState extends State<PatManager> {
         _selcetedIndex = 2;
       });
     };
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );

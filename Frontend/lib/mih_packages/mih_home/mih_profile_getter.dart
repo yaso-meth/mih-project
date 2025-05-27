@@ -3,7 +3,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +67,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
     }
   }
 
-  MihAppTools getErrorTools() {
+  MihPackageTools getErrorTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.power_off_outlined)] = () {
       setState(() {
@@ -75,7 +75,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
       });
     };
 
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );

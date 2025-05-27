@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
@@ -46,7 +46,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.perm_identity)] = () {
       setState(() {
@@ -58,7 +58,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
         _selcetedIndex = 1;
       });
     };
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );

@@ -2,7 +2,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -32,7 +32,7 @@ class _PackageTestState extends State<PackageTest> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = Map();
     temp[const Icon(Icons.inbox)] = () {
       setState(() {
@@ -44,7 +44,7 @@ class _PackageTestState extends State<PackageTest> {
         _selcetedIndex = 1;
       });
     };
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );

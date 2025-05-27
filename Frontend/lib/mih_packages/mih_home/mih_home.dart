@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -140,7 +140,7 @@ class _MihHomeState extends State<MihHome> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
       setState(() {
@@ -156,7 +156,7 @@ class _MihHomeState extends State<MihHome> {
         });
       };
     }
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );
