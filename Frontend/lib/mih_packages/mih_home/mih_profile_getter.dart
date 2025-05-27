@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
@@ -83,7 +83,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
 
   List<Widget> getErrorToolBody(String error) {
     List<Widget> toolBodies = [
-      MihAppToolBody(
+      MihPackageToolBody(
         borderOn: true,
         bodyItem: Column(
           mainAxisAlignment: MainAxisAlignment.start,
