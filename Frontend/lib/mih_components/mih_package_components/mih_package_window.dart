@@ -99,13 +99,17 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
           ),
         ),
         Expanded(
-          child: Text(
-            widget.windowTitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: windowTitleSize,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              widget.windowTitle,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: windowTitleSize,
+                fontWeight: FontWeight.bold,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
             ),
           ),
         ),
