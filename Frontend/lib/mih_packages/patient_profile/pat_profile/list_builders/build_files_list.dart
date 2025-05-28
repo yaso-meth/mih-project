@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:fl_downloader/fl_downloader.dart';
@@ -50,6 +51,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
   final baseAPI = AppEnviroment.baseApiUrl;
   final basefile = AppEnviroment.baseFileUrl;
   String fileUrl = "";
+  int progress = 0;
+  late StreamSubscription progressStream;
 
   Future<String> getFileUrlApiCall(String filePath) async {
     String teporaryFileUrl = "";
@@ -200,6 +203,121 @@ class _BuildFilesListState extends State<BuildFilesList> {
     if (widget.type == "business") {
       hasAccessToDelete = true;
     }
+
+    List<SpeedDialChild>? menuList = [
+      SpeedDialChild(
+        child: Icon(
+          Icons.download,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        label: "Download",
+        labelBackgroundColor:
+            MzanziInnovationHub.of(context)!.theme.successColor(),
+        labelStyle: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        onTap: () {
+          if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+            html.window.open(url, 'download');
+          } else {
+            nativeFileDownload(url);
+          }
+        },
+      ),
+    ];
+    if (filePath.split(".").last.toLowerCase() == "pdf") {
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.print,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          label: "Print",
+          labelBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          onTap: () {
+            printDocument(url, filePath);
+          },
+        ),
+      );
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.fullscreen,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          label: "Full Screen",
+          labelBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          onTap: () {
+            printDocument(url, filePath);
+          },
+        ),
+      );
+    } else {
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.fullscreen,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          label: "Full Screen",
+          labelBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              '/file-veiwer',
+              arguments: FileViewArguments(
+                url,
+                filePath,
+              ),
+            );
+          },
+        ),
+      );
+    }
+    if (hasAccessToDelete) {
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.delete,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          label: "Delete Document",
+          labelBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          onTap: () {
+            deleteFilePopUp(filePath, fileID);
+          },
+        ),
+      );
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -211,91 +329,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
           path: filePath,
           //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
         ),
-        menuOptions: [
-          SpeedDialChild(
-            child: Icon(
-              Icons.download,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-            label: "Download",
-            labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
-            labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              fontWeight: FontWeight.bold,
-            ),
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
-            onTap: () {
-              if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
-                  "Web") {
-                html.window.open(url, 'download');
-              } else {
-                nativeFileDownload(url);
-              }
-              printDocument(url, filePath);
-            },
-          ),
-          SpeedDialChild(
-            child: Icon(
-              Icons.print,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-            label: "Print",
-            labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
-            labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              fontWeight: FontWeight.bold,
-            ),
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
-            onTap: () {
-              printDocument(url, filePath);
-            },
-          ),
-          hasAccessToDelete == true
-              ? SpeedDialChild(
-                  child: Icon(
-                    Icons.delete,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                  label: "Delete Document",
-                  labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  labelStyle: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  onTap: () {
-                    deleteFilePopUp(filePath, fileID);
-                  },
-                )
-              : SpeedDialChild(
-                  child: Icon(
-                    Icons.fullscreen,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                  label: "Full Screen",
-                  labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  labelStyle: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  onTap: () {
-                    printDocument(url, filePath);
-                  },
-                ),
-        ],
+        menuOptions: menuList,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
@@ -316,6 +350,26 @@ class _BuildFilesListState extends State<BuildFilesList> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FlDownloader.initialize();
+    progressStream = FlDownloader.progressStream.listen((event) {
+      if (event.status == DownloadStatus.successful) {
+        setState(() {
+          progress = event.progress;
+        });
+        //Navigator.of(context).pop();
+        print("Progress $progress%: Success Downloading");
+        FlDownloader.openFile(filePath: event.filePath);
+      } else if (event.status == DownloadStatus.failed) {
+        print("Progress $progress%: Error Downloading");
+      } else if (event.status == DownloadStatus.running) {
+        print("Progress $progress%: Download Running");
+      }
+    });
   }
 
   @override

@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import "package:universal_html/html.dart" as html;
 import 'package:http/http.dart' as http;
 import 'package:fl_downloader/fl_downloader.dart';
 
@@ -117,147 +116,27 @@ class _BuildFileViewState extends State<BuildFileView> {
     if (getExtType(widget.path).toLowerCase() == "pdf") {
       return SizedBox(
         height: 500,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            SfPdfViewerTheme(
-              data: SfPdfViewerThemeData(
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-              child: SfPdfViewer.network(
-                widget.link,
-                controller: pdfViewerController,
-                interactionMode: PdfInteractionMode.pan,
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              width: 50,
-              height: 50,
-              child: IconButton.filled(
-                iconSize: 35,
-                padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  printDocument();
-                },
-                icon: Icon(
-                  Icons.print,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              left: 10,
-              width: 50,
-              height: 50,
-              child: IconButton.filled(
-                iconSize: 35,
-                padding: const EdgeInsets.all(0),
-                onPressed: () async {
-                  // debugPrint(
-                  //     "I'm here ${MzanziInnovationHub.of(context)!.theme.getPlatform()}");
-                  if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
-                      "Web") {
-                    html.window.open(
-                        widget.link,
-                        // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                        'download');
-                  } else {
-                    // print("Here");
-                    // var permission = await FlDownloader.requestPermission();
-                    // if (permission == StoragePermissionStatus.granted) {
-                    //   await FlDownloader.download(widget.link);
-                    // } else {
-                    //   print("denied");
-                    // }
-                    nativeFileDownload(widget.link);
-                  }
-                },
-                icon: Icon(
-                  Icons.download,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ),
-          ],
+        child: SfPdfViewerTheme(
+          data: SfPdfViewerThemeData(
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          child: SfPdfViewer.network(
+            widget.link,
+            controller: pdfViewerController,
+            interactionMode: PdfInteractionMode.pan,
+          ),
         ),
       );
     } else {
       return SizedBox(
         height: 500,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            InteractiveViewer(
-              //constrained: true,
-              //clipBehavior: Clip.antiAlias,
-              maxScale: 5.0,
-              //minScale: 0.,
-              child: Image.network(widget.link),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 10,
-              width: 50,
-              height: 50,
-              child: IconButton.filled(
-                iconSize: 35,
-                padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  //expandImage(width, height);
-                  Navigator.of(context).pushNamed(
-                    '/file-veiwer',
-                    arguments: FileViewArguments(
-                      widget.link,
-                      widget.path,
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.fullscreen,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              left: 10,
-              width: 50,
-              height: 50,
-              child: IconButton.filled(
-                iconSize: 35,
-                padding: const EdgeInsets.all(0),
-                onPressed: () async {
-                  // debugPrint("I'm here ");
-                  // debugPrint(
-                  //     "I'm here ${MzanziInnovationHub.of(context)!.theme.getPlatform()}");
-                  if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
-                      "Web") {
-                    html.window.open(
-                        widget.link,
-                        // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-                        'download');
-                  } else {
-                    //print("Here");
-                    // var permission = await FlDownloader.requestPermission();
-                    // if (permission == StoragePermissionStatus.granted) {
-                    //   await FlDownloader.download(widget.link);
-                    // } else {
-                    //   print("denied");
-                    // }
-                    nativeFileDownload(widget.link);
-                  }
-                },
-                icon: Icon(
-                  Icons.download,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-              ),
-            ),
-          ],
+        child: InteractiveViewer(
+          //constrained: true,
+          //clipBehavior: Clip.antiAlias,
+          maxScale: 5.0,
+          //minScale: 0.,
+          child: Image.network(widget.link),
         ),
       );
     }

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
@@ -5,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -15,6 +19,9 @@ import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
+import 'package:supertokens_flutter/http.dart' as http;
+import 'package:http/http.dart' as http2;
+import "package:universal_html/html.dart" as html;
 
 class BuildClaimStatementFileList extends StatefulWidget {
   final AppUser signedInUser;
@@ -46,6 +53,8 @@ class _BuildClaimStatementFileListState
   final baseAPI = AppEnviroment.baseApiUrl;
   final basefile = AppEnviroment.baseFileUrl;
   String fileUrl = "";
+  int progress = 0;
+  late StreamSubscription progressStream;
 
   Future<String> getFileUrlApiCall(String filePath) async {
     String teporaryFileUrl = "";
@@ -106,16 +115,135 @@ class _BuildClaimStatementFileListState
     );
   }
 
+  String getFileName(String path) {
+    //print(pdfLink.split(".")[1]);
+    return path.split("/").last;
+  }
+
+  void printDocument(String link, String path) async {
+    http2.Response response = await http.get(Uri.parse(link));
+    var pdfData = response.bodyBytes;
+    Navigator.of(context).pushNamed(
+      '/file-veiwer/print-preview',
+      arguments: PrintPreviewArguments(
+        pdfData,
+        getFileName(path),
+      ),
+    );
+  }
+
+  void nativeFileDownload(String fileLink) async {
+    var permission = await FlDownloader.requestPermission();
+    if (permission == StoragePermissionStatus.granted) {
+      try {
+        mihLoadingPopUp();
+        await FlDownloader.download(fileLink);
+        Navigator.of(context).pop();
+      } on Exception catch (error) {
+        Navigator.of(context).pop();
+        print(error);
+      }
+    } else {
+      print("denied");
+    }
+  }
+
   void viewFilePopUp(String fileName, String filePath, int fileID, String url) {
     bool hasAccessToDelete = false;
     if (widget.type == "business") {
       hasAccessToDelete = true;
     }
+
+    List<SpeedDialChild>? menuList = [
+      SpeedDialChild(
+        child: Icon(
+          Icons.download,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        label: "Download",
+        labelBackgroundColor:
+            MzanziInnovationHub.of(context)!.theme.successColor(),
+        labelStyle: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        onTap: () {
+          if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+            html.window.open(url, 'download');
+          } else {
+            nativeFileDownload(url);
+          }
+        },
+      ),
+    ];
+    menuList.add(
+      SpeedDialChild(
+        child: Icon(
+          Icons.print,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        label: "Print",
+        labelBackgroundColor:
+            MzanziInnovationHub.of(context)!.theme.successColor(),
+        labelStyle: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        onTap: () {
+          printDocument(url, filePath);
+        },
+      ),
+    );
+    menuList.add(
+      SpeedDialChild(
+        child: Icon(
+          Icons.fullscreen,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        label: "Full Screen",
+        labelBackgroundColor:
+            MzanziInnovationHub.of(context)!.theme.successColor(),
+        labelStyle: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        onTap: () {
+          printDocument(url, filePath);
+        },
+      ),
+    );
+
+    if (hasAccessToDelete) {
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.delete,
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          ),
+          label: "Delete Document",
+          labelBackgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          labelStyle: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor:
+              MzanziInnovationHub.of(context)!.theme.successColor(),
+          onTap: () {
+            deleteFilePopUp(filePath, fileID);
+          },
+        ),
+      );
+    }
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => MihPackageWindow(
-        fullscreen: true,
+        fullscreen: false,
         windowTitle: fileName,
         windowBody: Column(
           children: [
@@ -129,30 +257,7 @@ class _BuildClaimStatementFileListState
             )
           ],
         ),
-        menuOptions: hasAccessToDelete
-            ? [
-                SpeedDialChild(
-                  child: Icon(
-                    Icons.delete,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  ),
-                  label: "Delete Document",
-                  labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  labelStyle: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  onTap: () {
-                    deleteFilePopUp(filePath, fileID);
-                  },
-                ),
-              ]
-            : null,
+        menuOptions: menuList,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
@@ -160,10 +265,39 @@ class _BuildClaimStatementFileListState
     );
   }
 
+  void mihLoadingPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FlDownloader.initialize();
+    progressStream = FlDownloader.progressStream.listen((event) {
+      if (event.status == DownloadStatus.successful) {
+        setState(() {
+          progress = event.progress;
+        });
+        //Navigator.of(context).pop();
+        print("Progress $progress%: Success Downloading");
+        FlDownloader.openFile(filePath: event.filePath);
+      } else if (event.status == DownloadStatus.failed) {
+        print("Progress $progress%: Error Downloading");
+      } else if (event.status == DownloadStatus.running) {
+        print("Progress $progress%: Download Running");
+      }
+    });
   }
 
   @override
