@@ -4,7 +4,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -139,16 +138,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
       context: context,
       barrierDismissible: false,
       builder: (context) => MihPackageWindow(
-        fullscreen: true,
-        windowTitle: selectednote.note_name,
-        windowTools: Visibility(
-          visible: hasAccessToDelete,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: MihFloatingMenu(
-              animatedIcon: AnimatedIcons.menu_close,
-              direction: SpeedDialDirection.down,
-              children: [
+        fullscreen: false,
+        windowTitle: "Note Details",
+        menuOptions: hasAccessToDelete
+            ? [
                 SpeedDialChild(
                   child: Icon(
                     Icons.delete,
@@ -169,15 +162,14 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     deletePatientPopUp(selectednote.idpatient_notes);
                   },
                 ),
-              ],
-            ),
-          ),
-        ),
+              ]
+            : null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
         windowBody: Column(
           children: [
+            const SizedBox(height: 10.0),
             MIHTextField(
               controller: businessNameController,
               hintText: "Office",
@@ -206,7 +198,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
               required: false,
             ),
             const SizedBox(height: 10.0),
-            Expanded(
+            SizedBox(
+              height: 250,
               child: MIHMLTextField(
                 controller: noteTextController,
                 hintText: "Note Details",

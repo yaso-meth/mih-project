@@ -189,7 +189,6 @@ class _BuildUserListState extends State<BuildUserList> {
                 const SizedBox(height: 10.0),
               ],
             ),
-            windowTools: null,
             onWindowTapClose: () {
               Navigator.pop(context);
             }));

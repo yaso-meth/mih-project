@@ -84,7 +84,6 @@ class _MihCardsState extends State<MihCards> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Add New Loyalty Card",
-        windowTools: null,
         onWindowTapClose: () {
           shopController.clear();
           cardNumberController.clear();

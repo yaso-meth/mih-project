@@ -436,7 +436,6 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
               ),
             ],
           ),
-          windowTools: null,
           onWindowTapClose: () {
             Navigator.pop(context);
           }),

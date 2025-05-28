@@ -40,7 +40,6 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
     return MihPackageWindow(
       fullscreen: false,
       windowTitle: "ICD-10 Search",
-      windowTools: null,
       onWindowTapClose: () {
         // medicineController.clear();
         // quantityController.clear();

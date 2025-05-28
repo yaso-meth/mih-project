@@ -50,7 +50,6 @@ class _MIHTileState extends State<MIHTile> {
           return MihPackageWindow(
             fullscreen: false,
             windowTitle: widget.tileName,
-            windowTools: null,
             onWindowTapClose: () {
               Navigator.pop(context);
             },

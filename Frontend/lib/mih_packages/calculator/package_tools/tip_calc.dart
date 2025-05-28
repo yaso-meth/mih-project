@@ -122,7 +122,6 @@ class _TipCalcState extends State<TipCalc> {
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowTools: null,
         windowBody: Column(
           children: [
             Row(

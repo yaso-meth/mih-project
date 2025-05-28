@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -19,6 +19,8 @@ import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
+import 'package:http/http.dart' as http2;
+import "package:universal_html/html.dart" as html;
 
 class BuildFilesList extends StatefulWidget {
   final AppUser signedInUser;
@@ -160,6 +162,39 @@ class _BuildFilesListState extends State<BuildFilesList> {
     );
   }
 
+  String getFileName(String path) {
+    //print(pdfLink.split(".")[1]);
+    return path.split("/").last;
+  }
+
+  void printDocument(String link, String path) async {
+    http2.Response response = await http.get(Uri.parse(link));
+    var pdfData = response.bodyBytes;
+    Navigator.of(context).pushNamed(
+      '/file-veiwer/print-preview',
+      arguments: PrintPreviewArguments(
+        pdfData,
+        getFileName(path),
+      ),
+    );
+  }
+
+  void nativeFileDownload(String fileLink) async {
+    var permission = await FlDownloader.requestPermission();
+    if (permission == StoragePermissionStatus.granted) {
+      try {
+        mihLoadingPopUp();
+        await FlDownloader.download(fileLink);
+        Navigator.of(context).pop();
+      } on Exception catch (error) {
+        Navigator.of(context).pop();
+        print(error);
+      }
+    } else {
+      print("denied");
+    }
+  }
+
   void viewFilePopUp(String fileName, String filePath, int fileID, String url) {
     bool hasAccessToDelete = false;
     if (widget.type == "business") {
@@ -169,29 +204,58 @@ class _BuildFilesListState extends State<BuildFilesList> {
       context: context,
       barrierDismissible: false,
       builder: (context) => MihPackageWindow(
-        fullscreen: true,
+        fullscreen: false,
         windowTitle: fileName,
-        windowBody: Column(
-          children: [
-            BuildFileView(
-              link: url,
-              path: filePath,
-              //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
-            ),
-            const SizedBox(
-              height: 10,
-            )
-          ],
+        windowBody: BuildFileView(
+          link: url,
+          path: filePath,
+          //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
         ),
-        windowTools: Visibility(
-          visible: hasAccessToDelete,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: MihFloatingMenu(
-              animatedIcon: AnimatedIcons.menu_close,
-              direction: SpeedDialDirection.down,
-              children: [
-                SpeedDialChild(
+        menuOptions: [
+          SpeedDialChild(
+            child: Icon(
+              Icons.download,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            label: "Download",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                  "Web") {
+                html.window.open(url, 'download');
+              } else {
+                nativeFileDownload(url);
+              }
+              printDocument(url, filePath);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(
+              Icons.print,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            label: "Print",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              printDocument(url, filePath);
+            },
+          ),
+          hasAccessToDelete == true
+              ? SpeedDialChild(
                   child: Icon(
                     Icons.delete,
                     color:
@@ -210,116 +274,42 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   onTap: () {
                     deleteFilePopUp(filePath, fileID);
                   },
+                )
+              : SpeedDialChild(
+                  child: Icon(
+                    Icons.fullscreen,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Full Screen",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    printDocument(url, filePath);
+                  },
                 ),
-              ],
-            ),
-          ),
-        ),
+        ],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
       ),
     );
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => Dialog(
-    //     child: Stack(
-    //       children: [
-    //         Container(
-    //           padding: const EdgeInsets.all(10.0),
-    //           width: 800.0,
-    //           //height: 475.0,
-    //           decoration: BoxDecoration(
-    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-    //             borderRadius: BorderRadius.circular(25.0),
-    //             border: Border.all(
-    //                 color:
-    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //                 width: 5.0),
-    //           ),
-    //           child: Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               const SizedBox(
-    //                 height: 25,
-    //               ),
-    //               Text(
-    //                 fileName,
-    //                 textAlign: TextAlign.center,
-    //                 style: TextStyle(
-    //                   color: MzanziInnovationHub.of(context)!
-    //                       .theme
-    //                       .secondaryColor(),
-    //                   fontSize: 35.0,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 25.0),
-    //               Expanded(
-    //                   child: BuildFileView(
-    //                 link: url,
-    //                 path: filePath,
-    //                 //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
-    //               )),
-    //               const SizedBox(height: 30.0),
-    //               SizedBox(
-    //                 width: 300,
-    //                 height: 50,
-    //                 child: MIHButton(
-    //                   onTap: () {
-    //                     html.window.open(
-    //                         url,
-    //                         // '${AppEnviroment.baseFileUrl}/mih/$filePath',
-    //                         'download');
-    //                   },
-    //                   buttonText: "Dowload",
-    //                   buttonColor: MzanziInnovationHub.of(context)!
-    //                       .theme
-    //                       .secondaryColor(),
-    //                   textColor:
-    //                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           right: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //             icon: Icon(
-    //               Icons.close,
-    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //               size: 35,
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           left: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               deleteFilePopUp(filePath, fileID);
-    //             },
-    //             icon: Icon(
-    //               Icons.delete,
-    //               color:
-    //                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+  }
+
+  void mihLoadingPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
   }
 
   @override

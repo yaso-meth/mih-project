@@ -225,7 +225,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
         return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Appointment Type",
-          windowTools: null,
           onWindowTapClose: () {
             Navigator.of(context).pop();
           },
@@ -303,7 +302,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
         return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Add Appointment",
-          windowTools: null,
           onWindowTapClose: () {
             Navigator.of(context).pop();
             _appointmentDateController.clear();

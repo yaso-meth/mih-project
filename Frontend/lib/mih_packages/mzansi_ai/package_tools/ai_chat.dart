@@ -172,64 +172,64 @@ class _AiChatState extends State<AiChat> {
           return MihPackageWindow(
             fullscreen: false,
             windowTitle: 'Mzansi AI Thoughts',
-            windowTools: Row(
-              children: [
-                Visibility(
-                  visible: _aiThinking == false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      //color: MzanziInnovationHub.of(context)!.theme.successColor(),
-                      decoration: BoxDecoration(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        onPressed: () async {
-                          print("Start TTS now");
+            // menuOptions: Row(
+            //   children: [
+            //     Visibility(
+            //       visible: _aiThinking == false,
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(5.0),
+            //         child: Container(
+            //           //color: MzanziInnovationHub.of(context)!.theme.successColor(),
+            //           decoration: BoxDecoration(
+            //             color: MzanziInnovationHub.of(context)!
+            //                 .theme
+            //                 .successColor(),
+            //             borderRadius: const BorderRadius.all(
+            //               Radius.circular(100),
+            //             ),
+            //           ),
+            //           child: IconButton(
+            //             color: MzanziInnovationHub.of(context)!
+            //                 .theme
+            //                 .primaryColor(),
+            //             onPressed: () async {
+            //               print("Start TTS now");
 
-                          _speakText(snapshot.requireData);
-                        },
-                        icon: const Icon(Icons.volume_up),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: _aiThinking == true,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      // color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      decoration: BoxDecoration(
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        onPressed: () {
-                          //print("Start TTS now");
-                          _flutterTts.stop();
-                        },
-                        icon: const Icon(Icons.volume_off),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            //               _speakText(snapshot.requireData);
+            //             },
+            //             icon: const Icon(Icons.volume_up),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Visibility(
+            //       visible: _aiThinking == true,
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(5.0),
+            //         child: Container(
+            //           // color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            //           decoration: BoxDecoration(
+            //             color:
+            //                 MzanziInnovationHub.of(context)!.theme.errorColor(),
+            //             borderRadius: const BorderRadius.all(
+            //               Radius.circular(100),
+            //             ),
+            //           ),
+            //           child: IconButton(
+            //             color: MzanziInnovationHub.of(context)!
+            //                 .theme
+            //                 .primaryColor(),
+            //             onPressed: () {
+            //               //print("Start TTS now");
+            //               _flutterTts.stop();
+            //             },
+            //             icon: const Icon(Icons.volume_off),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             onWindowTapClose: () {
               _captureAIResponse(snapshot.requireData);
               _flutterTts.stop();

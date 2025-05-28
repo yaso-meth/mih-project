@@ -87,7 +87,6 @@ class _PatientConsultationState extends State<PatientConsultation> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Add Note",
-        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
           titleController.clear();

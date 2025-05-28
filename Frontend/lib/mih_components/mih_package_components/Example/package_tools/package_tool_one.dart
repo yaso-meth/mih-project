@@ -49,6 +49,26 @@ class _PackageToolOneState extends State<PackageToolOne> {
         return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Test No Full",
+          menuOptions: [
+            SpeedDialChild(
+              child: Icon(
+                Icons.add,
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+              label: "Show New Window",
+              labelBackgroundColor:
+                  MzanziInnovationHub.of(context)!.theme.successColor(),
+              labelStyle: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontWeight: FontWeight.bold,
+              ),
+              backgroundColor:
+                  MzanziInnovationHub.of(context)!.theme.successColor(),
+              onTap: () {
+                // showTestWindow();
+              },
+            ),
+          ],
           onWindowTapClose: () {
             Navigator.of(context).pop();
           },

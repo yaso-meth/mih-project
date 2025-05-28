@@ -279,7 +279,6 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
               ),
             ],
           ),
-          windowTools: null,
           onWindowTapClose: () {
             Navigator.pop(context);
           }),

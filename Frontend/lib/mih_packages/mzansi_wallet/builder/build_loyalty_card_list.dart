@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -52,7 +51,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Edit Loyalty Card",
-        windowTools: null,
         onWindowTapClose: () {
           _cardNumberController.clear();
           _nicknameController.clear();
@@ -60,6 +58,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         },
         windowBody: Column(
           children: [
+            const SizedBox(height: 10),
             MIHTextField(
               controller: _nicknameController,
               hintText: "Card Title",
@@ -279,89 +278,79 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: widget.cardList[index].shop_name.toUpperCase(),
-        windowTools: Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            direction: SpeedDialDirection.down,
-            children: [
-              SpeedDialChild(
-                child: widget.cardList[index].favourite == ""
-                    ? Icon(
-                        Icons.favorite,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      )
-                    : Icon(
-                        Icons.favorite_border,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                      ),
-                label: widget.cardList[index].favourite == ""
-                    ? "Add to Favourite"
-                    : "Remove from Favourite",
-                labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  if (widget.cardList[index].favourite == "") {
-                    addToFavCardWindow(context, index);
-                  } else {
-                    removeFromFavCardWindow(context, index);
-                  }
-                },
-              ),
-              SpeedDialChild(
-                child: Icon(
-                  Icons.edit,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Edit Card Details",
-                labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  setState(() {
-                    _cardNumberController.text =
-                        widget.cardList[index].card_number;
-                    _nicknameController.text = widget.cardList[index].nickname;
-                  });
-                  editCardWindow(context, index);
-                },
-              ),
-              SpeedDialChild(
-                child: Icon(
-                  Icons.delete,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Delete Card",
-                labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  deleteCardWindow(context, index);
-                },
-              ),
-            ],
+        menuOptions: [
+          SpeedDialChild(
+            child: widget.cardList[index].favourite == ""
+                ? Icon(
+                    Icons.favorite,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  )
+                : Icon(
+                    Icons.favorite_border,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+            label: widget.cardList[index].favourite == ""
+                ? "Add to Favourite"
+                : "Remove from Favourite",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              if (widget.cardList[index].favourite == "") {
+                addToFavCardWindow(context, index);
+              } else {
+                removeFromFavCardWindow(context, index);
+              }
+            },
           ),
-        ),
+          SpeedDialChild(
+            child: Icon(
+              Icons.edit,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            label: "Edit Card Details",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              setState(() {
+                _cardNumberController.text = widget.cardList[index].card_number;
+                _nicknameController.text = widget.cardList[index].nickname;
+              });
+              editCardWindow(context, index);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(
+              Icons.delete,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            label: "Delete Card",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              deleteCardWindow(context, index);
+            },
+          ),
+        ],
         onWindowTapClose: () {
           Navigator.pop(context);
         },

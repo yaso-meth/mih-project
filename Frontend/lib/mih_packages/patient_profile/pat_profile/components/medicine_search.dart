@@ -68,7 +68,6 @@ class _MedicineSearchState extends State<MedicineSearch> {
     return MihPackageWindow(
       fullscreen: false,
       windowTitle: "Select Medicine",
-      windowTools: null,
       onWindowTapClose: () {
         Navigator.pop(context);
       },

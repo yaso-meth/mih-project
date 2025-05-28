@@ -224,7 +224,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Upload File",
-        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
@@ -291,7 +290,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Create Medical Certificate",
-        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
@@ -340,7 +338,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Create Prescription",
-        windowTools: null,
         onWindowTapClose: () {
           medicineController.clear();
           quantityController.clear();

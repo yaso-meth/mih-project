@@ -3,7 +3,6 @@ import 'dart:convert';
 // import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
@@ -857,59 +856,26 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                     )
                   ],
                 ),
-                windowTools: Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: MihFloatingMenu(
-                    animatedIcon: AnimatedIcons.menu_close,
-                    direction: SpeedDialDirection.down,
-                    children: [
-                      SpeedDialChild(
-                        child: Icon(
-                          Icons.delete,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                        ),
-                        label: "Wallet?",
-                        labelBackgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        labelStyle: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontWeight: FontWeight.bold,
-                        ),
-                        backgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        onTap: () {},
-                      ),
-                      SpeedDialChild(
-                        child: Icon(
-                          Icons.delete,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                        ),
-                        label: "Delete File",
-                        labelBackgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        labelStyle: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontWeight: FontWeight.bold,
-                        ),
-                        backgroundColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        onTap: () {},
-                      ),
-                    ],
+                menuOptions: [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    label: "Delete File",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {},
                   ),
-                ),
+                ],
                 onWindowTapClose: () {
                   Navigator.pop(context);
                 },

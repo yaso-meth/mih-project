@@ -5,7 +5,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -154,33 +153,26 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Employee Details",
-        windowTools: Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            direction: SpeedDialDirection.down,
-            children: [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.delete,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Delete Employee",
-                labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  showDeleteWarning(index);
-                },
-              ),
-            ],
+        menuOptions: [
+          SpeedDialChild(
+            child: Icon(
+              Icons.delete,
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            label: "Delete Employee",
+            labelBackgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            labelStyle: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor:
+                MzanziInnovationHub.of(context)!.theme.successColor(),
+            onTap: () {
+              showDeleteWarning(index);
+            },
           ),
-        ),
+        ],
         onWindowTapClose: () {
           Navigator.pop(context);
         },

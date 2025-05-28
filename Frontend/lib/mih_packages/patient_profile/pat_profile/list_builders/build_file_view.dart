@@ -115,7 +115,8 @@ class _BuildFileViewState extends State<BuildFileView> {
     //double height = MediaQuery.sizeOf(context).height;
     debugPrint(widget.link);
     if (getExtType(widget.path).toLowerCase() == "pdf") {
-      return Expanded(
+      return SizedBox(
+        height: 500,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -185,9 +186,8 @@ class _BuildFileViewState extends State<BuildFileView> {
         ),
       );
     } else {
-      return Expanded(
-        // height: height,
-        // padding: const EdgeInsets.all(10.0),
+      return SizedBox(
+        height: 500,
         child: Stack(
           fit: StackFit.expand,
           children: [

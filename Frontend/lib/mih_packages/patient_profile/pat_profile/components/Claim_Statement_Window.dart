@@ -392,7 +392,6 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     return MihPackageWindow(
       fullscreen: false,
       windowTitle: "Generate Claim/ Statement Document",
-      windowTools: null,
       onWindowTapClose: () {
         // medicineController.clear();
         // quantityController.clear();

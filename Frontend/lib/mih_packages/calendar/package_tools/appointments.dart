@@ -104,7 +104,6 @@ class _PatientAccessRequestState extends State<Appointments> {
         return MihPackageWindow(
           fullscreen: false,
           windowTitle: "Add Appointment",
-          windowTools: null,
           onWindowTapClose: () {
             Navigator.of(context).pop();
             _appointmentDateController.clear();

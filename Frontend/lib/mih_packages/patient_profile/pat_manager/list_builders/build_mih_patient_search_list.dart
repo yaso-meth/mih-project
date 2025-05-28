@@ -170,7 +170,6 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Appointment",
-        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
@@ -327,7 +326,6 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Profile",
-        windowTools: null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
