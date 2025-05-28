@@ -198,8 +198,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
             ),
           ),
           Visibility(
-            visible:
-                widget.menuOptions != null || widget.menuOptions!.isNotEmpty,
+            visible: (widget.menuOptions?.isNotEmpty ?? false),
             child: Positioned(
               top: 10,
               right: 10,
