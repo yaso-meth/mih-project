@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 
 class PackageToolTwo extends StatefulWidget {
@@ -14,7 +14,7 @@ class PackageToolTwo extends StatefulWidget {
 class _PackageToolTwoState extends State<PackageToolTwo> {
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(
+    return MihPackageToolBody(
       borderOn: false,
       bodyItem: getBody(),
     );

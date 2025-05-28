@@ -7,8 +7,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -126,7 +126,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
           showDialog(
             context: context,
             builder: (context) {
-              return MihAppAlert(
+              return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   color: MzanziInnovationHub.of(context)!.theme.errorColor(),
@@ -205,7 +205,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
 
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(
+    return MihPackageToolBody(
       borderOn: true,
       bodyItem: getBody(),
     );

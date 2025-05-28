@@ -6,7 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -167,75 +167,77 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Appointment",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: idController,
-            hintText: "ID No.",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHDateField(
-            controller: dateController,
-            lableText: "Date",
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTimeField(
-            controller: timeController,
-            lableText: "Time",
-            required: true,
-          ),
-          const SizedBox(height: 30.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Book",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                //print("here1");
-                bool filled = isAppointmentFieldsFilled();
-                //print("fields filled: $filled");
-                if (filled) {
-                  //print("here2");
-                  submitApointment(index);
-                  //print("here3");
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: idController,
+              hintText: "ID No.",
+              editable: false,
+              required: true,
             ),
-          )
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHDateField(
+              controller: dateController,
+              lableText: "Date",
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTimeField(
+              controller: timeController,
+              lableText: "Time",
+              required: true,
+            ),
+            const SizedBox(height: 30.0),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                buttonText: "Book",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onTap: () {
+                  //print("here1");
+                  bool filled = isAppointmentFieldsFilled();
+                  //print("fields filled: $filled");
+                  if (filled) {
+                    //print("here2");
+                    submitApointment(index);
+                    //print("here3");
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -321,226 +323,230 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Profile",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: idController,
-            hintText: "ID No.",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: accessStatusController,
-            hintText: "Access Status",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 20.0),
-          Visibility(
-            visible: !hasAccess,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Important Notice: Requesting Patient Profile Access",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  ),
-                ),
-                Text(
-                  "You are about to request access to a patient's profile. Please be aware of the following important points:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  ),
-                ),
-                SizedBox(
-                  width: 600,
-                  child: Text(
-                    "1. Permanent Access: Once the patient accepts your access request, it will become permanent.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 600,
-                  child: Text(
-                    "2. Shared Information: Any updates you make to the patient's profile will be visible to others who have access to the profile.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 600,
-                  child: Text(
-                    "3. Irreversible Access: Once granted, you cannot revoke your access to the patient's profile.",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    ),
-                  ),
-                ),
-                Text(
-                  "By pressing the \"Request Access\" button you accept the above terms.\n",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  ),
-                ),
-              ],
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: idController,
+              hintText: "ID No.",
+              editable: false,
+              required: true,
             ),
-          ),
-          // const SizedBox(height: 15.0),
-          Wrap(runSpacing: 10, spacing: 10, children: [
-            // Visibility(
-            //   visible: hasAccess,
-            //   child: SizedBox(
-            //     width: 300,
-            //     height: 50,
-            //     child: MIHButton(
-            //       buttonText: "Book Appointment",
-            //       buttonColor:
-            //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            //       textColor:
-            //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            //       onTap: () {
-            //         if (hasAccess) {
-            //           appointmentPopUp(index);
-            //         } else {
-            //           noAccessWarning();
-            //         }
-            //       },
-            //     ),
-            //   ),
-            // ),
-            Visibility(
-              visible: hasAccess,
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "View Patient Profile",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    if (hasAccess) {
-                      Navigator.of(context)
-                          .pushNamed('/patient-manager/patient',
-                              arguments: PatientViewArguments(
-                                widget.signedInUser,
-                                widget.patients[index],
-                                widget.businessUser,
-                                widget.business,
-                                "business",
-                              ));
-                    } else {
-                      noAccessWarning();
-                    }
-                  },
-                ),
-              ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
             ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: accessStatusController,
+              hintText: "Access Status",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 20.0),
             Visibility(
-              visible: !hasAccess && accessStatus == "No Access",
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "Request Access",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    //print("Send access Request...");
-                    MIHApiCalls.addPatientAccessAPICall(
-                      widget.business!.business_id,
-                      widget.patients[index].app_id,
-                      "patient",
-                      widget.business!.Name,
-                      widget.personalSelected,
-                      BusinessArguments(
-                        widget.signedInUser,
-                        widget.businessUser,
-                        widget.business,
+              visible: !hasAccess,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Important Notice: Requesting Patient Profile Access",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                  Text(
+                    "You are about to request access to a patient's profile. Please be aware of the following important points:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 600,
+                    child: Text(
+                      "1. Permanent Access: Once the patient accepts your access request, it will become permanent.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
                       ),
-                      context,
-                    );
-                  },
-                ),
-              ),
-            ),
-            Visibility(
-              visible: !hasAccess && accessStatus == "declined",
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "Re-apply",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    // print("Send rewaply access Request...");
-                    MIHApiCalls.reapplyPatientAccessAPICall(
-                      widget.business!.business_id,
-                      widget.patients[index].app_id,
-                      widget.personalSelected,
-                      BusinessArguments(
-                        widget.signedInUser,
-                        widget.businessUser,
-                        widget.business,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 600,
+                    child: Text(
+                      "2. Shared Information: Any updates you make to the patient's profile will be visible to others who have access to the profile.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
                       ),
-                      context,
-                    );
-                  },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 600,
+                    child: Text(
+                      "3. Irreversible Access: Once granted, you cannot revoke your access to the patient's profile.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "By pressing the \"Request Access\" button you accept the above terms.\n",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // const SizedBox(height: 15.0),
+            Wrap(runSpacing: 10, spacing: 10, children: [
+              // Visibility(
+              //   visible: hasAccess,
+              //   child: SizedBox(
+              //     width: 300,
+              //     height: 50,
+              //     child: MIHButton(
+              //       buttonText: "Book Appointment",
+              //       buttonColor:
+              //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //       textColor:
+              //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              //       onTap: () {
+              //         if (hasAccess) {
+              //           appointmentPopUp(index);
+              //         } else {
+              //           noAccessWarning();
+              //         }
+              //       },
+              //     ),
+              //   ),
+              // ),
+              Visibility(
+                visible: hasAccess,
+                child: SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    buttonText: "View Patient Profile",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onTap: () {
+                      if (hasAccess) {
+                        Navigator.of(context)
+                            .pushNamed('/patient-manager/patient',
+                                arguments: PatientViewArguments(
+                                  widget.signedInUser,
+                                  widget.patients[index],
+                                  widget.businessUser,
+                                  widget.business,
+                                  "business",
+                                ));
+                      } else {
+                        noAccessWarning();
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-            Visibility(
-              visible: !hasAccess && accessStatus == "pending",
-              child: const SizedBox(
-                width: 500,
-                //height: 50,
-                child: Text(
-                    "Patient has not approved access to their profile. Once access has been approved you can book and appointment or view their profile."),
+              Visibility(
+                visible: !hasAccess && accessStatus == "No Access",
+                child: SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    buttonText: "Request Access",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onTap: () {
+                      //print("Send access Request...");
+                      MIHApiCalls.addPatientAccessAPICall(
+                        widget.business!.business_id,
+                        widget.patients[index].app_id,
+                        "patient",
+                        widget.business!.Name,
+                        widget.personalSelected,
+                        BusinessArguments(
+                          widget.signedInUser,
+                          widget.businessUser,
+                          widget.business,
+                        ),
+                        context,
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-          ])
-        ],
+              Visibility(
+                visible: !hasAccess && accessStatus == "declined",
+                child: SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    buttonText: "Re-apply",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onTap: () {
+                      // print("Send rewaply access Request...");
+                      MIHApiCalls.reapplyPatientAccessAPICall(
+                        widget.business!.business_id,
+                        widget.patients[index].app_id,
+                        widget.personalSelected,
+                        BusinessArguments(
+                          widget.signedInUser,
+                          widget.businessUser,
+                          widget.business,
+                        ),
+                        context,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: !hasAccess && accessStatus == "pending",
+                child: const SizedBox(
+                  width: 500,
+                  //height: 50,
+                  child: Text(
+                      "Patient has not approved access to their profile. Once access has been approved you can book and appointment or view their profile."),
+                ),
+              ),
+            ])
+          ],
+        ),
       ),
     );
   }

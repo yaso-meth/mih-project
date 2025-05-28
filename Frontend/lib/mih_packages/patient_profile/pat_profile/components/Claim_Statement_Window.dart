@@ -6,7 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -389,10 +389,9 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return MIHWindow(
+    return MihPackageWindow(
       fullscreen: false,
       windowTitle: "Generate Claim/ Statement Document",
-      windowTools: const [],
       onWindowTapClose: () {
         // medicineController.clear();
         // quantityController.clear();
@@ -402,9 +401,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
         // noRepeatsController.clear();
         Navigator.pop(context);
       },
-      windowBody: [
-        getWindowBody(),
-      ],
+      windowBody: getWindowBody(),
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
 
-class MihAppTile extends StatefulWidget {
+class MihPackageTile extends StatefulWidget {
   final String appName;
   final String? ytVideoID;
   final Widget appIcon;
@@ -11,7 +11,7 @@ class MihAppTile extends StatefulWidget {
   final double iconSize;
   final Color primaryColor;
   final Color secondaryColor;
-  const MihAppTile({
+  const MihPackageTile({
     super.key,
     required this.onTap,
     required this.appName,
@@ -23,16 +23,16 @@ class MihAppTile extends StatefulWidget {
   });
 
   @override
-  State<MihAppTile> createState() => _MihAppTileState();
+  State<MihPackageTile> createState() => _MihPackageTileState();
 }
 
-class _MihAppTileState extends State<MihAppTile> {
+class _MihPackageTileState extends State<MihPackageTile> {
   void displayHint() {
     if (widget.ytVideoID != null) {
       showDialog(
         context: context,
         builder: (context) {
-          return MihAppWindow(
+          return MihPackageWindow(
             fullscreen: false,
             windowTitle: widget.appName,
             // windowTools: const [],

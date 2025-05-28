@@ -3,8 +3,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -116,107 +116,27 @@ class _TipCalcState extends State<TipCalc> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowTools: const [],
-        windowBody: [
-          // FaIcon(
-          //   FontAwesomeIcons.moneyBills,
-          //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          //   size: 30,
-          // ),
-          // const Divider(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FaIcon(
-                FontAwesomeIcons.coins,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                size: 35,
-              ),
-              const SizedBox(width: 15),
-              Text(
-                "Tip",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            tip,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          const Divider(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FaIcon(
-                FontAwesomeIcons.moneyBills,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                size: 35,
-              ),
-              const SizedBox(width: 15),
-              Text(
-                "Total",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            total,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          Text(
-            "~ ${double.parse(total).ceil()}.00",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          const Divider(),
-          if (splitBillController.text == "Yes")
+        windowBody: Column(
+          children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FaIcon(
-                  FontAwesomeIcons.peopleGroup,
+                  FontAwesomeIcons.coins,
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   size: 35,
                 ),
                 const SizedBox(width: 15),
                 Text(
-                  "Total per Person",
+                  "Tip",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25,
@@ -227,9 +147,8 @@ class _TipCalcState extends State<TipCalc> {
                 ),
               ],
             ),
-          if (splitBillController.text == "Yes")
             Text(
-              amountPerPerson,
+              tip,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30,
@@ -237,9 +156,32 @@ class _TipCalcState extends State<TipCalc> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-          if (splitBillController.text == "Yes")
+            const Divider(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FaIcon(
+                  FontAwesomeIcons.moneyBills,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  size: 35,
+                ),
+                const SizedBox(width: 15),
+                Text(
+                  "Total",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+              ],
+            ),
             Text(
-              "~ ${double.parse(amountPerPerson).ceil()}.00",
+              total,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30,
@@ -247,8 +189,66 @@ class _TipCalcState extends State<TipCalc> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-          // if (splitBillController.text == "Yes") const Divider(),
-        ],
+            Text(
+              "~ ${double.parse(total).ceil()}.00",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            const Divider(),
+            if (splitBillController.text == "Yes")
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.peopleGroup,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    size: 35,
+                  ),
+                  const SizedBox(width: 15),
+                  Text(
+                    "Total per Person",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ],
+              ),
+            if (splitBillController.text == "Yes")
+              Text(
+                amountPerPerson,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            if (splitBillController.text == "Yes")
+              Text(
+                "~ ${double.parse(amountPerPerson).ceil()}.00",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            // if (splitBillController.text == "Yes") const Divider(),
+          ],
+        ),
       ),
     );
   }
@@ -262,7 +262,7 @@ class _TipCalcState extends State<TipCalc> {
 
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(
+    return MihPackageToolBody(
       borderOn: true,
       bodyItem: getBody(),
     );

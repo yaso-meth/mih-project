@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 // import 'dart:convert';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +23,6 @@ import '../../mih_components/mih_layout/mih_header.dart';
 import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_layout/mih_notification_drawer.dart';
 import '../../mih_components/mih_layout/mih_tile.dart';
-import '../../mih_components/mih_layout/mih_window.dart';
 import '../../mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -844,39 +845,35 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
               // return const MIHErrorMessage(errorType: "User Exists");
               // return const MIHErrorMessage(errorType: "Password Match");
               // return const MIHErrorMessage(errorType: "Invalid Credentials");
-              return MIHWindow(
+              return MihPackageWindow(
                 fullscreen: false,
                 windowTitle:
                     "Test Window title that is too large for mobile devices",
-                windowBody: const [
-                  SizedBox(
-                    height: 250,
-                  )
-                ],
-                windowTools: [
-                  IconButton(
-                    onPressed: () {
-                      //deleteFilePopUp(filePath, fileID);
-                    },
-                    icon: Icon(
+                windowBody: const Column(
+                  children: [
+                    SizedBox(
+                      height: 250,
+                    )
+                  ],
+                ),
+                menuOptions: [
+                  SpeedDialChild(
+                    child: Icon(
                       Icons.delete,
-                      size: 35,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      //deleteFilePopUp(filePath, fileID);
-                    },
-                    icon: Icon(
-                      Icons.wallet,
-                      size: 35,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                    label: "Delete File",
+                    labelBackgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    labelStyle: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontWeight: FontWeight.bold,
                     ),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    onTap: () {},
                   ),
                 ],
                 onWindowTapClose: () {

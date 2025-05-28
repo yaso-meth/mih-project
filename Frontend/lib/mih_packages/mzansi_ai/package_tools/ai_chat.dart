@@ -5,8 +5,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -169,67 +169,35 @@ class _AiChatState extends State<AiChat> {
           textStream = snapshot.requireData;
           // print("Text: $textStream");
           // _speakText(textStream!);
-          return MihAppWindow(
+          return MihPackageWindow(
             fullscreen: false,
             windowTitle: 'Mzansi AI Thoughts',
-            windowTools: Row(
-              children: [
-                Visibility(
-                  visible: _aiThinking == false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      //color: MzanziInnovationHub.of(context)!.theme.successColor(),
-                      decoration: BoxDecoration(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
+            menuOptions: _aiThinking == true
+                ? null
+                : [
+                    SpeedDialChild(
+                      child: Icon(
+                        Icons.volume_up,
                         color: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
-                        onPressed: () async {
-                          print("Start TTS now");
-
-                          _speakText(snapshot.requireData);
-                        },
-                        icon: const Icon(Icons.volume_up),
                       ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: _aiThinking == true,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      // color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      decoration: BoxDecoration(
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
+                      label: "Read Aloud",
+                      labelBackgroundColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      labelStyle: TextStyle(
                         color: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
-                        onPressed: () {
-                          //print("Start TTS now");
-                          _flutterTts.stop();
-                        },
-                        icon: const Icon(Icons.volume_off),
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      backgroundColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      onTap: () {
+                        _speakText(snapshot.requireData);
+                      },
+                    )
+                  ],
             onWindowTapClose: () {
               _captureAIResponse(snapshot.requireData);
               _flutterTts.stop();
@@ -241,66 +209,23 @@ class _AiChatState extends State<AiChat> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Stack(
-                    children: [
-                      Text(
-                        snapshot.requireData,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          fontSize: _chatFrontSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Visibility(
-                          visible: _aiThinking == false,
-                          child: IconButton.filled(
-                            iconSize: 25,
-                            autofocus: true,
-                            onPressed: () {
-                              _captureAIResponse(snapshot.requireData);
-                              _flutterTts.stop();
-                              Navigator.of(context).pop();
-                            },
-                            focusColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
-                            icon: Icon(
-                              Icons.check,
-                              color: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
-                            ),
-                          ),
-
-                          // MIHButton(
-                          //   onTap: () {
-                          //     _captureAIResponse(snapshot.requireData);
-                          //     Navigator.of(context).pop();
-                          //   },
-                          //   buttonText: "Continue",
-                          //   buttonColor: MzanziInnovationHub.of(context)!
-                          //       .theme
-                          //       .successColor(),
-                          //   textColor: MzanziInnovationHub.of(context)!
-                          //       .theme
-                          //       .primaryColor(),
-                          // ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    snapshot.requireData,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: _chatFrontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
           );
         } else {
-          return MihAppWindow(
+          return MihPackageWindow(
             fullscreen: false,
             windowTitle: 'Mzansi AI Thoughts',
             // windowTools: [],
@@ -672,7 +597,7 @@ class _AiChatState extends State<AiChat> {
 
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(
+    return MihPackageToolBody(
       borderOn: false,
       bodyItem: getBody(),
     );

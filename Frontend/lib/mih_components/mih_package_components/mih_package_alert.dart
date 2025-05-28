@@ -1,12 +1,12 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 
-class MihAppAlert extends StatefulWidget {
+class MihPackageAlert extends StatefulWidget {
   final Widget alertIcon;
   final String alertTitle;
   final Widget alertBody;
   final Color alertColour;
-  const MihAppAlert({
+  const MihPackageAlert({
     super.key,
     required this.alertIcon,
     required this.alertTitle,
@@ -15,10 +15,10 @@ class MihAppAlert extends StatefulWidget {
   });
 
   @override
-  State<MihAppAlert> createState() => _MihAppAlertState();
+  State<MihPackageAlert> createState() => _MihPackageAlertState();
 }
 
-class _MihAppAlertState extends State<MihAppAlert> {
+class _MihPackageAlertState extends State<MihPackageAlert> {
   late double popUpWidth;
   late double? popUpheight;
   late double popUpTitleSize;

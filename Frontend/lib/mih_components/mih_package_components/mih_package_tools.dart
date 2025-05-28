@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class MihAppTools extends StatefulWidget {
+class MihPackageTools extends StatefulWidget {
   final Map<Widget, void Function()?> tools;
   int selcetedIndex;
-  MihAppTools({
+  MihPackageTools({
     super.key,
     required this.tools,
     required this.selcetedIndex,
   });
 
   @override
-  State<MihAppTools> createState() => _MihAppToolsState();
+  State<MihPackageTools> createState() => _MihPackageToolsState();
 }
 
-class _MihAppToolsState extends State<MihAppTools> {
+class _MihPackageToolsState extends State<MihPackageTools> {
   List<Widget> getTools() {
     List<Widget> temp = [];
     int index = 0;

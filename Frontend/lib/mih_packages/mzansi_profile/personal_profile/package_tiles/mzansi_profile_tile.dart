@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -25,7 +25,7 @@ class _MzansiProfileTileState extends State<MzansiProfileTile> {
   @override
   Widget build(BuildContext context) {
     // ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
-    return MihAppTile(
+    return MihPackageTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-profile',

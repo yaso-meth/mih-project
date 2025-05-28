@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
@@ -46,7 +46,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return MihApp(
+    return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
@@ -59,8 +59,8 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
     );
   }
 
-  MihAppAction getAction() {
-    return MihAppAction(
+  MihPackageAction getAction() {
+    return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
@@ -70,7 +70,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.business)] = () {
       setState(() {
@@ -97,7 +97,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
         _selcetedIndex = 3;
       });
     };
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );

@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -124,70 +124,71 @@ class _BuildUserListState extends State<BuildUserList> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => MIHWindow(
+        builder: (context) => MihPackageWindow(
             fullscreen: false,
             windowTitle: "Add Employee",
-            windowBody: [
-              const SizedBox(height: 10.0),
-              MIHTextField(
-                controller: fnameController,
-                hintText: "Username Name",
-                editable: false,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MIHTextField(
-                controller: lnameController,
-                hintText: "Email",
-                editable: false,
-                required: true,
-              ),
-              const SizedBox(height: 10.0),
-              MIHDropdownField(
-                controller: typeController,
-                hintText: "Title",
-                dropdownOptions: const ["Doctor", "Assistant"],
-                required: true,
-                editable: true,
-                enableSearch: false,
-              ),
-              const SizedBox(height: 10.0),
-              MIHDropdownField(
-                controller: accessController,
-                hintText: "Access",
-                dropdownOptions: const ["Full", "Partial"],
-                required: true,
-                editable: true,
-                enableSearch: false,
-              ),
-              const SizedBox(height: 15.0),
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "Add",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    if (isRequiredFieldsCaptured()) {
-                      createBusinessUserAPICall(index);
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const MIHErrorMessage(
-                              errorType: "Input Error");
-                        },
-                      );
-                    }
-                  },
+            windowBody: Column(
+              children: [
+                const SizedBox(height: 10.0),
+                MIHTextField(
+                  controller: fnameController,
+                  hintText: "Username Name",
+                  editable: false,
+                  required: true,
                 ),
-              ),
-              const SizedBox(height: 10.0),
-            ],
-            windowTools: [],
+                const SizedBox(height: 10.0),
+                MIHTextField(
+                  controller: lnameController,
+                  hintText: "Email",
+                  editable: false,
+                  required: true,
+                ),
+                const SizedBox(height: 10.0),
+                MIHDropdownField(
+                  controller: typeController,
+                  hintText: "Title",
+                  dropdownOptions: const ["Doctor", "Assistant"],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
+                const SizedBox(height: 10.0),
+                MIHDropdownField(
+                  controller: accessController,
+                  hintText: "Access",
+                  dropdownOptions: const ["Full", "Partial"],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
+                const SizedBox(height: 15.0),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: MIHButton(
+                    buttonText: "Add",
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    textColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onTap: () {
+                      if (isRequiredFieldsCaptured()) {
+                        createBusinessUserAPICall(index);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const MIHErrorMessage(
+                                errorType: "Input Error");
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+              ],
+            ),
             onWindowTapClose: () {
               Navigator.pop(context);
             }));

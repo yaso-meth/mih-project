@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -100,75 +100,77 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Appointment",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: idController,
-            hintText: "ID No.",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHDateField(
-            controller: dateController,
-            lableText: "Date",
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTimeField(
-            controller: timeController,
-            lableText: "Time",
-            required: true,
-          ),
-          const SizedBox(height: 30.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Book",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                //print("here1");
-                bool filled = isAppointmentFieldsFilled();
-                //print("fields filled: $filled");
-                if (filled) {
-                  //print("here2");
-                  submitApointment(index);
-                  //print("here3");
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: idController,
+              hintText: "ID No.",
+              editable: false,
+              required: true,
             ),
-          )
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHDateField(
+              controller: dateController,
+              lableText: "Date",
+              required: true,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTimeField(
+              controller: timeController,
+              lableText: "Time",
+              required: true,
+            ),
+            const SizedBox(height: 30.0),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                buttonText: "Book",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onTap: () {
+                  //print("here1");
+                  bool filled = isAppointmentFieldsFilled();
+                  //print("fields filled: $filled");
+                  if (filled) {
+                    //print("here2");
+                    submitApointment(index);
+                    //print("here3");
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -214,74 +216,75 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Patient Profile",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: idController,
-            hintText: "ID No.",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "First Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 30.0),
-          Wrap(runSpacing: 10, spacing: 10, children: [
-            SizedBox(
-              width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "Book Appointment",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () {
-                  appointmentPopUp(index);
-                },
-              ),
+        windowBody: Column(
+          children: [
+            MIHTextField(
+              controller: idController,
+              hintText: "ID No.",
+              editable: false,
+              required: true,
             ),
-            SizedBox(
-              width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "View Patient Profile",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () {
-                  // Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/patient-manager/patient',
-                      arguments: PatientViewArguments(
-                        widget.signedInUser,
-                        patientProfile,
-                        widget.businessUser,
-                        widget.business,
-                        "business",
-                      ));
-                },
-              ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: fnameController,
+              hintText: "First Name",
+              editable: false,
+              required: true,
             ),
-          ])
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: lnameController,
+              hintText: "Surname",
+              editable: false,
+              required: true,
+            ),
+            const SizedBox(height: 30.0),
+            Wrap(runSpacing: 10, spacing: 10, children: [
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "Book Appointment",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    appointmentPopUp(index);
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: MIHButton(
+                  buttonText: "View Patient Profile",
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  textColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onTap: () {
+                    // Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/patient-manager/patient',
+                        arguments: PatientViewArguments(
+                          widget.signedInUser,
+                          patientProfile,
+                          widget.businessUser,
+                          widget.business,
+                          "business",
+                        ));
+                  },
+                ),
+              ),
+            ])
+          ],
+        ),
       ),
     );
   }

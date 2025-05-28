@@ -1,9 +1,9 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +67,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
     }
   }
 
-  MihAppTools getErrorTools() {
+  MihPackageTools getErrorTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.power_off_outlined)] = () {
       setState(() {
@@ -75,7 +75,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
       });
     };
 
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );
@@ -83,7 +83,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
 
   List<Widget> getErrorToolBody(String error) {
     List<Widget> toolBodies = [
-      MihAppToolBody(
+      MihPackageToolBody(
         borderOn: true,
         bodyItem: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -152,8 +152,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
   }
 
   Widget errorPage(String error) {
-    return MihApp(
-      appActionButton: MihAppAction(
+    return MihPackage(
+      appActionButton: MihPackageAction(
         icon: const Icon(Icons.refresh),
         iconSize: 35,
         onTap: () {

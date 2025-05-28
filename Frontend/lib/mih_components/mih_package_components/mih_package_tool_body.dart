@@ -1,20 +1,20 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 
-class MihAppToolBody extends StatefulWidget {
+class MihPackageToolBody extends StatefulWidget {
   final bool borderOn;
   final Widget bodyItem;
-  const MihAppToolBody({
+  const MihPackageToolBody({
     super.key,
     required this.borderOn,
     required this.bodyItem,
   });
 
   @override
-  State<MihAppToolBody> createState() => _MihAppToolBodyState();
+  State<MihPackageToolBody> createState() => _MihPackageToolBodyState();
 }
 
-class _MihAppToolBodyState extends State<MihAppToolBody> {
+class _MihPackageToolBodyState extends State<MihPackageToolBody> {
   late double _innerBodyPadding;
   double getHorizontalPaddingSize(Size screenSize) {
     if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {

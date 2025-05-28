@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -18,8 +18,8 @@ class PackageTest extends StatefulWidget {
 class _PackageTestState extends State<PackageTest> {
   int _selcetedIndex = 0;
 
-  MihAppAction getAction() {
-    return MihAppAction(
+  MihPackageAction getAction() {
+    return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
@@ -32,7 +32,7 @@ class _PackageTestState extends State<PackageTest> {
     );
   }
 
-  MihAppTools getTools() {
+  MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = Map();
     temp[const Icon(Icons.inbox)] = () {
       setState(() {
@@ -44,7 +44,7 @@ class _PackageTestState extends State<PackageTest> {
         _selcetedIndex = 1;
       });
     };
-    return MihAppTools(
+    return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );
@@ -54,7 +54,7 @@ class _PackageTestState extends State<PackageTest> {
     showDialog(
       context: context,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
@@ -119,7 +119,7 @@ class _PackageTestState extends State<PackageTest> {
 
   @override
   Widget build(BuildContext context) {
-    return MihApp(
+    return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),

@@ -2,8 +2,8 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_user_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_app_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,7 +22,7 @@ class MihPersonalSettings extends StatefulWidget {
 class _MihPersonalSettingsState extends State<MihPersonalSettings> {
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(borderOn: true, bodyItem: getBody());
+    return MihPackageToolBody(borderOn: true, bodyItem: getBody());
   }
 
   void deleteAccountPopUp(BuildContext ctxtd) {
@@ -30,7 +30,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return MihAppAlert(
+        return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,

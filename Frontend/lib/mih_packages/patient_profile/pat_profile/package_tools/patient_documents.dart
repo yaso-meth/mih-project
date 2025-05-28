@@ -7,9 +7,9 @@ import 'package:mzansi_innovation_hub/mih_components/med_cert_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih-app_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -221,62 +221,64 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Upload File",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHFileField(
-            controller: selectedFileController,
-            hintText: "Select File",
-            editable: false,
-            required: true,
-            onPressed: () async {
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                type: FileType.custom,
-                allowedExtensions: ['jpg', 'png', 'pdf'],
-                withData: true,
-              );
-              if (result == null) return;
-              final selectedFile = result.files.first;
-              print("Selected file: $selectedFile");
-              setState(() {
-                selected = selectedFile;
-              });
-              setState(() {
-                selectedFileController.text = selectedFile.name;
-              });
-            },
-          ),
-          const SizedBox(height: 15),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Add File",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                if (isFileFieldsFilled()) {
-                  submitDocUploadForm();
-                  // uploadSelectedFile(selected);
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
+        windowBody: Column(
+          children: [
+            MIHFileField(
+              controller: selectedFileController,
+              hintText: "Select File",
+              editable: false,
+              required: true,
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['jpg', 'png', 'pdf'],
+                  withData: true,
+                );
+                if (result == null) return;
+                final selectedFile = result.files.first;
+                print("Selected file: $selectedFile");
+                setState(() {
+                  selected = selectedFile;
+                });
+                setState(() {
+                  selectedFileController.text = selectedFile.name;
+                });
               },
             ),
-          )
-        ],
+            const SizedBox(height: 15),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                buttonText: "Add File",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onTap: () {
+                  if (isFileFieldsFilled()) {
+                    submitDocUploadForm();
+                    // uploadSelectedFile(selected);
+                    Navigator.pop(context);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -285,44 +287,46 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Create Medical Certificate",
-        windowTools: const [],
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          Medcertinput(
-            startDateController: startDateController,
-            endDateTextController: endDateTextController,
-            retDateTextController: retDateTextController,
-          ),
-          const SizedBox(height: 15.0),
-          SizedBox(
-            width: 300,
-            height: 50,
-            child: MIHButton(
-              buttonText: "Generate",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () async {
-                if (isMedCertFieldsFilled()) {
-                  await generateMedCert();
-                  //Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
+        windowBody: Column(
+          children: [
+            Medcertinput(
+              startDateController: startDateController,
+              endDateTextController: endDateTextController,
+              retDateTextController: retDateTextController,
             ),
-          )
-        ],
+            const SizedBox(height: 15.0),
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: MIHButton(
+                buttonText: "Generate",
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                textColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onTap: () async {
+                  if (isMedCertFieldsFilled()) {
+                    await generateMedCert();
+                    //Navigator.pop(context);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const MIHErrorMessage(errorType: "Input Error");
+                      },
+                    );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -331,10 +335,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
+      builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: "Create Prescription",
-        windowTools: const [],
         onWindowTapClose: () {
           medicineController.clear();
           quantityController.clear();
@@ -344,22 +347,24 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           noRepeatsController.clear();
           Navigator.pop(context);
         },
-        windowBody: [
-          PrescripInput(
-            medicineController: medicineController,
-            quantityController: quantityController,
-            dosageController: dosageController,
-            timesDailyController: timesDailyController,
-            noDaysController: noDaysController,
-            noRepeatsController: noRepeatsController,
-            outputController: outputController,
-            selectedPatient: widget.selectedPatient,
-            signedInUser: widget.signedInUser,
-            business: widget.business,
-            businessUser: widget.businessUser,
-            env: env,
-          ),
-        ],
+        windowBody: Column(
+          children: [
+            PrescripInput(
+              medicineController: medicineController,
+              quantityController: quantityController,
+              dosageController: dosageController,
+              timesDailyController: timesDailyController,
+              noDaysController: noDaysController,
+              noRepeatsController: noRepeatsController,
+              outputController: outputController,
+              selectedPatient: widget.selectedPatient,
+              signedInUser: widget.signedInUser,
+              business: widget.business,
+              businessUser: widget.businessUser,
+              env: env,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -594,7 +599,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
 
   @override
   Widget build(BuildContext context) {
-    return MihAppToolBody(
+    return MihPackageToolBody(
       borderOn: true,
       bodyItem: getBody(),
     );

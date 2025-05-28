@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -136,202 +137,80 @@ class _BuildNotesListState extends State<BuildNotesList> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MIHWindow(
-        fullscreen: true,
-        windowTitle: selectednote.note_name,
-        windowTools: [
-          Visibility(
-            visible: hasAccessToDelete,
-            child: IconButton(
-              onPressed: () {
-                deletePatientPopUp(selectednote.idpatient_notes);
-              },
-              icon: Icon(
-                Icons.delete,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
-            ),
-          ),
-        ],
+      builder: (context) => MihPackageWindow(
+        fullscreen: false,
+        windowTitle: "Note Details",
+        menuOptions: hasAccessToDelete
+            ? [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.delete,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Delete Document",
+                  labelBackgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    deletePatientPopUp(selectednote.idpatient_notes);
+                  },
+                ),
+              ]
+            : null,
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: [
-          MIHTextField(
-            controller: businessNameController,
-            hintText: "Office",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: userNameController,
-            hintText: "Created By",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: dateController,
-            hintText: "Created Date",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          MIHTextField(
-            controller: noteTitleController,
-            hintText: "Note Title",
-            editable: false,
-            required: false,
-          ),
-          const SizedBox(height: 10.0),
-          Expanded(
-            child: MIHMLTextField(
-              controller: noteTextController,
-              hintText: "Note Details",
+        windowBody: Column(
+          children: [
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: businessNameController,
+              hintText: "Office",
               editable: false,
               required: false,
             ),
-          ),
-        ],
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: userNameController,
+              hintText: "Created By",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: dateController,
+              hintText: "Created Date",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            MIHTextField(
+              controller: noteTitleController,
+              hintText: "Note Title",
+              editable: false,
+              required: false,
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              height: 250,
+              child: MIHMLTextField(
+                controller: noteTextController,
+                hintText: "Note Details",
+                editable: false,
+                required: false,
+              ),
+            ),
+          ],
+        ),
       ),
     );
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (context) => Dialog(
-    //     child: Stack(
-    //       children: [
-    //         Container(
-    //           padding: const EdgeInsets.all(15.0),
-    //           width: 700.0,
-    //           //height: 475.0,
-    //           decoration: BoxDecoration(
-    //             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-    //             borderRadius: BorderRadius.circular(25.0),
-    //             border: Border.all(
-    //                 color:
-    //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //                 width: 5.0),
-    //           ),
-    //           child: Column(
-    //             mainAxisSize: MainAxisSize.max,
-    //             children: [
-    //               const SizedBox(
-    //                 height: 25,
-    //               ),
-    //               Text(
-    //                 selectednote.note_name,
-    //                 textAlign: TextAlign.center,
-    //                 style: TextStyle(
-    //                   color: MzanziInnovationHub.of(context)!
-    //                       .theme
-    //                       .secondaryColor(),
-    //                   fontSize: 35.0,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 25.0),
-    //               SizedBox(
-    //                 width: 700,
-    //                 child: MIHTextField(
-    //                   controller: businessNameController,
-    //                   hintText: "Office",
-    //                   editable: false,
-    //                   required: false,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 10.0),
-    //               SizedBox(
-    //                 width: 700,
-    //                 child: MIHTextField(
-    //                   controller: userNameController,
-    //                   hintText: "Created By",
-    //                   editable: false,
-    //                   required: false,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 10.0),
-    //               SizedBox(
-    //                 width: 700,
-    //                 child: MIHTextField(
-    //                   controller: dateController,
-    //                   hintText: "Created Date",
-    //                   editable: false,
-    //                   required: false,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 10.0),
-    //               SizedBox(
-    //                 width: 700,
-    //                 child: MIHTextField(
-    //                   controller: noteTitleController,
-    //                   hintText: "Note Title",
-    //                   editable: false,
-    //                   required: false,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 10.0),
-    //               Expanded(
-    //                 child: MIHMLTextField(
-    //                   controller: noteTextController,
-    //                   hintText: "Note Details",
-    //                   editable: false,
-    //                   required: false,
-    //                 ),
-    //               ),
-    //               //const SizedBox(height: 25.0),
-    //               // SizedBox(
-    //               //   width: 300,
-    //               //   height: 100,
-    //               //   child: MIHButton(
-    //               //     onTap: () {
-    //               //       Navigator.pop(context);
-    //               //     },
-    //               //     buttonText: "Close",
-    //               //     buttonColor: Colors.blueAccent,
-    //               //     textColor: Colors.white,
-    //               //   ),
-    //               // )
-    //             ],
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           right: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //             icon: Icon(
-    //               Icons.close,
-    //               color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-    //               size: 35,
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 5,
-    //           left: 5,
-    //           width: 50,
-    //           height: 50,
-    //           child: IconButton(
-    //             onPressed: () {
-    //               deletePatientPopUp(selectednote.idpatient_notes);
-    //             },
-    //             icon: Icon(
-    //               Icons.delete,
-    //               color:
-    //                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   @override
