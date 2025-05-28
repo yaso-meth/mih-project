@@ -54,6 +54,86 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
     }
   }
 
+  Widget getHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          // color: Colors.white,
+          decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.circular(25), // Optional: rounds the corners
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(
+                    60, 0, 0, 0), // 0.2 opacity = 51 in alpha (255 * 0.2)
+                spreadRadius: -2,
+                blurRadius: 10,
+                offset: Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 2.0,
+              left: 5.0,
+            ),
+            child: SizedBox(
+              width: 40,
+              child: IconButton.filled(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                      MzanziInnovationHub.of(context)!.theme.errorColor()),
+                ),
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                iconSize: 20,
+                onPressed: () {
+                  widget.onWindowTapClose();
+                },
+                icon: const Icon(
+                  Icons.close,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            widget.windowTitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: windowTitleSize,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: (widget.menuOptions?.isNotEmpty ?? false),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 2.0,
+              right: 5.0,
+            ),
+            child: SizedBox(
+              width: 40,
+              child: MihFloatingMenu(
+                iconSize: 40,
+                animatedIcon: AnimatedIcons.menu_close,
+                direction: SpeedDialDirection.down,
+                children: widget.menuOptions != null ? widget.menuOptions! : [],
+              ),
+            ),
+          ),
+        ),
+        // If no menu, add a SizedBox to keep alignment
+        if (!(widget.menuOptions?.isNotEmpty ?? false))
+          const SizedBox(width: 40),
+      ],
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -79,138 +159,47 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       ),
       insetAnimationCurve: Easing.emphasizedDecelerate,
       insetAnimationDuration: Durations.short1,
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 5.0),
-            ),
-            child: widget.fullscreen
-                ? Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.windowTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: windowTitleSize,
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
-                              ),
-                            ),
-                          ),
-                        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          borderRadius: BorderRadius.circular(25.0),
+          border: Border.all(
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              width: 5.0),
+        ),
+        child: widget.fullscreen
+            ? Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  getHeader(),
+                  const SizedBox(height: 5),
+                  Expanded(
+                      child: SingleChildScrollView(child: widget.windowBody)),
+                ],
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  getHeader(),
+                  const SizedBox(height: 5),
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 25,
+                        right: 25,
+                        bottom: vertticalWindowPadding,
                       ),
-                      const SizedBox(height: 5),
-                      Expanded(
-                          child:
-                              SingleChildScrollView(child: widget.windowBody)),
-                    ],
-                  )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.windowTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: windowTitleSize,
-                                fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 25,
-                            right: 25,
-                            bottom: vertticalWindowPadding,
-                          ),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxHeight: windowHeight * 0.85,
-                              maxWidth: windowWidth * 0.85,
-                            ),
-                            child:
-                                MihSingleChildScroll(child: widget.windowBody),
-                          ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: windowHeight * 0.85,
+                          maxWidth: windowWidth * 0.85,
                         ),
+                        child: MihSingleChildScroll(child: widget.windowBody),
                       ),
-                    ],
-                  ),
-          ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              // color: Colors.white,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(25), // Optional: rounds the corners
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(
-                        60, 0, 0, 0), // 0.2 opacity = 51 in alpha (255 * 0.2)
-                    spreadRadius: -2,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
+                    ),
                   ),
                 ],
               ),
-              child: IconButton.filled(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                      MzanziInnovationHub.of(context)!.theme.errorColor()),
-                ),
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                iconSize: 20,
-                onPressed: () {
-                  widget.onWindowTapClose();
-                },
-                icon: const Icon(
-                  Icons.close,
-                ),
-              ),
-            ),
-          ),
-          Visibility(
-            visible: (widget.menuOptions?.isNotEmpty ?? false),
-            child: Positioned(
-              top: 10,
-              right: 10,
-              child: MihFloatingMenu(
-                iconSize: 40,
-                animatedIcon: AnimatedIcons.menu_close,
-                direction: SpeedDialDirection.down,
-                children: widget.menuOptions != null ? widget.menuOptions! : [],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
