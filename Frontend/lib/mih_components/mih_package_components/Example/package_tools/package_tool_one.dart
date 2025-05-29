@@ -130,6 +130,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 },
                 buttonColor:
                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                elevation: 10,
                 width: 300,
                 child: Text(
                   "Click Me",
@@ -141,7 +142,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 40),
               MihButton(
                 onPressed: () {
                   print("Button Pressed");
@@ -150,6 +151,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.delete,
