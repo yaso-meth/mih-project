@@ -72,7 +72,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -96,18 +96,6 @@ class _SimpleCalcState extends State<SimpleCalc> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            "Simple Calculator",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(20),
             alignment: Alignment.centerRight,

@@ -25,6 +25,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selectedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -70,5 +71,13 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       const TipCalc(),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Simple Calculator",
+      "Tip Calculator",
+    ];
+    return toolTitles;
   }
 }
