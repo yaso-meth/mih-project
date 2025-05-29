@@ -47,7 +47,7 @@ class MihButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
           splashColor: rippleColor,
           highlightColor: rippleColor.withValues(alpha: 0.2),
-          hoverColor: rippleColor.withValues(alpha: 0.15),
+          hoverColor: rippleColor.withValues(alpha: 0.3),
           onTap: onPressed,
           child: Container(
             width: width,
