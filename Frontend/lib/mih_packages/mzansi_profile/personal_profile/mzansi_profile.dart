@@ -26,6 +26,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -73,5 +74,13 @@ class _MzansiProfileState extends State<MzansiProfile> {
       signedInUser: widget.arguments.signedInUser,
     ));
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Profile",
+      "Settings",
+    ];
+    return toolTitles;
   }
 }
