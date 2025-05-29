@@ -244,54 +244,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return MihSingleChildScroll(
       child: Column(
         children: [
-          // Container(
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(10),
-          //     color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-          //   ),
-          //   height: 40,
-          //   child: Row(
-          //     children: [
-          //       Icon(
-          //         Icons.warning_amber_rounded,
-          //         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //         size: 40,
-          //       ),
-          //       const SizedBox(
-          //         width: 5,
-          //       ),
-          //       Expanded(
-          //         child: SingleChildScrollView(
-          //           controller: _scrollController,
-          //           scrollDirection: Axis.horizontal,
-          //           child: Text(
-          //             maintenanceMsg,
-          //             style: TextStyle(
-          //               color: MzanziInnovationHub.of(context)!
-          //                   .theme
-          //                   .primaryColor(),
-          //               fontSize: 20,
-          //               fontWeight: FontWeight.bold,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            "Personal Home",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,

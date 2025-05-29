@@ -33,6 +33,7 @@ class _PatManagerState extends State<PatManager> {
       appActionButton: getActionButton(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -107,5 +108,14 @@ class _PatManagerState extends State<PatManager> {
       ),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Waiting Room",
+      "Patients",
+      "Search Patients",
+    ];
+    return toolTitles;
   }
 }

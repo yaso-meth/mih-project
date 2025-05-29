@@ -233,7 +233,8 @@ class _PatientInfoState extends State<PatientInfo> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -260,9 +261,6 @@ class _PatientInfoState extends State<PatientInfo> {
                       ),
                     ),
                   ]),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
               const SizedBox(height: 10),
               getPatientDetailsField(),
               const SizedBox(height: 10),
@@ -287,8 +285,8 @@ class _PatientInfoState extends State<PatientInfo> {
         Visibility(
           visible: widget.type == "personal",
           child: Positioned(
-            right: 0,
-            bottom: 0,
+            right: 10,
+            bottom: 10,
             child: MihFloatingMenu(
               icon: Icons.add,
               animatedIcon: AnimatedIcons.menu_close,

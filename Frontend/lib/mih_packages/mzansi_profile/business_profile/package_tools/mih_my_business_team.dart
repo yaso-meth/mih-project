@@ -75,7 +75,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -83,15 +83,6 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   Widget getBody() {
     return MihSingleChildScroll(
       child: Column(mainAxisSize: MainAxisSize.max, children: [
-        const Text(
-          "Business Team",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        const SizedBox(height: 10),
         FutureBuilder(
           future: employeeList,
           builder: (context, snapshot) {

@@ -206,7 +206,8 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -215,16 +216,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     return MihSingleChildScroll(
       child: Column(
         children: [
-          const Text(
-            "My Business User",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)?.theme.secondaryColor()),
-          const SizedBox(height: 10),
           MihCircleAvatar(
             imageFile: widget.userProPicImage,
             width: 150,

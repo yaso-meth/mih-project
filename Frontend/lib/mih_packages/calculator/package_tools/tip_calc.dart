@@ -263,7 +263,8 @@ class _TipCalcState extends State<TipCalc> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -273,18 +274,6 @@ class _TipCalcState extends State<TipCalc> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Text(
-            "Tip Calculator",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
           MIHNumberField(
             controller: billAmountController,
             hintText: "Bill Amount",

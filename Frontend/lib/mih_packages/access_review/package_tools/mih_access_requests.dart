@@ -131,14 +131,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
     return MihSingleChildScroll(
       child: Column(
         children: [
-          const Text(
-            "Access List",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -245,7 +237,8 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

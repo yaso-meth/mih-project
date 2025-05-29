@@ -22,7 +22,11 @@ class MihPersonalSettings extends StatefulWidget {
 class _MihPersonalSettingsState extends State<MihPersonalSettings> {
   @override
   Widget build(BuildContext context) {
-    return MihPackageToolBody(borderOn: true, bodyItem: getBody());
+    return MihPackageToolBody(
+      borderOn: false,
+      innerHorizontalPadding: 10,
+      bodyItem: getBody(),
+    );
   }
 
   void deleteAccountPopUp(BuildContext ctxtd) {
@@ -106,19 +110,6 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
     return MihSingleChildScroll(
       child: Column(
         children: [
-          Text(
-            "Account Settings",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-          ),
-          Divider(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-          const SizedBox(height: 10.0),
           Center(
             child: FaIcon(
               FontAwesomeIcons.trashCan,

@@ -36,6 +36,7 @@ class _MihWalletState extends State<MihWallet> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -86,5 +87,13 @@ class _MihWalletState extends State<MihWallet> {
       ),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Cards",
+      "Favourites",
+    ];
+    return toolTitles;
   }
 }

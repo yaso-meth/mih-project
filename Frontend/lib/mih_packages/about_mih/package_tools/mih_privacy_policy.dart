@@ -9,7 +9,8 @@ class MihPrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(context),
     );
   }

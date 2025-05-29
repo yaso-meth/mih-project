@@ -394,8 +394,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   Widget getMenu() {
     if (widget.type == "personal") {
       return Positioned(
-        right: 0,
-        bottom: 0,
+        right: 10,
+        bottom: 10,
         child: MihFloatingMenu(
           icon: Icons.add,
           animatedIcon: AnimatedIcons.menu_close,
@@ -604,7 +604,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -623,27 +623,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               } else if (snapshot.hasData) {
                 final filesList = snapshot.data!;
                 return Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Documents",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
-                  const SizedBox(height: 10),
                   BuildFilesList(
                     files: filesList,
                     signedInUser: widget.signedInUser,

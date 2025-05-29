@@ -91,7 +91,8 @@ class _MihAttributesState extends State<MihAttributes> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -110,21 +111,10 @@ class _MihAttributesState extends State<MihAttributes> {
           Icon(
             MihIcons.mihLogo,
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            size: 125,
+            size: 165,
           ),
           const SizedBox(
             height: 10,
-          ),
-          const Text(
-            'Attributions',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Divider(),
           ),
           SelectableText(
             message,

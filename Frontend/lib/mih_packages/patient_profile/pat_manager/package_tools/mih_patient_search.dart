@@ -54,14 +54,6 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          const Text(
-            "MIH Patient Lookup",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          //spacer
-          const SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -222,7 +214,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getPatientSearch(),
     );
   }

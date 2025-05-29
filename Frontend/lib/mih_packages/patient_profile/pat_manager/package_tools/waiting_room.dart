@@ -67,13 +67,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              const Text(
-                "Waiting Room",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
               MIHCalendar(
                   calendarWidth: 500,
                   rowHeight: 35,
@@ -122,8 +115,8 @@ class _WaitingRoomState extends State<WaitingRoom> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 0,
+          right: 10,
+          bottom: 10,
           child: MihFloatingMenu(
             icon: Icons.add,
             animatedIcon: AnimatedIcons.menu_close,
@@ -466,7 +459,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBusinessAppointmentsTool(),
     );
   }

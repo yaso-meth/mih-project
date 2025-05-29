@@ -253,13 +253,6 @@ class _PatientAccessRequestState extends State<Appointments> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              Text(
-                getTitle(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
               MIHCalendar(
                   calendarWidth: 500,
                   rowHeight: 35,
@@ -306,8 +299,8 @@ class _PatientAccessRequestState extends State<Appointments> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 0,
+          right: 10,
+          bottom: 10,
           child: MihFloatingMenu(
             icon: Icons.add,
             animatedIcon: AnimatedIcons.menu_close,
@@ -370,7 +363,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }

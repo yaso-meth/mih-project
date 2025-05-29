@@ -321,7 +321,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -340,26 +340,6 @@ class _PatientConsultationState extends State<PatientConsultation> {
               } else if (snapshot.hasData) {
                 final notesList = snapshot.data!;
                 return Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Consultation Notes",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor()),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
-                  const SizedBox(height: 10),
                   BuildNotesList(
                     notes: notesList,
                     signedInUser: widget.signedInUser,
@@ -380,8 +360,8 @@ class _PatientConsultationState extends State<PatientConsultation> {
         Visibility(
           visible: widget.type != "personal",
           child: Positioned(
-            right: 0,
-            bottom: 0,
+            right: 10,
+            bottom: 10,
             child: MihFloatingMenu(
               icon: Icons.add,
               animatedIcon: AnimatedIcons.menu_close,

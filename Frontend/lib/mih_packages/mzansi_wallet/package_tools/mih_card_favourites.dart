@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -34,7 +33,7 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -45,25 +44,6 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Favourites",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              ),
               FutureBuilder(
                 future: cardList,
                 builder: (context, snapshot) {

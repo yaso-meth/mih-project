@@ -92,7 +92,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -109,14 +110,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          const Text(
-            "User Search",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-          //spacer
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          const SizedBox(height: 10),
           MIHSearchField(
             controller: searchController,
             hintText: "Username or Email Search",

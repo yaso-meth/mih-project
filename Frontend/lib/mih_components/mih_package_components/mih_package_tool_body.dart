@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class MihPackageToolBody extends StatefulWidget {
   final bool borderOn;
   final Widget bodyItem;
+  final double? innerHorizontalPadding;
   const MihPackageToolBody({
     super.key,
     required this.borderOn,
     required this.bodyItem,
+    this.innerHorizontalPadding,
   });
 
   @override
@@ -19,16 +21,16 @@ class _MihPackageToolBodyState extends State<MihPackageToolBody> {
   double getHorizontalPaddingSize(Size screenSize) {
     if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
       if (widget.borderOn) {
-        return 10;
+        return widget.innerHorizontalPadding ?? 10;
       } else {
-        return 0;
+        return widget.innerHorizontalPadding ?? 0;
       }
     } else {
       // mobile
       if (widget.borderOn) {
-        return 10;
+        return widget.innerHorizontalPadding ?? 10;
       } else {
-        return 0;
+        return widget.innerHorizontalPadding ?? 0;
       }
     }
   }

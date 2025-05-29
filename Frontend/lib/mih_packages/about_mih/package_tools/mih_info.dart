@@ -486,7 +486,8 @@ class _MihInfoState extends State<MihInfo> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -620,8 +621,8 @@ class _MihInfoState extends State<MihInfo> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 0,
+          right: 10,
+          bottom: 10,
           child: MihFloatingMenu(
             icon: Icons.share,
             children: [

@@ -50,6 +50,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -144,5 +145,15 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       MihBusinessUserSearch(arguments: widget.arguments),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Profile",
+      "User",
+      "Team",
+      "Add Member",
+    ];
+    return toolTitles;
   }
 }

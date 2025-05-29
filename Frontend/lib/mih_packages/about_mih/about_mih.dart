@@ -35,6 +35,7 @@ class _AboutMihState extends State<AboutMih> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -92,5 +93,15 @@ class _AboutMihState extends State<AboutMih> {
       const MihAttributes(),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "About",
+      "Privacy Policy",
+      "Terms of Service",
+      "Attributes",
+    ];
+    return toolTitles;
   }
 }
