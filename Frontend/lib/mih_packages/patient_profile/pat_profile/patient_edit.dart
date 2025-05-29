@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -272,19 +272,23 @@ class _EditPatientState extends State<EditPatient> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: MIHButton(
-                          onTap: deletePatientApiCall,
-                          buttonText: "Delete",
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          textColor: MzanziInnovationHub.of(context)!
+                    MihButton(
+                      onPressed: deletePatientApiCall,
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 300,
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
-                        ))
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -520,17 +524,20 @@ class _EditPatientState extends State<EditPatient> {
             },
           ),
           const SizedBox(height: 30.0),
-          SizedBox(
-            width: 500.0,
-            height: 50.0,
-            child: MIHButton(
-              onTap: () {
-                submitForm();
-              },
-              buttonText: "Update",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          MihButton(
+            onPressed: () {
+              submitForm();
+            },
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 300,
+            child: Text(
+              "Update",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

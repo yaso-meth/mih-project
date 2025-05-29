@@ -1,9 +1,9 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
@@ -81,49 +81,58 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                MIHButton(
-                  onTap: () async {
+                MihButton(
+                  onPressed: () {
                     openscanner();
                   },
-                  buttonText: "Scan",
                   buttonColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  width: 100,
+                  child: Text(
+                    "Scan",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 15),
-            SizedBox(
+            MihButton(
+              onPressed: () {
+                if (_cardNumberController.text == "") {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                } else {
+                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                    widget.signedInUser,
+                    widget.cardList[index].idloyalty_cards,
+                    widget.cardList[index].favourite,
+                    widget.cardList[index].priority_index,
+                    _nicknameController.text,
+                    _cardNumberController.text,
+                    0,
+                    ctxt,
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  if (_cardNumberController.text == "") {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  } else {
-                    MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                      widget.signedInUser,
-                      widget.cardList[index].idloyalty_cards,
-                      widget.cardList[index].favourite,
-                      widget.cardList[index].priority_index,
-                      _nicknameController.text,
-                      _cardNumberController.text,
-                      0,
-                      ctxt,
-                    );
-                  }
-                },
-                buttonText: "Update",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              child: Text(
+                "Update",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -176,27 +185,30 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                    widget.signedInUser,
+                    widget.cardList[index].idloyalty_cards,
+                    "Yes",
+                    _noFavourites,
+                    widget.cardList[index].nickname,
+                    widget.cardList[index].card_number,
+                    1,
+                    ctxt,
+                  );
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                      widget.signedInUser,
-                      widget.cardList[index].idloyalty_cards,
-                      "Yes",
-                      _noFavourites,
-                      widget.cardList[index].nickname,
-                      widget.cardList[index].card_number,
-                      1,
-                      ctxt,
-                    );
-                  },
-                  buttonText: "Add",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                child: Text(
+                  "Add",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -232,27 +244,30 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                    widget.signedInUser,
+                    widget.cardList[index].idloyalty_cards,
+                    "",
+                    0,
+                    widget.cardList[index].nickname,
+                    widget.cardList[index].card_number,
+                    0,
+                    ctxt,
+                  );
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                      widget.signedInUser,
-                      widget.cardList[index].idloyalty_cards,
-                      "",
-                      0,
-                      widget.cardList[index].nickname,
-                      widget.cardList[index].card_number,
-                      0,
-                      ctxt,
-                    );
-                  },
-                  buttonText: "Remove",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                child: Text(
+                  "Remove",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

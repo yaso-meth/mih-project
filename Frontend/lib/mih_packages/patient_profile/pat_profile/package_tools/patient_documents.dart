@@ -4,9 +4,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/med_cert_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -252,31 +252,33 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               },
             ),
             const SizedBox(height: 15),
-            SizedBox(
+            MihButton(
+              onPressed: () {
+                if (isFileFieldsFilled()) {
+                  submitDocUploadForm();
+                  // uploadSelectedFile(selected);
+                  Navigator.pop(context);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "Add File",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () {
-                  if (isFileFieldsFilled()) {
-                    submitDocUploadForm();
-                    // uploadSelectedFile(selected);
-                    Navigator.pop(context);
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
-                },
+              child: Text(
+                "Add File",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -301,30 +303,32 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               retDateTextController: retDateTextController,
             ),
             const SizedBox(height: 15.0),
-            SizedBox(
+            MihButton(
+              onPressed: () async {
+                if (isMedCertFieldsFilled()) {
+                  await generateMedCert();
+                  //Navigator.pop(context);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "Generate",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () async {
-                  if (isMedCertFieldsFilled()) {
-                    await generateMedCert();
-                    //Navigator.pop(context);
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
-                },
+              child: Text(
+                "Generate",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

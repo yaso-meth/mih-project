@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
@@ -116,14 +116,21 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               ),
             ),
             const SizedBox(height: 15),
-            MIHButton(
-              onTap: () {
+            MihButton(
+              onPressed: () {
                 Navigator.of(context).popAndPushNamed("/");
               },
-              buttonText: "Refresh",
               buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzanziInnovationHub.of(context)!.theme.successColor(),
+              width: 300,
+              child: Text(
+                "Refresh",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(height: 15),
             Padding(

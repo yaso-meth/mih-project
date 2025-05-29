@@ -2,12 +2,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_calendar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -240,51 +240,60 @@ class _WaitingRoomState extends State<WaitingRoom> {
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 15),
-              SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    widget.onIndexChange(1);
-                    Navigator.of(context).pop();
-                  },
-                  buttonText: "Existing Patient",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              MihButton(
+                onPressed: () {
+                  widget.onIndexChange(1);
+                  Navigator.of(context).pop();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Existing Patient",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    widget.onIndexChange(2);
-                    Navigator.of(context).pop();
-                  },
-                  buttonText: "Existing MIH User",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              MihButton(
+                onPressed: () {
+                  widget.onIndexChange(2);
+                  Navigator.of(context).pop();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Existing MIH User",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    Navigator.pop(context);
-                    addAppointmentWindow();
-                  },
-                  buttonText: "Skeleton Appointment",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              MihButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  addAppointmentWindow();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Skeleton Appointment",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -351,18 +360,21 @@ class _WaitingRoomState extends State<WaitingRoom> {
                 ),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: 500,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    addAppointmentCall();
-                  },
-                  buttonText: "Add",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              MihButton(
+                onPressed: () {
+                  addAppointmentCall();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                width: 300,
+                child: Text(
+                  "Add",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

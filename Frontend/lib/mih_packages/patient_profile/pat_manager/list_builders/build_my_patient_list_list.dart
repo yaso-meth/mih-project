@@ -1,10 +1,10 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -141,34 +141,32 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
               required: true,
             ),
             const SizedBox(height: 30.0),
-            SizedBox(
+            MihButton(
+              onPressed: () {
+                bool filled = isAppointmentFieldsFilled();
+                if (filled) {
+                  submitApointment(index);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "Book",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () {
-                  //print("here1");
-                  bool filled = isAppointmentFieldsFilled();
-                  //print("fields filled: $filled");
-                  if (filled) {
-                    //print("here2");
-                    submitApointment(index);
-                    //print("here3");
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
-                },
+              child: Text(
+                "Book Appointment",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -246,40 +244,45 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
             ),
             const SizedBox(height: 30.0),
             Wrap(runSpacing: 10, spacing: 10, children: [
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  appointmentPopUp(index);
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "Book Appointment",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    appointmentPopUp(index);
-                  },
+                child: Text(
+                  "Book Appointment",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/patient-manager/patient',
+                      arguments: PatientViewArguments(
+                        widget.signedInUser,
+                        patientProfile,
+                        widget.businessUser,
+                        widget.business,
+                        "business",
+                      ));
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
-                height: 50,
-                child: MIHButton(
-                  buttonText: "View Patient Profile",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    // Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/patient-manager/patient',
-                        arguments: PatientViewArguments(
-                          widget.signedInUser,
-                          patientProfile,
-                          widget.businessUser,
-                          widget.business,
-                          "business",
-                        ));
-                  },
+                child: Text(
+                  "View Medical Records",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ])

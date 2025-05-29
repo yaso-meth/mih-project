@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import '../../main.dart';
-import '../mih_inputs_and_buttons/mih_button.dart';
 
 class MIHSuccessMessage extends StatefulWidget {
   final String successType;
@@ -96,18 +96,21 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                 ),
               ),
               const SizedBox(height: 15),
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
-                height: 50,
-                child: MIHButton(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  buttonText: "Dismiss",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                child: Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

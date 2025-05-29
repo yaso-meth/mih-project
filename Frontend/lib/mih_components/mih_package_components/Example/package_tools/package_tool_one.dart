@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
@@ -121,6 +122,70 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 10),
+              MihButton(
+                onPressed: () {
+                  print("Button Pressed");
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Click Me",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              MihButton(
+                onPressed: () {
+                  print("Button Pressed");
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                width: 300,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    ),
+                    Text(
+                      "Click Me",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              MihButton(
+                onPressed: () {
+                  print("Button Pressed");
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 300,
+                child: Text(
+                  "Click Me",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(height: 10),
               Container(

@@ -1,9 +1,9 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
@@ -114,6 +114,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
       ),
       alertTitle: "Biometric Authentication Error",
       alertBody: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             "Hi there! To jump into the MIH Home Package, you'll need to authenticate yourself with your phones biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
@@ -124,38 +125,51 @@ class _BiometricCheckState extends State<BiometricCheck> {
           ),
           const SizedBox(height: 20),
           Wrap(
+            runAlignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
             children: [
-              SizedBox(
+              MihButton(
+                onPressed: () {
+                  AppSettings.openAppSettings(
+                    type: AppSettingsType.security,
+                  );
+                  Navigator.of(context).pop();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
-                child: MIHButton(
-                  onTap: () {
-                    AppSettings.openAppSettings(
-                      type: AppSettingsType.security,
-                    );
-                    Navigator.of(context).pop();
-                  },
-                  buttonText: "Set Up Authentication",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                child: Text(
+                  "Set Up Authentication",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              MihButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  authenticateUser();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Authenticate Now",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
           ),
-          SizedBox(
-            width: 300,
-            child: MIHButton(
-              onTap: () {
-                Navigator.of(context).pop();
-                authenticateUser();
-              },
-              buttonText: "Authenticate Now",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          )
         ],
       ),
       alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
@@ -209,32 +223,22 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     color:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
-                  // if (_isBioAuthenticated)
-                  //   Icon(
-                  //     Icons.lock_open,
-                  //     size: 200,
-                  //     color: MzanziInnovationHub.of(context)!
-                  //         .theme
-                  //         .secondaryColor(),
-                  //   ),
                   const SizedBox(height: 30),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: 500.0,
-                      height: 50.0,
-                      child: MIHButton(
-                        buttonText: "Authenticate Now",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
+                  MihButton(
+                    onPressed: () {
+                      authenticateUser();
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Authenticate Now",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
-                        onTap: () async {
-                          //Check Biometrics
-                          authenticateUser();
-                        },
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

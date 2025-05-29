@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/medicine_search.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -419,43 +419,38 @@ class _PrescripInputState extends State<PrescripInput> {
           enableSearch: false,
         ),
         const SizedBox(height: 15.0),
-        SizedBox(
+        MihButton(
+          onPressed: () {
+            if (isFieldsFilled()) {
+              setState(() {
+                updatePerscriptionList();
+                widget.medicineController.clear();
+                widget.quantityController.clear();
+                widget.dosageController.clear();
+                widget.timesDailyController.clear();
+                widget.noDaysController.clear();
+                widget.noRepeatsController.clear();
+              });
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const MIHErrorMessage(errorType: "Input Error");
+                },
+              );
+            }
+          },
+          buttonColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
           width: 300,
-          height: 50,
-          child: MIHButton(
-            buttonText: "Add",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onTap: () {
-              if (isFieldsFilled()) {
-                // int quantity;
-                // int.parse(widget.dosageController.text) *
-                //     int.parse(widget.timesDailyController.text) *
-                //     int.parse(widget.noDaysController.text);
-                setState(() {
-                  //widget.quantityController.text = "$quantity";
-                  updatePerscriptionList();
-                  widget.medicineController.clear();
-                  widget.quantityController.clear();
-                  widget.dosageController.clear();
-                  widget.timesDailyController.clear();
-                  widget.noDaysController.clear();
-                  widget.noRepeatsController.clear();
-                });
-
-                //addPatientAPICall();
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const MIHErrorMessage(errorType: "Input Error");
-                  },
-                );
-              }
-            },
+          child: Text(
+            "Add",
+            style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -516,29 +511,32 @@ class _PrescripInputState extends State<PrescripInput> {
           ),
         ),
         const SizedBox(height: 15.0),
-        SizedBox(
+        MihButton(
+          onPressed: () async {
+            if (perscriptionObjOutput.isNotEmpty) {
+              //print(jsonEncode(perscriptionObjOutput));
+              await generatePerscription();
+              Navigator.pop(context);
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const MIHErrorMessage(errorType: "Input Error");
+                },
+              );
+            }
+          },
+          buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
           width: 300,
-          height: 50,
-          child: MIHButton(
-            onTap: () async {
-              if (perscriptionObjOutput.isNotEmpty) {
-                //print(jsonEncode(perscriptionObjOutput));
-                await generatePerscription();
-                Navigator.pop(context);
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const MIHErrorMessage(errorType: "Input Error");
-                  },
-                );
-              }
-            },
-            buttonText: "Generate",
-            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          child: Text(
+            "Generate",
+            style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )
+        ),
       ],
     );
   }

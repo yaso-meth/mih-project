@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
@@ -100,111 +99,6 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   Color getSec() {
     return MzanziInnovationHub.of(context)!.theme.primaryColor();
-  }
-
-  void prePassResteWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                width: 500.0,
-                height: 450,
-                decoration: BoxDecoration(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  borderRadius: BorderRadius.circular(25.0),
-                  border: Border.all(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      width: 5.0),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    //mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        size: 100,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        "Password Reset Confirmation",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Text(
-                          "Before you reset your password, please be aware that you'll receive an email with a link to confirm your identity and set a new password. Make sure to check your inbox, including spam or junk folders. If you don't receive the email within a few minutes, please try resending the reset request.",
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 25),
-                      SizedBox(
-                        width: 500.0,
-                        height: 50.0,
-                        child: MIHButton(
-                          buttonText: "Continue",
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          textColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          onTap: () {
-                            setState(() {
-                              acceptWarning = true;
-                            });
-                            Navigator.of(context).pop();
-                            validateInput();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 5,
-                right: 5,
-                width: 50,
-                height: 50,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-                    size: 35,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   void loginError() {
@@ -372,22 +266,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ),
 
                       //spacer
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 25),
                       // sign in button
-                      SizedBox(
-                        width: 500.0,
-                        height: 50.0,
-                        child: MIHButton(
-                          buttonText: "Reset Password",
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          textColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          onTap: () {
-                            validateInput();
-                          },
+                      MihButton(
+                        onPressed: () {
+                          validateInput();
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 300,
+                        child: Text(
+                          "Reset Password",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],

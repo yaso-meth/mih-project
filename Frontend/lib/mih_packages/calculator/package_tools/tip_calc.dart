@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -330,31 +330,45 @@ class _TipCalcState extends State<TipCalc> {
               );
             },
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: MIHButton(
-              onTap: () {
-                validateInput();
-              },
-              buttonText: "Calculate",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: MIHButton(
-              onTap: () {
-                clearInput();
-              },
-              buttonText: "Clear",
-              buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              MihButton(
+                onPressed: () {
+                  validateInput();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                width: 300,
+                child: Text(
+                  "Calculate",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              MihButton(
+                onPressed: () {
+                  clearInput();
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 300,
+                child: Text(
+                  "Clear",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

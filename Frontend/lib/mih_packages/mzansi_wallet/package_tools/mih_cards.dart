@@ -1,12 +1,12 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -184,51 +184,58 @@ class _MihCardsState extends State<MihCards> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                MIHButton(
-                  onTap: () async {
-                    openscanner();
-                  },
-                  buttonText: "Scan",
+                MihButton(
+                  onPressed: () {},
                   buttonColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  width: 100,
+                  child: Text(
+                    "Scan",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 15),
-            SizedBox(
+            MihButton(
+              onPressed: () {
+                if (shopController.text == "" ||
+                    cardNumberController.text == "") {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                } else {
+                  MIHMzansiWalletApis.addLoyaltyCardAPICall(
+                    widget.signedInUser,
+                    widget.signedInUser.app_id,
+                    shopController.text,
+                    cardNumberController.text,
+                    "",
+                    0,
+                    _nicknameController.text,
+                    0,
+                    context,
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                onTap: () {
-                  if (shopController.text == "" ||
-                      cardNumberController.text == "") {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  } else {
-                    MIHMzansiWalletApis.addLoyaltyCardAPICall(
-                      widget.signedInUser,
-                      widget.signedInUser.app_id,
-                      shopController.text,
-                      cardNumberController.text,
-                      "",
-                      0,
-                      _nicknameController.text,
-                      0,
-                      context,
-                    );
-                  }
-                },
-                buttonText: "Add",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              child: Text(
+                "Add",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

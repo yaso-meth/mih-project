@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
@@ -318,17 +318,20 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
             ),
           ),
           const SizedBox(height: 15),
-          SizedBox(
-            width: 500.0,
-            height: 50.0,
-            child: MIHButton(
-              buttonText: "Update",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onTap: () {
-                submitForm();
-              },
+          MihButton(
+            onPressed: () {
+              submitForm();
+            },
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 300,
+            child: Text(
+              "Update",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

@@ -6,13 +6,13 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_business_details_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -452,29 +452,32 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                     ),
                     const SizedBox(width: 10.0),
-                    SizedBox(
-                      width: 80.0,
-                      height: 50.0,
-                      child: MIHButton(
-                        buttonText: "Set",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        onTap: () {
-                          MIHLocationAPI()
-                              .getGPSPosition(context)
-                              .then((position) {
-                            if (position != null) {
-                              setState(() {
-                                locationController.text =
-                                    "${position.latitude}, ${position.longitude}";
-                              });
-                            }
-                          });
-                        },
+                    MihButton(
+                      onPressed: () {
+                        MIHLocationAPI()
+                            .getGPSPosition(context)
+                            .then((position) {
+                          if (position != null) {
+                            setState(() {
+                              locationController.text =
+                                  "${position.latitude}, ${position.longitude}";
+                            });
+                          }
+                        });
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 100,
+                      child: Text(
+                        "Set",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -520,60 +523,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   editable: false,
                   required: true,
                 ),
-                const SizedBox(height: 10.0),
-                // const SizedBox(height: 10),
-                // Container(
-                //   width: 300,
-                //   alignment: Alignment.topLeft,
-                //   child: const Text(
-                //     "Signature:",
-                //     style: TextStyle(
-                //       fontSize: 15,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
-                // MihImageDisplay(
-                //   imageFile: signaturePreview,
-                //   width: 300,
-                //   editable: true,
-                //   fileNameController: signtureController,
-                //   userSelectedfile: selectedSignature,
-                //   onChange: (selectedFile) {
-                //     setState(() {
-                //       selectedSignature = selectedFile;
-                //     });
-                //   },
-                // ),
-                // const SizedBox(height: 10.0),
-                // MIHTextField(
-                //   controller: signtureController,
-                //   hintText: "Selected Signature File Name",
-                //   editable: false,
-                //   required: true,
-                // ),
-                const SizedBox(height: 10.0),
-                // MIHFileField(
-                //   controller: signtureController,
-                //   hintText: "Signature",
-                //   editable: false,
-                //   required: true,
-                //   onPressed: () async {
-                //     FilePickerResult? result =
-                //         await FilePicker.platform.pickFiles(
-                //       type: FileType.custom,
-                //       allowedExtensions: ['jpg', 'png', 'pdf'],
-                //     );
-                //     if (result == null) return;
-                //     final selectedFile = result.files.first;
-                //     setState(() {
-                //       selectedSignature = selectedFile;
-                //     });
-                //     setState(() {
-                //       signtureController.text = selectedFile.name;
-                //     });
-                //   },
-                // ),
                 const SizedBox(height: 15.0),
                 MIHDropdownField(
                   controller: accessController,
@@ -584,18 +533,21 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   enableSearch: false,
                 ),
                 const SizedBox(height: 30.0),
-                SizedBox(
-                  width: 500.0,
-                  height: 50.0,
-                  child: MIHButton(
-                    buttonText: "Add",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      submitForm();
-                    },
+                MihButton(
+                  onPressed: () {
+                    submitForm();
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Add",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

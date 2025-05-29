@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_user_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -55,33 +55,41 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                 spacing: 10,
                 runSpacing: 10,
                 children: [
-                  SizedBox(
+                  MihButton(
+                    onPressed: () {
+                      MihUserApis.deleteAccount(
+                          widget.signedInUser.app_id, context);
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
                     width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        MihUserApis.deleteAccount(
-                            widget.signedInUser.app_id, context);
-                      },
-                      buttonText: "Delete",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  SizedBox(
+                  MihButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
                     width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      buttonText: "Cancel",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -135,18 +143,21 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              SizedBox(
-                width: 300.0,
-                height: 50.0,
-                child: MIHButton(
-                  buttonText: "Delete Account",
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
-                  textColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onTap: () {
-                    deleteAccountPopUp(context);
-                  },
+              MihButton(
+                onPressed: () {
+                  deleteAccountPopUp(context);
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                width: 300,
+                child: Text(
+                  "Delete Account",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

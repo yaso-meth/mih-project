@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -162,18 +162,27 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   if (index == 0) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             userInput = '';
                             answer = '0';
                           });
                         },
-                        buttonText: buttons[index],
-                        buttonColor: Color.fromRGBO(214, 171, 255, 1),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        buttonColor: const Color.fromRGBO(214, 171, 255, 1),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -182,19 +191,28 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   else if (index == 1) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             userInput += buttons[index];
                           });
                         },
-                        buttonText: buttons[index],
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -202,19 +220,28 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   else if (index == 2) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             userInput += buttons[index];
                           });
                         },
-                        buttonText: buttons[index],
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -225,8 +252,8 @@ class _SimpleCalcState extends State<SimpleCalc> {
                       index == 15) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           if (answer == "0") {
                             setState(() {
                               userInput += buttons[index];
@@ -238,17 +265,23 @@ class _SimpleCalcState extends State<SimpleCalc> {
                               userInput += buttons[index];
                             });
                           }
-                          // setState(() {
-                          //   userInput += buttons[index];
-                          // });
                         },
-                        buttonText: buttons[index],
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -257,8 +290,8 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   else if (index == 18) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             if (userInput.length == 1) {
                               userInput = '0';
@@ -270,17 +303,20 @@ class _SimpleCalcState extends State<SimpleCalc> {
                               userInput =
                                   userInput.substring(0, userInput.length - 1);
                             }
-                            // userInput =
-                            // userInput.substring(0, userInput.length - 1);
                             equalPressed();
                           });
                         },
-                        buttonText: buttons[index],
                         buttonColor:
                             MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Icon(
+                          Icons.backspace,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
                       ),
                     );
                   }
@@ -288,20 +324,29 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   else if (index == 19) {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             equalPressed();
                             userInput = answer;
                           });
                         },
-                        buttonText: buttons[index],
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .successColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -309,20 +354,29 @@ class _SimpleCalcState extends State<SimpleCalc> {
                   else {
                     return Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: MIHButton(
-                        onTap: () {
+                      child: MihButton(
+                        onPressed: () {
                           setState(() {
                             userInput += buttons[index];
                             equalPressed();
                           });
                         },
-                        buttonText: buttons[index],
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        width: 50,
+                        height: 50,
+                        borderRadius: 5,
+                        child: Text(
+                          buttons[index],
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
                   }

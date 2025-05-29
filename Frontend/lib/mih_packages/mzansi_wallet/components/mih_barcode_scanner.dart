@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 
 class MihBarcodeScanner extends StatefulWidget {
   final TextEditingController cardNumberController;
@@ -120,17 +120,25 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: MIHButton(
-                      onTap: () {
+                    child: MihButton(
+                      onPressed: () {
                         _scannerController.stop();
                         Navigator.of(context).pop();
                       },
-                      buttonText: "Cancel",
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      width: 100,
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   // GestureDetector(

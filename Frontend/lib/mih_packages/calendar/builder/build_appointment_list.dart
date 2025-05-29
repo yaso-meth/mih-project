@@ -1,11 +1,11 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -428,18 +428,22 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 runSpacing: 10,
                 spacing: 10,
                 children: [
-                  SizedBox(
-                    width: 500,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        updateAppointmentCall(index);
-                      },
-                      buttonText: "Update",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MihButton(
+                    onPressed: () {
+                      updateAppointmentCall(index);
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    width: 300,
+                    child: Text(
+                      "Update",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

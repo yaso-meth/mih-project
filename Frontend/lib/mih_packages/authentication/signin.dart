@@ -1,12 +1,11 @@
 import 'dart:convert';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
@@ -19,7 +18,7 @@ import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_env/env.dart';
 
 class SignIn extends StatefulWidget {
-  final Function()? onTap;
+  final Function() onTap;
   const SignIn({super.key, required this.onTap});
 
   @override
@@ -292,19 +291,23 @@ class _SignInState extends State<SignIn> {
       child: MIHAction(
         icon: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: SizedBox(
-            width: 150,
-            child: MIHButton(
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  '/about',
-                  arguments: 0,
-                );
-              },
-              buttonText: "Install MIH",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          child: MihButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                '/about',
+                arguments: 0,
+              );
+            },
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 300,
+            child: Text(
+              "Install MIH",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -486,36 +489,41 @@ class _SignInState extends State<SignIn> {
                         //spacer
                         const SizedBox(height: 30),
                         // sign in button
-                        SizedBox(
-                          width: 500.0,
-                          height: 50.0,
-                          child: MIHButton(
-                            buttonText: "Sign In",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            onTap: () async {
-                              validateInput();
-                            },
+                        MihButton(
+                          onPressed: () {
+                            validateInput();
+                          },
+                          buttonColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 300,
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        //spacer
                         const SizedBox(height: 10),
-                        SizedBox(
-                          width: 500.0,
-                          height: 50.0,
-                          child: MIHButton(
-                            buttonText: "Create New Account",
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
-                            textColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            onTap: widget.onTap,
+                        MihButton(
+                          onPressed: widget.onTap,
+                          buttonColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .successColor(),
+                          width: 300,
+                          child: Text(
+                            "Create New Account",
+                            style: TextStyle(
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         //spacer
