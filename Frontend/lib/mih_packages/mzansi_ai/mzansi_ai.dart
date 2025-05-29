@@ -51,6 +51,13 @@ class _MzansiAiState extends State<MzansiAi> {
     return toolBodies;
   }
 
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Ask Mzansi",
+    ];
+    return toolTitles;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +69,7 @@ class _MzansiAiState extends State<MzansiAi> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {

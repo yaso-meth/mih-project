@@ -610,55 +610,6 @@ class _AiChatState extends State<AiChat> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Visibility(
-                //   visible: _showModelOptions.value == true,
-                //   child: IconButton.filled(
-                //     iconSize: 20,
-                //     onPressed: () {
-                //       if (_showModelOptions.value == true) {
-                //         setState(() {
-                //           _showModelOptions.value = false;
-                //         });
-                //       } else {
-                //         setState(() {
-                //           _showModelOptions.value = true;
-                //         });
-                //       }
-                //     },
-                //     icon: const Icon(
-                //       Icons.settings,
-                //     ),
-                //   ),
-                // ),
-                Expanded(
-                  child: Text(
-                    "Mzansi AI",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ),
-                // Expanded(
-                //   child: Container(
-                //     alignment: Alignment.centerRight,
-                //     child: IconButton(
-                //       onPressed: () {
-                //         _resetChat();
-                //       },
-                //       icon: const Icon(Icons.refresh),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
             _getSettings(),
             Expanded(
               child: GestureDetector(
