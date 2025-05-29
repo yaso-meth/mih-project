@@ -253,13 +253,6 @@ class _PatientAccessRequestState extends State<Appointments> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              Text(
-                getTitle(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
               MIHCalendar(
                   calendarWidth: 500,
                   rowHeight: 35,
@@ -370,7 +363,7 @@ class _PatientAccessRequestState extends State<Appointments> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }

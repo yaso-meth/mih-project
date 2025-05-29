@@ -25,6 +25,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -71,5 +72,12 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       ),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      widget.arguments.personalSelected == true ? "Personal" : "Business",
+    ];
+    return toolTitles;
   }
 }
