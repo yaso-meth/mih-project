@@ -121,13 +121,16 @@ class _MihPackageState extends State<MihPackage>
                       child: Container(
                         alignment: Alignment.centerRight,
                         // color: Colors.black,
-                        child: Text(
-                          widget.appToolTitles != null
-                              ? widget.appToolTitles![widget.selectedbodyIndex]
-                              : "",
-                          style: const TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w600,
+                        child: FittedBox(
+                          child: Text(
+                            widget.appToolTitles != null
+                                ? widget
+                                    .appToolTitles![widget.selectedbodyIndex]
+                                : "",
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -154,35 +157,6 @@ class _MihPackageState extends State<MihPackage>
                     },
                   ),
                 ),
-                // Expanded(
-                //     child: SwipeDetector(
-                //   onSwipeLeft: (offset) {
-                //     if (widget.selectedbodyIndex <
-                //         widget.appTools.tools.length - 1) {
-                //       setState(() {
-                //         widget.selectedbodyIndex += 1;
-                //         widget.onIndexChange(widget.selectedbodyIndex);
-                //       });
-                //     }
-                //     // print("swipe left");
-                //   },
-                //   onSwipeRight: (offset) {
-                //     if (widget.selectedbodyIndex > 0) {
-                //       setState(() {
-                //         widget.selectedbodyIndex -= 1;
-                //         widget.onIndexChange(widget.selectedbodyIndex);
-                //       });
-                //     }
-                //     // print("swipe right");
-                //   },
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: widget.appBody[widget.selectedbodyIndex],
-                //       )
-                //     ],
-                //   ),
-                // )),
               ],
             ),
           ),
