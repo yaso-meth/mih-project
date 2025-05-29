@@ -235,6 +235,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(context),
     );
   }

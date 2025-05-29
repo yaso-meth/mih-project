@@ -24,6 +24,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

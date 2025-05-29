@@ -254,6 +254,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

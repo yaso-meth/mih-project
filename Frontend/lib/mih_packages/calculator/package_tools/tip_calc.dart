@@ -264,6 +264,7 @@ class _TipCalcState extends State<TipCalc> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

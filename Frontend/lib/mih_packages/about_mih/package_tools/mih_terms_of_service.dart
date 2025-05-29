@@ -10,6 +10,7 @@ class MIHTermsOfService extends StatelessWidget {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(context),
     );
   }

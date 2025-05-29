@@ -93,6 +93,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

@@ -215,6 +215,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getPatientSearch(),
     );
   }

@@ -203,6 +203,7 @@ class _MyPatientListState extends State<MyPatientList> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: myPatientListTool(),
     );
   }

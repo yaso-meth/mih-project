@@ -487,6 +487,7 @@ class _MihInfoState extends State<MihInfo> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

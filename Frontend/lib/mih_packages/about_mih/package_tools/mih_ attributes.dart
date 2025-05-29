@@ -92,6 +92,7 @@ class _MihAttributesState extends State<MihAttributes> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }

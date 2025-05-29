@@ -234,6 +234,7 @@ class _PatientInfoState extends State<PatientInfo> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
+      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
