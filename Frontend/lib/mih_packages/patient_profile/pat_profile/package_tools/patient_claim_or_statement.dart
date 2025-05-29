@@ -114,7 +114,7 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }

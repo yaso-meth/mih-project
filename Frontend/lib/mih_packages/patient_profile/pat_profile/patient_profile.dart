@@ -27,6 +27,7 @@ class _PatientProfileState extends State<PatientProfile> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -108,5 +109,15 @@ class _PatientProfileState extends State<PatientProfile> {
       ),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Details",
+      "Notes",
+      "Documents",
+      "Claims",
+    ];
+    return toolTitles;
   }
 }

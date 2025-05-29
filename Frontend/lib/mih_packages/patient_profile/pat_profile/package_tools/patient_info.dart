@@ -233,7 +233,7 @@ class _PatientInfoState extends State<PatientInfo> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
@@ -260,9 +260,6 @@ class _PatientInfoState extends State<PatientInfo> {
                       ),
                     ),
                   ]),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
               const SizedBox(height: 10),
               getPatientDetailsField(),
               const SizedBox(height: 10),
