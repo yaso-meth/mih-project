@@ -72,12 +72,21 @@ class _MihHomeState extends State<MihHome> {
     }
   }
 
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Personal",
+      "Business",
+    ];
+    return toolTitles;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       actionDrawer: getActionDrawer(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
