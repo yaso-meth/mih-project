@@ -55,28 +55,28 @@ class _MyPatientListState extends State<MyPatientList> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "My Patient List",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                iconSize: 20,
-                icon: const Icon(
-                  Icons.refresh,
-                ),
-                onPressed: () {
-                  getMyPatientList();
-                },
-              ),
-            ],
-          ),
-          Divider(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          //spacer
-          const SizedBox(height: 10),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     const Text(
+          //       "My Patient List",
+          //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          //     ),
+          //     IconButton(
+          //       iconSize: 20,
+          //       icon: const Icon(
+          //         Icons.refresh,
+          //       ),
+          //       onPressed: () {
+          //         getMyPatientList();
+          //       },
+          //     ),
+          //   ],
+          // ),
+          // Divider(
+          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+          // //spacer
+          // const SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -202,7 +202,7 @@ class _MyPatientListState extends State<MyPatientList> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: myPatientListTool(),
     );
   }
