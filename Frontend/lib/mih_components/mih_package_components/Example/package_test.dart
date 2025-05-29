@@ -117,12 +117,21 @@ class _PackageTestState extends State<PackageTest> {
     return toolBodies;
   }
 
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Tool One",
+      "Tool Two",
+    ];
+    return toolTitles;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
