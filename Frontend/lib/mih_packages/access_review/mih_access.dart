@@ -24,6 +24,7 @@ class _MihAccessState extends State<MihAccess> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {
@@ -65,5 +66,12 @@ class _MihAccessState extends State<MihAccess> {
       ),
     ];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Access",
+    ];
+    return toolTitles;
   }
 }
