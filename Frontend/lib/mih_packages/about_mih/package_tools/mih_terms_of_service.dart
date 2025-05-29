@@ -9,7 +9,7 @@ class MIHTermsOfService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(context),
     );
   }

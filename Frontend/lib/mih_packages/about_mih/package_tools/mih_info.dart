@@ -486,7 +486,7 @@ class _MihInfoState extends State<MihInfo> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
