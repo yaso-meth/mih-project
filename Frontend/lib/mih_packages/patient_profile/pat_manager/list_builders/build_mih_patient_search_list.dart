@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -208,34 +208,34 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
               required: true,
             ),
             const SizedBox(height: 30.0),
-            SizedBox(
+            MihButton(
+              onPressed: () {
+                bool filled = isAppointmentFieldsFilled();
+                if (filled) {
+                  //print("here2");
+                  submitApointment(index);
+                  //print("here3");
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const MIHErrorMessage(errorType: "Input Error");
+                    },
+                  );
+                }
+              },
+              buttonColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               width: 300,
-              height: 50,
-              child: MIHButton(
-                buttonText: "Book",
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                textColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onTap: () {
-                  //print("here1");
-                  bool filled = isAppointmentFieldsFilled();
-                  //print("fields filled: $filled");
-                  if (filled) {
-                    //print("here2");
-                    submitApointment(index);
-                    //print("here3");
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const MIHErrorMessage(errorType: "Input Error");
-                      },
-                    );
-                  }
-                },
+              child: Text(
+                "Book",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -427,111 +427,97 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             ),
             // const SizedBox(height: 15.0),
             Wrap(runSpacing: 10, spacing: 10, children: [
-              // Visibility(
-              //   visible: hasAccess,
-              //   child: SizedBox(
-              //     width: 300,
-              //     height: 50,
-              //     child: MIHButton(
-              //       buttonText: "Book Appointment",
-              //       buttonColor:
-              //           MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              //       textColor:
-              //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              //       onTap: () {
-              //         if (hasAccess) {
-              //           appointmentPopUp(index);
-              //         } else {
-              //           noAccessWarning();
-              //         }
-              //       },
-              //     ),
-              //   ),
-              // ),
               Visibility(
                 visible: hasAccess,
-                child: SizedBox(
+                child: MihButton(
+                  onPressed: () {
+                    if (hasAccess) {
+                      Navigator.of(context)
+                          .pushNamed('/patient-manager/patient',
+                              arguments: PatientViewArguments(
+                                widget.signedInUser,
+                                widget.patients[index],
+                                widget.businessUser,
+                                widget.business,
+                                "business",
+                              ));
+                    } else {
+                      noAccessWarning();
+                    }
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
                   width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    buttonText: "View Patient Profile",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      if (hasAccess) {
-                        Navigator.of(context)
-                            .pushNamed('/patient-manager/patient',
-                                arguments: PatientViewArguments(
-                                  widget.signedInUser,
-                                  widget.patients[index],
-                                  widget.businessUser,
-                                  widget.business,
-                                  "business",
-                                ));
-                      } else {
-                        noAccessWarning();
-                      }
-                    },
+                  child: Text(
+                    "View Profile",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               Visibility(
                 visible: !hasAccess && accessStatus == "No Access",
-                child: SizedBox(
+                child: MihButton(
+                  onPressed: () {
+                    MIHApiCalls.addPatientAccessAPICall(
+                      widget.business!.business_id,
+                      widget.patients[index].app_id,
+                      "patient",
+                      widget.business!.Name,
+                      widget.personalSelected,
+                      BusinessArguments(
+                        widget.signedInUser,
+                        widget.businessUser,
+                        widget.business,
+                      ),
+                      context,
+                    );
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
                   width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    buttonText: "Request Access",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      //print("Send access Request...");
-                      MIHApiCalls.addPatientAccessAPICall(
-                        widget.business!.business_id,
-                        widget.patients[index].app_id,
-                        "patient",
-                        widget.business!.Name,
-                        widget.personalSelected,
-                        BusinessArguments(
-                          widget.signedInUser,
-                          widget.businessUser,
-                          widget.business,
-                        ),
-                        context,
-                      );
-                    },
+                  child: Text(
+                    "Request Access",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               Visibility(
                 visible: !hasAccess && accessStatus == "declined",
-                child: SizedBox(
+                child: MihButton(
+                  onPressed: () {
+                    MIHApiCalls.reapplyPatientAccessAPICall(
+                      widget.business!.business_id,
+                      widget.patients[index].app_id,
+                      widget.personalSelected,
+                      BusinessArguments(
+                        widget.signedInUser,
+                        widget.businessUser,
+                        widget.business,
+                      ),
+                      context,
+                    );
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    buttonText: "Re-apply",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      // print("Send rewaply access Request...");
-                      MIHApiCalls.reapplyPatientAccessAPICall(
-                        widget.business!.business_id,
-                        widget.patients[index].app_id,
-                        widget.personalSelected,
-                        BusinessArguments(
-                          widget.signedInUser,
-                          widget.businessUser,
-                          widget.business,
-                        ),
-                        context,
-                      );
-                    },
+                  child: Text(
+                    "Re-apply",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

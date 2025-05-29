@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 
-import '../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
 import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
@@ -245,19 +245,23 @@ class _RegisterState extends State<Register> {
       child: MIHAction(
         icon: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: SizedBox(
-            width: 150,
-            child: MIHButton(
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  '/about',
-                  arguments: 0,
-                );
-              },
-              buttonText: "Install MIH",
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          child: MihButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                '/about',
+                arguments: 0,
+              );
+            },
+            buttonColor:
+                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            width: 300,
+            child: Text(
+              "Install MIH",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -345,7 +349,7 @@ class _RegisterState extends State<Register> {
                     const SizedBox(height: 10),
                     //Heading
                     Text(
-                      'Create a New Account',
+                      'Create an Account',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -391,40 +395,28 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     //spacer
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 25),
                     // sign up button
-                    SizedBox(
-                      width: 500.0,
-                      height: 50.0,
-                      child: MIHButton(
-                        buttonText: "Create New Account",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        onTap: () async {
-                          validateInput();
-                        },
+                    MihButton(
+                      onPressed: () {
+                        validateInput();
+                      },
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Text(
+                        "Create New Account",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+
                     const SizedBox(height: 10),
-                    // SizedBox(
-                    //   width: 500.0,
-                    //   height: 50.0,
-                    //   child: MIHButton(
-                    //     buttonText: "Sign In",
-                    //     buttonColor: MzanziInnovationHub.of(context)!
-                    //         .theme
-                    //         .secondaryColor(),
-                    //     textColor: MzanziInnovationHub.of(context)!
-                    //         .theme
-                    //         .primaryColor(),
-                    //     onTap: widget.onTap,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 10),
                     //register text
                     SizedBox(
                       width: 500.0,

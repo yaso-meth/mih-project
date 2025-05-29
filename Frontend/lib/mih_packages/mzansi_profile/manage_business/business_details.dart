@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import '../../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:http/http.dart' as http2;
 
 import '../../../mih_apis/mih_location_api.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
@@ -442,29 +442,32 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                         ),
                       ),
                       const SizedBox(width: 10.0),
-                      SizedBox(
-                        width: 80.0,
-                        height: 50.0,
-                        child: MIHButton(
-                          buttonText: "Set",
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          textColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          onTap: () {
-                            MIHLocationAPI()
-                                .getGPSPosition(context)
-                                .then((position) {
-                              if (position != null) {
-                                setState(() {
-                                  locationController.text =
-                                      "${position.latitude}, ${position.longitude}";
-                                });
-                              }
-                            });
-                          },
+                      MihButton(
+                        onPressed: () {
+                          MIHLocationAPI()
+                              .getGPSPosition(context)
+                              .then((position) {
+                            if (position != null) {
+                              setState(() {
+                                locationController.text =
+                                    "${position.latitude}, ${position.longitude}";
+                              });
+                            }
+                          });
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 100,
+                        child: Text(
+                          "Set",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -576,19 +579,21 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                 // ),
                 //const SizedBox(height: 15.0),
                 const SizedBox(height: 30.0),
-                SizedBox(
-                  width: 500.0,
-                  height: 50.0,
-                  child: MIHButton(
-                    buttonText: "Update",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      //print(business_id);
-                      submitForm(business_id);
-                    },
+                MihButton(
+                  onPressed: () {
+                    submitForm(business_id);
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Add",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

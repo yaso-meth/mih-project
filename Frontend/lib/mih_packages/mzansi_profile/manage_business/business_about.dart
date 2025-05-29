@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import '../../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:http/http.dart' as http2;
-
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import '../../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
@@ -514,20 +513,22 @@ class _BusinessAboutState extends State<BusinessAbout> {
                   // ),
                   //const SizedBox(height: 15.0),
                   const SizedBox(height: 30.0),
-                  SizedBox(
-                    width: 500.0,
-                    height: 50.0,
-                    child: MIHButton(
-                      buttonText: "Update",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      onTap: () {
-                        //print(business_id);
-                        submitForm(business_id);
-                      },
+                  MihButton(
+                    onPressed: () {
+                      submitForm(business_id);
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Update",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

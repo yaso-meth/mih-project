@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,18 +62,25 @@ class _MihAttributesState extends State<MihAttributes> {
           verticalAlignment: TableCellVerticalAlignment.middle,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
-            child: MIHButton(
-              onTap: () {
+            child: MihButton(
+              onPressed: () {
                 launchUrlLink(
                   Uri.parse(
                     link,
                   ),
                 );
               },
-              buttonText: "Visit",
               buttonColor:
                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              width: 100,
+              child: Text(
+                "Visit",
+                style: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ),

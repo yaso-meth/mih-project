@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import '../../main.dart';
-import '../mih_inputs_and_buttons/mih_button.dart';
 
 class MIHDeleteMessage extends StatefulWidget {
   final String deleteType;
@@ -97,18 +97,21 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: widget.onTap,
-                      buttonText: "Delete",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
+                MihButton(
+                  onPressed: widget.onTap,
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -179,18 +182,21 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: widget.onTap,
-                      buttonText: "Delete",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
+                MihButton(
+                  onPressed: widget.onTap,
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -261,18 +267,22 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: widget.onTap,
-                      buttonText: "Delete",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
+
+                MihButton(
+                  onPressed: widget.onTap,
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -343,18 +353,21 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: widget.onTap,
-                      buttonText: "Delete",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
+                MihButton(
+                  onPressed: widget.onTap,
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -425,18 +438,21 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: widget.onTap,
-                      buttonText: "Delete",
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      textColor:
+                MihButton(
+                  onPressed: widget.onTap,
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      color:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

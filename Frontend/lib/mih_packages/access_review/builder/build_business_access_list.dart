@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -36,41 +36,6 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
   late double popUpPaddingSize;
   late double width;
   late double height;
-
-  // Future<void> updateAccessAPICall(int index, String accessType) async {
-  //   var response = await http.put(
-  //     Uri.parse("$baseAPI/access-requests/update/"),
-  //     headers: <String, String>{
-  //       "Content-Type": "application/json; charset=UTF-8"
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       "business_id": widget.patientAccessList[index].business_id,
-  //       "app_id": widget.patientAccessList[index].app_id,
-  //       "date_time": widget.patientAccessList[index].date_time,
-  //       "access": accessType,
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     //Navigator.of(context).pushNamed('/home');
-  //     Navigator.of(context).pop();
-  //     Navigator.of(context).pop();
-  //     Navigator.of(context).pushNamed(
-  //       '/patient-access-review',
-  //       arguments: widget.signedInUser,
-  //     );
-  //     String message = "";
-  //     if (accessType == "approved") {
-  //       message =
-  //           "You've successfully approved the access request! ${widget.patientAccessList[index].Name} now has access to your profile until ${widget.patientAccessList[index].revoke_date.substring(0, 16).replaceAll("T", " ")}.";
-  //     } else {
-  //       message =
-  //           "You've declined the access request. ${widget.patientAccessList[index].Name} will not have access to your profile.";
-  //     }
-  //     successPopUp(message);
-  //   } else {
-  //     internetConnectionPopUp();
-  //   }
-  // }
 
   void internetConnectionPopUp() {
     showDialog(
@@ -377,55 +342,60 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                   runSpacing: 10,
                   spacing: 10,
                   children: [
-                    SizedBox(
-                      width: popUpButtonWidth,
-                      height: 50,
-                      child: MIHButton(
-                        onTap: () {
-                          print("request declined");
-                          MIHApiCalls.updatePatientAccessAPICall(
-                            widget.patientAccessList[index].business_id,
-                            widget.patientAccessList[index].requested_by,
-                            widget.patientAccessList[index].app_id,
-                            "declined",
-                            "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                            widget.signedInUser,
-                            context,
-                          );
-                          //updateAccessAPICall(index, "declined");
-                        },
-                        buttonText: "Decline",
-                        buttonColor:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                    MihButton(
+                      onPressed: () {
+                        print("request declined");
+                        MIHApiCalls.updatePatientAccessAPICall(
+                          widget.patientAccessList[index].business_id,
+                          widget.patientAccessList[index].requested_by,
+                          widget.patientAccessList[index].app_id,
+                          "declined",
+                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                          widget.signedInUser,
+                          context,
+                        );
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 300,
+                      child: Text(
+                        "Decline",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: popUpButtonWidth,
-                      height: 50,
-                      child: MIHButton(
-                        onTap: () {
-                          print("request approved");
-                          MIHApiCalls.updatePatientAccessAPICall(
-                            widget.patientAccessList[index].business_id,
-                            widget.patientAccessList[index].requested_by,
-                            widget.patientAccessList[index].app_id,
-                            "approved",
-                            "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                            widget.signedInUser,
-                            context,
-                          );
-                          //updateAccessAPICall(index, "approved");
-                        },
-                        buttonText: "Approve",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                    MihButton(
+                      onPressed: () {
+                        print("request approved");
+                        MIHApiCalls.updatePatientAccessAPICall(
+                          widget.patientAccessList[index].business_id,
+                          widget.patientAccessList[index].requested_by,
+                          widget.patientAccessList[index].app_id,
+                          "approved",
+                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+                          widget.signedInUser,
+                          context,
+                        );
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 300,
+                      child: Text(
+                        "Approve",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../../main.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_button.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -246,32 +246,40 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                 runSpacing: 10,
                 spacing: 10,
                 children: [
-                  SizedBox(
-                    width: popUpButtonWidth,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        updateAccessAPICall(index, "declined");
-                      },
-                      buttonText: "Decline",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MihButton(
+                    onPressed: () {
+                      updateAccessAPICall(index, "declined");
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    width: 300,
+                    child: Text(
+                      "Decline",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: popUpButtonWidth,
-                    height: 50,
-                    child: MIHButton(
-                      onTap: () {
-                        updateAccessAPICall(index, "approved");
-                      },
-                      buttonText: "Approve",
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
-                      textColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MihButton(
+                    onPressed: () {
+                      updateAccessAPICall(index, "approved");
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    width: 300,
+                    child: Text(
+                      "Approve",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

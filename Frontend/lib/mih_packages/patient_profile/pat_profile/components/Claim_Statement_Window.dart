@@ -1,11 +1,11 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_icd10_code_api.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -224,66 +224,67 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           required: false,
         ),
         const SizedBox(height: 15),
-        SizedBox(
-          width: 500,
-          height: 50,
-          child: MIHButton(
-            onTap: () {
-              //generate document and uploud it
-              if (isInputValid()) {
-                MIHClaimStatementGenerationApi().generateClaimStatement(
-                    ClaimStatementGenerationArguments(
-                      _docTypeController.text,
-                      widget.selectedPatient.app_id,
-                      _fullNameController.text,
-                      _idController.text,
-                      _medAidController.text,
-                      _medAidNoController.text,
-                      _medAidCodeController.text,
-                      _medAidNameController.text,
-                      _medAidSchemeController.text,
-                      widget.business!.Name,
-                      "*To-Be Added*",
-                      widget.business!.contact_no,
-                      widget.business!.bus_email,
-                      _providerNameController.text,
-                      _practiceNoController.text,
-                      _vatNoController.text,
-                      _serviceDateController.text,
-                      _serviceDescController.text,
-                      _serviceDescOptionsController.text,
-                      _prcedureNameController.text,
-                      _proceedureAdditionalInfoController.text,
-                      _icd10CodeController.text,
-                      _amountController.text,
-                      _preauthNoController.text,
-                      widget.business!.logo_path,
-                      widget.businessUser!.sig_path,
-                    ),
-                    PatientViewArguments(
-                      widget.signedInUser,
-                      widget.selectedPatient,
-                      widget.businessUser,
-                      widget.business,
-                      "business",
-                    ),
-                    widget.env,
-                    context);
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const MIHErrorMessage(errorType: "Input Error");
-                  },
-                );
-              }
-            },
-            buttonText: "Generate",
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            textColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        MihButton(
+          onPressed: () {
+            if (isInputValid()) {
+              MIHClaimStatementGenerationApi().generateClaimStatement(
+                  ClaimStatementGenerationArguments(
+                    _docTypeController.text,
+                    widget.selectedPatient.app_id,
+                    _fullNameController.text,
+                    _idController.text,
+                    _medAidController.text,
+                    _medAidNoController.text,
+                    _medAidCodeController.text,
+                    _medAidNameController.text,
+                    _medAidSchemeController.text,
+                    widget.business!.Name,
+                    "*To-Be Added*",
+                    widget.business!.contact_no,
+                    widget.business!.bus_email,
+                    _providerNameController.text,
+                    _practiceNoController.text,
+                    _vatNoController.text,
+                    _serviceDateController.text,
+                    _serviceDescController.text,
+                    _serviceDescOptionsController.text,
+                    _prcedureNameController.text,
+                    _proceedureAdditionalInfoController.text,
+                    _icd10CodeController.text,
+                    _amountController.text,
+                    _preauthNoController.text,
+                    widget.business!.logo_path,
+                    widget.businessUser!.sig_path,
+                  ),
+                  PatientViewArguments(
+                    widget.signedInUser,
+                    widget.selectedPatient,
+                    widget.businessUser,
+                    widget.business,
+                    "business",
+                  ),
+                  widget.env,
+                  context);
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const MIHErrorMessage(errorType: "Input Error");
+                },
+              );
+            }
+          },
+          buttonColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          width: 300,
+          child: Text(
+            "Generate",
+            style: TextStyle(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )
+        ),
       ],
     );
   }

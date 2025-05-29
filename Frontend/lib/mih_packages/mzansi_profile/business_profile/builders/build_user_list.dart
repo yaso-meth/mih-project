@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -162,28 +162,31 @@ class _BuildUserListState extends State<BuildUserList> {
                   enableSearch: false,
                 ),
                 const SizedBox(height: 15.0),
-                SizedBox(
+                MihButton(
+                  onPressed: () {
+                    if (isRequiredFieldsCaptured()) {
+                      createBusinessUserAPICall(index);
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const MIHErrorMessage(
+                              errorType: "Input Error");
+                        },
+                      );
+                    }
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   width: 300,
-                  height: 50,
-                  child: MIHButton(
-                    buttonText: "Add",
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    textColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onTap: () {
-                      if (isRequiredFieldsCaptured()) {
-                        createBusinessUserAPICall(index);
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const MIHErrorMessage(
-                                errorType: "Input Error");
-                          },
-                        );
-                      }
-                    },
+                  child: Text(
+                    "Add",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10.0),

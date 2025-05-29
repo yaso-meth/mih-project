@@ -1,8 +1,8 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -80,155 +80,6 @@ class _MihInfoState extends State<MihInfo> {
       js.context.callMethod("presentAddToHome");
     }
   }
-
-  // void _showIOSInstallationGuide() {
-  //   double windowFontSize = 17.0;
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) {
-  //       return MihPackageWindow(
-  //         fullscreen: false,
-  //         windowTitle: "MIH Installation Guide (iOS)",
-  //         windowTools: const [],
-  //         onWindowTapClose: () {
-  //           Navigator.of(context).pop();
-  //         },
-  //         windowBody: [
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "In order to install MIH on your iPhone, please follow the below steps:- ",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "1. Launch MIH on Safari.",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "2. Tap the Share Button.",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "3. Scroll down and tap \"Add to Home Screen\".",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "4. Choose a name for the shortcut (Optional).",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "5. Tap \"Add\".",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "That's it! Now you can tap the MIH icon on your home screen to open it quickly.",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color:
-  //                     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           Align(
-  //             alignment: Alignment.centerLeft,
-  //             child: Text(
-  //               "If you are still having trouble, please click on the button below to view a video guide.",
-  //               textAlign: TextAlign.left,
-  //               style: TextStyle(
-  //                 color: MzanziInnovationHub.of(context)!.theme.errorColor(),
-  //                 fontSize: windowFontSize,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 15),
-  //           SizedBox(
-  //             width: 300,
-  //             height: 50,
-  //             child: MIHButton(
-  //               onTap: () {
-  //                 launchSocialUrl(
-  //                   Uri.parse(
-  //                     "https://www.youtube.com/watch?v=KVK78IV28JY",
-  //                   ),
-  //                 );
-  //               },
-  //               buttonText: "Video Guide",
-  //               buttonColor:
-  //                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-  //               textColor:
-  //                   MzanziInnovationHub.of(context)!.theme.primaryColor(),
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget founderBio() {
     String bio = "";
@@ -699,40 +550,46 @@ class _MihInfoState extends State<MihInfo> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    SizedBox(
+                    MihButton(
+                      onPressed: () {
+                        installMihTrigger();
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       width: 300,
-                      height: 50,
-                      child: MIHButton(
-                        onTap: () {
-                          installMihTrigger();
-                        },
-                        buttonText: getInstallButtonText(),
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                      child: Text(
+                        getInstallButtonText(),
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    SizedBox(
+                    MihButton(
+                      onPressed: () {
+                        launchSocialUrl(
+                          Uri.parse(
+                            "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                          ),
+                        );
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       width: 300,
-                      height: 50,
-                      child: MIHButton(
-                        onTap: () {
-                          launchSocialUrl(
-                            Uri.parse(
-                              "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                            ),
-                          );
-                        },
-                        buttonText: "MIH Beginners Guide",
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        textColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                      child: Text(
+                        "MIH Beginners Guide",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ]),
