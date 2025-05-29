@@ -148,7 +148,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                   deleteAccountPopUp(context);
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.errorColor(),
                 width: 300,
                 child: Text(
                   "Delete Account",
