@@ -22,7 +22,10 @@ class MihPersonalSettings extends StatefulWidget {
 class _MihPersonalSettingsState extends State<MihPersonalSettings> {
   @override
   Widget build(BuildContext context) {
-    return MihPackageToolBody(borderOn: true, bodyItem: getBody());
+    return MihPackageToolBody(
+      borderOn: false,
+      bodyItem: getBody(),
+    );
   }
 
   void deleteAccountPopUp(BuildContext ctxtd) {

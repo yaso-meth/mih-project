@@ -253,7 +253,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(),
     );
   }
