@@ -621,8 +621,8 @@ class _MihInfoState extends State<MihInfo> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 0,
+          right: 10,
+          bottom: 10,
           child: MihFloatingMenu(
             icon: Icons.share,
             children: [

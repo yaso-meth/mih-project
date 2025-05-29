@@ -285,8 +285,8 @@ class _PatientInfoState extends State<PatientInfo> {
         Visibility(
           visible: widget.type == "personal",
           child: Positioned(
-            right: 0,
-            bottom: 0,
+            right: 10,
+            bottom: 10,
             child: MihFloatingMenu(
               icon: Icons.add,
               animatedIcon: AnimatedIcons.menu_close,

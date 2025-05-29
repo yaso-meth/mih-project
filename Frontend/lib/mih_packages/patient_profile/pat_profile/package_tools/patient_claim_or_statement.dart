@@ -176,8 +176,8 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
         Visibility(
           visible: widget.type != "personal",
           child: Positioned(
-            right: 0,
-            bottom: 0,
+            right: 10,
+            bottom: 10,
             child: MihFloatingMenu(
               icon: Icons.file_copy,
               animatedIcon: AnimatedIcons.menu_close,

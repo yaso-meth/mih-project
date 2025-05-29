@@ -299,8 +299,8 @@ class _PatientAccessRequestState extends State<Appointments> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 0,
+          right: 10,
+          bottom: 10,
           child: MihFloatingMenu(
             icon: Icons.add,
             animatedIcon: AnimatedIcons.menu_close,

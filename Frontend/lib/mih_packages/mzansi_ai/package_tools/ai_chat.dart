@@ -660,8 +660,8 @@ class _AiChatState extends State<AiChat> {
           ),
         ),
         Positioned(
-          right: 0,
-          bottom: 70,
+          right: 10,
+          bottom: 80,
           child: MihFloatingMenu(
             animatedIcon: AnimatedIcons.menu_close,
             children: [
