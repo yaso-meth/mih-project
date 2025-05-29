@@ -234,7 +234,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
-      borderOn: true,
+      borderOn: false,
       bodyItem: getBody(context),
     );
   }
@@ -243,15 +243,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     return MihSingleChildScroll(
         child: Column(
       children: [
-        const Text(
-          "Business Details",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Divider(color: MzanziInnovationHub.of(context)?.theme.secondaryColor()),
-        const SizedBox(height: 10),
         MihCircleAvatar(
           imageFile: widget.logoImage,
           width: 150,
