@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/medicine_search.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -54,6 +54,7 @@ class PrescripInput extends StatefulWidget {
 
 class _PrescripInputState extends State<PrescripInput> {
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   List<Perscription> perscriptionObjOutput = [];
   late double width;
   late double height;
@@ -361,28 +362,23 @@ class _PrescripInputState extends State<PrescripInput> {
               getMedsPopUp(widget.medicineController);
             }
           },
-          child: MIHSearchField(
+          child: MihSearchBar(
             controller: widget.medicineController,
-            hintText: "Medicine",
-            required: true,
-            editable: true,
-            onTap: () {
+            hintText: "Search Medicine",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
               getMedsPopUp(widget.medicineController);
             },
+            onClearIconTap: () {
+              widget.medicineController.clear();
+            },
+            searchFocusNode: _searchFocusNode,
           ),
         ),
         const SizedBox(height: 10.0),
-        // SizedBox(
-        //   width: 300,
-        //   child: MIHDropdownField(
-        //     controller: widget.quantityController,
-        //     hintText: "Quantity",
-        //     dropdownOptions: numberOptions,
-        //     required: true,
-        //     editable: true,
-        //   ),
-        // ),
-        // const SizedBox(height: 10.0),
+
         MIHDropdownField(
           controller: widget.dosageController,
           hintText: "Dosage",
@@ -544,6 +540,7 @@ class _PrescripInputState extends State<PrescripInput> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
