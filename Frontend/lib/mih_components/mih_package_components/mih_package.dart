@@ -117,9 +117,14 @@ class _MihPackageState extends State<MihPackage>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     widget.appActionButton,
+                    const SizedBox(
+                      width: 10,
+                    ),
                     Expanded(
                       child: Container(
-                        alignment: Alignment.centerRight,
+                        // alignment: Alignment.center,
+                        // alignment: Alignment.centerRight,
+                        alignment: Alignment.centerLeft,
                         // color: Colors.black,
                         child: FittedBox(
                           child: Text(
