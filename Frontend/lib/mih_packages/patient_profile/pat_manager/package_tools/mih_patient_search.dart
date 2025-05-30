@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -35,11 +35,12 @@ class MihPatientSearch extends StatefulWidget {
 class _MihPatientSearchState extends State<MihPatientSearch> {
   TextEditingController _mihPatientSearchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   String _mihPatientSearchString = "";
   String baseUrl = AppEnviroment.baseApiUrl;
   late Future<List<Patient>> _mihPatientSearchResults;
 
-  Widget getPatientSearch() {
+  Widget getPatientSearch(double width) {
     return MihSingleChildScroll(
       child: KeyboardListener(
         focusNode: _focusNode,
@@ -54,39 +55,30 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                flex: 1,
-                child: MIHSearchField(
-                  controller: _mihPatientSearchController,
-                  hintText: "ID or Medical Aid No. Search",
-                  required: false,
-                  editable: true,
-                  onTap: () {
-                    // submitPatientForm();
-                    submitPatientSearch();
-                    //To-Do: Implement the search function
-                    // print("To-Do: Implement the search function");
-                  },
-                ),
-              ),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _mihPatientSearchController.clear();
-                      _mihPatientSearchString = "";
-                    });
-                    submitPatientSearch();
-                    //To-Do: Implement the search function
-                    // print("To-Do: Implement the search function");
-                  },
-                  icon: const Icon(
-                    Icons.filter_alt_off,
-                    size: 25,
-                  ))
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: _mihPatientSearchController,
+              hintText: "Search by ID or Medical Aid No.",
+              prefixIcon: Icons.search,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                submitPatientSearch();
+                print("Search Text: ${_mihPatientSearchController.text}");
+              },
+              onClearIconTap: () {
+                setState(() {
+                  _mihPatientSearchController.clear();
+                  _mihPatientSearchString = "";
+                });
+                submitPatientSearch();
+                //To-Do: Implement the search function
+                // print("To-Do: Implement the search function");
+              },
+              searchFocusNode: _searchFocusNode,
+            ),
           ),
           //spacer
           const SizedBox(height: 10),
@@ -212,11 +204,22 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _searchFocusNode.dispose();
+    _mihPatientSearchController.dispose();
+    _focusNode.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getPatientSearch(),
+      bodyItem: getPatientSearch(width),
     );
   }
 }

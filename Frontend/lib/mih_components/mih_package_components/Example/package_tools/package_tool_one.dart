@@ -11,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 
 class PackageToolOne extends StatefulWidget {
   const PackageToolOne({super.key});
@@ -25,6 +26,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
   PlatformFile? imageFile;
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _imagefileController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
   void showTestFullWindow() {
     showDialog(
       context: context,
@@ -81,6 +84,23 @@ class _PackageToolOneState extends State<PackageToolOne> {
   }
 
   @override
+  Widget build(BuildContext context) {
+    return MihPackageToolBody(
+      borderOn: true,
+      bodyItem: getBody(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _fileNameController.dispose();
+    _imagefileController.dispose();
+    _searchController.dispose();
+    searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     setState(() {
@@ -88,14 +108,6 @@ class _PackageToolOneState extends State<PackageToolOne> {
       // const NetworkImage(
       //     "https://lh3.googleusercontent.com/nW4ZZ89Q1ATz7Ht3nsAVWXL_cwNi4gNusqQZiL60UuuI3FG-VM7bTYDoJ-sUr2kDTdorfQYjxo5PjDM-0MO5rA=s512");
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MihPackageToolBody(
-      borderOn: true,
-      bodyItem: getBody(),
-    );
   }
 
   Widget getBody() {
@@ -123,7 +135,24 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              MihSearchBar(
+                controller: _searchController,
+                hintText: "Ask Mzansi",
+                // prefixIcon: Icons.search,
+                prefixIcon: Icons.search,
+                prefixAltIcon: MihIcons.mzansiAi,
+                width: 300,
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                hintColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onPrefixIconTap: () {
+                  print("Search Icon Pressed: ${_searchController.text}");
+                },
+                searchFocusNode: searchFocusNode,
+              ),
+              const SizedBox(height: 20),
               MihButton(
                 onPressed: () {
                   print("Button Pressed");

@@ -1,12 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_icd10_code_api.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -64,6 +65,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
   final ValueNotifier<String> serviceDesc = ValueNotifier("");
   final ValueNotifier<String> medAid = ValueNotifier("");
   List<ICD10Code> icd10codeList = [];
+  final FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   void icd10SearchWindow(List<ICD10Code> codeList) {
     showDialog(
@@ -186,18 +189,35 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           },
         ),
         //const SizedBox(height: 10),
-        MIHSearchField(
-          controller: _icd10CodeController,
-          hintText: "ICD-10 Code & Description",
-          required: true,
-          editable: true,
-          onTap: () {
-            //api
-            MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
-                .then((result) {
-              icd10SearchWindow(result);
-            });
+        KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
+                  .then((result) {
+                icd10SearchWindow(result);
+              });
+            }
           },
+          child: MihSearchBar(
+            controller: _icd10CodeController,
+            hintText: "ICD-10 Code & Description",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
+              MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
+                  .then((result) {
+                icd10SearchWindow(result);
+              });
+            },
+            onClearIconTap: () {
+              _icd10CodeController.clear();
+            },
+            searchFocusNode: _searchFocusNode,
+          ),
         ),
         const SizedBox(height: 10),
         MIHTextField(
@@ -365,6 +385,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     _proceedureAdditionalInfoController.dispose();
     _icd10CodeController.dispose();
     _preauthNoController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
