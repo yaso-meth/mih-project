@@ -1,8 +1,9 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -51,6 +52,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   double packageSize = 200;
   late final AnimationController _marqueeController;
   late final ScrollController _scrollController;
+  final FocusNode _searchFocusNode = FocusNode();
   final String maintenanceMsg =
       "\tHeads up! We're doing maintenance on Thur, 15 May 2025 at 10 PM (CAT). MIH may be unavailable briefly.";
 
@@ -206,6 +208,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     super.dispose();
     searchController.removeListener(searchPackage);
     searchController.dispose();
+    _searchFocusNode.dispose();
     _marqueeController.dispose();
     _scrollController.dispose();
   }
@@ -244,38 +247,22 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return MihSingleChildScroll(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Flexible(
-                flex: 4,
-                child: SizedBox(
-                  child: MIHSearchField(
-                    controller: searchController,
-                    hintText: "Search MIH Packages",
-                    required: false,
-                    editable: true,
-                    onTap: () {},
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: IconButton(
-                  //padding: const EdgeInsets.all(0),
-                  onPressed: () {
-                    setState(() {
-                      searchController.clear();
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.filter_alt_off,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ],
+          const SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: searchController,
+              hintText: "Ask Mzansi",
+              prefixIcon: Icons.search,
+              prefixAltIcon: MihIcons.mzansiAi,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                print("Search Text: ${searchController.text}");
+              },
+              searchFocusNode: _searchFocusNode,
+            ),
           ),
           const SizedBox(height: 10),
           ValueListenableBuilder(
