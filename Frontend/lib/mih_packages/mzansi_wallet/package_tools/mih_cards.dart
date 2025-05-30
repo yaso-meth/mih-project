@@ -3,13 +3,13 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -35,6 +35,7 @@ class _MihCardsState extends State<MihCards> {
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController cardSearchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
   late Future<List<MIHLoyaltyCard>> cardList;
   List<MIHLoyaltyCard> listOfCards = [];
   //bool showSelectedCardType = false;
@@ -253,6 +254,7 @@ class _MihCardsState extends State<MihCards> {
     cardSearchController.dispose();
     searchShopName.dispose();
     _nicknameController.dispose();
+    searchFocusNode.dispose();
     shopName.dispose();
     super.dispose();
   }
@@ -267,45 +269,36 @@ class _MihCardsState extends State<MihCards> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
     return MihPackageToolBody(
       borderOn: false,
-      bodyItem: getBody(),
+      bodyItem: getBody(width),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
         MihSingleChildScroll(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 4,
-                    child: SizedBox(
-                      height: 50,
-                      child: MIHSearchField(
-                        controller: cardSearchController,
-                        hintText: "Shop Name",
-                        required: false,
-                        editable: true,
-                        onTap: () {},
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: IconButton(
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        cardSearchController.clear();
-                      },
-                      icon: const Icon(Icons.filter_alt_off),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: MihSearchBar(
+                  controller: cardSearchController,
+                  hintText: "Search Cards",
+                  // prefixIcon: Icons.search,
+                  prefixIcon: Icons.search,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  hintColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onPrefixIconTap: () {
+                    print("Search Icon Pressed: ${cardSearchController.text}");
+                  },
+                  searchFocusNode: searchFocusNode,
+                ),
               ),
               const SizedBox(height: 10),
               FutureBuilder(
