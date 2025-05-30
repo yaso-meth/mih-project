@@ -53,14 +53,21 @@ class _MihSearchBarState extends State<MihSearchBar> {
             )
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(Icons.search, color: widget.hintColor),
+              child: Icon(
+                Icons.search,
+                color: widget.hintColor,
+                size: 35,
+              ),
             ); // Default to search icon if no alt icon
     } else {
       // Return the primary prefix icon or the alternative if provided
-      return Icon(
-        widget.prefixIcon,
-        color: widget.hintColor,
-        size: 35,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Icon(
+          Icons.search,
+          color: widget.hintColor,
+          size: 35,
+        ),
       );
     }
   }
