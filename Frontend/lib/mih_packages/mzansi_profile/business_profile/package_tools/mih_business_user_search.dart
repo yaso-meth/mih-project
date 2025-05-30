@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -29,6 +28,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController searchController = TextEditingController();
   late Future<List<AppUser>> userSearchResults;
+  final FocusNode _searchFocusNode = FocusNode();
 
   String userSearch = "";
   String errorCode = "";
@@ -90,15 +90,24 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _searchFocusNode.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(width),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return MihSingleChildScroll(
       child: KeyboardListener(
         focusNode: _focusNode,
@@ -110,16 +119,21 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          MIHSearchField(
-            controller: searchController,
-            hintText: "Username or Email Search",
-            required: true,
-            editable: true,
-            onTap: () {
-              submitUserForm();
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: searchController,
+              hintText: "Search Users",
+              prefixIcon: Icons.search,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                submitUserForm();
+              },
+              searchFocusNode: _searchFocusNode,
+            ),
           ),
-          //spacer
           const SizedBox(height: 10),
           FutureBuilder(
             future: userSearchResults,
