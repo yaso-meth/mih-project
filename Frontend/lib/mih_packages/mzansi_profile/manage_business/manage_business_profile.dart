@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import '../../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../../../mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import '../../../mih_components/mih_layout/mih_action.dart';
 import '../../../mih_components/mih_layout/mih_body.dart';
 import '../../../mih_components/mih_layout/mih_header.dart';
@@ -35,6 +34,7 @@ class ManageBusinessProfile extends StatefulWidget {
 
 class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   final baseAPI = AppEnviroment.baseApiUrl;
   final TextEditingController searchController = TextEditingController();
 
@@ -179,7 +179,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     }
   }
 
-  Widget userSearchView() {
+  Widget userSearchView(double width) {
     return KeyboardListener(
       focusNode: _focusNode,
       autofocus: true,
@@ -198,15 +198,21 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
         Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
 
         const SizedBox(height: 10),
-        MIHSearchField(
-          controller: searchController,
-          hintText: "Username or Email Search",
-          required: true,
-          editable: true,
-          onTap: () {
-            submitUserForm();
-          },
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 20),
+          child: MihSearchBar(
+            controller: searchController,
+            hintText: "Ask Mzansi",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
+              print("Search Text: ${searchController.text}");
+            },
+            searchFocusNode: _searchFocusNode,
+          ),
         ),
+
         //spacer
         const SizedBox(height: 10),
         FutureBuilder(
@@ -274,7 +280,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     );
   }
 
-  Widget showSelection(int selectionIndex) {
+  Widget showSelection(int selectionIndex, double width, [double? height]) {
     // if (selectionIndex == 0) {
     //   return BusinessDetails(arguments: widget.arguments);
     // } else
@@ -283,7 +289,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     } else if (selectionIndex == 1) {
       return employeesview();
     } else {
-      return userSearchView();
+      return userSearchView(width);
     }
   }
 
@@ -412,11 +418,11 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: true,
       bodyItems: [
-        showSelection(selectionIndex),
+        showSelection(selectionIndex, width),
       ],
     );
   }
@@ -425,6 +431,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
   void dispose() {
     searchController.dispose();
     _focusNode.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -437,6 +444,8 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
     return SwipeDetector(
       onSwipeLeft: (offset) {
         if (selectionIndex < 2) {
@@ -458,7 +467,7 @@ class _ManageBusinessProfileState extends State<ManageBusinessProfile> {
         actionButton: getActionButton(),
         secondaryActionButton: null,
         header: getHeader(),
-        body: getBody(),
+        body: getBody(width),
         actionDrawer: null,
         secondaryActionDrawer: null,
         bottomNavBar: null,

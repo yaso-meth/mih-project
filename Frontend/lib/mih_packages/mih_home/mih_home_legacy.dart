@@ -3,7 +3,9 @@ import 'dart:convert';
 // import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +17,6 @@ import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
 import '../../mih_apis/mih_location_api.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import 'components/mih_app_drawer.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
@@ -1082,16 +1083,22 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                   }
                 },
                 child: SizedBox(
-                  child: MIHSearchField(
+                  child: MihSearchBar(
                     controller: searchController,
-                    hintText: "Search Mzansi Packages",
-                    required: false,
-                    editable: true,
-                    onTap: () {
+                    hintText: "Ask Mzansi",
+                    prefixIcon: Icons.search,
+                    prefixAltIcon: MihIcons.mzansiAi,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    hintColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onPrefixIconTap: () {
+                      print("Search Text: ${searchController.text}");
                       setState(() {
                         appSearch = searchController.text;
                       });
                     },
+                    searchFocusNode: FocusNode(),
                   ),
                 ),
               ),
