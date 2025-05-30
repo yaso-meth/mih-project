@@ -11,6 +11,7 @@ class MihSearchBar extends StatefulWidget {
   final Color fillColor;
   final Color hintColor;
   final void Function()? onPrefixIconTap;
+  final void Function()? onClearIconTap;
   final double? elevation;
   final FocusNode searchFocusNode;
 
@@ -26,6 +27,7 @@ class MihSearchBar extends StatefulWidget {
     required this.fillColor,
     required this.hintColor,
     required this.onPrefixIconTap,
+    this.onClearIconTap,
     this.elevation,
     required this.searchFocusNode,
   }) : super(key: key);
@@ -144,10 +146,11 @@ class _MihSearchBarState extends State<MihSearchBar> {
                     IconButton(
                       icon: Icon(Icons.clear,
                           color: widget.hintColor), // Clear icon
-                      onPressed: () {
-                        widget.controller.clear();
-                        // No need for setState here, _updateClearIconVisibility will handle it
-                      },
+                      onPressed: widget.onClearIconTap ??
+                          () {
+                            widget.controller.clear();
+                            // No need for setState here, _updateClearIconVisibility will handle it
+                          },
                     ),
                 ],
               ),
