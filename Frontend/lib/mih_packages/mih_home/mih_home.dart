@@ -137,6 +137,9 @@ class _MihHomeState extends State<MihHome> {
         iconSize: 45,
         onTap: () {
           Scaffold.of(context).openDrawer();
+          FocusScope.of(context)
+              .requestFocus(FocusNode()); // Fully unfocus all fields
+          // FocusScope.of(context).unfocus(); // Unfocus any text fields
         },
       );
     });
