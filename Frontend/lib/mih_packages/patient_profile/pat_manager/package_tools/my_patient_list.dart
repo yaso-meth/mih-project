@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_search_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -34,12 +34,13 @@ class MyPatientList extends StatefulWidget {
 class _MyPatientListState extends State<MyPatientList> {
   late Future<List<PatientAccess>> _myPatientList;
   TextEditingController _myPatientSearchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
   String _myPatientIdSearchString = "";
   String baseUrl = AppEnviroment.baseApiUrl;
 
   final FocusNode _focusNode = FocusNode();
 
-  Widget myPatientListTool() {
+  Widget myPatientListTool(double width) {
     return MihSingleChildScroll(
       child: KeyboardListener(
         focusNode: _focusNode,
@@ -55,62 +56,31 @@ class _MyPatientListState extends State<MyPatientList> {
           }
         },
         child: Column(mainAxisSize: MainAxisSize.max, children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     const Text(
-          //       "My Patient List",
-          //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          //     ),
-          //     IconButton(
-          //       iconSize: 20,
-          //       icon: const Icon(
-          //         Icons.refresh,
-          //       ),
-          //       onPressed: () {
-          //         getMyPatientList();
-          //       },
-          //     ),
-          //   ],
-          // ),
-          // Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-          // //spacer
-          // const SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                flex: 1,
-                child: MIHSearchField(
-                  controller: _myPatientSearchController,
-                  hintText: "Patient ID Search",
-                  required: false,
-                  editable: true,
-                  onTap: () {
-                    setState(() {
-                      _myPatientIdSearchString =
-                          _myPatientSearchController.text;
-                      _myPatientList =
-                          MIHApiCalls.getPatientAccessListOfBusiness(
-                              widget.business!.business_id);
-                    });
-                  },
-                ),
-              ),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _myPatientSearchController.clear();
-                      _myPatientIdSearchString = "";
-                    });
-                    getMyPatientList();
-                  },
-                  icon: const Icon(
-                    Icons.filter_alt_off,
-                    size: 25,
-                  ))
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: _myPatientSearchController,
+              hintText: "Search by ID",
+              prefixIcon: Icons.search,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                setState(() {
+                  _myPatientIdSearchString = _myPatientSearchController.text;
+                  _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+                      widget.business!.business_id);
+                });
+              },
+              onClearIconTap: () {
+                setState(() {
+                  _myPatientSearchController.clear();
+                  _myPatientIdSearchString = "";
+                });
+                getMyPatientList();
+              },
+              searchFocusNode: _searchFocusNode,
+            ),
           ),
           //spacer
           const SizedBox(height: 10),
@@ -200,11 +170,22 @@ class _MyPatientListState extends State<MyPatientList> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _myPatientSearchController.dispose();
+    _searchFocusNode.dispose();
+    _focusNode.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+    final double width = size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: myPatientListTool(),
+      bodyItem: myPatientListTool(width),
     );
   }
 }
