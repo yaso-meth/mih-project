@@ -66,7 +66,6 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
   final ValueNotifier<String> medAid = ValueNotifier("");
   List<ICD10Code> icd10codeList = [];
   final FocusNode _searchFocusNode = FocusNode();
-  final FocusNode _focusNode = FocusNode();
 
   void icd10SearchWindow(List<ICD10Code> codeList) {
     showDialog(
@@ -189,35 +188,22 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           },
         ),
         //const SizedBox(height: 10),
-        KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
-                  .then((result) {
-                icd10SearchWindow(result);
-              });
-            }
+        MihSearchBar(
+          controller: _icd10CodeController,
+          hintText: "ICD-10 Code & Description",
+          prefixIcon: Icons.search,
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          onPrefixIconTap: () {
+            MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
+                .then((result) {
+              icd10SearchWindow(result);
+            });
           },
-          child: MihSearchBar(
-            controller: _icd10CodeController,
-            hintText: "ICD-10 Code & Description",
-            prefixIcon: Icons.search,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onPrefixIconTap: () {
-              MIHIcd10CodeApis.getIcd10Codes(_icd10CodeController.text, context)
-                  .then((result) {
-                icd10SearchWindow(result);
-              });
-            },
-            onClearIconTap: () {
-              _icd10CodeController.clear();
-            },
-            searchFocusNode: _searchFocusNode,
-          ),
+          onClearIconTap: () {
+            _icd10CodeController.clear();
+          },
+          searchFocusNode: _searchFocusNode,
         ),
         const SizedBox(height: 10),
         MIHTextField(

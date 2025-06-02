@@ -353,29 +353,19 @@ class _PrescripInputState extends State<PrescripInput> {
       children: [
         //const SizedBox(height: 25.0),
 
-        KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              getMedsPopUp(widget.medicineController);
-            }
+        MihSearchBar(
+          controller: widget.medicineController,
+          hintText: "Search Medicine",
+          prefixIcon: Icons.search,
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          onPrefixIconTap: () {
+            getMedsPopUp(widget.medicineController);
           },
-          child: MihSearchBar(
-            controller: widget.medicineController,
-            hintText: "Search Medicine",
-            prefixIcon: Icons.search,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onPrefixIconTap: () {
-              getMedsPopUp(widget.medicineController);
-            },
-            onClearIconTap: () {
-              widget.medicineController.clear();
-            },
-            searchFocusNode: _searchFocusNode,
-          ),
+          onClearIconTap: () {
+            widget.medicineController.clear();
+          },
+          searchFocusNode: _searchFocusNode,
         ),
         const SizedBox(height: 10.0),
 

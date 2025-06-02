@@ -331,11 +331,11 @@ class RouteGenerator {
 
           //Mzansi AI
           case '/mzansi-ai':
-            if (args is AppUser) {
+            if (args is MzansiAiArguments) {
               return MaterialPageRoute(
                 settings: settings,
                 builder: (_) => MzansiAi(
-                  signedInUser: args,
+                  arguments: args,
                 ),
               );
             }

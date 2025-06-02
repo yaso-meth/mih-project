@@ -1,15 +1,19 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tools/ai_chat.dart';
 import 'package:flutter/material.dart';
 
 class MzansiAi extends StatefulWidget {
-  final AppUser signedInUser;
+  // final AppUser signedInUser;
+  // final String? startUpQuestion;
+  final MzansiAiArguments arguments;
   const MzansiAi({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
+    // required this.signedInUser,
+    // this.startUpQuestion,
   });
 
   @override
@@ -46,7 +50,10 @@ class _MzansiAiState extends State<MzansiAi> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      AiChat(signedInUser: widget.signedInUser),
+      AiChat(
+        signedInUser: widget.arguments.signedInUser,
+        startUpQuestion: widget.arguments.startUpQuestion,
+      ),
     ];
     return toolBodies;
   }

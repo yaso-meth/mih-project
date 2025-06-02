@@ -3,6 +3,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 
 class MzansiAiTile extends StatefulWidget {
   final AppUser signedInUser;
@@ -25,7 +26,10 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-ai',
-          arguments: widget.signedInUser,
+          arguments: MzansiAiArguments(
+            widget.signedInUser,
+            "",
+          ),
         );
       },
       appName: "Mzansi AI",

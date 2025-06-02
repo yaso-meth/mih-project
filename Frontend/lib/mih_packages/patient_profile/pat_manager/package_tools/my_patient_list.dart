@@ -42,82 +42,66 @@ class _MyPatientListState extends State<MyPatientList> {
 
   Widget myPatientListTool(double width) {
     return MihSingleChildScroll(
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.enter) {
-            setState(() {
-              _myPatientIdSearchString = _myPatientSearchController.text;
-              _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-                  widget.business!.business_id);
-            });
-          }
-        },
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: _myPatientSearchController,
-              hintText: "Search Patient ID",
-              prefixIcon: Icons.search,
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                setState(() {
-                  _myPatientIdSearchString = _myPatientSearchController.text;
-                  _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-                      widget.business!.business_id);
-                });
-              },
-              onClearIconTap: () {
-                setState(() {
-                  _myPatientSearchController.clear();
-                  _myPatientIdSearchString = "";
-                });
-                getMyPatientList();
-              },
-              searchFocusNode: _searchFocusNode,
-            ),
-          ),
-          //spacer
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: _myPatientList,
-            builder: (context, snapshot) {
-              //print("patient Liust  ${snapshot.data}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Mihloadingcircle();
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                List<PatientAccess> patientsAccessList;
-                if (_myPatientIdSearchString == "") {
-                  patientsAccessList = snapshot.data!;
-                } else {
-                  patientsAccessList = filterAccessResults(
-                      snapshot.data!, _myPatientIdSearchString);
-                  //print(patientsList);
-                }
-                return displayMyPatientList(patientsAccessList);
-              } else {
-                return Center(
-                  child: Text(
-                    "Error pulling Patient Access Data\n$baseUrl/access-requests/business/patient/${widget.business!.business_id}",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 20),
+          child: MihSearchBar(
+            controller: _myPatientSearchController,
+            hintText: "Search Patient ID",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
+              setState(() {
+                _myPatientIdSearchString = _myPatientSearchController.text;
+                _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+                    widget.business!.business_id);
+              });
             },
+            onClearIconTap: () {
+              setState(() {
+                _myPatientSearchController.clear();
+                _myPatientIdSearchString = "";
+              });
+              getMyPatientList();
+            },
+            searchFocusNode: _searchFocusNode,
           ),
-        ]),
-      ),
+        ),
+        //spacer
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: _myPatientList,
+          builder: (context, snapshot) {
+            //print("patient Liust  ${snapshot.data}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Mihloadingcircle();
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              List<PatientAccess> patientsAccessList;
+              if (_myPatientIdSearchString == "") {
+                patientsAccessList = snapshot.data!;
+              } else {
+                patientsAccessList = filterAccessResults(
+                    snapshot.data!, _myPatientIdSearchString);
+                //print(patientsList);
+              }
+              return displayMyPatientList(patientsAccessList);
+            } else {
+              return Center(
+                child: Text(
+                  "Error pulling Patient Access Data\n$baseUrl/access-requests/business/patient/${widget.business!.business_id}",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          },
+        ),
+      ]),
     );
   }
 
