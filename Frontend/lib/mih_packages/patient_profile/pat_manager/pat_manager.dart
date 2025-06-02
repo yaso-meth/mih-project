@@ -113,7 +113,7 @@ class _PatManagerState extends State<PatManager> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Waiting Room",
-      "Patients",
+      "My Patients",
       "Search Patients",
     ];
     return toolTitles;

@@ -60,7 +60,7 @@ class _MyPatientListState extends State<MyPatientList> {
             padding: EdgeInsets.symmetric(horizontal: width / 20),
             child: MihSearchBar(
               controller: _myPatientSearchController,
-              hintText: "Search by ID",
+              hintText: "Search Patient ID",
               prefixIcon: Icons.search,
               fillColor:
                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
