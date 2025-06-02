@@ -24,7 +24,6 @@ class MihBusinessUserSearch extends StatefulWidget {
 }
 
 class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
-  final FocusNode _focusNode = FocusNode();
   final TextEditingController searchController = TextEditingController();
   late Future<List<AppUser>> userSearchResults;
   final FocusNode _searchFocusNode = FocusNode();
@@ -101,72 +100,60 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
 
   Widget getBody(double width) {
     return MihSingleChildScroll(
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.enter) {
-            submitUserForm();
-          }
-        },
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: searchController,
-              hintText: "Search Users",
-              prefixIcon: Icons.search,
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                submitUserForm();
-              },
-              onClearIconTap: () {
-                setState(() {
-                  searchController.clear();
-                  userSearch = "";
-                });
-                submitUserForm();
-              },
-              searchFocusNode: _searchFocusNode,
-            ),
-          ),
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: userSearchResults,
-            builder: (context, snapshot) {
-              //print("patient Liust  ${snapshot.data}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Mihloadingcircle();
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                List<AppUser> patientsList;
-                if (userSearch == "") {
-                  patientsList = [];
-                } else {
-                  patientsList = snapshot.data!;
-                  //print(patientsList);
-                }
-                return displayUserList(patientsList);
-              } else {
-                return Center(
-                  child: Text(
-                    "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 20),
+          child: MihSearchBar(
+            controller: searchController,
+            hintText: "Search Users",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
+              submitUserForm();
             },
+            onClearIconTap: () {
+              setState(() {
+                searchController.clear();
+                userSearch = "";
+              });
+              submitUserForm();
+            },
+            searchFocusNode: _searchFocusNode,
           ),
-        ]),
-      ),
+        ),
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: userSearchResults,
+          builder: (context, snapshot) {
+            //print("patient Liust  ${snapshot.data}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Mihloadingcircle();
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              List<AppUser> patientsList;
+              if (userSearch == "") {
+                patientsList = [];
+              } else {
+                patientsList = snapshot.data!;
+                //print(patientsList);
+              }
+              return displayUserList(patientsList);
+            } else {
+              return Center(
+                child: Text(
+                  "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          },
+        ),
+      ]),
     );
   }
 }

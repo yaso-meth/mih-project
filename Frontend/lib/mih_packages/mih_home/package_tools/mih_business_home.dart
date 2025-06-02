@@ -46,7 +46,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
   late final AnimationController _marqueeController;
   late final ScrollController _scrollController;
   final FocusNode _searchFocusNode = FocusNode();
-  final FocusNode _focusNode = FocusNode();
   final String maintenanceMsg =
       "\tHeads up! We're doing maintenance on Thur, 15 May 2025 at 10 PM (CAT). MIH may be unavailable briefly.";
 
@@ -204,108 +203,90 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
 
   Widget getBody(double width, double height) {
     return MihSingleChildScroll(
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.enter) {
-            Navigator.of(context).pushNamed(
-              '/mzansi-ai',
-              arguments: MzansiAiArguments(
-                widget.signedInUser,
-                searchController.text.isEmpty ? null : searchController.text,
-              ),
-            );
-            searchController.clear();
-          }
-        },
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width / 20),
-              child: MihSearchBar(
-                controller: searchController,
-                hintText: "Ask Mzansi",
-                prefixIcon: Icons.search,
-                prefixAltIcon: MihIcons.mzansiAi,
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                hintColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                onPrefixIconTap: () {
-                  Navigator.of(context).pushNamed(
-                    '/mzansi-ai',
-                    arguments: MzansiAiArguments(
-                      widget.signedInUser,
-                      searchController.text.isEmpty
-                          ? null
-                          : searchController.text,
-                    ),
-                  );
-                  searchController.clear();
-                },
-                searchFocusNode: _searchFocusNode,
-              ),
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: searchController,
+              hintText: "Ask Mzansi",
+              prefixIcon: Icons.search,
+              prefixAltIcon: MihIcons.mzansiAi,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                Navigator.of(context).pushNamed(
+                  '/mzansi-ai',
+                  arguments: MzansiAiArguments(
+                    widget.signedInUser,
+                    searchController.text.isEmpty
+                        ? null
+                        : searchController.text,
+                  ),
+                );
+                searchController.clear();
+              },
+              searchFocusNode: _searchFocusNode,
             ),
-            const SizedBox(height: 10),
-            ValueListenableBuilder(
-              valueListenable: searchPackageName,
-              builder: (context, value, child) {
-                List<Widget> filteredPackages = value
-                    .where((package) => package.keys.first
-                        .toLowerCase()
-                        .contains(searchController.text.toLowerCase()))
-                    .map((package) => package.values.first)
-                    .toList();
-                if (filteredPackages.isNotEmpty) {
-                  return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: getPadding(width, height),
-                    // shrinkWrap: true,
-                    itemCount: filteredPackages.length,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: packageSize,
-                      crossAxisSpacing: 5,
+          ),
+          const SizedBox(height: 10),
+          ValueListenableBuilder(
+            valueListenable: searchPackageName,
+            builder: (context, value, child) {
+              List<Widget> filteredPackages = value
+                  .where((package) => package.keys.first
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()))
+                  .map((package) => package.values.first)
+                  .toList();
+              if (filteredPackages.isNotEmpty) {
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: getPadding(width, height),
+                  // shrinkWrap: true,
+                  itemCount: filteredPackages.length,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: packageSize,
+                    crossAxisSpacing: 5,
+                  ),
+                  itemBuilder: (context, index) {
+                    return filteredPackages[index];
+                  },
+                );
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      MihIcons.mzansiAi,
+                      size: 165,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                     ),
-                    itemBuilder: (context, index) {
-                      return filteredPackages[index];
-                    },
-                  );
-                } else {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        MihIcons.mzansiAi,
-                        size: 165,
+                    const SizedBox(height: 10),
+                    Text(
+                      "Mzansi AI is here to help you!",
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                         color: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Mzansi AI is here to help you!",
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.visible,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
