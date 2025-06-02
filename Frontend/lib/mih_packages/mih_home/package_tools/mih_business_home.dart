@@ -259,20 +259,49 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                         .contains(searchController.text.toLowerCase()))
                     .map((package) => package.values.first)
                     .toList();
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: getPadding(width, height),
-                  // shrinkWrap: true,
-                  itemCount: filteredPackages.length,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: packageSize,
-                    crossAxisSpacing: 5,
-                  ),
-                  itemBuilder: (context, index) {
-                    return filteredPackages[index];
-                  },
-                );
+                if (filteredPackages.isNotEmpty) {
+                  return GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: getPadding(width, height),
+                    // shrinkWrap: true,
+                    itemCount: filteredPackages.length,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: packageSize,
+                      crossAxisSpacing: 5,
+                    ),
+                    itemBuilder: (context, index) {
+                      return filteredPackages[index];
+                    },
+                  );
+                } else {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        MihIcons.mzansiAi,
+                        size: 165,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Mzansi AI is here to help you!",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                    ],
+                  );
+                }
               },
             ),
           ],
