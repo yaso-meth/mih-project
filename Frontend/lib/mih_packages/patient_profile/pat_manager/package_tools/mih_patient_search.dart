@@ -42,81 +42,64 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
 
   Widget getPatientSearch(double width) {
     return MihSingleChildScroll(
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: (event) async {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.enter) {
-            // submitPatientForm();
-            submitPatientSearch();
-            //To-Do: Implement the search function
-            // print("To-Do: Implement the search function");
-          }
-        },
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: _mihPatientSearchController,
-              hintText: "Search Patient ID/ Aid No.",
-              prefixIcon: Icons.search,
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                submitPatientSearch();
-                print("Search Text: ${_mihPatientSearchController.text}");
-              },
-              onClearIconTap: () {
-                setState(() {
-                  _mihPatientSearchController.clear();
-                  _mihPatientSearchString = "";
-                });
-                submitPatientSearch();
-                //To-Do: Implement the search function
-                // print("To-Do: Implement the search function");
-              },
-              searchFocusNode: _searchFocusNode,
-            ),
-          ),
-          //spacer
-          const SizedBox(height: 10),
-          FutureBuilder(
-            future: _mihPatientSearchResults,
-            builder: (context, snapshot) {
-              //print("patient Liust  ${snapshot.data}");
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Mihloadingcircle();
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                List<Patient> patientsList;
-                if (_mihPatientSearchString == "") {
-                  patientsList = [];
-                } else {
-                  patientsList = filterSearchResults(
-                      snapshot.data!, _mihPatientSearchString);
-                  //print(patientsList);
-                }
-                return displayPatientList(
-                    patientsList, _mihPatientSearchString);
-              } else {
-                return Center(
-                  child: Text(
-                    "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 20),
+          child: MihSearchBar(
+            controller: _mihPatientSearchController,
+            hintText: "Search Patient ID/ Aid No.",
+            prefixIcon: Icons.search,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            onPrefixIconTap: () {
+              submitPatientSearch();
             },
+            onClearIconTap: () {
+              setState(() {
+                _mihPatientSearchController.clear();
+                _mihPatientSearchString = "";
+              });
+              submitPatientSearch();
+              //To-Do: Implement the search function
+              // print("To-Do: Implement the search function");
+            },
+            searchFocusNode: _searchFocusNode,
           ),
-        ]),
-      ),
+        ),
+        //spacer
+        const SizedBox(height: 10),
+        FutureBuilder(
+          future: _mihPatientSearchResults,
+          builder: (context, snapshot) {
+            //print("patient Liust  ${snapshot.data}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Mihloadingcircle();
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              List<Patient> patientsList;
+              if (_mihPatientSearchString == "") {
+                patientsList = [];
+              } else {
+                patientsList = filterSearchResults(
+                    snapshot.data!, _mihPatientSearchString);
+                //print(patientsList);
+              }
+              return displayPatientList(patientsList, _mihPatientSearchString);
+            } else {
+              return Center(
+                child: Text(
+                  "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          },
+        ),
+      ]),
     );
   }
 
