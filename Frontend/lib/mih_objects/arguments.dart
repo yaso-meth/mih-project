@@ -207,3 +207,13 @@ class WalletArguments {
     this.index,
   );
 }
+
+class MzansiAiArguments {
+  final AppUser signedInUser;
+  final String? startUpQuestion;
+
+  MzansiAiArguments(
+    this.signedInUser,
+    this.startUpQuestion,
+  );
+}

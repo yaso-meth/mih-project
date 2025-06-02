@@ -21,9 +21,11 @@ import 'package:uuid/uuid.dart';
 
 class AiChat extends StatefulWidget {
   final AppUser signedInUser;
+  final String? startUpQuestion;
   const AiChat({
     super.key,
     required this.signedInUser,
+    this.startUpQuestion,
   });
 
   @override
@@ -593,6 +595,12 @@ class _AiChatState extends State<AiChat> {
     _loadMessages();
     initTTS();
     _ttsVoiceController.addListener(voiceSelected);
+    if (widget.startUpQuestion != null && widget.startUpQuestion!.isNotEmpty) {
+      final partialText = types.PartialText(text: widget.startUpQuestion!);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _handleSendPressed(partialText);
+      });
+    }
   }
 
   @override

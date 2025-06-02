@@ -124,6 +124,10 @@ class _MihSearchBarState extends State<MihSearchBar> {
           child: TextField(
             controller: widget.controller, // Assign the controller
             focusNode: widget.searchFocusNode,
+            onSubmitted: (value) {
+              widget.onPrefixIconTap
+                  ?.call(); // Call the prefix icon tap handler
+            },
             style: TextStyle(
               color: widget.hintColor,
               fontWeight: FontWeight.w600,

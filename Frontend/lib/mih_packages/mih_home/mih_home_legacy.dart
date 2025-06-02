@@ -229,7 +229,10 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-ai',
-          arguments: widget.signedInUser,
+          arguments: MzansiAiArguments(
+            widget.signedInUser,
+            "",
+          ),
         );
       },
       tileName: "Mzansi AI",
@@ -464,7 +467,10 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-ai',
-          arguments: widget.signedInUser,
+          arguments: MzansiAiArguments(
+            widget.signedInUser,
+            "",
+          ),
         );
       },
       tileName: "Mzansi AI",
