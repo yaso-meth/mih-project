@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -55,13 +54,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
         userSearch = searchController.text;
         userSearchResults = fetchUsers(userSearch);
       });
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
     }
   }
 
@@ -129,6 +121,13 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               onPrefixIconTap: () {
+                submitUserForm();
+              },
+              onClearIconTap: () {
+                setState(() {
+                  searchController.clear();
+                  userSearch = "";
+                });
                 submitUserForm();
               },
               searchFocusNode: _searchFocusNode,
