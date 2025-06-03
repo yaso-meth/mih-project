@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Mih_Icons';
-  src: url('fonts/Mih_Icons.eot?7reovg');
-  src: url('fonts/Mih_Icons.eot?7reovg#iefix') format('embedded-opentype'),
-    url('fonts/Mih_Icons.ttf?7reovg') format('truetype'),
-    url('fonts/Mih_Icons.woff?7reovg') format('woff'),
-    url('fonts/Mih_Icons.svg?7reovg#Mih_Icons') format('svg');
+  src: url('fonts/Mih_Icons.eot?kmk862');
+  src: url('fonts/Mih_Icons.eot?kmk862#iefix') format('embedded-opentype'),
+    url('fonts/Mih_Icons.ttf?kmk862') format('truetype'),
+    url('fonts/Mih_Icons.woff?kmk862') format('woff'),
+    url('fonts/Mih_Icons.svg?kmk862#Mih_Icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,10 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-personal_profile:before {
+  content: "\e90f";
 }
 
 .icon-notifications:before {
