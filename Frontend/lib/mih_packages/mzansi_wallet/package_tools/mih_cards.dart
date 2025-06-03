@@ -54,8 +54,11 @@ class _MihCardsState extends State<MihCards> {
       List<MIHLoyaltyCard> temp = [];
       for (var item in listOfCards) {
         if (item.shop_name
-            .toLowerCase()
-            .contains(cardSearchController.text.toLowerCase())) {
+                .toLowerCase()
+                .contains(cardSearchController.text.toLowerCase()) ||
+            item.nickname
+                .toLowerCase()
+                .contains(cardSearchController.text.toLowerCase())) {
           temp.add(item);
         }
       }
@@ -295,7 +298,7 @@ class _MihCardsState extends State<MihCards> {
                   hintColor:
                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   onPrefixIconTap: () {
-                    print("Search Icon Pressed: ${cardSearchController.text}");
+                    // print("Search Icon Pressed: ${cardSearchController.text}");
                   },
                   searchFocusNode: searchFocusNode,
                 ),
