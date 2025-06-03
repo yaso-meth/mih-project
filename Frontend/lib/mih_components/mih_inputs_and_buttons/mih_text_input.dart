@@ -147,16 +147,12 @@ class _MIHTextFieldState extends State<MIHTextField> {
       }),
       decoration: InputDecoration(
         label: setRequiredText(),
-        //labelStyle: TextStyle(color: MzanziInnovationHub.of(context)!.theme.primaryColor()),
         fillColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
         filled: true,
         errorText: _errorText,
         errorStyle: TextStyle(
             color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             fontWeight: FontWeight.bold),
-        //errorBorder: const InputBorder(),
-        //hintText: hintText,
-        //hintStyle: TextStyle(color: Colors.blueGrey[400]),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
