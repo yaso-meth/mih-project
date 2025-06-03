@@ -54,44 +54,6 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
     );
   }
 
-  List<Widget> setIcons() {
-    if (widget.type == "personal") {
-      return [
-        Text(
-          "Claims/ Statements",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-      ];
-    } else {
-      return [
-        Text(
-          "Claims/ Statements",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            // new window to input fields for claim/ statements
-            claimOrStatementWindow();
-          },
-          icon: Icon(
-            Icons.add,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        )
-      ];
-    }
-  }
-
   @override
   void initState() {
     if (widget.business == null) {
@@ -133,27 +95,6 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
               final filesList = snapshot.data!;
               return Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Claims/ Statements",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
-                  const SizedBox(height: 10),
                   //const Placeholder(),
                   BuildClaimStatementFileList(
                     files: filesList,
