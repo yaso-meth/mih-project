@@ -248,54 +248,33 @@ class _BuildFilesListState extends State<BuildFilesList> {
           },
         ),
       );
-      menuList.add(
-        SpeedDialChild(
-          child: Icon(
-            Icons.fullscreen,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          ),
-          label: "Full Screen",
-          labelBackgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
-          labelStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            fontWeight: FontWeight.bold,
-          ),
-          backgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
-          onTap: () {
-            printDocument(url, filePath);
-          },
-        ),
-      );
-    } else {
-      menuList.add(
-        SpeedDialChild(
-          child: Icon(
-            Icons.fullscreen,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          ),
-          label: "Full Screen",
-          labelBackgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
-          labelStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            fontWeight: FontWeight.bold,
-          ),
-          backgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              '/file-veiwer',
-              arguments: FileViewArguments(
-                url,
-                filePath,
-              ),
-            );
-          },
-        ),
-      );
     }
+    menuList.add(
+      SpeedDialChild(
+        child: Icon(
+          Icons.fullscreen,
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        label: "Full Screen",
+        labelBackgroundColor:
+            MzanziInnovationHub.of(context)!.theme.successColor(),
+        labelStyle: TextStyle(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/file-veiwer',
+            arguments: FileViewArguments(
+              url,
+              filePath,
+            ),
+          );
+        },
+      ),
+    );
+    // }
     if (hasAccessToDelete) {
       menuList.add(
         SpeedDialChild(
