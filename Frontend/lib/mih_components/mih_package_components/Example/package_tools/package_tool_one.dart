@@ -2,9 +2,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
@@ -12,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 
 class PackageToolOne extends StatefulWidget {
   const PackageToolOne({super.key});
@@ -27,7 +30,14 @@ class _PackageToolOneState extends State<PackageToolOne> {
   TextEditingController _fileNameController = TextEditingController();
   TextEditingController _imagefileController = TextEditingController();
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _textFieldZeroController = TextEditingController();
+  TextEditingController _textFieldOneController = TextEditingController();
+  TextEditingController _textFieldTwoController = TextEditingController();
+  TextEditingController _textFieldThreeController = TextEditingController();
+  TextEditingController _textFieldFourController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+
   void showTestFullWindow() {
     showDialog(
       context: context,
@@ -136,6 +146,117 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 ],
               ),
               const SizedBox(height: 20),
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _textFieldZeroController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Username",
+                    validator: (value) {
+                      return MihValidationServices().validateUsername(value);
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _textFieldOneController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Email",
+                    autofillHints: [AutofillHints.email],
+                    validator: (value) {
+                      return MihValidationServices().validateEmail(value);
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _textFieldTwoController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Password",
+                    passwordMode: true,
+                    autofillHints: [AutofillHints.password],
+                    validator: (value) {
+                      return MihValidationServices().validatePassword(value);
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _textFieldThreeController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Numbers Only",
+                    numberMode: true,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'This Field is required'
+                        : null,
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    height: 250,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _textFieldFourController,
+                    multiLineInput: true,
+                    requiredText: false,
+                    hintText: "Enter Multi Line Text",
+                  ),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.center,
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Process data
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Input Valid")),
+                          );
+                        }
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      elevation: 10,
+                      width: 300,
+                      child: Text(
+                        "Click Me",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Divider(
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                thickness: 2,
+              ),
+              const SizedBox(height: 10),
               MihSearchBar(
                 controller: _searchController,
                 hintText: "Ask Mzansi",
