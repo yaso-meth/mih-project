@@ -52,4 +52,7 @@ class MihIcons {
 
   static const IconData notifications =
       IconData(0xe90e, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData personalProfile =
+      IconData(0xe90f, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 }
