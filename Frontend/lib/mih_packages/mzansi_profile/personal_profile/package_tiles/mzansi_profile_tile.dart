@@ -37,7 +37,7 @@ class _MzansiProfileTileState extends State<MzansiProfileTile> {
       },
       appName: "Mzansi Profile",
       appIcon: Icon(
-        MihIcons.mihLogo,
+        MihIcons.personalProfile,
         color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         // size: widget.packageSize,
       ),
