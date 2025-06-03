@@ -205,7 +205,23 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     return MihSingleChildScroll(
       child: Column(
         children: [
-          const SizedBox(height: 10),
+          // Icon(
+          //   MihIcons.mihLogo,
+          //   size: width / 2,
+          //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          // ),
+          // const SizedBox(height: 10),
+          // Text(
+          //   // "Welcome, ${widget.signedInUser.fname}!",
+          //   "Mzansi Innovation Hub",
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(
+          //     fontSize: 30,
+          //     fontWeight: FontWeight.bold,
+          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   ),
+          // ),
+          // const SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 20),
             child: MihSearchBar(
