@@ -12,7 +12,7 @@ class MihTextFormField extends StatefulWidget {
   final String hintText;
   final double? borderRadius;
   final bool? multiLineInput;
-  final bool? editable;
+  final bool? readOnly;
   final bool? passwordMode;
   final bool? numberMode;
   final bool requiredText;
@@ -32,7 +32,7 @@ class MihTextFormField extends StatefulWidget {
     required this.requiredText,
     this.borderRadius,
     this.multiLineInput,
-    this.editable,
+    this.readOnly,
     this.passwordMode,
     this.numberMode,
     this.validator,
@@ -152,7 +152,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             ? false
                             : (widget.multiLineInput ?? false),
                         maxLines: widget.passwordMode == true ? 1 : null,
-                        readOnly: widget.editable ?? false,
+                        readOnly: widget.readOnly ?? false,
                         keyboardType: widget.numberMode == true
                             ? TextInputType.number
                             : null,
