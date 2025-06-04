@@ -1,4 +1,11 @@
 class MihValidationServices {
+  String? isEmpty(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    return null;
+  }
+
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return "Email is required";
