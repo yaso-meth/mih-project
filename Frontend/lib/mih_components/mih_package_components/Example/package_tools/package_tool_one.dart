@@ -149,7 +149,6 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
-                    width: 100,
                     fillColor:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
@@ -381,7 +380,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 controller: _fileNameController,
                 hintText: "Selected Avatar File",
                 requiredText: false,
-                editable: false,
+                readOnly: false,
               ),
               const SizedBox(height: 10),
               MihImageDisplay(
@@ -406,7 +405,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 controller: _imagefileController,
                 hintText: "Selected Image File",
                 requiredText: false,
-                editable: false,
+                readOnly: false,
               ),
               const SizedBox(height: 10),
             ],
