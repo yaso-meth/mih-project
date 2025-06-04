@@ -46,11 +46,40 @@ class MihTextFormField extends StatefulWidget {
 
 class _MihTextFormFieldState extends State<MihTextFormField> {
   late bool _obscureText;
+  FormFieldState<String>? _formFieldState;
 
   @override
   void initState() {
     super.initState();
     _obscureText = widget.passwordMode ?? false;
+    widget.controller.addListener(_onControllerTextChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant MihTextFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If the controller itself changes, remove listener from old and add to new
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(_onControllerTextChanged);
+      widget.controller.addListener(_onControllerTextChanged);
+      // Immediately update form field state if controller changed and has value
+      _formFieldState?.didChange(widget.controller.text);
+    }
+  }
+
+  void _onControllerTextChanged() {
+    // Only update the FormField's value if it's not already the same
+    // and if the formFieldState is available.
+    if (_formFieldState != null &&
+        _formFieldState!.value != widget.controller.text) {
+      _formFieldState!.didChange(widget.controller.text);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onControllerTextChanged);
+    super.dispose();
   }
 
   @override
@@ -93,9 +122,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
           ),
           const SizedBox(height: 4),
           FormField<String>(
+            initialValue: widget.controller.text,
             validator: widget.validator,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             builder: (field) {
+              _formFieldState = field;
               return Column(
                 crossAxisAlignment:
                     CrossAxisAlignment.start, // <-- Add this line
@@ -150,12 +181,6 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                               : null,
                           errorStyle: const TextStyle(
                               height: 0, fontSize: 0), // <-- Add this line
-                          // errorStyle: TextStyle(
-                          //   color: MzanziInnovationHub.of(context)!
-                          //       .theme
-                          //       .errorColor(),
-                          //   fontWeight: FontWeight.bold,
-                          // ),
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 8.0),
                           filled: true,
@@ -186,7 +211,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                       .theme
                                       .errorColor()
                                   : widget.inputColor,
-                              width: 2.0,
+                              width: 3.0,
                             ),
                           ),
                           errorBorder: OutlineInputBorder(
@@ -196,7 +221,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                               color: MzanziInnovationHub.of(context)!
                                   .theme
                                   .errorColor(),
-                              width: 2.0,
+                              width: 3.0,
                             ),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
@@ -206,47 +231,9 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                               color: MzanziInnovationHub.of(context)!
                                   .theme
                                   .errorColor(),
-                              width: 2.0,
+                              width: 3.0,
                             ),
                           ),
-                          // border: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       widget.borderRadius ?? 8.0),
-                          //   borderSide: BorderSide.none,
-                          // ),
-                          // enabledBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       widget.borderRadius ?? 8.0),
-                          //   borderSide: BorderSide.none,
-                          // ),
-                          // focusedBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       widget.borderRadius ?? 8.0),
-                          //   borderSide: BorderSide(
-                          //     color: widget.inputColor,
-                          //     width: 2.0,
-                          //   ),
-                          // ),
-                          // errorBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       widget.borderRadius ?? 8.0),
-                          //   borderSide: BorderSide(
-                          //     color: MzanziInnovationHub.of(context)!
-                          //         .theme
-                          //         .errorColor(),
-                          //     width: 2.0,
-                          //   ),
-                          // ),
-                          // focusedErrorBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       widget.borderRadius ?? 8.0),
-                          //   borderSide: BorderSide(
-                          //     color: MzanziInnovationHub.of(context)!
-                          //         .theme
-                          //         .errorColor(),
-                          //     width: 2.0,
-                          //   ),
-                          // ),
                         ),
                         onChanged: (value) {
                           field.didChange(value);
