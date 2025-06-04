@@ -344,12 +344,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: regController,
-                    //   hintText: "Registration No.",
-                    //   editable: true,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 10.0),
                     MihTextFormField(
                       fillColor: MzanziInnovationHub.of(context)!
@@ -365,12 +359,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: nameController,
-                    //   hintText: "Business Name",
-                    //   editable: true,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 15.0),
                     MIHDropdownField(
                       controller: typeController,
@@ -407,13 +395,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             },
                           ),
                         );
-                        //   MIHTextField(
-                        //     controller: practiceNoController,
-                        //     hintText: "Practice Number",
-                        //     editable: true,
-                        //     required: true,
-                        //   ),
-                        // );
                       },
                     ),
                     const SizedBox(height: 10.0),
@@ -431,12 +412,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: vatNoController,
-                    //   hintText: "VAT Number",
-                    //   editable: true,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 10.0),
                     MihTextFormField(
                       fillColor: MzanziInnovationHub.of(context)!
@@ -452,12 +427,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: contactController,
-                    //   hintText: "Contact Number",
-                    //   editable: true,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 10.0),
                     MihTextFormField(
                       fillColor: MzanziInnovationHub.of(context)!
@@ -473,12 +442,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().validateEmail(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: emailController,
-                    //   hintText: "Email",
-                    //   editable: true,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 10.0),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -496,12 +459,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             requiredText: true,
                             hintText: "GPS Location",
                           ),
-                          // MIHTextField(
-                          //   controller: locationController,
-                          //   hintText: "Location",
-                          //   editable: false,
-                          //   required: false,
-                          // ),
                         ),
                         const SizedBox(width: 10.0),
                         MihButton(
@@ -573,12 +530,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: fnameController,
-                    //   hintText: "Name",
-                    //   editable: false,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 10.0),
                     MihTextFormField(
                       fillColor: MzanziInnovationHub.of(context)!
@@ -594,12 +545,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         return MihValidationServices().isEmpty(value);
                       },
                     ),
-                    // MIHTextField(
-                    //   controller: lnameController,
-                    //   hintText: "Surname",
-                    //   editable: false,
-                    //   required: true,
-                    // ),
                     const SizedBox(height: 15.0),
                     MIHDropdownField(
                       controller: accessController,
