@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -150,6 +149,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
+                    width: 100,
                     fillColor:
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
@@ -373,11 +373,15 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 },
               ),
               const SizedBox(height: 10),
-              MIHTextField(
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 controller: _fileNameController,
                 hintText: "Selected Avatar File",
+                requiredText: false,
                 editable: false,
-                required: false,
               ),
               const SizedBox(height: 10),
               MihImageDisplay(
@@ -394,12 +398,17 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 },
               ),
               const SizedBox(height: 10),
-              MIHTextField(
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 controller: _imagefileController,
                 hintText: "Selected Image File",
+                requiredText: false,
                 editable: false,
-                required: false,
               ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
