@@ -423,15 +423,6 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                       return MihValidationServices().isEmpty(value);
                     },
                   ),
-                  // SizedBox(
-                  //   // width: 500,
-                  //   child: MIHTextField(
-                  //     controller: widget.titleController,
-                  //     hintText: "Title",
-                  //     editable: true,
-                  //     required: true,
-                  //   ),
-                  // ),
                   const SizedBox(height: 10),
                   SizedBox(
                     // width: 500,
