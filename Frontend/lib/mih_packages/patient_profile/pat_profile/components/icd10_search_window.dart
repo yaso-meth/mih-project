@@ -35,6 +35,16 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
             return MihValidationServices().isEmpty(value);
           },
         ),
+        const SizedBox(height: 15),
+        Text(
+          "Search for ICD-10 Codes",
+          style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         BuildICD10CodeList(
           icd10CodeController: widget.icd10CodeController,
           icd10codeList: widget.icd10codeList,
