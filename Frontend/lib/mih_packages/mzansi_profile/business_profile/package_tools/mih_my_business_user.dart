@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -42,15 +44,11 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   final lnameController = TextEditingController();
   final accessController = TextEditingController();
   final signtureController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   late String env;
 
   bool isFormFilled() {
-    if (signtureController.text.isEmpty ||
-        titleDropdownController.text.isEmpty ||
-        titleTextController.text.isEmpty ||
-        fnameController.text.isEmpty ||
-        lnameController.text.isEmpty ||
-        accessController.text.isEmpty) {
+    if (titleDropdownController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -216,114 +214,171 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     return MihSingleChildScroll(
       child: Column(
         children: [
-          MihCircleAvatar(
-            imageFile: widget.userProPicImage,
-            width: 150,
-            editable: false,
-            fileNameController: fileNameController,
-            userSelectedfile: userPicFile,
-            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            onChange: (_) {},
-          ),
-          Visibility(
-            visible: false,
-            child: MIHTextField(
-              controller: fileNameController,
-              hintText: "Selected File Name",
-              editable: false,
-              required: false,
-            ),
-          ),
-          const SizedBox(height: 20),
-          MIHDropdownField(
-            controller: titleDropdownController,
-            hintText: "Title",
-            dropdownOptions: const ["Doctor", "Assistant", "Other"],
-            required: true,
-            editable: true,
-            enableSearch: false,
-          ),
-          const SizedBox(height: 10),
-          MIHTextField(
-            controller: titleTextController,
-            hintText: "Other Title",
-            editable: true,
-            required: true,
-          ),
-          const SizedBox(height: 10),
-          MIHTextField(
-            controller: fnameController,
-            hintText: "Name",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10),
-          MIHTextField(
-            controller: lnameController,
-            hintText: "Surname",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10),
-          MIHTextField(
-            controller: accessController,
-            hintText: "Access Level",
-            editable: false,
-            required: true,
-          ),
-          const SizedBox(height: 10),
-          Container(
-            width: 300,
-            alignment: Alignment.topLeft,
-            child: const Text(
-              "Signature:",
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
+          MihForm(
+            formKey: _formKey,
+            formFields: [
+              Center(
+                child: MihCircleAvatar(
+                  imageFile: widget.userProPicImage,
+                  width: 150,
+                  editable: false,
+                  fileNameController: fileNameController,
+                  userSelectedfile: userPicFile,
+                  frameColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: (_) {},
+                ),
               ),
-            ),
-          ),
-          MihImageDisplay(
-            imageFile: widget.userSignatureImage,
-            width: 300,
-            height: 200,
-            editable: true,
-            fileNameController: signtureController,
-            userSelectedfile: userSignatureFile,
-            onChange: (selectedFile) {
-              setState(() {
-                userSignatureFile = selectedFile;
-              });
-            },
-          ),
-          const SizedBox(height: 10),
-          Visibility(
-            visible: false,
-            child: MIHTextField(
-              controller: signtureController,
-              hintText: "Selected Signature File",
-              editable: false,
-              required: true,
-            ),
-          ),
-          const SizedBox(height: 15),
-          MihButton(
-            onPressed: () {
-              submitForm();
-            },
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 300,
-            child: Text(
-              "Update",
-              style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              Visibility(
+                visible: false,
+                child: MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fileNameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Selected File Name",
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              MIHDropdownField(
+                controller: titleDropdownController,
+                hintText: "Title",
+                dropdownOptions: const ["Doctor", "Assistant", "Other"],
+                required: true,
+                editable: true,
+                enableSearch: false,
+              ),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: titleTextController,
+                multiLineInput: false,
+                requiredText: true,
+                hintText: "Other Title",
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
+              ),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: fnameController,
+                multiLineInput: false,
+                requiredText: true,
+                readOnly: true,
+                hintText: "First Name",
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
+              ),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: lnameController,
+                multiLineInput: false,
+                requiredText: true,
+                readOnly: true,
+                hintText: "Surname",
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
+              ),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: accessController,
+                multiLineInput: false,
+                requiredText: true,
+                hintText: "Access Level",
+                readOnly: true,
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: 300,
+                alignment: Alignment.topLeft,
+                child: const Text(
+                  "Signature:",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Center(
+                child: MihImageDisplay(
+                  imageFile: widget.userSignatureImage,
+                  width: 300,
+                  height: 200,
+                  editable: true,
+                  fileNameController: signtureController,
+                  userSelectedfile: userSignatureFile,
+                  onChange: (selectedFile) {
+                    setState(() {
+                      userSignatureFile = selectedFile;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Visibility(
+                visible: false,
+                child: MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fileNameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Selected Signature File",
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      submitForm();
+                    }
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Update",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
         ],
       ),

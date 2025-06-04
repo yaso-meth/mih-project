@@ -4,12 +4,15 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_business_details_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -39,17 +42,11 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   late String env;
 
   Future<void> submitForm() async {
-    if (!isEmailValid()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Invalid Email");
-        },
-      );
-    } else if (isFormFilled()) {
+    if (isFormFilled()) {
       int statusCode = 0;
       statusCode = await MihBusinessDetailsApi().updateBusinessDetails(
         widget.arguments.business!.business_id,
@@ -180,14 +177,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   }
 
   bool isFormFilled() {
-    if (regController.text.isEmpty ||
-        nameController.text.isEmpty ||
-        typeController.text.isEmpty ||
-        practiceNoController.text.isEmpty ||
-        vatNoController.text.isEmpty ||
-        contactController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        locationController.text.isEmpty) {
+    if (typeController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -244,131 +234,195 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     return MihSingleChildScroll(
         child: Column(
       children: [
-        MihCircleAvatar(
-          imageFile: widget.logoImage,
-          width: 150,
-          editable: true,
-          fileNameController: fileNameController,
-          userSelectedfile: imageFile,
-          frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          backgroundColor:
-              MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          onChange: (selectedfile) {
-            setState(() {
-              imageFile = selectedfile;
-            });
-          },
-        ),
-        Visibility(
-          visible: false,
-          child: MIHTextField(
-            controller: fileNameController,
-            hintText: "Selected File Name",
-            editable: false,
-            required: false,
-          ),
-        ),
-        const SizedBox(height: 20),
-        MIHTextField(
-          controller: regController,
-          hintText: "Registration No.",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: nameController,
-          hintText: "Business Name",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: typeController,
-          hintText: "Business Type",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: practiceNoController,
-          hintText: "Practice Number",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: vatNoController,
-          hintText: "VAT Number",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: contactController,
-          hintText: "Contact Number",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        MIHTextField(
-          controller: emailController,
-          hintText: "Email",
-          editable: true,
-          required: true,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Flexible(
-              child: MIHTextField(
-                controller: locationController,
-                hintText: "Location",
-                editable: false,
-                required: false,
+        MihForm(
+          formKey: _formKey,
+          formFields: [
+            Center(
+              child: MihCircleAvatar(
+                imageFile: widget.logoImage,
+                width: 150,
+                editable: true,
+                fileNameController: fileNameController,
+                userSelectedfile: imageFile,
+                frameColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                onChange: (selectedfile) {
+                  setState(() {
+                    imageFile = selectedfile;
+                  });
+                },
               ),
             ),
-            const SizedBox(width: 10.0),
-            MihButton(
-              onPressed: () {
-                MIHLocationAPI().getGPSPosition(context).then((position) {
-                  if (position != null) {
-                    setState(() {
-                      locationController.text =
-                          "${position.latitude}, ${position.longitude}";
-                    });
-                  }
-                });
-              },
-              buttonColor:
+            Visibility(
+              visible: false,
+              child: MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: fileNameController,
+                multiLineInput: false,
+                requiredText: true,
+                readOnly: true,
+                hintText: "Selected File Name",
+              ),
+            ),
+            const SizedBox(height: 20),
+            MihTextFormField(
+              fillColor:
                   MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 100,
-              child: Text(
-                "Set",
-                style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: regController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "Registration No.",
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: nameController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "Business Name",
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
+            ),
+            const SizedBox(height: 15),
+            MIHDropdownField(
+              controller: typeController,
+              hintText: "Business Type",
+              dropdownOptions: const ["Doctors Office", "Other"],
+              required: true,
+              editable: true,
+              enableSearch: false,
+            ),
+            const SizedBox(height: 10),
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: practiceNoController,
+              multiLineInput: false,
+              requiredText: typeController.text == "Doctors Office",
+              hintText: "Practice Number",
+              validator: (validateValue) {
+                return MihValidationServices().isEmpty(validateValue);
+              },
+            ),
+            const SizedBox(height: 10),
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: vatNoController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "VAT Number",
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: contactController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "Contact Number",
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: emailController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "Business Email",
+              validator: (value) {
+                return MihValidationServices().validateEmail(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: locationController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "GPS Location",
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                MihButton(
+                  onPressed: () {
+                    MIHLocationAPI().getGPSPosition(context).then((position) {
+                      if (position != null) {
+                        setState(() {
+                          locationController.text =
+                              "${position.latitude}, ${position.longitude}";
+                        });
+                      }
+                    });
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 100,
+                  child: Text(
+                    "Set",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Center(
+              child: MihButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    submitForm();
+                  }
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Update",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 20),
           ],
-        ),
-        const SizedBox(height: 15),
-        MihButton(
-          onPressed: () {
-            submitForm();
-          },
-          buttonColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          width: 300,
-          child: Text(
-            "Update",
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ],
     ));
