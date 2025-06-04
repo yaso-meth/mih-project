@@ -465,7 +465,9 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                       children: [
                         MihButton(
                           onPressed: () {
-                            updateAppointmentCall(index);
+                            if (_formKey.currentState!.validate()) {
+                              updateAppointmentCall(index);
+                            }
                           },
                           buttonColor: MzanziInnovationHub.of(context)!
                               .theme
@@ -495,9 +497,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   }
 
   bool isAppointmentInputValid() {
-    if (widget.titleController.text.isEmpty ||
-        widget.descriptionIDController.text.isEmpty ||
-        widget.dateController.text.isEmpty ||
+    if (widget.dateController.text.isEmpty ||
         widget.timeController.text.isEmpty) {
       return false;
     } else {
