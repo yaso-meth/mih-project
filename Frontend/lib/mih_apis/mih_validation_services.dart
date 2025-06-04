@@ -6,6 +6,16 @@ class MihValidationServices {
     return null;
   }
 
+  String? validateLength(String? value, int maxLength) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    if (value.length > maxLength) {
+      return "Length must not exceed $maxLength characters";
+    }
+    return null;
+  }
+
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return "Email is required";
