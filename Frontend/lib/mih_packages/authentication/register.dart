@@ -1,18 +1,16 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
-//import '../objects/sessionST.dart';
-//import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
-
-import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
@@ -37,6 +35,7 @@ class _RegisterState extends State<Register> {
   final officeID = TextEditingController();
   final baseAPI = AppEnviroment.baseApiUrl;
   final FocusNode _focusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
   bool successfulSignUp = false;
@@ -218,19 +217,8 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void validateInput() async {
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        confirmPasswordController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
-    } else {
-      await signUserUp();
-    }
+  void submitFormInput() async {
+    await signUserUp();
   }
 
   void toggle() {
@@ -325,7 +313,9 @@ class _RegisterState extends State<Register> {
           onKeyEvent: (event) async {
             if (event is KeyDownEvent &&
                 event.logicalKey == LogicalKeyboardKey.enter) {
-              validateInput();
+              if (_formKey.currentState!.validate()) {
+                submitFormInput();
+              }
             }
           },
           child: SafeArea(
@@ -360,92 +350,128 @@ class _RegisterState extends State<Register> {
                     ),
                     //spacer
                     const SizedBox(height: 25),
-                    //email input
-                    SizedBox(
-                      width: 500.0,
-                      child: MIHTextField(
-                        controller: emailController,
-                        hintText: 'Email',
-                        editable: true,
-                        required: true,
-                      ),
-                    ),
-                    //spacer
-                    const SizedBox(height: 10),
-                    //password input
-                    SizedBox(
-                      width: 500.0,
-                      child: MIHPassField(
-                        controller: passwordController,
-                        hintText: 'Password',
-                        required: true,
-                        signIn: false,
-                      ),
-                    ),
-                    //spacer
-                    const SizedBox(height: 10),
-                    //password input
-                    SizedBox(
-                      width: 500.0,
-                      child: MIHPassField(
-                        controller: confirmPasswordController,
-                        hintText: 'Confirm Password',
-                        required: true,
-                        signIn: false,
-                      ),
-                    ),
-                    //spacer
-                    const SizedBox(height: 25),
-                    // sign up button
-                    MihButton(
-                      onPressed: () {
-                        validateInput();
-                      },
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
-                      width: 300,
-                      child: Text(
-                        "Create New Account",
-                        style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                    MihForm(
+                      formKey: _formKey,
+                      formFields: [
+                        //email input
+                        MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          controller: emailController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Email",
+                          autofillHints: const [AutofillHints.email],
+                          validator: (value) {
+                            return MihValidationServices().validateEmail(value);
+                          },
                         ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-                    //register text
-                    SizedBox(
-                      width: 500.0,
-                      //height: 100.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
-                            'Already a User?',
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          GestureDetector(
-                            onTap: widget.onTap,
+                        //spacer
+                        const SizedBox(height: 10),
+                        //password input
+                        MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          controller: passwordController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Password",
+                          passwordMode: true,
+                          autofillHints: const [AutofillHints.password],
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validatePassword(value);
+                          },
+                        ),
+                        //spacer
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          controller: confirmPasswordController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Confirm Password",
+                          passwordMode: true,
+                          autofillHints: const [AutofillHints.password],
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validatePassword(value);
+                          },
+                        ),
+                        //spacer
+                        const SizedBox(height: 20),
+                        // sign up button
+                        Center(
+                          child: MihButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                submitFormInput();
+                              }
+                            },
+                            buttonColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .successColor(),
+                            width: 300,
                             child: Text(
-                              'Sign In',
+                              "Create New Account",
                               style: TextStyle(
-                                fontSize: 18,
                                 color: MzanziInnovationHub.of(context)!
                                     .theme
-                                    .secondaryColor(),
+                                    .primaryColor(),
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+                        //register text
+                        SizedBox(
+                          width: 300.0,
+                          //height: 100.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text(
+                                'Already a User?',
+                                style:
+                                    TextStyle(fontSize: 18, color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              GestureDetector(
+                                onTap: widget.onTap,
+                                child: Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .secondaryColor(),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          //here
+                        ),
+                      ],
                     )
                   ],
                 ),

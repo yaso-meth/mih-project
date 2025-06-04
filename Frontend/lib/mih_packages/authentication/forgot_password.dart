@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
@@ -25,6 +27,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   //bool _obscureText = true;
   bool successfulForgotPassword = false;
@@ -244,40 +247,53 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               .secondaryColor(),
                         ),
                       ),
-                      //spacer
                       const SizedBox(height: 25),
-
-                      //email input
-                      SizedBox(
-                        width: 500.0,
-                        child: MIHTextField(
-                          controller: emailController,
-                          hintText: 'Email',
-                          editable: true,
-                          required: true,
-                        ),
-                      ),
-
-                      //spacer
-                      const SizedBox(height: 25),
-                      MihButton(
-                        onPressed: () {
-                          prePassResteWarning();
-                        },
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 300,
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                      MihForm(
+                        formKey: _formKey,
+                        formFields: [
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            controller: emailController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Email",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateEmail(value);
+                            },
                           ),
-                        ),
+                          //spacer
+                          const SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.center,
+                            child: MihButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  prePassResteWarning();
+                                }
+                              },
+                              buttonColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              width: 300,
+                              child: Text(
+                                "Reset Password",
+                                style: TextStyle(
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
