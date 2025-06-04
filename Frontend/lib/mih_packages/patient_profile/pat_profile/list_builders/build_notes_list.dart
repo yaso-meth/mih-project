@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -148,7 +147,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     color:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   ),
-                  label: "Delete Document",
+                  label: "Delete Note",
                   labelBackgroundColor:
                       MzanziInnovationHub.of(context)!.theme.successColor(),
                   labelStyle: TextStyle(
@@ -170,43 +169,62 @@ class _BuildNotesListState extends State<BuildNotesList> {
         windowBody: Column(
           children: [
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: businessNameController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Office",
-              editable: false,
-              required: false,
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: userNameController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Created By",
-              editable: false,
-              required: false,
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: dateController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Created Date",
-              editable: false,
-              required: false,
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: noteTitleController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Note Title",
-              editable: false,
-              required: false,
             ),
             const SizedBox(height: 10.0),
-            SizedBox(
+            MihTextFormField(
               height: 250,
-              child: MIHMLTextField(
-                controller: noteTextController,
-                hintText: "Note Details",
-                editable: false,
-                required: false,
-              ),
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: noteTextController,
+              multiLineInput: true,
+              requiredText: true,
+              readOnly: true,
+              hintText: "Note Details",
             ),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
