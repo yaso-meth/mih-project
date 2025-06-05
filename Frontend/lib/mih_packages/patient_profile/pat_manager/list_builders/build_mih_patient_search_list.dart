@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
@@ -47,6 +49,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
   TextEditingController lnameController = TextEditingController();
   TextEditingController accessStatusController = TextEditingController();
   final baseAPI = AppEnviroment.baseApiUrl;
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> addPatientAccessAPICall(int index) async {
     var response = await http.post(
@@ -175,66 +178,97 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         windowBody: Column(
           children: [
-            MIHTextField(
-              controller: idController,
-              hintText: "ID No.",
-              editable: false,
-              required: true,
-            ),
-            const SizedBox(height: 10.0),
-            MIHTextField(
-              controller: fnameController,
-              hintText: "First Name",
-              editable: false,
-              required: true,
-            ),
-            const SizedBox(height: 10.0),
-            MIHTextField(
-              controller: lnameController,
-              hintText: "Surname",
-              editable: false,
-              required: true,
-            ),
-            const SizedBox(height: 10.0),
-            MIHDateField(
-              controller: dateController,
-              lableText: "Date",
-              required: true,
-            ),
-            const SizedBox(height: 10.0),
-            MIHTimeField(
-              controller: timeController,
-              lableText: "Time",
-              required: true,
-            ),
-            const SizedBox(height: 30.0),
-            MihButton(
-              onPressed: () {
-                bool filled = isAppointmentFieldsFilled();
-                if (filled) {
-                  //print("here2");
-                  submitApointment(index);
-                  //print("here3");
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 300,
-              child: Text(
-                "Book",
-                style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            MihForm(
+              formKey: _formKey,
+              formFields: [
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: idController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "ID No.",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
                 ),
-              ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "First Name",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: lnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Surname",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MIHDateField(
+                  controller: dateController,
+                  lableText: "Date",
+                  required: true,
+                ),
+                const SizedBox(height: 10.0),
+                MIHTimeField(
+                  controller: timeController,
+                  lableText: "Time",
+                  required: true,
+                ),
+                const SizedBox(height: 30.0),
+                MihButton(
+                  onPressed: () {
+                    bool filled = isAppointmentFieldsFilled();
+                    if (filled) {
+                      //print("here2");
+                      submitApointment(index);
+                      //print("here3");
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const MIHErrorMessage(
+                              errorType: "Input Error");
+                        },
+                      );
+                    }
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Book",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -331,32 +365,60 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         windowBody: Column(
           children: [
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: idController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "ID No.",
-              editable: false,
-              required: true,
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: fnameController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "First Name",
-              editable: false,
-              required: true,
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: lnameController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Surname",
-              editable: false,
-              required: true,
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
             ),
             const SizedBox(height: 10.0),
-            MIHTextField(
+            MihTextFormField(
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: accessStatusController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Access Status",
-              editable: false,
-              required: true,
+              validator: (value) {
+                return MihValidationServices().isEmpty(value);
+              },
             ),
             const SizedBox(height: 20.0),
             Visibility(

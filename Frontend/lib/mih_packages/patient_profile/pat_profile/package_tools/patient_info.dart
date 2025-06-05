@@ -43,75 +43,77 @@ class _PatientInfoState extends State<PatientInfo> {
   late String medAid;
 
   Widget getPatientDetailsField() {
-    return Wrap(
-      spacing: 15,
-      runSpacing: 10,
-      children: [
-        MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: idController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "ID No.",
-          // validator: (value) {
-          //   return MihValidationServices().isEmpty(value);
-          // },
-        ),
-        MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: fnameController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "First Name",
-        ),
-        MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: lnameController,
-          multiLineInput: false,
-          requiredText: true,
-          hintText: "Surname",
-          readOnly: true,
-        ),
-        MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: cellController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Cell No.",
-        ),
-        MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: emailController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Email",
-        ),
-        MihTextFormField(
-          width: textFieldWidth,
-          height: 100,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: addressController,
-          multiLineInput: true,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Address",
-        ),
-      ],
+    return Center(
+      child: Wrap(
+        spacing: 15,
+        runSpacing: 10,
+        children: [
+          MihTextFormField(
+            width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: idController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "ID No.",
+            // validator: (value) {
+            //   return MihValidationServices().isEmpty(value);
+            // },
+          ),
+          MihTextFormField(
+            width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: fnameController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "First Name",
+          ),
+          MihTextFormField(
+            width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: lnameController,
+            multiLineInput: false,
+            requiredText: true,
+            hintText: "Surname",
+            readOnly: true,
+          ),
+          MihTextFormField(
+            width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: cellController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Cell No.",
+          ),
+          MihTextFormField(
+            width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: emailController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Email",
+          ),
+          MihTextFormField(
+            width: textFieldWidth,
+            height: 100,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: addressController,
+            multiLineInput: true,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Address",
+          ),
+        ],
+      ),
     );
   }
 
@@ -202,10 +204,12 @@ class _PatientInfoState extends State<PatientInfo> {
         ),
       ),
     ]);
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: medAidDet,
+    return Center(
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: medAidDet,
+      ),
     );
   }
 
@@ -271,6 +275,7 @@ class _PatientInfoState extends State<PatientInfo> {
       children: [
         MihSingleChildScroll(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MihForm(
                 formKey: _formKey,

@@ -1,16 +1,17 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -59,6 +60,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
   late Future<List<Appointment>> businessAppointmentResults;
   late Future<List<Appointment>> appointmentResults;
   bool inWaitingRoom = true;
+  final _formKey = GlobalKey<FormState>();
 
   // Business Appointment Tool
   Widget getBusinessAppointmentsTool() {
@@ -314,61 +316,79 @@ class _WaitingRoomState extends State<WaitingRoom> {
           },
           windowBody: Column(
             children: [
-              SizedBox(
-                // width: 500,
-                child: MIHTextField(
-                  controller: _appointmentTitleController,
-                  hintText: "Title",
-                  editable: true,
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHDateField(
-                  controller: _appointmentDateController,
-                  lableText: "Date",
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHTimeField(
-                  controller: _appointmentTimeController,
-                  lableText: "Time",
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                height: 250,
-                child: MIHMLTextField(
-                  controller: _appointmentDescriptionIDController,
-                  hintText: "Description",
-                  editable: true,
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 20),
-              MihButton(
-                onPressed: () {
-                  addAppointmentCall();
-                },
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                width: 300,
-                child: Text(
-                  "Add",
-                  style: TextStyle(
-                    color:
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
                         MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    controller: _appointmentTitleController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Appointment Title",
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    // width: 500,
+                    child: MIHDateField(
+                      controller: _appointmentDateController,
+                      lableText: "Date",
+                      required: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    // width: 500,
+                    child: MIHTimeField(
+                      controller: _appointmentTimeController,
+                      lableText: "Time",
+                      required: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    height: 250,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _appointmentDescriptionIDController,
+                    multiLineInput: true,
+                    requiredText: true,
+                    hintText: "Description",
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          addAppointmentCall();
+                        }
+                      },
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Text(
+                        "Add",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -413,8 +433,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
   }
 
   bool isAppointmentInputValid() {
-    if (_appointmentTitleController.text.isEmpty ||
-        _appointmentDescriptionIDController.text.isEmpty ||
+    if (_appointmentDescriptionIDController.text.isEmpty ||
         _appointmentDateController.text.isEmpty ||
         _appointmentTimeController.text.isEmpty) {
       return false;
