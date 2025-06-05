@@ -151,6 +151,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   formKey: _formKey,
                   formFields: [
                     MihTextFormField(
+                      width: 200,
                       fillColor: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
@@ -158,7 +159,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
                       controller: _textFieldZeroController,
                       multiLineInput: false,
-                      requiredText: true,
+                      requiredText: false,
                       hintText: "Username",
                       validator: (value) {
                         return MihValidationServices().validateUsername(value);
