@@ -269,7 +269,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
               ),
               const SizedBox(height: 25.0),
               Visibility(
-                visible: true,
+                visible: false,
                 child: MihTextFormField(
                   fillColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
