@@ -303,7 +303,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -323,7 +323,10 @@ class _RegisterState extends State<Register> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.all(25.0),
+                padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                        "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                    : EdgeInsets.symmetric(horizontal: width * 0.075),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -415,62 +418,55 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 20),
                         // sign up button
                         Center(
-                          child: MihButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                submitFormInput();
-                              }
-                            },
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
-                            width: 300,
-                            child: Text(
-                              "Create New Account",
-                              style: TextStyle(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 10),
-                        //register text
-                        SizedBox(
-                          width: 300.0,
-                          //height: 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            runAlignment: WrapAlignment.center,
+                            spacing: 10,
+                            runSpacing: 10,
                             children: [
-                              const Text(
-                                'Already a User?',
-                                style:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              GestureDetector(
-                                onTap: widget.onTap,
+                              MihButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    submitFormInput();
+                                  }
+                                },
+                                buttonColor: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .successColor(),
+                                width: 300,
                                 child: Text(
-                                  'Sign In',
+                                  "Create New Account",
                                   style: TextStyle(
-                                    fontSize: 18,
                                     color: MzanziInnovationHub.of(context)!
                                         .theme
-                                        .secondaryColor(),
+                                        .primaryColor(),
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              )
+                              ),
+                              MihButton(
+                                onPressed: widget.onTap,
+                                buttonColor: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .secondaryColor(),
+                                width: 300,
+                                child: Text(
+                                  "I have an account",
+                                  style: TextStyle(
+                                    color: MzanziInnovationHub.of(context)!
+                                        .theme
+                                        .primaryColor(),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
-                          //here
                         ),
+
+                        //here
                       ],
                     )
                   ],
@@ -494,11 +490,12 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: getSecondaryActionButton(),
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

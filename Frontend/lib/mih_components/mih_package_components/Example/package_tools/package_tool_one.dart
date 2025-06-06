@@ -94,9 +94,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
@@ -119,12 +120,15 @@ class _PackageToolOneState extends State<PackageToolOne> {
     });
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: MihSingleChildScroll(
+        MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                    : EdgeInsets.symmetric(horizontal: width * 0.075),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -235,146 +235,154 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return MihSingleChildScroll(
-      child: Column(
-        children: [
-          MihForm(
-            formKey: _formKey,
-            formFields: [
-              Center(
-                child: MihCircleAvatar(
-                  imageFile: propicPreview,
-                  width: 150,
-                  editable: true,
-                  fileNameController: proPicController,
-                  userSelectedfile: proPic,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: (selectedImage) {
-                    setState(() {
-                      proPic = selectedImage;
-                    });
-                  },
+      child: Padding(
+        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? EdgeInsets.symmetric(horizontal: width * 0.2)
+            : EdgeInsets.symmetric(horizontal: width * 0.075),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            MihForm(
+              formKey: _formKey,
+              formFields: [
+                Center(
+                  child: MihCircleAvatar(
+                    imageFile: propicPreview,
+                    width: 150,
+                    editable: true,
+                    fileNameController: proPicController,
+                    userSelectedfile: proPic,
+                    frameColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onChange: (selectedImage) {
+                      setState(() {
+                        proPic = selectedImage;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 25.0),
-              Visibility(
-                visible: false,
-                child: MihTextFormField(
+                const SizedBox(height: 25.0),
+                Visibility(
+                  visible: false,
+                  child: MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: proPicController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Selected File Name",
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
                   fillColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: proPicController,
+                  controller: usernameController,
                   multiLineInput: false,
                   requiredText: true,
-                  readOnly: true,
-                  hintText: "Selected File Name",
-                ),
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: usernameController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Username",
-                validator: (value) {
-                  return MihValidationServices().validateUsername(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: fnameController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "First Name",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: lnameController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Last Name",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Activate Business Account",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Switch(
-                    value: businessUser,
-                    onChanged: (bool value) {
-                      setState(() {
-                        businessUser = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30.0),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    //Add validation here
-                    if (_formKey.currentState!.validate()) {
-                      submitForm();
-                    }
+                  hintText: "Username",
+                  validator: (value) {
+                    return MihValidationServices().validateUsername(value);
                   },
-                  buttonColor:
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 300,
-                  child: Text(
-                    "Update",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "First Name",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: lnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Last Name",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Activate Business Account",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Switch(
+                      value: businessUser,
+                      onChanged: (bool value) {
+                        setState(() {
+                          businessUser = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30.0),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      //Add validation here
+                      if (_formKey.currentState!.validate()) {
+                        submitForm();
+                      }
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Update",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
