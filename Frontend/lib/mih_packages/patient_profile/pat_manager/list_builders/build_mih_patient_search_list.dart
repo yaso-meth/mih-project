@@ -131,27 +131,6 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     );
   }
 
-  void submitApointment(int index) {
-    //To-Do: Implement the appointment submission
-    print("To-do: Implement the appointment submission");
-    // MIHApiCalls.addAppointmentAPICall(
-    //   widget.business!.business_id,
-    //   widget.patients[index].app_id,
-    //   dateController.text,
-    //   timeController.text,
-    //   widget.arguments,
-    //   context,
-    // );
-  }
-
-  bool isAppointmentFieldsFilled() {
-    if (dateController.text.isEmpty || timeController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   void noAccessWarning() {
     showDialog(
       context: context,
