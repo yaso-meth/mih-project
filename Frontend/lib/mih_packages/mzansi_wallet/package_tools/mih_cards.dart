@@ -83,7 +83,7 @@ class _MihCardsState extends State<MihCards> {
     }
   }
 
-  void addCardWindow(BuildContext ctxt) {
+  void addCardWindow(BuildContext ctxt, double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -97,127 +97,178 @@ class _MihCardsState extends State<MihCards> {
           shopName.value = "";
           Navigator.pop(context);
         },
-        windowBody: Column(
-          children: [
-            MihForm(
-              formKey: _formKey,
-              formFields: [
-                MIHDropdownField(
-                  controller: shopController,
-                  hintText: "Shop Name",
-                  dropdownOptions: const [
-                    "+More",
-                    "Apple Tree",
-                    "Auchan",
-                    "Best Before",
-                    "Big Save",
-                    "Boxer",
-                    "BP",
-                    "Builders Warehouse",
-                    "Checkers",
-                    "Choppies",
-                    "Clicks",
-                    "Continente",
-                    "Cotton:On",
-                    "Carrefour",
-                    "Dis-Chem",
-                    "Edgars",
-                    "Eskom",
-                    "Exclusive Books",
-                    "Fresh Stop",
-                    "Fresmart",
-                    "Infinity",
-                    "Jet",
-                    "Justrite",
-                    "Kero",
-                    "Leroy Merlin",
-                    "Makro",
-                    "Naivas",
-                    "OK Foods",
-                    "Panarottis",
-                    "Pick n Pay",
-                    "PnA",
-                    "PQ Clothing",
-                    "Rage",
-                    "Sefalana",
-                    "Sasol",
-                    "Shell",
-                    "Shoprite",
-                    "Signature Cosmetics & Fragrances",
-                    "Spar",
-                    "Spur",
-                    "TFG Group",
-                    "Toys R Us",
-                    "Woermann Brock",
-                    "Woolworths"
-                  ],
-                  required: true,
-                  editable: true,
-                  enableSearch: false,
-                ),
-                ValueListenableBuilder(
-                  valueListenable: shopName,
-                  builder: (BuildContext context, String value, Widget? child) {
-                    return Visibility(
-                      visible: value != "",
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          MihCardDisplay(
-                              shopName: shopName.value,
-                              nickname: "",
-                              height: 200),
-                        ],
+        windowBody: Padding(
+          padding:
+              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                  : EdgeInsets.symmetric(horizontal: width * 0),
+          child: Column(
+            children: [
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MIHDropdownField(
+                    controller: shopController,
+                    hintText: "Shop Name",
+                    dropdownOptions: const [
+                      "+More",
+                      "Apple Tree",
+                      "Auchan",
+                      "Best Before",
+                      "Big Save",
+                      "Boxer",
+                      "BP",
+                      "Builders Warehouse",
+                      "Checkers",
+                      "Choppies",
+                      "Clicks",
+                      "Continente",
+                      "Cotton:On",
+                      "Carrefour",
+                      "Dis-Chem",
+                      "Edgars",
+                      "Eskom",
+                      "Exclusive Books",
+                      "Fresh Stop",
+                      "Fresmart",
+                      "Infinity",
+                      "Jet",
+                      "Justrite",
+                      "Kero",
+                      "Leroy Merlin",
+                      "Makro",
+                      "Naivas",
+                      "OK Foods",
+                      "Panarottis",
+                      "Pick n Pay",
+                      "PnA",
+                      "PQ Clothing",
+                      "Rage",
+                      "Sefalana",
+                      "Sasol",
+                      "Shell",
+                      "Shoprite",
+                      "Signature Cosmetics & Fragrances",
+                      "Spar",
+                      "Spur",
+                      "TFG Group",
+                      "Toys R Us",
+                      "Woermann Brock",
+                      "Woolworths"
+                    ],
+                    required: true,
+                    editable: true,
+                    enableSearch: false,
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: shopName,
+                    builder:
+                        (BuildContext context, String value, Widget? child) {
+                      return Visibility(
+                        visible: value != "",
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            MihCardDisplay(
+                                shopName: shopName.value,
+                                nickname: "",
+                                height: 200),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _nicknameController,
+                    multiLineInput: false,
+                    requiredText: false,
+                    hintText: "Card Title",
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Flexible(
+                        child: MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          controller: cardNumberController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Card Number",
+                          numberMode: true,
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 10),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: _nicknameController,
-                  multiLineInput: false,
-                  requiredText: false,
-                  hintText: "Card Title",
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                      const SizedBox(width: 20),
+                      MihButton(
+                        onPressed: () {
+                          openscanner();
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        controller: cardNumberController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Card Number",
-                        numberMode: true,
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
+                        width: 100,
+                        child: Text(
+                          "Scan",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 20),
-                    MihButton(
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Center(
+                    child: MihButton(
                       onPressed: () {
-                        openscanner();
+                        if (_formKey.currentState!.validate()) {
+                          if (shopController.text == "") {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const MIHErrorMessage(
+                                    errorType: "Input Error");
+                              },
+                            );
+                          } else {
+                            MIHMzansiWalletApis.addLoyaltyCardAPICall(
+                              widget.signedInUser,
+                              widget.signedInUser.app_id,
+                              shopController.text,
+                              cardNumberController.text,
+                              "",
+                              0,
+                              _nicknameController.text,
+                              0,
+                              context,
+                            );
+                          }
+                        }
                       },
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
-                      width: 100,
+                      width: 300,
                       child: Text(
-                        "Scan",
+                        "Add",
                         style: TextStyle(
                           color: MzanziInnovationHub.of(context)!
                               .theme
@@ -227,51 +278,11 @@ class _MihCardsState extends State<MihCards> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                MihButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      if (shopController.text == "") {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const MIHErrorMessage(
-                                errorType: "Input Error");
-                          },
-                        );
-                      } else {
-                        MIHMzansiWalletApis.addLoyaltyCardAPICall(
-                          widget.signedInUser,
-                          widget.signedInUser.app_id,
-                          shopController.text,
-                          cardNumberController.text,
-                          "",
-                          0,
-                          _nicknameController.text,
-                          0,
-                          context,
-                        );
-                      }
-                    }
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 300,
-                  child: Text(
-                    "Add",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -388,7 +399,7 @@ class _MihCardsState extends State<MihCards> {
                   backgroundColor:
                       MzanziInnovationHub.of(context)!.theme.successColor(),
                   onTap: () {
-                    addCardWindow(context);
+                    addCardWindow(context, width);
                   },
                 )
               ]),
