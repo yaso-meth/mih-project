@@ -1,11 +1,13 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -23,9 +25,11 @@ class _TipCalcState extends State<TipCalc> {
   TextEditingController splitBillController = TextEditingController();
   TextEditingController noPeopleController = TextEditingController();
   final ValueNotifier<String> splitValue = ValueNotifier("");
+  final _formKey = GlobalKey<FormState>();
   String tip = "";
   String total = "";
   String amountPerPerson = "";
+  String temp = "";
   void splitSelected() {
     if (splitBillController.text.isNotEmpty) {
       splitValue.value = splitBillController.text;
@@ -35,38 +39,7 @@ class _TipCalcState extends State<TipCalc> {
   }
 
   void validateInput() async {
-    bool valid = false;
-    if (splitBillController.text.isNotEmpty &&
-        splitBillController.text == "Yes") {
-      if (billAmountController.text.isEmpty ||
-          tipPercentageController.text.isEmpty ||
-          noPeopleController.text.isEmpty) {
-        valid = false;
-      } else {
-        valid = true;
-      }
-    } else if (splitBillController.text.isNotEmpty &&
-        splitBillController.text == "No") {
-      if (billAmountController.text.isEmpty ||
-          tipPercentageController.text.isEmpty) {
-        valid = false;
-      } else {
-        valid = true;
-      }
-    } else {
-      valid = false;
-    }
-    print("Is input valid: $valid");
-    if (valid) {
-      calculatePressed();
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
-    }
+    calculatePressed();
   }
 
   void calculatePressed() {
@@ -262,104 +235,175 @@ class _TipCalcState extends State<TipCalc> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return MihSingleChildScroll(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          MIHNumberField(
-            controller: billAmountController,
-            hintText: "Bill Amount",
-            editable: true,
-            required: true,
-            enableDecimal: true,
-          ),
-          const SizedBox(height: 10),
-          MIHNumberField(
-            controller: tipPercentageController,
-            hintText: "Tip %",
-            editable: true,
-            required: true,
-            enableDecimal: false,
-          ),
-          const SizedBox(height: 10),
-          MIHDropdownField(
-            controller: splitBillController,
-            hintText: "Split Bill",
-            dropdownOptions: const ["Yes", "No"],
-            required: true,
-            editable: true,
-            enableSearch: false,
-          ),
-          const SizedBox(height: 10),
-          ValueListenableBuilder(
-            valueListenable: splitValue,
-            builder: (BuildContext context, String value, Widget? child) {
-              return Visibility(
-                visible: value == "Yes",
-                child: Column(
-                  children: [
-                    MIHNumberField(
-                      controller: noPeopleController,
-                      hintText: "No. of People",
-                      editable: true,
-                      required: true,
-                      enableDecimal: false,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+      child: Padding(
+        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? EdgeInsets.symmetric(horizontal: width * 0.2)
+            : EdgeInsets.symmetric(horizontal: width * 0.075),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            MihForm(
+              formKey: _formKey,
+              formFields: [
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: billAmountController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Bill Amount",
+                  numberMode: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
                 ),
-              );
-            },
-          ),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              MihButton(
-                onPressed: () {
-                  validateInput();
-                },
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
-                width: 300,
-                child: Text(
-                  "Calculate",
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                // MIHNumberField(
+                //   controller: billAmountController,
+                //   hintText: "Bill Amount",
+                //   editable: true,
+                //   required: true,
+                //   enableDecimal: true,
+                // ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: tipPercentageController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Tip Percentage",
+                  numberMode: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                // MIHNumberField(
+                //   controller: tipPercentageController,
+                //   hintText: "Tip %",
+                //   editable: true,
+                //   required: true,
+                //   enableDecimal: false,
+                // ),
+                const SizedBox(height: 20),
+                MIHDropdownField(
+                  controller: splitBillController,
+                  hintText: "Split Bill",
+                  dropdownOptions: const ["Yes", "No"],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
+                const SizedBox(height: 10),
+                ValueListenableBuilder(
+                  valueListenable: splitValue,
+                  builder: (BuildContext context, String value, Widget? child) {
+                    temp = value;
+                    return Visibility(
+                      visible: temp == "Yes",
+                      child: Column(
+                        children: [
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: noPeopleController,
+                            multiLineInput: false,
+                            requiredText: temp == "Yes",
+                            hintText: "No. of People",
+                            numberMode: true,
+                            validator: (validationValue) {
+                              if (temp == "Yes") {
+                                return MihValidationServices()
+                                    .isEmpty(validationValue);
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          // MIHNumberField(
+                          //   controller: noPeopleController,
+                          //   hintText: "No. of People",
+                          //   editable: true,
+                          //   required: true,
+                          //   enableDecimal: false,
+                          // ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      MihButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            validateInput();
+                          } else {
+                            MihAlertServices().formNotFilledCompletely(context);
+                          }
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        width: 300,
+                        child: Text(
+                          "Calculate",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      MihButton(
+                        onPressed: () {
+                          clearInput();
+                        },
+                        buttonColor:
+                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        width: 300,
+                        child: Text(
+                          "Clear",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              MihButton(
-                onPressed: () {
-                  clearInput();
-                },
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
-                width: 300,
-                child: Text(
-                  "Clear",
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
