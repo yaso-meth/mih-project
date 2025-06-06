@@ -200,26 +200,29 @@ class _PatientConsultationState extends State<PatientConsultation> {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  MihButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        addPatientNoteAPICall();
-                        Navigator.pop(context);
-                      } else {
-                        MihAlertServices().formNotFilledCompletely(context);
-                      }
-                    },
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    width: 300,
-                    child: Text(
-                      "Add Note",
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  Center(
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          addPatientNoteAPICall();
+                          Navigator.pop(context);
+                        } else {
+                          MihAlertServices().formNotFilledCompletely(context);
+                        }
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 300,
+                      child: Text(
+                        "Add Note",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
