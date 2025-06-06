@@ -39,7 +39,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       setState(() {
         windowTitleSize = 25;
         horizontralWindowPadding = width / 7;
-        vertticalWindowPadding = 25;
+        vertticalWindowPadding = 10;
         windowWidth = width;
         windowHeight = height;
       });
