@@ -436,7 +436,7 @@ class _AiChatState extends State<AiChat> {
                       const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton.filled(
                             onPressed: () {
