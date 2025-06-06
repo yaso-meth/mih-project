@@ -1,19 +1,18 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_number_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
@@ -36,6 +35,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _cardNumberController = TextEditingController();
   late int _noFavourites;
+  final _formKey = GlobalKey<FormState>();
 
   void openscanner() async {
     Navigator.of(context).pushNamed(
@@ -44,7 +44,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void editCardWindow(BuildContext ctxt, int index) {
+  void editCardWindow(BuildContext ctxt, int index, double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -56,86 +56,111 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           _nicknameController.clear();
           Navigator.pop(context);
         },
-        windowBody: Column(
-          children: [
-            const SizedBox(height: 10),
-            MIHTextField(
-              controller: _nicknameController,
-              hintText: "Card Title",
-              editable: true,
-              required: false,
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Flexible(
-                  child: MIHNumberField(
-                    controller: _cardNumberController,
-                    hintText: "Card Number",
-                    editable: true,
-                    required: true,
-                    enableDecimal: false,
+        windowBody: Padding(
+          padding:
+              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                  : EdgeInsets.symmetric(horizontal: width * 0),
+          child: Column(
+            children: [
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _nicknameController,
+                    multiLineInput: false,
+                    requiredText: false,
+                    hintText: "Card Title",
                   ),
-                ),
-                const SizedBox(width: 10),
-                MihButton(
-                  onPressed: () {
-                    openscanner();
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 100,
-                  child: Text(
-                    "Scan",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Flexible(
+                        child: MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          controller: _cardNumberController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Card Number",
+                          numberMode: true,
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      MihButton(
+                        onPressed: () {
+                          openscanner();
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 100,
+                        child: Text(
+                          "Scan",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Center(
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                            widget.signedInUser,
+                            widget.cardList[index].idloyalty_cards,
+                            widget.cardList[index].favourite,
+                            widget.cardList[index].priority_index,
+                            _nicknameController.text,
+                            _cardNumberController.text,
+                            0,
+                            ctxt,
+                          );
+                        } else {
+                          MihAlertServices().formNotFilledCompletely(context);
+                        }
+                      },
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      width: 300,
+                      child: Text(
+                        "Update",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            MihButton(
-              onPressed: () {
-                if (_cardNumberController.text == "") {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                } else {
-                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                    widget.signedInUser,
-                    widget.cardList[index].idloyalty_cards,
-                    widget.cardList[index].favourite,
-                    widget.cardList[index].priority_index,
-                    _nicknameController.text,
-                    _cardNumberController.text,
-                    0,
-                    ctxt,
-                  );
-                }
-              },
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 300,
-              child: Text(
-                "Update",
-                style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -278,7 +303,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void viewCardWindow(int index) {
+  void viewCardWindow(int index, double width) {
     //print(widget.cardList[index].card_number);
     String formattedCardNumber = "";
     for (int i = 0; i <= widget.cardList[index].card_number.length - 1; i++) {
@@ -344,7 +369,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 _cardNumberController.text = widget.cardList[index].card_number;
                 _nicknameController.text = widget.cardList[index].nickname;
               });
-              editCardWindow(context, index);
+              editCardWindow(context, index, width);
             },
           ),
           SpeedDialChild(
@@ -488,7 +513,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               height: 100,
             ),
             onTap: () {
-              viewCardWindow(index);
+              viewCardWindow(index, size.width);
             },
           );
         },

@@ -129,6 +129,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                           .theme
                           .secondaryColor(),
                       width: 100,
+                      height: 50,
                       child: Text(
                         "Cancel",
                         style: TextStyle(

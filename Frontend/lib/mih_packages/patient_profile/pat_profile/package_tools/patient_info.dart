@@ -1,9 +1,10 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
@@ -37,76 +38,126 @@ class _PatientInfoState extends State<PatientInfo> {
   final medAidController = TextEditingController();
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
-  double textFieldWidth = 400.0;
+  final _formKey = GlobalKey<FormState>();
+  double textFieldWidth = 500;
   late String medAid;
 
   Widget getPatientDetailsField() {
-    return Wrap(
-      spacing: 15,
-      runSpacing: 10,
-      children: [
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+    return Center(
+      child: Wrap(
+        spacing: 15,
+        runSpacing: 10,
+        children: [
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: idController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "ID No.",
-              editable: false,
-              required: false),
-        ),
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+              // validator: (value) {
+              //   return MihValidationServices().isEmpty(value);
+              // },
+            ),
+          ),
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: fnameController,
-              hintText: "Name",
-              editable: false,
-              required: false),
-        ),
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
+              hintText: "First Name",
+            ),
+          ),
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: lnameController,
+              multiLineInput: false,
+              requiredText: true,
               hintText: "Surname",
-              editable: false,
-              required: false),
-        ),
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+              readOnly: true,
+            ),
+          ),
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: cellController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Cell No.",
-              editable: false,
-              required: false),
-        ),
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+            ),
+          ),
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: emailController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
               hintText: "Email",
-              editable: false,
-              required: false),
-        ),
-        SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
+            ),
+          ),
+          SizedBox(
+            width: textFieldWidth,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              height: 100,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
               controller: addressController,
+              multiLineInput: true,
+              requiredText: true,
+              readOnly: true,
               hintText: "Address",
-              editable: false,
-              required: false),
-        ),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget getMedAidDetailsFields() {
     List<Widget> medAidDet = [];
-    medAidDet.add(SizedBox(
-      width: textFieldWidth,
-      child: MIHTextField(
+    medAidDet.add(
+      SizedBox(
+        width: textFieldWidth,
+        child: MihTextFormField(
+          // width: textFieldWidth,
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           controller: medAidController,
+          multiLineInput: false,
+          requiredText: true,
+          readOnly: true,
           hintText: "Medical Aid",
-          editable: false,
-          required: false),
-    ));
+        ),
+      ),
+    );
     bool req;
     if (medAid == "Yes") {
       req = true;
@@ -118,67 +169,88 @@ class _PatientInfoState extends State<PatientInfo> {
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MIHTextField(
-              controller: medMainMemController,
-              hintText: "Main Member",
-              editable: false,
-              required: false),
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medMainMemController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Main Member",
+          ),
         ),
       ),
-      //const SizedBox(height: 10.0),
       Visibility(
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MIHTextField(
-              controller: medNoController,
-              hintText: "No.",
-              editable: false,
-              required: false),
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medNoController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "No.",
+          ),
         ),
       ),
-      //const SizedBox(height: 10.0),
       Visibility(
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MIHTextField(
-              controller: medAidCodeController,
-              hintText: "Code",
-              editable: false,
-              required: false),
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medAidCodeController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Code",
+          ),
         ),
       ),
-      //const SizedBox(height: 10.0),
+      Visibility(
+        visible: req,
+        child: SizedBox(
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medNameController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Name",
+          ),
+        ),
+      ),
       Visibility(
         visible: req,
         child: SizedBox(
           width: textFieldWidth,
-          child: MIHTextField(
-              controller: medNameController,
-              hintText: "Name",
-              editable: false,
-              required: false),
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medSchemeController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Plan",
+          ),
         ),
       ),
-      //const SizedBox(height: 10.0),
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MIHTextField(
-              controller: medSchemeController,
-              hintText: "Plan",
-              editable: false,
-              required: false),
-        ),
-      ),
-      //),
     ]);
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: medAidDet,
+    return Center(
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: medAidDet,
+      ),
     );
   }
 
@@ -232,25 +304,50 @@ class _PatientInfoState extends State<PatientInfo> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
         MihSingleChildScroll(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: ,
-                  children: [
-                    Text(
-                      "Personal Details",
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      //crossAxisAlignment: ,
+                      children: [
+                        Text(
+                          "Personal",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
+                        ),
+                      ]),
+                  Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                  const SizedBox(height: 10),
+                  getPatientDetailsField(),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      "Medical Aid",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 25,
@@ -260,25 +357,15 @@ class _PatientInfoState extends State<PatientInfo> {
                             .secondaryColor(),
                       ),
                     ),
-                  ]),
-              const SizedBox(height: 10),
-              getPatientDetailsField(),
-              const SizedBox(height: 10),
-              Text(
-                "Medical Aid Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
+                  ),
+                  Divider(
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor()),
+                  const SizedBox(height: 10),
+                  getMedAidDetailsFields(),
+                ],
               ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10),
-              getMedAidDetailsFields(),
             ],
           ),
         ),

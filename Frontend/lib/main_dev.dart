@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:pwa_install/pwa_install.dart';
 import '../mih_env/env.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -14,6 +15,9 @@ void main() async {
     apiBasePath: "/auth",
   );
   // setUrlStrategy(PathUrlStrategy());
+  PWAInstall().setup(installCallback: () {
+    debugPrint('APP INSTALLED!');
+  });
   FlutterNativeSplash.remove();
   runApp(const MzanziInnovationHub());
 }

@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_install_services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
-import '../../mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
@@ -34,6 +37,7 @@ class _SignInState extends State<SignIn> {
 
   // focus node to capture keyboard events
   final FocusNode _focusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
@@ -99,7 +103,11 @@ class _SignInState extends State<SignIn> {
           emailController.text = "testpatient@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
-        validateInput();
+        if (_formKey.currentState!.validate()) {
+          submitSignInForm();
+        } else {
+          MihAlertServices().formNotFilledCompletely(context);
+        }
       },
       tileName: "Patient",
       tileIcon: Icon(
@@ -116,7 +124,11 @@ class _SignInState extends State<SignIn> {
           emailController.text = "testdoctor@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
-        validateInput();
+        if (_formKey.currentState!.validate()) {
+          submitSignInForm();
+        } else {
+          MihAlertServices().formNotFilledCompletely(context);
+        }
       },
       tileName: "Doctor",
       tileIcon: Icon(
@@ -134,7 +146,11 @@ class _SignInState extends State<SignIn> {
           emailController.text = "test-business@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
-        validateInput();
+        if (_formKey.currentState!.validate()) {
+          submitSignInForm();
+        } else {
+          MihAlertServices().formNotFilledCompletely(context);
+        }
       },
       tileName: "Business",
       tileIcon: Icon(
@@ -151,7 +167,11 @@ class _SignInState extends State<SignIn> {
           emailController.text = "test@mzansi-innovation-hub.co.za";
           passwordController.text = "Testprofile@1234";
         });
-        validateInput();
+        if (_formKey.currentState!.validate()) {
+          submitSignInForm();
+        } else {
+          MihAlertServices().formNotFilledCompletely(context);
+        }
       },
       tileName: "Test",
       tileIcon: Icon(
@@ -174,27 +194,17 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  void validateInput() async {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
+  void submitSignInForm() async {
+    await signUserIn();
+    if (successfulSignIn) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/',
+        (route) => false,
+        arguments: AuthArguments(
+          true,
+          true,
+        ),
       );
-    } else {
-      await signUserIn();
-      if (successfulSignIn) {
-        // TextInput.finishAutofillContext();
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          '/',
-          (route) => false,
-          arguments: AuthArguments(
-            true,
-            true,
-          ),
-        );
-      }
     }
   }
 
@@ -293,14 +303,11 @@ class _SignInState extends State<SignIn> {
           padding: const EdgeInsets.all(10.0),
           child: MihButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/about',
-                arguments: 0,
-              );
+              MihInstallServices().installMihTrigger(context);
             },
             buttonColor:
                 MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 300,
+            width: 150,
             child: Text(
               "Install MIH",
               style: TextStyle(
@@ -361,7 +368,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -371,7 +378,11 @@ class _SignInState extends State<SignIn> {
           onKeyEvent: (event) async {
             if (event is KeyDownEvent &&
                 event.logicalKey == LogicalKeyboardKey.enter) {
-              validateInput();
+              if (_formKey.currentState!.validate()) {
+                submitSignInForm();
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
+              }
             }
           },
           child: SafeArea(
@@ -379,7 +390,10 @@ class _SignInState extends State<SignIn> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                          "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                      : EdgeInsets.symmetric(horizontal: width * 0.075),
                   child: AutofillGroup(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -406,242 +420,222 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                         //spacer
-                        const SizedBox(height: 25),
-
-                        // SizedBox(
-                        //   width: 500.0,
-                        //   //height: 100.0,
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.start,
-                        //     children: [
-                        //       GestureDetector(
-                        //         onTap: () {
-                        //           showSandboxProfiles();
-                        //         },
-                        //         child: Text(
-                        //           'Sandbox Profile',
-                        //           style: TextStyle(
-                        //             fontSize: 18,
-                        //             color: MzanziInnovationHub.of(context)!
-                        //                 .theme
-                        //                 .secondaryColor(),
-                        //             fontWeight: FontWeight.bold,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 10),
-                        //email input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHTextField(
-                            controller: emailController,
-                            hintText: 'Email',
-                            editable: true,
-                            required: true,
-                            autoFillHintGroup: const [AutofillHints.email],
-                            textInputAction: TextInputAction.next,
-                          ),
-                        ),
-
-                        //spacer
                         const SizedBox(height: 10),
-                        //password input
-                        SizedBox(
-                          width: 500.0,
-                          child: MIHPassField(
-                            controller: passwordController,
-                            hintText: 'Password',
-                            required: true,
-                            signIn: true,
-                            autoFillHintGroup: const [AutofillHints.password],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 500.0,
-                          //height: 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    '/forgot-password',
-                                  );
-                                },
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .secondaryColor(),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        //spacer
-                        const SizedBox(height: 30),
-                        // sign in button
-                        MihButton(
-                          onPressed: () {
-                            validateInput();
-                          },
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          width: 300,
-                          child: Text(
-                            "Sign In",
-                            style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                        MihForm(
+                          formKey: _formKey,
+                          formFields: [
+                            MihTextFormField(
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzanziInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              controller: emailController,
+                              multiLineInput: false,
+                              requiredText: true,
+                              hintText: "Email",
+                              autofillHints: const [AutofillHints.email],
+                              validator: (value) {
+                                return MihValidationServices()
+                                    .validateEmail(value);
+                              },
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        MihButton(
-                          onPressed: widget.onTap,
-                          buttonColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .successColor(),
-                          width: 300,
-                          child: Text(
-                            "Create New Account",
-                            style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                            //spacer
+                            const SizedBox(height: 10),
+                            //password input
+                            MihTextFormField(
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzanziInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              controller: passwordController,
+                              multiLineInput: false,
+                              requiredText: true,
+                              hintText: "Password",
+                              passwordMode: true,
+                              autofillHints: const [AutofillHints.password],
+                              validator: (value) {
+                                return MihValidationServices()
+                                    .validatePassword(value);
+                              },
                             ),
-                          ),
-                        ),
-                        //spacer
-                        const SizedBox(height: 10),
-                        //register text
-                        // SizedBox(
-                        //   width: 500.0,
-                        //   //height: 100.0,
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Text(
-                        //         'New User?',
-                        //         style: TextStyle(
-                        //             fontSize: 18,
-                        //             color: MzanziInnovationHub.of(context)!
-                        //                 .theme
-                        //                 .messageTextColor()),
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 6,
-                        //       ),
-                        //       GestureDetector(
-                        //         onTap: widget.onTap,
-                        //         child: Text(
-                        //           'Register Now',
-                        //           style: TextStyle(
-                        //             fontSize: 18,
-                        //             color: MzanziInnovationHub.of(context)!
-                        //                 .theme
-                        //                 .secondaryColor(),
-                        //             fontWeight: FontWeight.bold,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        //spacer
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: 500.0,
-                          //height: 100.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                  child: Divider(),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: GestureDetector(
-                                  child: Text(
-                                    'Use Sandox Profile',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              // width: 500.0,
+                              //height: 100.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                        '/forgot-password',
+                                      );
+                                    },
+                                    child: Text(
+                                      'Forgot Password?',
+                                      style: TextStyle(
                                         fontSize: 15,
                                         color: MzanziInnovationHub.of(context)!
                                             .theme
-                                            .secondaryColor()),
+                                            .secondaryColor(),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      showProfiles = !showProfiles;
-                                    });
-                                  },
-                                ),
+                                ],
                               ),
-                              const Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10.0),
-                                  child: Divider(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Visibility(
-                          visible: showProfiles,
-                          child: SizedBox(
-                            width: 500,
-                            child: Column(
-                              //mainAxisSize: MainAxisSize.max,
-                              children: [
-                                GridView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: sandboxProfileList.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithMaxCrossAxisExtent(
-                                          mainAxisSpacing: 10,
-                                          maxCrossAxisExtent: 100),
-                                  itemBuilder: (context, index) {
-                                    return sandboxProfileList[index];
-                                  },
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: MzanziInnovationHub.of(context)!
-                                        .theme
-                                        .secondaryColor(),
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
                             ),
-                          ),
+
+                            //spacer
+                            const SizedBox(height: 20),
+                            // sign in button
+                            Center(
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                runAlignment: WrapAlignment.center,
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  MihButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        submitSignInForm();
+                                      } else {
+                                        MihAlertServices()
+                                            .formNotFilledCompletely(context);
+                                      }
+                                    },
+                                    buttonColor:
+                                        MzanziInnovationHub.of(context)!
+                                            .theme
+                                            .secondaryColor(),
+                                    width: 300,
+                                    child: Text(
+                                      "Sign In",
+                                      style: TextStyle(
+                                        color: MzanziInnovationHub.of(context)!
+                                            .theme
+                                            .primaryColor(),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  MihButton(
+                                    onPressed: widget.onTap,
+                                    buttonColor:
+                                        MzanziInnovationHub.of(context)!
+                                            .theme
+                                            .successColor(),
+                                    width: 300,
+                                    child: Text(
+                                      "Create New Account",
+                                      style: TextStyle(
+                                        color: MzanziInnovationHub.of(context)!
+                                            .theme
+                                            .primaryColor(),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            //spacer
+                            const SizedBox(height: 35),
+                            Center(
+                              child: SizedBox(
+                                width: width,
+                                //height: 100.0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 10.0),
+                                        child: Divider(),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: GestureDetector(
+                                        child: Text(
+                                          'Use Sandox Profile',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: MzanziInnovationHub.of(
+                                                      context)!
+                                                  .theme
+                                                  .secondaryColor()),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            showProfiles = !showProfiles;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    const Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Divider(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Center(
+                              child: Visibility(
+                                visible: showProfiles,
+                                child: SizedBox(
+                                  width: 500,
+                                  child: Column(
+                                    //mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      GridView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: sandboxProfileList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                mainAxisSpacing: 10,
+                                                maxCrossAxisExtent: 100),
+                                        itemBuilder: (context, index) {
+                                          return sandboxProfileList[index];
+                                        },
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color:
+                                              MzanziInnovationHub.of(context)!
+                                                  .theme
+                                                  .secondaryColor(),
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -674,11 +668,12 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: getSecondaryActionButton(),
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

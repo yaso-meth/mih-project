@@ -118,40 +118,30 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             ),
           ),
           const SizedBox(height: 10.0),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                "Would you like to delete your MIH account?",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
+          Text(
+            "Would you like to delete your MIH account?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          MihButton(
+            onPressed: () {
+              deleteAccountPopUp(context);
+            },
+            buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            width: 300,
+            child: Text(
+              "Delete Account",
+              style: TextStyle(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-              MihButton(
-                onPressed: () {
-                  deleteAccountPopUp(context);
-                },
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
-                width: 300,
-                child: Text(
-                  "Delete Account",
-                  style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),

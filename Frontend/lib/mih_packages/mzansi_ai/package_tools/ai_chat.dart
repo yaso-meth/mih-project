@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -436,6 +436,7 @@ class _AiChatState extends State<AiChat> {
                       const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton.filled(
                             onPressed: () {
@@ -450,14 +451,19 @@ class _AiChatState extends State<AiChat> {
                             ),
                           ),
                           const SizedBox(width: 10),
-                          SizedBox(
+                          MihTextFormField(
                             width: 200,
-                            child: MIHTextField(
-                              controller: _fontSizeController,
-                              hintText: "Chat Font Size",
-                              editable: false,
-                              required: true,
-                            ),
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: _fontSizeController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            readOnly: true,
+                            hintText: "Time",
                           ),
                           const SizedBox(width: 10),
                           IconButton.filled(

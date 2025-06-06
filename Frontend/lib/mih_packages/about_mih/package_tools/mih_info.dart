@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import "package:universal_html/js.dart" as js;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -40,46 +40,6 @@ class _MihInfoState extends State<MihInfo> {
       Uri.parse('https://www.facebook.com/profile.php?id=61565345762136');
   final Uri _redditUrl =
       Uri.parse('https://www.reddit.com/r/Mzani_Innovation_Hub/');
-
-  void installMihTrigger() {
-    final isWebAndroid =
-        kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
-    final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
-
-    if (isWebAndroid) {
-      launchSocialUrl(
-        Uri.parse(
-          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-        ),
-      );
-    } else if (isWebIos) {
-      //Show pop up for IOS
-      // _showIOSInstallationGuide();
-      launchSocialUrl(
-        Uri.parse(
-          "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",
-        ),
-      );
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
-        "Android") {
-      //Installed Android App
-      // _showIOSInstallationGuide();
-      launchSocialUrl(
-        Uri.parse(
-          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-        ),
-      );
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
-      launchSocialUrl(
-        Uri.parse(
-          "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",
-        ),
-      );
-    } else {
-      //Web
-      js.context.callMethod("presentAddToHome");
-    }
-  }
 
   Widget founderBio() {
     String bio = "";
@@ -553,7 +513,7 @@ class _MihInfoState extends State<MihInfo> {
                   children: [
                     MihButton(
                       onPressed: () {
-                        installMihTrigger();
+                        MihInstallServices().installMihTrigger(context);
                       },
                       buttonColor: MzanziInnovationHub.of(context)!
                           .theme

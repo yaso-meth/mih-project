@@ -1,5 +1,7 @@
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_icd10_code_list.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +23,28 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
   Widget getWindowBody() {
     return Column(
       children: [
-        MIHTextField(
+        MihTextFormField(
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           controller: widget.icd10CodeController,
-          hintText: "Search Text",
-          editable: false,
-          required: false,
+          multiLineInput: false,
+          requiredText: true,
+          numberMode: true,
+          hintText: "ICD-10 Code Searched",
+          validator: (value) {
+            return MihValidationServices().isEmpty(value);
+          },
         ),
+        const SizedBox(height: 15),
+        Text(
+          "Search for ICD-10 Codes",
+          style: TextStyle(
+            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
         BuildICD10CodeList(
           icd10CodeController: widget.icd10CodeController,
           icd10codeList: widget.icd10codeList,

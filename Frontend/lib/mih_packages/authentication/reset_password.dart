@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import '../../mih_components/mih_inputs_and_buttons/mih_pass_input.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
 import '../../mih_components/mih_layout/mih_header.dart';
@@ -35,6 +38,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   bool acceptWarning = false;
   // focus node to capture keyboard events
   final FocusNode _focusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
@@ -131,16 +135,8 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
   }
 
-  void validateInput() async {
-    if (passwordController.text.isEmpty ||
-        confirmPasswordController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
-    } else if (passwordController.text != confirmPasswordController.text) {
+  void submitFormInput() async {
+    if (passwordController.text != confirmPasswordController.text) {
       passwordError();
     } else {
       await submitPasswodReset();
@@ -185,7 +181,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -195,7 +191,11 @@ class _ResetPasswordState extends State<ResetPassword> {
           onKeyEvent: (event) async {
             if (event is KeyDownEvent &&
                 event.logicalKey == LogicalKeyboardKey.enter) {
-              validateInput();
+              if (_formKey.currentState!.validate()) {
+                submitFormInput();
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
+              }
             }
           },
           child: SafeArea(
@@ -203,7 +203,10 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                          "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                      : EdgeInsets.symmetric(horizontal: width * 0.075),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -229,63 +232,102 @@ class _ResetPasswordState extends State<ResetPassword> {
                         ),
                       ),
                       //spacer
-                      // const SizedBox(height: 15),
-                      // Text(
-                      //   'token: ${widget.token}',
-                      //   style: TextStyle(
-                      //     fontSize: 15,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: MzanziInnovationHub.of(context)!
-                      //         .theme
-                      //         .secondaryColor(),
-                      //   ),
-                      // ),
-                      //spacer
                       const SizedBox(height: 25),
-                      //email input
-                      SizedBox(
-                        width: 500.0,
-                        child: MIHPassField(
-                          controller: passwordController,
-                          hintText: 'New Password',
-                          required: true,
-                          signIn: false,
-                        ),
-                      ),
-                      //spacer
-                      const SizedBox(height: 10),
-                      //password input
-                      SizedBox(
-                        width: 500.0,
-                        child: MIHPassField(
-                          controller: confirmPasswordController,
-                          hintText: 'Confirm New Password',
-                          required: true,
-                          signIn: false,
-                        ),
-                      ),
-
-                      //spacer
-                      const SizedBox(height: 25),
-                      // sign in button
-                      MihButton(
-                        onPressed: () {
-                          validateInput();
-                        },
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 300,
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                      MihForm(
+                        formKey: _formKey,
+                        formFields: [
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            controller: passwordController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Password",
+                            passwordMode: true,
+                            autofillHints: const [AutofillHints.password],
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validatePassword(value);
+                            },
                           ),
-                        ),
+                          //spacer
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: confirmPasswordController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Confirm Password",
+                            passwordMode: true,
+                            autofillHints: const [AutofillHints.password],
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validatePassword(value);
+                            },
+                          ),
+
+                          // //email input
+                          // SizedBox(
+                          //   width: 500.0,
+                          //   child: MIHPassField(
+                          //     controller: passwordController,
+                          //     hintText: 'New Password',
+                          //     required: true,
+                          //     signIn: false,
+                          //   ),
+                          // ),
+                          // //spacer
+                          // const SizedBox(height: 10),
+                          // //password input
+                          // SizedBox(
+                          //   width: 500.0,
+                          //   child: MIHPassField(
+                          //     controller: confirmPasswordController,
+                          //     hintText: 'Confirm New Password',
+                          //     required: true,
+                          //     signIn: false,
+                          //   ),
+                          // ),
+
+                          //spacer
+                          const SizedBox(height: 25),
+                          // sign in button
+                          Center(
+                            child: MihButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  submitFormInput();
+                                } else {
+                                  MihAlertServices()
+                                      .formNotFilledCompletely(context);
+                                }
+                              },
+                              buttonColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              width: 300,
+                              child: Text(
+                                "Reset Password",
+                                style: TextStyle(
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -313,11 +355,12 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: null,
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

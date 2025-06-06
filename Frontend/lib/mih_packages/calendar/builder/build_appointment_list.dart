@@ -1,12 +1,14 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_multiline_text_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_text_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -57,6 +59,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController daysExtensionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   int counter = 0;
   late double width;
   late double height;
@@ -69,7 +72,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     }
   }
 
-  Widget displayAppointment(int index) {
+  Widget displayAppointment(int index, double bodyWidth) {
     String heading =
         "${widget.appointmentList[index].date_time.split('T')[1].substring(0, 5)} - ${widget.appointmentList[index].title.toUpperCase()}";
     String description = widget.appointmentList[index].description;
@@ -100,54 +103,50 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           MzanziInnovationHub.of(context)!.theme.messageTextColor();
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 3.0,
-              color: appointmentColor,
-            ),
-            borderRadius: BorderRadius.circular(20)),
-        child: ListTile(
-          title: Text(
-            heading,
-            style: TextStyle(
-              color: appointmentColor,
-              fontWeight: FontWeight.bold,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+            width: 3.0,
+            color: appointmentColor,
           ),
-          subtitle: Text(
-            description,
-            style: TextStyle(
-              color: appointmentColor,
-              overflow: TextOverflow.ellipsis,
-            ),
+          borderRadius: BorderRadius.circular(20)),
+      child: ListTile(
+        title: Text(
+          heading,
+          style: TextStyle(
+            color: appointmentColor,
+            fontWeight: FontWeight.bold,
           ),
-          onTap: () {
-            setState(() {
-              widget.titleController.text = widget.appointmentList[index].title;
-              widget.descriptionIDController.text =
-                  widget.appointmentList[index].description;
-              widget.dateController.text =
-                  widget.appointmentList[index].date_time.split('T')[0];
-              widget.timeController.text = widget
-                  .appointmentList[index].date_time
-                  .split('T')[1]
-                  .substring(0, 5);
-            });
-            if (widget.inWaitingRoom == false) {
-              appointmentDetailsWindow(index);
-            } else {
-              waitingRiinAppointmentDetailsWindow(index);
-            }
-          },
         ),
+        subtitle: Text(
+          description,
+          style: TextStyle(
+            color: appointmentColor,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            widget.titleController.text = widget.appointmentList[index].title;
+            widget.descriptionIDController.text =
+                widget.appointmentList[index].description;
+            widget.dateController.text =
+                widget.appointmentList[index].date_time.split('T')[0];
+            widget.timeController.text = widget.appointmentList[index].date_time
+                .split('T')[1]
+                .substring(0, 5);
+          });
+          if (widget.inWaitingRoom == false) {
+            appointmentDetailsWindow(index, bodyWidth);
+          } else {
+            waitingRiinAppointmentDetailsWindow(index, bodyWidth);
+          }
+        },
       ),
     );
   }
 
-  void appointmentDetailsWindow(int index) {
+  void appointmentDetailsWindow(int index, double bodyWidth) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -171,7 +170,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor:
                   MzanziInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
-                appointmentUpdateWindow(index);
+                appointmentUpdateWindow(index, bodyWidth);
               },
             ),
             SpeedDialChild(
@@ -200,56 +199,72 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             widget.titleController.clear();
             widget.descriptionIDController.clear();
           },
-          windowBody: Column(
-            children: [
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHTextField(
+          windowBody: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   controller: widget.titleController,
-                  hintText: "Title",
-                  editable: false,
-                  required: false,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Appointment Title",
                 ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                  // width: 500,
-                  child: MIHTextField(
-                controller: widget.dateController,
-                hintText: "Date",
-                editable: false,
-                required: false,
-              )),
-              const SizedBox(height: 10),
-              SizedBox(
-                  // width: 500,
-                  child: MIHTextField(
-                controller: widget.timeController,
-                hintText: "Time",
-                editable: false,
-                required: false,
-              )),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                height: 250,
-                child: MIHMLTextField(
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.dateController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Date",
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.timeController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Time",
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   controller: widget.descriptionIDController,
-                  hintText: "Description",
-                  editable: false,
-                  required: false,
+                  multiLineInput: true,
+                  height: 250,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Appointment Description",
                 ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  void waitingRiinAppointmentDetailsWindow(int index) {
+  void waitingRiinAppointmentDetailsWindow(int index, double bodyWidth) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -273,7 +288,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor:
                   MzanziInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
-                appointmentUpdateWindow(index);
+                appointmentUpdateWindow(index, bodyWidth);
               },
             ),
             SpeedDialChild(
@@ -302,65 +317,82 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             widget.titleController.clear();
             widget.descriptionIDController.clear();
           },
-          windowBody: Column(
-            children: [
-              SizedBox(
-                // width: 500,
-                child: MIHTextField(
+          windowBody: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   controller: widget.titleController,
-                  hintText: "Title",
-                  editable: false,
-                  required: false,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Appointment Title",
                 ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHTextField(
-                  controller: widget.titleController,
-                  hintText: "Patient ID Number",
-                  editable: false,
-                  required: false,
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.dateController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Date",
                 ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                  // width: 500,
-                  child: MIHTextField(
-                controller: widget.dateController,
-                hintText: "Date",
-                editable: false,
-                required: false,
-              )),
-              const SizedBox(height: 10),
-              SizedBox(
-                  // width: 500,
-                  child: MIHTextField(
-                controller: widget.timeController,
-                hintText: "Time",
-                editable: false,
-                required: false,
-              )),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                height: 250,
-                child: MIHMLTextField(
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: widget.timeController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Time",
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   controller: widget.descriptionIDController,
-                  hintText: "Description",
-                  editable: false,
-                  required: false,
+                  multiLineInput: true,
+                  height: 250,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Appointment Description",
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 10),
+                // SizedBox(
+                //   // width: 500,
+                //   child: MIHTextField(
+                //     controller: widget.titleController,
+                //     hintText: "Patient ID Number",
+                //     editable: false,
+                //     required: false,
+                //   ),
+                // ),
+                // const SizedBox(height: 10),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  void appointmentUpdateWindow(int index) {
+  void appointmentUpdateWindow(int index, double bodyWidth) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -382,73 +414,102 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             });
             Navigator.of(context).pop();
           },
-          windowBody: Column(
-            children: [
-              SizedBox(
-                // width: 500,
-                child: MIHTextField(
-                  controller: widget.titleController,
-                  hintText: "Title",
-                  editable: true,
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHDateField(
-                  controller: widget.dateController,
-                  lableText: "Date",
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                child: MIHTimeField(
-                  controller: widget.timeController,
-                  lableText: "Time",
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                // width: 500,
-                height: 250,
-                child: MIHMLTextField(
-                  controller: widget.descriptionIDController,
-                  hintText: "Description",
-                  editable: true,
-                  required: true,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                alignment: WrapAlignment.center,
-                runSpacing: 10,
-                spacing: 10,
-                children: [
-                  MihButton(
-                    onPressed: () {
-                      updateAppointmentCall(index);
-                    },
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    width: 300,
-                    child: Text(
-                      "Update",
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+          windowBody: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              children: [
+                MihForm(
+                  formKey: _formKey,
+                  formFields: [
+                    MihTextFormField(
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: widget.titleController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      hintText: "Appointment Title",
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      // width: 500,
+                      child: MIHDateField(
+                        controller: widget.dateController,
+                        lableText: "Date",
+                        required: true,
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      // width: 500,
+                      child: MIHTimeField(
+                        controller: widget.timeController,
+                        lableText: "Time",
+                        required: true,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: widget.descriptionIDController,
+                      multiLineInput: true,
+                      height: 250,
+                      requiredText: true,
+                      hintText: "Appointment Description",
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: [
+                          MihButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                updateAppointmentCall(index);
+                              } else {
+                                MihAlertServices()
+                                    .formNotFilledCompletely(context);
+                              }
+                            },
+                            buttonColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .successColor(),
+                            width: 300,
+                            child: Text(
+                              "Update",
+                              style: TextStyle(
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -456,9 +517,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   }
 
   bool isAppointmentInputValid() {
-    if (widget.titleController.text.isEmpty ||
-        widget.descriptionIDController.text.isEmpty ||
-        widget.dateController.text.isEmpty ||
+    if (widget.dateController.text.isEmpty ||
         widget.timeController.text.isEmpty) {
       return false;
     } else {
@@ -585,7 +644,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         shrinkWrap: true,
         itemCount: widget.appointmentList.length,
         itemBuilder: (context, index) {
-          return displayAppointment(index);
+          return displayAppointment(index, width);
         },
       ),
     );
