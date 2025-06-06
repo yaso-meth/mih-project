@@ -69,7 +69,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
     }
   }
 
-  void addNotePopUp() {
+  void addNotePopUp(double width) {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     var title = "";
@@ -94,128 +94,136 @@ class _PatientConsultationState extends State<PatientConsultation> {
           titleController.clear();
           noteTextController.clear();
         },
-        windowBody: Column(
-          children: [
-            MihForm(
-              formKey: _formKey,
-              formFields: [
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: officeController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "Office",
-                ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: doctorController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "Created By",
-                ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: dateController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "Created Date",
-                ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: titleController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  hintText: "Note Title",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  height: 250,
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: noteTextController,
-                  multiLineInput: true,
-                  requiredText: true,
-                  hintText: "Note Details",
-                  validator: (value) {
-                    return MihValidationServices().validateLength(value, 512);
-                  },
-                ),
-                SizedBox(
-                  height: 15,
-                  child: ValueListenableBuilder(
-                    builder: (BuildContext context, int value, Widget? child) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "$value",
-                            style: TextStyle(
-                              color: getNoteDetailLimitColor(),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            "/512",
-                            style: TextStyle(
-                              color: getNoteDetailLimitColor(),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    valueListenable: _counter,
+        windowBody: Padding(
+          padding:
+              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                  : const EdgeInsets.symmetric(horizontal: 0),
+          child: Column(
+            children: [
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: officeController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Office",
                   ),
-                ),
-                const SizedBox(height: 15.0),
-                MihButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      addPatientNoteAPICall();
-                      Navigator.pop(context);
-                    }
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 300,
-                  child: Text(
-                    "Add Note",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: doctorController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Created By",
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: dateController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Created Date",
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: titleController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Note Title",
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    height: 250,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: noteTextController,
+                    multiLineInput: true,
+                    requiredText: true,
+                    hintText: "Note Details",
+                    validator: (value) {
+                      return MihValidationServices().validateLength(value, 512);
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                    child: ValueListenableBuilder(
+                      builder:
+                          (BuildContext context, int value, Widget? child) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "$value",
+                              style: TextStyle(
+                                color: getNoteDetailLimitColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "/512",
+                              style: TextStyle(
+                                color: getNoteDetailLimitColor(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      valueListenable: _counter,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  const SizedBox(height: 15.0),
+                  MihButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        addPatientNoteAPICall();
+                        Navigator.pop(context);
+                      }
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Add Note",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -271,40 +279,6 @@ class _PatientConsultationState extends State<PatientConsultation> {
     }
   }
 
-  List<Widget> setIcons() {
-    if (widget.type == "personal") {
-      return [
-        Text(
-          "Consultation Notes",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        ),
-      ];
-    } else {
-      return [
-        Text(
-          "Consultation Notes",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        ),
-        IconButton(
-          onPressed: () {
-            // addConsultationNotePopUp();
-            addNotePopUp();
-          },
-          icon: Icon(Icons.add,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-        )
-      ];
-    }
-  }
-
   void successPopUp(String message) {
     showDialog(
       context: context,
@@ -349,13 +323,14 @@ class _PatientConsultationState extends State<PatientConsultation> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
         MihSingleChildScroll(
@@ -413,7 +388,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
                       MzanziInnovationHub.of(context)!.theme.successColor(),
                   onTap: () {
                     // addConsultationNotePopUp();
-                    addNotePopUp();
+                    addNotePopUp(width);
                   },
                 )
               ],

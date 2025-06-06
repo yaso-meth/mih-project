@@ -82,292 +82,301 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     );
   }
 
-  Widget getWindowBody() {
-    return Column(
-      children: [
-        MihForm(
-          formKey: _formKey,
-          formFields: [
-            MIHDropdownField(
-              controller: _docTypeController,
-              hintText: "Document Type",
-              dropdownOptions: const ["Claim", "Statement"],
-              required: true,
-              editable: true,
-              enableSearch: false,
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: Text(
-                "Service Details",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
+  Widget getWindowBody(double width) {
+    return Padding(
+      padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+          ? EdgeInsets.symmetric(horizontal: width * 0.05)
+          : const EdgeInsets.symmetric(horizontal: 0),
+      child: Column(
+        children: [
+          MihForm(
+            formKey: _formKey,
+            formFields: [
+              MIHDropdownField(
+                controller: _docTypeController,
+                hintText: "Document Type",
+                dropdownOptions: const ["Claim", "Statement"],
+                required: true,
+                editable: true,
+                enableSearch: false,
               ),
-            ),
-            Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-            const SizedBox(height: 10),
-            MIHDateField(
-              controller: _serviceDateController,
-              lableText: "Date of Service",
-              required: true,
-            ),
-            const SizedBox(height: 10),
-            MIHDropdownField(
-              controller: _serviceDescController,
-              hintText: "Service Decription",
-              dropdownOptions: const [
-                "Consultation",
-                "Procedure",
-                "Other",
-              ],
-              required: true,
-              editable: true,
-              enableSearch: false,
-            ),
-            const SizedBox(height: 10),
-            ValueListenableBuilder(
-              valueListenable: serviceDesc,
-              builder: (BuildContext context, String value, Widget? child) {
-                Widget returnWidget;
-                switch (value) {
-                  case 'Consultation':
-                    returnWidget = Column(
-                      children: [
-                        SizedBox(
-                          child: MIHDropdownField(
-                            controller: _serviceDescOptionsController,
-                            hintText: "Consultation Type",
-                            dropdownOptions: const [
-                              "General Consultation",
-                              "Follow-Up Consultation",
-                              "Specialist Consultation",
-                              "Emergency Consultation",
-                            ],
-                            required: true,
-                            editable: true,
-                            enableSearch: false,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    );
-                  case 'Procedure':
-                    returnWidget = Column(
-                      children: [
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: _prcedureNameController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Procedure Name",
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: _proceedureAdditionalInfoController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Additional Information",
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                        ),
-                        const SizedBox(height: 15),
-                      ],
-                    );
-                  case 'Other':
-                    returnWidget = Column(
-                      children: [
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: _serviceDescOptionsController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Service Description Details",
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    );
-                  default:
-                    returnWidget = const SizedBox();
-                }
-                return returnWidget;
-              },
-            ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("ICD-10 Code & Description",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      )),
-                ),
-                const SizedBox(height: 4),
-                MihSearchBar(
-                  controller: _icd10CodeController,
-                  hintText: "ICD-10 Search",
-                  prefixIcon: Icons.search,
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  hintColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onPrefixIconTap: () {
-                    MIHIcd10CodeApis.getIcd10Codes(
-                            _icd10CodeController.text, context)
-                        .then((result) {
-                      icd10SearchWindow(result);
-                    });
-                  },
-                  onClearIconTap: () {
-                    _icd10CodeController.clear();
-                  },
-                  searchFocusNode: _searchFocusNode,
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            MihTextFormField(
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              controller: _amountController,
-              multiLineInput: false,
-              requiredText: true,
-              numberMode: true,
-              hintText: "Service Cost",
-              validator: (value) {
-                return MihValidationServices().isEmpty(value);
-              },
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: Text(
-                "Additional Infomation",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-              ),
-            ),
-            Divider(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-            const SizedBox(height: 10),
-            MihTextFormField(
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              controller: _preauthNoController,
-              multiLineInput: false,
-              requiredText: false,
-              hintText: "Pre-authorisation No.",
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: MihButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if (isInputValid()) {
-                      MIHClaimStatementGenerationApi().generateClaimStatement(
-                          ClaimStatementGenerationArguments(
-                            _docTypeController.text,
-                            widget.selectedPatient.app_id,
-                            _fullNameController.text,
-                            _idController.text,
-                            _medAidController.text,
-                            _medAidNoController.text,
-                            _medAidCodeController.text,
-                            _medAidNameController.text,
-                            _medAidSchemeController.text,
-                            widget.business!.Name,
-                            "*To-Be Added*",
-                            widget.business!.contact_no,
-                            widget.business!.bus_email,
-                            _providerNameController.text,
-                            _practiceNoController.text,
-                            _vatNoController.text,
-                            _serviceDateController.text,
-                            _serviceDescController.text,
-                            _serviceDescOptionsController.text,
-                            _prcedureNameController.text,
-                            _proceedureAdditionalInfoController.text,
-                            _icd10CodeController.text,
-                            _amountController.text,
-                            _preauthNoController.text,
-                            widget.business!.logo_path,
-                            widget.businessUser!.sig_path,
-                          ),
-                          PatientViewArguments(
-                            widget.signedInUser,
-                            widget.selectedPatient,
-                            widget.businessUser,
-                            widget.business,
-                            "business",
-                          ),
-                          widget.env,
-                          context);
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const MIHErrorMessage(
-                              errorType: "Input Error");
-                        },
-                      );
-                    }
-                  }
-                },
-                buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                width: 300,
+              const SizedBox(height: 10),
+              Center(
                 child: Text(
-                  "Generate",
+                  "Service Details",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+              Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              const SizedBox(height: 10),
+              MIHDateField(
+                controller: _serviceDateController,
+                lableText: "Date of Service",
+                required: true,
+              ),
+              const SizedBox(height: 10),
+              MIHDropdownField(
+                controller: _serviceDescController,
+                hintText: "Service Decription",
+                dropdownOptions: const [
+                  "Consultation",
+                  "Procedure",
+                  "Other",
+                ],
+                required: true,
+                editable: true,
+                enableSearch: false,
+              ),
+              const SizedBox(height: 10),
+              ValueListenableBuilder(
+                valueListenable: serviceDesc,
+                builder: (BuildContext context, String value, Widget? child) {
+                  Widget returnWidget;
+                  switch (value) {
+                    case 'Consultation':
+                      returnWidget = Column(
+                        children: [
+                          SizedBox(
+                            child: MIHDropdownField(
+                              controller: _serviceDescOptionsController,
+                              hintText: "Consultation Type",
+                              dropdownOptions: const [
+                                "General Consultation",
+                                "Follow-Up Consultation",
+                                "Specialist Consultation",
+                                "Emergency Consultation",
+                              ],
+                              required: true,
+                              editable: true,
+                              enableSearch: false,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      );
+                    case 'Procedure':
+                      returnWidget = Column(
+                        children: [
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: _prcedureNameController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Procedure Name",
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: _proceedureAdditionalInfoController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Additional Information",
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                          ),
+                          const SizedBox(height: 15),
+                        ],
+                      );
+                    case 'Other':
+                      returnWidget = Column(
+                        children: [
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: _serviceDescOptionsController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Service Description Details",
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      );
+                    default:
+                      returnWidget = const SizedBox();
+                  }
+                  return returnWidget;
+                },
+              ),
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("ICD-10 Code & Description",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        )),
+                  ),
+                  const SizedBox(height: 4),
+                  MihSearchBar(
+                    controller: _icd10CodeController,
+                    hintText: "ICD-10 Search",
+                    prefixIcon: Icons.search,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    hintColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onPrefixIconTap: () {
+                      MIHIcd10CodeApis.getIcd10Codes(
+                              _icd10CodeController.text, context)
+                          .then((result) {
+                        icd10SearchWindow(result);
+                      });
+                    },
+                    onClearIconTap: () {
+                      _icd10CodeController.clear();
+                    },
+                    searchFocusNode: _searchFocusNode,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: _amountController,
+                multiLineInput: false,
+                requiredText: true,
+                numberMode: true,
+                hintText: "Service Cost",
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Additional Infomation",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+              ),
+              Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+              const SizedBox(height: 10),
+              MihTextFormField(
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                inputColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                controller: _preauthNoController,
+                multiLineInput: false,
+                requiredText: false,
+                hintText: "Pre-authorisation No.",
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (isInputValid()) {
+                        MIHClaimStatementGenerationApi().generateClaimStatement(
+                            ClaimStatementGenerationArguments(
+                              _docTypeController.text,
+                              widget.selectedPatient.app_id,
+                              _fullNameController.text,
+                              _idController.text,
+                              _medAidController.text,
+                              _medAidNoController.text,
+                              _medAidCodeController.text,
+                              _medAidNameController.text,
+                              _medAidSchemeController.text,
+                              widget.business!.Name,
+                              "*To-Be Added*",
+                              widget.business!.contact_no,
+                              widget.business!.bus_email,
+                              _providerNameController.text,
+                              _practiceNoController.text,
+                              _vatNoController.text,
+                              _serviceDateController.text,
+                              _serviceDescController.text,
+                              _serviceDescOptionsController.text,
+                              _prcedureNameController.text,
+                              _proceedureAdditionalInfoController.text,
+                              _icd10CodeController.text,
+                              _amountController.text,
+                              _preauthNoController.text,
+                              widget.business!.logo_path,
+                              widget.businessUser!.sig_path,
+                            ),
+                            PatientViewArguments(
+                              widget.signedInUser,
+                              widget.selectedPatient,
+                              widget.businessUser,
+                              widget.business,
+                              "business",
+                            ),
+                            widget.env,
+                            context);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const MIHErrorMessage(
+                                errorType: "Input Error");
+                          },
+                        );
+                      }
+                    }
+                  },
+                  buttonColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  width: 300,
+                  child: Text(
+                    "Generate",
+                    style: TextStyle(
+                      color:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -459,19 +468,14 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageWindow(
       fullscreen: false,
       windowTitle: "Generate Claim/ Statement Document",
       onWindowTapClose: () {
-        // medicineController.clear();
-        // quantityController.clear();
-        // dosageController.clear();
-        // timesDailyController.clear();
-        // noDaysController.clear();
-        // noRepeatsController.clear();
         Navigator.pop(context);
       },
-      windowBody: getWindowBody(),
+      windowBody: getWindowBody(screenWidth),
     );
   }
 }

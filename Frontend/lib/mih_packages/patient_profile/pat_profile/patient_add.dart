@@ -160,18 +160,127 @@ class _AddPatientState extends State<AddPatient> {
     }
   }
 
-  Widget displayForm() {
+  Widget displayForm(double width) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          MihForm(
-            formKey: _formKey,
-            formFields: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Personal",
+      child: Padding(
+        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? EdgeInsets.symmetric(horizontal: width * 0.2)
+            : EdgeInsets.symmetric(horizontal: width * 0.075),
+        child: Column(
+          children: [
+            MihForm(
+              formKey: _formKey,
+              formFields: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Personal",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(
+                    color: MzanziInnovationHub.of(context)!
+                        .theme
+                        .secondaryColor()),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: idController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "ID No.",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "First Name",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: lnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Surname",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: cellController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Cell No.",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: emailController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Email",
+                  validator: (value) {
+                    return MihValidationServices().validateEmail(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihTextFormField(
+                  height: 100,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: addressController,
+                  multiLineInput: true,
+                  requiredText: true,
+                  hintText: "Address",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 15.0),
+                Center(
+                  child: Text(
+                    "Medical Aid Details",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -181,250 +290,150 @@ class _AddPatientState extends State<AddPatient> {
                           .secondaryColor(),
                     ),
                   ),
-                ],
-              ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: idController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "ID No.",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: fnameController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "First Name",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: lnameController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Surname",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: cellController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Cell No.",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: emailController,
-                multiLineInput: false,
-                requiredText: true,
-                readOnly: true,
-                hintText: "Email",
-                validator: (value) {
-                  return MihValidationServices().validateEmail(value);
-                },
-              ),
-              const SizedBox(height: 10.0),
-              MihTextFormField(
-                height: 100,
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: addressController,
-                multiLineInput: true,
-                requiredText: true,
-                hintText: "Address",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 15.0),
-              Center(
-                child: Text(
-                  "Medical Aid Details",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
                 ),
-              ),
-              Divider(
-                  color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor()),
-              const SizedBox(height: 10.0),
-              MIHDropdownField(
-                controller: medAidController,
-                hintText: "Medical Aid",
-                editable: true,
-                required: true,
-                enableSearch: false,
-                dropdownOptions: const ["Yes", "No"],
-              ),
-              ValueListenableBuilder(
-                valueListenable: medRequired,
-                builder: (BuildContext context, bool value, Widget? child) {
-                  return Visibility(
-                    visible: value,
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 10.0),
-                        MIHDropdownField(
-                          controller: medMainMemController,
-                          hintText: "Main Member",
-                          editable: value,
-                          required: value,
-                          enableSearch: false,
-                          dropdownOptions: const ["Yes", "No"],
-                        ),
-                        const SizedBox(height: 10.0),
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: medNoController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "No.",
-                          validator: (validationValue) {
-                            if (value) {
-                              return MihValidationServices()
-                                  .isEmpty(validationValue);
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: medAidCodeController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Code",
-                          validator: (validationValue) {
-                            if (value) {
-                              return MihValidationServices()
-                                  .isEmpty(validationValue);
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: medNameController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Name",
-                          validator: (validationValue) {
-                            if (value) {
-                              return MihValidationServices()
-                                  .isEmpty(validationValue);
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                        MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          controller: medSchemeController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Plan",
-                          validator: (validationValue) {
-                            if (value) {
-                              return MihValidationServices()
-                                  .isEmpty(validationValue);
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10.0),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20.0),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      submitForm();
-                    }
+                Divider(
+                    color: MzanziInnovationHub.of(context)!
+                        .theme
+                        .secondaryColor()),
+                const SizedBox(height: 10.0),
+                MIHDropdownField(
+                  controller: medAidController,
+                  hintText: "Medical Aid",
+                  editable: true,
+                  required: true,
+                  enableSearch: false,
+                  dropdownOptions: const ["Yes", "No"],
+                ),
+                ValueListenableBuilder(
+                  valueListenable: medRequired,
+                  builder: (BuildContext context, bool value, Widget? child) {
+                    return Visibility(
+                      visible: value,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10.0),
+                          MIHDropdownField(
+                            controller: medMainMemController,
+                            hintText: "Main Member",
+                            editable: value,
+                            required: value,
+                            enableSearch: false,
+                            dropdownOptions: const ["Yes", "No"],
+                          ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: medNoController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "No.",
+                            validator: (validationValue) {
+                              if (value) {
+                                return MihValidationServices()
+                                    .isEmpty(validationValue);
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: medAidCodeController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Code",
+                            validator: (validationValue) {
+                              if (value) {
+                                return MihValidationServices()
+                                    .isEmpty(validationValue);
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: medNameController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Name",
+                            validator: (validationValue) {
+                              if (value) {
+                                return MihValidationServices()
+                                    .isEmpty(validationValue);
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: medSchemeController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Plan",
+                            validator: (validationValue) {
+                              if (value) {
+                                return MihValidationServices()
+                                    .isEmpty(validationValue);
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10.0),
+                        ],
+                      ),
+                    );
                   },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 300,
-                  child: Text(
-                    "Add",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 20.0),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        submitForm();
+                      }
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Add",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20.0),
-            ],
-          ),
-        ],
+                const SizedBox(height: 20.0),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -458,7 +467,7 @@ class _AddPatientState extends State<AddPatient> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -473,7 +482,7 @@ class _AddPatientState extends State<AddPatient> {
               }
             }
           },
-          child: displayForm(),
+          child: displayForm(width),
         ),
       ],
     );
@@ -513,12 +522,12 @@ class _AddPatientState extends State<AddPatient> {
 
   @override
   Widget build(BuildContext context) {
-    print("Add Patient");
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: null,
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

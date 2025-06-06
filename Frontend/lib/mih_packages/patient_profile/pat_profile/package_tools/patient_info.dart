@@ -39,7 +39,7 @@ class _PatientInfoState extends State<PatientInfo> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  double textFieldWidth = 400.0;
+  double textFieldWidth = 500;
   late String medAid;
 
   Widget getPatientDetailsField() {
@@ -48,69 +48,93 @@ class _PatientInfoState extends State<PatientInfo> {
         spacing: 15,
         runSpacing: 10,
         children: [
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: idController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "ID No.",
-            // validator: (value) {
-            //   return MihValidationServices().isEmpty(value);
-            // },
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: idController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
+              hintText: "ID No.",
+              // validator: (value) {
+              //   return MihValidationServices().isEmpty(value);
+              // },
+            ),
           ),
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: fnameController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "First Name",
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: fnameController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
+              hintText: "First Name",
+            ),
           ),
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: lnameController,
-            multiLineInput: false,
-            requiredText: true,
-            hintText: "Surname",
-            readOnly: true,
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: lnameController,
+              multiLineInput: false,
+              requiredText: true,
+              hintText: "Surname",
+              readOnly: true,
+            ),
           ),
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: cellController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Cell No.",
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: cellController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
+              hintText: "Cell No.",
+            ),
           ),
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: emailController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Email",
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: emailController,
+              multiLineInput: false,
+              requiredText: true,
+              readOnly: true,
+              hintText: "Email",
+            ),
           ),
-          MihTextFormField(
+          SizedBox(
             width: textFieldWidth,
-            height: 100,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            controller: addressController,
-            multiLineInput: true,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Address",
+            child: MihTextFormField(
+              // width: textFieldWidth,
+              height: 100,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              controller: addressController,
+              multiLineInput: true,
+              requiredText: true,
+              readOnly: true,
+              hintText: "Address",
+            ),
           ),
         ],
       ),
@@ -120,15 +144,18 @@ class _PatientInfoState extends State<PatientInfo> {
   Widget getMedAidDetailsFields() {
     List<Widget> medAidDet = [];
     medAidDet.add(
-      MihTextFormField(
+      SizedBox(
         width: textFieldWidth,
-        fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        controller: medAidController,
-        multiLineInput: false,
-        requiredText: true,
-        readOnly: true,
-        hintText: "Medical Aid",
+        child: MihTextFormField(
+          // width: textFieldWidth,
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          controller: medAidController,
+          multiLineInput: false,
+          requiredText: true,
+          readOnly: true,
+          hintText: "Medical Aid",
+        ),
       ),
     );
     bool req;
@@ -140,67 +167,81 @@ class _PatientInfoState extends State<PatientInfo> {
     medAidDet.addAll([
       Visibility(
         visible: req,
-        child: MihTextFormField(
+        child: SizedBox(
           width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medMainMemController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Main Member",
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medMainMemController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Main Member",
+          ),
         ),
       ),
       Visibility(
         visible: req,
-        child: MihTextFormField(
+        child: SizedBox(
           width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medNoController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "No.",
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medNoController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "No.",
+          ),
         ),
       ),
       Visibility(
         visible: req,
-        child: MihTextFormField(
+        child: SizedBox(
           width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medAidCodeController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Code",
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medAidCodeController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Code",
+          ),
         ),
       ),
       Visibility(
         visible: req,
-        child: MihTextFormField(
-          width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medNameController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Name",
+        child: SizedBox(
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medNameController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Name",
+          ),
         ),
       ),
       Visibility(
         visible: req,
-        child: MihTextFormField(
+        child: SizedBox(
           width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medSchemeController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
-          hintText: "Plan",
+          child: MihTextFormField(
+            // width: textFieldWidth,
+            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            controller: medSchemeController,
+            multiLineInput: false,
+            requiredText: true,
+            readOnly: true,
+            hintText: "Plan",
+          ),
         ),
       ),
     ]);
@@ -263,14 +304,15 @@ class _PatientInfoState extends State<PatientInfo> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
         MihSingleChildScroll(
