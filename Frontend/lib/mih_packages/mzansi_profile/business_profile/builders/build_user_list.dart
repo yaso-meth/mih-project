@@ -114,7 +114,7 @@ class _BuildUserListState extends State<BuildUserList> {
     return "$firstLetter********@$end";
   }
 
-  void addEmployeePopUp(int index) {
+  void addEmployeePopUp(int index, double width) {
     setState(() {
       //accessController.text = widget.users[index].access;
       //typeController.text = widget.users[index].title;
@@ -129,92 +129,99 @@ class _BuildUserListState extends State<BuildUserList> {
         builder: (context) => MihPackageWindow(
             fullscreen: false,
             windowTitle: "Add Employee",
-            windowBody: Column(
-              children: [
-                MihForm(
-                  formKey: _formKey,
-                  formFields: [
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: usernameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: true,
-                      hintText: "Username",
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: emailController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: true,
-                      hintText: "Email",
-                    ),
-                    const SizedBox(height: 15.0),
-                    MIHDropdownField(
-                      controller: typeController,
-                      hintText: "Title",
-                      dropdownOptions: const ["Doctor", "Assistant"],
-                      required: true,
-                      editable: true,
-                      enableSearch: false,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MIHDropdownField(
-                      controller: accessController,
-                      hintText: "Access",
-                      dropdownOptions: const ["Full", "Partial"],
-                      required: true,
-                      editable: true,
-                      enableSearch: false,
-                    ),
-                    const SizedBox(height: 15.0),
-                    Center(
-                      child: MihButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            if (isRequiredFieldsCaptured()) {
-                              createBusinessUserAPICall(index);
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MIHErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
-                            }
-                          }
-                        },
-                        buttonColor: MzanziInnovationHub.of(context)!
+            windowBody: Padding(
+              padding:
+                  MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                      : const EdgeInsets.symmetric(horizontal: 0),
+              child: Column(
+                children: [
+                  MihForm(
+                    formKey: _formKey,
+                    formFields: [
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        width: 300,
-                        child: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: usernameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: true,
+                        hintText: "Username",
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: emailController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: true,
+                        hintText: "Email",
+                      ),
+                      const SizedBox(height: 15.0),
+                      MIHDropdownField(
+                        controller: typeController,
+                        hintText: "Title",
+                        dropdownOptions: const ["Doctor", "Assistant"],
+                        required: true,
+                        editable: true,
+                        enableSearch: false,
+                      ),
+                      const SizedBox(height: 10.0),
+                      MIHDropdownField(
+                        controller: accessController,
+                        hintText: "Access",
+                        dropdownOptions: const ["Full", "Partial"],
+                        required: true,
+                        editable: true,
+                        enableSearch: false,
+                      ),
+                      const SizedBox(height: 15.0),
+                      Center(
+                        child: MihButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (isRequiredFieldsCaptured()) {
+                                createBusinessUserAPICall(index);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const MIHErrorMessage(
+                                        errorType: "Input Error");
+                                  },
+                                );
+                              }
+                            }
+                          },
+                          buttonColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          width: 300,
+                          child: Text(
+                            "Add",
+                            style: TextStyle(
+                              color: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10.0),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
             onWindowTapClose: () {
               Navigator.pop(context);
@@ -232,6 +239,7 @@ class _BuildUserListState extends State<BuildUserList> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -256,7 +264,7 @@ class _BuildUserListState extends State<BuildUserList> {
             ),
           ),
           onTap: () {
-            addEmployeePopUp(index);
+            addEmployeePopUp(index, screenWidth);
           },
         );
       },

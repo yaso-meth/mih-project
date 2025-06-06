@@ -203,184 +203,191 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return MihSingleChildScroll(
-      child: Column(
-        children: [
-          MihForm(
-            formKey: _formKey,
-            formFields: [
-              Center(
-                child: MihCircleAvatar(
-                  imageFile: widget.userProPicImage,
-                  width: 150,
-                  editable: false,
-                  fileNameController: fileNameController,
-                  userSelectedfile: userPicFile,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: (_) {},
-                ),
-              ),
-              Visibility(
-                visible: false,
-                child: MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: fileNameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "Selected File Name",
-                ),
-              ),
-              const SizedBox(height: 20),
-              MIHDropdownField(
-                controller: titleDropdownController,
-                hintText: "Title",
-                dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                required: true,
-                editable: true,
-                enableSearch: false,
-              ),
-              const SizedBox(height: 10),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: titleTextController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Other Title",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: fnameController,
-                multiLineInput: false,
-                requiredText: true,
-                readOnly: true,
-                hintText: "First Name",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: lnameController,
-                multiLineInput: false,
-                requiredText: true,
-                readOnly: true,
-                hintText: "Surname",
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10),
-              MihTextFormField(
-                fillColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                controller: accessController,
-                multiLineInput: false,
-                requiredText: true,
-                hintText: "Access Level",
-                readOnly: true,
-                validator: (value) {
-                  return MihValidationServices().isEmpty(value);
-                },
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: 300,
-                alignment: Alignment.topLeft,
-                child: const Text(
-                  "Signature:",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? EdgeInsets.symmetric(horizontal: width * 0.2)
+            : EdgeInsets.symmetric(horizontal: width * 0.075),
+        child: Column(
+          children: [
+            MihForm(
+              formKey: _formKey,
+              formFields: [
+                Center(
+                  child: MihCircleAvatar(
+                    imageFile: widget.userProPicImage,
+                    width: 150,
+                    editable: false,
+                    fileNameController: fileNameController,
+                    userSelectedfile: userPicFile,
+                    frameColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onChange: (_) {},
                   ),
                 ),
-              ),
-              Center(
-                child: MihImageDisplay(
-                  imageFile: widget.userSignatureImage,
-                  width: 300,
-                  height: 200,
-                  editable: true,
-                  fileNameController: signtureController,
-                  userSelectedfile: userSignatureFile,
-                  onChange: (selectedFile) {
-                    setState(() {
-                      userSignatureFile = selectedFile;
-                    });
-                  },
+                Visibility(
+                  visible: false,
+                  child: MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: fileNameController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Selected File Name",
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Visibility(
-                visible: false,
-                child: MihTextFormField(
+                const SizedBox(height: 20),
+                MIHDropdownField(
+                  controller: titleDropdownController,
+                  hintText: "Title",
+                  dropdownOptions: const ["Doctor", "Assistant", "Other"],
+                  required: true,
+                  editable: true,
+                  enableSearch: false,
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
                   fillColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: fileNameController,
+                  controller: titleTextController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Other Title",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
                   readOnly: true,
-                  hintText: "Selected Signature File",
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      submitForm();
-                    }
+                  hintText: "First Name",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
                   },
-                  buttonColor:
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: lnameController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  readOnly: true,
+                  hintText: "Surname",
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10),
+                MihTextFormField(
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: accessController,
+                  multiLineInput: false,
+                  requiredText: true,
+                  hintText: "Access Level",
+                  readOnly: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10),
+                Container(
                   width: 300,
-                  child: Text(
-                    "Update",
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    "Signature:",
                     style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ],
+                Center(
+                  child: MihImageDisplay(
+                    imageFile: widget.userSignatureImage,
+                    width: 300,
+                    height: 200,
+                    editable: true,
+                    fileNameController: signtureController,
+                    userSelectedfile: userSignatureFile,
+                    onChange: (selectedFile) {
+                      setState(() {
+                        userSignatureFile = selectedFile;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Visibility(
+                  visible: false,
+                  child: MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: fileNameController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Selected Signature File",
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        submitForm();
+                      }
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Update",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

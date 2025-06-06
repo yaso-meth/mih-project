@@ -297,7 +297,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -313,173 +313,273 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
             }
           },
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Text(
-                  "My Business Details",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
+            child: Padding(
+              padding:
+                  MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                      : EdgeInsets.symmetric(horizontal: width * 0.075),
+              child: Column(
+                children: [
+                  const Text(
+                    "My Business Details",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-                Divider(
-                    color: MzanziInnovationHub.of(context)!
-                        .theme
-                        .secondaryColor()),
-                const SizedBox(height: 10.0),
-                MihForm(
-                  formKey: _formKey,
-                  formFields: [
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
+                  Divider(
+                      color: MzanziInnovationHub.of(context)!
                           .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: regController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Registration No.",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: nameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Business Name",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 15.0),
-                    MIHDropdownField(
-                      controller: typeController,
-                      hintText: "Business Type",
-                      dropdownOptions: const ["Doctors Office", "Other"],
-                      required: true,
-                      editable: true,
-                      enableSearch: false,
-                    ),
-                    const SizedBox(height: 10.0),
-                    ValueListenableBuilder(
-                      valueListenable: busType,
-                      builder:
-                          (BuildContext context, String value, Widget? child) {
-                        return Visibility(
-                          visible: value == "Doctors Office",
-                          child: MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: practiceNoController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Practice Number",
-                            validator: (validateValue) {
-                              if (value == "Doctors Office") {
-                                return MihValidationServices()
-                                    .isEmpty(validateValue);
-                              }
-                              return null;
-                            },
+                          .secondaryColor()),
+                  const SizedBox(height: 10.0),
+                  MihForm(
+                    formKey: _formKey,
+                    formFields: [
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: regController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Registration No.",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: nameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Business Name",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      MIHDropdownField(
+                        controller: typeController,
+                        hintText: "Business Type",
+                        dropdownOptions: const ["Doctors Office", "Other"],
+                        required: true,
+                        editable: true,
+                        enableSearch: false,
+                      ),
+                      const SizedBox(height: 10.0),
+                      ValueListenableBuilder(
+                        valueListenable: busType,
+                        builder: (BuildContext context, String value,
+                            Widget? child) {
+                          return Visibility(
+                            visible: value == "Doctors Office",
+                            child: MihTextFormField(
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              controller: practiceNoController,
+                              multiLineInput: false,
+                              requiredText: true,
+                              hintText: "Practice Number",
+                              validator: (validateValue) {
+                                if (value == "Doctors Office") {
+                                  return MihValidationServices()
+                                      .isEmpty(validateValue);
+                                }
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: vatNoController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "VAT Number",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: contactController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Contact Number",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: emailController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Business Email",
+                        validator: (value) {
+                          return MihValidationServices().validateEmail(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: MihTextFormField(
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              controller: locationController,
+                              multiLineInput: false,
+                              requiredText: true,
+                              hintText: "GPS Location",
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: vatNoController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "VAT Number",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: contactController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Contact Number",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: emailController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Business Email",
-                      validator: (value) {
-                        return MihValidationServices().validateEmail(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Flexible(
-                          child: MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                          const SizedBox(width: 10.0),
+                          MihButton(
+                            onPressed: () {
+                              MIHLocationAPI()
+                                  .getGPSPosition(context)
+                                  .then((position) {
+                                if (position != null) {
+                                  setState(() {
+                                    locationController.text =
+                                        "${position.latitude}, ${position.longitude}";
+                                  });
+                                }
+                              });
+                            },
+                            buttonColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: locationController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "GPS Location",
+                            width: 100,
+                            child: Text(
+                              "Set",
+                              style: TextStyle(
+                                color: MzanziInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15.0),
+                      //const SizedBox(height: 15.0),
+                      const Center(
+                        child: Text(
+                          "My Business User",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
                           ),
                         ),
-                        const SizedBox(width: 10.0),
-                        MihButton(
+                      ),
+                      Divider(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor()),
+                      const SizedBox(height: 10.0),
+                      MIHDropdownField(
+                        controller: titleController,
+                        hintText: "Title",
+                        dropdownOptions: const ["Doctor", "Assistant"],
+                        required: true,
+                        editable: true,
+                        enableSearch: false,
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: fnameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "First Name",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: lnameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Surname",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      MIHDropdownField(
+                        controller: accessController,
+                        hintText: "Access",
+                        dropdownOptions: const ["Full", "Partial"],
+                        required: true,
+                        editable: false,
+                        enableSearch: false,
+                      ),
+                      const SizedBox(height: 20.0),
+                      Center(
+                        child: MihButton(
                           onPressed: () {
-                            MIHLocationAPI()
-                                .getGPSPosition(context)
-                                .then((position) {
-                              if (position != null) {
-                                setState(() {
-                                  locationController.text =
-                                      "${position.latitude}, ${position.longitude}";
-                                });
-                              }
-                            });
+                            if (_formKey.currentState!.validate()) {
+                              submitForm();
+                            }
                           },
                           buttonColor: MzanziInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          width: 100,
+                          width: 300,
                           child: Text(
-                            "Set",
+                            "Add",
                             style: TextStyle(
                               color: MzanziInnovationHub.of(context)!
                                   .theme
@@ -489,98 +589,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 15.0),
-                    //const SizedBox(height: 15.0),
-                    const Center(
-                      child: Text(
-                        "My Business User",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
                       ),
-                    ),
-                    Divider(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor()),
-                    const SizedBox(height: 10.0),
-                    MIHDropdownField(
-                      controller: titleController,
-                      hintText: "Title",
-                      dropdownOptions: const ["Doctor", "Assistant"],
-                      required: true,
-                      editable: true,
-                      enableSearch: false,
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: fnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "First Name",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      controller: lnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Surname",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 15.0),
-                    MIHDropdownField(
-                      controller: accessController,
-                      hintText: "Access",
-                      dropdownOptions: const ["Full", "Partial"],
-                      required: true,
-                      editable: false,
-                      enableSearch: false,
-                    ),
-                    const SizedBox(height: 20.0),
-                    Center(
-                      child: MihButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            submitForm();
-                          }
-                        },
-                        buttonColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        width: 300,
-                        child: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -626,11 +639,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       secondaryActionButton: null,
       header: getHeader(),
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,
