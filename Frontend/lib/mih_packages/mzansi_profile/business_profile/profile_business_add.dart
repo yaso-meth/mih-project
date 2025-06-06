@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_business_details_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
@@ -309,6 +310,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                 event.logicalKey == LogicalKeyboardKey.enter) {
               if (_formKey.currentState!.validate()) {
                 submitForm();
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
               }
             }
           },
@@ -572,6 +575,9 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               submitForm();
+                            } else {
+                              MihAlertServices()
+                                  .formNotFilledCompletely(context);
                             }
                           },
                           buttonColor: MzanziInnovationHub.of(context)!

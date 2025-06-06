@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -241,6 +242,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Input Valid")),
                             );
+                          } else {
+                            MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
                         buttonColor: MzanziInnovationHub.of(context)!
@@ -249,7 +252,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         elevation: 10,
                         width: 300,
                         child: Text(
-                          "Click Me",
+                          "Submit Form",
                           style: TextStyle(
                             color: MzanziInnovationHub.of(context)!
                                 .theme

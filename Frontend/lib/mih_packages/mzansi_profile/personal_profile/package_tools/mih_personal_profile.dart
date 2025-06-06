@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_user_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
@@ -362,6 +363,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       //Add validation here
                       if (_formKey.currentState!.validate()) {
                         submitForm();
+                      } else {
+                        MihAlertServices().formNotFilledCompletely(context);
                       }
                     },
                     buttonColor:

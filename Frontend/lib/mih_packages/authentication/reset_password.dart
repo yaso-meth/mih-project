@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -192,6 +193,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                 event.logicalKey == LogicalKeyboardKey.enter) {
               if (_formKey.currentState!.validate()) {
                 submitFormInput();
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
               }
             }
           },
@@ -303,6 +306,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   submitFormInput();
+                                } else {
+                                  MihAlertServices()
+                                      .formNotFilledCompletely(context);
                                 }
                               },
                               buttonColor: MzanziInnovationHub.of(context)!

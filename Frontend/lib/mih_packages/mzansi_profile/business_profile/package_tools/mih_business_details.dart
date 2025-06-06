@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_business_details_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
@@ -418,6 +419,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       submitForm();
+                    } else {
+                      MihAlertServices().formNotFilledCompletely(context);
                     }
                   },
                   buttonColor:

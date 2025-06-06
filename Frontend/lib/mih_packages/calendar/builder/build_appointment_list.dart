@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
@@ -482,6 +483,9 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 updateAppointmentCall(index);
+                              } else {
+                                MihAlertServices()
+                                    .formNotFilledCompletely(context);
                               }
                             },
                             buttonColor: MzanziInnovationHub.of(context)!

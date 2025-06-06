@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_icd10_code_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
@@ -357,6 +358,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                           },
                         );
                       }
+                    } else {
+                      MihAlertServices().formNotFilledCompletely(context);
                     }
                   },
                   buttonColor:

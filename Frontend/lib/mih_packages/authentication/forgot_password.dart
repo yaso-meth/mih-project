@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -280,6 +281,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   prePassResteWarning();
+                                } else {
+                                  MihAlertServices()
+                                      .formNotFilledCompletely(context);
                                 }
                               },
                               buttonColor: MzanziInnovationHub.of(context)!

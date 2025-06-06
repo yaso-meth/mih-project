@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
@@ -179,6 +180,8 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                               },
                             );
                           }
+                        } else {
+                          MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
                       buttonColor: MzanziInnovationHub.of(context)!

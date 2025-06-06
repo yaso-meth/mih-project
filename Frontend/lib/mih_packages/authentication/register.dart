@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -310,6 +311,8 @@ class _RegisterState extends State<Register> {
                 event.logicalKey == LogicalKeyboardKey.enter) {
               if (_formKey.currentState!.validate()) {
                 submitFormInput();
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
               }
             }
           },
@@ -423,6 +426,9 @@ class _RegisterState extends State<Register> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     submitFormInput();
+                                  } else {
+                                    MihAlertServices()
+                                        .formNotFilledCompletely(context);
                                   }
                                 },
                                 buttonColor: MzanziInnovationHub.of(context)!
