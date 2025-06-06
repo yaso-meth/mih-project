@@ -585,39 +585,42 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Visibility(
-                              visible: showProfiles,
-                              child: SizedBox(
-                                width: 500,
-                                child: Column(
-                                  //mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    GridView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: sandboxProfileList.length,
-                                      gridDelegate:
-                                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                                              mainAxisSpacing: 10,
-                                              maxCrossAxisExtent: 100),
-                                      itemBuilder: (context, index) {
-                                        return sandboxProfileList[index];
-                                      },
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Text(
-                                      "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: MzanziInnovationHub.of(context)!
-                                            .theme
-                                            .secondaryColor(),
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold,
+                            Center(
+                              child: Visibility(
+                                visible: showProfiles,
+                                child: SizedBox(
+                                  width: 500,
+                                  child: Column(
+                                    //mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      GridView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: sandboxProfileList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                mainAxisSpacing: 10,
+                                                maxCrossAxisExtent: 100),
+                                        itemBuilder: (context, index) {
+                                          return sandboxProfileList[index];
+                                        },
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color:
+                                              MzanziInnovationHub.of(context)!
+                                                  .theme
+                                                  .secondaryColor(),
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
