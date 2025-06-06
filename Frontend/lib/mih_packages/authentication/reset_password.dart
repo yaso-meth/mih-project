@@ -180,7 +180,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -200,7 +200,10 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                          "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                      : EdgeInsets.symmetric(horizontal: width * 0.075),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -295,24 +298,26 @@ class _ResetPasswordState extends State<ResetPassword> {
                           //spacer
                           const SizedBox(height: 25),
                           // sign in button
-                          MihButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                submitFormInput();
-                              }
-                            },
-                            buttonColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            width: 300,
-                            child: Text(
-                              "Reset Password",
-                              style: TextStyle(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                          Center(
+                            child: MihButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  submitFormInput();
+                                }
+                              },
+                              buttonColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              width: 300,
+                              child: Text(
+                                "Reset Password",
+                                style: TextStyle(
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -344,11 +349,12 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: null,
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

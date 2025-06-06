@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:mzansi_innovation_hub/mih_apis/mih_install_Services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -293,14 +294,11 @@ class _SignInState extends State<SignIn> {
           padding: const EdgeInsets.all(10.0),
           child: MihButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/about',
-                arguments: 0,
-              );
+              MihInstallServices().installMihTrigger(context);
             },
             buttonColor:
                 MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 300,
+            width: 150,
             child: Text(
               "Install MIH",
               style: TextStyle(
@@ -361,7 +359,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  MIHBody getBody() {
+  MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
       bodyItems: [
@@ -381,7 +379,10 @@ class _SignInState extends State<SignIn> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                          "desktop"
+                      ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                      : EdgeInsets.symmetric(horizontal: width * 0.075),
                   child: AutofillGroup(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -408,7 +409,7 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                         //spacer
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 10),
                         MihForm(
                           formKey: _formKey,
                           formFields: [
@@ -450,8 +451,9 @@ class _SignInState extends State<SignIn> {
                                     .validatePassword(value);
                               },
                             ),
+                            const SizedBox(height: 10),
                             SizedBox(
-                              width: 500.0,
+                              // width: 500.0,
                               //height: 100.0,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -532,49 +534,54 @@ class _SignInState extends State<SignIn> {
                             ),
 
                             //spacer
-                            const SizedBox(height: 20),
-                            SizedBox(
-                              width: 500.0,
-                              //height: 100.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(right: 10.0),
-                                      child: Divider(),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: GestureDetector(
-                                      child: Text(
-                                        'Use Sandox Profile',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color:
-                                                MzanziInnovationHub.of(context)!
+                            const SizedBox(height: 35),
+                            Visibility(
+                              visible: AppEnviroment.getEnv() == "Dev",
+                              child: Center(
+                                child: SizedBox(
+                                  width: width,
+                                  //height: 100.0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Flexible(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 10.0),
+                                          child: Divider(),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 1,
+                                        child: GestureDetector(
+                                          child: Text(
+                                            'Use Sandox Profile',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                                color: MzanziInnovationHub.of(
+                                                        context)!
                                                     .theme
                                                     .secondaryColor()),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              showProfiles = !showProfiles;
+                                            });
+                                          },
+                                        ),
                                       ),
-                                      onTap: () {
-                                        setState(() {
-                                          showProfiles = !showProfiles;
-                                        });
-                                      },
-                                    ),
+                                      const Flexible(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10.0),
+                                          child: Divider(),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  const Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 10.0),
-                                      child: Divider(),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -647,11 +654,12 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MIHLayoutBuilder(
       actionButton: getActionButton(),
       header: getHeader(),
       secondaryActionButton: getSecondaryActionButton(),
-      body: getBody(),
+      body: getBody(screenWidth),
       actionDrawer: null,
       secondaryActionDrawer: null,
       bottomNavBar: null,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_apis/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -235,14 +236,11 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.all(10.0),
           child: MihButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/about',
-                arguments: 0,
-              );
+              MihInstallServices().installMihTrigger(context);
             },
             buttonColor:
                 MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            width: 300,
+            width: 150,
             child: Text(
               "Install MIH",
               style: TextStyle(
@@ -255,10 +253,7 @@ class _RegisterState extends State<Register> {
         ),
         iconSize: 35,
         onTap: () {
-          Navigator.of(context).pushNamed(
-            '/about',
-            arguments: 0,
-          );
+          MihInstallServices().installMihTrigger(context);
         },
       ),
     );
@@ -352,7 +347,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     //spacer
-                    const SizedBox(height: 25),
+                    // const SizedBox(height: 20),
                     MihForm(
                       formKey: _formKey,
                       formFields: [
