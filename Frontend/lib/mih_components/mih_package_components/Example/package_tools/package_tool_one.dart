@@ -246,6 +246,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           .secondaryColor(),
                       secondaryFillColor:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      readOnly: true,
                       onChange: (value) {
                         setState(() {
                           switchpositioin = value;
