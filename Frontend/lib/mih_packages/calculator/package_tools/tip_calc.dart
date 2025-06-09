@@ -26,7 +26,6 @@ class _TipCalcState extends State<TipCalc> {
   TextEditingController splitBillController = TextEditingController();
   TextEditingController noPeopleController = TextEditingController();
   final ValueNotifier<String> splitValue = ValueNotifier("");
-  final ValueNotifier<bool> splitBoolValue = ValueNotifier(false);
   late bool splitPosition;
   final _formKey = GlobalKey<FormState>();
   String tip = "";
@@ -310,14 +309,6 @@ class _TipCalcState extends State<TipCalc> {
                     }
                   },
                 ),
-                // MIHDropdownField(
-                //   controller: splitBillController,
-                //   hintText: "Split Bill",
-                //   dropdownOptions: const ["Yes", "No"],
-                //   required: true,
-                //   editable: true,
-                //   enableSearch: false,
-                // ),
                 ValueListenableBuilder(
                   valueListenable: splitValue,
                   builder: (BuildContext context, String value, Widget? child) {
