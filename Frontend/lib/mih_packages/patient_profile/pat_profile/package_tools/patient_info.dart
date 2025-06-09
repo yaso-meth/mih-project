@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
@@ -39,8 +40,9 @@ class _PatientInfoState extends State<PatientInfo> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  double textFieldWidth = 500;
+  double textFieldWidth = 300;
   late String medAid;
+  late bool medAidPosition;
 
   Widget getPatientDetailsField() {
     return Center(
@@ -146,16 +148,37 @@ class _PatientInfoState extends State<PatientInfo> {
     medAidDet.add(
       SizedBox(
         width: textFieldWidth,
-        child: MihTextFormField(
-          // width: textFieldWidth,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          controller: medAidController,
-          multiLineInput: false,
-          requiredText: true,
-          readOnly: true,
+        child: MihToggle(
           hintText: "Medical Aid",
+          initialPostion: medAidPosition,
+          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          secondaryFillColor:
+              MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          readOnly: true,
+          onChange: (value) {
+            if (value) {
+              setState(() {
+                medAidController.text = "Yes";
+                medAidPosition = value;
+              });
+            } else {
+              setState(() {
+                medAidController.text = "No";
+                medAidPosition = value;
+              });
+            }
+          },
         ),
+        // MihTextFormField(
+        //   // width: textFieldWidth,
+        //   fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   controller: medAidController,
+        //   multiLineInput: false,
+        //   requiredText: true,
+        //   readOnly: true,
+        //   hintText: "Medical Aid",
+        // ),
       ),
     );
     bool req;
@@ -216,6 +239,7 @@ class _PatientInfoState extends State<PatientInfo> {
       Visibility(
         visible: req,
         child: SizedBox(
+          width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
             fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -299,6 +323,11 @@ class _PatientInfoState extends State<PatientInfo> {
           TextEditingValue(text: widget.selectedPatient.medical_aid_code);
       medAid = widget.selectedPatient.medical_aid;
     });
+    if (medAid == "Yes") {
+      medAidPosition = true;
+    } else {
+      medAidPosition = false;
+    }
     super.initState();
   }
 
