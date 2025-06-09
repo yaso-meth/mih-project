@@ -1,16 +1,17 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 
 class TipCalc extends StatefulWidget {
   const TipCalc({super.key});
@@ -25,6 +26,8 @@ class _TipCalcState extends State<TipCalc> {
   TextEditingController splitBillController = TextEditingController();
   TextEditingController noPeopleController = TextEditingController();
   final ValueNotifier<String> splitValue = ValueNotifier("");
+  final ValueNotifier<bool> splitBoolValue = ValueNotifier(false);
+  late bool splitPosition;
   final _formKey = GlobalKey<FormState>();
   String tip = "";
   String total = "";
@@ -230,6 +233,7 @@ class _TipCalcState extends State<TipCalc> {
   void initState() {
     super.initState();
     splitBillController.text = "No";
+    splitPosition = false;
     splitBillController.addListener(splitSelected);
   }
 
@@ -269,13 +273,6 @@ class _TipCalcState extends State<TipCalc> {
                     return MihValidationServices().isEmpty(value);
                   },
                 ),
-                // MIHNumberField(
-                //   controller: billAmountController,
-                //   hintText: "Bill Amount",
-                //   editable: true,
-                //   required: true,
-                //   enableDecimal: true,
-                // ),
                 const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
@@ -291,23 +288,36 @@ class _TipCalcState extends State<TipCalc> {
                     return MihValidationServices().isEmpty(value);
                   },
                 ),
-                // MIHNumberField(
-                //   controller: tipPercentageController,
-                //   hintText: "Tip %",
-                //   editable: true,
-                //   required: true,
-                //   enableDecimal: false,
-                // ),
-                const SizedBox(height: 20),
-                MIHDropdownField(
-                  controller: splitBillController,
-                  hintText: "Split Bill",
-                  dropdownOptions: const ["Yes", "No"],
-                  required: true,
-                  editable: true,
-                  enableSearch: false,
-                ),
                 const SizedBox(height: 10),
+                MihToggle(
+                  hintText: "Split Bill",
+                  initialPostion: splitPosition,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  secondaryFillColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: (value) {
+                    if (value) {
+                      setState(() {
+                        splitBillController.text = "Yes";
+                        splitPosition = value;
+                      });
+                    } else {
+                      setState(() {
+                        splitBillController.text = "No";
+                        splitPosition = value;
+                      });
+                    }
+                  },
+                ),
+                // MIHDropdownField(
+                //   controller: splitBillController,
+                //   hintText: "Split Bill",
+                //   dropdownOptions: const ["Yes", "No"],
+                //   required: true,
+                //   editable: true,
+                //   enableSearch: false,
+                // ),
                 ValueListenableBuilder(
                   valueListenable: splitValue,
                   builder: (BuildContext context, String value, Widget? child) {
@@ -316,33 +326,40 @@ class _TipCalcState extends State<TipCalc> {
                       visible: temp == "Yes",
                       child: Column(
                         children: [
-                          MihTextFormField(
+                          MihNumericStepper(
+                            controller: noPeopleController,
                             fillColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
                             inputColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
-                            controller: noPeopleController,
-                            multiLineInput: false,
+                            hintText: "No. People",
                             requiredText: temp == "Yes",
-                            hintText: "No. of People",
-                            numberMode: true,
-                            validator: (validationValue) {
-                              if (temp == "Yes") {
-                                return MihValidationServices()
-                                    .isEmpty(validationValue);
-                              } else {
-                                return null;
-                              }
-                            },
+                            minValue: 2,
+                            // maxValue: 5,
+                            validationOn: true,
                           ),
-                          // MIHNumberField(
+                          // MihTextFormField(
+                          //   fillColor: MzanziInnovationHub.of(context)!
+                          //       .theme
+                          //       .secondaryColor(),
+                          //   inputColor: MzanziInnovationHub.of(context)!
+                          //       .theme
+                          //       .primaryColor(),
                           //   controller: noPeopleController,
+                          //   multiLineInput: false,
+                          //   requiredText: temp == "Yes",
                           //   hintText: "No. of People",
-                          //   editable: true,
-                          //   required: true,
-                          //   enableDecimal: false,
+                          //   numberMode: true,
+                          //   validator: (validationValue) {
+                          //     if (temp == "Yes") {
+                          //       return MihValidationServices()
+                          //           .isEmpty(validationValue);
+                          //     } else {
+                          //       return null;
+                          //     }
+                          //   },
                           // ),
                           const SizedBox(height: 10),
                         ],
