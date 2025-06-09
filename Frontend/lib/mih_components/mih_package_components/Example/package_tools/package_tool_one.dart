@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
@@ -35,6 +36,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
   TextEditingController _textFieldTwoController = TextEditingController();
   TextEditingController _textFieldThreeController = TextEditingController();
   TextEditingController _textFieldFourController = TextEditingController();
+  TextEditingController _textFieldFiveController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -218,6 +220,20 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       validator: (value) => value == null || value.isEmpty
                           ? 'This Field is required'
                           : null,
+                    ),
+                    const SizedBox(height: 10),
+                    MihNumericStepper(
+                      controller: _textFieldFiveController,
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      hintText: "Number Stepper",
+                      requiredText: true,
+                      minValue: 1,
+                      // maxValue: 5,
+                      validationOn: true,
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
