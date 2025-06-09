@@ -36,11 +36,9 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _currentValue =
-          int.tryParse(widget.controller.text) ?? widget.minValue ?? 0;
-      widget.controller.text = _currentValue.toString();
-    });
+    _currentValue =
+        int.tryParse(widget.controller.text) ?? widget.minValue ?? 0;
+    widget.controller.text = _currentValue.toString();
     print("Current Value: $_currentValue");
   }
 

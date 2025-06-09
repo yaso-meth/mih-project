@@ -344,11 +344,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         windowTitle: "Create Prescription",
         onWindowTapClose: () {
           medicineController.clear();
-          quantityController.clear();
-          dosageController.clear();
-          timesDailyController.clear();
-          noDaysController.clear();
-          noRepeatsController.clear();
+          quantityController.text = "1";
+          dosageController.text = "1";
+          timesDailyController.text = "1";
+          noDaysController.text = "1";
+          noRepeatsController.text = "0";
           Navigator.pop(context);
         },
         windowBody: Column(
