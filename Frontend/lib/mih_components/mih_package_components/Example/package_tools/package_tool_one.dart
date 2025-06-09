@@ -16,6 +16,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 
 class PackageToolOne extends StatefulWidget {
   const PackageToolOne({super.key});
@@ -37,6 +38,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
   TextEditingController _textFieldThreeController = TextEditingController();
   TextEditingController _textFieldFourController = TextEditingController();
   TextEditingController _textFieldFiveController = TextEditingController();
+  bool switchpositioin = true;
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
@@ -234,6 +236,22 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       minValue: 1,
                       // maxValue: 5,
                       validationOn: true,
+                    ),
+                    const SizedBox(height: 10),
+                    MihToggle(
+                      hintText: "Toggle",
+                      initialPostion: switchpositioin,
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      secondaryFillColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onChange: (value) {
+                        setState(() {
+                          switchpositioin = value;
+                        });
+                        print("Toggle Value: $switchpositioin");
+                      },
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
