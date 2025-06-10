@@ -1,10 +1,11 @@
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
 import '../../../mih_apis/mih_api_calls.dart';
-import '../../../mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import '../../../mih_components/mih_layout/mih_action.dart';
 import '../../../mih_components/mih_layout/mih_header.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -133,25 +134,30 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
               Flexible(
-                child: MIHDropdownField(
+                child: MihDropdownField(
                   controller: filterController,
-                  hintText: "Access Types",
+                  hintText: "Access Type",
                   dropdownOptions: const [
                     "All",
                     "Approved",
                     "Pending",
                     "Declined",
-                    "Cancelled"
+                    "Cancelled",
                   ],
-                  required: true,
+                  requiredText: true,
                   editable: true,
-                  enableSearch: false,
+                  enableSearch: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
                 ),
               ),
               IconButton(
+                iconSize: 35,
                 onPressed: () {
                   setState(() {
                     forceRefresh = true;
