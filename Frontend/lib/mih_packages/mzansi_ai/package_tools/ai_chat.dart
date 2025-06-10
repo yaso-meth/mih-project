@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -397,42 +397,67 @@ class _AiChatState extends State<AiChat> {
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SizedBox(
                             width: 230,
-                            child: MIHDropdownField(
+                            child: MihDropdownField(
                               controller: _ttsVoiceController,
-                              hintText: "AI Voice",
+                              hintText: "Dropdown",
                               dropdownOptions: _voicesString,
-                              required: true,
                               editable: true,
-                              enableSearch: false,
+                              enableSearch: true,
+                              requiredText: true,
+                              validator: (value) {
+                                return MihValidationServices().isEmpty(value);
+                              },
                             ),
                           ),
                           const SizedBox(width: 10),
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Container(
-                              //color: MzanziInnovationHub.of(context)!.theme.successColor(),
-                              decoration: BoxDecoration(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .successColor(),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(100),
+                          Container(
+                            // color: Colors.white,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  25), // Optional: rounds the corners
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromARGB(60, 0, 0,
+                                      0), // 0.2 opacity = 51 in alpha (255 * 0.2)
+                                  spreadRadius: -2,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5),
                                 ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 2.0,
+                                left: 5.0,
                               ),
-                              child: IconButton(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                                onPressed: () {
-                                  print("Start TTS now");
-
-                                  _speakText(
-                                      "This is the sample of the Mzansi A.I Voice.");
-                                },
-                                icon: const Icon(Icons.volume_up),
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: IconButton.filled(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color>(
+                                            MzanziInnovationHub.of(context)!
+                                                .theme
+                                                .successColor()),
+                                  ),
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  iconSize: 25,
+                                  onPressed: () {
+                                    print("Start TTS now");
+                                    _speakText(
+                                        "This is the sample of the Mzansi A.I Voice.");
+                                  },
+                                  icon: const Icon(
+                                    Icons.volume_up,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
