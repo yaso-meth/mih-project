@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -14,8 +15,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 
 class PackageToolOne extends StatefulWidget {
@@ -38,6 +41,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
   TextEditingController _textFieldThreeController = TextEditingController();
   TextEditingController _textFieldFourController = TextEditingController();
   TextEditingController _textFieldFiveController = TextEditingController();
+  TextEditingController _textFieldSixController = TextEditingController();
+  TextEditingController _textFieldSevenController = TextEditingController();
+  TextEditingController _textFieldEightController = TextEditingController();
   bool switchpositioin = true;
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
@@ -234,7 +240,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       hintText: "Number Stepper",
                       requiredText: true,
                       minValue: 1,
-                      // maxValue: 5,
+                      maxValue: 5,
                       validationOn: true,
                     ),
                     const SizedBox(height: 10),
@@ -246,12 +252,42 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           .secondaryColor(),
                       secondaryFillColor:
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      readOnly: true,
+                      readOnly: false,
                       onChange: (value) {
                         setState(() {
                           switchpositioin = value;
                         });
                         print("Toggle Value: $switchpositioin");
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihRadioOptions(
+                      controller: _textFieldSixController,
+                      hintText: "Radio Options",
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      secondaryFillColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      requiredText: true,
+                      radioOptions: const ["Option 1", "Option 2"],
+                    ),
+                    const SizedBox(height: 10),
+                    MihDateField(
+                      controller: _textFieldSevenController,
+                      labelText: "Date Field",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihTimeField(
+                      controller: _textFieldEightController,
+                      labelText: "Time Field",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
                       },
                     ),
                     const SizedBox(height: 10),
