@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -44,6 +45,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
   TextEditingController _textFieldSixController = TextEditingController();
   TextEditingController _textFieldSevenController = TextEditingController();
   TextEditingController _textFieldEightController = TextEditingController();
+  TextEditingController _textFieldNineController = TextEditingController();
   bool switchpositioin = true;
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
@@ -271,6 +273,30 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           MzanziInnovationHub.of(context)!.theme.primaryColor(),
                       requiredText: true,
                       radioOptions: const ["Option 1", "Option 2"],
+                    ),
+                    const SizedBox(height: 10),
+                    MihDropdownField(
+                      controller: _textFieldNineController,
+                      hintText: "Dropdown",
+                      dropdownOptions: const [
+                        "Option 1",
+                        "Option 2",
+                        "Option 3",
+                        "Option 4",
+                        "Option 5",
+                        "Option 6",
+                        "Option 7",
+                        "Option 8",
+                        "Option 9",
+                        "Option 10",
+                        "Option 11",
+                      ],
+                      editable: true,
+                      enableSearch: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                      requiredText: true,
                     ),
                     const SizedBox(height: 10),
                     MihDateField(
