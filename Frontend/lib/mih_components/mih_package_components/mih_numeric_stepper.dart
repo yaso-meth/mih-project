@@ -115,7 +115,8 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                 ),
                 Visibility(
                   visible: _currentValue < (widget.minValue ?? 0) ||
-                      _currentValue > widget.maxValue!,
+                      (widget.maxValue != null &&
+                          _currentValue > widget.maxValue!),
                   child: const SizedBox(
                     height: 21,
                   ),
@@ -197,7 +198,8 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                 ),
                 Visibility(
                   visible: _currentValue < (widget.minValue ?? 0) ||
-                      _currentValue > widget.maxValue!,
+                      (widget.maxValue != null &&
+                          _currentValue > widget.maxValue!),
                   child: const SizedBox(
                     height: 21,
                   ),

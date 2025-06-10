@@ -232,6 +232,7 @@ class _TipCalcState extends State<TipCalc> {
   void initState() {
     super.initState();
     splitBillController.text = "No";
+    noPeopleController.text = "2";
     splitPosition = false;
     splitBillController.addListener(splitSelected);
   }
@@ -296,17 +297,29 @@ class _TipCalcState extends State<TipCalc> {
                   secondaryFillColor:
                       MzanziInnovationHub.of(context)!.theme.primaryColor(),
                   onChange: (value) {
-                    if (value) {
-                      setState(() {
-                        splitBillController.text = "Yes";
-                        splitPosition = value;
-                      });
-                    } else {
-                      setState(() {
-                        splitBillController.text = "No";
-                        splitPosition = value;
-                      });
-                    }
+                    setState(() {
+                      splitBillController.text = value ? "Yes" : "No";
+                      splitPosition = value;
+                      if (value) {
+                        noPeopleController.text =
+                            noPeopleController.text.isEmpty
+                                ? "2"
+                                : noPeopleController.text;
+                      } else {
+                        noPeopleController.clear();
+                      }
+                    });
+                    // if (value) {
+                    //   setState(() {
+                    //     splitBillController.text = "Yes";
+                    //     splitPosition = value;
+                    //   });
+                    // } else {
+                    //   setState(() {
+                    //     splitBillController.text = "No";
+                    //     splitPosition = value;
+                    //   });
+                    // }
                   },
                 ),
                 ValueListenableBuilder(
