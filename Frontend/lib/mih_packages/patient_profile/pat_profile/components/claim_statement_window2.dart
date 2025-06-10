@@ -126,11 +126,6 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   return MihValidationServices().isEmpty(value);
                 },
               ),
-              // MIHDateField(
-              //   controller: _serviceDateController,
-              //   lableText: "Date of Service",
-              //   required: true,
-              // ),
               const SizedBox(height: 10),
               MihRadioOptions(
                 controller: _serviceDescController,

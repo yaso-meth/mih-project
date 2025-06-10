@@ -15,13 +15,13 @@ abstract class AppEnviroment {
       case Enviroment.dev:
         {
           //================= Android Dev Urls =================
-          // baseApiUrl = "http://10.0.2.2:8080";
-          // baseFileUrl = "http://10.0.2.2:9000";
-          // baseAiUrl = "http://10.0.2.2:11434";
+          baseApiUrl = "http://10.0.2.2:8080";
+          baseFileUrl = "http://10.0.2.2:9000";
+          baseAiUrl = "http://10.0.2.2:11434";
           //================= Web Dev Urls =================
-          baseApiUrl = "http://localhost:8080";
-          baseFileUrl = "http://localhost:9000";
-          baseAiUrl = "http://localhost:11434";
+          // baseApiUrl = "http://localhost:8080";
+          // baseFileUrl = "http://localhost:9000";
+          // baseAiUrl = "http://localhost:11434";
           break;
         }
       case Enviroment.prod:
