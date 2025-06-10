@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
@@ -213,22 +214,28 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                     hintText: "Surname",
                   ),
                   const SizedBox(height: 15.0),
-                  MIHDropdownField(
+                  MihDropdownField(
                     controller: typeController,
                     hintText: "Title",
-                    dropdownOptions: const ["Doctor", "Assistant"],
-                    required: true,
+                    dropdownOptions: const ["Doctor", "Assistant", "Other"],
                     editable: true,
-                    enableSearch: false,
+                    enableSearch: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                    requiredText: true,
                   ),
                   const SizedBox(height: 10.0),
-                  MIHDropdownField(
+                  MihDropdownField(
                     controller: accessController,
-                    hintText: "Access",
+                    hintText: "Access Type",
                     dropdownOptions: const ["Full", "Partial"],
-                    required: true,
                     editable: true,
-                    enableSearch: false,
+                    enableSearch: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                    requiredText: true,
                   ),
                   const SizedBox(height: 20.0),
                   Center(
