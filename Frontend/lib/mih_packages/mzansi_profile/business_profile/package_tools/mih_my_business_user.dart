@@ -5,9 +5,9 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -252,13 +252,16 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                MIHDropdownField(
+                MihDropdownField(
                   controller: titleDropdownController,
                   hintText: "Title",
                   dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                  required: true,
                   editable: true,
-                  enableSearch: false,
+                  enableSearch: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                  requiredText: true,
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(

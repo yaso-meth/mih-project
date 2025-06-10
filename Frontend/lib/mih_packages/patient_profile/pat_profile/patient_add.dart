@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
@@ -11,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_build
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -46,6 +46,8 @@ class _AddPatientState extends State<AddPatient> {
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
 
+  late bool medAidPosition;
+  late bool medMainMemberPosition;
   final baseAPI = AppEnviroment.baseApiUrl;
   late int futureDocOfficeId;
   //late bool medRequired;
@@ -297,13 +299,26 @@ class _AddPatientState extends State<AddPatient> {
                         .theme
                         .secondaryColor()),
                 const SizedBox(height: 10.0),
-                MIHDropdownField(
-                  controller: medAidController,
+                MihToggle(
                   hintText: "Medical Aid",
-                  editable: true,
-                  required: true,
-                  enableSearch: false,
-                  dropdownOptions: const ["Yes", "No"],
+                  initialPostion: medAidPosition,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  secondaryFillColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: (value) {
+                    if (value) {
+                      setState(() {
+                        medAidController.text = "Yes";
+                        medAidPosition = value;
+                      });
+                    } else {
+                      setState(() {
+                        medAidController.text = "No";
+                        medAidPosition = value;
+                      });
+                    }
+                  },
                 ),
                 ValueListenableBuilder(
                   valueListenable: medRequired,
@@ -313,13 +328,28 @@ class _AddPatientState extends State<AddPatient> {
                       child: Column(
                         children: [
                           const SizedBox(height: 10.0),
-                          MIHDropdownField(
-                            controller: medMainMemController,
+                          MihToggle(
                             hintText: "Main Member",
-                            editable: value,
-                            required: value,
-                            enableSearch: false,
-                            dropdownOptions: const ["Yes", "No"],
+                            initialPostion: medMainMemberPosition,
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            secondaryFillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            onChange: (value) {
+                              if (value) {
+                                setState(() {
+                                  medMainMemController.text = "Yes";
+                                  medMainMemberPosition = value;
+                                });
+                              } else {
+                                setState(() {
+                                  medMainMemController.text = "No";
+                                  medMainMemberPosition = value;
+                                });
+                              }
+                            },
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
@@ -520,7 +550,10 @@ class _AddPatientState extends State<AddPatient> {
       fnameController.text = widget.signedInUser.fname;
       lnameController.text = widget.signedInUser.lname;
       emailController.text = widget.signedInUser.email;
+      medAidPosition = false;
+      medMainMemberPosition = false;
       medAidController.text = "No";
+      medMainMemController.text = "No";
     });
     super.initState();
   }

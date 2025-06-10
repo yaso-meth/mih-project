@@ -1,15 +1,13 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_icd10_code_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -93,13 +91,15 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
           MihForm(
             formKey: _formKey,
             formFields: [
-              MIHDropdownField(
+              MihRadioOptions(
                 controller: _docTypeController,
                 hintText: "Document Type",
-                dropdownOptions: const ["Claim", "Statement"],
-                required: true,
-                editable: true,
-                enableSearch: false,
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                secondaryFillColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                requiredText: true,
+                radioOptions: const ["Claim", "Statement"],
               ),
               const SizedBox(height: 10),
               Center(
@@ -118,23 +118,28 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor()),
               const SizedBox(height: 10),
-              MIHDateField(
+              MihDateField(
                 controller: _serviceDateController,
-                lableText: "Date of Service",
+                labelText: "Date of Service",
                 required: true,
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
               ),
               const SizedBox(height: 10),
-              MIHDropdownField(
+              MihRadioOptions(
                 controller: _serviceDescController,
-                hintText: "Service Decription",
-                dropdownOptions: const [
+                hintText: "Serviced Description",
+                fillColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                secondaryFillColor:
+                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                requiredText: true,
+                radioOptions: const [
                   "Consultation",
                   "Procedure",
                   "Other",
                 ],
-                required: true,
-                editable: true,
-                enableSearch: false,
               ),
               const SizedBox(height: 10),
               ValueListenableBuilder(
@@ -144,29 +149,37 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   switch (value) {
                     case 'Consultation':
                       returnWidget = Column(
+                        key: const ValueKey('consultation_fields'), // Added key
                         children: [
-                          SizedBox(
-                            child: MIHDropdownField(
-                              controller: _serviceDescOptionsController,
-                              hintText: "Consultation Type",
-                              dropdownOptions: const [
-                                "General Consultation",
-                                "Follow-Up Consultation",
-                                "Specialist Consultation",
-                                "Emergency Consultation",
-                              ],
-                              required: true,
-                              editable: true,
-                              enableSearch: false,
-                            ),
+                          MihRadioOptions(
+                            key: const ValueKey('consultation_type_dropdown'),
+                            controller: _serviceDescOptionsController,
+                            hintText: "Consultation Type",
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            secondaryFillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            requiredText: true,
+                            radioOptions: const [
+                              "General Consultation",
+                              "Follow-Up Consultation",
+                              "Specialist Consultation",
+                              "Emergency Consultation",
+                            ],
                           ),
                           const SizedBox(height: 10),
                         ],
                       );
+                      break;
                     case 'Procedure':
                       returnWidget = Column(
+                        key: const ValueKey('procedure_fields'), // Added key
                         children: [
                           MihTextFormField(
+                            key: const ValueKey(
+                                'procedure_name_field'), // Added key
                             fillColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
@@ -183,6 +196,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
+                            key: const ValueKey(
+                                'procedure_additional_info_field'), // Added key
                             fillColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
@@ -192,7 +207,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                             controller: _proceedureAdditionalInfoController,
                             multiLineInput: false,
                             requiredText: true,
-                            hintText: "Additional Information",
+                            hintText: "Additional Procedure Information",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
                             },
@@ -200,10 +215,14 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                           const SizedBox(height: 15),
                         ],
                       );
+                      break;
                     case 'Other':
                       returnWidget = Column(
+                        key: const ValueKey('other_fields'), // Added key
                         children: [
                           MihTextFormField(
+                            key: const ValueKey(
+                                'other_service_description_field'), // Added key
                             fillColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
@@ -221,8 +240,10 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                           const SizedBox(height: 10),
                         ],
                       );
+                      break;
                     default:
-                      returnWidget = const SizedBox();
+                      returnWidget = const SizedBox(
+                          key: const ValueKey('empty_fields')); // Added key
                   }
                   return returnWidget;
                 },
@@ -233,7 +254,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                     alignment: Alignment.centerLeft,
                     child: Text("ICD-10 Code & Description",
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: MzanziInnovationHub.of(context)!
                               .theme
@@ -384,16 +405,25 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
   }
 
   void serviceDescriptionSelected() {
-    if (_serviceDescController.text.isNotEmpty) {
-      serviceDesc.value = _serviceDescController.text;
+    String selectedType = _serviceDescController.text;
+    serviceDesc.value = selectedType;
+    if (selectedType == 'Consultation') {
+      _prcedureNameController.clear();
+      _proceedureAdditionalInfoController.clear();
+    } else if (selectedType == 'Procedure') {
+      _serviceDescOptionsController.clear();
+    } else if (selectedType == 'Other') {
+      _prcedureNameController.clear();
+      _proceedureAdditionalInfoController.clear();
     } else {
-      serviceDesc.value = "";
+      _prcedureNameController.clear();
+      _proceedureAdditionalInfoController.clear();
+      _serviceDescOptionsController.clear();
     }
   }
 
   void hasMedAid() {
     if (_medAidController.text.isNotEmpty) {
-      medAid.value = _medAidController.text;
     } else {
       medAid.value = "";
     }
@@ -403,12 +433,26 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     if (_docTypeController.text.isEmpty ||
         _serviceDateController.text.isEmpty ||
         _icd10CodeController.text.isEmpty ||
-        _amountController.text.isEmpty ||
-        _serviceDescOptionsController.text.isEmpty) {
+        _amountController.text.isEmpty) {
       return false;
-    } else {
-      return true;
     }
+    switch (_serviceDescController.text) {
+      case 'Consultation':
+      case 'Other':
+        if (_serviceDescOptionsController.text.isEmpty) {
+          return false;
+        }
+        break;
+      case 'Procedure':
+        if (_prcedureNameController.text.isEmpty ||
+            _proceedureAdditionalInfoController.text.isEmpty) {
+          return false;
+        }
+        break;
+      default:
+        return false;
+    }
+    return true;
   }
 
   String getUserTitle() {
@@ -446,12 +490,18 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
     _icd10CodeController.dispose();
     _preauthNoController.dispose();
     _searchFocusNode.dispose();
+    serviceDesc.dispose();
+    medAid.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    super.initState();
+
+    _serviceDescController.text = "Consultation";
     _serviceDescController.addListener(serviceDescriptionSelected);
+    serviceDesc.value = "Consultation";
     _medAidController.addListener(hasMedAid);
     _fullNameController.text =
         "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}";
@@ -466,7 +516,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
         "${getUserTitle()} ${widget.signedInUser.fname} ${widget.signedInUser.lname}";
     _practiceNoController.text = widget.business!.practice_no;
     _vatNoController.text = widget.business!.vat_no;
-    super.initState();
+    hasMedAid();
   }
 
   @override

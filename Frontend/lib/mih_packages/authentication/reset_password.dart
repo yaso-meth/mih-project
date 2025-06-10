@@ -275,29 +275,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                             },
                           ),
 
-                          // //email input
-                          // SizedBox(
-                          //   width: 500.0,
-                          //   child: MIHPassField(
-                          //     controller: passwordController,
-                          //     hintText: 'New Password',
-                          //     required: true,
-                          //     signIn: false,
-                          //   ),
-                          // ),
-                          // //spacer
-                          // const SizedBox(height: 10),
-                          // //password input
-                          // SizedBox(
-                          //   width: 500.0,
-                          //   child: MIHPassField(
-                          //     controller: confirmPasswordController,
-                          //     hintText: 'Confirm New Password',
-                          //     required: true,
-                          //     signIn: false,
-                          //   ),
-                          // ),
-
                           //spacer
                           const SizedBox(height: 25),
                           // sign in button

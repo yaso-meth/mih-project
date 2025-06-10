@@ -9,7 +9,7 @@ class MihTextFormField extends StatefulWidget {
   final Color inputColor;
   final TextEditingController controller;
   final bool? hasError;
-  final String hintText;
+  final String? hintText;
   final double? borderRadius;
   final bool? multiLineInput;
   final bool? readOnly;
@@ -19,6 +19,7 @@ class MihTextFormField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final List<String>? autofillHints;
   final double? elevation;
+  final TextAlign? textIputAlignment;
 
   const MihTextFormField({
     Key? key,
@@ -38,6 +39,7 @@ class MihTextFormField extends StatefulWidget {
     this.validator,
     this.autofillHints,
     this.elevation,
+    this.textIputAlignment,
   }) : super(key: key);
 
   @override
@@ -98,31 +100,34 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.hintText,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: widget.fillColor,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Visibility(
-                    visible: !widget.requiredText,
-                    child: Text(
-                      "(Optional)",
-                      textAlign: TextAlign.right,
+              Visibility(
+                visible: widget.hintText != null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.hintText ?? "",
+                      textAlign: TextAlign.left,
                       style: TextStyle(
                         color: widget.fillColor,
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ],
+                    Visibility(
+                      visible: !widget.requiredText,
+                      child: Text(
+                        "(Optional)",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: widget.fillColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 4),
               FormField<String>(
@@ -141,13 +146,14 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             BorderRadius.circular(widget.borderRadius ?? 8.0),
                         child: SizedBox(
                           height: widget.height != null
-                              ? widget.height! - 25
+                              ? widget.height! - 30
                               : null,
                           child: TextFormField(
                             controller: widget.controller,
                             cursorColor: widget.inputColor,
                             autofillHints: widget.autofillHints,
-                            textAlign: TextAlign.start,
+                            textAlign:
+                                widget.textIputAlignment ?? TextAlign.start,
                             textAlignVertical: widget.multiLineInput == true
                                 ? TextAlignVertical.top
                                 : TextAlignVertical.center,

@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -332,30 +333,43 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   },
                 ),
                 const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Activate Business Account",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Switch(
-                      value: businessUser,
-                      onChanged: (bool value) {
-                        setState(() {
-                          businessUser = value;
-                        });
-                      },
-                    ),
-                  ],
+                MihToggle(
+                  hintText: "Activate Business Account",
+                  initialPostion: businessUser,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  secondaryFillColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: (value) {
+                    setState(() {
+                      businessUser = value;
+                    });
+                  },
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     const Text(
+                //       "Activate Business Account",
+                //       style: TextStyle(
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     Switch(
+                //       value: businessUser,
+                //       onChanged: (bool value) {
+                //         setState(() {
+                //           businessUser = value;
+                //         });
+                //       },
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: MihButton(

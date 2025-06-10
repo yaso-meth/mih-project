@@ -10,7 +10,7 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/Claim_Statement_Window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/claim_statement_window.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_claim_statement_files_list.dart';
 import 'package:flutter/material.dart';
 

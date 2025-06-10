@@ -3,12 +3,12 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -152,16 +152,22 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                     },
                   ),
                   const SizedBox(height: 10.0),
-                  MIHDateField(
+                  MihDateField(
                     controller: dateController,
-                    lableText: "Date",
+                    labelText: "Date",
                     required: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
                   ),
-                  const SizedBox(height: 10.0),
-                  MIHTimeField(
+                  const SizedBox(height: 10),
+                  MihTimeField(
                     controller: timeController,
-                    lableText: "Time",
+                    labelText: "Time",
                     required: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
                   ),
                   const SizedBox(height: 30.0),
                   Center(

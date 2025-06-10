@@ -3,9 +3,9 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
@@ -108,9 +108,15 @@ class _MihCardsState extends State<MihCards> {
               MihForm(
                 formKey: _formKey,
                 formFields: [
-                  MIHDropdownField(
+                  MihDropdownField(
                     controller: shopController,
                     hintText: "Shop Name",
+                    editable: true,
+                    enableSearch: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                    requiredText: true,
                     dropdownOptions: const [
                       "+More",
                       "Apple Tree",
@@ -157,9 +163,6 @@ class _MihCardsState extends State<MihCards> {
                       "Woermann Brock",
                       "Woolworths"
                     ],
-                    required: true,
-                    editable: true,
-                    enableSearch: false,
                   ),
                   ValueListenableBuilder(
                     valueListenable: shopName,

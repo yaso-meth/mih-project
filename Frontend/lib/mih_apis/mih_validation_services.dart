@@ -54,6 +54,27 @@ class MihValidationServices {
     return "Let's create a great username for you!$errorMessage";
   }
 
+  String? validateNumber(String? number, int? minValue, int? maxValue) {
+    String? errorMessage = "";
+    if (number == null || number.isEmpty) {
+      errorMessage += "This field is required";
+      return errorMessage;
+    }
+    int? value = int.tryParse(number);
+    if (value == null) {
+      errorMessage += "Please enter a valid number";
+      return errorMessage;
+    }
+    if (value < (minValue ?? 0)) {
+      errorMessage += "Value must be >= ${minValue ?? 0}";
+    }
+    if (maxValue != null && value > maxValue) {
+      if (errorMessage.isNotEmpty) errorMessage += "\n";
+      errorMessage += "Value must be <= $maxValue";
+    }
+    return errorMessage.isEmpty ? null : errorMessage;
+  }
+
   String? validatePassword(String? password) {
     String? errorMessage = "";
     if (password == null || password.isEmpty) {

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -370,112 +371,116 @@ class _AiChatState extends State<AiChat> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 15),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
                             width: 300,
-                            child: MIHDropdownField(
+                            child: MihRadioOptions(
                               controller: _modelController,
                               hintText: "AI Model",
-                              dropdownOptions: const [
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              secondaryFillColor:
+                                  MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                              requiredText: true,
+                              radioOptions: const [
                                 'gemma3:4b',
                               ],
-                              required: true,
-                              editable: true,
-                              enableSearch: false,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 230,
-                            child: MIHDropdownField(
-                              controller: _ttsVoiceController,
-                              hintText: "AI Voice",
-                              dropdownOptions: _voicesString,
-                              required: true,
-                              editable: true,
-                              enableSearch: false,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Container(
-                              //color: MzanziInnovationHub.of(context)!.theme.successColor(),
-                              decoration: BoxDecoration(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .successColor(),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(100),
-                                ),
-                              ),
-                              child: IconButton(
-                                color: MzanziInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                                onPressed: () {
-                                  print("Start TTS now");
-
-                                  _speakText(
-                                      "This is the sample of the Mzansi A.I Voice.");
-                                },
-                                icon: const Icon(Icons.volume_up),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          IconButton.filled(
-                            onPressed: () {
-                              setState(() {
-                                _chatFrontSize -= 1;
-                                _fontSizeController.text =
-                                    _chatFrontSize.ceil().toString();
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.remove,
+                          SizedBox(
+                            width: 230,
+                            child: MihDropdownField(
+                              controller: _ttsVoiceController,
+                              hintText: "AI Voice",
+                              dropdownOptions: _voicesString,
+                              editable: true,
+                              enableSearch: true,
+                              requiredText: true,
+                              validator: (value) {
+                                return MihValidationServices().isEmpty(value);
+                              },
                             ),
                           ),
                           const SizedBox(width: 10),
-                          MihTextFormField(
-                            width: 200,
-                            fillColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: _fontSizeController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            readOnly: true,
-                            hintText: "Time",
+                          Container(
+                            // color: Colors.white,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  25), // Optional: rounds the corners
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromARGB(60, 0, 0,
+                                      0), // 0.2 opacity = 51 in alpha (255 * 0.2)
+                                  spreadRadius: -2,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 2.0,
+                                left: 5.0,
+                              ),
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: IconButton.filled(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color>(
+                                            MzanziInnovationHub.of(context)!
+                                                .theme
+                                                .successColor()),
+                                  ),
+                                  color: MzanziInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  iconSize: 25,
+                                  onPressed: () {
+                                    print("Start TTS now");
+                                    _speakText(
+                                        "This is the sample of the Mzansi A.I Voice.");
+                                  },
+                                  icon: const Icon(
+                                    Icons.volume_up,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: 10),
-                          IconButton.filled(
-                            onPressed: () {
-                              setState(() {
-                                _chatFrontSize += 1;
-                                _fontSizeController.text =
-                                    _chatFrontSize.ceil().toString();
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.add,
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 300,
+                            child: MihNumericStepper(
+                              controller: _fontSizeController,
+                              fillColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzanziInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              hintText: "Font Size",
+                              requiredText: true,
+                              minValue: 1,
+                              // maxValue: 5,
+                              validationOn: true,
                             ),
                           ),
                         ],
@@ -537,6 +542,12 @@ class _AiChatState extends State<AiChat> {
     }
   }
 
+  void fontSizeChanged() {
+    setState(() {
+      _chatFrontSize = double.parse(_fontSizeController.text);
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -545,12 +556,14 @@ class _AiChatState extends State<AiChat> {
     _fontSizeController.dispose();
     _ttsVoiceController.dispose();
     _ttsVoiceController.removeListener(voiceSelected);
+    _fontSizeController.removeListener(fontSizeChanged);
     client.endSession();
     _flutterTts.stop();
   }
 
   void initTTS() {
-    _flutterTts.setVolume(0.7);
+    _flutterTts.setVolume(1);
+    _fontSizeController.addListener(fontSizeChanged);
     // _flutterTts.setSpeechRate(0.6);
     // _flutterTts.setPitch(1.0);
     _flutterTts.getVoices.then(
@@ -650,27 +663,75 @@ class _AiChatState extends State<AiChat> {
           ],
         ),
         Positioned(
-          left: 0,
-          top: 0,
+          left: 15,
+          top: 15,
           child: Visibility(
             visible: _showModelOptions.value == true,
-            child: IconButton.filled(
-              iconSize: 20,
-              onPressed: () {
-                if (_showModelOptions.value == true) {
-                  setState(() {
-                    _showModelOptions.value = false;
-                  });
-                } else {
-                  setState(() {
-                    _showModelOptions.value = true;
-                  });
-                }
-              },
-              icon: const Icon(
-                Icons.settings,
+            child: Container(
+              // color: Colors.white,
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(25), // Optional: rounds the corners
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(
+                        60, 0, 0, 0), // 0.2 opacity = 51 in alpha (255 * 0.2)
+                    spreadRadius: -2,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 2.0,
+                  left: 5.0,
+                ),
+                child: SizedBox(
+                  width: 40,
+                  child: IconButton.filled(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                    ),
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    iconSize: 20,
+                    onPressed: () {
+                      if (_showModelOptions.value == true) {
+                        setState(() {
+                          _showModelOptions.value = false;
+                        });
+                      } else {
+                        setState(() {
+                          _showModelOptions.value = true;
+                        });
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                    ),
+                  ),
+                ),
               ),
             ),
+            // IconButton.filled(
+            //   iconSize: 20,
+            //   onPressed: () {
+            //     if (_showModelOptions.value == true) {
+            //       setState(() {
+            //         _showModelOptions.value = false;
+            //       });
+            //     } else {
+            //       setState(() {
+            //         _showModelOptions.value = true;
+            //       });
+            //     }
+            //   },
+            //   icon: const Icon(
+            //     Icons.settings,
+            //   ),
+            // ),
           ),
         ),
         Positioned(

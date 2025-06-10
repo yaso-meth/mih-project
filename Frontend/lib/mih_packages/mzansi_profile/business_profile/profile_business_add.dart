@@ -8,12 +8,12 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_location_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_my_business_user_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -66,25 +66,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final _formKey = GlobalKey<FormState>();
   late String env;
 
-  // Future<void> uploadSelectedFile(
-  // PlatformFile file, TextEditingController controller) async {
-  // var token = await supertokens.getaccesstoken();
-  // var request = http2.multipartrequest(
-  //     'post', uri.parse("${appenviroment.baseapiurl}/minio/upload/file/"));
-  // request.headers['accept'] = 'application/json';
-  // request.headers['authorization'] = 'bearer $token';
-  // request.headers['content-type'] = 'multipart/form-data';
-  // request.fields['app_id'] = widget.signedinuser.app_id;
-  // request.fields['folder'] = "business_files";
-  // request.files.add(await http2.multipartfile.frombytes('file', file.bytes!,
-  //     filename: file.name.replaceall(regexp(r' '), '-')));
-  // var response1 = await request.send();
-  // if (response1.statuscode == 200) {
-  // } else {
-  //   internetconnectionpopup();
-  // }
-  // }
-
   Future<bool> uploadFile(String id, PlatformFile? selectedFile) async {
     print("Inside uploud file method");
     int uploadStatusCode = 0;
@@ -113,27 +94,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       accessController.text,
       context,
     );
-    // var response = await http.post(
-    //   Uri.parse("$baseAPI/business-user/insert/"),
-    //   headers: <String, String>{
-    //     "Content-Type": "application/json; charset=UTF-8"
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     "business_id": business_id,
-    //     "app_id": widget.signedInUser.app_id,
-    //     "signature": signtureController.text,
-    //     "sig_path":
-    //         "${widget.signedInUser.app_id}/business_files/${signtureController.text}",
-    //     "title": titleController.text,
-    //     "access": accessController.text,
-    //   }),
-    // );
     print("Status code: $statusCode");
     if (statusCode == 201) {
-      // uploadSelectedFile(selectedSignature, signtureController);
-      // bool successfullyUploadedFile =
-      //     await uploadFile(business_id, selectedSignature);
-      // if (successfullyUploadedFile) {
       Navigator.of(context).pop();
       Navigator.of(context).popAndPushNamed(
         '/',
@@ -142,9 +104,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       String message =
           "Your business profile is now live! You can now start connecting with customers and growing your business.";
       successPopUp(message);
-      // } else {
-      //   internetConnectionPopUp();
-      // }
     } else {
       internetConnectionPopUp();
     }
@@ -165,35 +124,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       logonameController.text,
       context,
     );
-    // var response = await http.post(
-    //   Uri.parse("$baseAPI/business/insert/"),
-    //   headers: <String, String>{
-    //     "Content-Type": "application/json; charset=UTF-8"
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     "Name": nameController.text,
-    //     "type": typeController.text,
-    //     "registration_no": regController.text,
-    //     "logo_name": logonameController.text,
-    //     "logo_path":
-    //         "${widget.signedInUser.app_id}/business_files/${logonameController.text}",
-    //     "contact_no": contactController.text,
-    //     "bus_email": emailController.text,
-    //     "gps_location": locationController.text,
-    //     "practice_no": practiceNoController.text,
-    //     "vat_no": vatNoController.text,
-    //   }),
-    // );
     print(response.body);
     if (response.statusCode == 201) {
       var businessResponse = jsonDecode(response.body);
-      // bool successfullyUploadedFile =
-      //     await uploadFile(widget.signedInUser.app_id, selectedSignature);
-      // if (successfullyUploadedFile) {
       createBusinessUserAPICall(businessResponse['business_id']);
-      // } else {
-      //   internetConnectionPopUp();
-      // }
     } else {
       internetConnectionPopUp();
     }
@@ -370,13 +304,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         },
                       ),
                       const SizedBox(height: 15.0),
-                      MIHDropdownField(
+                      MihDropdownField(
                         controller: typeController,
                         hintText: "Business Type",
                         dropdownOptions: const ["Doctors Office", "Other"],
-                        required: true,
                         editable: true,
-                        enableSearch: false,
+                        enableSearch: true,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        requiredText: true,
                       ),
                       const SizedBox(height: 10.0),
                       ValueListenableBuilder(
@@ -520,13 +457,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                               .theme
                               .secondaryColor()),
                       const SizedBox(height: 10.0),
-                      MIHDropdownField(
+                      MihDropdownField(
                         controller: titleController,
                         hintText: "Title",
-                        dropdownOptions: const ["Doctor", "Assistant"],
-                        required: true,
+                        dropdownOptions: const ["Doctor", "Assistant", "Other"],
                         editable: true,
-                        enableSearch: false,
+                        enableSearch: true,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        requiredText: true,
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
@@ -561,13 +501,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         },
                       ),
                       const SizedBox(height: 15.0),
-                      MIHDropdownField(
+                      MihDropdownField(
                         controller: accessController,
-                        hintText: "Access",
+                        hintText: "Access Type",
                         dropdownOptions: const ["Full", "Partial"],
-                        required: true,
-                        editable: false,
-                        enableSearch: false,
+                        editable: true,
+                        enableSearch: true,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        requiredText: true,
                       ),
                       const SizedBox(height: 20.0),
                       Center(

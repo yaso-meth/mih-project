@@ -12,7 +12,6 @@ import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/list_builders/build_mih_patient_search_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MihPatientSearch extends StatefulWidget {
   final AppUser signedInUser;
@@ -188,7 +187,6 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _searchFocusNode.dispose();
     _mihPatientSearchController.dispose();

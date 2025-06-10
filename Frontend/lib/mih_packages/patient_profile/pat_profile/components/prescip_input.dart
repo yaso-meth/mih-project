@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/medicine_search.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_dropdown_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -16,7 +18,6 @@ import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_objects/perscription.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PrescripInput extends StatefulWidget {
@@ -55,6 +56,7 @@ class PrescripInput extends StatefulWidget {
 class _PrescripInputState extends State<PrescripInput> {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _searchFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   List<Perscription> perscriptionObjOutput = [];
   late double width;
   late double height;
@@ -214,12 +216,7 @@ class _PrescripInputState extends State<PrescripInput> {
   }
 
   bool isFieldsFilled() {
-    if (widget.medicineController.text.isEmpty ||
-        // widget.quantityController.text.isEmpty ||
-        widget.dosageController.text.isEmpty ||
-        widget.timesDailyController.text.isEmpty ||
-        widget.noDaysController.text.isEmpty ||
-        widget.noRepeatsController.text.isEmpty) {
+    if (widget.medicineController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -351,92 +348,116 @@ class _PrescripInputState extends State<PrescripInput> {
   Widget displayMedInput() {
     return Column(
       children: [
-        //const SizedBox(height: 25.0),
-
-        MihSearchBar(
-          controller: widget.medicineController,
-          hintText: "Search Medicine",
-          prefixIcon: Icons.search,
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          onPrefixIconTap: () {
-            getMedsPopUp(widget.medicineController);
-          },
-          onClearIconTap: () {
-            widget.medicineController.clear();
-          },
-          searchFocusNode: _searchFocusNode,
-        ),
-        const SizedBox(height: 10.0),
-
-        MIHDropdownField(
-          controller: widget.dosageController,
-          hintText: "Dosage",
-          dropdownOptions: numberOptions,
-          required: true,
-          editable: true,
-          enableSearch: false,
-        ),
-        const SizedBox(height: 10.0),
-        MIHDropdownField(
-          controller: widget.timesDailyController,
-          hintText: "Times Daily",
-          dropdownOptions: numberOptions,
-          required: true,
-          editable: true,
-          enableSearch: false,
-        ),
-        const SizedBox(height: 10.0),
-        MIHDropdownField(
-          controller: widget.noDaysController,
-          hintText: "No. Days",
-          dropdownOptions: numberOptions,
-          required: true,
-          editable: true,
-          enableSearch: false,
-        ),
-        const SizedBox(height: 10.0),
-        MIHDropdownField(
-          controller: widget.noRepeatsController,
-          hintText: "No. Repeats",
-          dropdownOptions: numberOptions,
-          required: true,
-          editable: true,
-          enableSearch: false,
-        ),
-        const SizedBox(height: 15.0),
-        MihButton(
-          onPressed: () {
-            if (isFieldsFilled()) {
-              setState(() {
-                updatePerscriptionList();
+        MihForm(
+          formKey: _formKey,
+          formFields: [
+            MihSearchBar(
+              controller: widget.medicineController,
+              hintText: "Search Medicine",
+              prefixIcon: Icons.search,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              onPrefixIconTap: () {
+                getMedsPopUp(widget.medicineController);
+              },
+              onClearIconTap: () {
                 widget.medicineController.clear();
-                widget.quantityController.clear();
-                widget.dosageController.clear();
-                widget.timesDailyController.clear();
-                widget.noDaysController.clear();
-                widget.noRepeatsController.clear();
-              });
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const MIHErrorMessage(errorType: "Input Error");
-                },
-              );
-            }
-          },
-          buttonColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          width: 300,
-          child: Text(
-            "Add",
-            style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              },
+              searchFocusNode: _searchFocusNode,
             ),
-          ),
-        ),
+            const SizedBox(height: 10.0),
+            MihNumericStepper(
+              controller: widget.dosageController,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              hintText: "Dosage",
+              requiredText: true,
+              minValue: 1,
+              // maxValue: 5,
+              validationOn: true,
+            ),
+            const SizedBox(height: 10.0),
+            MihNumericStepper(
+              controller: widget.timesDailyController,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              hintText: "Times Daily",
+              requiredText: true,
+              minValue: 1,
+              // maxValue: 5,
+              validationOn: true,
+            ),
+            const SizedBox(height: 10.0),
+            MihNumericStepper(
+              controller: widget.noDaysController,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              hintText: "No. Days",
+              requiredText: true,
+              minValue: 1,
+              // maxValue: 5,
+              validationOn: true,
+            ),
+            const SizedBox(height: 10.0),
+            MihNumericStepper(
+              controller: widget.noRepeatsController,
+              fillColor:
+                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              hintText: "No.Repeats",
+              requiredText: true,
+              minValue: 0,
+              // maxValue: 5,
+              validationOn: true,
+            ),
+            const SizedBox(height: 15.0),
+            Center(
+              child: MihButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    if (isFieldsFilled()) {
+                      setState(() {
+                        updatePerscriptionList();
+                        widget.medicineController.clear();
+                        widget.quantityController.text = "1";
+                        widget.dosageController.text = "1";
+                        widget.timesDailyController.text = "1";
+                        widget.noDaysController.text = "1";
+                        widget.noRepeatsController.text = "0";
+                      });
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const MIHErrorMessage(
+                              errorType: "Input Error");
+                        },
+                      );
+                    }
+                  } else {
+                    MihAlertServices().formNotFilledCompletely(context);
+                  }
+                },
+                buttonColor:
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                width: 300,
+                child: Text(
+                  "Add",
+                  style: TextStyle(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
@@ -543,10 +564,8 @@ class _PrescripInputState extends State<PrescripInput> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    setState(() {
-      width = size.width;
-      height = size.height;
-    });
+    width = size.width;
+    height = size.height;
     return Wrap(
       direction: Axis.horizontal,
       alignment: WrapAlignment.center,
