@@ -280,7 +280,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
               visible: !hasAccess,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Important Notice: Requesting Patient Profile Access",
@@ -343,111 +343,131 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
               ),
             ),
             // const SizedBox(height: 15.0),
-            Wrap(runSpacing: 10, spacing: 10, children: [
-              Visibility(
-                visible: hasAccess,
-                child: MihButton(
-                  onPressed: () {
-                    if (hasAccess) {
-                      Navigator.of(context)
-                          .pushNamed('/patient-manager/patient',
-                              arguments: PatientViewArguments(
-                                widget.signedInUser,
-                                widget.patients[index],
-                                widget.businessUser,
-                                widget.business,
-                                "business",
-                              ));
-                    } else {
-                      noAccessWarning();
-                    }
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  width: 300,
-                  child: Text(
-                    "View Profile",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: !hasAccess && accessStatus == "No Access",
-                child: MihButton(
-                  onPressed: () {
-                    MIHApiCalls.addPatientAccessAPICall(
-                      widget.business!.business_id,
-                      widget.patients[index].app_id,
-                      "patient",
-                      widget.business!.Name,
-                      widget.personalSelected,
-                      BusinessArguments(
-                        widget.signedInUser,
-                        widget.businessUser,
-                        widget.business,
+            Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runSpacing: 10,
+                spacing: 10,
+                children: [
+                  Visibility(
+                    visible: hasAccess,
+                    child: Center(
+                      child: MihButton(
+                        onPressed: () {
+                          if (hasAccess) {
+                            Navigator.of(context)
+                                .pushNamed('/patient-manager/patient',
+                                    arguments: PatientViewArguments(
+                                      widget.signedInUser,
+                                      widget.patients[index],
+                                      widget.businessUser,
+                                      widget.business,
+                                      "business",
+                                    ));
+                          } else {
+                            noAccessWarning();
+                          }
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        width: 300,
+                        child: Text(
+                          "View Profile",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      context,
-                    );
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
-                  width: 300,
-                  child: Text(
-                    "Request Access",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ),
-              Visibility(
-                visible: !hasAccess && accessStatus == "declined",
-                child: MihButton(
-                  onPressed: () {
-                    MIHApiCalls.reapplyPatientAccessAPICall(
-                      widget.business!.business_id,
-                      widget.patients[index].app_id,
-                      widget.personalSelected,
-                      BusinessArguments(
-                        widget.signedInUser,
-                        widget.businessUser,
-                        widget.business,
+                  Visibility(
+                    visible: !hasAccess && accessStatus == "No Access",
+                    child: Center(
+                      child: MihButton(
+                        onPressed: () {
+                          MIHApiCalls.addPatientAccessAPICall(
+                            widget.business!.business_id,
+                            widget.patients[index].app_id,
+                            "patient",
+                            widget.business!.Name,
+                            widget.personalSelected,
+                            BusinessArguments(
+                              widget.signedInUser,
+                              widget.businessUser,
+                              widget.business,
+                            ),
+                            context,
+                          );
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        width: 300,
+                        child: Text(
+                          "Request Access",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      context,
-                    );
-                  },
-                  buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  width: 300,
-                  child: Text(
-                    "Re-apply",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                  Visibility(
+                    visible: !hasAccess && accessStatus == "declined",
+                    child: Center(
+                      child: MihButton(
+                        onPressed: () {
+                          MIHApiCalls.reapplyPatientAccessAPICall(
+                            widget.business!.business_id,
+                            widget.patients[index].app_id,
+                            widget.personalSelected,
+                            BusinessArguments(
+                              widget.signedInUser,
+                              widget.businessUser,
+                              widget.business,
+                            ),
+                            context,
+                          );
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        width: 300,
+                        child: Text(
+                          "Re-apply",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: !hasAccess && accessStatus == "pending",
+                    child: const SizedBox(
+                      width: 500,
+                      //height: 50,
+                      child: Text(
+                          "Patient has not approved access to their profile. Once access has been approved you can book and appointment or view their profile."),
+                    ),
+                  ),
+                ],
               ),
-              Visibility(
-                visible: !hasAccess && accessStatus == "pending",
-                child: const SizedBox(
-                  width: 500,
-                  //height: 50,
-                  child: Text(
-                      "Patient has not approved access to their profile. Once access has been approved you can book and appointment or view their profile."),
-                ),
-              ),
-            ])
+            ),
           ],
         ),
       ),
