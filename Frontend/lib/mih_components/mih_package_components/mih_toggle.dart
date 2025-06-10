@@ -44,7 +44,7 @@ class _MihToggleState extends State<MihToggle> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: widget.fillColor,
-              fontSize: 15,
+              fontSize: 18,
             ),
           ),
         ),
