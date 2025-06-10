@@ -238,6 +238,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MihForm(
                 formKey: _formKey,
@@ -298,27 +299,29 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  MihButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        submitDocUploadForm();
-                        // uploadSelectedFile(selected);
-                        Navigator.pop(context);
-                      } else {
-                        MihAlertServices().formNotFilledCompletely(context);
-                      }
-                    },
-                    buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
-                    width: 300,
-                    child: Text(
-                      "Add File",
-                      style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  Center(
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          submitDocUploadForm();
+                          // uploadSelectedFile(selected);
+                          Navigator.pop(context);
+                        } else {
+                          MihAlertServices().formNotFilledCompletely(context);
+                        }
+                      },
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Text(
+                        "Add File",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
