@@ -5,9 +5,9 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/med_cert_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
@@ -64,6 +64,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   final outputController = TextEditingController();
   late PlatformFile? selected;
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   late String env;
 
   Future<void> submitDocUploadForm() async {
@@ -296,7 +297,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   MihButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -342,37 +343,67 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         },
         windowBody: Column(
           children: [
-            Medcertinput(
-              startDateController: startDateController,
-              endDateTextController: endDateTextController,
-              retDateTextController: retDateTextController,
-            ),
-            const SizedBox(height: 15.0),
-            MihButton(
-              onPressed: () async {
-                if (isMedCertFieldsFilled()) {
-                  await generateMedCert();
-                  //Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
-                    },
-                  );
-                }
-              },
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 300,
-              child: Text(
-                "Generate",
-                style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            MihForm(
+              formKey: _formKey2,
+              formFields: [
+                MihDateField(
+                  controller: startDateController,
+                  labelText: "From",
+                  required: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
                 ),
-              ),
+                const SizedBox(height: 10.0),
+                MihDateField(
+                  controller: endDateTextController,
+                  labelText: "Up to Including",
+                  required: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                MihDateField(
+                  controller: retDateTextController,
+                  labelText: "Return",
+                  required: true,
+                  validator: (value) {
+                    return MihValidationServices().isEmpty(value);
+                  },
+                ),
+                // Medcertinput(
+                //   startDateController: startDateController,
+                //   endDateTextController: endDateTextController,
+                //   retDateTextController: retDateTextController,
+                // ),
+                const SizedBox(height: 15.0),
+                Center(
+                  child: MihButton(
+                    onPressed: () async {
+                      if (_formKey2.currentState!.validate()) {
+                        await generateMedCert();
+                        //Navigator.pop(context);
+                      } else {
+                        MihAlertServices().formNotFilledCompletely(context);
+                      }
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    width: 300,
+                    child: Text(
+                      "Generate",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

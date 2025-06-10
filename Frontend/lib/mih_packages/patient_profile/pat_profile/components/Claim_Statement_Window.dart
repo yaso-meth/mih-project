@@ -3,8 +3,8 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_claim_statement_generation_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_icd10_code_api.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
@@ -118,11 +118,19 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor()),
               const SizedBox(height: 10),
-              MIHDateField(
+              MihDateField(
                 controller: _serviceDateController,
-                lableText: "Date of Service",
+                labelText: "Date of Service",
                 required: true,
+                validator: (value) {
+                  return MihValidationServices().isEmpty(value);
+                },
               ),
+              // MIHDateField(
+              //   controller: _serviceDateController,
+              //   lableText: "Date of Service",
+              //   required: true,
+              // ),
               const SizedBox(height: 10),
               MihRadioOptions(
                 controller: _serviceDescController,
