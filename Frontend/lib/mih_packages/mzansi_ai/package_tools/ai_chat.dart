@@ -403,7 +403,7 @@ class _AiChatState extends State<AiChat> {
                             width: 230,
                             child: MihDropdownField(
                               controller: _ttsVoiceController,
-                              hintText: "Dropdown",
+                              hintText: "AI Voice",
                               dropdownOptions: _voicesString,
                               editable: true,
                               enableSearch: true,
