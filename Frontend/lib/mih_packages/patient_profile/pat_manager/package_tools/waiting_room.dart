@@ -4,15 +4,15 @@ import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_calendar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -146,25 +146,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
             ],
           ),
         ),
-        // Positioned(
-        //     right: 0,
-        //     bottom: 0,
-        //     child: Container(
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(50),
-        //         color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        //       ),
-        //       child: IconButton(
-        //         color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-        //         onPressed: () {
-        //           appointmentTypeSelection();
-        //         },
-        //         icon: const Icon(
-        //           Icons.add,
-        //           size: 50,
-        //         ),
-        //       ),
-        //     ))
       ],
     );
   }
@@ -340,22 +321,22 @@ class _WaitingRoomState extends State<WaitingRoom> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      // width: 500,
-                      child: MIHDateField(
-                        controller: _appointmentDateController,
-                        lableText: "Date",
-                        required: true,
-                      ),
+                    MihDateField(
+                      controller: _appointmentDateController,
+                      labelText: "Date",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      // width: 500,
-                      child: MIHTimeField(
-                        controller: _appointmentTimeController,
-                        lableText: "Time",
-                        required: true,
-                      ),
+                    MihTimeField(
+                      controller: _appointmentTimeController,
+                      labelText: "Time",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
