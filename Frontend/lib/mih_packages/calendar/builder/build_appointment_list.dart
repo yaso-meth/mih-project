@@ -3,12 +3,12 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_date_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_time_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
@@ -439,22 +439,22 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      // width: 500,
-                      child: MIHDateField(
-                        controller: widget.dateController,
-                        lableText: "Date",
-                        required: true,
-                      ),
+                    MihDateField(
+                      controller: widget.dateController,
+                      labelText: "Date",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      // width: 500,
-                      child: MIHTimeField(
-                        controller: widget.timeController,
-                        lableText: "Time",
-                        required: true,
-                      ),
+                    MihTimeField(
+                      controller: widget.timeController,
+                      labelText: "Time",
+                      required: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
