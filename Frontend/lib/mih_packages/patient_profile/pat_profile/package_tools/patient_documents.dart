@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
+import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/med_cert_input.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_inputs_and_buttons/mih_file_input.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -60,6 +63,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   final noRepeatsController = TextEditingController();
   final outputController = TextEditingController();
   late PlatformFile? selected;
+  final _formKey = GlobalKey<FormState>();
   late String env;
 
   Future<void> submitDocUploadForm() async {
@@ -217,7 +221,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  void uploudFilePopUp() {
+  void uploudFilePopUp(double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -227,59 +231,100 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         onWindowTapClose: () {
           Navigator.pop(context);
         },
-        windowBody: Column(
-          children: [
-            MIHFileField(
-              controller: selectedFileController,
-              hintText: "Select File",
-              editable: false,
-              required: true,
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['jpg', 'png', 'pdf'],
-                  withData: true,
-                );
-                if (result == null) return;
-                final selectedFile = result.files.first;
-                print("Selected file: $selectedFile");
-                setState(() {
-                  selected = selectedFile;
-                });
-                setState(() {
-                  selectedFileController.text = selectedFile.name;
-                });
-              },
-            ),
-            const SizedBox(height: 15),
-            MihButton(
-              onPressed: () {
-                if (isFileFieldsFilled()) {
-                  submitDocUploadForm();
-                  // uploadSelectedFile(selected);
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const MIHErrorMessage(errorType: "Input Error");
+        windowBody: Padding(
+          padding:
+              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                  : const EdgeInsets.symmetric(horizontal: 0),
+          child: Column(
+            children: [
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: MihTextFormField(
+                          fillColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          inputColor: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          controller: selectedFileController,
+                          hintText: "Selected File",
+                          requiredText: true,
+                          readOnly: true,
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      MihButton(
+                        onPressed: () async {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['jpg', 'png', 'pdf'],
+                            withData: true,
+                          );
+                          if (result == null) return;
+                          final selectedFile = result.files.first;
+                          print("Selected file: $selectedFile");
+                          setState(() {
+                            selected = selectedFile;
+                          });
+                          setState(() {
+                            selectedFileController.text = selectedFile.name;
+                          });
+                        },
+                        buttonColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        child: Text(
+                          "Attach",
+                          style: TextStyle(
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  MihButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        submitDocUploadForm();
+                        // uploadSelectedFile(selected);
+                        Navigator.pop(context);
+                      } else {
+                        MihAlertServices().formNotFilledCompletely(context);
+                      }
                     },
-                  );
-                }
-              },
-              buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              width: 300,
-              child: Text(
-                "Add File",
-                style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    width: 300,
+                    child: Text(
+                      "Add File",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -391,7 +436,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  Widget getMenu() {
+  Widget getMenu(double width) {
     if (widget.type == "personal") {
       return Positioned(
         right: 10,
@@ -415,7 +460,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor:
                   MzanziInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
-                uploudFilePopUp();
+                uploudFilePopUp(width);
               },
             )
           ],
@@ -444,7 +489,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor:
                   MzanziInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
-                uploudFilePopUp();
+                uploudFilePopUp(width);
               },
             ),
             SpeedDialChild(
@@ -486,70 +531,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           ],
         ),
       );
-    }
-  }
-
-  List<Widget> setIcons() {
-    if (widget.type == "personal") {
-      return [
-        Text(
-          "Documents",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            uploudFilePopUp();
-          },
-          icon: Icon(
-            Icons.add,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        )
-      ];
-    } else {
-      return [
-        Text(
-          "Documents",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            medCertPopUp();
-          },
-          icon: Icon(
-            Icons.sick_outlined,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            prescritionPopUp();
-          },
-          icon: Icon(
-            Icons.medication_outlined,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            uploudFilePopUp();
-          },
-          icon: Icon(
-            Icons.add,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          ),
-        )
-      ];
     }
   }
 
@@ -603,13 +584,14 @@ class _PatientDocumentsState extends State<PatientDocuments> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
-      bodyItem: getBody(),
+      bodyItem: getBody(screenWidth),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(double width) {
     return Stack(
       children: [
         MihSingleChildScroll(
@@ -641,7 +623,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             },
           ),
         ),
-        getMenu(),
+        getMenu(width),
       ],
     );
   }
