@@ -53,7 +53,7 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: widget.fillColor,
-                fontSize: 15,
+                fontSize: 18,
               ),
             ),
           ],
@@ -114,14 +114,15 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                   ),
                 ),
                 Visibility(
-                  visible: _currentValue < (widget.minValue ?? 0),
+                  visible: _currentValue < (widget.minValue ?? 0) ||
+                      _currentValue > widget.maxValue!,
                   child: const SizedBox(
                     height: 21,
                   ),
                 ),
               ],
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: 15),
             Expanded(
               child: MihTextFormField(
                 width: widget.width,
@@ -132,6 +133,7 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                 requiredText: widget.requiredText,
                 readOnly: true,
                 numberMode: true,
+                textIputAlignment: TextAlign.center,
                 validator: (value) {
                   if (widget.validationOn) {
                     return MihValidationServices().validateNumber(
@@ -141,6 +143,7 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                 },
               ),
             ),
+            const SizedBox(width: 10),
             Column(
               children: [
                 Container(
@@ -193,9 +196,10 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                   ),
                 ),
                 Visibility(
-                  visible: _currentValue < (widget.minValue ?? 0),
+                  visible: _currentValue < (widget.minValue ?? 0) ||
+                      _currentValue > widget.maxValue!,
                   child: const SizedBox(
-                    height: 20,
+                    height: 21,
                   ),
                 ),
               ],
