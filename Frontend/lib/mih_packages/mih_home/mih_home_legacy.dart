@@ -3,10 +3,15 @@ import 'dart:convert';
 // import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
@@ -31,11 +36,6 @@ import '../../mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/arguments.dart';
-import '../../mih_objects/business.dart';
-import '../../mih_objects/business_user.dart';
-import '../../mih_objects/notification.dart';
 import '../test/test.dart';
 
 // ignore: must_be_immutable

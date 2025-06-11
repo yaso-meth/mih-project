@@ -1,15 +1,15 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_api_calls.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/list_builders/build_mih_patient_search_list.dart';
 import 'package:flutter/material.dart';
 

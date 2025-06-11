@@ -8,8 +8,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_err
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:mzansi_innovation_hub/mih_env/env.dart';
-import 'package:mzansi_innovation_hub/mih_objects/access_request.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/access_request.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class BuildAccessRequestList extends StatefulWidget {

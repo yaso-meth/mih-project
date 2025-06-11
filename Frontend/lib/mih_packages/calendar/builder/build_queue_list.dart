@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_queue.dart';
 
 import '../../../main.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import '../../../mih_env/env.dart';
-import '../../../mih_objects/app_user.dart';
-import '../../../mih_objects/patient_queue.dart';
 
 class BuildQueueList extends StatefulWidget {
   final List<PatientQueue> patientQueue;

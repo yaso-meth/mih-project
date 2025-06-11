@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import '../../../../main.dart';
@@ -15,7 +16,6 @@ import '../../../../mih_components/mih_layout/mih_action.dart';
 import '../../../../mih_components/mih_layout/mih_body.dart';
 import '../../../../mih_components/mih_layout/mih_header.dart';
 import '../../../../mih_components/mih_layout/mih_layout_builder.dart';
-import '../../../../mih_objects/arguments.dart';
 
 class FullScreenFileViewer extends StatefulWidget {
   final FileViewArguments arguments;

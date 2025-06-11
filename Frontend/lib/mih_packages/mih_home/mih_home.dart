@@ -3,11 +3,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/notification.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';

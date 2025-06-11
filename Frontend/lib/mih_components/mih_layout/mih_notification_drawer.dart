@@ -1,11 +1,11 @@
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/notification.dart';
 import '../mih_pop_up_messages/mih_error_message.dart';
 
 class MIHNotificationDrawer extends StatefulWidget {

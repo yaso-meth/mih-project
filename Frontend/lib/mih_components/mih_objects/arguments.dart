@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '../mih_objects/app_user.dart';
-import '../mih_objects/business.dart';
-import '../mih_objects/business_user.dart';
-import '../mih_objects/notification.dart';
-import '../mih_objects/patients.dart';
+import 'app_user.dart';
+import 'business.dart';
+import 'business_user.dart';
+import 'notification.dart';
+import 'patients.dart';
 
 class NotificationArguments {
   final String title;

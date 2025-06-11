@@ -1,5 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_objects/medicine.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/medicine.dart';
 import 'package:flutter/material.dart';
 
 class BuildMedicinesList extends StatefulWidget {
