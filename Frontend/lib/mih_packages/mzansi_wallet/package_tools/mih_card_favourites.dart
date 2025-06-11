@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_wallet_apis.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 
 class MihCardFavourites extends StatefulWidget {

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/access_request.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 
@@ -10,9 +12,7 @@ import '../../../main.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_env/env.dart';
-import '../../../mih_objects/access_request.dart';
-import '../../../mih_objects/app_user.dart';
+import '../../../mih_config/mih_env.dart';
 
 class BuildAccessRequestList extends StatefulWidget {
   final List<AccessRequest> accessRequests;

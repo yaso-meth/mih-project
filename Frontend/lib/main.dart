@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../mih_env/env.dart';
-import '../mih_router/routeGenerator.dart';
-import '../mih_theme/mih_theme.dart';
+import 'mih_config/mih_env.dart';
+import 'mih_config/mih_routeGenerator.dart';
+import 'mih_config/mih_theme.dart';
 
 class MzanziInnovationHub extends StatefulWidget {
   const MzanziInnovationHub({

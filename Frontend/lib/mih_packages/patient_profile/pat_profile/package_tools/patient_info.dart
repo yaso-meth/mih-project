@@ -1,14 +1,14 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 
 class PatientInfo extends StatefulWidget {

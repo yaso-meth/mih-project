@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
 class PackageTest extends StatefulWidget {

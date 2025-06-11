@@ -1,10 +1,10 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_mzansi_calendar_apis.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_calendar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_calendar.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -15,11 +15,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_env/env.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 

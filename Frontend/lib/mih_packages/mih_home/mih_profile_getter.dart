@@ -1,4 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
@@ -7,12 +10,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
-import '../../mih_apis/mih_api_calls.dart';
+import '../../mih_services/mih_service_calls.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
-import '../../mih_objects/app_user.dart';
-import '../../mih_objects/arguments.dart';
-import '../../mih_objects/business_user.dart';
+import '../../mih_config/mih_env.dart';
 
 class MIHProfileGetter extends StatefulWidget {
   final bool personalSelected;

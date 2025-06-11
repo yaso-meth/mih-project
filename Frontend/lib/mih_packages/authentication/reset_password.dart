@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
@@ -16,7 +16,7 @@ import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../mih_env/env.dart';
+import '../../mih_config/mih_env.dart';
 
 class ResetPassword extends StatefulWidget {
   final String? token;

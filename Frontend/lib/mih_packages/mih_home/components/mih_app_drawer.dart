@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import '../../../main.dart';
-import '../../../mih_objects/app_user.dart';
-import '../../../mih_objects/arguments.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {

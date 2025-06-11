@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:mzansi_innovation_hub/mih_apis/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_notification_apis.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-// import '../mih_env/env.dart';
+// import '../mih_env/mih_env.dart';
 // import '../mih_objects/app_user.dart';
 // import '../mih_objects/arguments.dart';
 // import '../mih_objects/business.dart';
@@ -19,15 +19,15 @@ import 'package:supertokens_flutter/http.dart' as http;
 
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../mih_env/env.dart';
-import '../mih_objects/app_user.dart';
-import '../mih_objects/arguments.dart';
-import '../mih_objects/business.dart';
-import '../mih_objects/business_user.dart';
-import '../mih_objects/notification.dart';
-import '../mih_objects/patient_access.dart';
-import '../mih_objects/patient_queue.dart';
-import '../mih_objects/patients.dart';
+import '../mih_config/mih_env.dart';
+import '../mih_components/mih_objects/app_user.dart';
+import '../mih_components/mih_objects/arguments.dart';
+import '../mih_components/mih_objects/business.dart';
+import '../mih_components/mih_objects/business_user.dart';
+import '../mih_components/mih_objects/notification.dart';
+import '../mih_components/mih_objects/patient_access.dart';
+import '../mih_components/mih_objects/patient_queue.dart';
+import '../mih_components/mih_objects/patients.dart';
 
 class MIHApiCalls {
   final baseAPI = AppEnviroment.baseApiUrl;

@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:mzansi_innovation_hub/mih_env/env.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;

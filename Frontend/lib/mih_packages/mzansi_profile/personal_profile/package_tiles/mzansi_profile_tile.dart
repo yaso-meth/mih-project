@@ -1,8 +1,8 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 
 class MzansiProfileTile extends StatefulWidget {

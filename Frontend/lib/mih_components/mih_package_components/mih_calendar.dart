@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import '../../../main.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MIHCalendar extends StatefulWidget {

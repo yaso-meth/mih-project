@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import '../../mih_objects/arguments.dart';
+import '../../mih_components/mih_objects/arguments.dart';
 
 class MIHNotificationMessage extends StatefulWidget {
   final NotificationArguments arguments;

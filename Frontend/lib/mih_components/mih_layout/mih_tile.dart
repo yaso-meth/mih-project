@@ -1,6 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_yt_video_player.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
 
 class MIHTile extends StatefulWidget {

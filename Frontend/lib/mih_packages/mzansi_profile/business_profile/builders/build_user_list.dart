@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -11,9 +11,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
-import 'package:mzansi_innovation_hub/mih_env/env.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

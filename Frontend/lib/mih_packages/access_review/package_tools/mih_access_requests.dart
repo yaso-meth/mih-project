@@ -1,17 +1,17 @@
-import 'package:mzansi_innovation_hub/mih_apis/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
-import '../../../mih_apis/mih_api_calls.dart';
+import '../../../mih_services/mih_service_calls.dart';
 import '../../../mih_components/mih_layout/mih_action.dart';
 import '../../../mih_components/mih_layout/mih_header.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../../mih_env/env.dart';
-import '../../../mih_objects/app_user.dart';
-import '../../../mih_objects/patient_access.dart';
+import '../../../mih_config/mih_env.dart';
+import '../../../mih_components/mih_objects/app_user.dart';
+import '../../../mih_components/mih_objects/patient_access.dart';
 import '../builder/build_business_access_list.dart';
 
 class MihAccessRequest extends StatefulWidget {

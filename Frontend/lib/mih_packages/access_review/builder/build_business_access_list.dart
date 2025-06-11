@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_apis/mih_api_calls.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import 'package:mzansi_innovation_hub/mih_env/env.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
   final List<PatientAccess> patientAccessList;

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-import '../mih_env/env.dart';
+import '../mih_config/mih_env.dart';
 
 class MIHIcd10CodeApis {
   final baseAPI = AppEnviroment.baseApiUrl;

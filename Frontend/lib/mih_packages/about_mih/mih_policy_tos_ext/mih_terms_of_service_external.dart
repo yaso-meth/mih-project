@@ -2,7 +2,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/mih_policy_tos_ext/policy_and_terms_text.dart';
 import 'package:flutter/material.dart';
 
