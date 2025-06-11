@@ -84,7 +84,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
     List<String> toolTitles = [
       "Simple Calculator",
       "Tip Calculator",
-      "Currency Exchange Rate",
+      "Forex Calculator",
     ];
     return toolTitles;
   }
