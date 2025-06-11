@@ -98,6 +98,7 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                 Theme(
                   data: Theme.of(context).copyWith(
                     textSelectionTheme: TextSelectionThemeData(
+                      cursorColor: theme.primaryColor(),
                       selectionColor:
                           theme.primaryColor().withValues(alpha: 0.3),
                       selectionHandleColor: theme.primaryColor(),
@@ -109,6 +110,8 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     enableSearch: widget.enableSearch,
                     enableFilter: widget.enableSearch,
                     enabled: widget.editable,
+                    textInputAction: TextInputAction.search,
+                    requestFocusOnTap: true,
                     menuHeight: 400,
                     expandedInsets: EdgeInsets.zero,
                     textStyle: TextStyle(
