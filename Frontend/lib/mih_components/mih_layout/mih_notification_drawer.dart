@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.da
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-import '../../mih_env/env.dart';
+import '../../mih_config/mih_env.dart';
 import '../mih_pop_up_messages/mih_error_message.dart';
 
 class MIHNotificationDrawer extends StatefulWidget {

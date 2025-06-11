@@ -8,7 +8,7 @@ import 'package:supertokens_flutter/http.dart' as http;
 
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../mih_env/env.dart';
+import '../mih_config/mih_env.dart';
 
 class MIHClaimStatementGenerationApi {
   final baseAPI = AppEnviroment.baseApiUrl;

@@ -35,7 +35,7 @@ import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import '../../mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../mih_env/env.dart';
+import '../../mih_config/mih_env.dart';
 import '../test/test.dart';
 
 // ignore: must_be_immutable

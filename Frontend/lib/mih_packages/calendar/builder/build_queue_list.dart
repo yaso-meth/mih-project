@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_queue.d
 
 import '../../../main.dart';
 import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_env/env.dart';
+import '../../../mih_config/mih_env.dart';
 
 class BuildQueueList extends StatefulWidget {
   final List<PatientQueue> patientQueue;

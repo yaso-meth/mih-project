@@ -18,7 +18,7 @@ import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_layout/mih_tile.dart';
 import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
+import '../../mih_config/mih_env.dart';
 
 class SignIn extends StatefulWidget {
   final Function() onTap;

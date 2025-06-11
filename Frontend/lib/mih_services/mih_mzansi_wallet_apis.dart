@@ -7,7 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loa
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-// import '../mih_env/env.dart';
+// import '../mih_env/mih_env.dart';
 // import '../mih_objects/app_user.dart';
 // import '../mih_objects/arguments.dart';
 // import '../mih_objects/business.dart';
@@ -20,7 +20,7 @@ import 'package:supertokens_flutter/http.dart' as http;
 
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../mih_env/env.dart';
+import '../mih_config/mih_env.dart';
 
 class MIHMzansiWalletApis {
   final baseAPI = AppEnviroment.baseApiUrl;

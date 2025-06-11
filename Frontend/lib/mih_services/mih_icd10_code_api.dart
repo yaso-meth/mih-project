@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loa
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-import '../mih_env/env.dart';
+import '../mih_config/mih_env.dart';
 
 class MIHIcd10CodeApis {
   final baseAPI = AppEnviroment.baseApiUrl;

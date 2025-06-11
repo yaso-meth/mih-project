@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../mih_services/mih_api_calls.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_env/env.dart';
+import '../../mih_config/mih_env.dart';
 
 class MIHProfileGetter extends StatefulWidget {
   final bool personalSelected;
