@@ -16,7 +16,7 @@ import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
 
-import '../../mih_apis/mih_location_api.dart';
+import '../../mih_services/mih_location_api.dart';
 import '../../mih_components/mih_layout/mih_action.dart';
 import 'components/mih_app_drawer.dart';
 import '../../mih_components/mih_layout/mih_body.dart';
