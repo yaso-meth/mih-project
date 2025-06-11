@@ -1,6 +1,7 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/currency_exchange_rate.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/simple_calc.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/tip_calc.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,11 @@ class _MIHCalculatorState extends State<MIHCalculator> {
         _selectedIndex = 1;
       });
     };
+    temp[const Icon(Icons.currency_exchange)] = () {
+      setState(() {
+        _selectedIndex = 2;
+      });
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selectedIndex,
@@ -69,6 +75,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
     List<Widget> toolBodies = [
       const SimpleCalc(),
       const TipCalc(),
+      const CurrencyExchangeRate(),
     ];
     return toolBodies;
   }
@@ -77,6 +84,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
     List<String> toolTitles = [
       "Simple Calculator",
       "Tip Calculator",
+      "Currency Exchange Rate",
     ];
     return toolTitles;
   }
