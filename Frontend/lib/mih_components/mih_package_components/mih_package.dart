@@ -2,7 +2,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 // ignore: must_be_immutable
 class MihPackage extends StatefulWidget {

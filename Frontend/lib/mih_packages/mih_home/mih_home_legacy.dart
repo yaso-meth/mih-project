@@ -14,9 +14,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
@@ -1169,41 +1167,42 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
       child: Padding(
         padding: const EdgeInsets.only(
             left: 10.0, right: 10.0, bottom: 10.0, top: 0),
-        child: GNav(
-          //hoverColor: Colors.lightBlueAccent,
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          iconSize: 35.0,
-          activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          tabBackgroundColor:
-              MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          //gap: 20,
-          //padding: EdgeInsets.all(15),
-          tabs: [
-            GButton(
-              icon: Icons.perm_identity,
-              text: "Personal",
-              onPressed: () {
-                setState(() {
-                  widget.personalSelected = true;
-                  _selectedIndex = 0;
-                });
-                print("personal selected: ${widget.personalSelected}");
-              },
-            ),
-            GButton(
-              icon: Icons.business_center,
-              text: "Business",
-              onPressed: () {
-                setState(() {
-                  widget.personalSelected = false;
-                  _selectedIndex = 1;
-                });
-                print("personal selected: ${widget.personalSelected}");
-              },
-            ),
-          ],
-          selectedIndex: _selectedIndex,
-        ),
+        child: Placeholder(),
+        // GNav(
+        //   //hoverColor: Colors.lightBlueAccent,
+        //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   iconSize: 35.0,
+        //   activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   tabBackgroundColor:
+        //       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   //gap: 20,
+        //   //padding: EdgeInsets.all(15),
+        //   tabs: [
+        //     GButton(
+        //       icon: Icons.perm_identity,
+        //       text: "Personal",
+        //       onPressed: () {
+        //         setState(() {
+        //           widget.personalSelected = true;
+        //           _selectedIndex = 0;
+        //         });
+        //         print("personal selected: ${widget.personalSelected}");
+        //       },
+        //     ),
+        //     GButton(
+        //       icon: Icons.business_center,
+        //       text: "Business",
+        //       onPressed: () {
+        //         setState(() {
+        //           widget.personalSelected = false;
+        //           _selectedIndex = 1;
+        //         });
+        //         print("personal selected: ${widget.personalSelected}");
+        //       },
+        //     ),
+        //   ],
+        //   selectedIndex: _selectedIndex,
+        // ),
       ),
     );
   }
@@ -1300,34 +1299,16 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
     final double width = size.width;
     final double height = size.height;
 
-    return SwipeDetector(
-      onSwipeLeft: (offset) {
-        if (_selectedIndex == 0) {
-          setState(() {
-            _selectedIndex = 1;
-          });
-        }
-        //print("swipe left");
-      },
-      onSwipeRight: (offset) {
-        if (_selectedIndex == 1) {
-          setState(() {
-            _selectedIndex = 0;
-          });
-        }
-        //print("swipe right");
-      },
-      child: MIHLayoutBuilder(
-        actionButton: getActionButton(),
-        header: getHeader(),
-        secondaryActionButton: getSecondaryActionButton(),
-        body: getBody(width, height),
-        actionDrawer: getActionDrawer(),
-        secondaryActionDrawer: getSecondaryActionDrawer(),
-        bottomNavBar: getBottomNavBar(),
-        pullDownToRefresh: true,
-        onPullDown: refreshNotifications,
-      ),
+    return MIHLayoutBuilder(
+      actionButton: getActionButton(),
+      header: getHeader(),
+      secondaryActionButton: getSecondaryActionButton(),
+      body: getBody(width, height),
+      actionDrawer: getActionDrawer(),
+      secondaryActionDrawer: getSecondaryActionDrawer(),
+      bottomNavBar: getBottomNavBar(),
+      pullDownToRefresh: true,
+      onPullDown: refreshNotifications,
     );
   }
 }
