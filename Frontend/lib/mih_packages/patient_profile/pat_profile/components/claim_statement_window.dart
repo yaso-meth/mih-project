@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_api.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_icd10_code_api.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_icd10_code_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';

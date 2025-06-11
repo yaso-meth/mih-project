@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_user_apis.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:mzansi_innovation_hub/mih_services/mih_file_api.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_notification_apis.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
