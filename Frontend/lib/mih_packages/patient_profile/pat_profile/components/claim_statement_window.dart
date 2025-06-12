@@ -384,7 +384,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                     }
                   },
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
                   width: 300,
                   child: Text(
                     "Generate",

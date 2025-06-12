@@ -392,7 +392,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Generate",
