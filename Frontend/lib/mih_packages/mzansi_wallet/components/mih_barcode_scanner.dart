@@ -125,9 +125,8 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                         _scannerController.stop();
                         Navigator.of(context).pop();
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
                       width: 100,
                       height: 50,
                       child: Text(

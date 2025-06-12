@@ -269,9 +269,8 @@ class _MihCardsState extends State<MihCards> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Add",
