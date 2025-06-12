@@ -239,8 +239,7 @@ class _RegisterState extends State<Register> {
             onPressed: () {
               MihInstallServices().installMihTrigger(context);
             },
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
             width: 150,
             child: Text(
               "Install MIH",

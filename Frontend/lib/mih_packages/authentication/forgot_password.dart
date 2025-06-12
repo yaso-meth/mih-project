@@ -122,7 +122,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   validateInput();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Continue",
@@ -288,7 +288,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               },
                               buttonColor: MzanziInnovationHub.of(context)!
                                   .theme
-                                  .secondaryColor(),
+                                  .successColor(),
                               width: 300,
                               child: Text(
                                 "Reset Password",

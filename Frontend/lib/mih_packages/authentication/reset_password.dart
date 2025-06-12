@@ -290,7 +290,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               },
                               buttonColor: MzanziInnovationHub.of(context)!
                                   .theme
-                                  .secondaryColor(),
+                                  .successColor(),
                               width: 300,
                               child: Text(
                                 "Reset Password",
