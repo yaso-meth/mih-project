@@ -355,9 +355,8 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.errorColor(),
                       width: 300,
                       child: Text(
                         "Decline",
@@ -383,9 +382,8 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Approve",
