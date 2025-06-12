@@ -138,7 +138,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
                 child: Text(
                   "Set Up Authentication",
@@ -156,7 +156,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   authenticateUser();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Authenticate Now",
@@ -229,7 +229,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                       authenticateUser();
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Authenticate Now",
