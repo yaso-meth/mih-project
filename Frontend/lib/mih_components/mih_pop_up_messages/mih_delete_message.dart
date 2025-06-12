@@ -100,7 +100,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -185,7 +185,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -271,7 +271,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -356,7 +356,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -441,7 +441,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
