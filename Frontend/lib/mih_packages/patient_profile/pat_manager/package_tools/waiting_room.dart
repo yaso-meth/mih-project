@@ -223,7 +223,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Existing Patient",
@@ -242,7 +242,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Existing MIH User",
@@ -261,7 +261,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   addAppointmentWindow(width);
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Skeleton Appointment",
