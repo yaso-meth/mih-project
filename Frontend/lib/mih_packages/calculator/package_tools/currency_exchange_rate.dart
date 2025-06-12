@@ -30,19 +30,21 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   Future<void> submitForm() async {
     String fromCurrencyCode = _fromCurrencyController.text.split(" - ")[0];
     String toCurrencyCode = _toCurrencyController.text.split(" - ")[0];
+    List<String> dateValue = [];
     double exchangeRate = 0;
     await MihCurrencyExchangeRateServices.getCurrencyExchangeValue(
             fromCurrencyCode, toCurrencyCode)
         .then((amount) {
-      exchangeRate = amount;
+      dateValue = amount;
     });
+    exchangeRate = double.parse(dateValue[1]);
     double exchangeValue =
         double.parse(_fromAmountController.text) * exchangeRate;
 
     print(
-        "${_fromAmountController.text} | $fromCurrencyCode\n$exchangeValue | $toCurrencyCode");
-    displayResult(_fromAmountController.text, fromCurrencyCode, exchangeValue,
-        toCurrencyCode);
+        "Date: ${dateValue[0]}\n${_fromAmountController.text} | $fromCurrencyCode\n$exchangeValue | $toCurrencyCode");
+    displayResult(dateValue[0], _fromAmountController.text, fromCurrencyCode,
+        exchangeValue, toCurrencyCode);
   }
 
   void clearInput() {
@@ -52,7 +54,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
     _toAmountController.clear();
   }
 
-  void displayResult(String amount, String fromCurrencyCode,
+  void displayResult(String date, String amount, String fromCurrencyCode,
       double exchangeValue, String toCurrencyCode) {
     showDialog(
       context: context,
@@ -71,6 +73,19 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
             ),
             const SizedBox(height: 20),
+            FittedBox(
+              child: Text(
+                "Values as at $date",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

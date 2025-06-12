@@ -38,7 +38,7 @@ class MihCurrencyExchangeRateServices {
     }
   }
 
-  static Future<double> getCurrencyExchangeValue(
+  static Future<List<String>> getCurrencyExchangeValue(
     String fromCurrencyCode,
     String toCurrencyCode,
   ) async {
@@ -48,19 +48,19 @@ class MihCurrencyExchangeRateServices {
       final Map<String, dynamic> jsonResponse = json.decode(response.body);
       final Map<String, dynamic>? baseCurrencyData =
           jsonResponse[fromCurrencyCode];
-
+      final List<String> dateValue = [];
       if (baseCurrencyData != null) {
-        // Access the value for the target currency (e.g., "usd")
         final dynamic rateValue = baseCurrencyData[toCurrencyCode];
+        final String date = jsonResponse["date"];
 
         if (rateValue is num) {
-          // Check if it's a number (int or double)
-          return rateValue.toDouble();
+          dateValue.add(date);
+          dateValue.add(rateValue.toString());
+          return dateValue;
         } else {
-          // Handle cases where the rate might not be a number or is missing
           print(
               'Warning: Rate for $toCurrencyCode in $fromCurrencyCode is not a number or missing.');
-          return 0;
+          return ["Error", "0"];
         }
       } else {
         throw Exception(
