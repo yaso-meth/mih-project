@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 
 class MihToggle extends StatefulWidget {
   final String hintText;
@@ -51,15 +52,31 @@ class _MihToggleState extends State<MihToggle> {
         const SizedBox(width: 10),
         Switch(
           value: widget.initialPostion,
+          trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) {
+              if (widget.readOnly == true) {
+                return Colors.grey;
+              }
+              if (states.contains(WidgetState.selected)) {
+                return MzanziInnovationHub.of(context)!
+                    .theme
+                    .successColor(); // Outline color when active
+              }
+              return MzanziInnovationHub.of(context)!
+                  .theme
+                  .errorColor(); // Outline color when active
+            },
+          ),
           activeColor:
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
-          activeTrackColor:
-              widget.readOnly == true ? Colors.grey.shade400 : widget.fillColor,
+          activeTrackColor: widget.readOnly == true
+              ? Colors.grey.shade400
+              : MzanziInnovationHub.of(context)!.theme.successColor(),
           inactiveThumbColor:
-              widget.readOnly == true ? Colors.grey : widget.fillColor,
+              widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           inactiveTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : widget.secondaryFillColor,
+              : MzanziInnovationHub.of(context)!.theme.errorColor(),
           // activeColor: widget.secondaryFillColor,
           // activeTrackColor: widget.fillColor,
           // inactiveThumbColor: widget.fillColor,
