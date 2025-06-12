@@ -166,10 +166,14 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             maxLines: widget.passwordMode == true ? 1 : null,
                             readOnly: widget.readOnly ?? false,
                             keyboardType: widget.numberMode == true
-                                ? TextInputType.number
+                                ? const TextInputType.numberWithOptions(
+                                    decimal: true)
                                 : null,
                             inputFormatters: widget.numberMode == true
-                                ? [FilteringTextInputFormatter.digitsOnly]
+                                ? [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d*\.?\d*'))
+                                  ]
                                 : null,
                             style: TextStyle(
                               color: widget.inputColor,
