@@ -190,9 +190,8 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Book Appointment",
@@ -323,9 +322,8 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                       onPressed: () {
                         appointmentPopUp(index, width);
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Book Appointment",
@@ -350,8 +348,9 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                                   "business",
                                 ));
                       },
-                      buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       width: 300,
                       child: Text(
                         "View Medical Records",

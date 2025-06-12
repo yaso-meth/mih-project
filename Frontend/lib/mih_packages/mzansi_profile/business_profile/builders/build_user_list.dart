@@ -215,7 +215,7 @@ class _BuildUserListState extends State<BuildUserList> {
                           },
                           buttonColor: MzanziInnovationHub.of(context)!
                               .theme
-                              .secondaryColor(),
+                              .successColor(),
                           width: 300,
                           child: Text(
                             "Add",

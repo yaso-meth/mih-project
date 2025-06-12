@@ -257,9 +257,8 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Update",

@@ -141,9 +141,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Update",
@@ -191,9 +190,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
+          alertColour: MzanziInnovationHub.of(context)!.theme.successColor(),
           alertIcon: Icon(
             Icons.favorite,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.successColor(),
             size: 100,
           ),
           alertTitle: "Add to Favourites",
@@ -224,7 +224,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   );
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Add",
@@ -238,7 +238,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ],
           ),
-          alertColour: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
     );
@@ -250,9 +249,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
+          alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
           alertIcon: Icon(
             Icons.favorite_border,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
             size: 100,
           ),
           alertTitle: "Remove From Favourites",
@@ -283,7 +283,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   );
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzanziInnovationHub.of(context)!.theme.errorColor(),
                 width: 300,
                 child: Text(
                   "Remove",
@@ -297,7 +297,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ],
           ),
-          alertColour: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
     );

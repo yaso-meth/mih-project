@@ -249,7 +249,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                       updateAccessAPICall(index, "declined");
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.errorColor(),
                     width: 300,
                     child: Text(
                       "Decline",
@@ -267,7 +267,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                       updateAccessAPICall(index, "approved");
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Approve",

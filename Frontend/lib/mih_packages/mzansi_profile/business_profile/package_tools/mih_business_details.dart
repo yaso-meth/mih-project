@@ -416,7 +416,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
               Center(
                 child: MihButton(
                   onPressed: () {
@@ -427,7 +427,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     }
                   },
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzanziInnovationHub.of(context)!.theme.successColor(),
                   width: 300,
                   child: Text(
                     "Update",

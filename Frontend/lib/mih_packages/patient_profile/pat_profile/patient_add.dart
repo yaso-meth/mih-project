@@ -448,7 +448,7 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Add",

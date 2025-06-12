@@ -305,8 +305,7 @@ class _SignInState extends State<SignIn> {
             onPressed: () {
               MihInstallServices().installMihTrigger(context);
             },
-            buttonColor:
-                MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
             width: 150,
             child: Text(
               "Install MIH",
@@ -512,7 +511,7 @@ class _SignInState extends State<SignIn> {
                                     buttonColor:
                                         MzanziInnovationHub.of(context)!
                                             .theme
-                                            .secondaryColor(),
+                                            .successColor(),
                                     width: 300,
                                     child: Text(
                                       "Sign In",
@@ -530,7 +529,7 @@ class _SignInState extends State<SignIn> {
                                     buttonColor:
                                         MzanziInnovationHub.of(context)!
                                             .theme
-                                            .successColor(),
+                                            .secondaryColor(),
                                     width: 300,
                                     child: Text(
                                       "Create New Account",

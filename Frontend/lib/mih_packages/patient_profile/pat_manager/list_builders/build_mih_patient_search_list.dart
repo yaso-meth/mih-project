@@ -441,7 +441,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                         },
                         buttonColor: MzanziInnovationHub.of(context)!
                             .theme
-                            .secondaryColor(),
+                            .successColor(),
                         width: 300,
                         child: Text(
                           "Re-apply",

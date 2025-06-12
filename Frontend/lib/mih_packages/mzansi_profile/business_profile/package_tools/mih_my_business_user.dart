@@ -375,7 +375,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Update",

@@ -83,7 +83,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                       Navigator.pop(context);
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Cancel",

@@ -71,7 +71,7 @@ class _MihAttributesState extends State<MihAttributes> {
                 );
               },
               buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  MzanziInnovationHub.of(context)!.theme.successColor(),
               width: 100,
               child: Text(
                 "Visit",
