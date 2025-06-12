@@ -54,6 +54,9 @@ class _MihToggleState extends State<MihToggle> {
           value: widget.initialPostion,
           trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
             (states) {
+              if (widget.readOnly == true) {
+                return Colors.grey;
+              }
               if (states.contains(WidgetState.selected)) {
                 return MzanziInnovationHub.of(context)!
                     .theme
