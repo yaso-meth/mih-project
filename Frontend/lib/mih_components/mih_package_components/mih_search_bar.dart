@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MihSearchBar extends StatefulWidget {
@@ -124,6 +125,7 @@ class _MihSearchBarState extends State<MihSearchBar> {
           child: TextField(
             controller: widget.controller, // Assign the controller
             focusNode: widget.searchFocusNode,
+            spellCheckConfiguration: kIsWeb ? null : SpellCheckConfiguration(),
             onSubmitted: (value) {
               widget.onPrefixIconTap
                   ?.call(); // Call the prefix icon tap handler
