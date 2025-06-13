@@ -16,7 +16,7 @@ class MihCardDisplay extends StatefulWidget {
 }
 
 class _MihCardDisplayState extends State<MihCardDisplay> {
-  Widget displayLoyaltyCard() {
+  Widget? displayLoyaltyCard() {
     switch (widget.shopName.toLowerCase()) {
       case "apple tree":
         return Image.asset(
@@ -151,25 +151,28 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/fresmart-min.png');
       default:
-        return const Placeholder();
+        return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        displayLoyaltyCard(),
-        FittedBox(
-          child: Text(
-            widget.nickname,
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+    return Visibility(
+      visible: displayLoyaltyCard() != null,
+      child: Column(
+        children: [
+          displayLoyaltyCard() != null ? displayLoyaltyCard()! : SizedBox(),
+          FittedBox(
+            child: Text(
+              widget.nickname,
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
