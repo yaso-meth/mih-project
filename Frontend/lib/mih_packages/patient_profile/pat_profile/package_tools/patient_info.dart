@@ -47,7 +47,7 @@ class _PatientInfoState extends State<PatientInfo> {
   Widget getPatientDetailsField() {
     return Center(
       child: Wrap(
-        spacing: 15,
+        spacing: 10,
         runSpacing: 10,
         children: [
           SizedBox(
