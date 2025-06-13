@@ -183,7 +183,15 @@
       });
     });
   </script> -->
-
+  <script>
+    window.addEventListener("load", function (e) {
+      document.addEventListener("focusin", function (event) {
+        if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
+          event.target.setAttribute("spellcheck", "true");
+        }
+      });
+    });
+  </script>
   <script defer="">
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
