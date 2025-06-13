@@ -99,7 +99,7 @@ class _MihAttributesState extends State<MihAttributes> {
 
   Widget getBody() {
     String message =
-        "Some icons and assets used in this MIH were sourced from third party providers.\n";
+        "Some APIs, Icons and Assets used in this MIH were sourced from third party providers.\n";
     message +=
         "We are grateful to the talented creators for providing these resources.\n";
     message +=
@@ -144,7 +144,7 @@ class _MihAttributesState extends State<MihAttributes> {
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: Center(
                           child: Text(
-                            "Icon",
+                            "Resources",
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -208,6 +208,8 @@ class _MihAttributesState extends State<MihAttributes> {
                     "https://www.flaticon.com/free-icon/add-user_748137?term=profile+add&page=1&position=1&origin=search&related_id=748137"),
                 displayIcon(MihIcons.businessSetup, "kerismaker",
                     "https://www.flaticon.com/free-icon/business_13569850?term=company+add&page=1&position=25&origin=search&related_id=13569850"),
+                displayIcon(MihIcons.calculator, "fawazahmed0",
+                    "https://github.com/fawazahmed0/exchange-api"),
               ],
             ),
           ),
