@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -152,6 +153,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             controller: widget.controller,
                             cursorColor: widget.inputColor,
                             autofillHints: widget.autofillHints,
+                            spellCheckConfiguration: (kIsWeb ||
+                                    widget.passwordMode == true ||
+                                    widget.numberMode == true)
+                                ? null
+                                : SpellCheckConfiguration(),
                             textAlign:
                                 widget.textIputAlignment ?? TextAlign.start,
                             textAlignVertical: widget.multiLineInput == true
