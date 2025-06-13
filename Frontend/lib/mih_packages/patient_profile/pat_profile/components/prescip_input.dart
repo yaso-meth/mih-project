@@ -351,20 +351,39 @@ class _PrescripInputState extends State<PrescripInput> {
         MihForm(
           formKey: _formKey,
           formFields: [
-            MihSearchBar(
-              controller: widget.medicineController,
-              hintText: "Search Medicine",
-              prefixIcon: Icons.search,
-              fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                getMedsPopUp(widget.medicineController);
-              },
-              onClearIconTap: () {
-                widget.medicineController.clear();
-              },
-              searchFocusNode: _searchFocusNode,
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Medication",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                MihSearchBar(
+                  controller: widget.medicineController,
+                  hintText: "Search Medicine",
+                  prefixIcon: Icons.search,
+                  fillColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  hintColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onPrefixIconTap: () {
+                    getMedsPopUp(widget.medicineController);
+                  },
+                  onClearIconTap: () {
+                    widget.medicineController.clear();
+                  },
+                  searchFocusNode: _searchFocusNode,
+                ),
+              ],
             ),
             const SizedBox(height: 10.0),
             MihNumericStepper(
