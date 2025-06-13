@@ -153,6 +153,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             controller: widget.controller,
                             cursorColor: widget.inputColor,
                             autofillHints: widget.autofillHints,
+                            autocorrect: true,
                             spellCheckConfiguration: (kIsWeb ||
                                     widget.passwordMode == true ||
                                     widget.numberMode == true)

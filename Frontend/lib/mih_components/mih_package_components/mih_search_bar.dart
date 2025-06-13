@@ -125,6 +125,7 @@ class _MihSearchBarState extends State<MihSearchBar> {
           child: TextField(
             controller: widget.controller, // Assign the controller
             focusNode: widget.searchFocusNode,
+            autocorrect: true,
             spellCheckConfiguration: kIsWeb ? null : SpellCheckConfiguration(),
             onSubmitted: (value) {
               widget.onPrefixIconTap
