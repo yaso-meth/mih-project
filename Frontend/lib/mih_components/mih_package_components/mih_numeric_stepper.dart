@@ -34,12 +34,30 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
   late bool error;
 
   @override
+  void dispose() {
+    widget.controller.removeListener(_syncCurrentValue);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _currentValue =
         int.tryParse(widget.controller.text) ?? widget.minValue ?? 0;
     widget.controller.text = _currentValue.toString();
-    print("Current Value: $_currentValue");
+    int.tryParse(widget.controller.text) ?? widget.minValue ?? 0;
+    widget.controller.addListener(_syncCurrentValue);
+    // print("Current Value: $_currentValue");
+  }
+
+  void _syncCurrentValue() {
+    final newValue =
+        int.tryParse(widget.controller.text) ?? widget.minValue ?? 0;
+    if (newValue != _currentValue) {
+      setState(() {
+        _currentValue = newValue;
+      });
+    }
   }
 
   @override
