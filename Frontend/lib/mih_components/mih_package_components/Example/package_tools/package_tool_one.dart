@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -164,6 +165,30 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ad Test",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ],
+                ),
+                MihBannerAd(),
+                const SizedBox(height: 10),
+                Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  thickness: 2,
+                ),
+                const SizedBox(height: 10),
                 MihForm(
                   formKey: _formKey,
                   formFields: [
