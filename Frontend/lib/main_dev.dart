@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import '../../main.dart';
@@ -15,6 +16,7 @@ void main() async {
     apiBasePath: "/auth",
   );
   // setUrlStrategy(PathUrlStrategy());
+  MobileAds.instance.initialize();
   PWAInstall().setup(installCallback: () {
     debugPrint('APP INSTALLED!');
   });
