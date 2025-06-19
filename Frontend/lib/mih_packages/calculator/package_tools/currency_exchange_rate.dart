@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -152,6 +153,8 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                 ),
               ],
             ),
+            SizedBox(height: 10),
+            MihBannerAd(),
           ],
         ),
       ),
