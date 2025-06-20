@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -173,7 +174,7 @@ class _TipCalcState extends State<TipCalc> {
                 color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const Divider(),
+            if (splitBillController.text == "Yes") const Divider(),
             if (splitBillController.text == "Yes")
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -221,6 +222,8 @@ class _TipCalcState extends State<TipCalc> {
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
+            SizedBox(height: 10),
+            MihBannerAd(),
             // if (splitBillController.text == "Yes") const Divider(),
           ],
         ),

@@ -1,20 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 // import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
+// void main() async {
+//   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+//   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+//   AppEnviroment.setupEnv(Enviroment.dev);
+//   SuperTokens.init(
+//     apiDomain: AppEnviroment.baseApiUrl,
+//     apiBasePath: "/auth",
+//   );
+//   // setUrlStrategy(PathUrlStrategy());
+//   MobileAds.instance.initialize();
+//   PWAInstall().setup(installCallback: () {
+//     debugPrint('APP INSTALLED!');
+//   });
+//   FlutterNativeSplash.remove();
+//   runApp(const MzanziInnovationHub());
+//  }
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  AppEnviroment.setupEnv(Enviroment.dev);
+  await AppEnviroment.setupEnv(Enviroment.dev);
   SuperTokens.init(
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
-  // setUrlStrategy(PathUrlStrategy());
+  if (!kIsWeb) {
+    MobileAds.instance.initialize();
+  }
   PWAInstall().setup(installCallback: () {
     debugPrint('APP INSTALLED!');
   });

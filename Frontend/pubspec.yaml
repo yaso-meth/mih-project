@@ -43,6 +43,7 @@ dependencies:
   share_plus: ^11.0.0
   app_settings: ^6.1.1
   pwa_install: ^0.0.6
+  google_mobile_ads: ^6.0.0
 
 dev_dependencies:
   flutter_test:
