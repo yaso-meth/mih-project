@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 enum Enviroment { dev, prod }
 
 //
@@ -34,9 +36,22 @@ abstract class AppEnviroment {
           baseApiUrl = "https://api.mzansi-innovation-hub.co.za";
           baseFileUrl = "https://minio.mzansi-innovation-hub.co.za";
           baseAiUrl = "https://ai.mzansi-innovation-hub.co.za";
-          bannerAdUnitId = Platform.isAndroid
-              ? 'ca-app-pub-4781880856775334/8868663088' // Android
-              : 'ca-app-pub-4781880856775334/6640324682'; // iOS
+          if (kIsWeb) {
+            // No banner ads on web, or use a placeholder/specific web ad unit
+            bannerAdUnitId = ''; // Or a specific web ad unit ID if you have one
+          } else if (Platform.isAndroid) {
+            bannerAdUnitId =
+                'ca-app-pub-4781880856775334/8868663088'; // Android
+          } else if (Platform.isIOS) {
+            // Use Platform.isIOS for clarity
+            bannerAdUnitId = 'ca-app-pub-4781880856775334/6640324682'; // iOS
+          } else {
+            // Fallback for other platforms if necessary
+            bannerAdUnitId = '';
+          }
+          // bannerAdUnitId = Platform.isAndroid
+          //     ? 'ca-app-pub-4781880856775334/8868663088' // Android
+          //     : 'ca-app-pub-4781880856775334/6640324682'; // iOS
           //fingerPrintPluginKey = 'h5X7a5j14iUZCobI1ZeX';
           break;
         }
