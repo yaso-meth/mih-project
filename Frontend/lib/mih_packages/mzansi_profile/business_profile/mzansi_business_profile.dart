@@ -113,9 +113,12 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
               return const Center(child: Mihloadingcircle());
             } else if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
+              final logoUrl = snapshot.data!.isNotEmpty
+                  ? NetworkImage(snapshot.data!)
+                  : null;
               return MihBusinessDetails(
                 arguments: widget.arguments,
-                logoImage: NetworkImage(snapshot.requireData),
+                logoImage: logoUrl,
               );
             } else {
               return Text("Error: ${snapshot.error}");
@@ -129,7 +132,10 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final proPicUrl = NetworkImage(snapshot.data![0]);
-            final signatureUrl = NetworkImage(snapshot.data![1]);
+            print("=============== Signature URL: ${snapshot.data![1]}");
+            final signatureUrl = snapshot.data![1].isNotEmpty
+                ? NetworkImage(snapshot.data![1])
+                : null;
             return MihMyBusinessUser(
               arguments: widget.arguments,
               userProPicImage: proPicUrl,
