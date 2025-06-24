@@ -57,6 +57,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    // if (widget.imageFile == null)
     return Container(
       // color: Colors.white,
       alignment: Alignment.center,
