@@ -57,20 +57,20 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   final String maintenanceMsg =
       "\tHeads up! We're doing maintenance on Thur, 15 May 2025 at 10 PM (CAT). MIH may be unavailable briefly.";
 
-  void _startMarquee() async {
-    while (mounted) {
-      final double maxScroll = _scrollController.position.maxScrollExtent;
-      await Future.delayed(const Duration(milliseconds: 500));
-      await _scrollController.animateTo(
-        maxScroll,
-        duration: _marqueeController.duration!,
-        curve: Curves.linear,
-      );
-      await Future.delayed(const Duration(milliseconds: 500));
-      _scrollController.jumpTo(0);
-      await Future.delayed(const Duration(milliseconds: 500));
-    }
-  }
+  // void _startMarquee() async {
+  //   while (mounted) {
+  //     final double maxScroll = _scrollController.position.maxScrollExtent;
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //     await _scrollController.animateTo(
+  //       maxScroll,
+  //       duration: _marqueeController.duration!,
+  //       curve: Curves.linear,
+  //     );
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //     _scrollController.jumpTo(0);
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //   }
+  // }
 
   List<Map<String, Widget>> setNerUserPersonalPackage() {
     List<Map<String, Widget>> temp = [];
@@ -224,12 +224,13 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       personalPackagesMap = setPersonalPackagesMap();
     }
     searchPackage();
-    _marqueeController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 12),
-    );
-    _scrollController = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _startMarquee());
+    //Scrolling Banner message
+    // _marqueeController = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(seconds: 12),
+    // );
+    // _scrollController = ScrollController();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => _startMarquee());
   }
 
   @override
