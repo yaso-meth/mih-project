@@ -1,375 +1,311 @@
+import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/mih_policy_tos_ext/mih_privacy_polocy_external.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/mih_policy_tos_ext/mih_terms_of_service_external.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
+import 'package:mzansi_innovation_hub/mih_packages/authentication/auth_check.dart';
+import 'package:mzansi_innovation_hub/mih_packages/authentication/forgot_password.dart';
+import 'package:mzansi_innovation_hub/mih_packages/authentication/reset_password.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/add_or_view_patient.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
-import 'package:flutter/material.dart';
-import '../mih_components/mih_layout/mih_print_prevew.dart';
-import '../mih_components/mih_pop_up_messages/mih_notification_message.dart';
-import '../mih_packages/authentication/auth_check.dart';
-import '../mih_packages/authentication/forgot_password.dart';
-import '../mih_packages/authentication/reset_password.dart';
-import '../mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
-import '../mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
+
+// 1. Define Route Names as Constants
+// This prevents typos and allows for easier refactoring.
+// Consider moving this to a separate `lib/constants/app_routes.dart` file
+// if your project grows larger.
+class AppRoutes {
+  // External
+  static const String resetPasswordExternal = '/auth/reset-password';
+  static const String privacyPolicyExternal = '/privacy-policy';
+  static const String termsOfServiceExternal = '/terms-of-service';
+
+  // Internal
+  static const String authCheck = '/';
+  static const String notifications = '/notifications';
+  static const String forgotPassword = '/forgot-password';
+  static const String aboutMih = '/about';
+  static const String mzansiProfile = '/mzansi-profile';
+  static const String businessProfileSetup = '/business-profile/set-up';
+  static const String businessProfileManage = '/business-profile/manage';
+  static const String patientProfile = '/patient-profile';
+  static const String patientProfileSetup = '/patient-profile/set-up';
+  static const String patientProfileEdit = '/patient-profile/edit';
+  static const String mzansiWallet = '/mzansi-wallet';
+  static const String mihAccess = '/mih-access';
+  static const String calendar = '/calendar';
+  static const String appointments =
+      '/appointments'; // Consider unifying with /calendar
+  static const String patientManager = '/patient-manager';
+  static const String patientManagerPatient = '/patient-manager/patient';
+  static const String fileViewer = '/file-veiwer';
+  static const String printPreview = '/file-veiwer/print-preview';
+  static const String barcodeScanner = '/scanner';
+  static const String calculator = '/calculator';
+  static const String mzansiAi = '/mzansi-ai';
+  static const String packageDevTest = '/package-dev';
+}
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-    var extPath = Uri.base.path;
-    // print(extPath);
-    // print(settings.name);
-    // External Links Navigation
-    switch (extPath) {
-      case '/auth/reset-password':
-        return MaterialPageRoute(
-            settings: settings,
-            builder: (_) => ResetPassword(
-                  token: Uri.base.queryParameters['token'],
-                ));
-      //Privacy Policy
-      case '/privacy-policy':
-        return MaterialPageRoute(
-            settings: settings,
-            builder: (_) => const MIHPrivacyPolocyExternal());
-      //===============================================================
+    final extPath =
+        Uri.base.path; // Moved outside the internal switch for clarity
 
-      //Terms Of Service
-      case '/terms-of-service':
-        return MaterialPageRoute(
-            settings: settings,
-            builder: (_) => const MIHTermsOfServiceExternal());
-      //===============================================================
-      default:
-        // Internal Navigation
-        switch (settings.name) {
-          // Authgentication
-          case '/':
-            if (args is AuthArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => AuthCheck(
-                  personalSelected: args.personalSelected,
-                  firstBoot: args.firstBoot,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/notifications':
-            if (args is NotificationArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MIHNotificationMessage(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/forgot-password':
-            return MaterialPageRoute(
-                settings: settings, builder: (_) => const ForgotPassword());
-          //http://mzansi-innovation-hub.co.za/auth/reset-password
-          //===============================================================
-
-          //About MIH
-          case '/about':
-            if (args is int) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => AboutMih(
-                  packageIndex: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Privacy Policy
-          case '/privacy-policy':
-            return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => const MIHPrivacyPolocyExternal());
-          //===============================================================
-
-          //Terms Of Service
-          case '/terms-of-service':
-            return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => const MIHTermsOfServiceExternal());
-          //===============================================================
-
-          //User Profile
-          case '/mzansi-profile':
-            if (args is AppProfileUpdateArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MzansiProfile(arguments: args),
-                // ProfileUserUpdate(
-                //   arguments: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Business Profile Pages
-          case '/business-profile/set-up':
-            if (args is AppUser) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => ProfileBusinessAdd(
-                  signedInUser: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/business-profile/manage':
-            if (args is BusinessArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MzansiBusinessProfile(
-                  arguments: args,
-                ),
-                // ManageBusinessProfile(
-                //   arguments: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          // Patient Profile Pages
-          case '/patient-profile':
-            if (args is PatientViewArguments) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => AddOrViewPatient(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/patient-profile/set-up':
-            if (args is AppUser) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => AddPatient(
-                  signedInUser: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/patient-profile/edit':
-            if (args is PatientEditArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => EditPatient(
-                  signedInUser: args.signedInUser,
-                  selectedPatient: args.selectedPatient,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          // /mzansi wallet
-          case '/mzansi-wallet':
-            if (args is WalletArguments) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MihWallet(
-                  arguments: args,
-                ),
-                // MzansiWallet(
-                //   signedInUser: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          // Access Review Page
-          case '/mih-access':
-            if (args is AppUser) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MihAccess(
-                  signedInUser: args,
-                ),
-                // PatientAccessRequest(
-                //   signedInUser: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          // Appointment Page
-          case '/calendar':
-            if (args is CalendarArguments) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MzansiCalendar(
-                  arguments: args,
-                ),
-                //     Appointments(
-                //   signedInUser: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          case '/appointments':
-            if (args is CalendarArguments) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MzansiCalendar(
-                  arguments: args,
-                ),
-                //     Appointments(
-                //   signedInUser: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Patient Manager Pages
-          case '/patient-manager':
-            if (args is PatManagerArguments) {
-              //print("route generator: $args");
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => PatManager(
-                  arguments: args,
-                ),
-                // PatientManager(
-                //   arguments: args,
-                // ),
-              );
-            }
-            return _errorRoute();
-          case '/patient-manager/patient':
-            if (args is PatientViewArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => PatientProfile(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Full Screen File Viewer
-          case '/file-veiwer':
-            if (args is FileViewArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => FullScreenFileViewer(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          case '/file-veiwer/print-preview':
-            if (args is PrintPreviewArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MIHPrintPreview(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Full Screen File Viewer
-          case '/scanner':
-            if (args is TextEditingController) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MihBarcodeScanner(
-                  cardNumberController: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Calculator
-          case '/calculator':
-            if (args is bool) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MIHCalculator(
-                  personalSelected: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //===============================================================
-
-          //Mzansi AI
-          case '/mzansi-ai':
-            if (args is MzansiAiArguments) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (_) => MzansiAi(
-                  arguments: args,
-                ),
-              );
-            }
-            return _errorRoute();
-          //===============================================================
-
-          //Package Ttemplate Test
-          case '/package-dev':
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const PackageTest(),
-            );
-
-          default:
-            return _errorRoute();
-        }
+    // 2. Prioritize External Links
+    // Using an if-else if chain for external routes might be slightly
+    // more performant than a switch if there are many external routes,
+    // as it avoids string hashing for each case. For a small number,
+    // a switch is also fine.
+    if (extPath == AppRoutes.resetPasswordExternal) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => ResetPassword(token: Uri.base.queryParameters['token']),
+      );
+    } else if (extPath == AppRoutes.privacyPolicyExternal) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const MIHPrivacyPolocyExternal(),
+      );
+    } else if (extPath == AppRoutes.termsOfServiceExternal) {
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const MIHTermsOfServiceExternal(),
+      );
     }
-  }
-}
 
-Route<dynamic> _errorRoute() {
-  print("Invalid Route");
-  return MaterialPageRoute(
-      settings: const RouteSettings(name: '/'),
+    // 3. Handle Internal Navigation with a Switch Statement
+    // This switch now only deals with internal app routes, making it cleaner.
+    switch (settings.name) {
+      case AppRoutes.authCheck:
+        if (args is AuthArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AuthCheck(
+              personalSelected: args.personalSelected,
+              firstBoot: args.firstBoot,
+            ),
+          );
+        }
+        break; // Use break and fall through to _errorRoute if argument type is wrong
+
+      case AppRoutes.notifications:
+        if (args is NotificationArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MIHNotificationMessage(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.forgotPassword:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const ForgotPassword());
+
+      case AppRoutes.aboutMih:
+        if (args is int) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AboutMih(packageIndex: args),
+          );
+        }
+        break;
+
+      case AppRoutes.mzansiProfile:
+        if (args is AppProfileUpdateArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.businessProfileSetup:
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => ProfileBusinessAdd(signedInUser: args),
+          );
+        }
+        break;
+
+      case AppRoutes.businessProfileManage:
+        if (args is BusinessArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiBusinessProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.patientProfile:
+        if (args is PatientViewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AddOrViewPatient(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.patientProfileSetup:
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AddPatient(signedInUser: args),
+          );
+        }
+        break;
+
+      case AppRoutes.patientProfileEdit:
+        if (args is PatientEditArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => EditPatient(
+              signedInUser: args.signedInUser,
+              selectedPatient: args.selectedPatient,
+            ),
+          );
+        }
+        break;
+
+      case AppRoutes.mzansiWallet:
+        if (args is WalletArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MihWallet(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.mihAccess:
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MihAccess(signedInUser: args),
+          );
+        }
+        break;
+
+      // 4. Handle Calendar/Appointments - Unified to one case or keep separate as needed
+      case AppRoutes.calendar:
+      case AppRoutes
+            .appointments: // Fall-through if both lead to the same screen
+        if (args is CalendarArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiCalendar(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.patientManager:
+        if (args is PatManagerArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PatManager(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.patientManagerPatient:
+        if (args is PatientViewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PatientProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.fileViewer:
+        if (args is FileViewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => FullScreenFileViewer(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.printPreview:
+        if (args is PrintPreviewArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MIHPrintPreview(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.barcodeScanner:
+        if (args is TextEditingController) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MihBarcodeScanner(cardNumberController: args),
+          );
+        }
+        break;
+
+      case AppRoutes.calculator:
+        if (args is bool) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MIHCalculator(personalSelected: args),
+          );
+        }
+        break;
+
+      case AppRoutes.mzansiAi:
+        if (args is MzansiAiArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiAi(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.packageDevTest:
+        // No arguments expected for this test route
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const PackageTest(),
+        );
+
+      default:
+        // If no match is found, fall through to the error route
+        break;
+    }
+
+    // 5. Consolidated Error Route Call
+    // If any of the internal cases fail (e.g., wrong argument type or no matching route),
+    // it will fall through here.
+    return _errorRoute();
+  }
+
+  // 6. Refined Error Route
+  // Providing a simple, clear error message or redirection.
+  static Route<dynamic> _errorRoute() {
+    debugPrint(
+        "Invalid Route or Missing/Incorrect Arguments"); // Use debugPrint for development logs
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: AppRoutes.authCheck),
       builder: (_) => const AuthCheck(
-            personalSelected: true,
-            firstBoot: true,
-          ));
-  // return MaterialPageRoute(builder: (_) {
-  //   return const Scaffold(
-  //     appBar: MIHAppBar(barTitle: "Error"),
-  //     body: Center(
-  //       child: Text("Error"),
-  //     ),
-  //   );
-  // });
+        personalSelected: true,
+        firstBoot: true,
+      ),
+    );
+  }
 }
