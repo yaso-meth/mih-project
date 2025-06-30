@@ -28,6 +28,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   final TextEditingController _fromAmountController = TextEditingController();
   final TextEditingController _toAmountController = TextEditingController();
   late Future<List<String>> availableCurrencies;
+  MihBannerAd _bannerAd = MihBannerAd();
 
   Future<void> submitForm() async {
     String fromCurrencyCode = _fromCurrencyController.text.split(" - ")[0];
@@ -65,6 +66,9 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
+          setState(() {
+            _bannerAd = MihBannerAd();
+          });
           Navigator.pop(context);
         },
         windowBody: Column(
@@ -154,7 +158,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               ],
             ),
             SizedBox(height: 10),
-            MihBannerAd(),
+            SizedBox(child: _bannerAd),
           ],
         ),
       ),

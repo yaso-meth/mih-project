@@ -41,7 +41,7 @@ class _MihCardsState extends State<MihCards> {
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   late Future<List<MIHLoyaltyCard>> cardList;
-  late MihBannerAd _bannerAd;
+  MihBannerAd _bannerAd = MihBannerAd();
   List<MIHLoyaltyCard> listOfCards = [];
   //bool showSelectedCardType = false;
   final ValueNotifier<String> shopName = ValueNotifier("");
@@ -311,7 +311,6 @@ class _MihCardsState extends State<MihCards> {
 
   @override
   void initState() {
-    _bannerAd = MihBannerAd();
     cardList = MIHMzansiWalletApis.getLoyaltyCards(widget.signedInUser.app_id);
     shopController.addListener(shopSelected);
     cardSearchController.addListener(searchShop);
