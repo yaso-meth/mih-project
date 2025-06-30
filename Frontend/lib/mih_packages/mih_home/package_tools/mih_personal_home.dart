@@ -51,8 +51,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   final ValueNotifier<List<Map<String, Widget>>> searchPackageName =
       ValueNotifier([]);
   double packageSize = 200;
-  late final AnimationController _marqueeController;
-  late final ScrollController _scrollController;
+  // late final AnimationController _marqueeController;
+  // late final ScrollController _scrollController;
   final FocusNode _searchFocusNode = FocusNode();
   final String maintenanceMsg =
       "\tHeads up! We're doing maintenance on Thur, 15 May 2025 at 10 PM (CAT). MIH may be unavailable briefly.";
@@ -210,8 +210,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     searchController.removeListener(searchPackage);
     searchController.dispose();
     _searchFocusNode.dispose();
-    _marqueeController.dispose();
-    _scrollController.dispose();
+    // _marqueeController.dispose();
+    // _scrollController.dispose();
   }
 
   @override
