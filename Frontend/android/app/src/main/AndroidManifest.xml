@@ -52,9 +52,6 @@
             <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4781880856775334~7553757584"/>
-
-            <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
-
     </application>
 
     <!-- Provide required visibility configuration for API level 30 and above -->
