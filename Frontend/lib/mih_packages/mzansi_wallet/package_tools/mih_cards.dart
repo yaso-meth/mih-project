@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -40,6 +41,7 @@ class _MihCardsState extends State<MihCards> {
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   late Future<List<MIHLoyaltyCard>> cardList;
+  MihBannerAd _bannerAd = MihBannerAd();
   List<MIHLoyaltyCard> listOfCards = [];
   //bool showSelectedCardType = false;
   final ValueNotifier<String> shopName = ValueNotifier("");
@@ -368,6 +370,13 @@ class _MihCardsState extends State<MihCards> {
                           cardList: searchShopName.value,
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
+                          bannerAd: _bannerAd,
+                          onCardViewClose: () {
+                            setState(() {
+                              _bannerAd = MihBannerAd();
+                            });
+                            Navigator.pop(context);
+                          },
                         );
                       },
                     );

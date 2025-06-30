@@ -29,6 +29,7 @@ class _TipCalcState extends State<TipCalc> {
   final ValueNotifier<String> splitValue = ValueNotifier("");
   late bool splitPosition;
   final _formKey = GlobalKey<FormState>();
+  MihBannerAd _bannerAd = MihBannerAd();
   String tip = "";
   String total = "";
   String amountPerPerson = "";
@@ -96,6 +97,9 @@ class _TipCalcState extends State<TipCalc> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
+          setState(() {
+            _bannerAd = MihBannerAd();
+          });
           Navigator.pop(context);
         },
         windowBody: Column(
@@ -223,7 +227,7 @@ class _TipCalcState extends State<TipCalc> {
                 ),
               ),
             SizedBox(height: 10),
-            MihBannerAd(),
+            SizedBox(child: _bannerAd),
             // if (splitBillController.text == "Yes") const Divider(),
           ],
         ),

@@ -20,12 +20,16 @@ class BuildLoyaltyCardList extends StatefulWidget {
   final AppUser signedInUser;
   final List<MIHLoyaltyCard> cardList;
   final int navIndex;
+  final MihBannerAd? bannerAd;
+  final void Function()? onCardViewClose;
 
   const BuildLoyaltyCardList({
     super.key,
     required this.signedInUser,
     required this.cardList,
     required this.navIndex,
+    this.bannerAd,
+    this.onCardViewClose,
   });
 
   @override
@@ -391,9 +395,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             },
           ),
         ],
-        onWindowTapClose: () {
-          Navigator.pop(context);
-        },
+        onWindowTapClose: widget.onCardViewClose ??
+            () {
+              Navigator.pop(context);
+            },
         windowBody: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -451,7 +456,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ),
             SizedBox(height: 10),
-            MihBannerAd(),
+            widget.bannerAd ?? SizedBox(),
+            // MihBannerAd(),
           ],
         ),
       ),
