@@ -13,6 +13,7 @@ class _MihBannerAdState extends State<MihBannerAd> {
   BannerAd? _bannerAd;
   bool _isBannerAdLoaded = false;
   final adUnitId = AppEnviroment.bannerAdUnitId;
+  String errorMessage = '';
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
@@ -28,6 +29,9 @@ class _MihBannerAdState extends State<MihBannerAd> {
         },
         onAdFailedToLoad: (ad, err) {
           debugPrint('BannerAd failed to load: $err');
+          setState(() {
+            errorMessage = 'Failed to load ad: ${err.message}';
+          });
           ad.dispose(); // Dispose the ad to free resources
         },
         onAdOpened: (Ad ad) => debugPrint('$ad opened.'),
@@ -60,7 +64,9 @@ class _MihBannerAdState extends State<MihBannerAd> {
                 width: _bannerAd!.size.width.toDouble(),
                 height: _bannerAd!.size.height.toDouble(),
                 child: AdWidget(ad: _bannerAd!))
-            : SizedBox(),
+            : SizedBox(
+                child: Text(errorMessage),
+              ),
       ],
     );
   }
