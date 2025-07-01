@@ -425,41 +425,54 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     },
                   ),
                 ),
-                Text(
-                  "@${widget.arguments.signedInUser.username}",
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                FittedBox(
+                  child: Text(
+                    "@${widget.arguments.signedInUser.username}",
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
                 ),
-                Text(
-                  "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                FittedBox(
+                  child: Text(
+                    "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
                 ),
-                Text(
-                  businessUser ? "Business" : "Personal",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                FittedBox(
+                  child: Text(
+                    businessUser ? "Business" : "Personal",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                Text(
-                  "This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                Center(
+                  child: Text(
+                    "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30.0),
