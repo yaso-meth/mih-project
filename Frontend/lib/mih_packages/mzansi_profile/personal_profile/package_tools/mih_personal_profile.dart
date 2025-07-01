@@ -246,7 +246,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 25.0),
+                  // const SizedBox(height: 25.0),
                   Visibility(
                     visible: false,
                     child: MihTextFormField(
@@ -462,29 +462,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
-                // MihToggle(
-                //   hintText: "Activate Business Account",
-                //   initialPostion: businessUser,
-                //   fillColor:
-                //       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                //   secondaryFillColor:
-                //       MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                //   onChange: (value) {
-                //     setState(() {
-                //       businessUser = value;
-                //     });
-                //   },
-                // ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: MihButton(
                     onPressed: () {
-                      // //Add validation here
-                      // if (_formKey.currentState!.validate()) {
-                      //   submitForm();
-                      // } else {
-                      //   MihAlertServices().formNotFilledCompletely(context);
-                      // }
+                      // Connect with the user
                     },
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.successColor(),
