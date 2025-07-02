@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
@@ -22,7 +20,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class MihPersonalProfile extends StatefulWidget {
   final AppProfileUpdateArguments arguments;
@@ -115,35 +112,16 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> updateUserApiCall() async {
-    var fname = proPicController.text.replaceAll(RegExp(r' '), '-');
-    var filePath =
-        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
-    var profileType;
-    if (businessUser) {
-      profileType = "business";
-    } else {
-      profileType = "personal";
-    }
-    if (isUsernameValid(usernameController.text) == false) {
-      usernamePopUp();
-    } else {
-      var response = await http.put(
-        Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "idusers": widget.arguments.signedInUser.idUser,
-          "username": usernameController.text,
-          "fnam": fnameController.text,
-          "lname": lnameController.text,
-          "type": profileType,
-          "pro_pic_path": filePath,
-        }),
+      int responseCode = await MihUserApis().updateUser(
+        widget.arguments.signedInUser,
+        fnameController.text,
+        lnameController.text,
+        usernameController.text,
+        proPicController.text,
+        businessUser,
+        context,
       );
-      //print("Here4");
-      //print(response.statusCode);
-      if (response.statusCode == 200) {
+      if (responseCode == 200) {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context).pop();
@@ -159,7 +137,6 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       } else {
         internetConnectionPopUp();
       }
-    }
   }
 
   Future<void> deleteFileApiCall(String filename) async {
