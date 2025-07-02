@@ -13,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_packages/authentication/forgot_passwor
 import 'package:mzansi_innovation_hub/mih_packages/authentication/reset_password.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
@@ -38,6 +39,7 @@ class AppRoutes {
 
   // Internal
   static const String authCheck = '/';
+  static const String mihAuthentication = '/mih-authentication';
   static const String notifications = '/notifications';
   static const String forgotPassword = '/forgot-password';
   static const String aboutMih = '/about';
@@ -105,6 +107,14 @@ class RouteGenerator {
         }
         break; // Use break and fall through to _errorRoute if argument type is wrong
 
+      case AppRoutes.mihAuthentication:
+        // if (args is AuthArguments) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => MihAuthentication(),
+        );
+      // }
+      // break; // Use break and fall through to _errorRoute if argument type is wrong
       case AppRoutes.notifications:
         if (args is NotificationArguments) {
           return MaterialPageRoute(

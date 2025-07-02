@@ -46,14 +46,12 @@ class _SignInState extends State<SignIn> {
   //sign user in
   Future<void> signUserIn() async {
     //var _backgroundColor = Colors.transparent;
-
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-
     try {
       var response = await http.post(
         Uri.parse("$baseAPI/auth/signin"),
