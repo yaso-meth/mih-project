@@ -75,22 +75,10 @@ class MIHApiCalls {
     } else {
       bUserData = null;
     }
-    // var responseBUser = await http.get(
-    //   Uri.parse("$baseAPI/business-user/$uid"),
-    // );
-    // if (responseBUser.statusCode == 200) {
-    //   String body = responseBUser.body;
-    //   var decodedData = jsonDecode(body);
-    //   BusinessUser business_User = BusinessUser.fromJson(decodedData);
-    //   bUserData = business_User;
-    // } else {
-    //   bUserData = null;
-    // }
 
     // Get Businessdata
     Business? business = await MihBusinessDetailsServices().getBusinessDetails(
       uid,
-      context,
     );
     if (business != null) {
       busData = business;

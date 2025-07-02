@@ -9,12 +9,10 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
-
   Future<Business?> getBusinessDetails(
     String app_id,
-    BuildContext context,
   ) async {
-     var response = await http.get(
+    var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
