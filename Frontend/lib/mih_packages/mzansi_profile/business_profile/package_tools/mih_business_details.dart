@@ -530,19 +530,19 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     ),
                   ),
                 ),
-                Center(
-                  child: Text(
-                    "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: Text(
+                //     "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //       color: MzanziInnovationHub.of(context)!
+                //           .theme
+                //           .secondaryColor(),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 MihBusinessCard(
                   businessName: widget.arguments.business!.Name,
@@ -552,6 +552,28 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                   //To-Do: Add the business Website
                   website:
                       "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                ),
+                const SizedBox(height: 30.0),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      // Connect with the user
+                      editBizProfileWindow(width);
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                    width: 300,
+                    child: Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
