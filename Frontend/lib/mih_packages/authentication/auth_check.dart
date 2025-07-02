@@ -1,10 +1,10 @@
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/authentication/biometric_check.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 
 import 'package:supertokens_flutter/supertokens.dart';
 // import 'package:no_screenshot/no_screenshot.dart';
-import 'signin_or_register.dart';
 
 class AuthCheck extends StatefulWidget {
   final bool personalSelected;
@@ -69,7 +69,7 @@ class _AuthCheckState extends State<AuthCheck> {
                     firstBoot: widget.firstBoot,
                   );
                 } else if (snapshot.data == false) {
-                  return const SignInOrRegister();
+                  return MihAuthentication();
                 } else {
                   return
                       // const SizedBox(width: 5, height: 5);
