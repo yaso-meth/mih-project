@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -112,26 +113,34 @@ class MIHApiCalls {
     }
 
     //get patient profile
-    //print("Patien manager page: $endpoint");
-    final response = await http.get(
-        Uri.parse("${AppEnviroment.baseApiUrl}/patients/${userData.app_id}"));
+    Patient? patient = await MihPatientServices().getPatientDetails(
+      uid,
+    );
+    if (patient != null) {
+      patientData = patient;
+    } else {
+      patientData = null;
+    }
+
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
     // var errorCode = response.statusCode.toString();
     // var errorBody = response.body;
 
-    if (response.statusCode == 200) {
-      // print("Here1");
-      var decodedData = jsonDecode(response.body);
-      // print("Here2");
-      Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-      // print("Here3");
-      // print(patients);
-      patientData = patients;
-    } else {
-      patientData = null;
-    }
+    // final response = await http.get(
+    //     Uri.parse("${AppEnviroment.baseApiUrl}/patients/${userData.app_id}"));
+    // if (response.statusCode == 200) {
+    //   // print("Here1");
+    //   var decodedData = jsonDecode(response.body);
+    //   // print("Here2");
+    //   Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
+    //   // print("Here3");
+    //   // print(patients);
+    //   patientData = patients;
+    // } else {
+    //   patientData = null;
+    // }
     //print(userPic);
     return HomeArguments(
         userData, bUserData, busData, patientData, notifi, userPic);
