@@ -30,6 +30,39 @@ class MihUserServices {
     }
   }
 
+  Future<void> createUser(
+    String email,
+    String app_id,
+    BuildContext context,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/user/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "email": email,
+        "app_id": app_id,
+      }),
+    );
+    if (response.statusCode == 201) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/',
+        (route) => false,
+        arguments: AuthArguments(
+          true,
+          true,
+        ),
+      );
+      // signUpSuccess();
+      // setState(() {
+      //   successfulSignUp = true;
+      // });
+    } else {
+      internetConnectionPopUp(context);
+    }
+  }
+
   Future<AppUser?> getUserDetails(
     String app_id,
     BuildContext context,
@@ -60,33 +93,32 @@ class MihUserServices {
     BuildContext context,
   ) async {
     var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
-    var filePath =
-        "${signedInUser.app_id}/profile_files/$fileName";
+    var filePath = "${signedInUser.app_id}/profile_files/$fileName";
     String profileType;
     if (isBusinessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
-      var response = await http.put(
-        Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "idusers": signedInUser.idUser,
-          "username": username,
-          "fnam": firstName,
-          "lname": lastName,
-          "type": profileType,
-          "pro_pic_path": filePath,
-        }),
-      );
-      if (response.statusCode == 200) {
-        return response.statusCode;
-      } else {
-        return response.statusCode;
-      }
+    var response = await http.put(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idusers": signedInUser.idUser,
+        "username": username,
+        "fnam": firstName,
+        "lname": lastName,
+        "type": profileType,
+        "pro_pic_path": filePath,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
   }
 
   static Future<void> deleteAccount(
@@ -127,19 +159,6 @@ class MihUserServices {
       internetConnectionPopUp(context);
     }
   }
-
-  // Future<void> signOut() async {
-  //   await SuperTokens.signOut(completionHandler: (error) {
-  //     print(error);
-  //   });
-  //   if (await SuperTokens.doesSessionExist() == false) {
-  //     Navigator.of(context).pop();
-  //     Navigator.of(context).popAndPushNamed(
-  //       '/',
-  //       arguments: AuthArguments(true, false),
-  //     );
-  //   }
-  // }
 
 //================== POP UPS ==========================================================================
 
