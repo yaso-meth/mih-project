@@ -1,13 +1,34 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
-class MihBusinessDetailsApi {
+class MihBusinessDetailsServices {
+
+  Future<Business?> getBusinessDetails(
+    String app_id,
+    BuildContext context,
+  ) async {
+     var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return Business.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
   Future<Response> createBusinessDetails(
     String appId,
     String busineName,
