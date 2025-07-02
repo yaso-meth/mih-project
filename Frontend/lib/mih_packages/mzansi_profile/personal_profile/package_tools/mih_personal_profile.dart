@@ -70,8 +70,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Future<void> submitForm() async {
     // print("============\nsubmiit form\n=================");
     if (widget.arguments.signedInUser.username != usernameController.text) {
-      bool isUsernameUnique =
-          await MihUserServices.isUsernameUnique(usernameController.text, context);
+      bool isUsernameUnique = await MihUserServices.isUsernameUnique(
+          usernameController.text, context);
       print("isUsernameUnique: $isUsernameUnique");
       if (isUsernameUnique == false) {
         notUniqueAlert();
@@ -112,31 +112,31 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> updateUserApiCall() async {
-      int responseCode = await MihUserServices().updateUser(
-        widget.arguments.signedInUser,
-        fnameController.text,
-        lnameController.text,
-        usernameController.text,
-        proPicController.text,
-        businessUser,
-        context,
+    int responseCode = await MihUserServices().updateUser(
+      widget.arguments.signedInUser,
+      fnameController.text,
+      lnameController.text,
+      usernameController.text,
+      proPicController.text,
+      businessUser,
+      context,
+    );
+    if (responseCode == 200) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/',
+        arguments: AuthArguments(
+          true,
+          false,
+        ),
       );
-      if (responseCode == 200) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
-          '/',
-          arguments: AuthArguments(
-            true,
-            false,
-          ),
-        );
-        String message = "Your information has been updated successfully!";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
+      String message = "Your information has been updated successfully!";
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
   }
 
   Future<void> deleteFileApiCall(String filename) async {
@@ -438,31 +438,32 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10.0),
-                Center(
-                  child: Text(
-                    "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 10.0),
+                // Center(
+                //   child: Text(
+                //     "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //       color: MzanziInnovationHub.of(context)!
+                //           .theme
+                //           .secondaryColor(),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: MihButton(
                     onPressed: () {
                       // Connect with the user
+                      editProfileWindow(width);
                     },
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
-                      "Connect",
+                      "Edit Profile",
                       style: TextStyle(
                         color: MzanziInnovationHub.of(context)!
                             .theme
