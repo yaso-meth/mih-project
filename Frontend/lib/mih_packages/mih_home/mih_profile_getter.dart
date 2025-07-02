@@ -218,7 +218,6 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
     // );
   }
 
-// <a href="https://www.flaticon.com/free-icons/dont-know" title="dont know icons">Dont know icons created by Freepik - Flaticon</a>
   @override
   void dispose() {
     // TODO: implement dispose

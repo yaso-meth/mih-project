@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -10,6 +11,23 @@ import 'package:supertokens_flutter/http.dart' as http;
 class MihNotificationApis {
   final baseAPI = AppEnviroment.baseApiUrl;
 //================== Notifications ==========================================================================
+
+  Future<List<MIHNotification>> getNotificationByUser(
+    String app_id,
+    int notificationAmount,
+  ) async {
+    var responseNotification = await http.get(
+        Uri.parse("$baseAPI/notifications/$app_id?amount=$notificationAmount"));
+    if (responseNotification.statusCode == 200) {
+      String body = responseNotification.body;
+      Iterable l = jsonDecode(body);
+      List<MIHNotification> notifications = List<MIHNotification>.from(
+          l.map((model) => MIHNotification.fromJson(model)));
+      return notifications;
+    } else {
+      return [];
+    }
+  }
 
   /// This function is used to create notification to patient for access reviews
   ///

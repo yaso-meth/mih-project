@@ -1,6 +1,7 @@
-import 'dart:convert';
-
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -19,7 +20,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class MihPersonalProfile extends StatefulWidget {
   final AppProfileUpdateArguments arguments;
@@ -70,8 +70,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Future<void> submitForm() async {
     // print("============\nsubmiit form\n=================");
     if (widget.arguments.signedInUser.username != usernameController.text) {
-      bool isUsernameUnique =
-          await MihUserApis.isUsernameUnique(usernameController.text, context);
+      bool isUsernameUnique = await MihUserServices.isUsernameUnique(
+          usernameController.text, context);
       print("isUsernameUnique: $isUsernameUnique");
       if (isUsernameUnique == false) {
         notUniqueAlert();
@@ -112,49 +112,30 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> updateUserApiCall() async {
-    var fname = proPicController.text.replaceAll(RegExp(r' '), '-');
-    var filePath =
-        "${widget.arguments.signedInUser.app_id}/profile_files/$fname";
-    var profileType;
-    if (businessUser) {
-      profileType = "business";
-    } else {
-      profileType = "personal";
-    }
-    if (isUsernameValid(usernameController.text) == false) {
-      usernamePopUp();
-    } else {
-      var response = await http.put(
-        Uri.parse("${AppEnviroment.baseApiUrl}/user/update/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "idusers": widget.arguments.signedInUser.idUser,
-          "username": usernameController.text,
-          "fnam": fnameController.text,
-          "lname": lnameController.text,
-          "type": profileType,
-          "pro_pic_path": filePath,
-        }),
+    int responseCode = await MihUserServices().updateUser(
+      widget.arguments.signedInUser,
+      fnameController.text,
+      lnameController.text,
+      usernameController.text,
+      proPicController.text,
+      businessUser,
+      context,
+    );
+    if (responseCode == 200) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed(
+        '/',
+        arguments: AuthArguments(
+          true,
+          false,
+        ),
       );
-      //print("Here4");
-      //print(response.statusCode);
-      if (response.statusCode == 200) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
-          '/',
-          arguments: AuthArguments(
-            true,
-            false,
-          ),
-        );
-        String message = "Your information has been updated successfully!";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
+      String message = "Your information has been updated successfully!";
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
     }
   }
 
@@ -203,6 +184,152 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     );
   }
 
+  void editProfileWindow(double width) {
+    showDialog(
+      context: context,
+      builder: (context) => MihPackageWindow(
+        fullscreen: false,
+        windowTitle: "Edit Profile",
+        onWindowTapClose: () {
+          Navigator.of(context).pop();
+        },
+        windowBody: Padding(
+          padding:
+              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                  : EdgeInsets.symmetric(horizontal: width * 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  Center(
+                    child: MihCircleAvatar(
+                      imageFile: propicPreview,
+                      width: 150,
+                      editable: true,
+                      fileNameController: proPicController,
+                      userSelectedfile: proPic,
+                      frameColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      backgroundColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      onChange: (selectedImage) {
+                        setState(() {
+                          proPic = selectedImage;
+                        });
+                      },
+                    ),
+                  ),
+                  // const SizedBox(height: 25.0),
+                  Visibility(
+                    visible: false,
+                    child: MihTextFormField(
+                      fillColor: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: proPicController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      readOnly: true,
+                      hintText: "Selected File Name",
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: usernameController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Username",
+                    validator: (value) {
+                      return MihValidationServices().validateUsername(value);
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: fnameController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "First Name",
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: lnameController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Last Name",
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  MihToggle(
+                    hintText: "Activate Business Account",
+                    initialPostion: businessUser,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    secondaryFillColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onChange: (value) {
+                      setState(() {
+                        businessUser = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 30.0),
+                  Center(
+                    child: MihButton(
+                      onPressed: () {
+                        //Add validation here
+                        if (_formKey.currentState!.validate()) {
+                          submitForm();
+                        } else {
+                          MihAlertServices().formNotFilledCompletely(context);
+                        }
+                      },
+                      buttonColor:
+                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Text(
+                        "Update",
+                        style: TextStyle(
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     proPicController.dispose();
@@ -246,22 +373,22 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Widget getBody(double width) {
-    return MihSingleChildScroll(
-      child: Padding(
-        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
-            ? EdgeInsets.symmetric(horizontal: width * 0.2)
-            : EdgeInsets.symmetric(horizontal: width * 0.075),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            MihForm(
-              formKey: _formKey,
-              formFields: [
+    return Stack(
+      children: [
+        MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 Center(
                   child: MihCircleAvatar(
                     imageFile: propicPreview,
                     width: 150,
-                    editable: true,
+                    editable: false,
                     fileNameController: proPicController,
                     userSelectedfile: proPic,
                     frameColor:
@@ -275,117 +402,68 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     },
                   ),
                 ),
-                const SizedBox(height: 25.0),
-                Visibility(
-                  visible: false,
-                  child: MihTextFormField(
-                    fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    controller: proPicController,
-                    multiLineInput: false,
-                    requiredText: true,
-                    readOnly: true,
-                    hintText: "Selected File Name",
+                FittedBox(
+                  child: Text(
+                    "@${widget.arguments.signedInUser.username}",
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: usernameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  hintText: "Username",
-                  validator: (value) {
-                    return MihValidationServices().validateUsername(value);
-                  },
+                FittedBox(
+                  child: Text(
+                    "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: fnameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  hintText: "First Name",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
+                FittedBox(
+                  child: Text(
+                    businessUser ? "Business" : "Personal",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 10.0),
-                MihTextFormField(
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: lnameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  hintText: "Last Name",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10.0),
-                MihToggle(
-                  hintText: "Activate Business Account",
-                  initialPostion: businessUser,
-                  fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  secondaryFillColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: (value) {
-                    setState(() {
-                      businessUser = value;
-                    });
-                  },
-                ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     const Text(
-                //       "Activate Business Account",
-                //       style: TextStyle(
-                //         fontWeight: FontWeight.bold,
-                //         fontSize: 20,
-                //       ),
+                // const SizedBox(height: 10.0),
+                // Center(
+                //   child: Text(
+                //     "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //       color: MzanziInnovationHub.of(context)!
+                //           .theme
+                //           .secondaryColor(),
                 //     ),
-                //     const SizedBox(
-                //       width: 10,
-                //     ),
-                //     Switch(
-                //       value: businessUser,
-                //       onChanged: (bool value) {
-                //         setState(() {
-                //           businessUser = value;
-                //         });
-                //       },
-                //     ),
-                //   ],
+                //   ),
                 // ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: MihButton(
                     onPressed: () {
-                      //Add validation here
-                      if (_formKey.currentState!.validate()) {
-                        submitForm();
-                      } else {
-                        MihAlertServices().formNotFilledCompletely(context);
-                      }
+                      // Connect with the user
+                      editProfileWindow(width);
                     },
                     buttonColor:
                         MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
-                      "Update",
+                      "Edit Profile",
                       style: TextStyle(
                         color: MzanziInnovationHub.of(context)!
                             .theme
@@ -398,9 +476,36 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          right: 5,
+          bottom: 10,
+          child: MihFloatingMenu(
+            animatedIcon: AnimatedIcons.menu_close,
+            children: [
+              SpeedDialChild(
+                child: Icon(
+                  Icons.edit,
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                label: "Edit Profile",
+                labelBackgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                labelStyle: TextStyle(
+                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor:
+                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                onTap: () {
+                  editProfileWindow(width);
+                },
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

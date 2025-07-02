@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
 // import '../mih_env/mih_env.dart';
@@ -57,38 +61,27 @@ class MIHApiCalls {
 
     // Get Userdata
     var uid = await SuperTokens.getUserId();
-    var responseUser = await http.get(Uri.parse("$baseAPI/user/$uid"));
-    if (responseUser.statusCode == 200) {
-      // print("here");
-      String body = responseUser.body;
-      var decodedData = jsonDecode(body);
-      AppUser u = AppUser.fromJson(decodedData);
-      userData = u;
+    AppUser? user = await MihUserServices().getUserDetails(uid, context);
+    if (user != null) {
+      userData = user;
     } else {
-      throw Exception(
-          "Error: GetUserData status code ${responseUser.statusCode}");
+      throw Exception("Error: GetUserData returned null");
     }
 
     // Get BusinessUserdata
-    var responseBUser = await http.get(
-      Uri.parse("$baseAPI/business-user/$uid"),
-    );
-    if (responseBUser.statusCode == 200) {
-      String body = responseBUser.body;
-      var decodedData = jsonDecode(body);
-      BusinessUser business_User = BusinessUser.fromJson(decodedData);
-      bUserData = business_User;
+    BusinessUser? businessUser =
+        await MihMyBusinessUserServices().getBusinessUser(uid);
+    if (businessUser != null) {
+      bUserData = businessUser;
     } else {
       bUserData = null;
     }
 
     // Get Businessdata
-    var responseBusiness =
-        await http.get(Uri.parse("$baseAPI/business/app_id/$uid"));
-    if (responseBusiness.statusCode == 200) {
-      String body = responseBusiness.body;
-      var decodedData = jsonDecode(body);
-      Business business = Business.fromJson(decodedData);
+    Business? business = await MihBusinessDetailsServices().getBusinessDetails(
+      uid,
+    );
+    if (business != null) {
       busData = business;
     } else {
       busData = null;
@@ -97,74 +90,29 @@ class MIHApiCalls {
     //get profile picture
     if (userData.pro_pic_path == "") {
       userPic = "";
-    }
-    // else if (AppEnviroment.getEnv() == "Dev") {
-    //   userPic = "${AppEnviroment.baseFileUrl}/mih/${userData.pro_pic_path}";
-    // }
-    else {
+    } else {
       userPic =
           await MihFileApi.getMinioFileUrl(userData.pro_pic_path, context);
     }
 
     //Get Notifications
-    var responseNotification = await http.get(
-        Uri.parse("$baseAPI/notifications/$uid?amount=$notificationAmount"));
-    if (responseNotification.statusCode == 200) {
-      String body = responseNotification.body;
-      // var decodedData = jsonDecode(body);
-      // MIHNotification notifications = MIHNotification.fromJson(decodedData);
-
-      Iterable l = jsonDecode(body);
-      //print("Here2");
-      List<MIHNotification> notifications = List<MIHNotification>.from(
-          l.map((model) => MIHNotification.fromJson(model)));
-      notifi = notifications;
-    } else {
-      notifi = [];
-    }
+    notifi = await MihNotificationApis().getNotificationByUser(
+      uid,
+      notificationAmount,
+    );
 
     //get patient profile
-    //print("Patien manager page: $endpoint");
-    final response = await http.get(
-        Uri.parse("${AppEnviroment.baseApiUrl}/patients/${userData.app_id}"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // var errorCode = response.statusCode.toString();
-    // var errorBody = response.body;
-
-    if (response.statusCode == 200) {
-      // print("Here1");
-      var decodedData = jsonDecode(response.body);
-      // print("Here2");
-      Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-      // print("Here3");
-      // print(patients);
-      patientData = patients;
+    Patient? patient = await MihPatientServices().getPatientDetails(
+      uid,
+    );
+    if (patient != null) {
+      patientData = patient;
     } else {
       patientData = null;
     }
-    //print(userPic);
+
     return HomeArguments(
         userData, bUserData, busData, patientData, notifi, userPic);
-  }
-
-  /// This function is used to get business details by business _id.
-  ///
-  /// Patameters: String business_id & app_id (app_id of patient).
-  ///
-  /// Returns List<PatientAccess> (List of access that match the above parameters).
-  static Future<Business?> getBusinessDetails(String business_id) async {
-    var responseBusiness = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/business/business_id/$business_id"));
-    if (responseBusiness.statusCode == 200) {
-      String body = responseBusiness.body;
-      var decodedData = jsonDecode(body);
-      Business business = Business.fromJson(decodedData);
-      return business;
-    } else {
-      return null;
-    }
   }
 
 //================== BUSINESS PATIENT/PERSONAL ACCESS ==========================================================================

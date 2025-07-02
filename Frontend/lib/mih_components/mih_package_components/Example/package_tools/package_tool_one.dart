@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -165,6 +166,21 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                MihBusinessCard(
+                  businessName: "Mzansi Innovation Hub",
+                  cellNumber: "0788300006",
+                  email: "yasien.meth@mzansi-innovation-hub.co.za",
+                  gpsLocation: "-26.1853611, 28.134664",
+                  website:
+                      "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                ),
+                const SizedBox(height: 10),
+                Divider(
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  thickness: 2,
+                ),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
