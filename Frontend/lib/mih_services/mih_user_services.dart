@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 
-class MihUserApis {
+class MihUserServices {
   final baseAPI = AppEnviroment.baseApiUrl;
 
   static Future<bool> isUsernameUnique(
@@ -27,6 +27,26 @@ class MihUserApis {
     } else {
       throw Exception(
           "Error: isUsernameUnique status code ${response.statusCode}");
+    }
+  }
+
+  Future<AppUser?> getUserDetails(
+    String app_id,
+    BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
     }
   }
 
