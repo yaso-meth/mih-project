@@ -53,7 +53,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   Future<void> submitForm() async {
     if (isFormFilled()) {
       int statusCode = 0;
-      statusCode = await MihBusinessDetailsApi().updateBusinessDetails(
+      statusCode = await MihBusinessDetailsServices().updateBusinessDetails(
         widget.arguments.business!.business_id,
         nameController.text,
         typeController.text,

@@ -111,7 +111,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   Future<void> createBusinessProfileAPICall() async {
     print("Inside create business profile method");
-    Response response = await MihBusinessDetailsApi().createBusinessDetails(
+    Response response = await MihBusinessDetailsServices().createBusinessDetails(
       widget.signedInUser.app_id,
       nameController.text,
       typeController.text,
