@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 // import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 // import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
 // import '../mih_env/mih_env.dart';
@@ -57,16 +58,11 @@ class MIHApiCalls {
 
     // Get Userdata
     var uid = await SuperTokens.getUserId();
-    var responseUser = await http.get(Uri.parse("$baseAPI/user/$uid"));
-    if (responseUser.statusCode == 200) {
-      // print("here");
-      String body = responseUser.body;
-      var decodedData = jsonDecode(body);
-      AppUser u = AppUser.fromJson(decodedData);
-      userData = u;
+    AppUser? user = await MihUserServices().getUserDetails(uid, context);
+    if(user != null) {
+      userData = user;
     } else {
-      throw Exception(
-          "Error: GetUserData status code ${responseUser.statusCode}");
+      throw Exception("Error: GetUserData returned null");
     }
 
     // Get BusinessUserdata
