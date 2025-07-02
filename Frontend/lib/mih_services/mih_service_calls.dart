@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
@@ -79,16 +80,25 @@ class MIHApiCalls {
     }
 
     // Get Businessdata
-    var responseBusiness =
-        await http.get(Uri.parse("$baseAPI/business/app_id/$uid"));
-    if (responseBusiness.statusCode == 200) {
-      String body = responseBusiness.body;
-      var decodedData = jsonDecode(body);
-      Business business = Business.fromJson(decodedData);
+    Business? business = await MihBusinessDetailsServices().getBusinessDetails(
+      uid,
+      context,
+    );
+    if (business != null) {
       busData = business;
     } else {
       busData = null;
     }
+    // var responseBusiness =
+    //     await http.get(Uri.parse("$baseAPI/business/app_id/$uid"));
+    // if (responseBusiness.statusCode == 200) {
+    //   String body = responseBusiness.body;
+    //   var decodedData = jsonDecode(body);
+    //   Business business = Business.fromJson(decodedData);
+    //   busData = business;
+    // } else {
+    //   busData = null;
+    // }
 
     //get profile picture
     if (userData.pro_pic_path == "") {
