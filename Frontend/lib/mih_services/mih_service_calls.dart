@@ -96,21 +96,10 @@ class MIHApiCalls {
     }
 
     //Get Notifications
-    var responseNotification = await http.get(
-        Uri.parse("$baseAPI/notifications/$uid?amount=$notificationAmount"));
-    if (responseNotification.statusCode == 200) {
-      String body = responseNotification.body;
-      // var decodedData = jsonDecode(body);
-      // MIHNotification notifications = MIHNotification.fromJson(decodedData);
-
-      Iterable l = jsonDecode(body);
-      //print("Here2");
-      List<MIHNotification> notifications = List<MIHNotification>.from(
-          l.map((model) => MIHNotification.fromJson(model)));
-      notifi = notifications;
-    } else {
-      notifi = [];
-    }
+    notifi = await MihNotificationApis().getNotificationByUser(
+      uid,
+      notificationAmount,
+    );
 
     //get patient profile
     Patient? patient = await MihPatientServices().getPatientDetails(
@@ -122,26 +111,6 @@ class MIHApiCalls {
       patientData = null;
     }
 
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // var errorCode = response.statusCode.toString();
-    // var errorBody = response.body;
-
-    // final response = await http.get(
-    //     Uri.parse("${AppEnviroment.baseApiUrl}/patients/${userData.app_id}"));
-    // if (response.statusCode == 200) {
-    //   // print("Here1");
-    //   var decodedData = jsonDecode(response.body);
-    //   // print("Here2");
-    //   Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-    //   // print("Here3");
-    //   // print(patients);
-    //   patientData = patients;
-    // } else {
-    //   patientData = null;
-    // }
-    //print(userPic);
     return HomeArguments(
         userData, bUserData, busData, patientData, notifi, userPic);
   }
