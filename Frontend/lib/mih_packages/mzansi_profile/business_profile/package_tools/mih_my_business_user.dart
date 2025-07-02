@@ -90,7 +90,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
 
   Future<void> submitForm() async {
     if (isFormFilled()) {
-      int statusCode = await MihMyBusinessUserApi().updateBusinessUser(
+      int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
         widget.arguments.signedInUser.app_id,
         widget.arguments.businessUser!.business_id,
         titleDropdownController.text,
