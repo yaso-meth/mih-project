@@ -544,14 +544,17 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 //   ),
                 // ),
                 const SizedBox(height: 20),
-                MihBusinessCard(
-                  businessName: widget.arguments.business!.Name,
-                  cellNumber: widget.arguments.business!.contact_no,
-                  email: widget.arguments.business!.bus_email,
-                  gpsLocation: widget.arguments.business!.gps_location,
-                  //To-Do: Add the business Website
-                  website:
-                      "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                SizedBox(
+                  width: 700,
+                  child: MihBusinessCard(
+                    businessName: widget.arguments.business!.Name,
+                    cellNumber: widget.arguments.business!.contact_no,
+                    email: widget.arguments.business!.bus_email,
+                    gpsLocation: widget.arguments.business!.gps_location,
+                    //To-Do: Add the business Website
+                    website:
+                        "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                  ),
                 ),
                 const SizedBox(height: 30.0),
                 Center(
