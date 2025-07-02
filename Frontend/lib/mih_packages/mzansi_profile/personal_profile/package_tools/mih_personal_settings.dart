@@ -61,7 +61,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                 children: [
                   MihButton(
                     onPressed: () {
-                      MihUserApis.deleteAccount(
+                      MihUserServices.deleteAccount(
                           widget.signedInUser.app_id, context);
                     },
                     buttonColor:

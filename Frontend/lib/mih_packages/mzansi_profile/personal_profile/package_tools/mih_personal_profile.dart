@@ -71,7 +71,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     // print("============\nsubmiit form\n=================");
     if (widget.arguments.signedInUser.username != usernameController.text) {
       bool isUsernameUnique =
-          await MihUserApis.isUsernameUnique(usernameController.text, context);
+          await MihUserServices.isUsernameUnique(usernameController.text, context);
       print("isUsernameUnique: $isUsernameUnique");
       if (isUsernameUnique == false) {
         notUniqueAlert();
@@ -112,7 +112,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> updateUserApiCall() async {
-      int responseCode = await MihUserApis().updateUser(
+      int responseCode = await MihUserServices().updateUser(
         widget.arguments.signedInUser,
         fnameController.text,
         lnameController.text,
