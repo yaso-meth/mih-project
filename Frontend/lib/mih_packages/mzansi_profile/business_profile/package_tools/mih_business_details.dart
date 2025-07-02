@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -541,6 +542,16 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           .secondaryColor(),
                     ),
                   ),
+                ),
+                const SizedBox(height: 20),
+                MihBusinessCard(
+                  businessName: widget.arguments.business!.Name,
+                  cellNumber: widget.arguments.business!.contact_no,
+                  email: widget.arguments.business!.bus_email,
+                  gpsLocation: widget.arguments.business!.gps_location,
+                  //To-Do: Add the business Website
+                  website:
+                      "https://app.mzansi-innovation-hub.co.za/privacy.html",
                 ),
               ],
             ),
