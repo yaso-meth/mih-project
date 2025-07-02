@@ -169,34 +169,34 @@ services:
     networks:
       - MIH-network
     # === Added section for NVIDIA GPU acceleration ===
-    # runtime: nvidia
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all # or specify a number of GPUs
-    #           capabilities: [ gpu ]
-    #============== Firebaase ====================================================================   
-    # firebase:
-    #   container_name: MIH-firebase-emulator
-    #   build:
-    #     context: ./Firebase-emulator
-    #   environment:
-    #     DATA_DIRECTORY: "firebase/data"
-    #     FIREBASE_PROJECT: "mzansi-innovation-hub"
-    #   ports:
-    #     - 8082:8080 # FIRESTORE_PORT
-    #     - 5005:5005 # FIRESTORE_WS_PORT
-    #     - 4000:4000 # UI_PORT
-    #     - 9099:9099 # AUTH_PORT
-    #     - 5000:6001 # Hosting
-    #   volumes:
-    #     - ./Firebase-emulator:/srv/firebase:rw
-    #     # - ./cache:/root/.cache/:rw
-    #     # - ~/.config/:/root/.config
-    #     - ./Firebase-emulator/firebase/data:/srv/firebase/data:rw
-    #============== Named Volumes ====================================================================   
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # or specify a number of GPUs
+              capabilities: [ gpu ]
+#============== Firebaase ====================================================================   
+# firebase:
+#   container_name: MIH-firebase-emulator
+#   build:
+#     context: ./Firebase-emulator
+#   environment:
+#     DATA_DIRECTORY: "firebase/data"
+#     FIREBASE_PROJECT: "mzansi-innovation-hub"
+#   ports:
+#     - 8082:8080 # FIRESTORE_PORT
+#     - 5005:5005 # FIRESTORE_WS_PORT
+#     - 4000:4000 # UI_PORT
+#     - 9099:9099 # AUTH_PORT
+#     - 5000:6001 # Hosting
+#   volumes:
+#     - ./Firebase-emulator:/srv/firebase:rw
+#     # - ./cache:/root/.cache/:rw
+#     # - ~/.config/:/root/.config
+#     - ./Firebase-emulator/firebase/data:/srv/firebase/data:rw
+#============== Named Volumes ====================================================================   
 volumes:
   certbotConf:
   certbotChall:
