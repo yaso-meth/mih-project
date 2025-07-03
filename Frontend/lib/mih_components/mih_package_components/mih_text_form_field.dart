@@ -87,10 +87,12 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final isMultiline = widget.multiLineInput == true;
     return Center(
       child: SizedBox(
         width: widget.width,
-        height: widget.height,
+        // height: widget.height,
+        height: isMultiline ? null : widget.height,
         child: Theme(
           data: Theme.of(context).copyWith(
             textSelectionTheme: TextSelectionThemeData(

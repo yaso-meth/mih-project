@@ -361,6 +361,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       multiLineInput: true,
                       requiredText: false,
                       hintText: "Enter Multi Line Text",
+                      validator: (value) {
+                        return MihValidationServices()
+                            .validateLength(_textFieldFourController.text, 50);
+                      },
                     ),
                     const SizedBox(height: 20),
                     Align(
