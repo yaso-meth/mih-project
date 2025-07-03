@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -14,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tile/mi
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tiles/mzansi_directory_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_setup_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tiles/mih_wallet_tile.dart';
@@ -130,6 +130,12 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           widget.business,
           widget.businessUser,
         ),
+        packageSize: packageSize,
+      )
+    });
+    //=============== Mzansi AI ===============
+    temp.add({
+      "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
       )
     });
