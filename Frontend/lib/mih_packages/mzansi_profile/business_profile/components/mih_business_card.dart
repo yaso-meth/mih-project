@@ -171,66 +171,66 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     }
   }
 
-  Future<void> _launchWebsite(String urlString) async {
-    final Uri url = Uri.parse(urlString);
-    try {
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url);
-      } else {
-        print('Could not launch $urlString');
-        showDialog(
-            context: context,
-            builder: (context) {
-              return MihPackageAlert(
-                alertIcon: Icon(
-                  Icons.warning_rounded,
-                  size: 100,
-                ),
-                alertTitle: "Error Opening Website",
-                alertBody: Column(
-                  children: [
-                    Text(
-                      "Unable to lauch ${widget.businessName}",
-                      style: TextStyle(
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                alertColour:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
-              );
-            });
-      }
-    } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-              ),
-              alertTitle: "Error Opening Website",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "Unable to lauch ${widget.businessName}",
-                    style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
-            );
-          });
-    }
-  }
+  // Future<void> _launchWebsite(String urlString) async {
+  //   final Uri url = Uri.parse(urlString);
+  //   try {
+  //     if (await canLaunchUrl(url)) {
+  //       await launchUrl(url);
+  //     } else {
+  //       print('Could not launch $urlString');
+  //       showDialog(
+  //           context: context,
+  //           builder: (context) {
+  //             return MihPackageAlert(
+  //               alertIcon: Icon(
+  //                 Icons.warning_rounded,
+  //                 size: 100,
+  //               ),
+  //               alertTitle: "Error Opening Website",
+  //               alertBody: Column(
+  //                 children: [
+  //                   Text(
+  //                     "Unable to lauch ${widget.businessName}",
+  //                     style: TextStyle(
+  //                       color:
+  //                           MzanziInnovationHub.of(context)!.theme.errorColor(),
+  //                       fontSize: 15,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               alertColour:
+  //                   MzanziInnovationHub.of(context)!.theme.errorColor(),
+  //             );
+  //           });
+  //     }
+  //   } catch (e) {
+  //     showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           return MihPackageAlert(
+  //             alertIcon: Icon(
+  //               Icons.warning_rounded,
+  //               size: 100,
+  //             ),
+  //             alertTitle: "Error Opening Website",
+  //             alertBody: Column(
+  //               children: [
+  //                 Text(
+  //                   "Unable to lauch ${widget.businessName}",
+  //                   style: TextStyle(
+  //                     color:
+  //                         MzanziInnovationHub.of(context)!.theme.errorColor(),
+  //                     fontSize: 15,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+  //           );
+  //         });
+  //   }
+  // }
 
   Widget _buildContactInfo(
     String label,
