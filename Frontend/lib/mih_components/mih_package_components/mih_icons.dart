@@ -11,48 +11,54 @@ class MihIcons {
 // IconData constants based on your style.css file
   // Note: We convert the hex code from CSS (\eXXX) to an integer (0xeXXX)
 
-  static const IconData aboutMih =
+  static const IconData mzansiDirectory =
       IconData(0xe900, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData accessControl =
+  static const IconData personalProfile =
       IconData(0xe901, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData businessProfile =
+  static const IconData aboutMih =
       IconData(0xe902, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData calculator =
+  static const IconData accessControl =
       IconData(0xe903, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData calendar =
+  static const IconData businessProfile =
       IconData(0xe904, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData mihLogo =
+  static const IconData businessSetup =
       IconData(0xe905, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData mzansiAi =
+  static const IconData iDontKnow =
       IconData(0xe906, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData mzansiWallet =
+  static const IconData mihLogo =
       IconData(0xe907, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData patientManager =
+  static const IconData mihRing =
       IconData(0xe908, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData patientProfile =
+  static const IconData mzansiAi =
       IconData(0xe909, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData mihRing =
+  static const IconData mzansiWallet =
       IconData(0xe90a, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData profileSetup =
-      IconData(0xe90c, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
-
-  static const IconData businessSetup =
+  static const IconData notifications =
       IconData(0xe90b, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData notifications =
-      IconData(0xe90e, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+  static const IconData patientManager =
+      IconData(0xe90c, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
-  static const IconData personalProfile =
-      IconData(0xe90f, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+  static const IconData patientProfile =
+      IconData(0xe90d, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData profileSetup =
+      IconData(0xe90d, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData calculator =
+      IconData(0xe940, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+
+  static const IconData calendar =
+      IconData(0xe953, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 }

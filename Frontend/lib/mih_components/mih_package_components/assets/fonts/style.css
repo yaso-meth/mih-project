@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Mih_Icons';
-  src: url('fonts/Mih_Icons.eot?kmk862');
-  src: url('fonts/Mih_Icons.eot?kmk862#iefix') format('embedded-opentype'),
-    url('fonts/Mih_Icons.ttf?kmk862') format('truetype'),
-    url('fonts/Mih_Icons.woff?kmk862') format('woff'),
-    url('fonts/Mih_Icons.svg?kmk862#Mih_Icons') format('svg');
+  src: url('fonts/Mih_Icons.eot?blbuxz');
+  src: url('fonts/Mih_Icons.eot?blbuxz#iefix') format('embedded-opentype'),
+    url('fonts/Mih_Icons.ttf?blbuxz') format('truetype'),
+    url('fonts/Mih_Icons.woff?blbuxz') format('woff'),
+    url('fonts/Mih_Icons.svg?blbuxz#Mih_Icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,66 +26,70 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-personal_profile:before {
-  content: "\e90f";
-}
-
-.icon-notifications:before {
-  content: "\e90e";
-}
-
-.icon-i_dont_know:before {
-  content: "\e90d";
-}
-
-.icon-business_setup:before {
-  content: "\e90b";
-}
-
-.icon-profile_setup:before {
-  content: "\e90c";
-}
-
-.icon-mih_ring:before {
-  content: "\e90a";
-}
-
-.icon-about_mih:before {
+.icon-mzansi_directory:before {
   content: "\e900";
 }
 
-.icon-access_control:before {
+.icon-personal_profile:before {
   content: "\e901";
 }
 
-.icon-business_profile:before {
+.icon-about_mih:before {
   content: "\e902";
 }
 
-.icon-calculator:before {
+.icon-access_control:before {
   content: "\e903";
 }
 
-.icon-calendar:before {
+.icon-business_profile:before {
   content: "\e904";
 }
 
-.icon-mih_logo:before {
+.icon-business_setup:before {
   content: "\e905";
 }
 
-.icon-mzansi_ai:before {
+.icon-i_dont_know:before {
   content: "\e906";
 }
 
-.icon-mzansi_wallet:before {
+.icon-mih_logo:before {
   content: "\e907";
 }
 
-.icon-patient_manager:before {
+.icon-mih_ring:before {
   content: "\e908";
 }
 
-.icon-patient_profile:before {
+.icon-mzansi_ai:before {
   content: "\e909";
+}
+
+.icon-mzansi_wallet:before {
+  content: "\e90a";
+}
+
+.icon-notifications:before {
+  content: "\e90b";
+}
+
+.icon-patient_manager:before {
+  content: "\e90c";
+}
+
+.icon-patient_profile:before {
+  content: "\e90d";
+}
+
+.icon-profile_setup:before {
+  content: "\e90e";
+}
+
+.icon-calculator:before {
+  content: "\e940";
+}
+
+.icon-calendar:before {
+  content: "\e953";
 }
