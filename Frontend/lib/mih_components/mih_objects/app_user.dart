@@ -8,6 +8,7 @@ class AppUser {
   final String app_id;
   final String username;
   final String pro_pic_path;
+  final String purpose;
 
   const AppUser(
     this.idUser,
@@ -18,6 +19,7 @@ class AppUser {
     this.app_id,
     this.username,
     this.pro_pic_path,
+    this.purpose,
   );
 
   factory AppUser.fromJson(dynamic json) {
@@ -30,6 +32,7 @@ class AppUser {
       json['app_id'],
       json['username'],
       json['pro_pic_path'],
+      json['purpose'],
     );
   }
 }
