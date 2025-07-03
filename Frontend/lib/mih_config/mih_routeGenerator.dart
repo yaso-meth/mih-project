@@ -15,6 +15,7 @@ import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dar
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
@@ -50,6 +51,7 @@ class AppRoutes {
   static const String patientProfileSetup = '/patient-profile/set-up';
   static const String patientProfileEdit = '/patient-profile/edit';
   static const String mzansiWallet = '/mzansi-wallet';
+  static const String mzansiDirectory = '/mzansi-directory';
   static const String mihAccess = '/mih-access';
   static const String calendar = '/calendar';
   static const String appointments =
@@ -115,6 +117,14 @@ class RouteGenerator {
         );
       // }
       // break; // Use break and fall through to _errorRoute if argument type is wrong
+      case AppRoutes.mzansiDirectory:
+        // if (args is AuthArguments) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => MzansiDirectory(),
+        );
+      // }
+      // break;
       case AppRoutes.notifications:
         if (args is NotificationArguments) {
           return MaterialPageRoute(
