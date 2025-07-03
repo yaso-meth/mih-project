@@ -83,6 +83,46 @@ class MihUserServices {
     }
   }
 
+  Future<int> updateUserV2(
+    AppUser signedInUser,
+    String firstName,
+    String lastName,
+    String username,
+    String profilePicture,
+    String purpose,
+    bool isBusinessUser,
+    BuildContext context,
+  ) async {
+    var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
+    var filePath = "${signedInUser.app_id}/profile_files/$fileName";
+    String profileType;
+    if (isBusinessUser) {
+      profileType = "business";
+    } else {
+      profileType = "personal";
+    }
+    var response = await http.put(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idusers": signedInUser.idUser,
+        "username": username,
+        "fnam": firstName,
+        "lname": lastName,
+        "type": profileType,
+        "pro_pic_path": filePath,
+        "purpose": purpose,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
+
   Future<int> updateUser(
     AppUser signedInUser,
     String firstName,
