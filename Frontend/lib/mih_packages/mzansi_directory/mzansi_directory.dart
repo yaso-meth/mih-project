@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_contacts.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
 
 class MzansiDirectory extends StatefulWidget {
   const MzansiDirectory({super.key});
@@ -25,16 +28,15 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
         setState(() {
           _selcetedIndex = newValue;
         });
-        print("Index: $_selcetedIndex");
       },
     );
   }
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      Placeholder(),
-      Placeholder(),
-      Placeholder(),
+      MihContacts(),
+      MihFavouriteBusinesses(),
+      MihSearchMzansi(),
     ];
     return toolBodies;
   }
