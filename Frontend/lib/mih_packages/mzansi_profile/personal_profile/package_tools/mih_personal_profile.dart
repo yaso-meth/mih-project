@@ -311,6 +311,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   SizedBox(
                     height: 15,
                     child: ValueListenableBuilder(
+                      valueListenable: _counter,
                       builder:
                           (BuildContext context, int value, Widget? child) {
                         return Row(
@@ -335,7 +336,6 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                           ],
                         );
                       },
-                      valueListenable: _counter,
                     ),
                   ),
                   const SizedBox(height: 10.0),
