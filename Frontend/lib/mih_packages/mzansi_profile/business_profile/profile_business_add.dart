@@ -56,12 +56,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final locationController = TextEditingController();
   final practiceNoController = TextEditingController();
   final vatNoController = TextEditingController();
+  final websiteController = TextEditingController();
+  final ratingController = TextEditingController();
+  final missionVisionController = TextEditingController();
 
   ImageProvider<Object>? logoPreview;
   ImageProvider<Object>? signaturePreview;
   PlatformFile? selectedLogo;
   PlatformFile? selectedSignature;
 
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   final ValueNotifier<String> busType = ValueNotifier("");
   final _formKey = GlobalKey<FormState>();
   late String env;
@@ -123,6 +127,9 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       contactController.text,
       locationController.text,
       logonameController.text,
+      websiteController.text,
+      "0",
+      missionVisionController.text,
       context,
     );
     print(response.body);
@@ -233,6 +240,14 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
   }
 
+  Color getMissionVisionLimitColor(int limit) {
+    if (_counter.value <= limit) {
+      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzanziInnovationHub.of(context)!.theme.errorColor();
+    }
+  }
+
   MIHBody getBody(double width) {
     return MIHBody(
       borderOn: false,
@@ -280,10 +295,54 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         inputColor: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
-                        controller: regController,
+                        controller: nameController,
                         multiLineInput: false,
                         requiredText: true,
-                        hintText: "Registration No.",
+                        hintText: "Business Name",
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihDropdownField(
+                        controller: typeController,
+                        hintText: "Business Type",
+                        dropdownOptions: const ["Doctors Office", "Other"],
+                        editable: true,
+                        enableSearch: true,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        requiredText: true,
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: emailController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Business Email",
+                        validator: (value) {
+                          return MihValidationServices().validateEmail(value);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: contactController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Contact Number",
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
@@ -296,25 +355,79 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         inputColor: MzanziInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
-                        controller: nameController,
+                        controller: websiteController,
                         multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Business Name",
+                        requiredText: false,
+                        hintText: "Business Website",
                         validator: (value) {
-                          return MihValidationServices().isEmpty(value);
+                          return MihValidationServices()
+                              .validateWebsite(value, false);
                         },
                       ),
-                      const SizedBox(height: 15.0),
-                      MihDropdownField(
-                        controller: typeController,
-                        hintText: "Business Type",
-                        dropdownOptions: const ["Doctors Office", "Other"],
-                        editable: true,
-                        enableSearch: true,
+                      const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        height: 250,
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: missionVisionController,
+                        multiLineInput: true,
+                        requiredText: true,
+                        hintText: "Business Mission & Vision",
+                        validator: (value) {
+                          return MihValidationServices().validateLength(
+                              missionVisionController.text, 256);
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                        child: ValueListenableBuilder(
+                          valueListenable: _counter,
+                          builder:
+                              (BuildContext context, int value, Widget? child) {
+                            return Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "$value",
+                                  style: TextStyle(
+                                    color: getMissionVisionLimitColor(256),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  "/256",
+                                  style: TextStyle(
+                                    color: getMissionVisionLimitColor(256),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: regController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        hintText: "Registration No.",
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
-                        requiredText: true,
                       ),
                       const SizedBox(height: 10.0),
                       ValueListenableBuilder(
@@ -359,38 +472,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         hintText: "VAT Number",
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
-                        },
-                      ),
-                      const SizedBox(height: 10.0),
-                      MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        controller: contactController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Contact Number",
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
-                      ),
-                      const SizedBox(height: 10.0),
-                      MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        controller: emailController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Business Email",
-                        validator: (value) {
-                          return MihValidationServices().validateEmail(value);
                         },
                       ),
                       const SizedBox(height: 10.0),
@@ -573,6 +654,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   @override
   void initState() {
+    super.initState();
     typeController.addListener(typeSelected);
     setState(() {
       fnameController.text = widget.signedInUser.fname;
@@ -584,7 +666,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     } else {
       env = "Dev";
     }
-    super.initState();
+    missionVisionController.addListener(() {
+      setState(() {
+        _counter.value = missionVisionController.text.characters.length;
+      });
+    });
   }
 
   @override
