@@ -38,6 +38,9 @@ class MihBusinessDetailsServices {
     String businessPhoneNumber,
     String businessLocation,
     String businessLogoFilename,
+    String businessWebsite,
+    String businessRating,
+    String businessMissionVision,
     BuildContext context,
   ) async {
     showDialog(
@@ -62,10 +65,65 @@ class MihBusinessDetailsServices {
         "gps_location": businessLocation,
         "practice_no": businessPracticeNo,
         "vat_no": businessVatNo,
+        "website": businessWebsite,
+        "rating": businessRating,
+        "mission_vision": businessMissionVision,
       }),
     );
     Navigator.of(context).pop();
     return response;
+  }
+
+  Future<int> updateBusinessDetailsV2(
+    String business_id,
+    String business_name,
+    String business_type,
+    String business_registration_no,
+    String business_practice_no,
+    String business_vat_no,
+    String business_email,
+    String business_phone_number,
+    String business_location,
+    String business_logo_name,
+    String businessWebsite,
+    String businessRating,
+    String businessMissionVision,
+    BuildContext context,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+    var response = await http.put(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/update/v2/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "business_id": business_id,
+        "Name": business_name,
+        "type": business_type,
+        "registration_no": business_registration_no,
+        "logo_name": business_logo_name,
+        "logo_path": "$business_id/business_files/$business_logo_name",
+        "contact_no": business_phone_number,
+        "bus_email": business_email,
+        "gps_location": business_location,
+        "practice_no": business_practice_no,
+        "vat_no": business_vat_no,
+        "website": businessWebsite,
+        "rating": businessRating,
+        "mission_vision": businessMissionVision,
+      }),
+    );
+    Navigator.of(context).pop();
+    if (response.statusCode == 200) {
+      return 200;
+    } else {
+      return 500;
+    }
   }
 
   Future<int> updateBusinessDetails(
@@ -110,7 +168,6 @@ class MihBusinessDetailsServices {
     if (response.statusCode == 200) {
       return 200;
     } else {
-      internetConnectionPopUp(context);
       return 500;
     }
   }
