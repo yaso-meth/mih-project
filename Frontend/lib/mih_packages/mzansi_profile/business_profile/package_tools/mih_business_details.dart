@@ -47,13 +47,17 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
+  final websiteController = TextEditingController();
+  final ratingController = TextEditingController();
+  final missionVisionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   late String env;
 
   Future<void> submitForm() async {
     if (isFormFilled()) {
       int statusCode = 0;
-      statusCode = await MihBusinessDetailsServices().updateBusinessDetails(
+      statusCode = await MihBusinessDetailsServices().updateBusinessDetailsV2(
         widget.arguments.business!.business_id,
         nameController.text,
         typeController.text,
@@ -64,6 +68,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         contactController.text,
         locationController.text,
         fileNameController.text,
+        websiteController.text,
+        ratingController.text.isEmpty ? "0" : ratingController.text,
+        missionVisionController.text,
         context,
       );
       if (statusCode == 200) {
@@ -253,10 +260,55 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             inputColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
-                            controller: regController,
+                            controller: nameController,
                             multiLineInput: false,
                             requiredText: true,
-                            hintText: "Registration No.",
+                            hintText: "Business Name",
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihDropdownField(
+                            controller: typeController,
+                            hintText: "Business Type",
+                            dropdownOptions: const ["Doctors Office", "Other"],
+                            editable: true,
+                            enableSearch: true,
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                            requiredText: true,
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: emailController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Business Email",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateEmail(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: contactController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Contact Number",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
                             },
@@ -269,25 +321,78 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             inputColor: MzanziInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
-                            controller: nameController,
+                            controller: websiteController,
                             multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Business Name",
+                            requiredText: false,
+                            hintText: "Business Website",
                             validator: (value) {
-                              return MihValidationServices().isEmpty(value);
+                              return MihValidationServices()
+                                  .validateWebsite(value, false);
                             },
                           ),
-                          const SizedBox(height: 15),
-                          MihDropdownField(
-                            controller: typeController,
-                            hintText: "Business Type",
-                            dropdownOptions: const ["Doctors Office", "Other"],
-                            editable: true,
-                            enableSearch: true,
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            height: 250,
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: missionVisionController,
+                            multiLineInput: true,
+                            requiredText: true,
+                            hintText: "Business Mission & Vision",
+                            validator: (value) {
+                              return MihValidationServices().validateLength(
+                                  missionVisionController.text, 256);
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                            child: ValueListenableBuilder(
+                              valueListenable: _counter,
+                              builder: (BuildContext context, int value,
+                                  Widget? child) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "$value",
+                                      style: TextStyle(
+                                        color: getMissionVisionLimitColor(256),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "/256",
+                                      style: TextStyle(
+                                        color: getMissionVisionLimitColor(256),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            controller: regController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Registration No.",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
                             },
-                            requiredText: true,
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
@@ -321,39 +426,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             hintText: "VAT Number",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: contactController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Contact Number",
-                            validator: (value) {
-                              return MihValidationServices().isEmpty(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: emailController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Business Email",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateEmail(value);
                             },
                           ),
                           const SizedBox(height: 10),
@@ -442,6 +514,14 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             ));
   }
 
+  Color getMissionVisionLimitColor(int limit) {
+    if (_counter.value <= limit) {
+      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzanziInnovationHub.of(context)!.theme.errorColor();
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -471,12 +551,20 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
       contactController.text = widget.arguments.business!.contact_no;
       emailController.text = widget.arguments.business!.bus_email;
       locationController.text = widget.arguments.business!.gps_location;
+      websiteController.text = widget.arguments.business!.website;
+      ratingController.text = widget.arguments.business!.rating;
+      missionVisionController.text = widget.arguments.business!.mission_vision;
     });
     if (AppEnviroment.getEnv() == "Prod") {
       env = "Prod";
     } else {
       env = "Dev";
     }
+    missionVisionController.addListener(() {
+      setState(() {
+        _counter.value = missionVisionController.text.characters.length;
+      });
+    });
   }
 
   @override
