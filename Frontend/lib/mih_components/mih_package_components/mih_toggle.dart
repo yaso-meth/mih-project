@@ -26,11 +26,19 @@ class _MihToggleState extends State<MihToggle> {
   late bool togglePosition;
 
   @override
+  void didUpdateWidget(covariant MihToggle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialPostion != oldWidget.initialPostion) {
+      setState(() {
+        togglePosition = widget.initialPostion;
+      });
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
-    setState(() {
-      togglePosition = widget.initialPostion;
-    });
+    togglePosition = widget.initialPostion;
   }
 
   @override
@@ -51,7 +59,7 @@ class _MihToggleState extends State<MihToggle> {
         ),
         const SizedBox(width: 10),
         Switch(
-          value: widget.initialPostion,
+          value: togglePosition,
           trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
             (states) {
               if (widget.readOnly == true) {
@@ -81,7 +89,15 @@ class _MihToggleState extends State<MihToggle> {
           // activeTrackColor: widget.fillColor,
           // inactiveThumbColor: widget.fillColor,
           // inactiveTrackColor: widget.secondaryFillColor,
-          onChanged: widget.readOnly != true ? widget.onChange : null,
+          // onChanged: widget.readOnly != true ? widget.onChange : null,
+          onChanged: widget.readOnly != true
+              ? (newValue) {
+                  setState(() {
+                    togglePosition = newValue; // Update internal state
+                  });
+                  widget.onChange(newValue); // Call the parent's onChange
+                }
+              : null,
         ),
       ],
     );
