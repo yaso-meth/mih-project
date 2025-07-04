@@ -618,10 +618,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     ),
                   ),
                 ),
-                // Center(
+                // FittedBox(
                 //   child: Text(
-                //     "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
-                //     textAlign: TextAlign.center,
+                //     "Mission & Vision",
                 //     style: TextStyle(
                 //       fontSize: 15,
                 //       fontWeight: FontWeight.bold,
@@ -631,6 +630,24 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 //     ),
                 //   ),
                 // ),
+                Center(
+                  child: SizedBox(
+                    width: 700,
+                    child: Text(
+                      widget.arguments.business!.mission_vision.isNotEmpty
+                          ? widget.arguments.business!.mission_vision
+                          : "No Mission & Vision added yet",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: 700,
@@ -640,8 +657,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     email: widget.arguments.business!.bus_email,
                     gpsLocation: widget.arguments.business!.gps_location,
                     //To-Do: Add the business Website
-                    website:
-                        "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                    website: widget.arguments.business!.website,
                   ),
                 ),
                 const SizedBox(height: 30.0),
