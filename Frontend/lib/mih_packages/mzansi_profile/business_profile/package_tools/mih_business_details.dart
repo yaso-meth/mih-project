@@ -534,6 +534,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     contactController.dispose();
     emailController.dispose();
     locationController.dispose();
+    websiteController.dispose();
+    ratingController.dispose();
+    missionVisionController.dispose();
     imageFile = null;
   }
 
