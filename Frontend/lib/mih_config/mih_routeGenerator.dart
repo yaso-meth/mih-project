@@ -298,11 +298,13 @@ class RouteGenerator {
         break;
 
       case AppRoutes.packageDevTest:
-        // No arguments expected for this test route
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const PackageTest(),
-        );
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PackageTest(user: args),
+          );
+        }
+        break;
 
       default:
         // If no match is found, fall through to the error route

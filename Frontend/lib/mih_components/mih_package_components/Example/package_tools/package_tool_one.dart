@@ -2,7 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -25,7 +27,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 
 class PackageToolOne extends StatefulWidget {
-  const PackageToolOne({super.key});
+  final AppUser user;
+  const PackageToolOne({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<PackageToolOne> createState() => _PackageToolOneState();
@@ -166,6 +172,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                MihPersonalProfilePreview(
+                  user: widget.user,
+                ),
+                const SizedBox(height: 10),
                 MihBusinessCard(
                   businessName: "Mzansi Innovation Hub",
                   cellNumber: "0788300006",

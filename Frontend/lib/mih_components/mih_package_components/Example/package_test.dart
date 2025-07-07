@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -9,7 +10,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:flutter/material.dart';
 
 class PackageTest extends StatefulWidget {
-  const PackageTest({super.key});
+  final AppUser user;
+  const PackageTest({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<PackageTest> createState() => _PackageTestState();
@@ -111,7 +116,9 @@ class _PackageTestState extends State<PackageTest> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      const PackageToolOne(),
+      PackageToolOne(
+        user: widget.user,
+      ),
       const PackageToolTwo(),
     ];
     return toolBodies;

@@ -162,7 +162,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           onTap: () {
             Navigator.of(context).pushNamed(
               '/package-dev',
-              //arguments: widget.signedInUser,
+              arguments: widget.signedInUser,
             );
           },
           appName: "Test",
