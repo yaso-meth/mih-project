@@ -393,6 +393,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     usernameController.dispose();
     fnameController.dispose();
     lnameController.dispose();
+    purposeController.dispose();
     super.dispose();
   }
 
