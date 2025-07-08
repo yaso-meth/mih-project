@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
@@ -449,6 +450,12 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                               const SizedBox(width: 10.0),
                               MihButton(
                                 onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Mihloadingcircle();
+                                    },
+                                  );
                                   MIHLocationAPI()
                                       .getGPSPosition(context)
                                       .then((position) {
@@ -458,6 +465,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                             "${position.latitude}, ${position.longitude}";
                                       });
                                     }
+                                    //Dismiss loading indicator
+                                    Navigator.of(context).pop();
                                   });
                                 },
                                 buttonColor: MzanziInnovationHub.of(context)!
