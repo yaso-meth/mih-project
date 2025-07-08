@@ -379,7 +379,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             },
           ),
           Visibility(
-            visible: widget.website != null,
+            visible: widget.website != null && widget.website! != "",
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Divider(
@@ -387,14 +387,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               ),
             ),
           ),
-          _buildContactInfo(
-            "Website",
-            "Find out more about us.",
-            Icons.vpn_lock,
-            const Color(0xffd67d8a),
-            () {
-              _launchWebsite(widget.website!);
-            },
+          Visibility(
+            visible: widget.website != null && widget.website! != "",
+            child: _buildContactInfo(
+              "Website",
+              "Find out more about us.",
+              Icons.vpn_lock,
+              const Color(0xffd67d8a),
+              () {
+                _launchWebsite(widget.website!);
+              },
+            ),
           ),
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
