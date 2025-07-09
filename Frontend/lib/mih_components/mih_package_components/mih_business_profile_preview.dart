@@ -63,7 +63,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                 );
               } else {
                 return Icon(
-                  MihIcons.mihLogo,
+                  MihIcons.iDontKnow,
                   size: profilePictureWidth,
                 );
               }
@@ -80,7 +80,9 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
               ),
             ),
             Text(
-              widget.myLocation != null ? calculateDistance() : "0.00 km",
+              widget.myLocation != null || widget.myLocation!.isEmpty
+                  ? calculateDistance()
+                  : "0.00 km",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
