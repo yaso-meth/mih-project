@@ -9,6 +9,26 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
+  Future<List<Business>> searchBusinesses(
+    String searchText,
+    BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/businesses/search/$searchText"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Business> businesses =
+          List<Business>.from(l.map((model) => Business.fromJson(model)));
+      return businesses;
+    } else {
+      throw Exception('failed to load users');
+    }
+  }
+
   Future<Business?> getBusinessDetails(
     String app_id,
   ) async {

@@ -34,9 +34,9 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
+      MihSearchMzansi(),
       MihContacts(),
       MihFavouriteBusinesses(),
-      MihSearchMzansi(),
     ];
     return toolBodies;
   }
@@ -54,17 +54,17 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.person)] = () {
+    temp[const Icon(Icons.search)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.business_center)] = () {
+    temp[const Icon(Icons.person)] = () {
       setState(() {
         _selcetedIndex = 1;
       });
     };
-    temp[const Icon(Icons.search)] = () {
+    temp[const Icon(Icons.business_center)] = () {
       setState(() {
         _selcetedIndex = 2;
       });
@@ -77,9 +77,9 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
+      "Search Mzansi",
       "Contacts",
       "Favourite Businesses",
-      "Search Mzansi",
     ];
     return toolTitles;
   }

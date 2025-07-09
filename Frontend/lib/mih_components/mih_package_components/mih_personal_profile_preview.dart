@@ -40,22 +40,33 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
             builder: (context, asyncSnapshot) {
               if (asyncSnapshot.connectionState == ConnectionState.done &&
                   asyncSnapshot.hasData) {
-                return MihCircleAvatar(
-                  imageFile: NetworkImage(asyncSnapshot.requireData),
-                  width: profilePictureWidth,
-                  editable: false,
-                  fileNameController: TextEditingController(),
-                  userSelectedfile: file,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: () {},
-                );
+                if (asyncSnapshot.requireData != "") {
+                  return MihCircleAvatar(
+                    imageFile: NetworkImage(asyncSnapshot.requireData),
+                    width: profilePictureWidth,
+                    editable: false,
+                    fileNameController: TextEditingController(),
+                    userSelectedfile: file,
+                    frameColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onChange: () {},
+                  );
+                } else {
+                  return Icon(
+                    MihIcons.iDontKnow,
+                    size: profilePictureWidth,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  );
+                }
               } else {
                 return Icon(
-                  MihIcons.mihLogo,
+                  MihIcons.mihRing,
                   size: profilePictureWidth,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 );
               }
             }),

@@ -3,7 +3,8 @@ import '../../main.dart';
 import 'package:gif_view/gif_view.dart';
 
 class Mihloadingcircle extends StatefulWidget {
-  const Mihloadingcircle({super.key});
+  final String? message;
+  const Mihloadingcircle({super.key, this.message});
 
   @override
   State<Mihloadingcircle> createState() => _MihloadingcircleState();
@@ -53,7 +54,7 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
       child: Container(
           padding: EdgeInsets.all(popUpPaddingSize),
           width: 250,
-          height: 250,
+          height: 275,
           decoration: BoxDecoration(
             color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
@@ -61,11 +62,24 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
                 width: 5.0),
           ),
-          child: GifView.asset(
-            MzanziInnovationHub.of(context)!.theme.loadingImageLocation(),
-            height: 200,
-            width: 200,
-            frameRate: 30,
+          child: Column(
+            children: [
+              GifView.asset(
+                MzanziInnovationHub.of(context)!.theme.loadingImageLocation(),
+                height: 200,
+                width: 200,
+                frameRate: 30,
+              ),
+              widget.message != null
+                  ? Text(
+                      widget.message!,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : SizedBox(),
+            ],
           )),
     );
   }
