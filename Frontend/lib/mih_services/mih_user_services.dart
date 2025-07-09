@@ -63,6 +63,26 @@ class MihUserServices {
     }
   }
 
+  Future<List<AppUser>> searchUsers(
+    String searchText,
+    BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$searchText"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<AppUser> users =
+          List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
+      return users;
+    } else {
+      throw Exception('failed to load users');
+    }
+  }
+
   Future<AppUser?> getUserDetails(
     String app_id,
     BuildContext context,
