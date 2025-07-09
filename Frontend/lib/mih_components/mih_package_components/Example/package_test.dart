@@ -1,5 +1,4 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -10,10 +9,14 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:flutter/material.dart';
 
 class PackageTest extends StatefulWidget {
-  final AppUser user;
+  // final AppUser user;
+  // final Business business;
+  final TestArguments arguments;
   const PackageTest({
     super.key,
-    required this.user,
+    required this.arguments,
+    // required this.user,
+    // required this.business,
   });
 
   @override
@@ -117,7 +120,8 @@ class _PackageTestState extends State<PackageTest> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       PackageToolOne(
-        user: widget.user,
+        user: widget.arguments.user,
+        business: widget.arguments.business!,
       ),
       const PackageToolTwo(),
     ];

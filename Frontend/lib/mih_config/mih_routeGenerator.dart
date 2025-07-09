@@ -298,10 +298,10 @@ class RouteGenerator {
         break;
 
       case AppRoutes.packageDevTest:
-        if (args is AppUser) {
+        if (args is TestArguments) {
           return MaterialPageRoute(
             settings: settings,
-            builder: (_) => PackageTest(user: args),
+            builder: (_) => PackageTest(arguments: args),
           );
         }
         break;
