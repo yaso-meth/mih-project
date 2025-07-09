@@ -62,6 +62,44 @@ class businessUpdateRequestV2(BaseModel):
     
 
 # Get List of all files
+@router.get("/businesses/search/{search}", tags=["MIH Business"])
+async def read_all_businesses(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
+    query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
+    query += "business.gps_location, "
+    query += "practice_no, vat_no, "
+    query += "website, rating, mission_vision "    
+    query += "FROM business "
+    query += "WHERE LOWER(business.Name) LIKE %s OR LOWER(business.type) LIKE %s"
+    search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
+    cursor.execute(query, (search_term, search_term))
+    items = [
+        {
+            "business_id": item[0],
+            "Name": item[1],
+            "type": item[2],
+            "registration_no": item[3],
+            "logo_name": item[4],
+            "logo_path": item[5],
+            "contact_no": item[6],
+            "bus_email": item[7],
+            "app_id": "",
+            "gps_location": item[8],
+            "practice_no": item[9],
+            "vat_no": item[10],
+            "website": item[11],
+            "rating": item[12],
+            "mission_vision": item[13],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items
+
+# Get List of all files
 @router.get("/business/business_id/{business_id}", tags=["MIH Business"])
 async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
@@ -69,7 +107,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
     query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
     query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
     query += "business_users.app_id, business.gps_location, "
-    query += "practice_no, vat_no "
+    query += "practice_no, vat_no, "
     query += "website, rating, mission_vision "    
     query += "FROM business "
     query += "inner join business_users "
