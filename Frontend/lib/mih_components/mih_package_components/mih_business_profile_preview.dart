@@ -1,33 +1,42 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 
-class MihPersonalProfilePreview extends StatefulWidget {
-  final AppUser user;
-  const MihPersonalProfilePreview({
+class MihBusinessProfilePreview extends StatefulWidget {
+  final Business business;
+  final String myLocation;
+  const MihBusinessProfilePreview({
     super.key,
-    required this.user,
+    required this.business,
+    required this.myLocation,
   });
 
   @override
-  State<MihPersonalProfilePreview> createState() =>
-      _MihPersonalProfilePreviewState();
+  State<MihBusinessProfilePreview> createState() =>
+      _MihBusinessProfilePreviewState();
 }
 
-class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
+class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
   late Future<String> futureImageUrl;
-  // String imageUrl = "";
   PlatformFile? file;
+
+  String calculateDistance() {
+    double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
+            widget.myLocation, widget.business.gps_location) /
+        1000;
+    return "${distanceInKm.toStringAsFixed(2)} km";
+  }
 
   @override
   void initState() {
     super.initState();
     futureImageUrl =
-        MihFileApi.getMinioFileUrl(widget.user.pro_pic_path, context);
+        MihFileApi.getMinioFileUrl(widget.business.logo_path, context);
   }
 
   @override
@@ -64,24 +73,17 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.user.username,
+              widget.business.Name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
             Text(
-              "${widget.user.fname} ${widget.user.lname}",
+              calculateDistance(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              widget.user.type.toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 10,
+                fontSize: 12,
               ),
             ),
           ],

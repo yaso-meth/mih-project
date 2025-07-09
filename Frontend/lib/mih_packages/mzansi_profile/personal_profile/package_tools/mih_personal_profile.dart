@@ -468,7 +468,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
                 FittedBox(
                   child: Text(
-                    "@${widget.arguments.signedInUser.username}",
+                    widget.arguments.signedInUser.username,
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,

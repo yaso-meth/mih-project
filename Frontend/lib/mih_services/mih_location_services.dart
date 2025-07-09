@@ -39,9 +39,13 @@ class MIHLocationAPI {
     }
   }
 
-  double getDistanceInMeaters(Position startPosition, Position endPosition) {
-    return Geolocator.distanceBetween(startPosition.latitude,
-        startPosition.longitude, endPosition.latitude, endPosition.longitude);
+  double getDistanceInMeaters(String startPosition, String endPosition) {
+    double startLatitude = double.parse(startPosition.split(", ")[0]);
+    double startLogitude = double.parse(startPosition.split(", ")[1]);
+    double endLatitude = double.parse(endPosition.split(", ")[0]);
+    double endLogitude = double.parse(endPosition.split(", ")[1]);
+    return Geolocator.distanceBetween(
+        startLatitude, startLogitude, endLatitude, endLogitude);
   }
 
   void showPermissionError(BuildContext context) {
