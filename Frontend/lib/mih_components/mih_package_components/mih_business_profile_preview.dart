@@ -9,7 +9,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 
 class MihBusinessProfilePreview extends StatefulWidget {
   final Business business;
-  final String myLocation;
+  final String? myLocation;
   const MihBusinessProfilePreview({
     super.key,
     required this.business,
@@ -27,7 +27,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
 
   String calculateDistance() {
     double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
-            widget.myLocation, widget.business.gps_location) /
+            widget.myLocation!, widget.business.gps_location) /
         1000;
     return "${distanceInKm.toStringAsFixed(2)} km";
   }
@@ -80,7 +80,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
               ),
             ),
             Text(
-              calculateDistance(),
+              widget.myLocation != null ? calculateDistance() : "0.00 km",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
