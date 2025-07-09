@@ -29,6 +29,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
+import 'package:redacted/redacted.dart';
 
 class PackageToolOne extends StatefulWidget {
   final AppUser user;
@@ -226,12 +227,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       // print(asyncSnapshot.connectionState);
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Container(
-                          width: 150,
-                          height: 50,
-                          color: Colors.black,
-                          child: Center(child: CircularProgressIndicator()),
+                        return MihBusinessProfilePreview(
+                          business: widget.business,
+                          myLocation: null,
+                        ).redacted(
+                          context: context,
+                          redact: true,
                         );
+                        // return Container(
+                        //   width: 150,
+                        //   height: 50,
+                        //   // color: Colors.black,
+                        //   child: Center(child: CircularProgressIndicator()),
+                        // );
                       } else if (asyncSnapshot.hasError ||
                           !asyncSnapshot.hasData ||
                           asyncSnapshot.data == null) {
@@ -252,23 +260,6 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           myLocation: myLocation,
                         );
                       }
-                      // // print(asyncSnapshot.requireData);
-                      // if (asyncSnapshot.connectionState ==
-                      //         ConnectionState.done &&
-                      //     asyncSnapshot.hasData) {
-                      //   print(asyncSnapshot.requireData);
-                      //   myLocation = asyncSnapshot.requireData.toString();
-                      //   return MihBusinessProfilePreview(
-                      //     business: widget.business,
-                      //     myLocation: myLocation,
-                      //   );
-                      // } else {
-                      //   return Container(
-                      //     width: 150,
-                      //     height: 50,
-                      //     color: Colors.black,
-                      //   );
-                      // }
                     }),
                 const SizedBox(height: 10),
                 MihBusinessCard(
