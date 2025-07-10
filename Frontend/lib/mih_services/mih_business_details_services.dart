@@ -69,6 +69,9 @@ class MihBusinessDetailsServices {
         return const Mihloadingcircle();
       },
     );
+    String logoPath = businessLogoFilename.isNotEmpty
+        ? "$appId/business_files/$businessLogoFilename"
+        : "";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/"),
       headers: <String, String>{
@@ -79,7 +82,7 @@ class MihBusinessDetailsServices {
         "type": businessType,
         "registration_no": businessRegistrationNo,
         "logo_name": businessLogoFilename,
-        "logo_path": "$appId/business_files/$businessLogoFilename",
+        "logo_path": logoPath,
         "contact_no": businessPhoneNumber,
         "bus_email": businessEmail,
         "gps_location": businessLocation,
