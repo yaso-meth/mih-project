@@ -285,6 +285,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 50),
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,

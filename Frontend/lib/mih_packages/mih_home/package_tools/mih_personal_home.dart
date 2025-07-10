@@ -331,6 +331,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 50),
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,
