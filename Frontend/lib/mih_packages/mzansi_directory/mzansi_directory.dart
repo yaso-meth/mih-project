@@ -59,16 +59,16 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.person)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
-    };
-    temp[const Icon(Icons.business_center)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
-    };
+    // temp[const Icon(Icons.person)] = () {
+    //   setState(() {
+    //     _selcetedIndex = 1;
+    //   });
+    // };
+    // temp[const Icon(Icons.business_center)] = () {
+    //   setState(() {
+    //     _selcetedIndex = 2;
+    //   });
+    // };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
