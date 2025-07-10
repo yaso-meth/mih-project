@@ -264,6 +264,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         borderRadius: BorderRadius.circular(15),
         child: Padding(
           padding: EdgeInsetsGeometry.symmetric(
+            // vertical: 5,
             horizontal: 25,
           ),
           child: Row(
@@ -338,11 +339,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               _makePhoneCall(widget.cellNumber);
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Divider(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
+          Divider(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
           _buildContactInfo(
             "Email",
@@ -358,11 +356,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Divider(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
+          Divider(
+            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
           ),
           _buildContactInfo(
             "Location",
@@ -380,11 +375,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
           ),
           Visibility(
             visible: widget.website != null && widget.website! != "",
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Divider(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-              ),
+            child: Divider(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
           ),
           Visibility(
