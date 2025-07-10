@@ -68,6 +68,15 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                       setState(() {
                         // searchTypeVisibility = !searchTypeVisibility;
                         userSearch = !userSearch;
+                        if (userSearch) {
+                          futureUserSearchResults = MihUserServices()
+                              .searchUsers(
+                                  mzansiSearchController.text, context);
+                        } else {
+                          futureBusinessSearchResults =
+                              MihBusinessDetailsServices().searchBusinesses(
+                                  mzansiSearchController.text, context);
+                        }
                       });
                     },
                     icon: Icon(
@@ -137,7 +146,16 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             // return Text("Pulled Data successfully");
             snapshot.requireData!
                 .sort((a, b) => a.username.compareTo(b.username));
-            return BuildUserSearchResultsList(userList: snapshot.requireData!);
+            return Column(
+              children: [
+                Text(
+                  "People of Mzansi",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                BuildUserSearchResultsList(userList: snapshot.requireData!),
+              ],
+            );
           } else if (!snapshot.hasData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -185,9 +203,19 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             // return Text("Pulled Data successfully");
-            return BuildBusinessSearchResultsList(
-              businessList: snapshot.requireData!,
-              myLocation: myLocation,
+            snapshot.requireData!.sort((a, b) => a.Name.compareTo(b.Name));
+            return Column(
+              children: [
+                Text(
+                  "Businesses of Mzansi",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                BuildBusinessSearchResultsList(
+                  businessList: snapshot.requireData!,
+                  myLocation: myLocation,
+                ),
+              ],
             );
           } else if (!snapshot.hasData) {
             return Column(
