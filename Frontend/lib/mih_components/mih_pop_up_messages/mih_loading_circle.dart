@@ -51,36 +51,45 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
-          padding: EdgeInsets.all(popUpPaddingSize),
-          width: 250,
-          height: 275,
-          decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
+      child: IntrinsicWidth(
+        child: IntrinsicHeight(
+          child: Container(
+              padding: EdgeInsets.all(popUpPaddingSize),
+              // width: 250,
+              // height: 275,
+              decoration: BoxDecoration(
                 color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                width: 5.0),
-          ),
-          child: Column(
-            children: [
-              GifView.asset(
-                MzanziInnovationHub.of(context)!.theme.loadingImageLocation(),
-                height: 200,
-                width: 200,
-                frameRate: 30,
+                borderRadius: BorderRadius.circular(25.0),
+                border: Border.all(
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    width: 5.0),
               ),
-              widget.message != null
-                  ? Text(
-                      widget.message!,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  : SizedBox(),
-            ],
-          )),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GifView.asset(
+                    MzanziInnovationHub.of(context)!
+                        .theme
+                        .loadingImageLocation(),
+                    height: 200,
+                    width: 200,
+                    frameRate: 30,
+                  ),
+                  widget.message != null
+                      ? Text(
+                          widget.message!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              )),
+        ),
+      ),
     );
   }
 }
