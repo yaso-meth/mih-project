@@ -36,53 +36,57 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
     return Row(
       children: [
         FutureBuilder(
-            future: futureImageUrl,
-            builder: (context, asyncSnapshot) {
-              if (asyncSnapshot.connectionState == ConnectionState.done &&
-                  asyncSnapshot.hasData) {
-                if (asyncSnapshot.requireData != "") {
-                  return MihCircleAvatar(
-                    imageFile: NetworkImage(asyncSnapshot.requireData),
-                    width: profilePictureWidth,
-                    editable: false,
-                    fileNameController: TextEditingController(),
-                    userSelectedfile: file,
-                    frameColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                    backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                    onChange: () {},
-                  );
-                } else {
-                  return Icon(
-                    MihIcons.iDontKnow,
-                    size: profilePictureWidth,
-                    color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  );
-                }
+          future: futureImageUrl,
+          builder: (context, asyncSnapshot) {
+            if (asyncSnapshot.connectionState == ConnectionState.done &&
+                asyncSnapshot.hasData) {
+              if (asyncSnapshot.requireData != "") {
+                return MihCircleAvatar(
+                  imageFile: NetworkImage(asyncSnapshot.requireData),
+                  width: profilePictureWidth,
+                  editable: false,
+                  fileNameController: TextEditingController(),
+                  userSelectedfile: file,
+                  frameColor:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  backgroundColor:
+                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  onChange: () {},
+                );
               } else {
                 return Icon(
-                  MihIcons.mihRing,
+                  MihIcons.iDontKnow,
                   size: profilePictureWidth,
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
                 );
               }
-            }),
+            } else {
+              return Icon(
+                MihIcons.mihRing,
+                size: profilePictureWidth,
+                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              );
+            }
+          },
+        ),
         const SizedBox(width: 15),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.user.username,
+              widget.user.username.isNotEmpty
+                  ? widget.user.username
+                  : "Username",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
             Text(
-              "${widget.user.fname} ${widget.user.lname}",
+              widget.user.fname.isNotEmpty
+                  ? "${widget.user.fname} ${widget.user.lname}"
+                  : "Name Surname",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
