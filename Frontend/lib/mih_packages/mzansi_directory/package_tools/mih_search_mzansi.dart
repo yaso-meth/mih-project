@@ -135,6 +135,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             // return Text("Pulled Data successfully");
+            snapshot.requireData!
+                .sort((a, b) => a.username.compareTo(b.username));
             return BuildUserSearchResultsList(userList: snapshot.requireData!);
           } else if (!snapshot.hasData) {
             return Column(
