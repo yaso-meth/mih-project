@@ -49,21 +49,30 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
             builder: (context, asyncSnapshot) {
               if (asyncSnapshot.connectionState == ConnectionState.done &&
                   asyncSnapshot.hasData) {
-                return MihCircleAvatar(
-                  imageFile: NetworkImage(asyncSnapshot.requireData),
-                  width: profilePictureWidth,
-                  editable: false,
-                  fileNameController: TextEditingController(),
-                  userSelectedfile: file,
-                  frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
-                  onChange: () {},
-                );
+                if (asyncSnapshot.requireData != "") {
+                  return MihCircleAvatar(
+                    imageFile: NetworkImage(asyncSnapshot.requireData),
+                    width: profilePictureWidth,
+                    editable: false,
+                    fileNameController: TextEditingController(),
+                    userSelectedfile: file,
+                    frameColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    backgroundColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    onChange: () {},
+                  );
+                } else {
+                  return Icon(
+                    MihIcons.iDontKnow,
+                    size: profilePictureWidth,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  );
+                }
               } else {
                 return Icon(
-                  MihIcons.iDontKnow,
+                  MihIcons.mihRing,
                   size: profilePictureWidth,
                 );
               }
@@ -80,12 +89,19 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
               ),
             ),
             Text(
+              widget.business.type,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+            Text(
               widget.myLocation != null || widget.myLocation!.isEmpty
                   ? calculateDistance()
                   : "0.00 km",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
+                fontSize: 10,
               ),
             ),
           ],
