@@ -36,15 +36,16 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
   ImageProvider<Object>? getAvatar() {
     Color dark = const Color(0XFF3A4454);
     if (widget.imageFile == null) {
-      if (widget.backgroundColor == dark) {
-        print("here in light icon");
-        return const AssetImage(
-            'lib/mih_components/mih_package_components/assets/images/i-dont-know-light.png');
-      } else {
-        print("here in dark icon");
-        return const AssetImage(
-            'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
-      }
+      return null;
+      // if (widget.backgroundColor == dark) {
+      //   print("here in light icon");
+      //   return const AssetImage(
+      //       'lib/mih_components/mih_package_components/assets/images/i-dont-know-light.png');
+      // } else {
+      //   print("here in dark icon");
+      //   return const AssetImage(
+      //       'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
+      // }
     } else {
       return widget.imageFile;
     }
@@ -69,16 +70,30 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          CircleAvatar(
-            radius: widget.width / 2.2,
-            backgroundColor: widget.backgroundColor,
-            backgroundImage: imagePreview,
+          Visibility(
+            visible: imagePreview != null,
+            child: CircleAvatar(
+              radius: widget.width / 2.2,
+              backgroundColor: widget.backgroundColor,
+              backgroundImage: imagePreview,
+            ),
           ),
-          FittedBox(
-            fit: BoxFit.fill,
+          Visibility(
+            visible: imagePreview != null,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Icon(
+                size: widget.width,
+                MihIcons.mihRing,
+                color: widget.frameColor,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: imagePreview == null,
             child: Icon(
+              MihIcons.iDontKnow,
               size: widget.width,
-              MihIcons.mihRing,
               color: widget.frameColor,
             ),
           ),
