@@ -100,7 +100,7 @@ class _AboutMihState extends State<AboutMih> {
       "About",
       "Privacy Policy",
       "Terms of Service",
-      "Attributes",
+      "Attributions",
     ];
     return toolTitles;
   }

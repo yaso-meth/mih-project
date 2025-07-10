@@ -99,11 +99,11 @@ class _MihAttributesState extends State<MihAttributes> {
 
   Widget getBody() {
     String message =
-        "Some APIs, Icons and Assets used in this MIH were sourced from third party providers.\n";
+        "Some APIs, Icons and Assets used in MIH were sourced from third party providers.\n";
     message +=
         "We are grateful to the talented creators for providing these resources.\n";
     message +=
-        "As per the terms for free user for these third party providers, the following assets require attribution";
+        "As per the terms for free use for these third party providers, the following assets require attribution";
 
     return MihSingleChildScroll(
       child: Column(
@@ -184,10 +184,11 @@ class _MihAttributesState extends State<MihAttributes> {
                     ),
                   ],
                 ),
-                displayIcon(MihIcons.mihLogo, "Tarah Meth",
-                    "https://www.linkedin.com/in/tarah-meth-3b6309254/"),
                 displayIcon(MihIcons.mihRing, "Tarah Meth",
                     "https://www.linkedin.com/in/tarah-meth-3b6309254/"),
+                displayIcon(MihIcons.mihLogo, "Tarah Meth",
+                    "https://www.linkedin.com/in/tarah-meth-3b6309254/"),
+                displayIcon(MihIcons.mzansiAi, "Ollama", "https://ollama.com/"),
                 displayIcon(MihIcons.mzansiWallet, "Freepik",
                     "https://www.flaticon.com/free-icon/wallet-passes-app_3884407?term=wallet&page=1&position=21&origin=search&related_id=3884407"),
                 displayIcon(MihIcons.patientProfile, "RaftelDesign",
@@ -200,6 +201,8 @@ class _MihAttributesState extends State<MihAttributes> {
                     "https://www.flaticon.com/free-icon/calculator_2374409?term=calculator&page=1&position=20&origin=search&related_id=2374409"),
                 displayIcon(MihIcons.aboutMih, "Chanut",
                     "https://www.flaticon.com/free-icon/info_151776?term=about&page=1&position=8&origin=search&related_id=151776"),
+                displayIcon(MihIcons.personalProfile, "Freepik",
+                    "https://www.flaticon.com/free-icon/user_1077063?term=profile&page=1&position=6&origin=search&related_id=1077063"),
                 displayIcon(MihIcons.businessProfile, "Gravisio",
                     "https://www.flaticon.com/free-icon/contractor_11813336?term=company+profile&page=1&position=2&origin=search&related_id=11813336"),
                 displayIcon(MihIcons.patientManager, "Vector Tank",
@@ -210,6 +213,8 @@ class _MihAttributesState extends State<MihAttributes> {
                     "https://www.flaticon.com/free-icon/business_13569850?term=company+add&page=1&position=25&origin=search&related_id=13569850"),
                 displayIcon(MihIcons.calculator, "fawazahmed0",
                     "https://github.com/fawazahmed0/exchange-api"),
+                displayIcon(MihIcons.iDontKnow, "Freepik",
+                    "https://www.flaticon.com/free-icon/i-dont-know_5359909?term=i+dont+know&page=1&position=7&origin=search&related_id=5359909"),
               ],
             ),
           ),
