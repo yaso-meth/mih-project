@@ -31,11 +31,30 @@ class _BuildBusinessSearchResultsListState
         );
       },
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: MihBusinessProfilePreview(
-            business: widget.businessList[index],
-            myLocation: widget.myLocation,
+        return Material(
+          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/business-profile/view',
+                arguments: widget.businessList[index],
+              );
+            },
+            splashColor: MzanziInnovationHub.of(context)!
+                .theme
+                .secondaryColor()
+                .withOpacity(0.2),
+            borderRadius: BorderRadius.circular(15),
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(
+                // vertical: 5,
+                horizontal: 25,
+              ),
+              child: MihBusinessProfilePreview(
+                business: widget.businessList[index],
+                myLocation: widget.myLocation,
+              ),
+            ),
           ),
         );
       },
