@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
@@ -17,6 +18,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authen
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
@@ -49,6 +51,7 @@ class AppRoutes {
   static const String mzansiProfileView = '/mzansi-profile/view';
   static const String businessProfileSetup = '/business-profile/set-up';
   static const String businessProfileManage = '/business-profile/manage';
+  static const String businessProfileView = '/business-profile/view';
   static const String patientProfile = '/patient-profile';
   static const String patientProfileSetup = '/patient-profile/set-up';
   static const String patientProfileEdit = '/patient-profile/edit';
@@ -180,6 +183,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             settings: settings,
             builder: (_) => MzansiBusinessProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.businessProfileView:
+        if (args is Business) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiBusinessProfileView(business: args),
           );
         }
         break;
