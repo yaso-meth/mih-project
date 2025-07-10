@@ -321,116 +321,126 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          _buildContactInfo(
-            "Call",
-            "Give us a quick call.",
-            Icons.phone,
-            const Color(0xffaff0b3),
-            () {
-              // print("Calling ${widget.cellNumber}");
-              _makePhoneCall(widget.cellNumber);
-            },
-          ),
-          Divider(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          ),
-          _buildContactInfo(
-            "Email",
-            "Send us an email.",
-            Icons.email,
-            const Color(0xffdaa2e9),
-            () {
-              // print("Emailing ${widget.email}");
-              _launchEmail(
-                widget.email,
-                "Inquiery about ${widget.businessName}",
-                "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
-              );
-            },
-          ),
-          Divider(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          ),
-          _buildContactInfo(
-            "Location",
-            "Come visit us.",
-            Icons.location_on,
-            const Color(0xffe9e8a1),
-            () {
-              final latitude = double.parse(widget.gpsLocation.split(',')[0]);
-              final longitude = double.parse(widget.gpsLocation.split(',')[1]);
-              _launchGoogleMapsWithUrl(
-                latitude: latitude,
-                longitude: longitude,
-              );
-            },
-          ),
-          Visibility(
-            visible: widget.website != null && widget.website! != "",
-            child: Divider(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-          ),
-          Visibility(
-            visible: widget.website != null && widget.website! != "",
-            child: _buildContactInfo(
-              "Website",
-              "Find out more about us.",
-              Icons.vpn_lock,
-              const Color(0xffd67d8a),
+    return Material(
+      color: MzanziInnovationHub.of(context)!
+          .theme
+          .secondaryColor()
+          .withValues(alpha: 0.6),
+      borderRadius: BorderRadius.circular(25),
+      elevation: 10,
+      shadowColor: Colors.black,
+      child: Container(
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            _buildContactInfo(
+              "Call",
+              "Give us a quick call.",
+              Icons.phone,
+              const Color(0xffaff0b3),
               () {
-                _launchWebsite(widget.website!);
+                // print("Calling ${widget.cellNumber}");
+                _makePhoneCall(widget.cellNumber);
               },
             ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-          // _buildContactInfo(
-          //   "Rate Us",
-          //   "Let us know how we are doing.",
-          //   Icons.star_rate_rounded,
-          //   const Color(0xffd69d7d),
-          //   () {
-          //     print("Opeining rating dialog");
-          //     // _launchWebsite(widget.website);
-          //   },
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-          // _buildContactInfo(
-          //   "Bookmark",
-          //   "Save us for later.",
-          //   Icons.bookmark_add_rounded,
-          //   const Color(0xff6e7dcc),
-          //   () {
-          //     // _launchWebsite(widget.website);
-          //     print("Saving ${widget.businessName} to Directory");
-          //   },
-          // ),
-          const SizedBox(height: 10),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-        ],
+            Divider(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            _buildContactInfo(
+              "Email",
+              "Send us an email.",
+              Icons.email,
+              const Color(0xffdaa2e9),
+              () {
+                // print("Emailing ${widget.email}");
+                _launchEmail(
+                  widget.email,
+                  "Inquiery about ${widget.businessName}",
+                  "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                );
+              },
+            ),
+            Divider(
+              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            ),
+            _buildContactInfo(
+              "Location",
+              "Come visit us.",
+              Icons.location_on,
+              const Color(0xffe9e8a1),
+              () {
+                final latitude = double.parse(widget.gpsLocation.split(',')[0]);
+                final longitude =
+                    double.parse(widget.gpsLocation.split(',')[1]);
+                _launchGoogleMapsWithUrl(
+                  latitude: latitude,
+                  longitude: longitude,
+                );
+              },
+            ),
+            Visibility(
+              visible: widget.website != null && widget.website! != "",
+              child: Divider(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            Visibility(
+              visible: widget.website != null && widget.website! != "",
+              child: _buildContactInfo(
+                "Website",
+                "Find out more about us.",
+                Icons.vpn_lock,
+                const Color(0xffd67d8a),
+                () {
+                  _launchWebsite(widget.website!);
+                },
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+            // _buildContactInfo(
+            //   "Rate Us",
+            //   "Let us know how we are doing.",
+            //   Icons.star_rate_rounded,
+            //   const Color(0xffd69d7d),
+            //   () {
+            //     print("Opeining rating dialog");
+            //     // _launchWebsite(widget.website);
+            //   },
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+            // _buildContactInfo(
+            //   "Bookmark",
+            //   "Save us for later.",
+            //   Icons.bookmark_add_rounded,
+            //   const Color(0xff6e7dcc),
+            //   () {
+            //     // _launchWebsite(widget.website);
+            //     print("Saving ${widget.businessName} to Directory");
+            //   },
+            // ),
+            const SizedBox(height: 10),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
