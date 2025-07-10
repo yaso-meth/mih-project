@@ -63,6 +63,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               controller: mzansiSearchController,
               hintText: "Search Mzansi",
               prefixIcon: Icons.search,
+              prefixAltIcon: userSearch
+                  ? MihIcons.personalProfile
+                  : MihIcons.businessProfile,
               suffixTools: [
                 IconButton(
                     onPressed: () {
@@ -143,7 +146,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Mihloadingcircle();
           } else if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+              snapshot.hasData &&
+              snapshot.requireData!.isNotEmpty) {
             // return Text("Pulled Data successfully");
             snapshot.requireData!
                 .sort((a, b) => a.username.compareTo(b.username));
@@ -183,6 +187,33 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 ),
               ],
             );
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData &&
+              snapshot.requireData!.isEmpty) {
+            // return Text("Pulled Data successfully");
+            return Column(
+              children: [
+                const SizedBox(height: 50),
+                Icon(
+                  MihIcons.iDontKnow,
+                  size: 165,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Let's Try Refining Your Search",
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                ),
+              ],
+            );
           } else {
             return Center(
               child: Text(
@@ -203,7 +234,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Mihloadingcircle();
           } else if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+              snapshot.hasData &&
+              snapshot.requireData!.isNotEmpty) {
             // return Text("Pulled Data successfully");
             snapshot.requireData!.sort((a, b) => a.Name.compareTo(b.Name));
             return Column(
@@ -216,6 +248,33 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 BuildBusinessSearchResultsList(
                   businessList: snapshot.requireData!,
                   myLocation: myLocation,
+                ),
+              ],
+            );
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData &&
+              snapshot.requireData!.isEmpty) {
+            // return Text("Pulled Data successfully");
+            return Column(
+              children: [
+                const SizedBox(height: 50),
+                Icon(
+                  MihIcons.iDontKnow,
+                  size: 165,
+                  color:
+                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Let's Try Refining Your Search",
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
                 ),
               ],
             );
