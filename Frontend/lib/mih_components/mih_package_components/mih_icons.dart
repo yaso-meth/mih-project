@@ -54,7 +54,7 @@ class MihIcons {
       IconData(0xe90d, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
   static const IconData profileSetup =
-      IconData(0xe90d, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
+      IconData(0xe90e, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
 
   static const IconData calculator =
       IconData(0xe940, fontFamily: _mihFontFam, fontPackage: _mihFontPkg);
