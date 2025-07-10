@@ -49,7 +49,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.perm_identity)] = () {
+    temp[const Icon(Icons.person)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
