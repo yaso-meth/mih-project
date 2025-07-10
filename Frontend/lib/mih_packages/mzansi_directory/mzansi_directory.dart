@@ -77,7 +77,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "Search Mzansi",
+      "Mzansi Search",
       "Contacts",
       "Favourite Businesses",
     ];
