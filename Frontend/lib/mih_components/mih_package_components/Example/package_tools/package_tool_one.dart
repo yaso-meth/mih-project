@@ -227,19 +227,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       // print(asyncSnapshot.connectionState);
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return MihBusinessProfilePreview(
-                          business: widget.business,
-                          myLocation: null,
-                        ).redacted(
-                          context: context,
-                          redact: true,
-                        );
-                        // return Container(
-                        //   width: 150,
-                        //   height: 50,
-                        //   // color: Colors.black,
-                        //   child: Center(child: CircularProgressIndicator()),
+                        // return MihBusinessProfilePreview(
+                        //   business: widget.business,
+                        //   myLocation: null,
+                        // ).redacted(
+                        //   context: context,
+                        //   redact: true,
                         // );
+                        return Container(
+                          width: 150,
+                          height: 50,
+                          // color: Colors.black,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
                       } else if (asyncSnapshot.hasError ||
                           !asyncSnapshot.hasData ||
                           asyncSnapshot.data == null) {
