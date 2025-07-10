@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -118,7 +119,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               builder: (context, asyncSnapshot) {
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
                   return const Mihloadingcircle(
-                    message: "Getting things ready for you",
+                    message: "Getting Your GPS Location Ready",
                   );
                 } else {
                   final myLocation = asyncSnapshot.data
@@ -161,8 +162,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 50),
                 Icon(
-                  Icons.search,
+                  MihIcons.personalProfile,
                   size: 165,
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
@@ -222,8 +224,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 50),
                 Icon(
-                  Icons.search,
+                  MihIcons.businessProfile,
                   size: 165,
                   color:
                       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
