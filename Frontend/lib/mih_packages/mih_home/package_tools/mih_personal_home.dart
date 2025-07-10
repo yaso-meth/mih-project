@@ -114,10 +114,9 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
         packageSize: packageSize,
       )
     });
-    //=============== Mzansi AI ===============
+    //=============== Mzansi Directory ===============
     temp.add({
-      "Mzansi AI": MzansiAiTile(
-        signedInUser: widget.signedInUser,
+      "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
       )
     });
@@ -135,7 +134,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     });
     //=============== Mzansi AI ===============
     temp.add({
-      "Mzansi Directory": MzansiDirectoryTile(
+      "Mzansi AI": MzansiAiTile(
+        signedInUser: widget.signedInUser,
         packageSize: packageSize,
       )
     });
