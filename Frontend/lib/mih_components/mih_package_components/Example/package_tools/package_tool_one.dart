@@ -8,7 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
