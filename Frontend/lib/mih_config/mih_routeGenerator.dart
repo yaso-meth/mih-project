@@ -19,6 +19,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_direc
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
@@ -45,6 +46,7 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String aboutMih = '/about';
   static const String mzansiProfile = '/mzansi-profile';
+  static const String mzansiProfileView = '/mzansi-profile/view';
   static const String businessProfileSetup = '/business-profile/set-up';
   static const String businessProfileManage = '/business-profile/manage';
   static const String patientProfile = '/patient-profile';
@@ -54,8 +56,7 @@ class AppRoutes {
   static const String mzansiDirectory = '/mzansi-directory';
   static const String mihAccess = '/mih-access';
   static const String calendar = '/calendar';
-  static const String appointments =
-      '/appointments'; // Consider unifying with /calendar
+  static const String appointments = '/appointments';
   static const String patientManager = '/patient-manager';
   static const String patientManagerPatient = '/patient-manager/patient';
   static const String fileViewer = '/file-veiwer';
@@ -152,6 +153,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             settings: settings,
             builder: (_) => MzansiProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.mzansiProfileView:
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiProfileView(user: args),
           );
         }
         break;
