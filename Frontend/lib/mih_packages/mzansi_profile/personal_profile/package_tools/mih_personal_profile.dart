@@ -468,7 +468,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
                 FittedBox(
                   child: Text(
-                    widget.arguments.signedInUser.username,
+                    widget.arguments.signedInUser.username.isNotEmpty
+                        ? widget.arguments.signedInUser.username
+                        : "username",
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -480,7 +482,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
                 FittedBox(
                   child: Text(
-                    "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}",
+                    widget.arguments.signedInUser.fname.isNotEmpty
+                        ? "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}"
+                        : "Name Surname",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
