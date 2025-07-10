@@ -13,7 +13,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -270,17 +269,32 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             },
                           ),
                           const SizedBox(height: 10),
-                          MihDropdownField(
+                          MihTextFormField(
+                            fillColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
                             controller: typeController,
+                            multiLineInput: false,
+                            requiredText: true,
                             hintText: "Business Type",
-                            dropdownOptions: const ["Doctors Office", "Other"],
-                            editable: true,
-                            enableSearch: true,
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
                             },
-                            requiredText: true,
                           ),
+                          // MihDropdownField(
+                          //   controller: typeController,
+                          //   hintText: "Business Type",
+                          //   dropdownOptions: const ["Doctors Office", "Other"],
+                          //   editable: true,
+                          //   enableSearch: true,
+                          //   validator: (value) {
+                          //     return MihValidationServices().isEmpty(value);
+                          //   },
+                          //   requiredText: true,
+                          // ),
                           const SizedBox(height: 10),
                           MihTextFormField(
                             fillColor: MzanziInnovationHub.of(context)!
@@ -409,8 +423,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 typeController.text == "Doctors Office",
                             hintText: "Practice Number",
                             validator: (validateValue) {
-                              return MihValidationServices()
-                                  .isEmpty(validateValue);
+                              return null;
                             },
                           ),
                           const SizedBox(height: 10),
@@ -453,7 +466,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                   showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return const Mihloadingcircle();
+                                      return const Mihloadingcircle(
+                                        message: "Getting your location",
+                                      );
                                     },
                                   );
                                   MIHLocationAPI()

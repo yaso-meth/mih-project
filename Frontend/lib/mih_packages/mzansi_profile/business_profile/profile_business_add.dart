@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -230,7 +231,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       headerAlignment: MainAxisAlignment.center,
       headerItems: [
         Text(
-          "Add Business Profile",
+          "Set Up Business Profile",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,
@@ -304,17 +305,32 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         },
                       ),
                       const SizedBox(height: 10.0),
-                      MihDropdownField(
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
                         controller: typeController,
+                        multiLineInput: false,
+                        requiredText: true,
                         hintText: "Business Type",
-                        dropdownOptions: const ["Doctors Office", "Other"],
-                        editable: true,
-                        enableSearch: true,
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
-                        requiredText: true,
                       ),
+                      // MihDropdownField(
+                      //   controller: typeController,
+                      //   hintText: "Business Type",
+                      //   dropdownOptions: const ["Doctors Office", "Other"],
+                      //   editable: true,
+                      //   enableSearch: true,
+                      //   validator: (value) {
+                      //     return MihValidationServices().isEmpty(value);
+                      //   },
+                      //   requiredText: true,
+                      // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         fillColor: MzanziInnovationHub.of(context)!
@@ -430,34 +446,22 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         },
                       ),
                       const SizedBox(height: 10.0),
-                      ValueListenableBuilder(
-                        valueListenable: busType,
-                        builder: (BuildContext context, String value,
-                            Widget? child) {
-                          return Visibility(
-                            visible: value == "Doctors Office",
-                            child: MihTextFormField(
-                              fillColor: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              inputColor: MzanziInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
-                              controller: practiceNoController,
-                              multiLineInput: false,
-                              requiredText: true,
-                              hintText: "Practice Number",
-                              validator: (validateValue) {
-                                if (value == "Doctors Office") {
-                                  return MihValidationServices()
-                                      .isEmpty(validateValue);
-                                }
-                                return null;
-                              },
-                            ),
-                          );
+                      MihTextFormField(
+                        fillColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: practiceNoController,
+                        multiLineInput: false,
+                        requiredText: false,
+                        hintText: "Practice Number",
+                        validator: (validateValue) {
+                          return null;
                         },
                       ),
+
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         fillColor: MzanziInnovationHub.of(context)!
@@ -495,6 +499,14 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           const SizedBox(width: 10.0),
                           MihButton(
                             onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const Mihloadingcircle(
+                                    message: "Getting your location",
+                                  );
+                                },
+                              );
                               MIHLocationAPI()
                                   .getGPSPosition(context)
                                   .then((position) {
@@ -504,6 +516,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                                         "${position.latitude}, ${position.longitude}";
                                   });
                                 }
+                                Navigator.of(context).pop();
                               });
                             },
                             buttonColor: MzanziInnovationHub.of(context)!
