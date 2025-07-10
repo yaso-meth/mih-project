@@ -34,7 +34,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
   late ImageProvider<Object>? imagePreview;
 
   ImageProvider<Object>? getAvatar() {
-    Color dark = const Color(0XFF3A4454);
+    // Color dark = const Color(0XFF3A4454);
     if (widget.imageFile == null) {
       return null;
       // if (widget.backgroundColor == dark) {
