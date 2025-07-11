@@ -72,7 +72,10 @@ class userDeleteRequest(BaseModel):
 async def read_all_users(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM users WHERE LOWER(email) LIKE %s OR LOWER(username) LIKE %s AND username != ''"
+    query = ""
+    query += "SELECT * FROM users "
+    query += "WHERE (LOWER(email) LIKE %s OR LOWER(username) LIKE %s) "     
+    query += "AND username != ''"
     search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
     cursor.execute(query, (search_term, search_term))
     items = [
