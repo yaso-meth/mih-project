@@ -142,7 +142,7 @@ async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(..
     extension = file.filename.split(".")
     content = file.file 
     try:
-        uploudFile(app_id, env, folder, file.filename.replace(" ", "_"), extension[1], content)
+        uploudFile(app_id, env, folder, file.filename.replace(" ", "-"), extension[1], content)
     except Exception as error:
         raise HTTPException(status_code=404, detail="Failed to Uploud Record")
     return {"message": f"Successfully Uploaded {file.filename}"}
