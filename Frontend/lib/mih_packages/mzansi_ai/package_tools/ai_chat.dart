@@ -55,6 +55,10 @@ class _AiChatState extends State<AiChat> {
   List<ollama.Message> _chatHistory = [];
   double _chatFrontSize = 15;
 
+  String getModel() {
+    return AppEnviroment.getEnv() == "Prod" ? 'gemma3n:e4b' : "gemma3:1b";
+  }
+
   String setSystemPromt() {
     String temp = "";
     temp +=
@@ -92,7 +96,7 @@ class _AiChatState extends State<AiChat> {
     temp +=
         "- **Uncertainty Handling:** If you are unsure about an answer, politely respond with: 'Please bear with us as we are still learning and do not have all the answers.'\n";
     temp +=
-        "- **Response Length:** Aim to keep responses under 100 words. If a more comprehensive answer is required, exceed this limit but offer to elaborate further (e.g., 'Would you like me to elaborate on this topic?').\n";
+        "- **Response Length:** Aim to keep responses under 200 words. If a more comprehensive answer is required, exceed this limit but offer to elaborate further (e.g., 'Would you like me to elaborate on this topic?').\n";
     temp +=
         "- **Language & Safety:** Never use offensive language or generate harmful content. If a user presses for information that is inappropriate or out of bounds, clearly state why you cannot provide it (e.g., 'I cannot assist with that request as it goes against my safety guidelines.').\n";
     temp +=
@@ -387,9 +391,7 @@ class _AiChatState extends State<AiChat> {
                                       .theme
                                       .primaryColor(),
                               requiredText: true,
-                              radioOptions: const [
-                                'gemma3:4b',
-                              ],
+                              radioOptions: [getModel()],
                             ),
                           ),
                         ],
@@ -602,7 +604,7 @@ class _AiChatState extends State<AiChat> {
       firstName: "Mzansi AI",
       id: const Uuid().v4(),
     );
-    _modelController.text = 'gemma3:4b';
+    _modelController.text = getModel();
     _fontSizeController.text = _chatFrontSize.ceil().toString();
     systemPromt = setSystemPromt();
     _chatHistory.add(
