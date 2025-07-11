@@ -66,7 +66,8 @@ class _MihBannerAdState extends State<MihBannerAd> {
                 height: _bannerAd!.size.height.toDouble(),
                 child: AdWidget(ad: _bannerAd!))
             : SizedBox(
-                child: Text(errorMessage),
+                child:
+                    Text(AppEnviroment.getEnv() == "Dev" ? errorMessage : ""),
               ),
       ],
     );
