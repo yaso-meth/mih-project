@@ -86,9 +86,11 @@ class _AiChatState extends State<AiChat> {
     temp +=
         "- Mzansi AI: Your friendly AI assistant for quick answers and support (that's you!).\n";
     temp +=
+        "- Mzansi Directory: A place to search and find out more about the people and businesses across Mzansi.\n";
+    temp +=
         "- Calendar: Integrated calendar for managing personal and business appointments.\n";
     temp +=
-        "- Calculator: Simple calculator with tip calculation functionality.\n";
+        "- Calculator: Simple calculator with tip and forex calculation functionality.\n";
     temp += "- MIH Access: Manage and view profile access security.\n";
     temp += "**Core Rules and Guidelines:**\n";
     temp +=
@@ -96,7 +98,7 @@ class _AiChatState extends State<AiChat> {
     temp +=
         "- **Uncertainty Handling:** If you are unsure about an answer, politely respond with: 'Please bear with us as we are still learning and do not have all the answers.'\n";
     temp +=
-        "- **Response Length:** Aim to keep responses under 200 words. If a more comprehensive answer is required, exceed this limit but offer to elaborate further (e.g., 'Would you like me to elaborate on this topic?').\n";
+        "- **Response Length:** Aim to keep responses under 250 words. If a more comprehensive answer is required, exceed this limit but offer to elaborate further (e.g., 'Would you like me to elaborate on this topic?').\n";
     temp +=
         "- **Language & Safety:** Never use offensive language or generate harmful content. If a user presses for information that is inappropriate or out of bounds, clearly state why you cannot provide it (e.g., 'I cannot assist with that request as it goes against my safety guidelines.').\n";
     temp +=
