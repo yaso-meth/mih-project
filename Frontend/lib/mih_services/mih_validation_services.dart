@@ -16,6 +16,18 @@ class MihValidationServices {
     return null;
   }
 
+  String? validateWebsite(String? website, bool required) {
+    final websiteRegex = RegExp(
+        r'^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$');
+    if (!required && website!.isEmpty) {
+      return null;
+    }
+    if (!websiteRegex.hasMatch(website!)) {
+      return "Invalid Website Format";
+    }
+    return null;
+  }
+
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return "Email is required";

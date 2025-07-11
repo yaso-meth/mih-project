@@ -22,6 +22,15 @@ class userInsertRequest(BaseModel):
     email: str
     app_id: str
 
+class userUpdateRequestV2(BaseModel):
+    idusers: int
+    username: str
+    fnam: str
+    lname: str
+    type: str
+    pro_pic_path: str
+    purpose: str
+    
 class userUpdateRequest(BaseModel):
     idusers: int
     username: str
@@ -76,6 +85,7 @@ async def read_all_users(search: str, session: SessionContainer = Depends(verify
             "app_id": item[5],
             "username": item[6],
             "pro_pic_path": item[7],
+            "purpose": item[8],
         }
         for item in cursor.fetchall()
     ]
@@ -113,6 +123,7 @@ async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(
             "app_id": item[5],
             "username": item[6],
             "pro_pic_path": item[7],
+            "purpose": item[8],
         }
         for item in cursor.fetchall()
     ]
@@ -126,10 +137,10 @@ async def insert_User_details(itemRequest : userInsertRequest, session: SessionC
     db = database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into users "
-    query += "(email, fname, lname, type, app_id, username, pro_pic_path) "
-    query += "values (%s, %s, %s, %s, %s, %s, %s)"
+    query += "(email, fname, lname, type, app_id, username, pro_pic_path, purpose) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s, %s)"
     userData = (itemRequest.email,"","","personal",
-                   itemRequest.app_id, "", "")
+                   itemRequest.app_id, "", "","")
     try:
        cursor.execute(query, userData) 
     except Exception as error:
@@ -139,6 +150,32 @@ async def insert_User_details(itemRequest : userInsertRequest, session: SessionC
     cursor.close()
     db.close()
     return {"message": "Successfully Created Record"}
+
+# Update User on table
+@router.put("/user/update/v2/", tags=["MIH Users"])
+async def Update_User_details(itemRequest : userUpdateRequestV2, session: SessionContainer = Depends(verify_session())):
+    db = database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "update users "
+    query += "set username=%s, fname=%s, lname=%s, type=%s, pro_pic_path=%s, purpose=%s "
+    query += "where idusers=%s"
+    userData = (itemRequest.username, 
+                   itemRequest.fnam,
+                   itemRequest.lname,
+                   itemRequest.type,
+                   itemRequest.pro_pic_path,
+                   itemRequest.purpose,
+                   itemRequest.idusers,
+                   )
+    try:
+       cursor.execute(query, userData) 
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=error)
+        #return {"query": query, "message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Updated Record"}
 
 # Update User on table
 @router.put("/user/update/", tags=["MIH Users"])

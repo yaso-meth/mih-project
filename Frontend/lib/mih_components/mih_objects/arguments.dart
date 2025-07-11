@@ -217,3 +217,13 @@ class MzansiAiArguments {
     this.startUpQuestion,
   );
 }
+
+class TestArguments {
+  final AppUser user;
+  final Business? business;
+
+  TestArguments(
+    this.user,
+    this.business,
+  );
+}

@@ -1,23 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
-import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_contacts.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
 
-class MzansiProfile extends StatefulWidget {
-  final AppProfileUpdateArguments arguments;
-  const MzansiProfile({
-    super.key,
-    required this.arguments,
-  });
+class MzansiDirectory extends StatefulWidget {
+  const MzansiDirectory({super.key});
 
   @override
-  State<MzansiProfile> createState() => _MzansiProfileState();
+  State<MzansiDirectory> createState() => _MzansiDirectoryState();
 }
 
-class _MzansiProfileState extends State<MzansiProfile> {
+class _MzansiDirectoryState extends State<MzansiDirectory> {
   int _selcetedIndex = 0;
 
   @override
@@ -36,6 +32,15 @@ class _MzansiProfileState extends State<MzansiProfile> {
     );
   }
 
+  List<Widget> getToolBody() {
+    List<Widget> toolBodies = [
+      MihSearchMzansi(),
+      MihContacts(),
+      MihFavouriteBusinesses(),
+    ];
+    return toolBodies;
+  }
+
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
@@ -49,37 +54,32 @@ class _MzansiProfileState extends State<MzansiProfile> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.person)] = () {
+    temp[const Icon(Icons.search)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.settings)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
-    };
+    // temp[const Icon(Icons.person)] = () {
+    //   setState(() {
+    //     _selcetedIndex = 1;
+    //   });
+    // };
+    // temp[const Icon(Icons.business_center)] = () {
+    //   setState(() {
+    //     _selcetedIndex = 2;
+    //   });
+    // };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
     );
   }
 
-  List<Widget> getToolBody() {
-    List<Widget> toolBodies = [];
-    toolBodies.add(MihPersonalProfile(
-      arguments: widget.arguments,
-    ));
-    toolBodies.add(MihPersonalSettings(
-      signedInUser: widget.arguments.signedInUser,
-    ));
-    return toolBodies;
-  }
-
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "Profile",
-      "Settings",
+      "Mzansi Search",
+      "Contacts",
+      "Favourite Businesses",
     ];
     return toolTitles;
   }

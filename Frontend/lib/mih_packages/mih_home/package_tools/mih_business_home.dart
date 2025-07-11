@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tiles/mzansi_directory_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tiles/pat_manager_tile.dart';
@@ -112,10 +113,9 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
         packageSize: packageSize,
       )
     });
-    //=============== Mzansi AI ===============
+    //=============== Mzansi Directory ===============
     temp.add({
-      "Mzansi AI": MzansiAiTile(
-        signedInUser: widget.signedInUser,
+      "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
       )
     });
@@ -123,6 +123,13 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     temp.add({
       "Calculator": MihCalculatorTile(
         personalSelected: widget.personalSelected,
+        packageSize: packageSize,
+      )
+    });
+    //=============== Mzansi AI ===============
+    temp.add({
+      "Mzansi AI": MzansiAiTile(
+        signedInUser: widget.signedInUser,
         packageSize: packageSize,
       )
     });
@@ -278,6 +285,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 50),
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,

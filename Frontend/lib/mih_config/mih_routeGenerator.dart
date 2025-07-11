@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
@@ -15,9 +16,12 @@ import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dar
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
@@ -44,16 +48,18 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String aboutMih = '/about';
   static const String mzansiProfile = '/mzansi-profile';
+  static const String mzansiProfileView = '/mzansi-profile/view';
   static const String businessProfileSetup = '/business-profile/set-up';
   static const String businessProfileManage = '/business-profile/manage';
+  static const String businessProfileView = '/business-profile/view';
   static const String patientProfile = '/patient-profile';
   static const String patientProfileSetup = '/patient-profile/set-up';
   static const String patientProfileEdit = '/patient-profile/edit';
   static const String mzansiWallet = '/mzansi-wallet';
+  static const String mzansiDirectory = '/mzansi-directory';
   static const String mihAccess = '/mih-access';
   static const String calendar = '/calendar';
-  static const String appointments =
-      '/appointments'; // Consider unifying with /calendar
+  static const String appointments = '/appointments';
   static const String patientManager = '/patient-manager';
   static const String patientManagerPatient = '/patient-manager/patient';
   static const String fileViewer = '/file-veiwer';
@@ -115,6 +121,14 @@ class RouteGenerator {
         );
       // }
       // break; // Use break and fall through to _errorRoute if argument type is wrong
+      case AppRoutes.mzansiDirectory:
+        // if (args is AuthArguments) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => MzansiDirectory(),
+        );
+      // }
+      // break;
       case AppRoutes.notifications:
         if (args is NotificationArguments) {
           return MaterialPageRoute(
@@ -146,6 +160,15 @@ class RouteGenerator {
         }
         break;
 
+      case AppRoutes.mzansiProfileView:
+        if (args is AppUser) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiProfileView(user: args),
+          );
+        }
+        break;
+
       case AppRoutes.businessProfileSetup:
         if (args is AppUser) {
           return MaterialPageRoute(
@@ -160,6 +183,15 @@ class RouteGenerator {
           return MaterialPageRoute(
             settings: settings,
             builder: (_) => MzansiBusinessProfile(arguments: args),
+          );
+        }
+        break;
+
+      case AppRoutes.businessProfileView:
+        if (args is Business) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiBusinessProfileView(business: args),
           );
         }
         break;
@@ -288,11 +320,13 @@ class RouteGenerator {
         break;
 
       case AppRoutes.packageDevTest:
-        // No arguments expected for this test route
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const PackageTest(),
-        );
+        if (args is TestArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => PackageTest(arguments: args),
+          );
+        }
+        break;
 
       default:
         // If no match is found, fall through to the error route

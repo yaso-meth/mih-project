@@ -1,0 +1,180 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+
+class MihBusinessDetailsView extends StatefulWidget {
+  final Business business;
+  const MihBusinessDetailsView({
+    super.key,
+    required this.business,
+  });
+
+  @override
+  State<MihBusinessDetailsView> createState() => _MihBusinessDetailsViewState();
+}
+
+class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
+  late Future<String> futureImageUrl;
+  PlatformFile? file;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureImageUrl =
+        MihFileApi.getMinioFileUrl(widget.business.logo_path, context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return MihPackageToolBody(
+      borderOn: false,
+      innerHorizontalPadding: 10,
+      bodyItem: getBody(screenWidth, context),
+    );
+  }
+
+  Widget getBody(double width, BuildContext context) {
+    double profilePictureWidth = 150;
+    return Stack(
+      children: [
+        MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+            child: Column(
+              children: [
+                FutureBuilder(
+                    future: futureImageUrl,
+                    builder: (context, asyncSnapshot) {
+                      if (asyncSnapshot.connectionState ==
+                              ConnectionState.done &&
+                          asyncSnapshot.hasData) {
+                        if (asyncSnapshot.requireData != "") {
+                          return MihCircleAvatar(
+                            imageFile: NetworkImage(asyncSnapshot.requireData),
+                            width: profilePictureWidth,
+                            editable: false,
+                            fileNameController: TextEditingController(),
+                            userSelectedfile: file,
+                            frameColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            backgroundColor: MzanziInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            onChange: () {},
+                          );
+                        } else {
+                          return Icon(
+                            MihIcons.iDontKnow,
+                            size: profilePictureWidth,
+                            color: MzanziInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          );
+                        }
+                      } else {
+                        return Icon(
+                          MihIcons.mihRing,
+                          size: profilePictureWidth,
+                          color: MzanziInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        );
+                      }
+                    }),
+                // Center(
+                //   child: MihCircleAvatar(
+                //     imageFile: widget.logoImage,
+                //     width: 150,
+                //     editable: false,
+                //     fileNameController: fileNameController,
+                //     userSelectedfile: imageFile,
+                //     frameColor:
+                //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                //     backgroundColor:
+                //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                //     onChange: (selectedfile) {
+                //       setState(() {
+                //         imageFile = selectedfile;
+                //       });
+                //     },
+                //   ),
+                // ),
+                FittedBox(
+                  child: Text(
+                    widget.business.Name,
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ),
+                // FittedBox(
+                //   child: Text(
+                //     "Mission & Vision",
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.bold,
+                //       color: MzanziInnovationHub.of(context)!
+                //           .theme
+                //           .secondaryColor(),
+                //     ),
+                //   ),
+                // ),
+                Center(
+                  child: SizedBox(
+                    width: 700,
+                    child: Text(
+                      widget.business.mission_vision.isNotEmpty
+                          ? widget.business.mission_vision
+                          : "No Mission & Vision added yet",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 700,
+                  child: MihBusinessCard(
+                    businessName: widget.business.Name,
+                    cellNumber: widget.business.contact_no,
+                    email: widget.business.bus_email,
+                    gpsLocation: widget.business.gps_location,
+                    //To-Do: Add the business Website
+                    website: widget.business.website,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

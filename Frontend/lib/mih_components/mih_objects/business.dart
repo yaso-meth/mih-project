@@ -12,6 +12,9 @@ class Business {
   final String gps_location;
   final String practice_no;
   final String vat_no;
+  final String website;
+  final String rating;
+  final String mission_vision;
 
   const Business(
     this.business_id,
@@ -26,6 +29,9 @@ class Business {
     this.gps_location,
     this.practice_no,
     this.vat_no,
+    this.website,
+    this.rating,
+    this.mission_vision,
   );
 
   factory Business.fromJson(dynamic json) {
@@ -42,6 +48,9 @@ class Business {
       json['gps_location'],
       json['practice_no'],
       json['vat_no'],
+      json['website'],
+      json['rating'],
+      json['mission_vision'],
     );
   }
 }

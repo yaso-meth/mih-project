@@ -1,16 +1,13 @@
-import 'dart:convert';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_user_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class MihBusinessUserSearch extends StatefulWidget {
   final BusinessArguments arguments;
@@ -33,18 +30,19 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   String errorBody = "";
 
   Future<List<AppUser>> fetchUsers(String search) async {
-    final response = await http
-        .get(Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$search"));
-    errorCode = response.statusCode.toString();
-    errorBody = response.body;
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<AppUser> users =
-          List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
-      return users;
-    } else {
-      throw Exception('failed to load patients');
-    }
+    return MihUserServices().searchUsers(search, context);
+    // final response = await http
+    //     .get(Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$search"));
+    // errorCode = response.statusCode.toString();
+    // errorBody = response.body;
+    // if (response.statusCode == 200) {
+    //   Iterable l = jsonDecode(response.body);
+    //   List<AppUser> users =
+    //       List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
+    //   return users;
+    // } else {
+    //   throw Exception('failed to load patients');
+    // }
   }
 
   void submitUserForm() {
@@ -142,7 +140,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             } else {
               return Center(
                 child: Text(
-                  "$errorCode: Error pulling Patients Data\n/patients/search/$userSearch\n$errorBody",
+                  "$errorCode: Error pulling Patients Data\n/users/search/$userSearch\n$errorBody",
                   style: TextStyle(
                       fontSize: 25,
                       color:

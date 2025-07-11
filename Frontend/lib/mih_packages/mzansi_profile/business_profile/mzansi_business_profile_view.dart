@@ -1,33 +1,24 @@
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_%20attributes.dart';
-import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
-import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_privacy_policy.dart';
-import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_terms_of_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 
-class AboutMih extends StatefulWidget {
-  final int packageIndex;
-  const AboutMih({
+class MzansiBusinessProfileView extends StatefulWidget {
+  final Business business;
+  const MzansiBusinessProfileView({
     super.key,
-    required this.packageIndex,
+    required this.business,
   });
 
   @override
-  State<AboutMih> createState() => _AboutMihState();
+  State<MzansiBusinessProfileView> createState() =>
+      _MzansiBusinessProfileViewState();
 }
 
-class _AboutMihState extends State<AboutMih> {
-  late int _selcetedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _selcetedIndex = widget.packageIndex;
-    });
-  }
+class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
+  int _selcetedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +32,6 @@ class _AboutMihState extends State<AboutMih> {
         setState(() {
           _selcetedIndex = newValue;
         });
-        // print("Index: $_selcetedIndex");
       },
     );
   }
@@ -59,24 +49,9 @@ class _AboutMihState extends State<AboutMih> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.info)] = () {
+    temp[const Icon(Icons.business)] = () {
       setState(() {
         _selcetedIndex = 0;
-      });
-    };
-    temp[const Icon(Icons.policy)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
-    };
-    temp[const Icon(Icons.design_services)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
-    };
-    temp[const Icon(Icons.star_rounded)] = () {
-      setState(() {
-        _selcetedIndex = 3;
       });
     };
     return MihPackageTools(
@@ -87,20 +62,14 @@ class _AboutMihState extends State<AboutMih> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      const MihInfo(),
-      const MihPrivacyPolicy(),
-      const MIHTermsOfService(),
-      const MihAttributes(),
+      MihBusinessDetailsView(business: widget.business),
     ];
     return toolBodies;
   }
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "About",
-      "Privacy Policy",
-      "Terms of Service",
-      "Attributions",
+      "Profile",
     ];
     return toolTitles;
   }

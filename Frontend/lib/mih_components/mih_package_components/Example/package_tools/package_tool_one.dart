@@ -1,10 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_card.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -25,7 +32,13 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 
 class PackageToolOne extends StatefulWidget {
-  const PackageToolOne({super.key});
+  final AppUser user;
+  final Business business;
+  const PackageToolOne({
+    super.key,
+    required this.user,
+    required this.business,
+  });
 
   @override
   State<PackageToolOne> createState() => _PackageToolOneState();
@@ -51,6 +64,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
   bool switchpositioin = true;
   final FocusNode searchFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  late Future<Position?> myCoordinates;
+  String myLocation = "";
 
   void showTestFullWindow() {
     showDialog(
@@ -133,6 +148,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
       // const NetworkImage(
       //     "https://lh3.googleusercontent.com/nW4ZZ89Q1ATz7Ht3nsAVWXL_cwNi4gNusqQZiL60UuuI3FG-VM7bTYDoJ-sUr2kDTdorfQYjxo5PjDM-0MO5rA=s512");
     });
+
+    // myCoordinates = MIHLocationAPI().getGPSPosition(context);
   }
 
   Widget getBody(double width) {
@@ -166,6 +183,114 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Mihloadingcircle(
+                            message: "Getting your profile data",
+                          );
+                        },
+                      );
+                    },
+                    buttonColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    elevation: 10,
+                    width: 300,
+                    child: Text(
+                      "Show Loading",
+                      style: TextStyle(
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Personal Preview",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                MihPersonalProfilePreview(
+                  user: widget.user,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Business Preview",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                FutureBuilder(
+                    future: MIHLocationAPI().getGPSPosition(context),
+                    builder: (context, asyncSnapshot) {
+                      // print(asyncSnapshot.connectionState);
+                      if (asyncSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        // return MihBusinessProfilePreview(
+                        //   business: widget.business,
+                        //   myLocation: null,
+                        // ).redacted(
+                        //   context: context,
+                        //   redact: true,
+                        // );
+                        return Container(
+                          width: 150,
+                          height: 50,
+                          // color: Colors.black,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      } else if (asyncSnapshot.hasError ||
+                          !asyncSnapshot.hasData ||
+                          asyncSnapshot.data == null) {
+                        return Container(
+                          width: 150,
+                          height: 50,
+                          color: Colors.red,
+                          child: Center(child: Text("Location unavailable")),
+                        );
+                      } else {
+                        final myLocation = asyncSnapshot.data
+                            .toString()
+                            .replaceAll("Latitude: ", "")
+                            .replaceAll("Longitude: ", "");
+                        print("My Location is this: $myLocation");
+                        return MihBusinessProfilePreview(
+                          business: widget.business,
+                          myLocation: myLocation,
+                        );
+                      }
+                    }),
+                const SizedBox(height: 10),
                 MihBusinessCard(
                   businessName: "Mzansi Innovation Hub",
                   cellNumber: "0788300006",
@@ -361,6 +486,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       multiLineInput: true,
                       requiredText: false,
                       hintText: "Enter Multi Line Text",
+                      validator: (value) {
+                        return MihValidationServices()
+                            .validateLength(_textFieldFourController.text, 50);
+                      },
                     ),
                     const SizedBox(height: 20),
                     Align(

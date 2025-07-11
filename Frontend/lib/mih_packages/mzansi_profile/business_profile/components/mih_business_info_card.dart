@@ -8,14 +8,14 @@ class MihBusinessCard extends StatefulWidget {
   final String cellNumber;
   final String email;
   final String gpsLocation;
-  final String website;
+  final String? website;
   const MihBusinessCard({
     super.key,
     required this.businessName,
     required this.cellNumber,
     required this.email,
     required this.gpsLocation,
-    required this.website,
+    this.website,
   });
 
   @override
@@ -35,15 +35,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Making Call",
               alertBody: Column(
                 children: [
                   Text(
-                    "Unable to lauch phone to call ${widget.cellNumber}",
+                    "We couldn't open your phone app to call ${widget.cellNumber}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
                     style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 15,
                     ),
                   ),
@@ -83,15 +85,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Creating Email",
               alertBody: Column(
                 children: [
                   Text(
-                    "Unable to lauch email to ${widget.email}",
+                    "We couldn't launch your email app to send a message to ${widget.email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
                     style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 15,
                     ),
                   ),
@@ -115,8 +119,6 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       if (await canLaunchUrl(googleMapsUrl)) {
         await launchUrl(googleMapsUrl);
       } else {
-        print(
-            'Could not launch Google Maps. Make sure the Google Maps app is installed or an internet connection is available.');
         showDialog(
             context: context,
             builder: (context) {
@@ -124,15 +126,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Creating Maps",
                 alertBody: Column(
                   children: [
                     Text(
-                      "Unable to lauch maps to ${widget.businessName}",
+                      "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                       style: TextStyle(
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
                         fontSize: 15,
                       ),
                     ),
@@ -151,15 +155,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Creating Maps",
               alertBody: Column(
                 children: [
                   Text(
-                    "Unable to lauch maps to ${widget.businessName}",
+                    "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                     style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 15,
                     ),
                   ),
@@ -172,7 +178,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   }
 
   Future<void> _launchWebsite(String urlString) async {
-    final Uri url = Uri.parse(urlString);
+    String newUrl = urlString;
+    if (!newUrl.startsWith("https://")) {
+      newUrl = "https://$urlString";
+    }
+    final Uri url = Uri.parse(newUrl);
     try {
       if (await canLaunchUrl(url)) {
         await launchUrl(url);
@@ -185,15 +195,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
+                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Opening Website",
                 alertBody: Column(
                   children: [
                     Text(
-                      "Unable to lauch ${widget.businessName}",
+                      "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
                       style: TextStyle(
-                        color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
                         fontSize: 15,
                       ),
                     ),
@@ -212,15 +224,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
+                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Opening Website",
               alertBody: Column(
                 children: [
                   Text(
-                    "Unable to lauch ${widget.businessName}",
+                    "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
                     style: TextStyle(
-                      color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      color: MzanziInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
                       fontSize: 15,
                     ),
                   ),
@@ -250,6 +264,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         borderRadius: BorderRadius.circular(15),
         child: Padding(
           padding: EdgeInsetsGeometry.symmetric(
+            // vertical: 5,
             horizontal: 25,
           ),
           child: Row(
@@ -306,119 +321,126 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          _buildContactInfo(
-            "Call",
-            "Give us a quick call.",
-            Icons.phone,
-            const Color(0xffaff0b3),
-            () {
-              // print("Calling ${widget.cellNumber}");
-              _makePhoneCall(widget.cellNumber);
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Divider(
+    return Material(
+      color: MzanziInnovationHub.of(context)!
+          .theme
+          .secondaryColor()
+          .withValues(alpha: 0.6),
+      borderRadius: BorderRadius.circular(25),
+      elevation: 10,
+      shadowColor: Colors.black,
+      child: Container(
+        decoration: BoxDecoration(
+          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            _buildContactInfo(
+              "Call",
+              "Give us a quick call.",
+              Icons.phone,
+              const Color(0xffaff0b3),
+              () {
+                // print("Calling ${widget.cellNumber}");
+                _makePhoneCall(widget.cellNumber);
+              },
+            ),
+            Divider(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
-          ),
-          _buildContactInfo(
-            "Email",
-            "Send us an email.",
-            Icons.email,
-            const Color(0xffdaa2e9),
-            () {
-              // print("Emailing ${widget.email}");
-              _launchEmail(
-                widget.email,
-                "Inquiery about ${widget.businessName}",
-                "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
-              );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Divider(
+            _buildContactInfo(
+              "Email",
+              "Send us an email.",
+              Icons.email,
+              const Color(0xffdaa2e9),
+              () {
+                // print("Emailing ${widget.email}");
+                _launchEmail(
+                  widget.email,
+                  "Inquiery about ${widget.businessName}",
+                  "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                );
+              },
+            ),
+            Divider(
               color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
             ),
-          ),
-          _buildContactInfo(
-            "Location",
-            "Come visit us.",
-            Icons.location_on,
-            const Color(0xffe9e8a1),
-            () {
-              final latitude = double.parse(widget.gpsLocation.split(',')[0]);
-              final longitude = double.parse(widget.gpsLocation.split(',')[1]);
-              _launchGoogleMapsWithUrl(
-                latitude: latitude,
-                longitude: longitude,
-              );
-            },
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-          // _buildContactInfo(
-          //   "Website",
-          //   "Find out more about us.",
-          //   Icons.vpn_lock,
-          //   const Color(0xffd67d8a),
-          //   () {
-          //     _launchWebsite(widget.website);
-          //   },
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-          // _buildContactInfo(
-          //   "Rate Us",
-          //   "Let us know how we are doing.",
-          //   Icons.star_rate_rounded,
-          //   const Color(0xffd69d7d),
-          //   () {
-          //     print("Opeining rating dialog");
-          //     // _launchWebsite(widget.website);
-          //   },
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-          // _buildContactInfo(
-          //   "Bookmark",
-          //   "Save us for later.",
-          //   Icons.bookmark_add_rounded,
-          //   const Color(0xff6e7dcc),
-          //   () {
-          //     // _launchWebsite(widget.website);
-          //     print("Saving ${widget.businessName} to Directory");
-          //   },
-          // ),
-          const SizedBox(height: 10),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //   child: Divider(
-          //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
-          //   ),
-          // ),
-        ],
+            _buildContactInfo(
+              "Location",
+              "Come visit us.",
+              Icons.location_on,
+              const Color(0xffe9e8a1),
+              () {
+                final latitude = double.parse(widget.gpsLocation.split(',')[0]);
+                final longitude =
+                    double.parse(widget.gpsLocation.split(',')[1]);
+                _launchGoogleMapsWithUrl(
+                  latitude: latitude,
+                  longitude: longitude,
+                );
+              },
+            ),
+            Visibility(
+              visible: widget.website != null && widget.website! != "",
+              child: Divider(
+                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            Visibility(
+              visible: widget.website != null && widget.website! != "",
+              child: _buildContactInfo(
+                "Website",
+                "Find out more about us.",
+                Icons.vpn_lock,
+                const Color(0xffd67d8a),
+                () {
+                  _launchWebsite(widget.website!);
+                },
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+            // _buildContactInfo(
+            //   "Rate Us",
+            //   "Let us know how we are doing.",
+            //   Icons.star_rate_rounded,
+            //   const Color(0xffd69d7d),
+            //   () {
+            //     print("Opeining rating dialog");
+            //     // _launchWebsite(widget.website);
+            //   },
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+            // _buildContactInfo(
+            //   "Bookmark",
+            //   "Save us for later.",
+            //   Icons.bookmark_add_rounded,
+            //   const Color(0xff6e7dcc),
+            //   () {
+            //     // _launchWebsite(widget.website);
+            //     print("Saving ${widget.businessName} to Directory");
+            //   },
+            // ),
+            const SizedBox(height: 10),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }

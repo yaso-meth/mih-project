@@ -902,8 +902,8 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
           MIHLocationAPI().getGPSPosition(context).then((position) {
             if (position != null) {
               print(position);
-              print(
-                  "Distance: ${MIHLocationAPI().getDistanceInMeaters(position, position)}m");
+              // print(
+              //     "Distance: ${MIHLocationAPI().getDistanceInMeaters(position, position)}m");
             }
           });
         },

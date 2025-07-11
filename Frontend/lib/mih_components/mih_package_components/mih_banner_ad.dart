@@ -30,7 +30,8 @@ class _MihBannerAdState extends State<MihBannerAd> {
         onAdFailedToLoad: (ad, err) {
           debugPrint('BannerAd failed to load: $err');
           setState(() {
-            errorMessage = 'Failed to load ad: ${err.message}';
+            errorMessage =
+                'Failed to load ad- Message: ${err.message} Code :${err.code}';
           });
           ad.dispose(); // Dispose the ad to free resources
         },

@@ -37,6 +37,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   final usernameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
+  final purposeController = TextEditingController();
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   PlatformFile? proPic;
   late ImageProvider<Object>? propicPreview;
   late bool businessUser;
@@ -112,12 +114,13 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   Future<void> updateUserApiCall() async {
-    int responseCode = await MihUserServices().updateUser(
+    int responseCode = await MihUserServices().updateUserV2(
       widget.arguments.signedInUser,
       fnameController.text,
       lnameController.text,
       usernameController.text,
       proPicController.text,
+      purposeController.text,
       businessUser,
       context,
     );
@@ -182,6 +185,14 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
         return const MIHErrorMessage(errorType: "Invalid Username");
       },
     );
+  }
+
+  Color getPurposeLimitColor(int limit) {
+    if (_counter.value <= limit) {
+      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzanziInnovationHub.of(context)!.theme.errorColor();
+    }
   }
 
   void editProfileWindow(double width) {
@@ -282,6 +293,52 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     },
                   ),
                   const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    height: 250,
+                    fillColor:
+                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: purposeController,
+                    multiLineInput: true,
+                    requiredText: true,
+                    hintText: "Your Purpose",
+                    validator: (value) {
+                      return MihValidationServices()
+                          .validateLength(purposeController.text, 256);
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                    child: ValueListenableBuilder(
+                      valueListenable: _counter,
+                      builder:
+                          (BuildContext context, int value, Widget? child) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "$value",
+                              style: TextStyle(
+                                color: getPurposeLimitColor(256),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "/256",
+                              style: TextStyle(
+                                color: getPurposeLimitColor(256),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
                   MihToggle(
                     hintText: "Activate Business Account",
                     initialPostion: businessUser,
@@ -336,11 +393,13 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     usernameController.dispose();
     fnameController.dispose();
     lnameController.dispose();
+    purposeController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    super.initState();
     var proPicName = "";
     if (widget.arguments.signedInUser.pro_pic_path.isNotEmpty) {
       proPicName = widget.arguments.signedInUser.pro_pic_path.split("/").last;
@@ -350,6 +409,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     } else {
       env = "Dev";
     }
+    purposeController.addListener(() {
+      setState(() {
+        _counter.value = purposeController.text.characters.length;
+      });
+    });
     setState(() {
       propicPreview = widget.arguments.propicFile;
       oldProPicName = proPicName;
@@ -357,9 +421,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       fnameController.text = widget.arguments.signedInUser.fname;
       lnameController.text = widget.arguments.signedInUser.lname;
       usernameController.text = widget.arguments.signedInUser.username;
+      purposeController.text = widget.arguments.signedInUser.purpose;
       businessUser = isBusinessUser();
     });
-    super.initState();
   }
 
   @override
@@ -404,7 +468,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
                 FittedBox(
                   child: Text(
-                    "@${widget.arguments.signedInUser.username}",
+                    widget.arguments.signedInUser.username.isNotEmpty
+                        ? widget.arguments.signedInUser.username
+                        : "username",
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -416,7 +482,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 ),
                 FittedBox(
                   child: Text(
-                    "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}",
+                    widget.arguments.signedInUser.fname.isNotEmpty
+                        ? "${widget.arguments.signedInUser.fname} ${widget.arguments.signedInUser.lname}"
+                        : "Name Surname",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -438,20 +506,25 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     ),
                   ),
                 ),
-                // const SizedBox(height: 10.0),
-                // Center(
-                //   child: Text(
-                //     "*DEMO TEXT* This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself and let. This would be the bio of the user telling us a bit about themself",
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //       fontSize: 15,
-                //       fontWeight: FontWeight.bold,
-                //       color: MzanziInnovationHub.of(context)!
-                //           .theme
-                //           .secondaryColor(),
-                //     ),
-                //   ),
-                // ),
+                const SizedBox(height: 10.0),
+                Center(
+                  child: SizedBox(
+                    width: 700,
+                    child: Text(
+                      widget.arguments.signedInUser.purpose.isNotEmpty
+                          ? widget.arguments.signedInUser.purpose
+                          : "No purpose added yet",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: MzanziInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 30.0),
                 Center(
                   child: MihButton(
@@ -463,7 +536,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                         MzanziInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
-                      "Edit Profile",
+                      widget.arguments.signedInUser.username.isEmpty
+                          ? "Set Up Profile"
+                          : "Edit Profile",
                       style: TextStyle(
                         color: MzanziInnovationHub.of(context)!
                             .theme

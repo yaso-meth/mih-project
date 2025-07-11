@@ -1,23 +1,22 @@
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile_view.dart';
 import 'package:flutter/material.dart';
 
-class MzansiProfile extends StatefulWidget {
-  final AppProfileUpdateArguments arguments;
-  const MzansiProfile({
+class MzansiProfileView extends StatefulWidget {
+  final AppUser user;
+  const MzansiProfileView({
     super.key,
-    required this.arguments,
+    required this.user,
   });
 
   @override
-  State<MzansiProfile> createState() => _MzansiProfileState();
+  State<MzansiProfileView> createState() => _MzansiProfileViewState();
 }
 
-class _MzansiProfileState extends State<MzansiProfile> {
+class _MzansiProfileViewState extends State<MzansiProfileView> {
   int _selcetedIndex = 0;
 
   @override
@@ -54,11 +53,6 @@ class _MzansiProfileState extends State<MzansiProfile> {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.settings)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
-    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -67,11 +61,8 @@ class _MzansiProfileState extends State<MzansiProfile> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [];
-    toolBodies.add(MihPersonalProfile(
-      arguments: widget.arguments,
-    ));
-    toolBodies.add(MihPersonalSettings(
-      signedInUser: widget.arguments.signedInUser,
+    toolBodies.add(MihPersonalProfileView(
+      user: widget.user,
     ));
     return toolBodies;
   }
@@ -79,7 +70,6 @@ class _MzansiProfileState extends State<MzansiProfile> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Profile",
-      "Settings",
     ];
     return toolTitles;
   }

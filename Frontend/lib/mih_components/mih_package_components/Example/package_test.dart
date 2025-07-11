@@ -9,7 +9,15 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:flutter/material.dart';
 
 class PackageTest extends StatefulWidget {
-  const PackageTest({super.key});
+  // final AppUser user;
+  // final Business business;
+  final TestArguments arguments;
+  const PackageTest({
+    super.key,
+    required this.arguments,
+    // required this.user,
+    // required this.business,
+  });
 
   @override
   State<PackageTest> createState() => _PackageTestState();
@@ -111,7 +119,10 @@ class _PackageTestState extends State<PackageTest> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      const PackageToolOne(),
+      PackageToolOne(
+        user: widget.arguments.user,
+        business: widget.arguments.business!,
+      ),
       const PackageToolTwo(),
     ];
     return toolBodies;

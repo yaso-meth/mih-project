@@ -1,4 +1,3 @@
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -14,29 +13,20 @@ class MIHLocationAPI {
   ///if user has blocked permission (denied or denied forver), user will get error pop up.
   ///if user has granted permission (while in use), function will return Position object.
   Future<Position?> getGPSPosition(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    //Check the type of permission granted
+    print("Before checkPermission"); // Debug
     LocationPermission permission = await Geolocator.checkPermission();
+    print("After checkPermission: $permission"); // Debug
     if (permission == LocationPermission.denied) {
-      //First time user (auto denied pernission) request permission from user
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        //User denied permission
         showPermissionError(context);
         return null;
       } else if (permission == LocationPermission.deniedForever) {
-        //User denied permission Forever
         showPermissionError(context);
         return null;
       } else {
         Position location = await Geolocator.getCurrentPosition(
             locationSettings: locationSettings);
-        //print(location);
         return location;
       }
     } else if (permission == LocationPermission.deniedForever) {
@@ -45,15 +35,17 @@ class MIHLocationAPI {
     } else {
       Position location = await Geolocator.getCurrentPosition(
           locationSettings: locationSettings);
-      //print(location);
-      Navigator.of(context).pop();
       return location;
     }
   }
 
-  double getDistanceInMeaters(Position startPosition, Position endPosition) {
-    return Geolocator.distanceBetween(startPosition.latitude,
-        startPosition.longitude, endPosition.latitude, endPosition.longitude);
+  double getDistanceInMeaters(String startPosition, String endPosition) {
+    double startLatitude = double.parse(startPosition.split(", ")[0]);
+    double startLogitude = double.parse(startPosition.split(", ")[1]);
+    double endLatitude = double.parse(endPosition.split(", ")[0]);
+    double endLogitude = double.parse(endPosition.split(", ")[1]);
+    return Geolocator.distanceBetween(
+        startLatitude, startLogitude, endLatitude, endLogitude);
   }
 
   void showPermissionError(BuildContext context) {
