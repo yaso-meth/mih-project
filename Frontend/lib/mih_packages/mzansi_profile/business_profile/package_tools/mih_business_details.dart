@@ -457,6 +457,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                   controller: locationController,
                                   multiLineInput: false,
                                   requiredText: true,
+                                  readOnly: true,
                                   hintText: "GPS Location",
                                 ),
                               ),

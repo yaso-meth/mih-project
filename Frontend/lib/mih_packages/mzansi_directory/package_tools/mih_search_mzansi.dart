@@ -63,9 +63,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               controller: mzansiSearchController,
               hintText: "Search Mzansi",
               prefixIcon: Icons.search,
-              prefixAltIcon: userSearch
-                  ? MihIcons.personalProfile
-                  : MihIcons.businessProfile,
+              prefixAltIcon: userSearch ? Icons.person : Icons.business,
               suffixTools: [
                 IconButton(
                     onPressed: () {
