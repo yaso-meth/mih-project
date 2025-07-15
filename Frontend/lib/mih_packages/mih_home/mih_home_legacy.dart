@@ -86,7 +86,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   //     );
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
-    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
 
     if (widget.signedInUser.fname == "") {
       tileList.add(MIHTile(
@@ -128,8 +128,8 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   void setAppsPersonal(List<MIHTile> tileList) {
-    ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
-    ImageProvider aiLogo = MzanziInnovationHub.of(context)!.theme.aiLogoImage();
+    ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
+    ImageProvider aiLogo = MzansiInnovationHub.of(context)!.theme.aiLogoImage();
     tileList.add(MIHTile(
       videoID: "P2bM9eosJ_A",
       onTap: () {
@@ -355,7 +355,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   void setAppsBusiness(List<MIHTile> tileList) {
-    ImageProvider aiLogo = MzanziInnovationHub.of(context)!.theme.aiLogoImage();
+    ImageProvider aiLogo = MzansiInnovationHub.of(context)!.theme.aiLogoImage();
     tileList.add(MIHTile(
       videoID: "NWyJZq2ZYOM",
       onTap: () {
@@ -866,18 +866,18 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                     child: Icon(
                       Icons.delete,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     ),
                     label: "Delete File",
                     labelBackgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     labelStyle: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontWeight: FontWeight.bold,
                     ),
                     backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     onTap: () {},
                   ),
                 ],
@@ -954,11 +954,11 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   Color getPrim() {
-    return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
   }
 
   Color getSec() {
-    return MzanziInnovationHub.of(context)!.theme.primaryColor();
+    return MzansiInnovationHub.of(context)!.theme.primaryColor();
   }
 
   bool isBusinessUser(AppUser signedInUser) {
@@ -995,7 +995,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
           //   radius: 21,
           //   drawerMode: false,
           //   editable: false,
-          //   frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           //   onChange: (newProPic) {},
           // ),
         ),
@@ -1025,7 +1025,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
             child: Icon(
               Icons.circle,
               size: 10,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
             ),
           )
         ],
@@ -1093,9 +1093,9 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                     prefixIcon: Icons.search,
                     prefixAltIcon: MihIcons.mzansiAi,
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     hintColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     onPrefixIconTap: () {
                       print("Search Text: ${searchController.text}");
                       setState(() {
@@ -1170,11 +1170,11 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
         child: Placeholder(),
         // GNav(
         //   //hoverColor: Colors.lightBlueAccent,
-        //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         //   iconSize: 35.0,
-        //   activeColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   activeColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         //   tabBackgroundColor:
-        //       MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         //   //gap: 20,
         //   //padding: EdgeInsets.all(15),
         //   tabs: [
@@ -1220,7 +1220,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   Future<void> refreshNotifications() async {
-    if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+    if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
       html.window.location.reload();
     } else {
       var responseNotification = await http.get(Uri.parse(

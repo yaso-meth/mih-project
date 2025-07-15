@@ -30,7 +30,7 @@ class PolicyAndTermsText {
         child: FittedBox(
           child: Icon(
             MihIcons.mihLogo,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
       ),
@@ -427,7 +427,7 @@ class PolicyAndTermsText {
         child: FittedBox(
           child: Icon(
             MihIcons.mihLogo,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
       ),

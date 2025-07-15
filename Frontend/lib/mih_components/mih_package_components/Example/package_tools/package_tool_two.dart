@@ -32,7 +32,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           const SizedBox(height: 10),
@@ -46,7 +46,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
               onPressed: () {},
               icon: Icon(
                 MihIcons.mihLogo,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
             ),
           )

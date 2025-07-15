@@ -30,12 +30,12 @@ class _PatManagerTileState extends State<PatManagerTile> {
       appName: "Patient Manager",
       appIcon: Icon(
         MihIcons.patientManager,
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      secondaryColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     );
   }
 }

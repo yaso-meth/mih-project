@@ -110,7 +110,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                       type: FileType.image,
                     );
                     // print("Here 1");
-                    if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                    if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
                         "Web") {
                       // print("Here 2");
                       if (result == null) return;

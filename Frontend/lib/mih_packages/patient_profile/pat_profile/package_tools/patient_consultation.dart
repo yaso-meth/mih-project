@@ -97,7 +97,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
         },
         windowBody: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
@@ -107,9 +107,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
                 formFields: [
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: officeController,
                     multiLineInput: false,
                     requiredText: true,
@@ -119,9 +119,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: doctorController,
                     multiLineInput: false,
                     requiredText: true,
@@ -131,9 +131,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: dateController,
                     multiLineInput: false,
                     requiredText: true,
@@ -143,9 +143,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: titleController,
                     multiLineInput: false,
                     requiredText: true,
@@ -158,9 +158,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   MihTextFormField(
                     height: 250,
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: noteTextController,
                     multiLineInput: true,
                     requiredText: true,
@@ -211,12 +211,12 @@ class _PatientConsultationState extends State<PatientConsultation> {
                         }
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Add Note",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -278,9 +278,9 @@ class _PatientConsultationState extends State<PatientConsultation> {
 
   Color getNoteDetailLimitColor() {
     if (_counter.value <= 512) {
-      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzanziInnovationHub.of(context)!.theme.errorColor();
+      return MzansiInnovationHub.of(context)!.theme.errorColor();
     }
   }
 
@@ -379,18 +379,18 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   child: Icon(
                     Icons.add,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Add Note",
                   labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   labelStyle: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
                   backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   onTap: () {
                     // addConsultationNotePopUp();
                     addNotePopUp(width);

@@ -66,11 +66,11 @@ class _MihToggleState extends State<MihToggle> {
                 return Colors.grey;
               }
               if (states.contains(WidgetState.selected)) {
-                return MzanziInnovationHub.of(context)!
+                return MzansiInnovationHub.of(context)!
                     .theme
                     .successColor(); // Outline color when active
               }
-              return MzanziInnovationHub.of(context)!
+              return MzansiInnovationHub.of(context)!
                   .theme
                   .errorColor(); // Outline color when active
             },
@@ -79,12 +79,12 @@ class _MihToggleState extends State<MihToggle> {
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           activeTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzanziInnovationHub.of(context)!.theme.successColor(),
+              : MzansiInnovationHub.of(context)!.theme.successColor(),
           inactiveThumbColor:
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           inactiveTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzanziInnovationHub.of(context)!.theme.errorColor(),
+              : MzansiInnovationHub.of(context)!.theme.errorColor(),
           // activeColor: widget.secondaryFillColor,
           // activeTrackColor: widget.fillColor,
           // inactiveThumbColor: widget.fillColor,

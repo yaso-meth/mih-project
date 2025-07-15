@@ -3,20 +3,20 @@ import 'mih_config/mih_env.dart';
 import 'mih_config/mih_routeGenerator.dart';
 import 'mih_config/mih_theme.dart';
 
-class MzanziInnovationHub extends StatefulWidget {
-  const MzanziInnovationHub({
+class MzansiInnovationHub extends StatefulWidget {
+  const MzansiInnovationHub({
     super.key,
   });
 
   @override
-  State<MzanziInnovationHub> createState() => _MzanziInnovationHubState();
+  State<MzansiInnovationHub> createState() => _MzansiInnovationHubState();
 
   // ignore: library_private_types_in_public_api
-  static _MzanziInnovationHubState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_MzanziInnovationHubState>();
+  static _MzansiInnovationHubState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MzansiInnovationHubState>();
 }
 
-class _MzanziInnovationHubState extends State<MzanziInnovationHub> {
+class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   late MihTheme theme;
 
   Color getPrimany() {

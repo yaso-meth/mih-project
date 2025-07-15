@@ -90,7 +90,7 @@ class _PatientAccessRequestState extends State<Appointments> {
             "No Appointments for $selectedDay",
             style: TextStyle(
               fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+              color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
             ),
             textAlign: TextAlign.center,
             softWrap: true,
@@ -117,7 +117,7 @@ class _PatientAccessRequestState extends State<Appointments> {
           },
           windowBody: Padding(
             padding:
-                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.05)
                     : const EdgeInsets.symmetric(horizontal: 0),
             child: Column(
@@ -126,11 +126,11 @@ class _PatientAccessRequestState extends State<Appointments> {
                   formKey: _formKey,
                   formFields: [
                     MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
+                      fillColor: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       controller: _appointmentTitleController,
                       multiLineInput: false,
                       requiredText: true,
@@ -159,11 +159,11 @@ class _PatientAccessRequestState extends State<Appointments> {
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
+                      fillColor: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       controller: _appointmentDescriptionIDController,
                       multiLineInput: true,
                       height: 250,
@@ -183,14 +183,14 @@ class _PatientAccessRequestState extends State<Appointments> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 300,
                         child: Text(
                           "Add",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -296,7 +296,7 @@ class _PatientAccessRequestState extends State<Appointments> {
                     });
                   }),
               // Divider(
-              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               // ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -318,7 +318,7 @@ class _PatientAccessRequestState extends State<Appointments> {
                               "Error pulling appointments",
                               style: TextStyle(
                                   fontSize: 25,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .errorColor()),
                               textAlign: TextAlign.center,
@@ -341,17 +341,17 @@ class _PatientAccessRequestState extends State<Appointments> {
               SpeedDialChild(
                 child: Icon(
                   Icons.add,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "Add Appointment",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   addAppointmentWindow(width);
                 },

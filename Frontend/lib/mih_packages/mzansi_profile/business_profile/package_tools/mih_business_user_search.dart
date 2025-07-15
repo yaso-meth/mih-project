@@ -66,7 +66,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
         "Enter Username or Email to search",
         style: TextStyle(
             fontSize: 25,
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+            color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
         textAlign: TextAlign.center,
       ),
     );
@@ -105,8 +105,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             controller: searchController,
             hintText: "Search Users",
             prefixIcon: Icons.search,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             onPrefixIconTap: () {
               submitUserForm();
             },
@@ -144,7 +144,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                   style: TextStyle(
                       fontSize: 25,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                          MzansiInnovationHub.of(context)!.theme.errorColor()),
                   textAlign: TextAlign.center,
                 ),
               );

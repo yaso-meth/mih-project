@@ -18,7 +18,7 @@ class _MIHBodyState extends State<MIHBody> {
   //double paddingSize = 10;
 
   double getHorizontalPaddingSize(Size screenSize) {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       if (widget.borderOn) {
         return 10;
       } else {
@@ -46,10 +46,10 @@ class _MIHBodyState extends State<MIHBody> {
   Decoration? getBoader() {
     if (widget.borderOn) {
       return BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             width: 3.0),
       );
     } else {

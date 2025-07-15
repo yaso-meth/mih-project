@@ -57,9 +57,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         fileNameController: proPicController,
         onChange: (_) {},
         userSelectedfile: null,
-        frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        frameColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         backgroundColor:
-            MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       ),
       // MIHProfilePicture(
       //   profilePictureFile: widget.propicFile,
@@ -69,7 +69,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
       //   radius: 27,
       //   drawerMode: true,
       //   editable: false,
-      //   frameColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //   frameColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
       //   onChange: (newProPic) {},
       // ),
 
@@ -79,7 +79,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
       //   children: [
       //     CircleAvatar(
       //       backgroundColor:
-      //           MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      //           MzansiInnovationHub.of(context)!.theme.primaryColor(),
       //       backgroundImage: widget.propicFile,
       //       //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
       //       radius: 27,
@@ -110,10 +110,10 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   @override
   Widget build(BuildContext context) {
     // precacheImage(
-    //     MzanziInnovationHub.of(context)!.theme.logoImage().image, context);
+    //     MzansiInnovationHub.of(context)!.theme.logoImage().image, context);
     return SafeArea(
       child: Drawer(
-        //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //backgroundColor:  MzansiInnovationHub.of(context)!.theme.primaryColor(),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Stack(
@@ -126,7 +126,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   children: [
                     DrawerHeader(
                       decoration: BoxDecoration(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -142,7 +142,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
+                                color: MzansiInnovationHub.of(context)!
                                     .theme
                                     .primaryColor(),
                               ),
@@ -152,7 +152,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
+                                color: MzansiInnovationHub.of(context)!
                                     .theme
                                     .primaryColor(),
                               ),
@@ -162,7 +162,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
-                                color: MzanziInnovationHub.of(context)!
+                                color: MzansiInnovationHub.of(context)!
                                     .theme
                                     .primaryColor(),
                               ),
@@ -178,14 +178,14 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                     //       Icon(
                     //         Icons.home_outlined,
                     //         color:
-                    //             MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    //             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     //       ),
                     //       const SizedBox(width: 25.0),
                     //       Text(
                     //         "Home",
                     //         style: TextStyle(
                     //           //fontWeight: FontWeight.bold,
-                    //           color: MzanziInnovationHub.of(context)!
+                    //           color: MzansiInnovationHub.of(context)!
                     //               .theme
                     //               .secondaryColor(),
                     //         ),
@@ -208,7 +208,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               children: [
                                 Icon(
                                   Icons.policy,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .secondaryColor(),
                                 ),
@@ -217,7 +217,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   "Privacy Policy",
                                   style: TextStyle(
                                     //fontWeight: FontWeight.bold,
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .secondaryColor(),
                                   ),
@@ -237,7 +237,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               children: [
                                 Icon(
                                   Icons.design_services_rounded,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .secondaryColor(),
                                 ),
@@ -246,7 +246,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   "Terms of Service",
                                   style: TextStyle(
                                     //fontWeight: FontWeight.bold,
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .secondaryColor(),
                                   ),
@@ -266,7 +266,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               children: [
                                 Icon(
                                   Icons.logout,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .secondaryColor(),
                                 ),
@@ -275,7 +275,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   "Sign Out",
                                   style: TextStyle(
                                     //fontWeight: FontWeight.bold,
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .secondaryColor(),
                                   ),
@@ -310,15 +310,15 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        if (MzanziInnovationHub.of(context)?.theme.mode ==
+                        if (MzansiInnovationHub.of(context)?.theme.mode ==
                             "Dark") {
                           //darkm = !darkm;
-                          MzanziInnovationHub.of(context)!
+                          MzansiInnovationHub.of(context)!
                               .changeTheme(ThemeMode.light);
                           //print("Dark Mode: $darkm");
                         } else {
                           //darkm = !darkm;
-                          MzanziInnovationHub.of(context)!
+                          MzansiInnovationHub.of(context)!
                               .changeTheme(ThemeMode.dark);
                           //print("Dark Mode: $darkm");
                         }
@@ -333,19 +333,19 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                     child: Icon(
                       MihIcons.mihLogo,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     ),
                   ),
                   // IconButton(
                   //   onPressed: () {
                   //     setState(() {
-                  //       if (MzanziInnovationHub.of(context)?.theme.mode == "Dark") {
+                  //       if (MzansiInnovationHub.of(context)?.theme.mode == "Dark") {
                   //         //darkm = !darkm;
-                  //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.light);
+                  //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.light);
                   //         //print("Dark Mode: $darkm");
                   //       } else {
                   //         //darkm = !darkm;
-                  //         MzanziInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
+                  //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
                   //         //print("Dark Mode: $darkm");
                   //       }
                   //       Navigator.of(context).popAndPushNamed('/');
@@ -353,7 +353,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                   //   },
                   //   icon: Icon(
                   //     Icons.light_mode,
-                  //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   //     size: 35,
                   //   ),
                   // ),

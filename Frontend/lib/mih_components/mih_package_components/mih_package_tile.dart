@@ -85,7 +85,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
                   // overflow: TextOverflow.visible,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),

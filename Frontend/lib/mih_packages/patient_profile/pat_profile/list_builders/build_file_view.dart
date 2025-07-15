@@ -119,7 +119,7 @@ class _BuildFileViewState extends State<BuildFileView> {
         child: SfPdfViewerTheme(
           data: SfPdfViewerThemeData(
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           child: SfPdfViewer.network(
             widget.link,

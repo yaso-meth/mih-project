@@ -29,7 +29,7 @@ class _BuildPatientsListState extends State<BuildICD10CodeList> {
       title: Text(
         title,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       subtitle: RichText(
@@ -61,7 +61,7 @@ class _BuildPatientsListState extends State<BuildICD10CodeList> {
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.icd10codeList.length,

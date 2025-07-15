@@ -132,25 +132,25 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.successColor()));
+              color: MzansiInnovationHub.of(context)!.theme.successColor()));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
               color:
-                  MzanziInnovationHub.of(context)!.theme.messageTextColor()));
+                  MzansiInnovationHub.of(context)!.theme.messageTextColor()));
     } else {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.errorColor()));
+              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
     }
 
     return ListTile(
       title: Text(
         line1,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       subtitle: RichText(
@@ -166,7 +166,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       // Text(
       //   subtitle,
       //   style: TextStyle(
-      //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       //   ),
       // ),
       onTap: () {
@@ -178,13 +178,13 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       },
       // trailing: Icon(
       //   Icons.arrow_forward,
-      //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       // ),
     );
   }
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (width / 4) * 2;
         popUpheight = null;
@@ -234,7 +234,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     //fontWeight: FontWeight.bold,
                   ),
@@ -249,12 +249,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                       updateAccessAPICall(index, "declined");
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        MzansiInnovationHub.of(context)!.theme.errorColor(),
                     width: 300,
                     child: Text(
                       "Decline",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -267,12 +267,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                       updateAccessAPICall(index, "approved");
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Approve",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -311,7 +311,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.accessRequests.length,

@@ -48,9 +48,9 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                   fileNameController: TextEditingController(),
                   userSelectedfile: file,
                   frameColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   onChange: () {},
                 );
               } else {
@@ -58,14 +58,14 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                   MihIcons.iDontKnow,
                   size: profilePictureWidth,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 );
               }
             } else {
               return Icon(
                 MihIcons.mihRing,
                 size: profilePictureWidth,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               );
             }
           },

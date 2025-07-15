@@ -166,7 +166,7 @@ class _AddPatientState extends State<AddPatient> {
   Widget displayForm(double width) {
     return SingleChildScrollView(
       child: Padding(
-        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+        padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
             ? EdgeInsets.symmetric(horizontal: width * 0.2)
             : EdgeInsets.symmetric(horizontal: width * 0.075),
         child: Column(
@@ -183,7 +183,7 @@ class _AddPatientState extends State<AddPatient> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -191,15 +191,15 @@ class _AddPatientState extends State<AddPatient> {
                   ],
                 ),
                 Divider(
-                    color: MzanziInnovationHub.of(context)!
+                    color: MzansiInnovationHub.of(context)!
                         .theme
                         .secondaryColor()),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: idController,
                   multiLineInput: false,
                   requiredText: true,
@@ -211,9 +211,9 @@ class _AddPatientState extends State<AddPatient> {
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -225,9 +225,9 @@ class _AddPatientState extends State<AddPatient> {
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -239,9 +239,9 @@ class _AddPatientState extends State<AddPatient> {
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: cellController,
                   multiLineInput: false,
                   requiredText: true,
@@ -253,9 +253,9 @@ class _AddPatientState extends State<AddPatient> {
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: emailController,
                   multiLineInput: false,
                   requiredText: true,
@@ -269,9 +269,9 @@ class _AddPatientState extends State<AddPatient> {
                 MihTextFormField(
                   height: 100,
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: addressController,
                   multiLineInput: true,
                   requiredText: true,
@@ -288,14 +288,14 @@ class _AddPatientState extends State<AddPatient> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25.0,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
                   ),
                 ),
                 Divider(
-                    color: MzanziInnovationHub.of(context)!
+                    color: MzansiInnovationHub.of(context)!
                         .theme
                         .secondaryColor()),
                 const SizedBox(height: 10.0),
@@ -303,9 +303,9 @@ class _AddPatientState extends State<AddPatient> {
                   hintText: "Medical Aid",
                   initialPostion: medAidPosition,
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   secondaryFillColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   onChange: (value) {
                     if (value) {
                       setState(() {
@@ -331,10 +331,10 @@ class _AddPatientState extends State<AddPatient> {
                           MihToggle(
                             hintText: "Main Member",
                             initialPostion: medMainMemberPosition,
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            secondaryFillColor: MzanziInnovationHub.of(context)!
+                            secondaryFillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             onChange: (value) {
@@ -353,10 +353,10 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: medNoController,
@@ -373,10 +373,10 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: medAidCodeController,
@@ -393,10 +393,10 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: medNameController,
@@ -413,10 +413,10 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: medSchemeController,
@@ -448,12 +448,12 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Add",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,

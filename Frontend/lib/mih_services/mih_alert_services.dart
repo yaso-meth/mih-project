@@ -11,7 +11,7 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 150,
-            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
           ),
           alertTitle: "Oops! Looks like some fields are missing.",
           alertBody: Column(
@@ -20,7 +20,7 @@ class MihAlertServices {
                 "We noticed that some required fields are still empty. To ensure your request is processed smoothly, please fill out all the highlighted fields before submitting the form again.",
                 style: TextStyle(
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -30,7 +30,7 @@ class MihAlertServices {
                 text: TextSpan(
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -39,7 +39,7 @@ class MihAlertServices {
                         text: "Here's a quick tip: ",
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .errorColor())),
                     const TextSpan(
@@ -50,7 +50,7 @@ class MihAlertServices {
               ),
             ],
           ),
-          alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
         );
       },
     );

@@ -133,7 +133,7 @@ class _BuildUserListState extends State<BuildUserList> {
             windowTitle: "Add Employee",
             windowBody: Padding(
               padding:
-                  MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                       ? EdgeInsets.symmetric(horizontal: width * 0.05)
                       : const EdgeInsets.symmetric(horizontal: 0),
               child: Column(
@@ -142,10 +142,10 @@ class _BuildUserListState extends State<BuildUserList> {
                     formKey: _formKey,
                     formFields: [
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: usernameController,
@@ -156,10 +156,10 @@ class _BuildUserListState extends State<BuildUserList> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: emailController,
@@ -213,14 +213,14 @@ class _BuildUserListState extends State<BuildUserList> {
                                   .formNotFilledCompletely(context);
                             }
                           },
-                          buttonColor: MzanziInnovationHub.of(context)!
+                          buttonColor: MzansiInnovationHub.of(context)!
                               .theme
                               .successColor(),
                           width: 300,
                           child: Text(
                             "Add",
                             style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               fontSize: 20,
@@ -256,7 +256,7 @@ class _BuildUserListState extends State<BuildUserList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.users.length,
@@ -271,7 +271,7 @@ class _BuildUserListState extends State<BuildUserList> {
           subtitle: Text(
             "Email: ${hideEmail(widget.users[index].email)}",
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {

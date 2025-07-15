@@ -31,7 +31,7 @@ class MihInstallServices {
           "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",
         ),
       );
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+    } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
         "Android") {
       //Installed Android App
       launchSocialUrl(
@@ -39,7 +39,7 @@ class MihInstallServices {
           "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
         ),
       );
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
+    } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
       launchSocialUrl(
         Uri.parse(
           "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",

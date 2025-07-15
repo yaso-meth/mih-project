@@ -92,7 +92,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               "Connection Error",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -100,7 +100,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
             Icon(
               Icons.power_off_outlined,
               size: 150,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
             SizedBox(
               width: 500,
@@ -109,7 +109,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -121,12 +121,12 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                 Navigator.of(context).popAndPushNamed("/");
               },
               buttonColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               width: 300,
               child: Text(
                 "Refresh",
                 style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -143,7 +143,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                          MzansiInnovationHub.of(context)!.theme.errorColor(),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

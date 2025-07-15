@@ -233,7 +233,7 @@ class _MihRegisterState extends State<MihRegister> {
       child: MihSingleChildScroll(
         child: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.2)
                   : EdgeInsets.symmetric(horizontal: width * 0.075),
           child: Column(
@@ -243,7 +243,7 @@ class _MihRegisterState extends State<MihRegister> {
               Icon(
                 Icons.lock,
                 size: 100,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               //spacer
               const SizedBox(height: 10),
@@ -254,7 +254,7 @@ class _MihRegisterState extends State<MihRegister> {
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               //spacer
@@ -265,9 +265,9 @@ class _MihRegisterState extends State<MihRegister> {
                   //email input
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: emailController,
                     multiLineInput: false,
                     requiredText: true,
@@ -282,9 +282,9 @@ class _MihRegisterState extends State<MihRegister> {
                   //password input
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: passwordController,
                     multiLineInput: false,
                     requiredText: true,
@@ -299,9 +299,9 @@ class _MihRegisterState extends State<MihRegister> {
                   const SizedBox(height: 10),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: confirmPasswordController,
                     multiLineInput: false,
                     requiredText: true,
@@ -331,14 +331,14 @@ class _MihRegisterState extends State<MihRegister> {
                                   .formNotFilledCompletely(context);
                             }
                           },
-                          buttonColor: MzanziInnovationHub.of(context)!
+                          buttonColor: MzansiInnovationHub.of(context)!
                               .theme
                               .successColor(),
                           width: 300,
                           child: Text(
                             "Create New Account",
                             style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               fontSize: 20,
@@ -348,14 +348,14 @@ class _MihRegisterState extends State<MihRegister> {
                         ),
                         MihButton(
                           onPressed: widget.onExistingUserButtonTap,
-                          buttonColor: MzanziInnovationHub.of(context)!
+                          buttonColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
                           width: 300,
                           child: Text(
                             "I have an account",
                             style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               fontSize: 20,

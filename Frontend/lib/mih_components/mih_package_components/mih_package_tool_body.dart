@@ -19,7 +19,7 @@ class MihPackageToolBody extends StatefulWidget {
 class _MihPackageToolBodyState extends State<MihPackageToolBody> {
   late double _innerBodyPadding;
   double getHorizontalPaddingSize(Size screenSize) {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       if (widget.borderOn) {
         return widget.innerHorizontalPadding ?? 10;
       } else {
@@ -48,19 +48,19 @@ class _MihPackageToolBodyState extends State<MihPackageToolBody> {
     if (widget.borderOn) {
       _innerBodyPadding = 10.0;
       return BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             width: 3.0),
       );
     } else {
       _innerBodyPadding = 0.0;
       return BoxDecoration(
-        color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             width: 3.0),
       );
     }

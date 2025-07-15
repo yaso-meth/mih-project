@@ -24,8 +24,8 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
     return Column(
       children: [
         MihTextFormField(
-          fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           controller: widget.icd10CodeController,
           multiLineInput: false,
           requiredText: true,
@@ -39,12 +39,12 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
         Text(
           "Search for ICD-10 Codes",
           style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Divider(color: MzanziInnovationHub.of(context)!.theme.secondaryColor()),
+        Divider(color: MzansiInnovationHub.of(context)!.theme.secondaryColor()),
         BuildICD10CodeList(
           icd10CodeController: widget.icd10CodeController,
           icd10codeList: widget.icd10codeList,

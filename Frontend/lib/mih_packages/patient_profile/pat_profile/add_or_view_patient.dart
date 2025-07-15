@@ -90,7 +90,7 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
           loading = Container(
             width: width,
             height: height,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             child: const Mihloadingcircle(),
           );
 

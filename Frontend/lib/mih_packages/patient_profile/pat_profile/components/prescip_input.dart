@@ -360,7 +360,7 @@ class _PrescripInputState extends State<PrescripInput> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -372,9 +372,9 @@ class _PrescripInputState extends State<PrescripInput> {
                   hintText: "Search Medicine",
                   prefixIcon: Icons.search,
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   hintColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   onPrefixIconTap: () {
                     getMedsPopUp(widget.medicineController);
                   },
@@ -389,8 +389,8 @@ class _PrescripInputState extends State<PrescripInput> {
             MihNumericStepper(
               controller: widget.dosageController,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               hintText: "Dosage",
               requiredText: true,
               minValue: 1,
@@ -401,8 +401,8 @@ class _PrescripInputState extends State<PrescripInput> {
             MihNumericStepper(
               controller: widget.timesDailyController,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               hintText: "Times Daily",
               requiredText: true,
               minValue: 1,
@@ -413,8 +413,8 @@ class _PrescripInputState extends State<PrescripInput> {
             MihNumericStepper(
               controller: widget.noDaysController,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               hintText: "No. Days",
               requiredText: true,
               minValue: 1,
@@ -425,8 +425,8 @@ class _PrescripInputState extends State<PrescripInput> {
             MihNumericStepper(
               controller: widget.noRepeatsController,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               hintText: "No.Repeats",
               requiredText: true,
               minValue: 0,
@@ -462,13 +462,13 @@ class _PrescripInputState extends State<PrescripInput> {
                   }
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
                 child: Text(
                   "Add",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -488,10 +488,10 @@ class _PrescripInputState extends State<PrescripInput> {
           width: 550,
           height: 325,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 3.0),
           ),
           child: ListView.separated(
@@ -509,14 +509,14 @@ class _PrescripInputState extends State<PrescripInput> {
                   getPerscTitle(index),
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 subtitle: Text(
                   getPerscSubtitle(index),
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
                 //onTap: () {},
@@ -524,7 +524,7 @@ class _PrescripInputState extends State<PrescripInput> {
                   icon: Icon(
                     Icons.delete_forever_outlined,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                   onPressed: () {
                     setState(() {
@@ -552,12 +552,12 @@ class _PrescripInputState extends State<PrescripInput> {
               );
             }
           },
-          buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+          buttonColor: MzansiInnovationHub.of(context)!.theme.successColor(),
           width: 300,
           child: Text(
             "Generate",
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

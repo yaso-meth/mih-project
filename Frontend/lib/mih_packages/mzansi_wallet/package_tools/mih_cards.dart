@@ -102,7 +102,7 @@ class _MihCardsState extends State<MihCards> {
         },
         windowBody: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : EdgeInsets.symmetric(horizontal: width * 0),
           child: Column(
@@ -187,9 +187,9 @@ class _MihCardsState extends State<MihCards> {
                   const SizedBox(height: 10),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: _nicknameController,
                     multiLineInput: false,
                     requiredText: false,
@@ -203,10 +203,10 @@ class _MihCardsState extends State<MihCards> {
                     children: [
                       Flexible(
                         child: MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: cardNumberController,
@@ -224,14 +224,14 @@ class _MihCardsState extends State<MihCards> {
                         onPressed: () {
                           openscanner();
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         width: 100,
                         child: Text(
                           "Scan",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -272,12 +272,12 @@ class _MihCardsState extends State<MihCards> {
                         }
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Add",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -341,9 +341,9 @@ class _MihCardsState extends State<MihCards> {
                   // prefixIcon: Icons.search,
                   prefixIcon: Icons.search,
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   hintColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   onPrefixIconTap: () {
                     // print("Search Icon Pressed: ${cardSearchController.text}");
                   },
@@ -400,18 +400,18 @@ class _MihCardsState extends State<MihCards> {
                   child: Icon(
                     Icons.add,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Add Loyalty Card",
                   labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   labelStyle: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
                   backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   onTap: () {
                     addCardWindow(context, width);
                   },

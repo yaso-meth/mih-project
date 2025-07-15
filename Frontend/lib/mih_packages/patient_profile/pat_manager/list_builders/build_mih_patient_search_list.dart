@@ -222,8 +222,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           children: [
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: idController,
               multiLineInput: false,
               requiredText: true,
@@ -236,8 +236,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: fnameController,
               multiLineInput: false,
               requiredText: true,
@@ -250,8 +250,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: lnameController,
               multiLineInput: false,
               requiredText: true,
@@ -264,8 +264,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: accessStatusController,
               multiLineInput: false,
               requiredText: true,
@@ -287,7 +287,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                          MzansiInnovationHub.of(context)!.theme.errorColor(),
                     ),
                   ),
                   Text(
@@ -295,7 +295,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                          MzansiInnovationHub.of(context)!.theme.errorColor(),
                     ),
                   ),
                   SizedBox(
@@ -305,7 +305,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                            MzansiInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
                   ),
@@ -316,7 +316,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                            MzansiInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
                   ),
@@ -327,7 +327,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                            MzansiInnovationHub.of(context)!.theme.errorColor(),
                       ),
                     ),
                   ),
@@ -336,7 +336,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                          MzansiInnovationHub.of(context)!.theme.errorColor(),
                     ),
                   ),
                 ],
@@ -369,14 +369,14 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             noAccessWarning();
                           }
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 300,
                         child: Text(
                           "View Profile",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -405,14 +405,14 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 300,
                         child: Text(
                           "Request Access",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -439,14 +439,14 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 300,
                         child: Text(
                           "Re-apply",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -488,7 +488,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           Text(
             "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           const SizedBox(
@@ -496,7 +496,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           ),
           Icon(
             Icons.star_border_rounded,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ],
       );
@@ -504,7 +504,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       return Text(
         "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
     }
@@ -518,7 +518,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         subtitle: Text(
           "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
         onTap: () {
@@ -533,7 +533,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         trailing: Icon(
           Icons.arrow_forward,
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
     } else {
@@ -542,7 +542,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         subtitle: Text(
           "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
         onTap: () {
@@ -556,7 +556,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         trailing: Icon(
           Icons.add,
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       );
     }
@@ -580,7 +580,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.patients.length,

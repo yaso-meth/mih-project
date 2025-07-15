@@ -29,7 +29,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
   Size? size;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (size!.width / 4) * 2;
         popUpheight = null;
@@ -64,7 +64,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
             width: popUpWidth,
             height: popUpheight,
             decoration: BoxDecoration(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               borderRadius: BorderRadius.circular(25.0),
               border: Border.all(color: widget.alertColour, width: 5.0),
             ),
@@ -101,7 +101,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
               },
               icon: Icon(
                 Icons.close,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 size: 35,
               ),
             ),

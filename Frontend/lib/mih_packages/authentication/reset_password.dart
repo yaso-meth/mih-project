@@ -98,11 +98,11 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   Color getPrim() {
-    return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
   }
 
   Color getSec() {
-    return MzanziInnovationHub.of(context)!.theme.primaryColor();
+    return MzansiInnovationHub.of(context)!.theme.primaryColor();
   }
 
   void loginError() {
@@ -203,7 +203,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                  padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                           "desktop"
                       ? EdgeInsets.symmetric(horizontal: width * 0.2)
                       : EdgeInsets.symmetric(horizontal: width * 0.075),
@@ -214,7 +214,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       Icon(
                         Icons.lock,
                         size: 100,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -226,7 +226,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
                         ),
@@ -237,10 +237,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                         formKey: _formKey,
                         formFields: [
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: passwordController,
@@ -257,10 +257,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                           //spacer
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: confirmPasswordController,
@@ -288,14 +288,14 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       .formNotFilledCompletely(context);
                                 }
                               },
-                              buttonColor: MzanziInnovationHub.of(context)!
+                              buttonColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .successColor(),
                               width: 300,
                               child: Text(
                                 "Reset Password",
                                 style: TextStyle(
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .primaryColor(),
                                   fontSize: 20,

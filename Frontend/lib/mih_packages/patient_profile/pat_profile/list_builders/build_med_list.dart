@@ -32,7 +32,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.medicines.length,
@@ -42,13 +42,13 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           title: Text(
             widget.medicines[index].name,
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           subtitle: Text(
             "${widget.medicines[index].unit} - ${widget.medicines[index].form}",
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {
@@ -60,7 +60,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           },
           trailing: Icon(
             Icons.arrow_forward,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         );
       },

@@ -38,7 +38,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
           ),
           alertTitle:
               "Are you sure you want to permanently delete your MIH account?",
@@ -49,7 +49,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                 "This action will remove all of your data, and it cannot be recovered. We understand this is a big decision, so please take a moment to double-check.\n\nIf you're certain, please confirm below. If you've changed your mind, you can simply close this window.",
                 style: TextStyle(
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -65,12 +65,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                           widget.signedInUser.app_id, context);
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.errorColor(),
+                        MzansiInnovationHub.of(context)!.theme.errorColor(),
                     width: 300,
                     child: Text(
                       "Delete",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -83,12 +83,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                       Navigator.pop(context);
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -100,7 +100,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
               )
             ],
           ),
-          alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
         );
       },
     );
@@ -113,7 +113,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           Center(
             child: FaIcon(
               FontAwesomeIcons.trashCan,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               size: 150,
             ),
           ),
@@ -124,7 +124,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           const SizedBox(height: 10.0),
@@ -132,12 +132,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             onPressed: () {
               deleteAccountPopUp(context);
             },
-            buttonColor: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            buttonColor: MzansiInnovationHub.of(context)!.theme.errorColor(),
             width: 300,
             child: Text(
               "Delete Account",
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

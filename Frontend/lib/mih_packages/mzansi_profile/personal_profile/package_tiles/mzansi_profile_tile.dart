@@ -24,7 +24,7 @@ class MzansiProfileTile extends StatefulWidget {
 class _MzansiProfileTileState extends State<MzansiProfileTile> {
   @override
   Widget build(BuildContext context) {
-    // ImageProvider logo = MzanziInnovationHub.of(context)!.theme.logoImage();
+    // ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
     return MihPackageTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -38,12 +38,12 @@ class _MzansiProfileTileState extends State<MzansiProfileTile> {
       appName: "Mzansi Profile",
       appIcon: Icon(
         MihIcons.mihLogo,
-        color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      secondaryColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     );
   }
 }

@@ -49,8 +49,8 @@ class _MyPatientListState extends State<MyPatientList> {
             controller: _myPatientSearchController,
             hintText: "Search Patient ID",
             prefixIcon: Icons.search,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             onPrefixIconTap: () {
               setState(() {
                 _myPatientIdSearchString = _myPatientSearchController.text;
@@ -94,7 +94,7 @@ class _MyPatientListState extends State<MyPatientList> {
                   style: TextStyle(
                       fontSize: 25,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                          MzansiInnovationHub.of(context)!.theme.errorColor()),
                   textAlign: TextAlign.center,
                 ),
               );
@@ -121,7 +121,7 @@ class _MyPatientListState extends State<MyPatientList> {
           "No Patients matching search",
           style: TextStyle(
               fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+              color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
           textAlign: TextAlign.center,
         ),
       ),
