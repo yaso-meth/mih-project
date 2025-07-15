@@ -26,10 +26,15 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
   PlatformFile? file;
 
   String calculateDistance() {
-    double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
-            widget.myLocation!, widget.business.gps_location) /
-        1000;
-    return "${distanceInKm.toStringAsFixed(2)} km";
+    try {
+      double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
+              widget.myLocation!, widget.business.gps_location) /
+          1000;
+      return "${distanceInKm.toStringAsFixed(2)} km";
+    } catch (error) {
+      print(error);
+      return "*.** km";
+    }
   }
 
   @override
