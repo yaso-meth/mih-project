@@ -105,7 +105,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 5,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -126,13 +126,13 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                         Navigator.of(context).pop();
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.errorColor(),
+                          MzansiInnovationHub.of(context)!.theme.errorColor(),
                       width: 100,
                       height: 50,
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,

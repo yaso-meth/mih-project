@@ -24,7 +24,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
   Size? size;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (size!.width / 4) * 2;
         popUpheight = null;
@@ -55,10 +55,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -68,14 +68,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 5),
                 Text(
                   "Oops! Looks like some fields are missing.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -85,7 +85,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "We noticed that some required fields are still empty. To ensure your request is processed smoothly, please fill out all the highlighted fields before submitting the form again.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -94,7 +94,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 RichText(
                   text: TextSpan(
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: popUpBodySize,
@@ -105,7 +105,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                           text: "Here's a quick tip: ",
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .errorColor())),
                       const TextSpan(
@@ -113,7 +113,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                       TextSpan(
                           text: "*",
                           style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .errorColor())),
                       const TextSpan(
@@ -137,7 +137,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -154,10 +154,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -167,14 +167,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Password Doesn't Meet Requirements",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -184,7 +184,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "Oops! Your password doesn't quite meet our standards. To keep your account secure, please make sure your password meets the following requirements",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -193,7 +193,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 RichText(
                   text: TextSpan(
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15.0,
@@ -205,7 +205,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                           style: TextStyle(
                               fontStyle: FontStyle.italic,
                               fontSize: popUpBodySize,
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .errorColor())),
                       const TextSpan(
@@ -243,7 +243,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -260,10 +260,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -273,14 +273,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Let's Fix That Username",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -290,7 +290,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "Let's create a great username for you! Just a few quick tips:\n• Your username should start with a letter.\n• You can use letters, numbers, and/ or underscores.\n• Keep it between 6 and 20 characters.\n• Avoid special characters like @, #, or \$.\"",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -311,7 +311,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -328,10 +328,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -341,14 +341,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Oops! Invalid Email",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -358,7 +358,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "Looks like there's a little hiccup with that email address. Please double-check that you've entered it correctly, including the \"@\" symbol and a domain (like example@email.com).",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -379,7 +379,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -396,10 +396,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -409,14 +409,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Email Already Exists",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -426,7 +426,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "An account is already registered with this email address. Please try logging in or use a different email.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -435,7 +435,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -446,7 +446,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -466,7 +466,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -483,10 +483,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -496,14 +496,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Passwords Don't Match",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -513,7 +513,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "The password and confirm password fields do not match. Please make sure they are identical.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -522,7 +522,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -533,7 +533,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -554,7 +554,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -571,10 +571,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -584,14 +584,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Uh oh! Login attempt unsuccessful.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -601,7 +601,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "The email address or password you entered doesn't seem to match our records. Please double-check your information and try again.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -610,7 +610,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -621,7 +621,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -642,7 +642,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -659,10 +659,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -672,14 +672,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Internet Connection Lost!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -689,7 +689,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "We seem to be having some trouble connecting you to the internet. This could be due to a temporary outage or an issue with your device's connection.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -698,7 +698,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are a few things you can try:",
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -709,7 +709,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -730,7 +730,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -747,10 +747,10 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -760,14 +760,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Location Services Not Enabled",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -777,7 +777,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                   "To get the most out of MIH, we need your location. Please go to the site settings of the app and enable location services. Once you do that, we can start showing you relevant information based on your location.",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -786,7 +786,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 // Text(
                 //   "Here are a few things you can try:",
                 //   style: TextStyle(
-                //     color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                //     color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 //     fontSize: popUpSubtitleSize,
                 //     fontWeight: FontWeight.bold,
                 //   ),
@@ -797,7 +797,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 //   textAlign: TextAlign.left,
                 //   style: TextStyle(
                 //     color:
-                //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                //         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 //     fontSize: popUpBodySize,
                 //     fontWeight: FontWeight.bold,
                 //   ),
@@ -818,7 +818,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),

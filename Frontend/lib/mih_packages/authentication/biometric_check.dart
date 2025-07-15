@@ -38,7 +38,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
           child: FittedBox(
             child: Icon(
               MihIcons.mihLogo,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -109,7 +109,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
     Widget alertpopUp = MihPackageAlert(
       alertIcon: Icon(
         Icons.fingerprint,
-        color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+        color: MzansiInnovationHub.of(context)!.theme.errorColor(),
         size: 100,
       ),
       alertTitle: "Biometric Authentication Error",
@@ -120,7 +120,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
             "Hi there! To jump into the MIH Home Package, you'll need to authenticate yourself with your phones biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
             style: TextStyle(
               fontSize: 15,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           const SizedBox(height: 20),
@@ -138,13 +138,13 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 300,
                 child: Text(
                   "Set Up Authentication",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -156,13 +156,13 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   authenticateUser();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Authenticate Now",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -172,7 +172,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
           ),
         ],
       ),
-      alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+      alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
     );
     showDialog(
       context: context,
@@ -198,7 +198,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     Icons.fingerprint,
                     size: 100,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                   //spacer
                   const SizedBox(height: 10),
@@ -209,7 +209,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -221,7 +221,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     Icons.lock,
                     size: 200,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                   const SizedBox(height: 30),
                   MihButton(
@@ -229,12 +229,12 @@ class _BiometricCheckState extends State<BiometricCheck> {
                       authenticateUser();
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Authenticate Now",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -274,7 +274,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
 
   @override
   Widget build(BuildContext context) {
-    if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+    if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
       return MIHProfileGetter(
         personalSelected: widget.personalSelected,
       );

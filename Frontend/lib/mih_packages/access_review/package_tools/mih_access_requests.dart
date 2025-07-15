@@ -191,7 +191,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                       "No Request have been made.",
                       style: TextStyle(
                           fontSize: 25,
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .messageTextColor()),
                       textAlign: TextAlign.center,
@@ -208,7 +208,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                     "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
                     style: TextStyle(
                         fontSize: 25,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .errorColor()),
                     textAlign: TextAlign.center,

@@ -161,17 +161,17 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
           SpeedDialChild(
             child: Icon(
               Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             label: "Delete Employee",
             labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             onTap: () {
               showDeleteWarning(index);
             },
@@ -182,7 +182,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
         },
         windowBody: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
@@ -192,9 +192,9 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                 formFields: [
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: fnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -204,9 +204,9 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: lnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -258,12 +258,12 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                         }
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Update",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -309,7 +309,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.employees.length,
@@ -327,7 +327,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
           subtitle: Text(
             "${widget.employees[index].username}\n${widget.employees[index].email}\nAccess: ${widget.employees[index].access}",
             style: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
           onTap: () {

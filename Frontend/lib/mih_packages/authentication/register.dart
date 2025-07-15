@@ -231,7 +231,7 @@ class _RegisterState extends State<Register> {
 
   Widget getSecondaryActionButton() {
     return Visibility(
-      visible: MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web",
+      visible: MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web",
       child: MIHAction(
         icon: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -239,12 +239,12 @@ class _RegisterState extends State<Register> {
             onPressed: () {
               MihInstallServices().installMihTrigger(context);
             },
-            buttonColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+            buttonColor: MzansiInnovationHub.of(context)!.theme.successColor(),
             width: 150,
             child: Text(
               "Install MIH",
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -268,7 +268,7 @@ class _RegisterState extends State<Register> {
           child: FittedBox(
             child: Icon(
               MihIcons.mihLogo,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -320,7 +320,7 @@ class _RegisterState extends State<Register> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                         "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
                     : EdgeInsets.symmetric(horizontal: width * 0.075),
@@ -331,7 +331,7 @@ class _RegisterState extends State<Register> {
                     Icon(
                       Icons.lock,
                       size: 100,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -343,7 +343,7 @@ class _RegisterState extends State<Register> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -355,10 +355,10 @@ class _RegisterState extends State<Register> {
                       formFields: [
                         //email input
                         MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: emailController,
@@ -374,10 +374,10 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 10),
                         //password input
                         MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: passwordController,
@@ -394,10 +394,10 @@ class _RegisterState extends State<Register> {
                         //spacer
                         const SizedBox(height: 10),
                         MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: confirmPasswordController,
@@ -430,14 +430,14 @@ class _RegisterState extends State<Register> {
                                         .formNotFilledCompletely(context);
                                   }
                                 },
-                                buttonColor: MzanziInnovationHub.of(context)!
+                                buttonColor: MzansiInnovationHub.of(context)!
                                     .theme
                                     .successColor(),
                                 width: 300,
                                 child: Text(
                                   "Create New Account",
                                   style: TextStyle(
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .primaryColor(),
                                     fontSize: 20,
@@ -447,14 +447,14 @@ class _RegisterState extends State<Register> {
                               ),
                               MihButton(
                                 onPressed: widget.onTap,
-                                buttonColor: MzanziInnovationHub.of(context)!
+                                buttonColor: MzansiInnovationHub.of(context)!
                                     .theme
                                     .secondaryColor(),
                                 width: 300,
                                 child: Text(
                                   "I have an account",
                                   style: TextStyle(
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .primaryColor(),
                                     fontSize: 20,

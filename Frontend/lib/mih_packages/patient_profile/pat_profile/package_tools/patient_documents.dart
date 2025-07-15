@@ -234,7 +234,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         },
         windowBody: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
@@ -248,10 +248,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                     children: [
                       Expanded(
                         child: MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: selectedFileController,
@@ -282,13 +282,13 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                             selectedFileController.text = selectedFile.name;
                           });
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         child: Text(
                           "Attach",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -311,12 +311,12 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                         }
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Add File",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -392,12 +392,12 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Generate",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -482,17 +482,17 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.attach_file,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Attach Document",
               labelBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               labelStyle: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
               backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
                 uploudFilePopUp(width);
               },
@@ -511,17 +511,17 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.attach_file,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Add Document",
               labelBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               labelStyle: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
               backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
                 uploudFilePopUp(width);
               },
@@ -529,17 +529,17 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.sick_outlined,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Generate Medical Certificate",
               labelBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               labelStyle: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
               backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
                 medCertPopUp();
               },
@@ -547,17 +547,17 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.medication,
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Generate Prescription",
               labelBackgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               labelStyle: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
               backgroundColor:
-                  MzanziInnovationHub.of(context)!.theme.successColor(),
+                  MzansiInnovationHub.of(context)!.theme.successColor(),
               onTap: () {
                 prescritionPopUp();
               },

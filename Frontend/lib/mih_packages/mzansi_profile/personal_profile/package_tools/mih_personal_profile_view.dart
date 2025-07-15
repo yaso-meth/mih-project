@@ -49,7 +49,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
     double profilePictureWidth = 150;
     return MihSingleChildScroll(
       child: Padding(
-        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+        padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
             ? EdgeInsets.symmetric(horizontal: width * 0.2)
             : EdgeInsets.symmetric(horizontal: width * 0.075),
         child: Column(
@@ -67,10 +67,10 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                         editable: false,
                         fileNameController: TextEditingController(),
                         userSelectedfile: file,
-                        frameColor: MzanziInnovationHub.of(context)!
+                        frameColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        backgroundColor: MzanziInnovationHub.of(context)!
+                        backgroundColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         onChange: () {},
@@ -79,7 +79,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                       return Icon(
                         MihIcons.iDontKnow,
                         size: profilePictureWidth,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       );
@@ -88,7 +88,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                     return Icon(
                       MihIcons.mihRing,
                       size: profilePictureWidth,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     );
@@ -100,11 +100,11 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   //     editable: false,
                   //     fileNameController: proPicController,
                   //     userSelectedfile: proPic,
-                  //     frameColor: MzanziInnovationHub.of(context)!
+                  //     frameColor: MzansiInnovationHub.of(context)!
                   //         .theme
                   //         .secondaryColor(),
                   //     backgroundColor:
-                  //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  //         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   //     onChange: (selectedImage) {
                   //       setState(() {
                   //         proPic = selectedImage;
@@ -122,7 +122,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),
@@ -135,7 +135,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),
@@ -146,7 +146,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),
@@ -163,7 +163,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ),
@@ -175,7 +175,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
             //       // Connect with the user
             //     },
             //     buttonColor:
-            //         MzanziInnovationHub.of(context)!.theme.successColor(),
+            //         MzansiInnovationHub.of(context)!.theme.successColor(),
             //     width: 300,
             //     child: Text(
             //       widget.user.username.isEmpty
@@ -183,7 +183,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
             //           : "Edit Profile",
             //       style: TextStyle(
             //         color:
-            //             MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //             MzansiInnovationHub.of(context)!.theme.primaryColor(),
             //         fontSize: 20,
             //         fontWeight: FontWeight.bold,
             //       ),

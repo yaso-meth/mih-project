@@ -103,7 +103,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Updating Business Details",
                 alertBody: Column(
@@ -111,7 +111,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     Text(
                       "An error occurred while updating the business details. Please check internet connection and try again.",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -119,7 +119,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                   ],
                 ),
                 alertColour:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    MzansiInnovationHub.of(context)!.theme.errorColor(),
               );
             },
           );
@@ -207,7 +207,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               },
               windowBody: MihSingleChildScroll(
                 child: Padding(
-                  padding: MzanziInnovationHub.of(context)!.theme.screenType ==
+                  padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                           "desktop"
                       ? EdgeInsets.symmetric(horizontal: width * 0.05)
                       : EdgeInsets.symmetric(horizontal: width * 0),
@@ -223,10 +223,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                               editable: true,
                               fileNameController: fileNameController,
                               userSelectedfile: imageFile,
-                              frameColor: MzanziInnovationHub.of(context)!
+                              frameColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .secondaryColor(),
-                              backgroundColor: MzanziInnovationHub.of(context)!
+                              backgroundColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               onChange: (selectedfile) {
@@ -239,10 +239,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           Visibility(
                             visible: false,
                             child: MihTextFormField(
-                              fillColor: MzanziInnovationHub.of(context)!
+                              fillColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .secondaryColor(),
-                              inputColor: MzanziInnovationHub.of(context)!
+                              inputColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               controller: fileNameController,
@@ -254,10 +254,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 20),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: nameController,
@@ -270,10 +270,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: typeController,
@@ -297,10 +297,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           // ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: emailController,
@@ -314,10 +314,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: contactController,
@@ -330,10 +330,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: websiteController,
@@ -348,10 +348,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           const SizedBox(height: 10),
                           MihTextFormField(
                             height: 250,
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: missionVisionController,
@@ -395,10 +395,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: regController,
@@ -411,10 +411,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: practiceNoController,
@@ -428,10 +428,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzanziInnovationHub.of(context)!
+                            fillColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            inputColor: MzanziInnovationHub.of(context)!
+                            inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             controller: vatNoController,
@@ -448,10 +448,10 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             children: [
                               Flexible(
                                 child: MihTextFormField(
-                                  fillColor: MzanziInnovationHub.of(context)!
+                                  fillColor: MzansiInnovationHub.of(context)!
                                       .theme
                                       .secondaryColor(),
-                                  inputColor: MzanziInnovationHub.of(context)!
+                                  inputColor: MzansiInnovationHub.of(context)!
                                       .theme
                                       .primaryColor(),
                                   controller: locationController,
@@ -485,14 +485,14 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                     Navigator.of(context).pop();
                                   });
                                 },
-                                buttonColor: MzanziInnovationHub.of(context)!
+                                buttonColor: MzansiInnovationHub.of(context)!
                                     .theme
                                     .secondaryColor(),
                                 width: 100,
                                 child: Text(
                                   "Set",
                                   style: TextStyle(
-                                    color: MzanziInnovationHub.of(context)!
+                                    color: MzansiInnovationHub.of(context)!
                                         .theme
                                         .primaryColor(),
                                     fontSize: 20,
@@ -513,14 +513,14 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                       .formNotFilledCompletely(context);
                                 }
                               },
-                              buttonColor: MzanziInnovationHub.of(context)!
+                              buttonColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .successColor(),
                               width: 300,
                               child: Text(
                                 "Update",
                                 style: TextStyle(
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .primaryColor(),
                                   fontSize: 20,
@@ -541,9 +541,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
 
   Color getMissionVisionLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzanziInnovationHub.of(context)!.theme.errorColor();
+      return MzansiInnovationHub.of(context)!.theme.errorColor();
     }
   }
 
@@ -611,7 +611,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         MihSingleChildScroll(
           child: Padding(
             padding:
-                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
                     : EdgeInsets.symmetric(horizontal: width * 0.075),
             child: Column(
@@ -624,9 +624,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     fileNameController: fileNameController,
                     userSelectedfile: imageFile,
                     frameColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     onChange: (selectedfile) {
                       setState(() {
                         imageFile = selectedfile;
@@ -640,7 +640,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -652,7 +652,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 //     style: TextStyle(
                 //       fontSize: 15,
                 //       fontWeight: FontWeight.bold,
-                //       color: MzanziInnovationHub.of(context)!
+                //       color: MzansiInnovationHub.of(context)!
                 //           .theme
                 //           .secondaryColor(),
                 //     ),
@@ -669,7 +669,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -696,12 +696,12 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       editBizProfileWindow(width);
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Edit Profile",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,
@@ -723,17 +723,17 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               SpeedDialChild(
                 child: Icon(
                   Icons.edit,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "Edit Profile",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   editBizProfileWindow(width);
                 },

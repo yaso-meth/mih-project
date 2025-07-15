@@ -171,11 +171,11 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           appName: "Test",
           appIcon: Icon(
             Icons.warning_amber_rounded,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
           iconSize: packageSize,
-          primaryColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-          secondaryColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          secondaryColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         )
       });
     }
@@ -183,7 +183,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   }
 
   EdgeInsets getPadding(double width, double height) {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "mobile") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "mobile") {
       double mobilePadding = 10;
       return EdgeInsets.only(
         left: mobilePadding,
@@ -261,7 +261,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           // Icon(
           //   MihIcons.mihLogo,
           //   size: 200,
-          //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           // ),
           // const SizedBox(height: 10),
           // Text(
@@ -271,7 +271,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           //   style: TextStyle(
           //     fontSize: 30,
           //     fontWeight: FontWeight.bold,
-          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           //   ),
           // ),
           // const SizedBox(height: 20),
@@ -283,8 +283,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
               prefixIcon: Icons.search,
               prefixAltIcon: MihIcons.mzansiAi,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               onPrefixIconTap: () {
                 Navigator.of(context).pushNamed(
                   '/mzansi-ai',
@@ -335,7 +335,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -347,7 +347,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),

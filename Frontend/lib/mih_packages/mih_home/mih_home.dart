@@ -117,9 +117,9 @@ class _MihHomeState extends State<MihHome> {
             fileNameController: proPicController,
             userSelectedfile: null,
             // frameColor: frameColor,
-            frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                MzansiInnovationHub.of(context)!.theme.primaryColor(),
             onChange: (_) {},
           ),
           // MIHProfilePicture(
@@ -130,7 +130,7 @@ class _MihHomeState extends State<MihHome> {
           //   radius: 21,
           //   drawerMode: false,
           //   editable: false,
-          //   frameColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           //   onChange: (newProPic) {},
           // ),
         ),

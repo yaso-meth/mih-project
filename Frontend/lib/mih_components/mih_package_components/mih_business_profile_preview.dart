@@ -62,9 +62,9 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                     fileNameController: TextEditingController(),
                     userSelectedfile: file,
                     frameColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     onChange: () {},
                   );
                 } else {
@@ -72,7 +72,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                     MihIcons.iDontKnow,
                     size: profilePictureWidth,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   );
                 }
               } else {

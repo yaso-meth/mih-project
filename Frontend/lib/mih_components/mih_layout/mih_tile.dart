@@ -83,7 +83,7 @@ class _MIHTileState extends State<MIHTile> {
             child: Material(
               color: mainC,
               // shadowColor:
-              //     MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //     MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               // elevation: 5,
               borderRadius: BorderRadius.circular(80),
               child: InkWell(
@@ -95,9 +95,9 @@ class _MIHTileState extends State<MIHTile> {
                 },
                 // hoverDuration: ,
                 splashColor:
-                    MzanziInnovationHub.of(context)!.theme.highlightColor(),
+                    MzansiInnovationHub.of(context)!.theme.highlightColor(),
                 highlightColor:
-                    MzanziInnovationHub.of(context)!.theme.highlightColor(),
+                    MzansiInnovationHub.of(context)!.theme.highlightColor(),
                 child: widget.tileIcon,
               ),
             ),
@@ -111,7 +111,7 @@ class _MIHTileState extends State<MIHTile> {
               softWrap: true,
               overflow: TextOverflow.visible,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 fontSize: 40.0,
                 fontWeight: FontWeight.bold,
               ),

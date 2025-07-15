@@ -60,7 +60,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
         "",
         style: TextStyle(
             fontSize: 25,
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+            color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
         textAlign: TextAlign.center,
       ),
     );
@@ -106,7 +106,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
                   style: TextStyle(
                       fontSize: 25,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                          MzansiInnovationHub.of(context)!.theme.errorColor()),
                   textAlign: TextAlign.center,
                 ),
               );

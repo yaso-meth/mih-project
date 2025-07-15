@@ -139,7 +139,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
   }
 
   EdgeInsets getPadding(double width, double height) {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "mobile") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "mobile") {
       double mobilePadding = 10;
       return EdgeInsets.only(
         left: mobilePadding,
@@ -216,7 +216,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           // Icon(
           //   MihIcons.mihLogo,
           //   size: width / 2,
-          //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           // ),
           // const SizedBox(height: 10),
           // Text(
@@ -226,7 +226,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           //   style: TextStyle(
           //     fontSize: 30,
           //     fontWeight: FontWeight.bold,
-          //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           //   ),
           // ),
           // const SizedBox(height: 20),
@@ -238,8 +238,8 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
               prefixIcon: Icons.search,
               prefixAltIcon: MihIcons.mzansiAi,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               onPrefixIconTap: () {
                 Navigator.of(context).pushNamed(
                   '/mzansi-ai',
@@ -289,7 +289,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -301,7 +301,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),

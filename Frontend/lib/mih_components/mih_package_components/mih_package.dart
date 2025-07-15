@@ -86,7 +86,7 @@ class _MihPackageState extends State<MihPackage>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    if (!MzanziInnovationHub.of(context)!.theme.kIsWeb) {
+    if (!MzansiInnovationHub.of(context)!.theme.kIsWeb) {
       // Trigger the peak animation on start (or call this elsewhere)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _peakAnimation();

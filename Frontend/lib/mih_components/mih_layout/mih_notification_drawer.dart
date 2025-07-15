@@ -78,13 +78,13 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       title: Text(
         title,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       onTap: () {},
@@ -101,7 +101,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         children: [
           Icon(
             Icons.circle_notifications,
-            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
           ),
           const SizedBox(
             width: 5,
@@ -110,7 +110,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             child: Text(
               title,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
           ),
@@ -124,7 +124,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             child: Text(
               title,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
           ),
@@ -136,7 +136,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       onTap: () {
@@ -159,7 +159,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, index) {
           return Divider(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           );
         },
         itemCount: widget.notifications.length,
@@ -198,14 +198,14 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
-          //backgroundColor:  MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          //backgroundColor:  MzansiInnovationHub.of(context)!.theme.primaryColor(),
           child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -215,7 +215,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
                     child: Text(
                       "Notifications",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontWeight: FontWeight.bold,
@@ -232,7 +232,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             //   physics: const NeverScrollableScrollPhysics(),
             //   separatorBuilder: (BuildContext context, index) {
             //     return Divider(
-            //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //       color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             //     );
             //   },
             //   itemCount: widget.notifications.length,

@@ -25,12 +25,12 @@ class _BuildUserSearchResultsListState
       itemCount: widget.userList.length,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemBuilder: (context, index) {
         return Material(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(
@@ -38,7 +38,7 @@ class _BuildUserSearchResultsListState
                 arguments: widget.userList[index],
               );
             },
-            splashColor: MzanziInnovationHub.of(context)!
+            splashColor: MzansiInnovationHub.of(context)!
                 .theme
                 .secondaryColor()
                 .withOpacity(0.2),

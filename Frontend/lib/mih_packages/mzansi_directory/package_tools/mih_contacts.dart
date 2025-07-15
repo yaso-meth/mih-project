@@ -36,8 +36,8 @@ class _MihContactsState extends State<MihContacts> {
               hintText: "Search Contacts",
               prefixIcon: Icons.search,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               onPrefixIconTap: () {},
               searchFocusNode: searchFocusNode,
             ),

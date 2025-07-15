@@ -243,9 +243,9 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   Color getMissionVisionLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MzanziInnovationHub.of(context)!.theme.secondaryColor();
+      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzanziInnovationHub.of(context)!.theme.errorColor();
+      return MzansiInnovationHub.of(context)!.theme.errorColor();
     }
   }
 
@@ -269,7 +269,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
           child: SingleChildScrollView(
             child: Padding(
               padding:
-                  MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                       ? EdgeInsets.symmetric(horizontal: width * 0.2)
                       : EdgeInsets.symmetric(horizontal: width * 0.075),
               child: Column(
@@ -282,7 +282,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                     ),
                   ),
                   Divider(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor()),
                   const SizedBox(height: 10.0),
@@ -290,10 +290,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                     formKey: _formKey,
                     formFields: [
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: nameController,
@@ -306,10 +306,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: typeController,
@@ -333,10 +333,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: emailController,
@@ -349,10 +349,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: contactController,
@@ -365,10 +365,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: websiteController,
@@ -383,10 +383,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         height: 250,
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: missionVisionController,
@@ -431,10 +431,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       const SizedBox(height: 10.0),
 
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: regController,
@@ -447,10 +447,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: practiceNoController,
@@ -464,10 +464,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: vatNoController,
@@ -484,15 +484,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         children: [
                           Flexible(
                             child: MihTextFormField(
-                              fillColor: MzanziInnovationHub.of(context)!
+                              fillColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .secondaryColor(),
-                              inputColor: MzanziInnovationHub.of(context)!
+                              inputColor: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               controller: locationController,
                               multiLineInput: false,
                               requiredText: true,
+                              readOnly: true,
                               hintText: "GPS Location",
                             ),
                           ),
@@ -519,14 +520,14 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                                 Navigator.of(context).pop();
                               });
                             },
-                            buttonColor: MzanziInnovationHub.of(context)!
+                            buttonColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
                             width: 100,
                             child: Text(
                               "Set",
                               style: TextStyle(
-                                color: MzanziInnovationHub.of(context)!
+                                color: MzansiInnovationHub.of(context)!
                                     .theme
                                     .primaryColor(),
                                 fontSize: 20,
@@ -548,7 +549,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         ),
                       ),
                       Divider(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor()),
                       const SizedBox(height: 10.0),
@@ -565,10 +566,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: fnameController,
@@ -581,10 +582,10 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzanziInnovationHub.of(context)!
+                        fillColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
-                        inputColor: MzanziInnovationHub.of(context)!
+                        inputColor: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         controller: lnameController,
@@ -618,14 +619,14 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                                   .formNotFilledCompletely(context);
                             }
                           },
-                          buttonColor: MzanziInnovationHub.of(context)!
+                          buttonColor: MzansiInnovationHub.of(context)!
                               .theme
                               .successColor(),
                           width: 300,
                           child: Text(
                             "Add",
                             style: TextStyle(
-                              color: MzanziInnovationHub.of(context)!
+                              color: MzansiInnovationHub.of(context)!
                                   .theme
                                   .primaryColor(),
                               fontSize: 20,

@@ -57,7 +57,7 @@ class _MihTimeFieldState extends State<MihTimeField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MzanziInnovationHub.of(context)!.theme;
+    final theme = MzansiInnovationHub.of(context)!.theme;
     return Center(
       child: SizedBox(
         width: widget.width,

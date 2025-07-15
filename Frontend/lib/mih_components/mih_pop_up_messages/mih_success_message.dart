@@ -28,7 +28,7 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
   late Size? size;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (size!.width / 4) * 2;
         popUpheight = null;
@@ -59,10 +59,10 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                color: MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 5.0),
           ),
           child: Column(
@@ -71,14 +71,14 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
               Icon(
                 Icons.check_circle_outline_rounded,
                 size: popUpIconSize,
-                color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                color: MzansiInnovationHub.of(context)!.theme.successColor(),
               ),
               //const SizedBox(height: 15),
               Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.successColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.successColor(),
                   fontSize: popUpTitleSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -89,7 +89,7 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                   message,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -101,13 +101,13 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                   Navigator.pop(context);
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Dismiss",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

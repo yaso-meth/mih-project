@@ -128,7 +128,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Updating Business User Details",
                 alertBody: Column(
@@ -136,7 +136,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                     Text(
                       "An error occurred while updating the business User details. Please check internet connection and try again.",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),
@@ -144,7 +144,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   ],
                 ),
                 alertColour:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    MzansiInnovationHub.of(context)!.theme.errorColor(),
               );
             },
           );
@@ -215,7 +215,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   Widget getBody(double width) {
     return MihSingleChildScroll(
       child: Padding(
-        padding: MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+        padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
             ? EdgeInsets.symmetric(horizontal: width * 0.2)
             : EdgeInsets.symmetric(horizontal: width * 0.075),
         child: Column(
@@ -231,9 +231,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                     fileNameController: fileNameController,
                     userSelectedfile: userPicFile,
                     frameColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     backgroundColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     onChange: (_) {},
                   ),
                 ),
@@ -241,9 +241,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   visible: false,
                   child: MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: fileNameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -266,9 +266,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: titleTextController,
                   multiLineInput: false,
                   requiredText: true,
@@ -280,9 +280,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -295,9 +295,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -310,9 +310,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   inputColor:
-                      MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   controller: accessController,
                   multiLineInput: false,
                   requiredText: true,
@@ -354,9 +354,9 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   visible: false,
                   child: MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: fileNameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -375,12 +375,12 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                       }
                     },
                     buttonColor:
-                        MzanziInnovationHub.of(context)!.theme.successColor(),
+                        MzansiInnovationHub.of(context)!.theme.successColor(),
                     width: 300,
                     child: Text(
                       "Update",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         fontSize: 20,

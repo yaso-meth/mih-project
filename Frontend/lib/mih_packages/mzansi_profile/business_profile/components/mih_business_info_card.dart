@@ -35,7 +35,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Making Call",
               alertBody: Column(
@@ -43,7 +43,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   Text(
                     "We couldn't open your phone app to call ${widget.cellNumber}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15,
@@ -51,7 +51,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
             );
           });
     }
@@ -85,7 +85,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Creating Email",
               alertBody: Column(
@@ -93,7 +93,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   Text(
                     "We couldn't launch your email app to send a message to ${widget.email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15,
@@ -101,7 +101,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
             );
           });
     }
@@ -126,7 +126,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Creating Maps",
                 alertBody: Column(
@@ -134,7 +134,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     Text(
                       "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         fontSize: 15,
@@ -143,7 +143,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ],
                 ),
                 alertColour:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    MzansiInnovationHub.of(context)!.theme.errorColor(),
               );
             });
       }
@@ -155,7 +155,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Creating Maps",
               alertBody: Column(
@@ -163,7 +163,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   Text(
                     "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15,
@@ -171,7 +171,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
             );
           });
     }
@@ -195,7 +195,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
-                  color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
                 ),
                 alertTitle: "Error Opening Website",
                 alertBody: Column(
@@ -203,7 +203,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     Text(
                       "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
                       style: TextStyle(
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         fontSize: 15,
@@ -212,7 +212,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ],
                 ),
                 alertColour:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    MzansiInnovationHub.of(context)!.theme.errorColor(),
               );
             });
       }
@@ -224,7 +224,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               ),
               alertTitle: "Error Opening Website",
               alertBody: Column(
@@ -232,7 +232,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   Text(
                     "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
                     style: TextStyle(
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       fontSize: 15,
@@ -240,7 +240,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
             );
           });
     }
@@ -254,10 +254,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     Function()? ontap,
   ) {
     return Material(
-      color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       child: InkWell(
         onTap: ontap,
-        splashColor: MzanziInnovationHub.of(context)!
+        splashColor: MzansiInnovationHub.of(context)!
             .theme
             .primaryColor()
             .withOpacity(0.2),
@@ -278,7 +278,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 child: Icon(
                   icon,
                   size: 35,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
               ),
               SizedBox(width: 20),
@@ -293,7 +293,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                         height: 1.0,
@@ -304,7 +304,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .primaryColor(),
                       ),
@@ -322,7 +322,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: MzanziInnovationHub.of(context)!
+      color: MzansiInnovationHub.of(context)!
           .theme
           .secondaryColor()
           .withValues(alpha: 0.6),
@@ -331,7 +331,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       shadowColor: Colors.black,
       child: Container(
         decoration: BoxDecoration(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -348,7 +348,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               },
             ),
             Divider(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             _buildContactInfo(
               "Email",
@@ -365,7 +365,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               },
             ),
             Divider(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             _buildContactInfo(
               "Location",
@@ -385,7 +385,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             Visibility(
               visible: widget.website != null && widget.website! != "",
               child: Divider(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
             ),
             Visibility(
@@ -403,7 +403,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
             //   child: Divider(
-            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             //   ),
             // ),
             // _buildContactInfo(
@@ -419,7 +419,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
             //   child: Divider(
-            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             //   ),
             // ),
             // _buildContactInfo(
@@ -436,7 +436,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
             //   child: Divider(
-            //     color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             //   ),
             // ),
           ],

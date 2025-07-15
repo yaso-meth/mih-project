@@ -158,18 +158,18 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.download,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         ),
         label: "Download",
         labelBackgroundColor:
-            MzanziInnovationHub.of(context)!.theme.successColor(),
+            MzansiInnovationHub.of(context)!.theme.successColor(),
         labelStyle: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
         onTap: () {
-          if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+          if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
             html.window.open(url, 'download');
           } else {
             nativeFileDownload(url);
@@ -181,16 +181,16 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.print,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         ),
         label: "Print",
         labelBackgroundColor:
-            MzanziInnovationHub.of(context)!.theme.successColor(),
+            MzansiInnovationHub.of(context)!.theme.successColor(),
         labelStyle: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
         onTap: () {
           printDocument(url, filePath);
         },
@@ -200,16 +200,16 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.fullscreen,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         ),
         label: "Full Screen",
         labelBackgroundColor:
-            MzanziInnovationHub.of(context)!.theme.successColor(),
+            MzansiInnovationHub.of(context)!.theme.successColor(),
         labelStyle: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MzanziInnovationHub.of(context)!.theme.successColor(),
+        backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
         onTap: () {
           printDocument(url, filePath);
         },
@@ -221,17 +221,17 @@ class _BuildClaimStatementFileListState
         SpeedDialChild(
           child: Icon(
             Icons.delete,
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           label: "Delete Document",
           labelBackgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
+              MzansiInnovationHub.of(context)!.theme.successColor(),
           labelStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             fontWeight: FontWeight.bold,
           ),
           backgroundColor:
-              MzanziInnovationHub.of(context)!.theme.successColor(),
+              MzansiInnovationHub.of(context)!.theme.successColor(),
           onTap: () {
             deleteFilePopUp(filePath, fileID);
           },
@@ -308,7 +308,7 @@ class _BuildClaimStatementFileListState
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           );
         },
         itemCount: widget.files.length,
@@ -317,18 +317,18 @@ class _BuildClaimStatementFileListState
             title: Text(
               widget.files[index].file_name,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             subtitle: Text(
               widget.files[index].insert_date,
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             // trailing: Icon(
             //   Icons.arrow_forward,
-            //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             // ),
             onTap: () async {
               await getFileUrlApiCall(widget.files[index].file_path)

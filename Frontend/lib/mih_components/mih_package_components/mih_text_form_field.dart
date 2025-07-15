@@ -215,7 +215,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                     widget.borderRadius ?? 8.0),
                                 borderSide: field.hasError
                                     ? BorderSide(
-                                        color: MzanziInnovationHub.of(context)!
+                                        color: MzansiInnovationHub.of(context)!
                                             .theme
                                             .errorColor(),
                                         width: 2.0,
@@ -232,7 +232,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
                                   color: field.hasError
-                                      ? MzanziInnovationHub.of(context)!
+                                      ? MzansiInnovationHub.of(context)!
                                           .theme
                                           .errorColor()
                                       : widget.inputColor,
@@ -243,7 +243,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 borderRadius: BorderRadius.circular(
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .errorColor(),
                                   width: 3.0,
@@ -253,7 +253,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 borderRadius: BorderRadius.circular(
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .errorColor(),
                                   width: 3.0,
@@ -276,7 +276,7 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 field.errorText ?? '',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .errorColor(),
                                   fontWeight: FontWeight.bold,

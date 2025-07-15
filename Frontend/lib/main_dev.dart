@@ -26,5 +26,5 @@ void main() async {
     debugPrint('APP INSTALLED!');
   });
   FlutterNativeSplash.remove();
-  runApp(const MzanziInnovationHub());
+  runApp(const MzansiInnovationHub());
 }

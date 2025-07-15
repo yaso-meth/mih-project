@@ -37,7 +37,7 @@ class _MIHCalendarState extends State<MIHCalendar> {
           formatButtonDecoration: BoxDecoration(
             border: Border.fromBorderSide(
               BorderSide(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             borderRadius: const BorderRadius.all(
@@ -61,29 +61,29 @@ class _MIHCalendarState extends State<MIHCalendar> {
         calendarStyle: CalendarStyle(
           outsideDaysVisible: false,
           todayTextStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           todayDecoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.successColor(),
+            color: MzansiInnovationHub.of(context)!.theme.successColor(),
             shape: BoxShape.circle,
           ),
           selectedTextStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           selectedDecoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             shape: BoxShape.circle,
           ),
           weekendTextStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+            color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
           ),
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
           weekendStyle: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+            color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
           ),
         ),
       ),

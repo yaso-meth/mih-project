@@ -30,7 +30,7 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   Size? size;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (size!.width / 4) * 2;
         popUpheight = 90;
@@ -131,8 +131,8 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   void initState() {
     super.initState();
     setState(() {
-      primary = MzanziInnovationHub.of(context)!.theme.primaryColor();
-      secondary = MzanziInnovationHub.of(context)!.theme.errorColor();
+      primary = MzansiInnovationHub.of(context)!.theme.primaryColor();
+      secondary = MzansiInnovationHub.of(context)!.theme.errorColor();
     });
     _animationController = AnimationController(
       vsync: this,

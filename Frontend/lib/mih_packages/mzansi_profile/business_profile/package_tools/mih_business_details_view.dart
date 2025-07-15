@@ -53,7 +53,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
         MihSingleChildScroll(
           child: Padding(
             padding:
-                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
                     : EdgeInsets.symmetric(horizontal: width * 0.075),
             child: Column(
@@ -71,10 +71,10 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                             editable: false,
                             fileNameController: TextEditingController(),
                             userSelectedfile: file,
-                            frameColor: MzanziInnovationHub.of(context)!
+                            frameColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
-                            backgroundColor: MzanziInnovationHub.of(context)!
+                            backgroundColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             onChange: () {},
@@ -83,7 +83,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                           return Icon(
                             MihIcons.iDontKnow,
                             size: profilePictureWidth,
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .secondaryColor(),
                           );
@@ -92,7 +92,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                         return Icon(
                           MihIcons.mihRing,
                           size: profilePictureWidth,
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
                         );
@@ -106,9 +106,9 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 //     fileNameController: fileNameController,
                 //     userSelectedfile: imageFile,
                 //     frameColor:
-                //         MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                //         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 //     backgroundColor:
-                //         MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                //         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 //     onChange: (selectedfile) {
                 //       setState(() {
                 //         imageFile = selectedfile;
@@ -122,7 +122,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: MzanziInnovationHub.of(context)!
+                      color: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                     ),
@@ -134,7 +134,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 //     style: TextStyle(
                 //       fontSize: 15,
                 //       fontWeight: FontWeight.bold,
-                //       color: MzanziInnovationHub.of(context)!
+                //       color: MzansiInnovationHub.of(context)!
                 //           .theme
                 //           .secondaryColor(),
                 //     ),
@@ -151,7 +151,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MzanziInnovationHub.of(context)!
+                        color: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                       ),

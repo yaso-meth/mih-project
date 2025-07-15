@@ -87,7 +87,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
     // print("height: $height");
     // print("newheight: $newheight");
     double calcWidth = 500;
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       if (height < 700) {
         calcWidth = 300;
       }
@@ -108,7 +108,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                 style: TextStyle(
                   fontSize: 40,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
             ),
@@ -123,7 +123,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
               style: TextStyle(
                   fontSize: 30,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -165,7 +165,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -186,7 +186,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
                         width: 50,
@@ -195,7 +195,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -215,7 +215,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
                         width: 50,
@@ -224,7 +224,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -255,7 +255,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             });
                           }
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .messageTextColor(),
                         width: 50,
@@ -264,7 +264,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -296,13 +296,13 @@ class _SimpleCalcState extends State<SimpleCalc> {
                           });
                         },
                         buttonColor:
-                            MzanziInnovationHub.of(context)!.theme.errorColor(),
+                            MzansiInnovationHub.of(context)!.theme.errorColor(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Icon(
                           Icons.backspace,
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                         ),
@@ -320,7 +320,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput = answer;
                           });
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 50,
@@ -329,7 +329,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -350,7 +350,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             equalPressed();
                           });
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         width: 50,
@@ -359,7 +359,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,

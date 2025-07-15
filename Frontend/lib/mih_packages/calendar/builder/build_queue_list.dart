@@ -44,7 +44,7 @@ class _BuildQueueListState extends State<BuildQueueList> {
       title: Text(
         title,
         style: TextStyle(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
       ),
       subtitle: RichText(
@@ -121,7 +121,7 @@ class _BuildQueueListState extends State<BuildQueueList> {
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         );
       },
       itemCount: widget.patientQueue.length,

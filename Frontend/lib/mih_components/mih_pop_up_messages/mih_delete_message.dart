@@ -28,7 +28,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
   late double height;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = (width / 4) * 2;
         popUpheight = null;
@@ -59,10 +59,10 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -73,7 +73,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
@@ -81,7 +81,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -91,7 +91,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   "This note will be deleted permanently. Are you certain you want to delete it?",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -100,13 +100,13 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -127,7 +127,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -144,10 +144,10 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -158,7 +158,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
@@ -166,7 +166,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -176,7 +176,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   "This file will be deleted permanently. Are you certain you want to delete it?",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -185,13 +185,13 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -212,7 +212,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -229,10 +229,10 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -243,7 +243,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
@@ -251,7 +251,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -261,7 +261,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   "This team member will be deleted permanently from the business profile. Are you certain you want to delete it?",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -271,13 +271,13 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -298,7 +298,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -315,10 +315,10 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -329,7 +329,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
@@ -337,7 +337,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -347,7 +347,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   "This appointment will be deleted permanently from your calendar. Are you certain you want to delete it?",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -356,13 +356,13 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -383,7 +383,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),
@@ -400,10 +400,10 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -414,7 +414,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 //const SizedBox(height: 15),
                 Text(
@@ -422,7 +422,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -432,7 +432,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                   "This Card will be deleted permanently from your Mzansi Wallet. Are you certain you want to delete it?",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -441,13 +441,13 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 MihButton(
                   onPressed: widget.onTap,
                   buttonColor:
-                      MzanziInnovationHub.of(context)!.theme.errorColor(),
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
                   width: 300,
                   child: Text(
                     "Delete",
                     style: TextStyle(
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -468,7 +468,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
               size: 35,
             ),
           ),

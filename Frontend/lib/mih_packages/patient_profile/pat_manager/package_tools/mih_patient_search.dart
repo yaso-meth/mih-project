@@ -48,8 +48,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             controller: _mihPatientSearchController,
             hintText: "Search Patient ID/ Aid No.",
             prefixIcon: Icons.search,
-            fillColor: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             onPrefixIconTap: () {
               submitPatientSearch();
             },
@@ -91,7 +91,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                   style: TextStyle(
                       fontSize: 25,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.errorColor()),
+                          MzansiInnovationHub.of(context)!.theme.errorColor()),
                   textAlign: TextAlign.center,
                 ),
               );
@@ -133,7 +133,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             style: TextStyle(
                 fontSize: 25,
                 color:
-                    MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+                    MzansiInnovationHub.of(context)!.theme.messageTextColor()),
             textAlign: TextAlign.center,
           ),
         ),
@@ -147,7 +147,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             style: TextStyle(
                 fontSize: 25,
                 color:
-                    MzanziInnovationHub.of(context)!.theme.messageTextColor()),
+                    MzansiInnovationHub.of(context)!.theme.messageTextColor()),
             textAlign: TextAlign.center,
           ),
         ),

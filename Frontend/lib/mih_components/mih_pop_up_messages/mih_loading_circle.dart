@@ -20,7 +20,7 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
   late double height;
 
   void checkScreenSize() {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         popUpWidth = 250;
         popUpheight = 250;
@@ -58,18 +58,18 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
               // width: 250,
               // height: 275,
               decoration: BoxDecoration(
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 borderRadius: BorderRadius.circular(25.0),
                 border: Border.all(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     width: 5.0),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GifView.asset(
-                    MzanziInnovationHub.of(context)!
+                    MzansiInnovationHub.of(context)!
                         .theme
                         .loadingImageLocation(),
                     height: 200,

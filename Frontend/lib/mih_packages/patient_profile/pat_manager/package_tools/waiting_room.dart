@@ -80,7 +80,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                     });
                   }),
               // Divider(
-              //   color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               // ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -104,7 +104,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                               "Error pulling appointments",
                               style: TextStyle(
                                   fontSize: 25,
-                                  color: MzanziInnovationHub.of(context)!
+                                  color: MzansiInnovationHub.of(context)!
                                       .theme
                                       .errorColor()),
                               textAlign: TextAlign.center,
@@ -127,17 +127,17 @@ class _WaitingRoomState extends State<WaitingRoom> {
               SpeedDialChild(
                 child: Icon(
                   Icons.add,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "Add Appointment",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   // addAppointmentWindow();
                   appointmentTypeSelection(width);
@@ -177,7 +177,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
             "No Appointments for $selectedDay",
             style: TextStyle(
               fontSize: 25,
-              color: MzanziInnovationHub.of(context)!.theme.messageTextColor(),
+              color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
             ),
             textAlign: TextAlign.center,
             softWrap: true,
@@ -211,7 +211,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                 question,
                 style: TextStyle(
                     fontSize: 20,
-                    color: MzanziInnovationHub.of(context)!
+                    color: MzansiInnovationHub.of(context)!
                         .theme
                         .secondaryColor()),
                 textAlign: TextAlign.left,
@@ -223,13 +223,13 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Existing Patient",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -242,13 +242,13 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   Navigator.of(context).pop();
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Existing MIH User",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -261,13 +261,13 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   addAppointmentWindow(width);
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Skeleton Appointment",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -298,7 +298,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
           },
           windowBody: Padding(
             padding:
-                MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.05)
                     : const EdgeInsets.symmetric(horizontal: 0),
             child: Column(
@@ -307,11 +307,11 @@ class _WaitingRoomState extends State<WaitingRoom> {
                   formKey: _formKey,
                   formFields: [
                     MihTextFormField(
-                      fillColor: MzanziInnovationHub.of(context)!
+                      fillColor: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       controller: _appointmentTitleController,
                       multiLineInput: false,
                       requiredText: true,
@@ -341,11 +341,11 @@ class _WaitingRoomState extends State<WaitingRoom> {
                     const SizedBox(height: 10),
                     MihTextFormField(
                       height: 250,
-                      fillColor: MzanziInnovationHub.of(context)!
+                      fillColor: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
                       inputColor:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       controller: _appointmentDescriptionIDController,
                       multiLineInput: true,
                       requiredText: true,
@@ -364,14 +364,14 @@ class _WaitingRoomState extends State<WaitingRoom> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .successColor(),
                         width: 300,
                         child: Text(
                           "Add",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,

@@ -47,7 +47,7 @@ class _MihDateFieldState extends State<MihDateField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MzanziInnovationHub.of(context)!.theme;
+    final theme = MzansiInnovationHub.of(context)!.theme;
     return Center(
       child: SizedBox(
         width: widget.width,

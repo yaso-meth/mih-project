@@ -30,7 +30,7 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
 
   List<DropdownMenuEntry<String>> buildMenuOptions(List<String> options) {
     List<DropdownMenuEntry<String>> menuList = [];
-    final theme = MzanziInnovationHub.of(context)!.theme;
+    final theme = MzansiInnovationHub.of(context)!.theme;
     for (final i in options) {
       menuList.add(DropdownMenuEntry(
         value: i,
@@ -59,7 +59,7 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MzanziInnovationHub.of(context)!.theme;
+    final theme = MzansiInnovationHub.of(context)!.theme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

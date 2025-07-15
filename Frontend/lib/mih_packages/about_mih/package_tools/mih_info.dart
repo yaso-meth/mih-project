@@ -48,7 +48,7 @@ class _MihInfoState extends State<MihInfo> {
     bio +=
         "6 Year of banking experience with one of the big 5 banks of South Africa.";
     ImageProvider logoFrame =
-        MzanziInnovationHub.of(context)!.theme.altLogoFrame();
+        MzansiInnovationHub.of(context)!.theme.altLogoFrame();
     return Wrap(
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -63,7 +63,7 @@ class _MihInfoState extends State<MihInfo> {
             children: [
               CircleAvatar(
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 backgroundImage: const AssetImage(
                     "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
                 //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
@@ -231,12 +231,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.youtube,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 175,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -247,12 +247,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -263,12 +263,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.twitch,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -279,12 +279,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.threads,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -295,12 +295,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.whatsapp,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -311,12 +311,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.instagram,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
 
@@ -328,12 +328,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.xTwitter,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -344,12 +344,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.linkedin,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -360,12 +360,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -376,12 +376,12 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.reddit,
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           size: 200,
         ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -393,19 +393,19 @@ class _MihInfoState extends State<MihInfo> {
         child: Text(
           "KICK",
           style: TextStyle(
-            color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             fontWeight: FontWeight.bold,
             fontSize: 100,
           ),
         ),
         // FaIcon(
         //   FontAwesomeIcons.tv,
-        //   color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+        //   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         //   size: 200,
         // ),
       ),
-      p: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
     ));
     //==================================================================
     return socials;
@@ -426,10 +426,10 @@ class _MihInfoState extends State<MihInfo> {
       return "Install MIH (Play Store)";
     } else if (isWebIos) {
       return "Install MIH (PWA)";
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+    } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
         "Android") {
       return "Update MIH (Play Store)";
-    } else if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
+    } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
       return "Update MIH (App Store)";
     } else {
       return "Install MIH (PWA)";
@@ -464,7 +464,7 @@ class _MihInfoState extends State<MihInfo> {
                   child: Icon(
                     MihIcons.mihLogo,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ),
@@ -479,7 +479,7 @@ class _MihInfoState extends State<MihInfo> {
                 ),
               ),
               Text(
-                "MIH App Version: ${MzanziInnovationHub.of(context)!.theme.getLatestVersion()}",
+                "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
@@ -516,12 +516,12 @@ class _MihInfoState extends State<MihInfo> {
                         MihInstallServices().installMihTrigger(context);
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         getInstallButtonText(),
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -538,12 +538,12 @@ class _MihInfoState extends State<MihInfo> {
                         );
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "MIH Beginners Guide",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -587,17 +587,17 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.vpn_lock,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - Web",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -609,17 +609,17 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.apple,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - iOS",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -631,17 +631,17 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.android,
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - Android",
                 labelBackgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 labelStyle: TextStyle(
-                  color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
                 backgroundColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 onTap: () {
                   shareMIHLink(
                     context,

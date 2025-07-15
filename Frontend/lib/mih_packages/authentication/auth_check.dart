@@ -46,9 +46,9 @@ class _AuthCheckState extends State<AuthCheck> {
     //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
     // bool isDarkMode = brightness == Brightness.dark;
     // if (isDarkMode) {
-    //   MzanziInnovationHub.of(context)!.theme.mode = "Dark";
+    //   MzansiInnovationHub.of(context)!.theme.mode = "Dark";
     // } else {
-    //   MzanziInnovationHub.of(context)!.theme.mode = "Light";
+    //   MzansiInnovationHub.of(context)!.theme.mode = "Light";
     // }
     super.initState();
   }

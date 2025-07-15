@@ -33,7 +33,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
   ImageProvider<Object>? getImage() {
     Color dark = const Color(0XFF3A4454);
     if (widget.imageFile == null) {
-      if (MzanziInnovationHub.of(context)!.theme.secondaryColor() == dark) {
+      if (MzansiInnovationHub.of(context)!.theme.secondaryColor() == dark) {
         print("here in light icon");
         return const AssetImage(
             'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
@@ -78,9 +78,9 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
               child: IconButton.filled(
                 style: IconButton.styleFrom(
                   backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 onPressed: () async {
                   try {
                     FilePickerResult? result =
@@ -88,7 +88,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
                       type: FileType.image,
                     );
                     // print("Here 1");
-                    if (MzanziInnovationHub.of(context)!.theme.getPlatform() ==
+                    if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
                         "Web") {
                       // print("Here 2");
                       if (result == null) return;

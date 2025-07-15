@@ -35,7 +35,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
   void checkScreenSize() {
     // print("screen width: $width");
     // print("screen height: $height");
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       setState(() {
         windowTitleSize = 25;
         horizontralWindowPadding = width / 7;
@@ -84,9 +84,9 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               child: IconButton.filled(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                      MzanziInnovationHub.of(context)!.theme.errorColor()),
+                      MzansiInnovationHub.of(context)!.theme.errorColor()),
                 ),
-                color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 iconSize: 20,
                 onPressed: () {
                   widget.onWindowTapClose();
@@ -108,7 +108,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               style: TextStyle(
                 fontSize: windowTitleSize,
                 fontWeight: FontWeight.bold,
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
           ),
@@ -165,10 +165,10 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       insetAnimationDuration: Durations.short1,
       child: Container(
         decoration: BoxDecoration(
-          color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           borderRadius: BorderRadius.circular(25.0),
           border: Border.all(
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               width: 5.0),
         ),
         child: widget.fullscreen

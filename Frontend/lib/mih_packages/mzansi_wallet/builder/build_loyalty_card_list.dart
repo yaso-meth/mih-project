@@ -63,7 +63,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         },
         windowBody: Padding(
           padding:
-              MzanziInnovationHub.of(context)!.theme.screenType == "desktop"
+              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.05)
                   : EdgeInsets.symmetric(horizontal: width * 0),
           child: Column(
@@ -73,9 +73,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 formFields: [
                   MihTextFormField(
                     fillColor:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: _nicknameController,
                     multiLineInput: false,
                     requiredText: false,
@@ -89,10 +89,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     children: [
                       Flexible(
                         child: MihTextFormField(
-                          fillColor: MzanziInnovationHub.of(context)!
+                          fillColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          inputColor: MzanziInnovationHub.of(context)!
+                          inputColor: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           controller: _cardNumberController,
@@ -110,14 +110,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         onPressed: () {
                           openscanner();
                         },
-                        buttonColor: MzanziInnovationHub.of(context)!
+                        buttonColor: MzansiInnovationHub.of(context)!
                             .theme
                             .secondaryColor(),
                         width: 100,
                         child: Text(
                           "Scan",
                           style: TextStyle(
-                            color: MzanziInnovationHub.of(context)!
+                            color: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
                             fontSize: 20,
@@ -147,12 +147,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         }
                       },
                       buttonColor:
-                          MzanziInnovationHub.of(context)!.theme.successColor(),
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
                       child: Text(
                         "Update",
                         style: TextStyle(
-                          color: MzanziInnovationHub.of(context)!
+                          color: MzansiInnovationHub.of(context)!
                               .theme
                               .primaryColor(),
                           fontSize: 20,
@@ -195,10 +195,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MzanziInnovationHub.of(context)!.theme.successColor(),
+          alertColour: MzansiInnovationHub.of(context)!.theme.successColor(),
           alertIcon: Icon(
             Icons.favorite,
-            color: MzanziInnovationHub.of(context)!.theme.successColor(),
+            color: MzansiInnovationHub.of(context)!.theme.successColor(),
             size: 100,
           ),
           alertTitle: "Add to Favourites",
@@ -209,7 +209,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 style: TextStyle(
                   fontSize: 20,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               const SizedBox(
@@ -229,13 +229,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   );
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.successColor(),
+                    MzansiInnovationHub.of(context)!.theme.successColor(),
                 width: 300,
                 child: Text(
                   "Add",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -254,10 +254,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MzanziInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
           alertIcon: Icon(
             Icons.favorite_border,
-            color: MzanziInnovationHub.of(context)!.theme.errorColor(),
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
             size: 100,
           ),
           alertTitle: "Remove From Favourites",
@@ -268,7 +268,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 style: TextStyle(
                   fontSize: 20,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
               const SizedBox(
@@ -288,13 +288,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   );
                 },
                 buttonColor:
-                    MzanziInnovationHub.of(context)!.theme.errorColor(),
+                    MzansiInnovationHub.of(context)!.theme.errorColor(),
                 width: 300,
                 child: Text(
                   "Remove",
                   style: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -328,24 +328,24 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 ? Icon(
                     Icons.favorite,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   )
                 : Icon(
                     Icons.favorite_border,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
             label: widget.cardList[index].favourite == ""
                 ? "Add to Favourite"
                 : "Remove from Favourite",
             labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             onTap: () {
               if (widget.cardList[index].favourite == "") {
                 addToFavCardWindow(context, index);
@@ -357,17 +357,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           SpeedDialChild(
             child: Icon(
               Icons.edit,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             label: "Edit Card Details",
             labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             onTap: () {
               setState(() {
                 _cardNumberController.text = widget.cardList[index].card_number;
@@ -379,17 +379,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           SpeedDialChild(
             child: Icon(
               Icons.delete,
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             label: "Delete Card",
             labelBackgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             labelStyle: TextStyle(
-              color: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.successColor(),
+                MzansiInnovationHub.of(context)!.theme.successColor(),
             onTap: () {
               deleteCardWindow(context, index);
             },
@@ -427,7 +427,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       height: 75,
                       // width: 300,
                       child: BarcodeWidget(
-                        //color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        //color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                         barcode: Barcode.code128(),
                         backgroundColor: Colors.white,
                         data: widget.cardList[index].card_number,
@@ -449,7 +449,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         color: Colors.black,
                         fontSize: 25,
                         fontWeight: FontWeight.bold
-                        //MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        //MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                         ),
                   ),
                 ],
@@ -465,7 +465,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   double getHorizontalPaddingSize(Size screenSize) {
-    if (MzanziInnovationHub.of(context)!.theme.screenType == "desktop") {
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       return screenSize.width / 10;
     } else {
       return 20;
@@ -531,7 +531,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       //   physics: const NeverScrollableScrollPhysics(),
       //   separatorBuilder: (BuildContext context, int index) {
       //     return Divider(
-      //       color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+      //       color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       //     );
       //   },
       //   itemCount: widget.cardList.length,

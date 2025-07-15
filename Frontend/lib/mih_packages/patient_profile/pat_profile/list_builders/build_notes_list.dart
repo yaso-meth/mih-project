@@ -145,18 +145,18 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   child: Icon(
                     Icons.delete,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Delete Note",
                   labelBackgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   labelStyle: TextStyle(
                     color:
-                        MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
                   backgroundColor:
-                      MzanziInnovationHub.of(context)!.theme.successColor(),
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
                   onTap: () {
                     deletePatientPopUp(selectednote.idpatient_notes);
                   },
@@ -171,8 +171,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: businessNameController,
               multiLineInput: false,
               requiredText: true,
@@ -182,8 +182,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: userNameController,
               multiLineInput: false,
               requiredText: true,
@@ -193,8 +193,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: dateController,
               multiLineInput: false,
               requiredText: true,
@@ -204,8 +204,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: noteTitleController,
               multiLineInput: false,
               requiredText: true,
@@ -216,8 +216,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
             MihTextFormField(
               height: 250,
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               controller: noteTextController,
               multiLineInput: true,
               requiredText: true,
@@ -248,7 +248,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           );
         },
         itemCount: widget.notes.length,
@@ -261,18 +261,18 @@ class _BuildNotesListState extends State<BuildNotesList> {
             title: Text(
               "${widget.notes[index].note_name}\n${widget.notes[index].doc_office} - ${widget.notes[index].doctor}",
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
             subtitle: Text(
               "${widget.notes[index].insert_date}:\n$notePreview",
               style: TextStyle(
-                color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ), //Text(widget.notes[index].note_text),
             trailing: Icon(
               Icons.arrow_forward,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
             onTap: () {
               viewNotePopUp(widget.notes[index]);

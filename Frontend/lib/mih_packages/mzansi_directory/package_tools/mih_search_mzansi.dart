@@ -85,12 +85,12 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                       Icons.display_settings,
                       size: 35,
                       color:
-                          MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     ))
               ],
               fillColor:
-                  MzanziInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               onPrefixIconTap: () {
                 if (userSearch) {
                   setState(() {
@@ -169,7 +169,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   MihIcons.personalProfile,
                   size: 165,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -180,7 +180,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ],
@@ -196,7 +196,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   MihIcons.iDontKnow,
                   size: 165,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -207,7 +207,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ],
@@ -218,7 +218,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
                     fontSize: 25,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor()),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
                 textAlign: TextAlign.center,
               ),
             );
@@ -260,7 +260,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   MihIcons.iDontKnow,
                   size: 165,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -271,7 +271,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ],
@@ -286,7 +286,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   MihIcons.businessProfile,
                   size: 165,
                   color:
-                      MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -297,7 +297,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color:
-                        MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
                 ),
               ],
@@ -308,7 +308,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
                     fontSize: 25,
-                    color: MzanziInnovationHub.of(context)!.theme.errorColor()),
+                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
                 textAlign: TextAlign.center,
               ),
             );

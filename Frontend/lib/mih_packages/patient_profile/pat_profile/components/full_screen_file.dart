@@ -123,7 +123,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.arrow_forward,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -173,7 +173,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.zoom_in,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -198,7 +198,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.zoom_out,
-              color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
         ),
@@ -210,14 +210,14 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         //   },
         //   icon: Icon(
         //     Icons.print,
-        //     color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+        //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         //   ),
         // ),
         IconButton(
           iconSize: 30,
           padding: const EdgeInsets.all(0),
           onPressed: () {
-            if (MzanziInnovationHub.of(context)!.theme.getPlatform() == "Web") {
+            if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
               html.window.open(
                   widget.arguments.link,
                   // '${AppEnviroment.baseFileUrl}/mih/$filePath',
@@ -230,7 +230,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
           },
           icon: Icon(
             Icons.download,
-            color: MzanziInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
         ),
       ],
@@ -246,7 +246,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         child: SfPdfViewerTheme(
           data: SfPdfViewerThemeData(
             backgroundColor:
-                MzanziInnovationHub.of(context)!.theme.primaryColor(),
+                MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           child: SfPdfViewer.network(
             widget.arguments.link,
