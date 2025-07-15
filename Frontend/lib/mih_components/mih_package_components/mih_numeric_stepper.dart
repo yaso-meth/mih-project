@@ -111,7 +111,7 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                           backgroundColor: WidgetStateProperty.all<Color>(
                               MzansiInnovationHub.of(context)!
                                   .theme
-                                  .successColor()),
+                                  .errorColor()),
                         ),
                         color: widget.inputColor,
                         iconSize: 20,
@@ -192,7 +192,10 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                       width: 40,
                       child: IconButton.filled(
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(),
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .successColor()),
                         ),
                         color: widget.inputColor,
                         iconSize: 20,
