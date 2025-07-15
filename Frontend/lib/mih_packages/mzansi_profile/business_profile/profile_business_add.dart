@@ -493,6 +493,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                               controller: locationController,
                               multiLineInput: false,
                               requiredText: true,
+                              readOnly: true,
                               hintText: "GPS Location",
                             ),
                           ),
