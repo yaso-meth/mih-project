@@ -166,7 +166,9 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                     cellNumber: widget.business.contact_no,
                     email: widget.business.bus_email,
                     gpsLocation: widget.business.gps_location,
-                    //To-Do: Add the business Website
+                    rating: widget.business.rating.isNotEmpty
+                        ? double.parse(widget.business.rating)
+                        : 0,
                     website: widget.business.website,
                   ),
                 ),

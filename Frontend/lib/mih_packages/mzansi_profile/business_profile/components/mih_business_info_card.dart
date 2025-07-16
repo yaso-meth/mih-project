@@ -1,3 +1,4 @@
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -9,12 +10,14 @@ class MihBusinessCard extends StatefulWidget {
   final String email;
   final String gpsLocation;
   final String? website;
+  final double rating;
   const MihBusinessCard({
     super.key,
     required this.businessName,
     required this.cellNumber,
     required this.email,
     required this.gpsLocation,
+    required this.rating,
     this.website,
   });
 
@@ -337,6 +340,34 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         child: Column(
           children: [
             const SizedBox(height: 10),
+            RatingBar.readOnly(
+              size: 50,
+              alignment: Alignment.center,
+              filledIcon: Icons.star,
+              emptyIcon: Icons.star_border,
+              halfFilledIcon: Icons.star_half,
+              filledColor:
+                  MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              emptyColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              halfFilledColor:
+                  MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              isHalfAllowed: true,
+              initialRating: widget.rating,
+              maxRating: 5,
+            ),
+            // Text(
+            //   "Rating: ${widget.rating}",
+            //   style: TextStyle(
+            //     fontSize: 15,
+            //     fontWeight: FontWeight.bold,
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            //     height: 1.0,
+            //   ),
+            // ),
+            // Divider(
+            //   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            // ),
+            const SizedBox(height: 10),
             _buildContactInfo(
               "Call",
               "Give us a quick call.",
@@ -371,7 +402,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Location",
               "Come visit us.",
               Icons.location_on,
-              const Color(0xffe9e8a1),
+              const Color(0xffd69d7d),
               () {
                 final latitude = double.parse(widget.gpsLocation.split(',')[0]);
                 final longitude =
@@ -410,7 +441,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             //   "Rate Us",
             //   "Let us know how we are doing.",
             //   Icons.star_rate_rounded,
-            //   const Color(0xffd69d7d),
+            // const Color(0xffe9e8a1),
             //   () {
             //     print("Opeining rating dialog");
             //     // _launchWebsite(widget.website);

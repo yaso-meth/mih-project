@@ -684,7 +684,9 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     cellNumber: widget.arguments.business!.contact_no,
                     email: widget.arguments.business!.bus_email,
                     gpsLocation: widget.arguments.business!.gps_location,
-                    //To-Do: Add the business Website
+                    rating: widget.arguments.business!.rating.isNotEmpty
+                        ? double.parse(widget.arguments.business!.rating)
+                        : 0,
                     website: widget.arguments.business!.website,
                   ),
                 ),
