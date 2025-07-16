@@ -298,6 +298,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   gpsLocation: "-26.1853611, 28.134664",
                   website:
                       "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                  rating: 3.25,
                 ),
                 const SizedBox(height: 10),
                 Divider(
