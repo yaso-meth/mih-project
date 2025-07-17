@@ -1,11 +1,14 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
@@ -36,6 +39,10 @@ class MihBusinessCard extends StatefulWidget {
 class _MihBusinessCardState extends State<MihBusinessCard> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _reviewTitleController = TextEditingController();
+  final TextEditingController _reviewDescriptionController =
+      TextEditingController();
+  late final VoidCallback _reviewDescriptionListener;
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);
 
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri url = Uri(scheme: 'tel', path: phoneNumber);
@@ -334,6 +341,23 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _reviewDescriptionController.removeListener(_reviewDescriptionListener);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _reviewDescriptionListener = () {
+      setState(() {
+        _counter.value = _reviewDescriptionController.text.characters.length;
+      });
+    };
+    _reviewDescriptionController.addListener(_reviewDescriptionListener);
+  }
+
+  @override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
     return Material(
@@ -487,6 +511,14 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
+  Color getMissionVisionLimitColor(int limit) {
+    if (_counter.value <= limit) {
+      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    } else {
+      return MzansiInnovationHub.of(context)!.theme.errorColor();
+    }
+  }
+
   void addBusinessReviewRatingWindow(double width) {
     showDialog(
       context: context,
@@ -502,22 +534,146 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.05)
                     : EdgeInsets.symmetric(horizontal: width * 0),
-            child: MihForm(
-              formKey: _formKey,
-              formFields: [
-                MihTextFormField(
-                  width: 200,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  controller: _reviewTitleController,
-                  multiLineInput: false,
-                  requiredText: false,
-                  hintText: "Review Title",
-                  validator: (value) {
-                    return null;
-                  },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                MihForm(
+                  formKey: _formKey,
+                  formFields: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Business Rating",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    RatingBar(
+                      size: 50,
+                      alignment: Alignment.centerLeft,
+                      filledIcon: Icons.star,
+                      emptyIcon: Icons.star_border,
+                      halfFilledIcon: Icons.star_half,
+                      filledColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      emptyColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      halfFilledColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      isHalfAllowed: true,
+                      initialRating: 1,
+                      maxRating: 5,
+                      onRatingChanged: (double) {},
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      // width: 200,
+                      fillColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: _reviewTitleController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      hintText: "Review Title",
+                      validator: (value) {
+                        return MihValidationServices()
+                            .isEmpty(_reviewTitleController.text);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      height: 250,
+                      fillColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: _reviewDescriptionController,
+                      multiLineInput: true,
+                      requiredText: false,
+                      hintText: "Review Description",
+                      validator: (value) {
+                        if (_reviewDescriptionController.text.isEmpty) {
+                          return null;
+                        } else {
+                          return MihValidationServices().validateLength(
+                              _reviewDescriptionController.text, 256);
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                      child: ValueListenableBuilder(
+                        valueListenable: _counter,
+                        builder:
+                            (BuildContext context, int value, Widget? child) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "$value",
+                                style: TextStyle(
+                                  color: getMissionVisionLimitColor(256),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "/256",
+                                style: TextStyle(
+                                  color: getMissionVisionLimitColor(256),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Center(
+                      child: MihButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // submitForm();
+                          } else {
+                            MihAlertServices().formNotFilledCompletely(context);
+                          }
+                        },
+                        buttonColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        width: 300,
+                        child: Text(
+                          "Add Review",
+                          style: TextStyle(
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
