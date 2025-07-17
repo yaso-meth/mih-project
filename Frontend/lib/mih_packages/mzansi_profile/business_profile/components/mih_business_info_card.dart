@@ -1,24 +1,32 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
+  final String businessid;
   final String businessName;
   final String cellNumber;
   final String email;
   final String gpsLocation;
   final String? website;
   final double rating;
+  final double width;
   const MihBusinessCard({
     super.key,
+    required this.businessid,
     required this.businessName,
     required this.cellNumber,
     required this.email,
     required this.gpsLocation,
     required this.rating,
     this.website,
+    required this.width,
   });
 
   @override
@@ -26,6 +34,9 @@ class MihBusinessCard extends StatefulWidget {
 }
 
 class _MihBusinessCardState extends State<MihBusinessCard> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _reviewTitleController = TextEditingController();
+
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri url = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(url)) {
@@ -324,6 +335,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
 
   @override
   Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
     return Material(
       color: MzansiInnovationHub.of(context)!
           .theme
@@ -431,22 +443,21 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 },
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: Divider(
-            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-            //   ),
-            // ),
-            // _buildContactInfo(
-            //   "Rate Us",
-            //   "Let us know how we are doing.",
-            //   Icons.star_rate_rounded,
-            // const Color(0xffe9e8a1),
-            //   () {
-            //     print("Opeining rating dialog");
-            //     // _launchWebsite(widget.website);
-            //   },
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Divider(
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            _buildContactInfo(
+              "Rate Us",
+              "Let us know how we are doing.",
+              Icons.star_rate_rounded,
+              const Color(0xffe9e8a1),
+              () {
+                addBusinessReviewRatingWindow(widget.width);
+              },
+            ),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
             //   child: Divider(
@@ -471,6 +482,46 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             //   ),
             // ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void addBusinessReviewRatingWindow(double width) {
+    showDialog(
+      context: context,
+      builder: (context) => MihPackageWindow(
+        fullscreen: false,
+        windowTitle: "Add Review",
+        onWindowTapClose: () {
+          Navigator.of(context).pop();
+        },
+        windowBody: MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : EdgeInsets.symmetric(horizontal: width * 0),
+            child: MihForm(
+              formKey: _formKey,
+              formFields: [
+                MihTextFormField(
+                  width: 200,
+                  fillColor:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  inputColor:
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  controller: _reviewTitleController,
+                  multiLineInput: false,
+                  requiredText: false,
+                  hintText: "Review Title",
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

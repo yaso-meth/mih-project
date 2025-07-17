@@ -680,6 +680,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 SizedBox(
                   width: 700,
                   child: MihBusinessCard(
+                    businessid: widget.arguments.business!.business_id,
                     businessName: widget.arguments.business!.Name,
                     cellNumber: widget.arguments.business!.contact_no,
                     email: widget.arguments.business!.bus_email,
@@ -688,6 +689,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                         ? double.parse(widget.arguments.business!.rating)
                         : 0,
                     website: widget.arguments.business!.website,
+                    width: width,
                   ),
                 ),
                 const SizedBox(height: 30.0),
