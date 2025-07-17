@@ -82,7 +82,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                       });
                     },
                     icon: Icon(
-                      Icons.display_settings,
+                      Icons.swap_horiz_rounded,
                       size: 35,
                       color:
                           MzansiInnovationHub.of(context)!.theme.primaryColor(),
