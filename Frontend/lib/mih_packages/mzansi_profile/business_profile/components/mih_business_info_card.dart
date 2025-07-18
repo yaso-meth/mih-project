@@ -1,5 +1,6 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -479,7 +480,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               Icons.star_rate_rounded,
               const Color(0xffe9e8a1),
               () {
-                addBusinessReviewRatingWindow(widget.width);
+                businessReviewRatingWindow(true, widget.width);
               },
             ),
             // Padding(
@@ -519,15 +520,40 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     }
   }
 
-  void addBusinessReviewRatingWindow(double width) {
+  void businessReviewRatingWindow(bool previouslyRated, double width) {
     showDialog(
       context: context,
       builder: (context) => MihPackageWindow(
         fullscreen: false,
-        windowTitle: "Add Review",
+        windowTitle: previouslyRated ? "Edit Review" : "Add Review",
         onWindowTapClose: () {
           Navigator.of(context).pop();
         },
+        menuOptions: previouslyRated
+            ? [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.delete,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  label: "Delete Review",
+                  labelBackgroundColor:
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelStyle: TextStyle(
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor:
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  onTap: () {
+                    // showTestWindow();
+                    showDeleteReviewAlert();
+                  },
+                ),
+              ]
+            : null,
         windowBody: MihSingleChildScroll(
           child: Padding(
             padding:
@@ -681,5 +707,78 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         ),
       ),
     );
+  }
+
+  void showDeleteReviewAlert() {
+    showDialog(
+        context: context,
+        builder: (context) => MihPackageAlert(
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertIcon: Icon(
+                Icons.warning_rounded,
+                size: 100,
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              ),
+              alertTitle: "Delete Review",
+              alertBody: Column(
+                children: [
+                  Text(
+                    "Are you sure you want to delete this review? This action cannot be undone.",
+                    style: TextStyle(
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Wrap(
+                    runAlignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      MihButton(
+                        width: 300,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        buttonColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  MihButton(
+                    width: 300,
+                    onPressed: () {
+                      // Delete review logic here
+                      Navigator.of(context).pop();
+                    },
+                    buttonColor:
+                        MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
   }
 }
