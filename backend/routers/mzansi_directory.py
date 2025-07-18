@@ -8,9 +8,9 @@ from fastapi import Depends
 
 router = APIRouter()
 
-class BusinessRatingUserGet(BaseModel):
-    app_id: str
-    business_id: str
+# class BusinessRatingUserGet(BaseModel):
+#     app_id: str
+#     business_id: str
 
 class BusinessRatingInsertRequest(BaseModel):
     app_id: str
@@ -28,8 +28,8 @@ class BusinessRatingUpdateRequest(BaseModel):
     rating_description: int
     rating_score: str
 
-@router.get("/mzasni-directory/business-ratings/user/", tags=["Mzansi Directory"])
-async def read_all_ratings_by_business_id(itemRequest: BusinessRatingUserGet, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
+@router.get("/mzasni-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
+async def read_all_ratings_by_business_id(app_id: str,business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAllConnect()
     cursor = db.cursor()
     query = ""
@@ -40,10 +40,15 @@ async def read_all_ratings_by_business_id(itemRequest: BusinessRatingUserGet, se
     query += "inner join app_data.users "
     query += "on business_ratings.app_id = users.app_id "
     query += "where business_ratings.business_id = %s and business_ratings.app_id = %s;"
-    cursor.execute(query, (itemRequest.business_id,
-                           itemRequest.app_id,))
-    items = [
-        {
+    cursor.execute(query, (business_id,
+                           app_id,))
+    item = cursor.fetchone() # Get only one row
+    cursor.close()
+    db.close()
+    
+    if item:
+        # Return a single dictionary
+        return {
             "idbusiness_ratings": item[0],
             "app_id": item[1],
             "business_id": item[2],
@@ -53,11 +58,25 @@ async def read_all_ratings_by_business_id(itemRequest: BusinessRatingUserGet, se
             "date_time": item[6],
             "reviewer": item[7],
         }
-        for item in cursor.fetchall()
-    ]
-    cursor.close()
-    db.close()
-    return items
+    else:
+        # Return an empty response or a specific message
+        return None
+    # items = [
+    #     {
+    #         "idbusiness_ratings": item[0],
+    #         "app_id": item[1],
+    #         "business_id": item[2],
+    #         "rating_title": item[3],
+    #         "rating_description": item[4],
+    #         "rating_score": item[5],
+    #         "date_time": item[6],
+    #         "reviewer": item[7],
+    #     }
+    #     for item in cursor.fetchall()
+    # ]
+    # cursor.close()
+    # db.close()
+    # return items[0]
 
 @router.get("/mzasni-directory/business-ratings/all/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
