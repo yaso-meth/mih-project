@@ -39,12 +39,12 @@ class MihMzansiDirectoryServices {
     }
   }
 
-  Future<int> addLoyaltyCardAPICall(
+  Future<int> addBusinessReview(
     String app_id,
     String business_id,
     String rating_title,
     String rating_description,
-    int rating_score,
+    String rating_score,
   ) async {
     var response = await http.post(
       Uri.parse(
@@ -67,7 +67,7 @@ class MihMzansiDirectoryServices {
     }
   }
 
-  Future<int> deleteLoyaltyCardAPICall(
+  Future<int> deleteBusinessReview(
     int idbusiness_ratings,
   ) async {
     var response = await http.delete(
@@ -86,7 +86,7 @@ class MihMzansiDirectoryServices {
     }
   }
 
-  static Future<int> updateLoyaltyCardAPICall(
+  Future<int> updateBusinessReview(
     int idbusiness_ratings,
     String rating_title,
     String rating_description,
