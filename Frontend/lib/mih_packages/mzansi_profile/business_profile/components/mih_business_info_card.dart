@@ -1,6 +1,7 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -10,23 +11,25 @@ import 'package:supertokens_flutter/supertokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
-  final String businessid;
-  final String businessName;
-  final String cellNumber;
-  final String email;
-  final String gpsLocation;
-  final String? website;
-  final double rating;
+  final Business business;
+  // final String businessid;
+  // final String businessName;
+  // final String cellNumber;
+  // final String email;
+  // final String gpsLocation;
+  // final String? website;
+  // final double rating;
   final double width;
   const MihBusinessCard({
     super.key,
-    required this.businessid,
-    required this.businessName,
-    required this.cellNumber,
-    required this.email,
-    required this.gpsLocation,
-    required this.rating,
-    this.website,
+    required this.business,
+    // required this.businessid,
+    // required this.businessName,
+    // required this.cellNumber,
+    // required this.email,
+    // required this.gpsLocation,
+    // required this.rating,
+    // this.website,
     required this.width,
   });
 
@@ -53,7 +56,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "We couldn't open your phone app to call ${widget.cellNumber}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
+                    "We couldn't open your phone app to call ${widget.business.contact_no}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -103,7 +106,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "We couldn't launch your email app to send a message to ${widget.email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
+                    "We couldn't launch your email app to send a message to ${widget.business.bus_email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -144,7 +147,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertBody: Column(
                   children: [
                     Text(
-                      "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+                      "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                       style: TextStyle(
                         color: MzansiInnovationHub.of(context)!
                             .theme
@@ -173,7 +176,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+                    "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -335,7 +338,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     String user_id = await SuperTokens.getUserId();
     return await MihMzansiDirectoryServices().getUserReviewOfBusiness(
       user_id,
-      widget.businessid,
+      widget.business.business_id,
     );
   }
 
@@ -370,7 +373,9 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               halfFilledColor:
                   MzansiInnovationHub.of(context)!.theme.primaryColor(),
               isHalfAllowed: true,
-              initialRating: widget.rating,
+              initialRating: widget.business.rating.isNotEmpty
+                  ? double.parse(widget.business.rating)
+                  : 0,
               maxRating: 5,
             ),
             // Text(
@@ -393,7 +398,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               const Color(0xffaff0b3),
               () {
                 // print("Calling ${widget.cellNumber}");
-                _makePhoneCall(widget.cellNumber);
+                _makePhoneCall(widget.business.contact_no);
               },
             ),
             Divider(
@@ -407,9 +412,9 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               () {
                 // print("Emailing ${widget.email}");
                 _launchEmail(
-                  widget.email,
-                  "Inquiery about ${widget.businessName}",
-                  "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                  widget.business.bus_email,
+                  "Inquiery about ${widget.business.Name}",
+                  "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
                 );
               },
             ),
@@ -422,9 +427,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               Icons.location_on,
               const Color(0xffd69d7d),
               () {
-                final latitude = double.parse(widget.gpsLocation.split(',')[0]);
+                final latitude =
+                    double.parse(widget.business.gps_location.split(',')[0]);
                 final longitude =
-                    double.parse(widget.gpsLocation.split(',')[1]);
+                    double.parse(widget.business.gps_location.split(',')[1]);
                 _launchGoogleMapsWithUrl(
                   latitude: latitude,
                   longitude: longitude,
@@ -432,20 +438,22 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               },
             ),
             Visibility(
-              visible: widget.website != null && widget.website! != "",
+              visible: widget.business.website.isNotEmpty &&
+                  widget.business.website != "",
               child: Divider(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
             ),
             Visibility(
-              visible: widget.website != null && widget.website! != "",
+              visible: widget.business.website.isNotEmpty &&
+                  widget.business.website != "",
               child: _buildContactInfo(
                 "Website",
                 "Find out more about us.",
                 Icons.vpn_lock,
                 const Color(0xffd67d8a),
                 () {
-                  _launchWebsite(widget.website!);
+                  _launchWebsite(widget.business.website);
                 },
               ),
             ),
@@ -506,7 +514,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             );
           } else if (asyncSnapshot.connectionState == ConnectionState.done) {
             return MihReviewBusinessWindow(
-              businessId: widget.businessid,
+              business: widget.business,
               businessReview: asyncSnapshot.data,
               screenWidth: width,
             );
