@@ -2,6 +2,7 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -16,12 +17,12 @@ import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart'
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihReviewBusinessWindow extends StatefulWidget {
-  final String businessId;
+  final Business business;
   final BusinessReview? businessReview;
   final double screenWidth;
   const MihReviewBusinessWindow({
     super.key,
-    required this.businessId,
+    required this.business,
     required this.businessReview,
     required this.screenWidth,
   });
@@ -179,7 +180,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
       await MihMzansiDirectoryServices()
           .addBusinessReview(
         userId,
-        widget.businessId,
+        widget.business.business_id,
         _reviewTitleController.text,
         _reviewDescriptionController.text,
         _reviewScoreController.text,
