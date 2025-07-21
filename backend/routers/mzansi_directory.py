@@ -25,7 +25,7 @@ class BusinessRatingDeleteRequest(BaseModel):
 class BusinessRatingUpdateRequest(BaseModel):
     idbusiness_ratings: int
     rating_title: str
-    rating_description: int
+    rating_description: str
     rating_score: str
 
 @router.get("/mzasni-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
