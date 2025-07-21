@@ -162,15 +162,16 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 SizedBox(
                   width: 700,
                   child: MihBusinessCard(
-                    businessid: widget.business.business_id,
-                    businessName: widget.business.Name,
-                    cellNumber: widget.business.contact_no,
-                    email: widget.business.bus_email,
-                    gpsLocation: widget.business.gps_location,
-                    rating: widget.business.rating.isNotEmpty
-                        ? double.parse(widget.business.rating)
-                        : 0,
-                    website: widget.business.website,
+                    business: widget.business,
+                    // businessid: widget.business.business_id,
+                    // businessName: widget.business.Name,
+                    // cellNumber: widget.business.contact_no,
+                    // email: widget.business.bus_email,
+                    // gpsLocation: widget.business.gps_location,
+                    // rating: widget.business.rating.isNotEmpty
+                    //     ? double.parse(widget.business.rating)
+                    //     : 0,
+                    // website: widget.business.website,
                     width: width,
                   ),
                 ),
