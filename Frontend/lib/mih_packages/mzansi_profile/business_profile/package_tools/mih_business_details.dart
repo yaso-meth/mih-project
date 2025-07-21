@@ -680,15 +680,16 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 SizedBox(
                   width: 700,
                   child: MihBusinessCard(
-                    businessid: widget.arguments.business!.business_id,
-                    businessName: widget.arguments.business!.Name,
-                    cellNumber: widget.arguments.business!.contact_no,
-                    email: widget.arguments.business!.bus_email,
-                    gpsLocation: widget.arguments.business!.gps_location,
-                    rating: widget.arguments.business!.rating.isNotEmpty
-                        ? double.parse(widget.arguments.business!.rating)
-                        : 0,
-                    website: widget.arguments.business!.website,
+                    // businessid: widget.arguments.business!.business_id,
+                    // businessName: widget.arguments.business!.Name,
+                    // cellNumber: widget.arguments.business!.contact_no,
+                    // email: widget.arguments.business!.bus_email,
+                    // gpsLocation: widget.arguments.business!.gps_location,
+                    // rating: widget.arguments.business!.rating.isNotEmpty
+                    //     ? double.parse(widget.arguments.business!.rating)
+                    //     : 0,
+                    // website: widget.arguments.business!.website,
+                    business: widget.arguments.business!,
                     width: width,
                   ),
                 ),
