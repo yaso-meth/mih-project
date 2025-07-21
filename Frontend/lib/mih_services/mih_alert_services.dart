@@ -55,4 +55,66 @@ class MihAlertServices {
       },
     );
   }
+
+  void successAlert(String title, String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MzansiInnovationHub.of(context)!.theme.successColor(),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
+          ),
+          alertColour: MzansiInnovationHub.of(context)!.theme.successColor(),
+        );
+      },
+    );
+  }
+
+  void errorAlert(String title, String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.warning_amber_rounded,
+            size: 150,
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+            ],
+          ),
+          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+        );
+      },
+    );
+  }
 }
