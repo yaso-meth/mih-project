@@ -20,11 +20,13 @@ class MihReviewBusinessWindow extends StatefulWidget {
   final Business business;
   final BusinessReview? businessReview;
   final double screenWidth;
+  final bool readOnly;
   const MihReviewBusinessWindow({
     super.key,
     required this.business,
     required this.businessReview,
     required this.screenWidth,
+    required this.readOnly,
   });
 
   @override
@@ -205,6 +207,16 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     }
   }
 
+  String getWindowTitle() {
+    if (widget.readOnly) {
+      return "Review Details";
+    } else if (widget.businessReview != null) {
+      return "Edit Review";
+    } else {
+      return "Add Review";
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -240,11 +252,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     // return const Placeholder();
     return MihPackageWindow(
       fullscreen: false,
-      windowTitle: widget.businessReview != null ? "Edit Review" : "Add Review",
+      windowTitle: getWindowTitle(),
       onWindowTapClose: () {
         Navigator.of(context).pop();
       },
-      menuOptions: widget.businessReview != null
+      menuOptions: widget.businessReview != null && !widget.readOnly
           ? [
               SpeedDialChild(
                 child: Icon(
@@ -331,6 +343,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                     controller: _reviewTitleController,
                     multiLineInput: false,
                     requiredText: true,
+                    readOnly: widget.readOnly,
                     hintText: "Review Title",
                     validator: (value) {
                       return MihValidationServices()
@@ -346,7 +359,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: _reviewDescriptionController,
                     multiLineInput: true,
-                    requiredText: false,
+                    requiredText: widget.readOnly,
+                    readOnly: widget.readOnly,
                     hintText: "Review Description",
                     validator: (value) {
                       if (_reviewDescriptionController.text.isEmpty) {
@@ -357,59 +371,66 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       }
                     },
                   ),
-                  SizedBox(
-                    height: 15,
-                    child: ValueListenableBuilder(
-                      valueListenable: _counter,
-                      builder:
-                          (BuildContext context, int value, Widget? child) {
-                        return Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "$value",
-                              style: TextStyle(
-                                color: getMissionVisionLimitColor(256),
-                                fontWeight: FontWeight.bold,
+                  Visibility(
+                    visible: !widget.readOnly,
+                    child: SizedBox(
+                      height: 15,
+                      child: ValueListenableBuilder(
+                        valueListenable: _counter,
+                        builder:
+                            (BuildContext context, int value, Widget? child) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "$value",
+                                style: TextStyle(
+                                  color: getMissionVisionLimitColor(256),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              "/256",
-                              style: TextStyle(
-                                color: getMissionVisionLimitColor(256),
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(width: 5),
+                              Text(
+                                "/256",
+                                style: TextStyle(
+                                  color: getMissionVisionLimitColor(256),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 25),
-                  Center(
-                    child: MihButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          submitForm();
-                        } else {
-                          MihAlertServices().formNotFilledCompletely(context);
-                        }
-                      },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
-                      width: 300,
-                      child: Text(
-                        widget.businessReview != null
-                            ? "Edit Review"
-                            : "Add Review",
-                        style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  Visibility(
+                    visible: !widget.readOnly,
+                    child: Center(
+                      child: MihButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            submitForm();
+                          } else {
+                            MihAlertServices().formNotFilledCompletely(context);
+                          }
+                        },
+                        buttonColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .successColor(),
+                        width: 300,
+                        child: Text(
+                          widget.businessReview != null
+                              ? "Edit Review"
+                              : "Add Review",
+                          style: TextStyle(
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
