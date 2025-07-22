@@ -69,7 +69,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       MihBusinessDetailsView(business: widget.business),
-      MihBusinessReviews(businessId: widget.business.business_id),
+      MihBusinessReviews(business: widget.business),
     ];
     return toolBodies;
   }
