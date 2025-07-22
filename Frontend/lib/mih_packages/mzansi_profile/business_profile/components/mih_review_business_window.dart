@@ -38,6 +38,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _reviewTitleController = TextEditingController();
   final TextEditingController _reviewScoreController = TextEditingController();
+  final TextEditingController _reviewReviewerController =
+      TextEditingController();
   final TextEditingController _reviewDescriptionController =
       TextEditingController();
   late final VoidCallback _reviewDescriptionListener;
@@ -211,7 +213,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     if (widget.readOnly) {
       return "Review Details";
     } else if (widget.businessReview != null) {
-      return "Edit Review";
+      return "Update Review";
     } else {
       return "Add Review";
     }
@@ -238,6 +240,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         _reviewDescriptionController.text =
             widget.businessReview!.rating_description;
         _reviewScoreController.text = widget.businessReview!.rating_score;
+        _reviewReviewerController.text = widget.businessReview!.reviewer;
       });
     }
     SuperTokens.getUserId().then((value) {
@@ -340,6 +343,22 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                     inputColor:
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    controller: _reviewReviewerController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    readOnly: true,
+                    hintText: "Reviewer",
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  MihTextFormField(
+                    // width: 200,
+                    fillColor:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    inputColor:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     controller: _reviewTitleController,
                     multiLineInput: false,
                     requiredText: true,
@@ -422,7 +441,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         width: 300,
                         child: Text(
                           widget.businessReview != null
-                              ? "Edit Review"
+                              ? "Update Review"
                               : "Add Review",
                           style: TextStyle(
                             color: MzansiInnovationHub.of(context)!

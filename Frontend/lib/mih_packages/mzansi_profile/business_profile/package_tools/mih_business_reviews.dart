@@ -115,6 +115,13 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
+                        // Text(
+                        //   "${reviews[index].reviewer} ",
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
                         Text(
                           reviews[index].rating_title,
                           softWrap: true,
@@ -131,16 +138,12 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              reviews[index].date_time.split("T")[0],
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          "${reviews[index].date_time.split("T")[0]} ",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ],
                     ),
