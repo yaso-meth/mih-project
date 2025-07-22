@@ -23,9 +23,8 @@ class MihMzansiDirectoryServices {
     }
   }
 
-  static Future<List<BusinessReview>> getAllReviewsofBusiness(
+  Future<List<BusinessReview>> getAllReviewsofBusiness(
     String business_id,
-    String businessid,
   ) async {
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzasni-directory/business-ratings/all/$business_id"));
