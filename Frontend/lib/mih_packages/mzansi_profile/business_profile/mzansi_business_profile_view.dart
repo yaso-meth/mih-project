@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
 
 class MzansiBusinessProfileView extends StatefulWidget {
   final Business business;
@@ -54,6 +55,11 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
         _selcetedIndex = 0;
       });
     };
+    temp[const Icon(Icons.star_rate_rounded)] = () {
+      setState(() {
+        _selcetedIndex = 1;
+      });
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -63,6 +69,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       MihBusinessDetailsView(business: widget.business),
+      MihBusinessReviews(businessId: widget.business.business_id),
     ];
     return toolBodies;
   }
@@ -70,6 +77,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Profile",
+      "Reviews",
     ];
     return toolTitles;
   }
