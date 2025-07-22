@@ -89,7 +89,8 @@ async def read_all_ratings_by_business_id(business_id: str, session: SessionCont
     query += "FROM mzansi_directory.business_ratings "
     query += "inner join app_data.users "
     query += "on business_ratings.app_id = users.app_id "
-    query += "where business_ratings.business_id = %s;"
+    query += "where business_ratings.business_id = %s "
+    query += "order by business_ratings.date_time desc;"
     cursor.execute(query, (business_id,))
     items = [
         {
