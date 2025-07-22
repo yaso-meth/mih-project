@@ -367,11 +367,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               filledIcon: Icons.star,
               emptyIcon: Icons.star_border,
               halfFilledIcon: Icons.star_half,
-              filledColor:
-                  MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              filledColor: const Color(0xffe9e8a1),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
               emptyColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              halfFilledColor:
-                  MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              halfFilledColor: const Color(0xffe9e8a1),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
               isHalfAllowed: true,
               initialRating: widget.business.rating.isNotEmpty
                   ? double.parse(widget.business.rating)
@@ -517,6 +517,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               business: widget.business,
               businessReview: asyncSnapshot.data,
               screenWidth: width,
+              readOnly: false,
             );
           } else {
             return MihPackageAlert(
