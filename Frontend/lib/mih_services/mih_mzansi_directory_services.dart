@@ -44,6 +44,7 @@ class MihMzansiDirectoryServices {
     String rating_title,
     String rating_description,
     String rating_score,
+    String current_rating,
   ) async {
     var response = await http.post(
       Uri.parse(
@@ -57,6 +58,7 @@ class MihMzansiDirectoryServices {
         "rating_title": rating_title,
         "rating_description": rating_description,
         "rating_score": rating_score,
+        "current_rating": current_rating,
       }),
     );
     if (response.statusCode == 201) {

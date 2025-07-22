@@ -188,6 +188,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         _reviewTitleController.text,
         _reviewDescriptionController.text,
         _reviewScoreController.text,
+        widget.business.rating.isEmpty ? "0.0" : widget.business.rating,
       )
           .then((statusCode) {
         Navigator.of(context).pop(); //Remove loading dialog
@@ -242,6 +243,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         _reviewScoreController.text = widget.businessReview!.rating_score;
         _reviewReviewerController.text = widget.businessReview!.reviewer;
       });
+    } else {
+      _reviewScoreController.text = "1.0"; // Default score
     }
     SuperTokens.getUserId().then((value) {
       setState(() {
@@ -336,21 +339,28 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       print(_reviewScoreController.text);
                     },
                   ),
-                  const SizedBox(height: 10),
-                  MihTextFormField(
-                    // width: 200,
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                    controller: _reviewReviewerController,
-                    multiLineInput: false,
-                    requiredText: true,
-                    readOnly: true,
-                    hintText: "Reviewer",
-                    validator: (value) {
-                      return null;
-                    },
+                  Visibility(
+                    visible: widget.readOnly,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: widget.readOnly,
+                    child: MihTextFormField(
+                      // width: 200,
+                      fillColor: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      inputColor:
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      controller: _reviewReviewerController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      readOnly: true,
+                      hintText: "Reviewer",
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
                   ),
                   const SizedBox(height: 10),
                   MihTextFormField(
