@@ -42,7 +42,7 @@ class _BuildBusinessSearchResultsListState
                 '/business-profile/view',
                 arguments: BusinessViewArguments(
                   widget.businessList[index],
-                  widget.startUpSearch,
+                  widget.businessList[index].Name,
                 ),
               );
             },

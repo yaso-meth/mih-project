@@ -94,7 +94,16 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       Navigator.of(context).pop(); //Remove loading dialog
                       Navigator.of(context).pop(); //Remove delete dialog
                       if (statusCode == 200) {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); //Remove window
+                        Navigator.of(context).pop(); //Remove profile
+                        Navigator.of(context).pop(); //Remove directory
+                        Navigator.of(context).pushNamed(
+                          '/mzansi-directory',
+                          arguments: MzansiDirectoryArguments(
+                            widget.startUpSearch, // startUpSearch
+                            false, // personalSearch
+                          ),
+                        );
                         MihAlertServices().successAlert(
                           "Successfully Deleted Review!",
                           "Your review has successfully been delete and will no longer appear under the business.",
@@ -211,7 +220,16 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           .then((statusCode) {
         Navigator.of(context).pop(); //Remove loading dialog
         if (statusCode == 201) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // pop window
+          Navigator.of(context).pop(); // pop business profile
+          Navigator.of(context).pop(); // pop directory
+          Navigator.of(context).pushNamed(
+            '/mzansi-directory',
+            arguments: MzansiDirectoryArguments(
+              widget.startUpSearch, // startUpSearch
+              false, // personalSearch
+            ),
+          );
           MihAlertServices().successAlert(
             "Successfully Added Review!",
             "Your review has successfully been added and will now appear under the business.",
@@ -333,30 +351,56 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  RatingBar(
-                    size: 50,
-                    alignment: Alignment.centerLeft,
-                    filledIcon: Icons.star,
-                    emptyIcon: Icons.star_border,
-                    halfFilledIcon: Icons.star_half,
-                    filledColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    emptyColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    halfFilledColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    isHalfAllowed: true,
-                    initialRating: widget.businessReview != null
-                        ? double.parse(_reviewScoreController.text)
-                        : 1,
-                    maxRating: 5,
-                    onRatingChanged: (double) {
-                      setState(() {
-                        _reviewScoreController.text = double.toStringAsFixed(1);
-                      });
-                      print(_reviewScoreController.text);
-                    },
-                  ),
+                  widget.readOnly
+                      ? RatingBar.readOnly(
+                          size: 50,
+                          alignment: Alignment.centerLeft,
+                          filledIcon: Icons.star,
+                          emptyIcon: Icons.star_border,
+                          halfFilledIcon: Icons.star_half,
+                          filledColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          emptyColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          halfFilledColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          isHalfAllowed: true,
+                          initialRating: widget.businessReview != null
+                              ? double.parse(_reviewScoreController.text)
+                              : 1,
+                          maxRating: 5,
+                        )
+                      : RatingBar(
+                          size: 50,
+                          alignment: Alignment.centerLeft,
+                          filledIcon: Icons.star,
+                          emptyIcon: Icons.star_border,
+                          halfFilledIcon: Icons.star_half,
+                          filledColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          emptyColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          halfFilledColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                          isHalfAllowed: true,
+                          initialRating: widget.businessReview != null
+                              ? double.parse(_reviewScoreController.text)
+                              : 1,
+                          maxRating: 5,
+                          onRatingChanged: (double) {
+                            setState(() {
+                              _reviewScoreController.text =
+                                  double.toStringAsFixed(1);
+                            });
+                            print(_reviewScoreController.text);
+                          },
+                        ),
                   Visibility(
                     visible: widget.readOnly,
                     child: const SizedBox(height: 10),
