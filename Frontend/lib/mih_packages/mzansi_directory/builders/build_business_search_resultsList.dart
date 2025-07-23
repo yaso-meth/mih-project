@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
 
 class BuildBusinessSearchResultsList extends StatefulWidget {
   final List<Business> businessList;
   final String myLocation;
+  final String? startUpSearch;
   const BuildBusinessSearchResultsList({
     super.key,
     required this.businessList,
     required this.myLocation,
+    required this.startUpSearch,
   });
 
   @override
@@ -37,7 +40,10 @@ class _BuildBusinessSearchResultsListState
             onTap: () {
               Navigator.of(context).pushNamed(
                 '/business-profile/view',
-                arguments: widget.businessList[index],
+                arguments: BusinessViewArguments(
+                  widget.businessList[index],
+                  widget.startUpSearch,
+                ),
               );
             },
             splashColor: MzansiInnovationHub.of(context)!

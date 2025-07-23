@@ -15,7 +15,13 @@ import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class MihSearchMzansi extends StatefulWidget {
-  const MihSearchMzansi({super.key});
+  final String? startUpSearch;
+  final bool personalSearch;
+  const MihSearchMzansi({
+    super.key,
+    required this.startUpSearch,
+    required this.personalSearch,
+  });
 
   @override
   State<MihSearchMzansi> createState() => _MihSearchMzansiState();
@@ -24,7 +30,7 @@ class MihSearchMzansi extends StatefulWidget {
 class _MihSearchMzansiState extends State<MihSearchMzansi> {
   final TextEditingController mzansiSearchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  bool userSearch = true;
+  late bool userSearch;
   Future<List<AppUser>?> futureUserSearchResults = Future.value();
   Future<List<Business>?> futureBusinessSearchResults = Future.value();
   late Future<Position?> futurePosition =
@@ -41,6 +47,17 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      userSearch = widget.personalSearch;
+      mzansiSearchController.text = widget.startUpSearch ?? "";
+      if (userSearch) {
+        futureUserSearchResults =
+            MihUserServices().searchUsers(mzansiSearchController.text, context);
+      } else {
+        futureBusinessSearchResults = MihBusinessDetailsServices()
+            .searchBusinesses(mzansiSearchController.text, context);
+      }
+    });
   }
 
   @override
@@ -246,6 +263,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 BuildBusinessSearchResultsList(
                   businessList: snapshot.requireData!,
                   myLocation: myLocation,
+                  startUpSearch: mzansiSearchController.text,
                 ),
               ],
             );

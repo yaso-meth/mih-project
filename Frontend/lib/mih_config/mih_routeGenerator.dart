@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_notification_message.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
@@ -122,13 +121,13 @@ class RouteGenerator {
       // }
       // break; // Use break and fall through to _errorRoute if argument type is wrong
       case AppRoutes.mzansiDirectory:
-        // if (args is AuthArguments) {
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => MzansiDirectory(),
-        );
-      // }
-      // break;
+        if (args is MzansiDirectoryArguments) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MzansiDirectory(arguments: args),
+          );
+        }
+        break;
       case AppRoutes.notifications:
         if (args is NotificationArguments) {
           return MaterialPageRoute(
@@ -188,10 +187,10 @@ class RouteGenerator {
         break;
 
       case AppRoutes.businessProfileView:
-        if (args is Business) {
+        if (args is BusinessViewArguments) {
           return MaterialPageRoute(
             settings: settings,
-            builder: (_) => MzansiBusinessProfileView(business: args),
+            builder: (_) => MzansiBusinessProfileView(arguments: args),
           );
         }
         break;

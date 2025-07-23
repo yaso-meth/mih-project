@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
   final Business business;
+  final String? startUpSearch;
   // final String businessid;
   // final String businessName;
   // final String cellNumber;
@@ -23,6 +24,7 @@ class MihBusinessCard extends StatefulWidget {
   const MihBusinessCard({
     super.key,
     required this.business,
+    required this.startUpSearch,
     // required this.businessid,
     // required this.businessName,
     // required this.cellNumber,
@@ -518,6 +520,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               businessReview: asyncSnapshot.data,
               screenWidth: width,
               readOnly: false,
+              startUpSearch: widget.startUpSearch,
             );
           } else {
             return MihPackageAlert(

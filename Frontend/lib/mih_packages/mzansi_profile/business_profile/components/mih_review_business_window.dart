@@ -2,6 +2,7 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -21,12 +22,14 @@ class MihReviewBusinessWindow extends StatefulWidget {
   final BusinessReview? businessReview;
   final double screenWidth;
   final bool readOnly;
+  final String? startUpSearch;
   const MihReviewBusinessWindow({
     super.key,
     required this.business,
     required this.businessReview,
     required this.screenWidth,
     required this.readOnly,
+    required this.startUpSearch,
   });
 
   @override
@@ -172,7 +175,16 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           .then((statusCode) {
         Navigator.of(context).pop(); //Remove loading dialog
         if (statusCode == 200) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); //pop window
+          Navigator.of(context).pop(); //pop business profile
+          Navigator.of(context).pop(); //pop directory
+          Navigator.of(context).pushNamed(
+            '/mzansi-directory',
+            arguments: MzansiDirectoryArguments(
+              widget.startUpSearch, // startUpSearch
+              false, // personalSearch
+            ),
+          );
           MihAlertServices().successAlert(
             "Successfully Updated Review!",
             "Your review has successfully been updated and will now appear under the business.",

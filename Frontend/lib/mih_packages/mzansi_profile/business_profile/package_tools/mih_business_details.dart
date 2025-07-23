@@ -690,6 +690,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     //     : 0,
                     // website: widget.arguments.business!.website,
                     business: widget.arguments.business!,
+                    startUpSearch: null,
                     width: width,
                   ),
                 ),
