@@ -83,6 +83,9 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                     await MihMzansiDirectoryServices()
                         .deleteBusinessReview(
                       widget.businessReview!.idbusiness_ratings,
+                      widget.businessReview!.business_id,
+                      widget.businessReview!.rating_score,
+                      widget.business.rating,
                     )
                         .then((statusCode) {
                       Navigator.of(context).pop(); //Remove loading dialog
@@ -159,9 +162,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
       await MihMzansiDirectoryServices()
           .updateBusinessReview(
         widget.businessReview!.idbusiness_ratings,
+        widget.businessReview!.business_id,
         _reviewTitleController.text,
         _reviewDescriptionController.text,
         _reviewScoreController.text,
+        widget.businessReview!.rating_score,
+        widget.business.rating,
       )
           .then((statusCode) {
         Navigator.of(context).pop(); //Remove loading dialog
