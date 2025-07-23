@@ -1,14 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 import uuid
-
-import database.dbConnection
 
 router = APIRouter()
 
@@ -64,7 +62,7 @@ class businessUpdateRequestV2(BaseModel):
 # Get List of all files
 @router.get("/businesses/search/{search}", tags=["MIH Business"])
 async def read_all_businesses(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
     query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
@@ -103,7 +101,7 @@ async def read_all_businesses(search: str, session: SessionContainer = Depends(v
 # Get List of all files
 @router.get("/business/business_id/{business_id}", tags=["MIH Business"])
 async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
     query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
@@ -150,7 +148,7 @@ async def read_business_by_business_id(business_id: str, session: SessionContain
 # Get List of all files
 @router.get("/business/app_id/{app_id}", tags=["MIH Business"])
 async def read_business_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
     query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
@@ -195,7 +193,7 @@ async def read_business_by_app_id(app_id: str, session: SessionContainer = Depen
 # Insert Patient into table
 @router.post("/business/insert/", tags=["MIH Business"], status_code=201)
 async def insert_business_details(itemRequest : businessInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into business "
     query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email, gps_location, practice_no, vat_no, website, rating, mission_vision) "
@@ -230,7 +228,7 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
 
 @router.put("/business/update/", tags=["MIH Business"])
 async def Update_Business_details(itemRequest : businessUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     # print(itemRequest.gps_location)
     cursor = db.cursor()
     query = "update business "
@@ -260,7 +258,7 @@ async def Update_Business_details(itemRequest : businessUpdateRequest, session: 
 
 @router.put("/business/update/v2/", tags=["MIH Business"])
 async def Update_Business_details(itemRequest : businessUpdateRequestV2, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     # print(itemRequest.gps_location)
     cursor = db.cursor()
     query = "update business "

@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 from datetime import datetime, timedelta, date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -32,7 +32,7 @@ class appointmentDeleteRequest(BaseModel):
 # Get List of all files by patient
 @router.get("/appointments/business/{business_id}", tags=["Appointments"])
 async def read_all_appointments_by_business_id(business_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiCalendarConnect()
+    db = mih_database.dbConnection.dbMzansiCalendarConnect()
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     cursor = db.cursor()
     query = "SELECT appointments.idappointments, appointments.app_id, "
@@ -60,7 +60,7 @@ async def read_all_appointments_by_business_id(business_id: str, date: str, sess
 # Get List of all files by patient
 @router.get("/appointments/personal/{app_id}", tags=["Appointments"])
 async def read_all_appointments_by_business_id(app_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiCalendarConnect()
+    db = mih_database.dbConnection.dbMzansiCalendarConnect()
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     cursor = db.cursor()
     query = "SELECT appointments.idappointments, appointments.app_id, "
@@ -90,7 +90,7 @@ async def read_all_appointments_by_business_id(app_id: str, date: str, session: 
 @router.post("/appointment/insert/", tags=["Appointments"], status_code=201)
 async def insert_appointment(itemRequest : appointmentInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     date_time = itemRequest.date + " " + itemRequest.time + ":00"
-    db = database.dbConnection.dbMzansiCalendarConnect()
+    db = mih_database.dbConnection.dbMzansiCalendarConnect()
     cursor = db.cursor()
     query = "insert into appointments "
     query += "(app_id, business_id, title, description, date_time) "
@@ -117,7 +117,7 @@ async def Update_appointment(itemRequest : appointmentUpdateRequest, session: Se
     
     date_time = itemRequest.date + " " + itemRequest.time + ":00"
 
-    db = database.dbConnection.dbMzansiCalendarConnect()
+    db = mih_database.dbConnection.dbMzansiCalendarConnect()
     cursor = db.cursor()
     query = "update appointments "
     query += "set date_time=%s, title=%s, description=%s "
@@ -140,7 +140,7 @@ async def Update_appointment(itemRequest : appointmentUpdateRequest, session: Se
 # Update Patient on table
 @router.delete("/appointment/delete/", tags=["Appointments"])
 async def Delete_appointment(itemRequest : appointmentDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiCalendarConnect()
+    db = mih_database.dbConnection.dbMzansiCalendarConnect()
     cursor = db.cursor()
     query = "delete from appointments "
     query += "where idappointments=%s"

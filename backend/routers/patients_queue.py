@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 from datetime import datetime, timedelta, date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -31,7 +31,7 @@ class queueDeleteRequest(BaseModel):
 # Get List of all files by patient
 @router.get("/queue/appointments/business/{business_id}", tags=["Patients Queue"])
 async def read_all_patient_queue_by_business_id(business_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     #print("request date: " + str(requestDate))
     cursor = db.cursor()
@@ -73,7 +73,7 @@ async def read_all_patient_queue_by_business_id(business_id: str, date: str, ses
 # Get List of all files by patient
 @router.get("/queue/appointments/personal/{app_id}", tags=["Patients Queue"])
 async def read_all_patient_queue_by_business_id(app_id: str, date: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     requestDate = datetime.strptime(date, '%Y-%m-%d').date()
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
@@ -109,7 +109,7 @@ async def read_all_patient_queue_by_business_id(app_id: str, date: str, session:
 @router.post("/queue/appointment/insert/", tags=["Patients Queue"], status_code=201)
 async def insert_Patient_Files(itemRequest : queueInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     date_time = itemRequest.date + " " + itemRequest.time + ":00"
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patient_queue "
     query += "(business_id, app_id, date_time) "
@@ -134,7 +134,7 @@ async def Update_Queue(itemRequest : queueUpdateRequest, session: SessionContain
     
     date_time = itemRequest.date + " " + itemRequest.time + ":00"
 
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "update patient_queue "
     query += "set date_time=%s "
@@ -155,7 +155,7 @@ async def Update_Queue(itemRequest : queueUpdateRequest, session: SessionContain
 # Update Patient on table
 @router.delete("/queue/appointment/delete/", tags=["Patients Queue"])
 async def Delete_Queue(itemRequest : queueDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "delete from patient_queue "
     query += "where idpatient_queue=%s"

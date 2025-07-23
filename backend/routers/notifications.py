@@ -2,8 +2,8 @@ import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime, timedelta
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -43,7 +43,7 @@ class notificationInsertRequest(BaseModel):
 # Get Notifications By app ID
 @router.get("/notifications/{app_id}", tags=["Notifications"])
 async def read_notifications_By_app_ID(app_id: str, amount: int, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     #query = "SELECT * FROM patients"
     query = "Select * from notifications " 
@@ -72,7 +72,7 @@ async def read_notifications_By_app_ID(app_id: str, amount: int, session: Sessio
 # Insert Patient into table
 @router.post("/notifications/insert/", tags=["Notifications"], status_code=201)
 async def insert_Patient(itemRequest : notificationInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     now = datetime.now() + timedelta(hours=2)
     notificationDateTime = now.strftime("%Y-%m-%d %H:%M:%S")
     print(notificationDateTime)
@@ -103,7 +103,7 @@ async def insert_Patient(itemRequest : notificationInsertRequest, session: Sessi
 # Update Patient on table
 @router.put("/notifications/update/{notification_id}", tags=["Notifications"])
 async def Update_Patient(notification_id : str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update notifications "
     query += "set notification_read=%s "
@@ -124,7 +124,7 @@ async def Update_Patient(notification_id : str, session: SessionContainer = Depe
 # # delete Patient on table
 # @router.delete("/patients/delete/", tags=["Patients"])
 # async def Delete_Patient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "delete from patients "
 #     query += "where app_id=%s"

@@ -2,8 +2,8 @@ import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -32,7 +32,7 @@ class patientNoteUpdateRequest(BaseModel):
 # Get List of all notes
 # @router.get("/notes/patients/", tags="patients_notes")
 # async def read_all_notes(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patient_notes"
 #     cursor.execute(query)
@@ -52,7 +52,7 @@ class patientNoteUpdateRequest(BaseModel):
 # Get List of all notes by patient
 @router.get("/notes/patients/{app_id}", tags=["Patients Notes"])
 async def read_all_patient_notes_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patient_notes where app_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (app_id,))
@@ -75,7 +75,7 @@ async def read_all_patient_notes_by_app_id(app_id: str, session: SessionContaine
 # Get List of all notes by patient
 # @router.get("/notes/patients-docOffice/", tags="patients_notes")
 # async def read_all_patientsby(itemRequest: noteRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "select patient_notes.idpatient_notes, patient_notes.note_name, patient_notes.note_text, patient_notes.patient_id, patient_notes.insert_date, patients.doc_office_id "
 #     query += "from patient_manager.patient_notes "
@@ -100,7 +100,7 @@ async def read_all_patient_notes_by_app_id(app_id: str, session: SessionContaine
 @router.post("/notes/insert/", tags=["Patients Notes"], status_code=201)
 async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patient_notes "
     query += "(note_name, note_text, insert_date, doc_office, doctor, app_id) "
@@ -126,7 +126,7 @@ async def insert_Patient_Note(itemRequest : patientNoteInsertRequest, session: S
 @router.delete("/notes/delete/", tags=["Patients Notes"])
 async def Delete_Patient_note(itemRequest : noteDeleteRequest, session: SessionContainer = Depends(verify_session()) ): #session: SessionContainer = Depends(verify_session())
     # today = date.today()
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "delete from patient_notes "
     query += "where idpatient_notes=%s"
@@ -145,7 +145,7 @@ async def Delete_Patient_note(itemRequest : noteDeleteRequest, session: SessionC
 # @router.put("/notes/update/", tags="patients_notes")
 # async def UpdatePatient(itemRequest : patientNoteUpdateRequest, session: SessionContainer = Depends(verify_session())):
 #     today = date.today()
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "update patient_notes "
 #     query += "set note_name=%s, note_text=%s, patient_id=%s, insert_date=%s "

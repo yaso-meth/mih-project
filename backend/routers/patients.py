@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -46,7 +46,7 @@ class patientDeleteRequest(BaseModel):
 # # Get Patient By ID Number
 # @router.get("/patients/search/{search}", tags=["Patients"])
 # async def read_patientByID(search: str): #, session: SessionContainer = Depends(verify_session())
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients WHERE idpatients like %%%s%%" % search
 #     #return {"query": query}
@@ -72,7 +72,7 @@ class patientDeleteRequest(BaseModel):
 # Get Patient By app ID
 @router.get("/patients/{app_id}", tags=["Patients"])
 async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM patients WHERE app_id=%s"
     cursor.execute(query, (app_id,))
@@ -99,7 +99,7 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 # # Get Patient By ID Number
 # @router.get("/patients/email/{email}", tags="patients")
 # async def read_patientByID(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients WHERE lower(email)=%s"
 #     cursor.execute(query, (email.lower(),))
@@ -126,7 +126,7 @@ async def read_patient_By_app_ID(app_id: str, session: SessionContainer = Depend
 # Get List of all patients
 @router.get("/patients/search/{search}", tags=["Patients"])
 async def read_all_patientsByUser(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     #query = "SELECT * FROM patients"
     query = "Select * from patients " 
@@ -160,7 +160,7 @@ async def read_all_patientsByUser(search: str, session: SessionContainer = Depen
 # # Get List of all patients
 # @router.get("/patients/", tags="patients")
 # async def read_all_patients(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients"
 #     cursor.execute(query)
@@ -187,7 +187,7 @@ async def read_all_patientsByUser(search: str, session: SessionContainer = Depen
 # # Get List of all patients by Doctors Office
 # @router.get("/patients/docOffice/{docoff_id}", tags="patients")
 # async def read_all_patientsby(docoff_id: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patients where doc_office_id=%s"
 #     cursor.execute(query, (docoff_id,))
@@ -214,7 +214,7 @@ async def read_all_patientsByUser(search: str, session: SessionContainer = Depen
 # Insert Patient into table
 @router.post("/patients/insert/", tags=["Patients"], status_code=201)
 async def insert_Patient(itemRequest : patientInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into patients "
     query += "(id_no, first_name, last_name, email, cell_no, medical_aid, "
@@ -247,7 +247,7 @@ async def insert_Patient(itemRequest : patientInsertRequest, session: SessionCon
 # Update Patient on table
 @router.put("/patients/update/", tags=["Patients"])
 async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "update patients "
     query += "set id_no=%s, first_name=%s, last_name=%s, email=%s, cell_no=%s, medical_aid=%s, "
@@ -281,7 +281,7 @@ async def Update_Patient(itemRequest : patientUpdateRequest, session: SessionCon
 # delete Patient on table
 @router.delete("/patients/delete/", tags=["Patients"])
 async def Delete_Patient(itemRequest : patientDeleteRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "delete from patients "
     query += "where app_id=%s"

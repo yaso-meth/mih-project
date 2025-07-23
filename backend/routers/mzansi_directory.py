@@ -1,10 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
+from sqlalchemy import desc 
+from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from datetime import datetime
-import database
+import mih_database.mihDbConnections
+from mih_database.mihDbObjects import User, Business, BusinessRating
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
+
+
 
 router = APIRouter()
 
@@ -37,200 +42,254 @@ class BusinessRatingUpdateRequest(BaseModel):
 
 @router.get("/mzansi-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(app_id: str,business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAllConnect()
-    cursor = db.cursor()
-    query = ""
-    query += "SELECT business_ratings.idbusiness_ratings, business_ratings.app_id, business_ratings.business_id, "
-    query += "business_ratings.rating_title, business_ratings.rating_description, business_ratings.rating_score, "
-    query += "business_ratings.date_time, users.username as 'reviewer' "
-    query += "FROM mzansi_directory.business_ratings "
-    query += "inner join app_data.users "
-    query += "on business_ratings.app_id = users.app_id "
-    query += "where business_ratings.business_id = %s and business_ratings.app_id = %s;"
-    cursor.execute(query, (business_id,
-                           app_id,))
-    item = cursor.fetchone() # Get only one row
-    cursor.close()
-    db.close()
+    dbEngine = mih_database.mihDbConnections.dbAllConnect() 
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(BusinessRating, User).\
+            join(User, BusinessRating.app_id == User.app_id).\
+            filter(
+                BusinessRating.business_id == business_id,
+                BusinessRating.app_id == app_id
+            ).first()
+        if queryResults:
+            rating_obj, user_obj = queryResults
+            # Return a single dictionary
+            return {
+                "idbusiness_ratings": rating_obj.idbusiness_ratings,
+                "app_id": rating_obj.app_id,
+                "business_id": rating_obj.business_id,
+                "rating_title": rating_obj.rating_title,
+                "rating_description": rating_obj.rating_description,
+                "rating_score": rating_obj.rating_score,
+                "date_time": rating_obj.date_time,
+                "reviewer": user_obj.username,
+            }
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business rating not found for the given app_id and business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
     
-    if item:
-        # Return a single dictionary
-        return {
-            "idbusiness_ratings": item[0],
-            "app_id": item[1],
-            "business_id": item[2],
-            "rating_title": item[3],
-            "rating_description": item[4],
-            "rating_score": item[5],
-            "date_time": item[6],
-            "reviewer": item[7],
-        }
-    else:
-        # Return an empty response or a specific message
-        return None
-    # items = [
-    #     {
-    #         "idbusiness_ratings": item[0],
-    #         "app_id": item[1],
-    #         "business_id": item[2],
-    #         "rating_title": item[3],
-    #         "rating_description": item[4],
-    #         "rating_score": item[5],
-    #         "date_time": item[6],
-    #         "reviewer": item[7],
-    #     }
-    #     for item in cursor.fetchall()
-    # ]
-    # cursor.close()
-    # db.close()
-    # return items[0]
-
 @router.get("/mzansi-directory/business-ratings/all/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAllConnect()
-    cursor = db.cursor()
-    query = ""
-    query += "SELECT business_ratings.idbusiness_ratings, business_ratings.app_id, business_ratings.business_id, "
-    query += "business_ratings.rating_title, business_ratings.rating_description, business_ratings.rating_score, "
-    query += "business_ratings.date_time, users.username as 'reviewer' "
-    query += "FROM mzansi_directory.business_ratings "
-    query += "inner join app_data.users "
-    query += "on business_ratings.app_id = users.app_id "
-    query += "where business_ratings.business_id = %s "
-    query += "order by business_ratings.date_time desc;"
-    cursor.execute(query, (business_id,))
-    items = [
-        {
-            "idbusiness_ratings": item[0],
-            "app_id": item[1],
-            "business_id": item[2],
-            "rating_title": item[3],
-            "rating_description": item[4],
-            "rating_score": item[5],
-            "date_time": item[6],
-            "reviewer": item[7],
-        }
-        for item in cursor.fetchall()
-    ]
-    cursor.close()
-    db.close()
-    return items
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(BusinessRating, User).\
+            join(User, BusinessRating.app_id == User.app_id).\
+            filter(
+                BusinessRating.business_id == business_id,
+            ).order_by(
+                desc(BusinessRating.date_time)
+            ).all()
+        response_data = []
+        for rating_obj, user_obj in queryResults:
+           response_data.append({
+                "idbusiness_ratings": rating_obj.idbusiness_ratings,
+                "app_id": rating_obj.app_id,
+                "business_id": rating_obj.business_id,
+                "rating_title": rating_obj.rating_title,
+                "rating_description": rating_obj.rating_description,
+                "rating_score": rating_obj.rating_score,
+                "date_time": rating_obj.date_time,
+                "reviewer": user_obj.username,
+            })
+        if len(response_data) > 0:
+            return response_data
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business rating not found for the given business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
 
 @router.post("/mzansi-directory/business-rating/insert/", tags=["Mzansi Directory"], status_code=201)
 async def insert_loyalty_card(itemRequest : BusinessRatingInsertRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAllConnect()
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
     nowDateTime = datetime.now()
     formatedDateTime = nowDateTime.strftime("%Y-%m-%d %H:%M:%S")
-    cursor = db.cursor()
+    dbSession = Session(dbEngine)
     try:
         # Get No Of reviews for business
-        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
-        countData = (itemRequest.business_id,)
-        cursor.execute(businessReviewCountQuery, countData) 
-        countResult = cursor.fetchone()
-        row_count = countResult[0] if countResult else 0
-        print(f"Number of rows in business_ratings: {row_count}")
+        businessReviewCountQueryResults = dbSession.query(BusinessRating).\
+            filter(
+                BusinessRating.business_id == itemRequest.business_id,
+            ).all()
+        businessReviewCount = len(businessReviewCountQueryResults)
+        print(f"Number of rows in business_ratings: {businessReviewCount}")
+        dbSession.flush()  # Ensure the session is flushed before adding new records
         # add business rating
-        addQuery = "insert into mzansi_directory.business_ratings "
-        addQuery += "(business_ratings.app_id, business_ratings.business_id, business_ratings.rating_title, business_ratings.rating_description, business_ratings.rating_score, business_ratings.date_time) "
-        addQuery += "values (%s, %s, %s, %s, %s, %s)"
-        addQueryData = (itemRequest.app_id, 
-                        itemRequest.business_id,
-                        itemRequest.rating_title,
-                        itemRequest.rating_description,
-                        itemRequest.rating_score,
-                        formatedDateTime,
-                        )
-        cursor.execute(addQuery, addQueryData) 
+        new_rating = BusinessRating(
+            app_id=itemRequest.app_id,
+            business_id=itemRequest.business_id,
+            rating_title=itemRequest.rating_title,
+            rating_description=itemRequest.rating_description,
+            rating_score=itemRequest.rating_score,
+            date_time=formatedDateTime
+        )
+        dbSession.add(new_rating)
+        dbSession.flush()  # Ensure the new rating is added to the session
         # Calc New Rating and update business rating 
-        newRating = ((float(itemRequest.current_rating) * row_count) + float(itemRequest.rating_score)) / (row_count + 1)
-        print(f"New Rating: {newRating}")
-        updateBusinessQuery = "update app_data.business "
-        updateBusinessQuery += "set rating = %s "
-        updateBusinessQuery += "where business_id = %s"
-        updateBusinessData = (newRating, itemRequest.business_id)
-        cursor.execute(updateBusinessQuery, updateBusinessData)
-        db.commit()
-    except Exception as error:
-        print(error)
-        raise HTTPException(status_code=404, detail="Failed to Create Record")
-        # return {"message": error}
-    cursor.close()
-    db.close()
-    return {"message": "Successfully Created Record"}
+        newRating = ((float(itemRequest.current_rating) * businessReviewCount) + float(itemRequest.rating_score)) / (businessReviewCount + 1)
+        businessToUpdate = dbSession.query(Business).filter(Business.business_id == itemRequest.business_id).first()
+        if businessToUpdate:
+            businessToUpdate.rating = str(newRating)
+            dbSession.commit()
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business not found for the given business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to insert records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+        return {"message": "Successfully Created Record"}
 
 @router.delete("/mzansi-directory/business-rating/delete/", tags=["Mzansi Directory"])
 async def Delete_loyalty_card(itemRequest : BusinessRatingDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAllConnect()
-    cursor = db.cursor()
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
     try:
         # Get No Of reviews for business
-        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
-        countData = (itemRequest.business_id,)
-        cursor.execute(businessReviewCountQuery, countData) 
-        countResult = cursor.fetchone()
-        row_count = countResult[0] if countResult else 0
-        print(f"Number of rows in business_ratings: {row_count}")
-        # Delete business rating
-        query = "delete from mzansi_directory.business_ratings "
-        query += "where business_ratings.idbusiness_ratings=%s"
-        cursor.execute(query, (str(itemRequest.idbusiness_ratings),)) 
+        businessReviewCountQueryResults = dbSession.query(BusinessRating).\
+            filter(
+                BusinessRating.business_id == itemRequest.business_id,
+            ).all()
+        businessReviewCount = len(businessReviewCountQueryResults)
+        print(f"Number of rows in business_ratings: {businessReviewCount}")
+        dbSession.flush()  # Ensure the session is flushed before adding new records
+        # delete business rating
+        rating_to_delete = dbSession.query(BusinessRating).\
+            get(
+                itemRequest.idbusiness_ratings
+            )
+        if not rating_to_delete:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Business rating with ID {itemRequest.idbusiness_ratings} not found."
+            )
+        dbSession.delete(rating_to_delete)
+        dbSession.flush()  # Ensure the new rating is added to the session
         # Calc New Rating and update business rating 
-        if(row_count <= 1):
-            newRating = 0.0
+        newRating = ((float(itemRequest.current_rating) * businessReviewCount) - float(itemRequest.rating_score)) / (businessReviewCount - 1)
+        businessToUpdate = dbSession.query(Business).filter(Business.business_id == itemRequest.business_id).first()
+        if businessToUpdate:
+            businessToUpdate.rating = str(newRating)
+            dbSession.commit()
         else:
-            newRating = ((float(itemRequest.current_rating) * row_count) - float(itemRequest.rating_score)) / (row_count - 1)
-        print(f"New Rating: {newRating}")
-        updateBusinessQuery = "update app_data.business "
-        updateBusinessQuery += "set rating = %s "
-        updateBusinessQuery += "where business_id = %s"
-        updateBusinessData = (newRating, itemRequest.business_id)
-        cursor.execute(updateBusinessQuery, updateBusinessData)
-        db.commit()
-    except Exception as error:
-        print(error)
-        raise HTTPException(status_code=404, detail="Failed to Delete Record")
-    cursor.close()
-    db.close()
-    return {"message": "Successfully deleted Record"}
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business not found for the given business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to insert records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+        return {"message": "Successfully Deleted Record"}
 
 @router.put("/mzansi-directory/business-rating/update/", tags=["Mzansi Directory"])
 async def UpdatePatient(itemRequest : BusinessRatingUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbMzansiDirectoryConnect()
-    cursor = db.cursor()
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
     nowDateTime = datetime.now()
     formatedDateTime = nowDateTime.strftime("%Y-%m-%d %H:%M:%S")
+    dbSession = Session(dbEngine)
     try:
         # Get No Of reviews for business
-        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
-        countData = (itemRequest.business_id,)
-        cursor.execute(businessReviewCountQuery, countData) 
-        countResult = cursor.fetchone()
-        row_count = countResult[0] if countResult else 0
-        print(f"Number of rows in business_ratings: {row_count}")
+        businessReviewCountQueryResults = dbSession.query(BusinessRating).\
+            filter(
+                BusinessRating.business_id == itemRequest.business_id,
+            ).all()
+        businessReviewCount = len(businessReviewCountQueryResults)
+        print(f"Number of rows in business_ratings: {businessReviewCount}")
+        dbSession.flush()  # Ensure the session is flushed before adding new records
         # Update business rating
-        query = "update business_ratings "
-        query += "set rating_title=%s, rating_description=%s, rating_score=%s, date_time=%s "
-        query += "where idbusiness_ratings=%s"
-        notetData = (itemRequest.rating_title, 
-                    itemRequest.rating_description,
-                    itemRequest.rating_new_score,
-                    formatedDateTime,
-                    itemRequest.idbusiness_ratings,
-                    )
-        cursor.execute(query, notetData) 
-        # Calc New Rating and update business rating
-        # add new rating and old rating params
-        newRating = ((float(itemRequest.current_rating) * row_count) - float(itemRequest.rating_old_score) + float(itemRequest.rating_new_score)) / (row_count)
-        print(f"New Rating: {newRating}")
-        updateBusinessQuery = "update app_data.business "
-        updateBusinessQuery += "set rating = %s "
-        updateBusinessQuery += "where business_id = %s"
-        updateBusinessData = (newRating, itemRequest.business_id)
-        cursor.execute(updateBusinessQuery, updateBusinessData)
-        db.commit()
-    except Exception as error:
-        raise HTTPException(status_code=404, detail="Failed to Update Record")
-    cursor.close()
-    db.close()
-    return {"message": "Successfully Updated Record"}
+        rating_to_update = dbSession.query(BusinessRating).\
+            get(
+                itemRequest.idbusiness_ratings
+            )
+        if rating_to_update:
+            rating_to_update.rating_title = itemRequest.rating_title
+            rating_to_update.rating_description = itemRequest.rating_description
+            rating_to_update.rating_score = itemRequest.rating_new_score
+            rating_to_update.date_time = formatedDateTime
+            dbSession.flush()  # Ensure the new rating is added to the session
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business not found for the given business_id."
+            )
+        # Calc New Rating and update business rating 
+        newRating = ((float(itemRequest.current_rating) * businessReviewCount) - float(itemRequest.rating_old_score) + float(itemRequest.rating_new_score)) / (businessReviewCount)
+        businessToUpdate = dbSession.query(Business).filter(Business.business_id == itemRequest.business_id).first()
+        if businessToUpdate:
+            businessToUpdate.rating = str(newRating)
+            dbSession.commit()
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business not found for the given business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to insert records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+        return {"message": "Successfully wUpdated Record"}

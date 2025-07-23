@@ -1,13 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
-
-import database.dbConnection
 
 router = APIRouter()
 
@@ -44,7 +42,7 @@ class employeeDeleteRequest(BaseModel):
 # Get List of all files
 @router.get("/business-user/{app_id}", tags=["MIH Business_User"])
 async def read_business_users_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT * FROM business_users where app_id = %s"
     try:
@@ -73,7 +71,7 @@ async def read_business_users_by_app_id(app_id: str, session: SessionContainer =
 # Get List of all files
 @router.get("/business-user/employees/{business_id}", tags=["MIH Business_User"])
 async def read_business_users_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = ""
     query += "SELECT business_users.business_id, business_users.app_id, business_users.title, business_users.access, "
@@ -108,7 +106,7 @@ async def read_business_users_by_business_id(business_id: str, session: SessionC
 # Insert Patient into table
 @router.post("/business-user/insert/", tags=["MIH Business_User"], status_code=201)
 async def insert_User_details(itemRequest : businessUserInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     checkQuery = "SELECT * FROM business_users where app_id = %s"
     try:
@@ -175,7 +173,7 @@ async def insert_User_details(itemRequest : businessUserInsertRequest, session: 
 # Update User on table
 @router.put("/business-user/update/", tags=["MIH Business_User"])
 async def Update_User_details(itemRequest : BusinessUserUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update business_users "
     query += "set signature=%s,sig_path=%s, title=%s, access=%s"
@@ -200,7 +198,7 @@ async def Update_User_details(itemRequest : BusinessUserUpdateRequest, session: 
 # Update User on table
 @router.put("/business-user/employees/update/", tags=["MIH Business_User"])
 async def Update_User_details(itemRequest : EmployeeUpdateRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update business_users "
     query += "set title=%s, access=%s"
@@ -225,7 +223,7 @@ async def Update_User_details(itemRequest : EmployeeUpdateRequest, session: Sess
 @router.delete("/business-user/employees/delete/", tags=["MIH Business_User"])
 async def Delete_Patient_note(itemRequest : employeeDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     # today = date.today()
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "delete from business_users "
     query += "where business_id=%s "

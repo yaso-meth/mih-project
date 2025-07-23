@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 from datetime import date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -24,7 +24,7 @@ class claimStatementInsertRequest(BaseModel):
 # Get List of all files by patient
 @router.get("/files/claim-statement/patient/{app_id}", tags=["Claim Statement Files"])
 async def read_all_claim_statement_files_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM claim_statement_file where app_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (app_id,))
@@ -46,7 +46,7 @@ async def read_all_claim_statement_files_by_app_id(app_id: str, session: Session
 # Get List of all files by patient
 @router.get("/files/claim-statement/business/{business_id}", tags=["Claim Statement Files"])
 async def read_all_claim_statement_files_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT * FROM claim_statement_file where business_id = %s ORDER BY insert_date DESC"
     cursor.execute(query, (business_id,))
@@ -69,7 +69,7 @@ async def read_all_claim_statement_files_by_business_id(business_id: str, sessio
 @router.delete("/files/claim-statement/delete/", tags=["Claim Statement Files"])
 async def Delete_Patient_File(itemRequest : claimStatementDeleteRequest, session: SessionContainer = Depends(verify_session())): #session: SessionContainer = Depends(verify_session())
     # today = date.today()
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "delete from claim_statement_file "
     query += "where idclaim_statement_file=%s"
@@ -88,7 +88,7 @@ async def Delete_Patient_File(itemRequest : claimStatementDeleteRequest, session
 @router.post("/files/claim-statement/insert/", tags=["Claim Statement Files"], status_code=201)
 async def insert_Patient_Files(itemRequest : claimStatementInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     today = date.today()
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "insert into claim_statement_file "
     query += "(app_id, business_id, file_path, file_name, insert_date) "

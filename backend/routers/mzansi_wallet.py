@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -38,7 +38,7 @@ class MzansiWalletUpdateRequest(BaseModel):
 # Get List of all loyalty cards by user
 @router.get("/mzasni-wallet/loyalty-cards/{app_id}", tags=["Mzansi Wallet"])
 async def read_all_loyalty_cards_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiWalletConnect()
+    db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "SELECT * FROM loyalty_cards where app_id = %s ORDER BY shop_name Asc"
     cursor.execute(query, (app_id,))
@@ -61,7 +61,7 @@ async def read_all_loyalty_cards_by_app_id(app_id: str, session: SessionContaine
 # Get List of favourite loyalty cards by user
 @router.get("/mzasni-wallet/loyalty-cards/favourites/{app_id}", tags=["Mzansi Wallet"])
 async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiWalletConnect()
+    db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "SELECT * FROM loyalty_cards where app_id = %s and favourite != '' ORDER BY priority_index Asc"
     cursor.execute(query, (app_id,))
@@ -84,7 +84,7 @@ async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionCo
 # Get List of all notes by patient
 # @router.get("/notes/patients-docOffice/", tags="patients_notes")
 # async def read_all_patientsby(itemRequest: noteRequest, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "select patient_notes.idpatient_notes, patient_notes.note_name, patient_notes.note_text, patient_notes.patient_id, patient_notes.insert_date, patients.doc_office_id "
 #     query += "from patient_manager.patient_notes "
@@ -108,7 +108,7 @@ async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionCo
 # Insert loyalty cards into table
 @router.post("/mzasni-wallet/loyalty-cards/insert/", tags=["Mzansi Wallet"], status_code=201)
 async def insert_loyalty_card(itemRequest : MzansiWalletInsertRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiWalletConnect()
+    db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "insert into loyalty_cards "
     query += "(app_id, shop_name, card_number, favourite, priority_index, nickname) "
@@ -135,7 +135,7 @@ async def insert_loyalty_card(itemRequest : MzansiWalletInsertRequest): #, sessi
 @router.delete("/mzasni-wallet/loyalty-cards/delete/", tags=["Mzansi Wallet"])
 async def Delete_loyalty_card(itemRequest : LoyaltyCardDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     # today = date.today()
-    db = database.dbConnection.dbMzansiWalletConnect()
+    db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "delete from loyalty_cards "
     query += "where idloyalty_cards=%s"
@@ -155,7 +155,7 @@ async def Delete_loyalty_card(itemRequest : LoyaltyCardDeleteRequest, session: S
 @router.put("/mzasni-wallet/loyalty-cards/update/", tags=["Mzansi Wallet"])
 async def UpdatePatient(itemRequest : MzansiWalletUpdateRequest, session: SessionContainer = Depends(verify_session())):
     today = date.today()
-    db = database.dbConnection.dbMzansiWalletConnect()
+    db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
     query = "update loyalty_cards "
     query += "set favourite=%s, priority_index=%s, nickname=%s, card_number=%s "
