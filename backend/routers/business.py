@@ -72,9 +72,10 @@ async def read_all_businesses(search: str, session: SessionContainer = Depends(v
     query += "practice_no, vat_no, "
     query += "website, rating, mission_vision "    
     query += "FROM business "
-    query += "WHERE LOWER(business.Name) LIKE %s OR LOWER(business.type) LIKE %s"
+    query += "WHERE LOWER(business.Name) LIKE %s OR LOWER(business.type) LIKE %s "
+    query += "OR LOWER(business.bus_email) LIKE %s OR LOWER(business.mission_vision) LIKE %s"
     search_term = f"%{search.lower()}%"  # Add wildcards and lowercase
-    cursor.execute(query, (search_term, search_term))
+    cursor.execute(query, (search_term, search_term, search_term, search_term))
     items = [
         {
             "business_id": item[0],

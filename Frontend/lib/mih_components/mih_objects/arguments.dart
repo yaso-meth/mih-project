@@ -31,6 +31,16 @@ class BusinessArguments {
   );
 }
 
+class BusinessViewArguments {
+  final Business business;
+  final String? startUpSearch;
+
+  BusinessViewArguments(
+    this.business,
+    this.startUpSearch,
+  );
+}
+
 class HomeArguments {
   final AppUser signedInUser;
   final BusinessUser? businessUser;
@@ -215,6 +225,16 @@ class MzansiAiArguments {
   MzansiAiArguments(
     this.signedInUser,
     this.startUpQuestion,
+  );
+}
+
+class MzansiDirectoryArguments {
+  final String? startUpSearch;
+  final bool personalSearch;
+
+  MzansiDirectoryArguments(
+    this.startUpSearch,
+    this.personalSearch,
   );
 }
 

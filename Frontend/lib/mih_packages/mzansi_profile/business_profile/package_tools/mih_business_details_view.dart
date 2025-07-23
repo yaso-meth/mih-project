@@ -11,9 +11,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 
 class MihBusinessDetailsView extends StatefulWidget {
   final Business business;
+  final String? startUpSearch;
   const MihBusinessDetailsView({
     super.key,
     required this.business,
+    required this.startUpSearch,
   });
 
   @override
@@ -162,12 +164,18 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 SizedBox(
                   width: 700,
                   child: MihBusinessCard(
-                    businessName: widget.business.Name,
-                    cellNumber: widget.business.contact_no,
-                    email: widget.business.bus_email,
-                    gpsLocation: widget.business.gps_location,
-                    //To-Do: Add the business Website
-                    website: widget.business.website,
+                    business: widget.business,
+                    startUpSearch: widget.startUpSearch,
+                    // businessid: widget.business.business_id,
+                    // businessName: widget.business.Name,
+                    // cellNumber: widget.business.contact_no,
+                    // email: widget.business.bus_email,
+                    // gpsLocation: widget.business.gps_location,
+                    // rating: widget.business.rating.isNotEmpty
+                    //     ? double.parse(widget.business.rating)
+                    //     : 0,
+                    // website: widget.business.website,
+                    width: width,
                   ),
                 ),
               ],

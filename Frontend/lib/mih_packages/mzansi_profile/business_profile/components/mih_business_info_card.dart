@@ -1,21 +1,38 @@
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
-  final String businessName;
-  final String cellNumber;
-  final String email;
-  final String gpsLocation;
-  final String? website;
+  final Business business;
+  final String? startUpSearch;
+  // final String businessid;
+  // final String businessName;
+  // final String cellNumber;
+  // final String email;
+  // final String gpsLocation;
+  // final String? website;
+  // final double rating;
+  final double width;
   const MihBusinessCard({
     super.key,
-    required this.businessName,
-    required this.cellNumber,
-    required this.email,
-    required this.gpsLocation,
-    this.website,
+    required this.business,
+    required this.startUpSearch,
+    // required this.businessid,
+    // required this.businessName,
+    // required this.cellNumber,
+    // required this.email,
+    // required this.gpsLocation,
+    // required this.rating,
+    // this.website,
+    required this.width,
   });
 
   @override
@@ -41,7 +58,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "We couldn't open your phone app to call ${widget.cellNumber}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
+                    "We couldn't open your phone app to call ${widget.business.contact_no}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -91,7 +108,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "We couldn't launch your email app to send a message to ${widget.email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
+                    "We couldn't launch your email app to send a message to ${widget.business.bus_email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -132,7 +149,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertBody: Column(
                   children: [
                     Text(
-                      "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+                      "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                       style: TextStyle(
                         color: MzansiInnovationHub.of(context)!
                             .theme
@@ -161,7 +178,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertBody: Column(
                 children: [
                   Text(
-                    "There was an issue opening maps for ${widget.businessName}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+                    "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
                     style: TextStyle(
                       color: MzansiInnovationHub.of(context)!
                           .theme
@@ -319,8 +336,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
+  Future<BusinessReview?> getUserReview() async {
+    String user_id = await SuperTokens.getUserId();
+    return await MihMzansiDirectoryServices().getUserReviewOfBusiness(
+      user_id,
+      widget.business.business_id,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
     return Material(
       color: MzansiInnovationHub.of(context)!
           .theme
@@ -337,6 +363,36 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         child: Column(
           children: [
             const SizedBox(height: 10),
+            RatingBar.readOnly(
+              size: 50,
+              alignment: Alignment.center,
+              filledIcon: Icons.star,
+              emptyIcon: Icons.star_border,
+              halfFilledIcon: Icons.star_half,
+              filledColor: const Color(0xffe9e8a1),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              emptyColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              halfFilledColor: const Color(0xffe9e8a1),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              isHalfAllowed: true,
+              initialRating: widget.business.rating.isNotEmpty
+                  ? double.parse(widget.business.rating)
+                  : 0,
+              maxRating: 5,
+            ),
+            // Text(
+            //   "Rating: ${widget.rating}",
+            //   style: TextStyle(
+            //     fontSize: 15,
+            //     fontWeight: FontWeight.bold,
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            //     height: 1.0,
+            //   ),
+            // ),
+            // Divider(
+            //   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            // ),
+            const SizedBox(height: 10),
             _buildContactInfo(
               "Call",
               "Give us a quick call.",
@@ -344,7 +400,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               const Color(0xffaff0b3),
               () {
                 // print("Calling ${widget.cellNumber}");
-                _makePhoneCall(widget.cellNumber);
+                _makePhoneCall(widget.business.contact_no);
               },
             ),
             Divider(
@@ -358,9 +414,9 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               () {
                 // print("Emailing ${widget.email}");
                 _launchEmail(
-                  widget.email,
-                  "Inquiery about ${widget.businessName}",
-                  "Dear ${widget.businessName},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                  widget.business.bus_email,
+                  "Inquiery about ${widget.business.Name}",
+                  "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
                 );
               },
             ),
@@ -371,11 +427,12 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Location",
               "Come visit us.",
               Icons.location_on,
-              const Color(0xffe9e8a1),
+              const Color(0xffd69d7d),
               () {
-                final latitude = double.parse(widget.gpsLocation.split(',')[0]);
+                final latitude =
+                    double.parse(widget.business.gps_location.split(',')[0]);
                 final longitude =
-                    double.parse(widget.gpsLocation.split(',')[1]);
+                    double.parse(widget.business.gps_location.split(',')[1]);
                 _launchGoogleMapsWithUrl(
                   latitude: latitude,
                   longitude: longitude,
@@ -383,39 +440,40 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               },
             ),
             Visibility(
-              visible: widget.website != null && widget.website! != "",
+              visible: widget.business.website.isNotEmpty &&
+                  widget.business.website != "",
               child: Divider(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
             ),
             Visibility(
-              visible: widget.website != null && widget.website! != "",
+              visible: widget.business.website.isNotEmpty &&
+                  widget.business.website != "",
               child: _buildContactInfo(
                 "Website",
                 "Find out more about us.",
                 Icons.vpn_lock,
                 const Color(0xffd67d8a),
                 () {
-                  _launchWebsite(widget.website!);
+                  _launchWebsite(widget.business.website);
                 },
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: Divider(
-            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-            //   ),
-            // ),
-            // _buildContactInfo(
-            //   "Rate Us",
-            //   "Let us know how we are doing.",
-            //   Icons.star_rate_rounded,
-            //   const Color(0xffd69d7d),
-            //   () {
-            //     print("Opeining rating dialog");
-            //     // _launchWebsite(widget.website);
-            //   },
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Divider(
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              ),
+            ),
+            _buildContactInfo(
+              "Rate Us",
+              "Let us know how we are doing.",
+              Icons.star_rate_rounded,
+              const Color(0xffe9e8a1),
+              () {
+                businessReviewRatingWindow(true, widget.width);
+              },
+            ),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
             //   child: Divider(
@@ -441,6 +499,54 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             // ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> businessReviewRatingWindow(
+      bool previouslyRated, double width) async {
+    showDialog(
+      context: context,
+      builder: (context) => FutureBuilder(
+        future: getUserReview(),
+        builder: (context, asyncSnapshot) {
+          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+            return const Mihloadingcircle(
+              message: "Checking for previous reviews...",
+            );
+          } else if (asyncSnapshot.connectionState == ConnectionState.done) {
+            return MihReviewBusinessWindow(
+              business: widget.business,
+              businessReview: asyncSnapshot.data,
+              screenWidth: width,
+              readOnly: false,
+              startUpSearch: widget.startUpSearch,
+            );
+          } else {
+            return MihPackageAlert(
+              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertIcon: Icon(
+                Icons.warning_rounded,
+                size: 100,
+                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              ),
+              alertTitle: "Error Pulling Data",
+              alertBody: Column(
+                children: [
+                  Text(
+                    "Please ensure you are connectede top the internet and you are running the latest version of MIH then try again.",
+                    style: TextStyle(
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }

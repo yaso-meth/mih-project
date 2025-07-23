@@ -394,48 +394,51 @@ class _MihSignInState extends State<MihSignIn> {
 
                     //spacer
                     const SizedBox(height: 35),
-                    Center(
-                      child: SizedBox(
-                        width: width,
-                        //height: 100.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Flexible(
-                              flex: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 10.0),
-                                child: Divider(),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: GestureDetector(
-                                child: Text(
-                                  'Use Sandox Profile',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: MzansiInnovationHub.of(context)!
-                                          .theme
-                                          .secondaryColor()),
+                    Visibility(
+                      visible: AppEnviroment.getEnv() == "Dev",
+                      child: Center(
+                        child: SizedBox(
+                          width: width,
+                          //height: 100.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 10.0),
+                                  child: Divider(),
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    showProfiles = !showProfiles;
-                                  });
-                                },
                               ),
-                            ),
-                            const Flexible(
-                              flex: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Divider(),
+                              Flexible(
+                                flex: 1,
+                                child: GestureDetector(
+                                  child: Text(
+                                    'Use Sandox Profile',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .secondaryColor()),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      showProfiles = !showProfiles;
+                                    });
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                              const Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Divider(),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

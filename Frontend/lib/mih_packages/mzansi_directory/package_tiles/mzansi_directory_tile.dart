@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 
@@ -21,7 +22,10 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
       onTap: () {
         Navigator.of(context).pushNamed(
           '/mzansi-directory',
-          // arguments: WalletArguments(widget.signedInUser, 0),
+          arguments: MzansiDirectoryArguments(
+            null, // startUpSearch
+            true, // personalSearch
+          ),
         );
       },
       appName: "Mzansi Directory",

@@ -1,3 +1,4 @@
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -34,6 +35,14 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
               fontWeight: FontWeight.bold,
               color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
+          ),
+          const SizedBox(height: 10),
+          RatingBar(
+            filledIcon: Icons.star,
+            emptyIcon: Icons.star_border,
+            onRatingChanged: (value) => debugPrint('$value'),
+            initialRating: 3,
+            maxRating: 5,
           ),
           const SizedBox(height: 10),
           Container(

@@ -9,7 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
+// import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -291,14 +291,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       }
                     }),
                 const SizedBox(height: 10),
-                MihBusinessCard(
-                  businessName: "Mzansi Innovation Hub",
-                  cellNumber: "0788300006",
-                  email: "yasien.meth@mzansi-innovation-hub.co.za",
-                  gpsLocation: "-26.1853611, 28.134664",
-                  website:
-                      "https://app.mzansi-innovation-hub.co.za/privacy.html",
-                ),
+                // MihBusinessCard(
+                //   businessid: "123456",
+                //   businessName: "Mzansi Innovation Hub",
+                //   cellNumber: "0788300006",
+                //   email: "yasien.meth@mzansi-innovation-hub.co.za",
+                //   gpsLocation: "-26.1853611, 28.134664",
+                //   website:
+                //       "https://app.mzansi-innovation-hub.co.za/privacy.html",
+                //   rating: 3.25,
+                // ),
                 const SizedBox(height: 10),
                 Divider(
                   color:
