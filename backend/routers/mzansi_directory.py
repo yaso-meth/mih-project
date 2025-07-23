@@ -17,18 +17,25 @@ class BusinessRatingInsertRequest(BaseModel):
     business_id: str
     rating_title: str
     rating_description: str
-    rating_score: int
+    rating_score: str
+    current_rating: str
 
 class BusinessRatingDeleteRequest(BaseModel):
     idbusiness_ratings: int
+    business_id: str
+    rating_score: str
+    current_rating: str
 
 class BusinessRatingUpdateRequest(BaseModel):
     idbusiness_ratings: int
+    business_id: str
     rating_title: str
     rating_description: str
-    rating_score: str
+    rating_new_score: str
+    rating_old_score: str
+    current_rating: str
 
-@router.get("/mzasni-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
+@router.get("/mzansi-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(app_id: str,business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAllConnect()
     cursor = db.cursor()
@@ -78,7 +85,7 @@ async def read_all_ratings_by_business_id(app_id: str,business_id: str, session:
     # db.close()
     # return items[0]
 
-@router.get("/mzasni-directory/business-ratings/all/{business_id}", tags=["Mzansi Directory"])
+@router.get("/mzansi-directory/business-ratings/all/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     db = database.dbConnection.dbAllConnect()
     cursor = db.cursor()
@@ -109,69 +116,121 @@ async def read_all_ratings_by_business_id(business_id: str, session: SessionCont
     db.close()
     return items
 
-@router.post("/mzasni-directory/business-rating/insert/", tags=["Mzansi Directory"], status_code=201)
+@router.post("/mzansi-directory/business-rating/insert/", tags=["Mzansi Directory"], status_code=201)
 async def insert_loyalty_card(itemRequest : BusinessRatingInsertRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiDirectoryConnect()
+    db = database.dbConnection.dbAllConnect()
     nowDateTime = datetime.now()
     formatedDateTime = nowDateTime.strftime("%Y-%m-%d %H:%M:%S")
     cursor = db.cursor()
-    query = "insert into business_ratings "
-    query += "(app_id, business_id, rating_title, rating_description, rating_score, date_time) "
-    query += "values (%s, %s, %s, %s, %s, %s)"
-    notetData = (itemRequest.app_id, 
-                   itemRequest.business_id,
-                   itemRequest.rating_title,
-                     itemRequest.rating_description,
-                     itemRequest.rating_score,
-                     formatedDateTime,
-                   )
     try:
-       cursor.execute(query, notetData) 
+        # Get No Of reviews for business
+        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
+        countData = (itemRequest.business_id,)
+        cursor.execute(businessReviewCountQuery, countData) 
+        countResult = cursor.fetchone()
+        row_count = countResult[0] if countResult else 0
+        print(f"Number of rows in business_ratings: {row_count}")
+        # add business rating
+        addQuery = "insert into mzansi_directory.business_ratings "
+        addQuery += "(business_ratings.app_id, business_ratings.business_id, business_ratings.rating_title, business_ratings.rating_description, business_ratings.rating_score, business_ratings.date_time) "
+        addQuery += "values (%s, %s, %s, %s, %s, %s)"
+        addQueryData = (itemRequest.app_id, 
+                        itemRequest.business_id,
+                        itemRequest.rating_title,
+                        itemRequest.rating_description,
+                        itemRequest.rating_score,
+                        formatedDateTime,
+                        )
+        cursor.execute(addQuery, addQueryData) 
+        # Calc New Rating and update business rating 
+        newRating = ((float(itemRequest.current_rating) * row_count) + float(itemRequest.rating_score)) / (row_count + 1)
+        print(f"New Rating: {newRating}")
+        updateBusinessQuery = "update app_data.business "
+        updateBusinessQuery += "set rating = %s "
+        updateBusinessQuery += "where business_id = %s"
+        updateBusinessData = (newRating, itemRequest.business_id)
+        cursor.execute(updateBusinessQuery, updateBusinessData)
+        db.commit()
     except Exception as error:
         print(error)
         raise HTTPException(status_code=404, detail="Failed to Create Record")
         # return {"message": error}
-    db.commit()
     cursor.close()
     db.close()
     return {"message": "Successfully Created Record"}
 
-@router.delete("/mzasni-directory/business-ratng/delete/", tags=["Mzansi Directory"])
+@router.delete("/mzansi-directory/business-rating/delete/", tags=["Mzansi Directory"])
 async def Delete_loyalty_card(itemRequest : BusinessRatingDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbMzansiDirectoryConnect()
+    db = database.dbConnection.dbAllConnect()
     cursor = db.cursor()
-    query = "delete from business_ratings "
-    query += "where idbusiness_ratings=%s"
     try:
-       cursor.execute(query, (str(itemRequest.idbusiness_ratings),)) 
+        # Get No Of reviews for business
+        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
+        countData = (itemRequest.business_id,)
+        cursor.execute(businessReviewCountQuery, countData) 
+        countResult = cursor.fetchone()
+        row_count = countResult[0] if countResult else 0
+        print(f"Number of rows in business_ratings: {row_count}")
+        # Delete business rating
+        query = "delete from mzansi_directory.business_ratings "
+        query += "where business_ratings.idbusiness_ratings=%s"
+        cursor.execute(query, (str(itemRequest.idbusiness_ratings),)) 
+        # Calc New Rating and update business rating 
+        if(row_count <= 1):
+            newRating = 0.0
+        else:
+            newRating = ((float(itemRequest.current_rating) * row_count) - float(itemRequest.rating_score)) / (row_count - 1)
+        print(f"New Rating: {newRating}")
+        updateBusinessQuery = "update app_data.business "
+        updateBusinessQuery += "set rating = %s "
+        updateBusinessQuery += "where business_id = %s"
+        updateBusinessData = (newRating, itemRequest.business_id)
+        cursor.execute(updateBusinessQuery, updateBusinessData)
+        db.commit()
     except Exception as error:
         print(error)
         raise HTTPException(status_code=404, detail="Failed to Delete Record")
-    db.commit()
     cursor.close()
     db.close()
     return {"message": "Successfully deleted Record"}
 
-@router.put("/mzasni-directory/business-rating/update/", tags=["Mzansi Directory"])
+@router.put("/mzansi-directory/business-rating/update/", tags=["Mzansi Directory"])
 async def UpdatePatient(itemRequest : BusinessRatingUpdateRequest, session: SessionContainer = Depends(verify_session())):
     db = database.dbConnection.dbMzansiDirectoryConnect()
     cursor = db.cursor()
     nowDateTime = datetime.now()
     formatedDateTime = nowDateTime.strftime("%Y-%m-%d %H:%M:%S")
-    query = "update business_ratings "
-    query += "set rating_title=%s, rating_description=%s, rating_score=%s, date_time=%s "
-    query += "where idbusiness_ratings=%s"
-    notetData = (itemRequest.rating_title, 
+    try:
+        # Get No Of reviews for business
+        businessReviewCountQuery = "select count(*) from mzansi_directory.business_ratings where business_ratings.business_id = %s"
+        countData = (itemRequest.business_id,)
+        cursor.execute(businessReviewCountQuery, countData) 
+        countResult = cursor.fetchone()
+        row_count = countResult[0] if countResult else 0
+        print(f"Number of rows in business_ratings: {row_count}")
+        # Update business rating
+        query = "update business_ratings "
+        query += "set rating_title=%s, rating_description=%s, rating_score=%s, date_time=%s "
+        query += "where idbusiness_ratings=%s"
+        notetData = (itemRequest.rating_title, 
                     itemRequest.rating_description,
-                    itemRequest.rating_score,
+                    itemRequest.rating_new_score,
                     formatedDateTime,
                     itemRequest.idbusiness_ratings,
-                )
-    try:
-       cursor.execute(query, notetData) 
+                    )
+        cursor.execute(query, notetData) 
+        # Calc New Rating and update business rating
+        # add new rating and old rating params
+        newRating = ((float(itemRequest.current_rating) * row_count) - float(itemRequest.rating_old_score) + float(itemRequest.rating_new_score)) / (row_count)
+        print(f"New Rating: {newRating}")
+        updateBusinessQuery = "update app_data.business "
+        updateBusinessQuery += "set rating = %s "
+        updateBusinessQuery += "where business_id = %s"
+        updateBusinessData = (newRating, itemRequest.business_id)
+        cursor.execute(updateBusinessQuery, updateBusinessData)
+        db.commit()
     except Exception as error:
         raise HTTPException(status_code=404, detail="Failed to Update Record")
-    db.commit()
     cursor.close()
     db.close()
     return {"message": "Successfully Updated Record"}
