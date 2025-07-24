@@ -1,8 +1,10 @@
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -160,6 +162,24 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+            RatingBar.readOnly(
+              size: 50,
+              alignment: Alignment.center,
+              filledIcon: Icons.star,
+              emptyIcon: Icons.star_border,
+              halfFilledIcon: Icons.star_half,
+              filledColor: MihColors.getYellowColor(context),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              emptyColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              halfFilledColor: MihColors.getYellowColor(context),
+              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              isHalfAllowed: true,
+              initialRating: widget.business.rating.isNotEmpty
+                  ? double.parse(widget.business.rating)
+                  : 0,
+              maxRating: 5,
+            ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: 700,
