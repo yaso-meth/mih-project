@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -358,15 +359,17 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                           filledIcon: Icons.star,
                           emptyIcon: Icons.star_border,
                           halfFilledIcon: Icons.star_half,
-                          filledColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          filledColor: MihColors.getYellowColor(context),
+                          // filledColor: MzansiInnovationHub.of(context)!
+                          //     .theme
+                          //     .secondaryColor(),
                           emptyColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          halfFilledColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          halfFilledColor: MihColors.getYellowColor(context),
+                          // MzansiInnovationHub.of(context)!
+                          //     .theme
+                          //     .secondaryColor(),
                           isHalfAllowed: true,
                           initialRating: widget.businessReview != null
                               ? double.parse(_reviewScoreController.text)
@@ -379,16 +382,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                           filledIcon: Icons.star,
                           emptyIcon: Icons.star_border,
                           halfFilledIcon: Icons.star_half,
-                          filledColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          filledColor: MihColors.getYellowColor(context),
                           emptyColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          halfFilledColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          isHalfAllowed: true,
+                          halfFilledColor: MihColors.getYellowColor(context),                          isHalfAllowed: true,
                           initialRating: widget.businessReview != null
                               ? double.parse(_reviewScoreController.text)
                               : 1,
