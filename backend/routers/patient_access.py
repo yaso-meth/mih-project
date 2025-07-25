@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 from datetime import date, datetime, timedelta
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -29,7 +29,7 @@ class accessRequestReapplyRequest(BaseModel):
 
 @router.get("/access-requests/{access_type}/check/{business_id}", tags=["Patient Access"])
 async def check_business_id_has_access(access_type: str,business_id: str, app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "select "
     query += "patient_business_access.business_id, business.Name, "
@@ -73,7 +73,7 @@ async def check_business_id_has_access(access_type: str,business_id: str, app_id
 
 @router.get("/access-requests/business/{access_type}/{business_id}", tags=["Patient Access"])
 async def read_all_patient_access_by_business_id(access_type: str,business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "select "
     query += "patient_business_access.business_id, business.Name, "
@@ -115,7 +115,7 @@ async def read_all_patient_access_by_business_id(access_type: str,business_id: s
 
 @router.get("/access-requests/personal/{access_type}/{app_id}", tags=["Patient Access"])
 async def read_all_patient_access_by_app_id(access_type: str,app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "select "
     query += "patient_business_access.business_id, business.Name, "
@@ -158,7 +158,7 @@ async def read_all_patient_access_by_app_id(access_type: str,app_id: str, sessio
 # Insert Patient into table
 @router.post("/access-requests/insert/", tags=["Patient Access"], status_code=201)
 async def insert_Patient_access(itemRequest : accessRequestInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbDataAccessConnect()
+    db = mih_database.dbConnection.dbDataAccessConnect()
     now = datetime.now() + timedelta(hours=2)
     notificationDateTime = now.strftime("%Y-%m-%d %H:%M:%S")
     print(notificationDateTime)
@@ -190,7 +190,7 @@ async def insert_Patient_access(itemRequest : accessRequestInsertRequest, sessio
 # Update Patient on table
 @router.put("/access-requests/update/permission/", tags=["Patient Access"])
 async def Update_Patient_access(itemRequest: accessRequestUpdateRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbDataAccessConnect()
+    db = mih_database.dbConnection.dbDataAccessConnect()
     now = datetime.now() + timedelta(hours=2)
     notificationDateTime = now.strftime("%Y-%m-%d %H:%M:%S")
     print(notificationDateTime)
@@ -218,7 +218,7 @@ async def Update_Patient_access(itemRequest: accessRequestUpdateRequest): #, ses
 # Reapply Patient on table
 @router.put("/access-requests/re-apply/", tags=["Patient Access"])
 async def Reapply_Patient_access(itemRequest: accessRequestReapplyRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbDataAccessConnect()
+    db = mih_database.dbConnection.dbDataAccessConnect()
     now = datetime.now() + timedelta(hours=2)
     notificationDateTime = now.strftime("%Y-%m-%d %H:%M:%S")
     print(notificationDateTime)

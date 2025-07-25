@@ -1,8 +1,8 @@
 import mysql.connector
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 from datetime import date
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
@@ -32,7 +32,7 @@ class accessExtensionRequest(BaseModel):
 
 @router.get("/access-requests/{app_id}", tags=["Access Requests"])
 async def read_all_access_request_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "SELECT patient_queue.idpatient_queue, patient_queue.business_id, "
     query += "patient_queue.app_id, patient_queue.date_time, patient_queue.access, patient_queue.revoke_date, "
@@ -63,7 +63,7 @@ async def read_all_access_request_by_app_id(app_id: str, session: SessionContain
 
 @router.put("/access-requests/update/", tags=["Access Requests"])
 async def Update_access_request_approcal(itemRequest : accessUpdateRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "update patient_queue "
     query += "set access=%s"
@@ -86,7 +86,7 @@ async def Update_access_request_approcal(itemRequest : accessUpdateRequest): #, 
 
 @router.put("/access-requests/extension/", tags=["Access Requests"])
 async def Update_access_request_approcal(itemRequest : accessExtensionRequest): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbPatientManagerConnect()
+    db = mih_database.dbConnection.dbPatientManagerConnect()
     cursor = db.cursor()
     query = "update patient_queue "
     query += "set access=%s, revoke_date=%s"
@@ -111,7 +111,7 @@ async def Update_access_request_approcal(itemRequest : accessExtensionRequest): 
 # # Get List of all files
 # @router.get("/files/patients/", tags="patients_files")
 # async def read_all_files(session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbPatientManagerConnect()
+#     db = mih_database.dbConnection.dbPatientManagerConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM patient_files"
 #     cursor.execute(query)

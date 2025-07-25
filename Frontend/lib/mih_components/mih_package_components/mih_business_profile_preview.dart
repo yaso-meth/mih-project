@@ -79,6 +79,8 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                 return Icon(
                   MihIcons.mihRing,
                   size: profilePictureWidth,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 );
               }
             }),

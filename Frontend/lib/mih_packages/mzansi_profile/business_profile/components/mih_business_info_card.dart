@@ -1,10 +1,11 @@
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -363,41 +364,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            RatingBar.readOnly(
-              size: 50,
-              alignment: Alignment.center,
-              filledIcon: Icons.star,
-              emptyIcon: Icons.star_border,
-              halfFilledIcon: Icons.star_half,
-              filledColor: const Color(0xffe9e8a1),
-              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              emptyColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              halfFilledColor: const Color(0xffe9e8a1),
-              // MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              isHalfAllowed: true,
-              initialRating: widget.business.rating.isNotEmpty
-                  ? double.parse(widget.business.rating)
-                  : 0,
-              maxRating: 5,
-            ),
-            // Text(
-            //   "Rating: ${widget.rating}",
-            //   style: TextStyle(
-            //     fontSize: 15,
-            //     fontWeight: FontWeight.bold,
-            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-            //     height: 1.0,
-            //   ),
-            // ),
-            // Divider(
-            //   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-            // ),
-            const SizedBox(height: 10),
             _buildContactInfo(
               "Call",
               "Give us a quick call.",
               Icons.phone,
-              const Color(0xffaff0b3),
+              MihColors.getGreenColor(context),
               () {
                 // print("Calling ${widget.cellNumber}");
                 _makePhoneCall(widget.business.contact_no);
@@ -410,7 +381,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Email",
               "Send us an email.",
               Icons.email,
-              const Color(0xffdaa2e9),
+              MihColors.getPinkColor(context),
               () {
                 // print("Emailing ${widget.email}");
                 _launchEmail(
@@ -427,7 +398,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Location",
               "Come visit us.",
               Icons.location_on,
-              const Color(0xffd69d7d),
+              MihColors.getOrangeColor(context),
               () {
                 final latitude =
                     double.parse(widget.business.gps_location.split(',')[0]);
@@ -453,7 +424,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 "Website",
                 "Find out more about us.",
                 Icons.vpn_lock,
-                const Color(0xffd67d8a),
+                MihColors.getRedColor(context),
                 () {
                   _launchWebsite(widget.business.website);
                 },
@@ -469,7 +440,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Rate Us",
               "Let us know how we are doing.",
               Icons.star_rate_rounded,
-              const Color(0xffe9e8a1),
+              MihColors.getYellowColor(context),
               () {
                 businessReviewRatingWindow(true, widget.width);
               },
@@ -484,10 +455,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             //   "Bookmark",
             //   "Save us for later.",
             //   Icons.bookmark_add_rounded,
-            //   const Color(0xff6e7dcc),
+            // MihColors.getBluishPurpleColor(context),
             //   () {
             //     // _launchWebsite(widget.website);
-            //     print("Saving ${widget.businessName} to Directory");
+            //     print("Saving ${widget.business.Name} to Directory");
+            //     showBookmarkAlert();
             //   },
             // ),
             const SizedBox(height: 10),
@@ -547,6 +519,71 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             );
           }
         },
+      ),
+    );
+  }
+
+  void showBookmarkAlert() {
+    showDialog(
+      context: context,
+      builder: (context) => MihPackageAlert(
+        alertColour: MihColors.getSecondaryColor(context),
+        alertIcon: Icon(
+          Icons.warning_rounded,
+          size: 100,
+          color: MihColors.getSecondaryColor(context),
+        ),
+        alertTitle: "Bookmark Business",
+        alertBody: Column(
+          children: [
+            Text(
+              "Are you sure you want to save ${widget.business.Name} to your Mzansi Directory?",
+              style: TextStyle(
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 25),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                MihButton(
+                  width: 300,
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
+                  buttonColor:
+                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color:
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                MihButton(
+                  width: 300,
+                  onPressed: () {},
+                  buttonColor:
+                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  child: Text(
+                    "Save Business",
+                    style: TextStyle(
+                      color:
+                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

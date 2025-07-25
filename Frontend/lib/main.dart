@@ -25,9 +25,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
 
   String getTitle() {
     if (AppEnviroment.getEnv() == "Dev") {
-      return "Mzansi Innovation Hub - Dev";
+      return "Dev | MIH App: Mzansi Innovation Hub";
     } else {
-      return "Mzansi Innovation Hub";
+      return "MIH App: Mzansi Innovation Hub";
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
@@ -155,8 +156,21 @@ class _MihRegisterState extends State<MihRegister> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(error),
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.warning_amber_rounded,
+            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            size: 100,
+          ),
+          alertTitle: "Error While Signing Up",
+          alertBody: Text(
+            "An error occurred while signing up. Please try again later.",
+            style: TextStyle(
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              fontSize: 18,
+            ),
+          ),
+          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
         );
       },
     );

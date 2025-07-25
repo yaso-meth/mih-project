@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 
@@ -94,12 +95,12 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                       filledIcon: Icons.star,
                       emptyIcon: Icons.star_border,
                       halfFilledIcon: Icons.star_half,
-                      filledColor: const Color(0xffe9e8a1),
+                      filledColor: MihColors.getYellowColor(context),
                       // MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       emptyColor: MzansiInnovationHub.of(context)!
                           .theme
                           .secondaryColor(),
-                      halfFilledColor: const Color(0xffe9e8a1),
+                      halfFilledColor: MihColors.getYellowColor(context),
                       // MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       // filledColor:
                       //     MzansiInnovationHub.of(context)!.theme.secondaryColor(),

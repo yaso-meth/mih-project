@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description"
-    content="Digitizing Mzansi one process at a time. Discover essential Mzansi apps to streamline your personal and professional life. Simplify your daily tasks with our user-friendly solutions.">
+    content="MIH, the first Mzansi super app by Mzansi Innovation Hub. Streamline your life with Mzansi Profile, Wallet, Patient Manager, AI, Directory, Calendar, Calculator, & secure MIH Access. Unify social, business & personal tools.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,7 +20,7 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico">
 
-  <title>Mzansi Innovation Hub</title>
+  <title>MIH App: Mzansi Innovation Hub - All-in-One Super App for Business & Personal Life</title>
   <link rel="manifest" href="manifest.json">
 
   <!-- test stuff for speed -->
@@ -138,9 +138,78 @@
       document.body.style.background = "transparent";
     }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MIH App",
+    "alternateName": "Mzansi Innovation Hub App",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": ["Android", "iOS", "Web"],
+    "description": "MIH, the first super app of Mzansi, streamlines personal and business life with features like Mzansi Profile, Wallet, Patient Manager, AI, Directory, Calendar, Calculator, and MIH Access.",
+    "softwareRequirements": "Internet connection",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "ZAR"
+    },
+    "url": "https://app.mzansi-innovation-hub.co.za/",
+    "sameAs": [
+      "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih&hl=en_ZA",
+      "https://apps.apple.com/za/app/mih-app-mzansi-innovation-hub/id6743310890"
+    ],
+    "featureList": [
+      "Mzansi Profile (Personal & Business)",
+      "Mzansi Wallet (Loyalty Cards)",
+      "Patient Manager (Appointment Scheduling)",
+      "Mzansi AI (Chat Assistant)",
+      "Mzansi Directory (People & Businesses)",
+      "Integrated Calendar",
+      "Calculator (Tips & Forex)",
+      "MIH Access (Profile Security Management)"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "Mzansi Innovation Hub"
+    }
+  }
+  </script>
 </head>
 
 <body>
+  <div id="seo-content" style="display:none;">
+      <h1>Mzansi Innovation Hub (MIH) - Your All-in-One Super App for South Africa</h1>
+      <p>Tired of juggling multiple apps? Mzansi Innovation Hub (MIH) presents the first super app designed specifically for the people and businesses of Mzansi. MIH is your unified online information technology system to streamline both your personal and professional life, bridging the socio-economic divide during the digital revolution.</p>
+
+      <h2>Key Features of the MIH Super App:</h2>
+      <ul>
+          <li><strong>Mzansi Profile:</strong> Effortlessly manage your professional profile, personal information, and valuable business team details. Amplify your online presence.</li>
+          <li><strong>Mzansi Wallet:</strong> Go digital! Securely store all your loyalty cards in one convenient place, reducing clutter.</li>
+          <li><strong>Patient Manager:</strong> Revolutionize medical practices with seamless patient appointment scheduling and efficient data management.</li>
+          <li><strong>Mzansi AI:</strong> Get instant support and quick answers with our friendly AI assistant, available 24/7.</li>
+          <li><li><strong>Mzansi Directory:</strong> Discover and connect with people and businesses across Mzansi.</li>
+          <li><strong>Calendar:</strong> Stay perfectly organized with an integrated calendar for all your personal and business appointments.</li>
+          <li><strong>Calculator:</strong> Perform quick calculations, including tips and forex, right within the app.</li>
+          <li><strong>MIH Access:</strong> Take control of your security. Easily manage and view who has access to your profile and data.</li>
+          </ul>
+
+      <p>MIH simplifies daily tasks, reduces costs, and helps you manage your professional profile, team, and appointments all from a single, user-friendly platform. It's the essential mobile app for business owners and individuals looking to streamline their online presence in South Africa.</p>
+
+      <h3>Download the MIH Super App Today!</h3>
+      <p>Available for Android and iOS. Search "Mzansi Innovation Hub" or "MIH App" on your app store.</p>
+  </div>
+
+  <script>
+      // Hide the SEO content once the Flutter app starts to load
+      window.addEventListener('load', function() {
+          const seoContent = document.getElementById('seo-content');
+          if (seoContent) {
+              seoContent.style.display = 'none'; // Or 'hidden'
+          }
+      });
+      // You might need to adjust this script to ensure it hides *after* the Flutter app's visual elements are fully rendered.
+      // A more robust solution might involve listening for a Flutter-specific event when the app is ready.
+  </script>
   <picture id="splash-branding">
     <source
       srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x"
@@ -148,7 +217,7 @@
     <source
       srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x"
       media="(prefers-color-scheme: dark)">
-    <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="">
+    <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="Mzansi Innovation Hub Branding Logo">
   </picture>
   <picture id="splash">
     <source
@@ -157,7 +226,7 @@
     <source
       srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x"
       media="(prefers-color-scheme: dark)">
-    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="MIH App Splash Screen Logo">
   </picture>
 
 

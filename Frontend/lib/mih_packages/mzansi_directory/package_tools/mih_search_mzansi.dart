@@ -135,18 +135,16 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           FutureBuilder(
               future: futurePosition,
               builder: (context, asyncSnapshot) {
+                String myLocation = "";
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Mihloadingcircle(
-                    message: "Getting Your GPS Location Ready",
-                  );
+                  myLocation = "Getting Your GPS Location Ready";
                 } else {
-                  final myLocation = asyncSnapshot.data
+                  myLocation = asyncSnapshot.data
                       .toString()
                       .replaceAll("Latitude: ", "")
                       .replaceAll("Longitude: ", "");
-                  print("My Location is : $myLocation");
-                  return displaySearchResults(userSearch, myLocation);
                 }
+                return displaySearchResults(userSearch, myLocation);
               }),
         ],
       ),

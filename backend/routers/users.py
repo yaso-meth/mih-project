@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-#from ..database import dbConnection
-import database
+#from ..mih_database import dbConnection
+import mih_database
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -9,7 +9,7 @@ from supertokens_python.asyncio import delete_user
 
 from fastapi import Depends
 
-import database.dbConnection
+import mih_database.dbConnection
 import Minio_Storage.minioConnection
 
 router = APIRouter()
@@ -46,7 +46,7 @@ class userDeleteRequest(BaseModel):
 # #get user by email & doc Office ID
 # @router.get("/users/profile/{email}", tags="users")
 # async def read_all_users(email: str, session: SessionContainer = Depends(verify_session())):
-#     db = database.dbConnection.dbAppDataConnect()
+#     db = mih_database.dbConnection.dbAppDataConnect()
 #     cursor = db.cursor()
 #     query = "SELECT * FROM users where email = %s"
 #     cursor.execute(query, (email.lower(),)) 
@@ -70,7 +70,7 @@ class userDeleteRequest(BaseModel):
 # Get List of all files
 @router.get("/users/search/{search}", tags=["MIH Users"])
 async def read_all_users(search: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = ""
     query += "SELECT * FROM users "
@@ -101,7 +101,7 @@ async def read_all_users(search: str, session: SessionContainer = Depends(verify
 # Get List of all files
 @router.get("/users/validate/username/{username}", tags=["MIH Users"])
 async def read_all_users(username: str, session: SessionContainer = Depends(verify_session()) ): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users WHERE LOWER(username) = %s"
     # search_term = f"%{username.lower()}%"  # Add wildcards and lowercase
@@ -114,7 +114,7 @@ async def read_all_users(username: str, session: SessionContainer = Depends(veri
 # Get List of all files
 @router.get("/user/{app_id}", tags=["MIH Users"])
 async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "SELECT * FROM users where app_id = %s"
     cursor.execute(query, (app_id,))
@@ -139,7 +139,7 @@ async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(
 # Insert Patient into table
 @router.post("/user/insert/", tags=["MIH Users"], status_code=201)
 async def insert_User_details(itemRequest : userInsertRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "insert into users "
     query += "(email, fname, lname, type, app_id, username, pro_pic_path, purpose) "
@@ -159,7 +159,7 @@ async def insert_User_details(itemRequest : userInsertRequest, session: SessionC
 # Update User on table
 @router.put("/user/update/v2/", tags=["MIH Users"])
 async def Update_User_details(itemRequest : userUpdateRequestV2, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
     query += "set username=%s, fname=%s, lname=%s, type=%s, pro_pic_path=%s, purpose=%s "
@@ -185,7 +185,7 @@ async def Update_User_details(itemRequest : userUpdateRequestV2, session: Sessio
 # Update User on table
 @router.put("/user/update/", tags=["MIH Users"])
 async def Update_User_details(itemRequest : userUpdateRequest, session: SessionContainer = Depends(verify_session())):
-    db = database.dbConnection.dbAppDataConnect()
+    db = mih_database.dbConnection.dbAppDataConnect()
     cursor = db.cursor()
     query = "update users "
     query += "set username=%s, fname=%s, lname=%s, type=%s, pro_pic_path=%s "
@@ -210,7 +210,7 @@ async def Update_User_details(itemRequest : userUpdateRequest, session: SessionC
 # Get List of all files
 @router.delete("/user/delete/all/", tags=["MIH Users"])
 async def delete_users_data_by_app_id(itemRequest:  userDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = database.dbConnection.dbAllConnect()
+    db = mih_database.dbConnection.dbAllConnect()
     cursor = db.cursor()
     db.start_transaction()
     try:
