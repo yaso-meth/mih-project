@@ -456,40 +456,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             //   "Save us for later.",
             //   Icons.bookmark_add_rounded,
             // MihColors.getBluishPurpleColor(context),
-            //   const Color(0xff6e7dcc),
             //   () {
             //     // _launchWebsite(widget.website);
             //     print("Saving ${widget.business.Name} to Directory");
-            //     showDialog(
-            //         context: context,
-            //         builder: (context) {
-            //           return MihPackageAlert(
-            //             alertIcon: Icon(
-            //               Icons.check_circle_rounded,
-            //               size: 100,
-            //               color: MzansiInnovationHub.of(context)!
-            //                   .theme
-            //                   .successColor(),
-            //             ),
-            //             alertTitle: "Saved to Directory",
-            //             alertBody: Column(
-            //               children: [
-            //                 Text(
-            //                   "${widget.business.Name} has been saved to your directory.",
-            //                   style: TextStyle(
-            //                     color: MzansiInnovationHub.of(context)!
-            //                         .theme
-            //                         .secondaryColor(),
-            //                     fontSize: 15,
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //             alertColour: MzansiInnovationHub.of(context)!
-            //                 .theme
-            //                 .successColor(),
-            //           );
-            //         });
+            //     showBookmarkAlert();
             //   },
             // ),
             const SizedBox(height: 10),
@@ -553,15 +523,15 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
-  void showDeleteReviewAlert() {
+  void showBookmarkAlert() {
     showDialog(
       context: context,
       builder: (context) => MihPackageAlert(
-        alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+        alertColour: MihColors.getSecondaryColor(context),
         alertIcon: Icon(
           Icons.warning_rounded,
           size: 100,
-          color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          color: MihColors.getSecondaryColor(context),
         ),
         alertTitle: "Bookmark Business",
         alertBody: Column(
