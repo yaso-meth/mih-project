@@ -209,7 +209,10 @@ async def Delete_loyalty_card(itemRequest : BusinessRatingDeleteRequest, session
         dbSession.delete(rating_to_delete)
         dbSession.flush()  # Ensure the new rating is added to the session
         # Calc New Rating and update business rating 
-        newRating = ((float(itemRequest.current_rating) * businessReviewCount) - float(itemRequest.rating_score)) / (businessReviewCount - 1)
+        if(businessReviewCount <= 1):
+            newRating = "0.0"
+        else:
+            newRating = ((float(itemRequest.current_rating) * businessReviewCount) - float(itemRequest.rating_score)) / (businessReviewCount - 1)
         businessToUpdate = dbSession.query(Business).filter(Business.business_id == itemRequest.business_id).first()
         if businessToUpdate:
             businessToUpdate.rating = str(newRating)
