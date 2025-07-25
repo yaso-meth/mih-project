@@ -646,6 +646,19 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     ),
                   ),
                 ),
+                FittedBox(
+                  child: Text(
+                    widget.arguments.business!.type,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
                 // FittedBox(
                 //   child: Text(
                 //     "Mission & Vision",
