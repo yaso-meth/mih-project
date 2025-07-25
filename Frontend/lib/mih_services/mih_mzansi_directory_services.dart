@@ -33,7 +33,10 @@ class MihMzansiDirectoryServices {
       List<BusinessReview> businessReviews = List<BusinessReview>.from(
           l.map((model) => BusinessReview.fromJson(model)));
       return businessReviews;
-    } else {
+    } else if (response.statusCode == 404){
+      return [];
+    }
+    else {
       throw Exception('failed to fetch Business Reviews');
     }
   }
