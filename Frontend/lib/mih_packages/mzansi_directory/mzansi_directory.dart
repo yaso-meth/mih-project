@@ -3,6 +3,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
 
 class MzansiDirectory extends StatefulWidget {
@@ -18,6 +19,16 @@ class MzansiDirectory extends StatefulWidget {
 
 class _MzansiDirectoryState extends State<MzansiDirectory> {
   int _selcetedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.arguments.packageIndex == null) {
+      _selcetedIndex = 0;
+    } else {
+      _selcetedIndex = widget.arguments.packageIndex!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +53,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
         personalSearch: widget.arguments.personalSearch,
       ),
       // MihContacts(),
-      // MihFavouriteBusinesses(),
+      MihFavouriteBusinesses(),
     ];
     return toolBodies;
   }
@@ -70,11 +81,11 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     //     _selcetedIndex = 1;
     //   });
     // };
-    // temp[const Icon(Icons.business_center)] = () {
-    //   setState(() {
-    //     _selcetedIndex = 2;
-    //   });
-    // };
+    temp[const Icon(Icons.business_center)] = () {
+      setState(() {
+        _selcetedIndex = 1;
+      });
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
