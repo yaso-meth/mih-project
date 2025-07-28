@@ -59,6 +59,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
           } else if (asyncSnapshot.connectionState == ConnectionState.done &&
               asyncSnapshot.hasData) {
             List<BusinessReview> reviews = asyncSnapshot.data!;
+            print("Reviews: ${reviews.length}");
             if (reviews.isEmpty) {
               return Column(
                 children: [
@@ -133,11 +134,16 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          "${reviews[index].rating_description.substring(0, reviews[index].rating_description.length >= descriptionDisplayCOunt ? descriptionDisplayCOunt : reviews[index].rating_description.length - 1)}${reviews[index].rating_description.length >= descriptionDisplayCOunt ? "..." : ""}",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                        Visibility(
+                          visible: reviews[index].rating_description.isNotEmpty,
+                          child: Text(
+                            reviews[index].rating_description.isEmpty
+                                ? ""
+                                : "${reviews[index].rating_description.substring(0, reviews[index].rating_description.length >= descriptionDisplayCOunt ? descriptionDisplayCOunt : reviews[index].rating_description.length - 1)}${reviews[index].rating_description.length >= descriptionDisplayCOunt ? "..." : ""}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                         Text(
