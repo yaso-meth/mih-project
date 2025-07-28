@@ -101,8 +101,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         Navigator.of(context).pushNamed(
                           '/mzansi-directory',
                           arguments: MzansiDirectoryArguments(
-                            widget.startUpSearch, // startUpSearch
-                            false, // personalSearch
+                            startUpSearch: widget.startUpSearch, // startUpSearch
+                            personalSearch: false, // personalSearch
                           ),
                         );
                         MihAlertServices().successAlert(
@@ -191,8 +191,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           Navigator.of(context).pushNamed(
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
-              widget.startUpSearch, // startUpSearch
-              false, // personalSearch
+              startUpSearch:  widget.startUpSearch, // startUpSearch
+              personalSearch:  false, // personalSearch
             ),
           );
           MihAlertServices().successAlert(
@@ -227,8 +227,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           Navigator.of(context).pushNamed(
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
-              widget.startUpSearch, // startUpSearch
-              false, // personalSearch
+              startUpSearch: widget.startUpSearch, // startUpSearch
+              personalSearch: false, // personalSearch
             ),
           );
           MihAlertServices().successAlert(
