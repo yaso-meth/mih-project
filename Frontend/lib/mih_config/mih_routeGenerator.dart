@@ -147,8 +147,12 @@ class RouteGenerator {
             settings: settings,
             builder: (_) => AboutMih(packageIndex: args),
           );
+        } else {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => AboutMih(),
+          );
         }
-        break;
 
       case AppRoutes.mzansiProfile:
         if (args is AppProfileUpdateArguments) {
