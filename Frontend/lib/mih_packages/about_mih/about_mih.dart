@@ -8,10 +8,10 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_t
 import 'package:flutter/material.dart';
 
 class AboutMih extends StatefulWidget {
-  final int packageIndex;
+  final int? packageIndex;
   const AboutMih({
     super.key,
-    required this.packageIndex,
+    this.packageIndex,
   });
 
   @override
@@ -25,7 +25,11 @@ class _AboutMihState extends State<AboutMih> {
   void initState() {
     super.initState();
     setState(() {
-      _selcetedIndex = widget.packageIndex;
+      if(widget.packageIndex == null) {
+        _selcetedIndex = 0;
+      } else {
+        _selcetedIndex = widget.packageIndex!;
+      }
     });
   }
 
