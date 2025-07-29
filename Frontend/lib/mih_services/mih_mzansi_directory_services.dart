@@ -162,7 +162,7 @@ class MihMzansiDirectoryServices {
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<BookmarkedBusiness> businessReviews = List<BookmarkedBusiness>.from(
-          l.map((model) => BusinessReview.fromJson(model)));
+          l.map((model) => BookmarkedBusiness.fromJson(model)));
       return businessReviews;
     } else if (response.statusCode == 404) {
       return [];
