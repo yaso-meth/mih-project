@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
@@ -50,8 +52,33 @@ class _BuildFavouriteBusinessesListState
               );
             } else if (snapshot.hasData && snapshot.data != null) {
               Business business = snapshot.data!;
-              return MihBusinessProfilePreview(
-                  business: business, myLocation: widget.myLocation);
+              return Material(
+                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      '/business-profile/view',
+                      arguments: BusinessViewArguments(
+                        business,
+                        business.Name,
+                      ),
+                    );
+                  },
+                  splashColor: MzansiInnovationHub.of(context)!
+                      .theme
+                      .secondaryColor()
+                      .withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(15),
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                      // vertical: 5,
+                      horizontal: 25,
+                    ),
+                    child: MihBusinessProfilePreview(
+                        business: business, myLocation: widget.myLocation),
+                  ),
+                ),
+              );
             } else {
               return const Center(child: Text('No business found'));
             }
