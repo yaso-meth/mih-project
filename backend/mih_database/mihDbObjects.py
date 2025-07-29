@@ -64,10 +64,21 @@ class BusinessRating(Base):
     rating_description = Column(String(256), nullable=False, server_default="")
     rating_score = Column(String(45), nullable=False, server_default="")
     date_time = Column(DateTime, nullable=True)
-
     def __repr__(self):
         return (
             f"<BusinessRating(idbusiness_ratings={self.idbusiness_ratings}, app_id='{self.app_id}', "
             f"business_id='{self.business_id}', rating_title='{self.rating_title}', rating_description='{self.rating_description}', "
             f"rating_score='{self.rating_score}', date_time='{self.date_time}')>"
+        )
+class BookmarkedBusiness(Base):
+    __tablename__ = 'bookmarked_businesses'
+    __table_args__ = {'schema': 'mzansi_directory'}
+    idbookmarked_businesses = Column(Integer, primary_key=True)
+    app_id = Column(String(128), nullable=False, server_default="")
+    business_id = Column(String(128), nullable=False, server_default="")
+    created_date = Column(DateTime, nullable=True)
+    def __repr__(self):
+        return (
+            f"<BusinessRating(idbookmarked_businesses={self.idbookmarked_businesses}, app_id='{self.app_id}', "
+            f"business_id='{self.business_id}', created_date='{self.created_date}')>"
         )
