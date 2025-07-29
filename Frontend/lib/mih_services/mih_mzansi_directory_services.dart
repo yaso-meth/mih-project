@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMzansiDirectoryServices {
   final baseAPI = AppEnviroment.baseApiUrl;
+
+//########################################################
+//#                  Business Ratings                    #
+//########################################################
 
   Future<BusinessReview?> getUserReviewOfBusiness(
     String app_id,
@@ -33,10 +38,9 @@ class MihMzansiDirectoryServices {
       List<BusinessReview> businessReviews = List<BusinessReview>.from(
           l.map((model) => BusinessReview.fromJson(model)));
       return businessReviews;
-    } else if (response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       return [];
-    }
-    else {
+    } else {
       throw Exception('failed to fetch Business Reviews');
     }
   }
@@ -120,6 +124,86 @@ class MihMzansiDirectoryServices {
         "rating_new_score": rating_new_score,
         "rating_old_score": rating_old_score,
         "current_rating": current_rating,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
+
+//########################################################
+//#                  Bookmarked Business                 #
+//########################################################
+
+  Future<BookmarkedBusiness?> getUserBookmarkOfBusiness(
+    String app_id,
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/$app_id/$business_id"));
+    // print(response.statusCode);
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      BookmarkedBusiness? BookmarkedBus = BookmarkedBusiness.fromJson(jsonBody);
+      return BookmarkedBus;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<BookmarkedBusiness>> getAllUserBookmarkedBusiness(
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/mzansi-directory/business-ratings/all/$app_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<BookmarkedBusiness> businessReviews = List<BookmarkedBusiness>.from(
+          l.map((model) => BusinessReview.fromJson(model)));
+      return businessReviews;
+    } else if (response.statusCode == 404) {
+      return [];
+    } else {
+      throw Exception('failed to fetch User Bookmarked Business');
+    }
+  }
+
+  Future<int> addBookmarkedBusiness(
+    String app_id,
+    String business_id,
+  ) async {
+    var response = await http.post(
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "app_id": app_id,
+        "business_id": business_id,
+      }),
+    );
+    if (response.statusCode == 201) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
+
+  Future<int> deleteBookmarkedBusiness(
+    int idbookmarked_businesses,
+  ) async {
+    var response = await http.delete(
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/delete/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idbookmarked_businesses": idbookmarked_businesses,
       }),
     );
     if (response.statusCode == 200) {
