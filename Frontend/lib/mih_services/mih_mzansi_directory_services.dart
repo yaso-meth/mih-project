@@ -158,7 +158,7 @@ class MihMzansiDirectoryServices {
     String app_id,
   ) async {
     final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/mzansi-directory/business-ratings/all/$app_id"));
+        "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/user/all/$app_id"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<BookmarkedBusiness> businessReviews = List<BookmarkedBusiness>.from(
