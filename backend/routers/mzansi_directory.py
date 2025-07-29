@@ -352,7 +352,7 @@ async def read_all_ratings_by_business_id(app_id: str,business_id: str, session:
     finally:
         dbSession.close()
 
-@router.get("/mzansi-directory/bookmarked-business/all/{app_id}/", tags=["Mzansi Directory"])
+@router.get("/mzansi-directory/bookmarked-business/user/all/{app_id}/", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     dbEngine = mih_database.mihDbConnections.dbAllConnect()
     dbSession = Session(dbEngine)
