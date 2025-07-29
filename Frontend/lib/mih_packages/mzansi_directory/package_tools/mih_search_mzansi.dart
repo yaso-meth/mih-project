@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
@@ -11,16 +10,17 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loa
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class MihSearchMzansi extends StatefulWidget {
   final String? startUpSearch;
   final bool personalSearch;
+  final String? myLocation;
   const MihSearchMzansi({
     super.key,
     required this.startUpSearch,
     required this.personalSearch,
+    required this.myLocation,
   });
 
   @override
@@ -33,8 +33,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   late bool userSearch;
   Future<List<AppUser>?> futureUserSearchResults = Future.value();
   Future<List<Business>?> futureBusinessSearchResults = Future.value();
-  late Future<Position?> futurePosition =
-      MIHLocationAPI().getGPSPosition(context);
   List<AppUser> userSearchResults = [];
   List<Business> businessSearchResults = [];
 
@@ -132,20 +130,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             ),
           ),
           const SizedBox(height: 10),
-          FutureBuilder(
-              future: futurePosition,
-              builder: (context, asyncSnapshot) {
-                String myLocation = "";
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  myLocation = "Getting Your GPS Location Ready";
-                } else {
-                  myLocation = asyncSnapshot.data
-                      .toString()
-                      .replaceAll("Latitude: ", "")
-                      .replaceAll("Longitude: ", "");
-                }
-                return displaySearchResults(userSearch, myLocation);
-              }),
+          displaySearchResults(userSearch, widget.myLocation ?? ""),
         ],
       ),
     );
