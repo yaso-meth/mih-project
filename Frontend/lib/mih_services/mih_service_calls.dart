@@ -78,7 +78,8 @@ class MIHApiCalls {
     }
 
     // Get Businessdata
-    Business? business = await MihBusinessDetailsServices().getBusinessDetails(
+    Business? business =
+        await MihBusinessDetailsServices().getBusinessDetailsByUser(
       uid,
     );
     if (business != null) {

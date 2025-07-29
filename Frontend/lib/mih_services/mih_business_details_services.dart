@@ -29,11 +29,30 @@ class MihBusinessDetailsServices {
     }
   }
 
-  Future<Business?> getBusinessDetails(
+  Future<Business?> getBusinessDetailsByUser(
     String app_id,
   ) async {
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return Business.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
+  Future<Business?> getBusinessDetailsByBusinessId(
+    String business_id,
+  ) async {
+    var response = await http.get(
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/business/business_id/$business_id"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
