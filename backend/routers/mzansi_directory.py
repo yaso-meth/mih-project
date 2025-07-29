@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from datetime import datetime
 import mih_database.mihDbConnections
-from mih_database.mihDbObjects import User, Business, BusinessRating
+from mih_database.mihDbObjects import User, Business, BusinessRating, BookmarkedBusiness
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
@@ -39,6 +39,17 @@ class BusinessRatingUpdateRequest(BaseModel):
     rating_new_score: str
     rating_old_score: str
     current_rating: str
+
+class BookmarkedBusinessInsertRequest(BaseModel):
+    app_id: str
+    business_id: str
+
+class BookmarkedBusinessDeleteRequest(BaseModel):
+    idbookmarked_businesses: int
+
+########################################################
+#                  Business Ratings                    #    
+########################################################
 
 @router.get("/mzansi-directory/business-ratings/user/{app_id}/{business_id}", tags=["Mzansi Directory"])
 async def read_all_ratings_by_business_id(app_id: str,business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
@@ -296,3 +307,149 @@ async def UpdatePatient(itemRequest : BusinessRatingUpdateRequest, session: Sess
     finally:
         dbSession.close()
         return {"message": "Successfully wUpdated Record"}
+
+########################################################
+#                  Bookmarked Business                 #    
+########################################################
+    
+@router.get("/mzansi-directory/bookmarked-business/{app_id}/{business_id}", tags=["Mzansi Directory"])
+async def read_all_ratings_by_business_id(app_id: str,business_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(BookmarkedBusiness).\
+            filter(
+                BookmarkedBusiness.business_id == business_id,
+                BookmarkedBusiness.app_id == app_id,
+            ).order_by(
+                desc(BookmarkedBusiness.created_date)
+            ).first()
+        if queryResults:
+            bookmark_obj = queryResults
+            return {
+                "idbookmarked_businesses": bookmark_obj.idbookmarked_businesses,
+                "app_id": bookmark_obj.app_id,
+                "business_id": bookmark_obj.business_id,
+                "created_date": bookmark_obj.created_date,
+            }
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Bookmarked Business rating not found for the given app_id & business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+
+@router.get("/mzansi-directory/bookmarked-business/all/{app_id}/", tags=["Mzansi Directory"])
+async def read_all_ratings_by_business_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(BookmarkedBusiness).\
+            filter(
+                BookmarkedBusiness.app_id == app_id,
+            ).order_by(
+                desc(BookmarkedBusiness.created_date)
+            ).all()
+        response_data = []
+        for rating_obj in queryResults:
+           response_data.append({
+                "idbookmarked_businesses": rating_obj.idbookmarked_businesses,
+                "app_id": rating_obj.app_id,
+                "business_id": rating_obj.business_id,
+                "created_date": rating_obj.created_date,
+            })
+        if len(response_data) > 0:
+            return response_data
+        else:
+            # Return an empty response or a specific message
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Bookmarked Business not found for the given app_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+
+@router.post("/mzansi-directory/bookmarked-business/insert/", tags=["Mzansi Directory"], status_code=201)
+async def insert_loyalty_card(itemRequest : BookmarkedBusinessInsertRequest): #, session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    nowDateTime = datetime.now()
+    formatedDateTime = nowDateTime.strftime("%Y-%m-%d %H:%M:%S")
+    dbSession = Session(dbEngine)
+    try:
+        # add business rating
+        new_bookmarked_business = BookmarkedBusiness(
+            app_id=itemRequest.app_id,
+            business_id=itemRequest.business_id,
+            created_date=formatedDateTime
+        )
+        dbSession.add(new_bookmarked_business)
+        dbSession.flush()  # Ensure the new rating is added to the session
+        dbSession.commit()  # Commit the session to save changes
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to insert records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+        return {"message": "Successfully Created Record"}
+
+@router.delete("/mzansi-directory/bookmarked-business/delete/", tags=["Mzansi Directory"])
+async def Delete_loyalty_card(itemRequest : BookmarkedBusinessDeleteRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        # delete business rating
+        rating_to_delete = dbSession.query(BookmarkedBusiness).\
+            get(
+                itemRequest.idbookmarked_businesses
+            )
+        if not rating_to_delete:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Bookmarked Business with ID {itemRequest.idbusiness_ratings} not found."
+            )
+        dbSession.delete(rating_to_delete)
+        dbSession.flush()  # Ensure the new rating is added to the session
+        dbSession.commit()  # Commit the session to save changes
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to insert records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
+        return {"message": "Successfully Deleted Record"}
