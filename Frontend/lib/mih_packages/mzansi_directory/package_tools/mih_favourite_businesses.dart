@@ -81,9 +81,35 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                       myLocation: widget.myLocation,
                     );
                   } else {
-                    return Center(
-                      child: Text("No bookmarked businesses found"),
+                    return Column(
+                      children: [
+                        const SizedBox(height: 50),
+                        Icon(
+                          Icons.business_center_rounded,
+                          size: 150,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: SizedBox(
+                            width: 500,
+                            child: Text(
+                              "No favourites yet, use Mzansi Search to find and bookmark businesses you like",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
+                    // return Center(
+                    //   child: Text("No bookmarked businesses found"),
+                    // );
                   }
                 } else {
                   return Center(
