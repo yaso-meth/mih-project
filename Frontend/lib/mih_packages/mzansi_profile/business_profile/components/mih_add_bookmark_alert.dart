@@ -42,6 +42,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
           arguments: MzansiDirectoryArguments(
             startUpSearch: widget.startUpSearch, // startUpSearch
             personalSearch: false, // personalSearch
+            packageIndex: 1,
           ),
         );
         MihAlertServices().successAlert(
