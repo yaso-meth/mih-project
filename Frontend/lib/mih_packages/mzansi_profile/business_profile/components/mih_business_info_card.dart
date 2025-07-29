@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:redacted/redacted.dart';
@@ -43,6 +45,8 @@ class MihBusinessCard extends StatefulWidget {
 
 class _MihBusinessCardState extends State<MihBusinessCard> {
   Future<BusinessReview?>? _businessReviewFuture;
+  Future<BookmarkedBusiness?>? _bookmarkedBusinessFuture;
+
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri url = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(url)) {
@@ -347,10 +351,19 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
+  Future<BookmarkedBusiness?> getUserBookmark() async {
+    String user_id = await SuperTokens.getUserId();
+    return await MihMzansiDirectoryServices().getUserBookmarkOfBusiness(
+      user_id,
+      widget.business.business_id,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     _businessReviewFuture = getUserReview();
+    _bookmarkedBusinessFuture = getUserBookmark();
   }
 
   @override
@@ -439,84 +452,154 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               ),
             ),
             FutureBuilder(
-                future: _businessReviewFuture,
-                builder: (context, asyncSnapshot) {
-                  if (asyncSnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    // return SizedBox();
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Divider(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
+              future: _businessReviewFuture,
+              builder: (context, asyncSnapshot) {
+                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                  // return SizedBox();
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Divider(
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
                         ),
-                        Container(
-                          child: _buildContactInfo(
-                            "Rate Us",
-                            "Let us know how we are doing.",
-                            Icons.star_rate_rounded,
-                            MihColors.getYellowColor(context),
-                            () {
-                              // businessReviewRatingWindow(
-                              //     businessReview, true, widget.width);
-                            },
-                          ),
-                        ).redacted(context: context, redact: true),
-                      ],
-                    );
-                  } else {
-                    BusinessReview? businessReview = asyncSnapshot.data;
-                    String ratingDisplayTitle = "";
-                    if (businessReview == null) {
-                      ratingDisplayTitle = "Rate Us";
-                    } else {
-                      ratingDisplayTitle = "Update Rating";
-                    }
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Divider(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                          ),
-                        ),
-                        _buildContactInfo(
-                          ratingDisplayTitle,
+                      ),
+                      Container(
+                        child: _buildContactInfo(
+                          "Rate Us",
                           "Let us know how we are doing.",
                           Icons.star_rate_rounded,
                           MihColors.getYellowColor(context),
                           () {
-                            businessReviewRatingWindow(
-                                businessReview, true, widget.width);
+                            // businessReviewRatingWindow(
+                            //     businessReview, true, widget.width);
                           },
                         ),
-                      ],
-                    );
+                      ).redacted(context: context, redact: true),
+                    ],
+                  );
+                } else {
+                  BusinessReview? businessReview = asyncSnapshot.data;
+                  String ratingDisplayTitle = "";
+                  if (businessReview == null) {
+                    ratingDisplayTitle = "Rate Us";
+                  } else {
+                    ratingDisplayTitle = "Update Rating";
                   }
-                }),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Divider(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-            ),
-            _buildContactInfo(
-              "Bookmark",
-              "Save us for later.",
-              Icons.bookmark_add_rounded,
-              MihColors.getBluishPurpleColor(context),
-              () {
-                // _launchWebsite(widget.website);
-                print("Saving ${widget.business.Name} to Directory");
-                showBookmarkAlert();
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Divider(
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
+                      ),
+                      _buildContactInfo(
+                        ratingDisplayTitle,
+                        "Let us know how we are doing.",
+                        Icons.star_rate_rounded,
+                        MihColors.getYellowColor(context),
+                        () {
+                          businessReviewRatingWindow(
+                              businessReview, true, widget.width);
+                        },
+                      ),
+                    ],
+                  );
+                }
               },
             ),
+            FutureBuilder(
+              future: _bookmarkedBusinessFuture,
+              builder: (context, asyncSnapshot) {
+                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                  // return SizedBox();
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Divider(
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
+                      ),
+                      Container(
+                        child: _buildContactInfo(
+                          "Bookmark Us",
+                          "Save us for later.",
+                          Icons.bookmark_add_rounded,
+                          MihColors.getBluishPurpleColor(context),
+                          () {
+                            // _launchWebsite(widget.website);
+                            // print(
+                            //     "Saving ${widget.business.Name} to Directory");
+                            // showBookmarkAlert();
+                          },
+                        ),
+                      ).redacted(context: context, redact: true),
+                    ],
+                  );
+                } else {
+                  BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
+                  String bookmarkDisplayTitle = "";
+                  if (bookmarkBusiness == null) {
+                    bookmarkDisplayTitle = "Bookmark Us";
+                  } else {
+                    bookmarkDisplayTitle = "Remove Bookmark";
+                  }
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Divider(
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
+                      ),
+                      _buildContactInfo(
+                        bookmarkDisplayTitle,
+                        "Save us for later.",
+                        bookmarkBusiness == null
+                            ? Icons.bookmark_add_rounded
+                            : Icons.bookmark_remove_rounded,
+                        MihColors.getBluishPurpleColor(context),
+                        () {
+                          // _launchWebsite(widget.website);
+                          if (bookmarkBusiness == null) {
+                            showAddBookmarkAlert();
+                          } else {
+                            showDeleteBookmarkAlert(bookmarkBusiness);
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //   child: Divider(
+            //     color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            //   ),
+            // ),
+            // _buildContactInfo(
+            //   "Bookmark",
+            //   "Save us for later.",
+            //   Icons.bookmark_add_rounded,
+            //   MihColors.getBluishPurpleColor(context),
+            //   () {
+            //     // _launchWebsite(widget.website);
+            //     print("Saving ${widget.business.Name} to Directory");
+            //     showBookmarkAlert();
+            //   },
+            // ),
             const SizedBox(height: 10),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -578,116 +661,23 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
-  // Future<void> businessReviewRatingWindow(
-  //     bool previouslyRated, double width) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => FutureBuilder(
-  //       future: getUserReview(),
-  //       builder: (context, asyncSnapshot) {
-  //         if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-  //           return const Mihloadingcircle(
-  //             message: "Checking for previous reviews...",
-  //           );
-  //         } else if (asyncSnapshot.connectionState == ConnectionState.done) {
-  //           return MihReviewBusinessWindow(
-  //             business: widget.business,
-  //             businessReview: asyncSnapshot.data,
-  //             screenWidth: width,
-  //             readOnly: false,
-  //             startUpSearch: widget.startUpSearch,
-  //           );
-  //         } else {
-  //           return MihPackageAlert(
-  //             alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
-  //             alertIcon: Icon(
-  //               Icons.warning_rounded,
-  //               size: 100,
-  //               color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-  //             ),
-  //             alertTitle: "Error Pulling Data",
-  //             alertBody: Column(
-  //               children: [
-  //                 Text(
-  //                   "Please ensure you are connectede top the internet and you are running the latest version of MIH then try again.",
-  //                   style: TextStyle(
-  //                     color: MzansiInnovationHub.of(context)!
-  //                         .theme
-  //                         .secondaryColor(),
-  //                     fontSize: 15,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
-
-  void showBookmarkAlert() {
+  void showAddBookmarkAlert() {
     showDialog(
       context: context,
-      builder: (context) => MihPackageAlert(
-        alertColour: MihColors.getSecondaryColor(context),
-        alertIcon: Icon(
-          Icons.warning_rounded,
-          size: 100,
-          color: MihColors.getSecondaryColor(context),
-        ),
-        alertTitle: "Bookmark Business",
-        alertBody: Column(
-          children: [
-            Text(
-              "Are you sure you want to save ${widget.business.Name} to your Mzansi Directory?",
-              style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 25),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                MihButton(
-                  width: 300,
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                MihButton(
-                  width: 300,
-                  onPressed: () {},
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
-                  child: Text(
-                    "Save Business",
-                    style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      builder: (context) => MihAddBookmarkAlert(
+        business: widget.business,
+        startUpSearch: widget.startUpSearch,
       ),
     );
+  }
+
+  void showDeleteBookmarkAlert(BookmarkedBusiness? bookmarkBusiness) {
+    showDialog(
+        context: context,
+        builder: (context) => MihDeleteBookmarkAlert(
+              business: widget.business,
+              bookmarkBusiness: bookmarkBusiness,
+              startUpSearch: widget.startUpSearch,
+            ));
   }
 }
