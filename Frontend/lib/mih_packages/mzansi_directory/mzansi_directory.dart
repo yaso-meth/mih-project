@@ -23,7 +23,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   @override
   void initState() {
     super.initState();
-    if(widget.arguments.packageIndex == null) {
+    if (widget.arguments.packageIndex == null) {
       _selcetedIndex = 0;
     } else {
       _selcetedIndex = widget.arguments.packageIndex!;
@@ -32,6 +32,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
 
   @override
   Widget build(BuildContext context) {
+    print('MzansiDirectory build method called!');
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
@@ -95,8 +96,8 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Mzansi Search",
-      "Contacts",
       "Favourite Businesses",
+      "Contacts",
     ];
     return toolTitles;
   }
