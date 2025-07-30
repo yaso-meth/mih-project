@@ -448,21 +448,22 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             Visibility(
               visible: widget.business.website.isNotEmpty &&
                   widget.business.website != "",
-              child: Divider(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              ),
-            ),
-            Visibility(
-              visible: widget.business.website.isNotEmpty &&
-                  widget.business.website != "",
-              child: _buildContactInfo(
-                "Website",
-                "Find out more about us.",
-                Icons.vpn_lock,
-                MihColors.getRedColor(context),
-                () {
-                  _launchWebsite(widget.business.website);
-                },
+              child: Column(
+                children: [
+                  Divider(
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  _buildContactInfo(
+                    "Website",
+                    "Find out more about us.",
+                    Icons.vpn_lock,
+                    MihColors.getRedColor(context),
+                    () {
+                      _launchWebsite(widget.business.website);
+                    },
+                  ),
+                ],
               ),
             ),
             FutureBuilder(
@@ -482,8 +483,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       ),
                       Container(
                         child: _buildContactInfo(
-                          "Rate Us",
-                          "Let us know how we are doing.",
+                          "Loading Rating",
+                          "Loading your rating.",
                           Icons.star_rate_rounded,
                           MihColors.getYellowColor(context),
                           () {
@@ -544,8 +545,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       ),
                       Container(
                         child: _buildContactInfo(
-                          "Bookmark Us",
-                          "Save us for later.",
+                          "Loading Bookmark",
+                          "Loading your bookmark.",
                           Icons.bookmark_add_rounded,
                           MihColors.getBluishPurpleColor(context),
                           () {
