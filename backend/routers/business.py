@@ -1,7 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 #from ..mih_database import dbConnection
 import mih_database
+import mih_database.mihDbConnections
+from mih_database.mihDbObjects import User, Business, BusinessRating, BookmarkedBusiness
+from sqlalchemy import desc 
+from sqlalchemy.orm import Session
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -101,49 +105,49 @@ async def read_all_businesses(search: str, session: SessionContainer = Depends(v
 # Get List of all files
 @router.get("/business/business_id/{business_id}", tags=["MIH Business"])
 async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
-    db = mih_database.dbConnection.dbAppDataConnect()
-    cursor = db.cursor()
-    query = "SELECT business.business_id, business.Name, business.type, business.registration_no, "
-    query += "business.logo_name, business.logo_path, business.contact_no, business.bus_email, "
-    query += "business_users.app_id, business.gps_location, "
-    query += "practice_no, vat_no, "
-    query += "website, rating, mission_vision "    
-    query += "FROM business "
-    query += "inner join business_users "
-    query += "on business.business_id=business_users.business_id "
-    query += "where business.business_id = %s"
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
     try:
-        cursor.execute(query, (business_id,))
-    except Exception as error:
-        raise HTTPException(status_code=404, detail="Failed to pull records")
-    items = [
-        {
-            "business_id": item[0],
-            "Name": item[1],
-            "type": item[2],
-            "registration_no": item[3],
-            "logo_name": item[4],
-            "logo_path": item[5],
-            "contact_no": item[6],
-            "bus_email": item[7],
-            "app_id": item[8],
-            "gps_location": item[9],
-            "practice_no": item[10],
-            "vat_no": item[11],
-            "website": item[12],
-            "rating": item[13],
-            "mission_vision": item[14],
-        }
-        for item in cursor.fetchall()
-    ]
-    #
-    cursor.close()
-    db.close()
-    if(len(items)!= 0):
-        return items[0]
-    else:
-        raise HTTPException(status_code=404, detail="No record found")
-
+        queryResults = dbSession.query(Business).\
+        filter(
+            Business.business_id == business_id,
+        ).first()
+        if queryResults:
+            return {
+                "business_id": queryResults.business_id,
+                "Name": queryResults.Name,
+                "type": queryResults.type,
+                "registration_no": queryResults.registration_no,
+                "logo_name": queryResults.logo_name,
+                "logo_path": queryResults.logo_path,
+                "contact_no": queryResults.contact_no,
+                "bus_email": queryResults.bus_email,
+                "app_id": "",
+                "gps_location": queryResults.gps_location,
+                "practice_no": queryResults.practice_no,
+                "vat_no": queryResults.vat_no,
+                "website": queryResults.website,
+                "rating": queryResults.rating,
+                "mission_vision": queryResults.mission_vision,
+            }
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Business not found for the given business_id."
+            )
+    except HTTPException as http_exc:
+        # Re-raise HTTPException directly if it was raised within the try block
+        raise http_exc
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
 
 # Get List of all files
 @router.get("/business/app_id/{app_id}", tags=["MIH Business"])
