@@ -43,7 +43,6 @@ class BusinessRatingUpdateRequest(BaseModel):
 class BookmarkedBusinessInsertRequest(BaseModel):
     app_id: str
     business_id: str
-    business_name: str
 
 class BookmarkedBusinessDeleteRequest(BaseModel):
     idbookmarked_businesses: int
