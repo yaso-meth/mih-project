@@ -78,14 +78,6 @@ class _MihCardsState extends State<MihCards> {
     );
   }
 
-  void shopSelected() {
-    if (shopController.text.isNotEmpty) {
-      shopName.value = shopController.text;
-    } else {
-      shopName.value = "";
-    }
-  }
-
   void addCardWindow(BuildContext ctxt, double width) {
     showDialog(
       context: context,
@@ -298,7 +290,6 @@ class _MihCardsState extends State<MihCards> {
   @override
   void dispose() {
     cardNumberController.dispose();
-    shopController.removeListener(shopSelected);
     shopController.dispose();
     cardSearchController.removeListener(searchShop);
     cardSearchController.dispose();
@@ -312,7 +303,6 @@ class _MihCardsState extends State<MihCards> {
   @override
   void initState() {
     cardList = MIHMzansiWalletApis.getLoyaltyCards(widget.signedInUser.app_id);
-    shopController.addListener(shopSelected);
     cardSearchController.addListener(searchShop);
     super.initState();
   }
@@ -367,7 +357,7 @@ class _MihCardsState extends State<MihCards> {
                       builder: (BuildContext context,
                           List<MIHLoyaltyCard> value, Widget? child) {
                         return BuildLoyaltyCardList(
-                          cardList: searchShopName.value,
+                          cardList: value,
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
                           bannerAd: _bannerAd,
