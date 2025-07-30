@@ -41,20 +41,14 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
     String user_id = await SuperTokens.getUserId();
     List<BookmarkedBusiness> bookmarked = await MihMzansiDirectoryServices()
         .getAllUserBookmarkedBusiness(user_id);
-
-    // Store the bookmarked list for search filtering
     listBookmarkedBusinesses = bookmarked;
-
     Map<String, Business?> businessMap = {};
     List<Future<Business?>> detailFutures = [];
-
     for (var item in bookmarked) {
       detailFutures.add(MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(item.business_id));
     }
-
     List<Business?> details = await Future.wait(detailFutures);
-
     for (int i = 0; i < bookmarked.length; i++) {
       businessMap[bookmarked[i].business_id] = details[i];
     }
