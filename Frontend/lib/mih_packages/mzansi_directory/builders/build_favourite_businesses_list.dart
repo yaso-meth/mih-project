@@ -9,10 +9,12 @@ import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services
 class BuildFavouriteBusinessesList extends StatefulWidget {
   final List<BookmarkedBusiness> favouriteBusinesses;
   final String? myLocation;
+  final String? searchQuery;
   const BuildFavouriteBusinessesList({
     super.key,
     required this.favouriteBusinesses,
     required this.myLocation,
+    required this.searchQuery,
   });
 
   @override
@@ -22,6 +24,28 @@ class BuildFavouriteBusinessesList extends StatefulWidget {
 
 class _BuildFavouriteBusinessesListState
     extends State<BuildFavouriteBusinessesList> {
+  List<Business?> businesses = [];
+
+  List<Business?> getListOfBusinesses() {
+    List<Business?> businesses = [];
+    for (var item in widget.favouriteBusinesses) {
+      MihBusinessDetailsServices()
+          .getBusinessDetailsByBusinessId(item.business_id)
+          .then((business) {
+        if (business != null) {
+          businesses.add(business);
+        }
+      });
+    }
+    return businesses;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    businesses = getListOfBusinesses();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -42,7 +66,14 @@ class _BuildFavouriteBusinessesListState
           future: businessDetails,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
+              );
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -80,7 +111,8 @@ class _BuildFavouriteBusinessesListState
                 ),
               );
             } else {
-              return const Center(child: Text('No business found'));
+              print(snapshot.data);
+              return SizedBox();
             }
           },
         );

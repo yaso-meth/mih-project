@@ -25,16 +25,44 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
       TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   late Future<List<BookmarkedBusiness>> boookmarkedBusinessListFuture;
-
+  List<BookmarkedBusiness> listBookmarkedBusinesses = [];
+  final ValueNotifier<List<BookmarkedBusiness>> searchBookmarkedBusinesses =
+      ValueNotifier([]);
   Future<List<BookmarkedBusiness>> getAllBookmarkedBusinessesForUser() async {
     String user_id = await SuperTokens.getUserId();
     return MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(user_id);
+  }
+
+  void searchBookmarkedBusinessByName() {
+    if (businessSearchController.text.isEmpty) {
+      searchBookmarkedBusinesses.value = listBookmarkedBusinesses;
+    } else {
+      List<BookmarkedBusiness> temp = [];
+      for (var item in listBookmarkedBusinesses) {
+        if (item.business_name
+            .toLowerCase()
+            .contains(businessSearchController.text.toLowerCase())) {
+          temp.add(item);
+        }
+      }
+      searchBookmarkedBusinesses.value = temp;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    businessSearchController.removeListener(searchBookmarkedBusinessByName);
+    businessSearchController.dispose();
+    searchFocusNode.dispose();
+    searchBookmarkedBusinesses.dispose();
   }
 
   @override
   void initState() {
     super.initState();
     boookmarkedBusinessListFuture = getAllBookmarkedBusinessesForUser();
+    businessSearchController.addListener(searchBookmarkedBusinessByName);
   }
 
   @override
@@ -74,12 +102,17 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                    List<BookmarkedBusiness> bookmarkedBusinesses =
-                        snapshot.data!;
-                    return BuildFavouriteBusinessesList(
-                      favouriteBusinesses: bookmarkedBusinesses,
-                      myLocation: widget.myLocation,
-                    );
+                    listBookmarkedBusinesses = snapshot.data!;
+                    searchBookmarkedBusinessByName();
+                    return ValueListenableBuilder(
+                        valueListenable: searchBookmarkedBusinesses,
+                        builder: (context, value, child) {
+                          return BuildFavouriteBusinessesList(
+                            favouriteBusinesses: value,
+                            myLocation: widget.myLocation,
+                            searchQuery: businessSearchController.text,
+                          );
+                        });
                   } else {
                     return Column(
                       children: [
