@@ -43,6 +43,7 @@ class BusinessRatingUpdateRequest(BaseModel):
 class BookmarkedBusinessInsertRequest(BaseModel):
     app_id: str
     business_id: str
+    business_name: str
 
 class BookmarkedBusinessDeleteRequest(BaseModel):
     idbookmarked_businesses: int
@@ -317,7 +318,8 @@ async def read_all_ratings_by_business_id(app_id: str,business_id: str, session:
     dbEngine = mih_database.mihDbConnections.dbAllConnect()
     dbSession = Session(dbEngine)
     try:
-        queryResults = dbSession.query(BookmarkedBusiness).\
+        queryResults = dbSession.query(BookmarkedBusiness, Business).\
+            join(Business, BookmarkedBusiness.business_id == Business.business_id).\
             filter(
                 BookmarkedBusiness.business_id == business_id,
                 BookmarkedBusiness.app_id == app_id,
@@ -325,11 +327,12 @@ async def read_all_ratings_by_business_id(app_id: str,business_id: str, session:
                 desc(BookmarkedBusiness.created_date)
             ).first()
         if queryResults:
-            bookmark_obj = queryResults
+            bookmark_obj, bus_obj = queryResults
             return {
                 "idbookmarked_businesses": bookmark_obj.idbookmarked_businesses,
                 "app_id": bookmark_obj.app_id,
                 "business_id": bookmark_obj.business_id,
+                "business_name": bus_obj.Name,
                 "created_date": bookmark_obj.created_date,
             }
         else:
@@ -357,18 +360,20 @@ async def read_all_ratings_by_business_id(app_id: str, session: SessionContainer
     dbEngine = mih_database.mihDbConnections.dbAllConnect()
     dbSession = Session(dbEngine)
     try:
-        queryResults = dbSession.query(BookmarkedBusiness).\
+        queryResults = dbSession.query(BookmarkedBusiness, Business).\
+            join(Business, BookmarkedBusiness.business_id == Business.business_id).\
             filter(
                 BookmarkedBusiness.app_id == app_id,
             ).order_by(
                 desc(BookmarkedBusiness.created_date)
             ).all()
         response_data = []
-        for rating_obj in queryResults:
+        for rating_obj, bus_obj in queryResults:
            response_data.append({
                 "idbookmarked_businesses": rating_obj.idbookmarked_businesses,
                 "app_id": rating_obj.app_id,
                 "business_id": rating_obj.business_id,
+                "business_name": bus_obj.Name,
                 "created_date": rating_obj.created_date,
             })
         if len(response_data) > 0:
