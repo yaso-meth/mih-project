@@ -359,6 +359,12 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     );
   }
 
+  bool isValidGps(String coordinateString) {
+    final RegExp gpsRegex = RegExp(
+        r"^-?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*-?(1[0-7]\d(\.\d+)?|180(\.0+)?|\d{1,2}(\.\d+)?)$");
+    return gpsRegex.hasMatch(coordinateString);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -412,24 +418,32 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 );
               },
             ),
-            Divider(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-            ),
-            _buildContactInfo(
-              "Location",
-              "Come visit us.",
-              Icons.location_on,
-              MihColors.getOrangeColor(context),
-              () {
-                final latitude =
-                    double.parse(widget.business.gps_location.split(',')[0]);
-                final longitude =
-                    double.parse(widget.business.gps_location.split(',')[1]);
-                _launchGoogleMapsWithUrl(
-                  latitude: latitude,
-                  longitude: longitude,
-                );
-              },
+            Visibility(
+              visible: isValidGps(widget.business.gps_location),
+              child: Column(
+                children: [
+                  Divider(
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
+                  _buildContactInfo(
+                    "Location",
+                    "Come visit us.",
+                    Icons.location_on,
+                    MihColors.getOrangeColor(context),
+                    () {
+                      final latitude = double.parse(
+                          widget.business.gps_location.split(',')[0]);
+                      final longitude = double.parse(
+                          widget.business.gps_location.split(',')[1]);
+                      _launchGoogleMapsWithUrl(
+                        latitude: latitude,
+                        longitude: longitude,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
             Visibility(
               visible: widget.business.website.isNotEmpty &&
