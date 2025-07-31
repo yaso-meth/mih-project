@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_busi
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
@@ -17,25 +16,11 @@ import 'package:url_launcher/url_launcher.dart';
 class MihBusinessCard extends StatefulWidget {
   final Business business;
   final String? startUpSearch;
-  // final String businessid;
-  // final String businessName;
-  // final String cellNumber;
-  // final String email;
-  // final String gpsLocation;
-  // final String? website;
-  // final double rating;
   final double width;
   const MihBusinessCard({
     super.key,
     required this.business,
     required this.startUpSearch,
-    // required this.businessid,
-    // required this.businessName,
-    // required this.cellNumber,
-    // required this.email,
-    // required this.gpsLocation,
-    // required this.rating,
-    // this.website,
     required this.width,
   });
 
@@ -46,6 +31,13 @@ class MihBusinessCard extends StatefulWidget {
 class _MihBusinessCardState extends State<MihBusinessCard> {
   Future<BusinessReview?>? _businessReviewFuture;
   Future<BookmarkedBusiness?>? _bookmarkedBusinessFuture;
+
+  RedactedConfiguration getRedactedConfiguration() {
+    return RedactedConfiguration(
+      // redactedColor: Colors.pink,
+      redactedColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+    );
+  }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri url = Uri(scheme: 'tel', path: phoneNumber);
@@ -275,6 +267,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     String subLabel,
     IconData icon,
     Color? iconColor,
+    bool redacted,
     Function()? ontap,
   ) {
     return Material(
@@ -294,16 +287,25 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
           child: Row(
             children: [
               Container(
+                width: 45,
+                height: 45,
                 decoration: BoxDecoration(
                   color: iconColor,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 padding: const EdgeInsets.all(5.0),
-                child: Icon(
-                  icon,
-                  size: 35,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                child: FittedBox(
+                  child: Icon(
+                    icon,
+                    // size: 35,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  ),
                 ),
+              ).redacted(
+                context: context,
+                redact: redacted,
+                configuration: getRedactedConfiguration(),
               ),
               SizedBox(width: 20),
               Expanded(
@@ -322,6 +324,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             .primaryColor(),
                         height: 1.0,
                       ),
+                    ).redacted(
+                      context: context,
+                      redact: redacted,
+                      configuration: getRedactedConfiguration(),
                     ),
                     Text(
                       subLabel,
@@ -332,6 +338,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             .theme
                             .primaryColor(),
                       ),
+                    ).redacted(
+                      context: context,
+                      redact: redacted,
+                      configuration: getRedactedConfiguration(),
                     ),
                   ],
                 ),
@@ -396,6 +406,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Give us a quick call.",
               Icons.phone,
               MihColors.getGreenColor(context),
+              false,
               () {
                 // print("Calling ${widget.cellNumber}");
                 _makePhoneCall(widget.business.contact_no);
@@ -409,6 +420,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               "Send us an email.",
               Icons.email,
               MihColors.getPinkColor(context),
+              false,
               () {
                 // print("Emailing ${widget.email}");
                 _launchEmail(
@@ -431,6 +443,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     "Come visit us.",
                     Icons.location_on,
                     MihColors.getOrangeColor(context),
+                    false,
                     () {
                       final latitude = double.parse(
                           widget.business.gps_location.split(',')[0]);
@@ -459,6 +472,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     "Find out more about us.",
                     Icons.vpn_lock,
                     MihColors.getRedColor(context),
+                    false,
                     () {
                       _launchWebsite(widget.business.website);
                     },
@@ -470,7 +484,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               future: _businessReviewFuture,
               builder: (context, asyncSnapshot) {
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  // return SizedBox();
+                  // return const SizedBox.shrink();
                   return Column(
                     children: [
                       Padding(
@@ -487,10 +501,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                           "Loading your rating.",
                           Icons.star_rate_rounded,
                           MihColors.getYellowColor(context),
-                          () {
-                            // businessReviewRatingWindow(
-                            //     businessReview, true, widget.width);
-                          },
+                          true,
+                          null,
                         ),
                       ).redacted(context: context, redact: true),
                     ],
@@ -518,6 +530,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                         "Let us know how we are doing.",
                         Icons.star_rate_rounded,
                         MihColors.getYellowColor(context),
+                        false,
                         () {
                           businessReviewRatingWindow(
                               businessReview, true, widget.width);
@@ -532,7 +545,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               future: _bookmarkedBusinessFuture,
               builder: (context, asyncSnapshot) {
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  // return SizedBox();
+                  // return const SizedBox.shrink();
                   return Column(
                     children: [
                       Padding(
@@ -549,14 +562,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                           "Loading your bookmark.",
                           Icons.bookmark_add_rounded,
                           MihColors.getBluishPurpleColor(context),
-                          () {
-                            // _launchWebsite(widget.website);
-                            // print(
-                            //     "Saving ${widget.business.Name} to Directory");
-                            // showBookmarkAlert();
-                          },
+                          true,
+                          null,
                         ),
-                      ).redacted(context: context, redact: true),
+                      ),
                     ],
                   );
                 } else {
@@ -584,6 +593,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             ? Icons.bookmark_add_rounded
                             : Icons.bookmark_remove_rounded,
                         MihColors.getBluishPurpleColor(context),
+                        false,
                         () {
                           // _launchWebsite(widget.website);
                           if (bookmarkBusiness == null) {
@@ -632,46 +642,12 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       BusinessReview? myReview, bool previouslyRated, double width) async {
     showDialog(
       context: context,
-      builder: (context) => FutureBuilder(
-        future: getUserReview(),
-        builder: (context, asyncSnapshot) {
-          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-            return const Mihloadingcircle(
-              message: "Checking for previous reviews...",
-            );
-          } else if (asyncSnapshot.connectionState == ConnectionState.done) {
-            return MihReviewBusinessWindow(
-              business: widget.business,
-              businessReview: asyncSnapshot.data,
-              screenWidth: width,
-              readOnly: false,
-              startUpSearch: widget.startUpSearch,
-            );
-          } else {
-            return MihPackageAlert(
-              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-              ),
-              alertTitle: "Error Pulling Data",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "Please ensure you are connectede top the internet and you are running the latest version of MIH then try again.",
-                    style: TextStyle(
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-        },
+      builder: (context) => MihReviewBusinessWindow(
+        business: widget.business,
+        businessReview: myReview,
+        screenWidth: width,
+        readOnly: false,
+        startUpSearch: widget.startUpSearch,
       ),
     );
   }
