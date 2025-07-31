@@ -9,12 +9,39 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
+  Future<List<String>> fetchAllBusinessTypes() async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/types/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<String> businessTypes =
+          jsonList.map((item) => item['type'].toString()).toList();
+      return businessTypes;
+    } else {
+      return [];
+    }
+  }
+
   Future<List<Business>> searchBusinesses(
     String searchText,
+    String searchType,
     BuildContext context,
   ) async {
+    String newSearchText = "All";
+    if (searchText.isNotEmpty) {
+      newSearchText = searchText;
+    }
+    String newSearchType = "All";
+    if (searchType.isNotEmpty) {
+      newSearchType = searchType;
+    }
     var response = await http.get(
-      Uri.parse("${AppEnviroment.baseApiUrl}/businesses/search/$searchText"),
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/business/search/$newSearchType/$newSearchText"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
