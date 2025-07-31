@@ -66,7 +66,6 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
                   .replaceAll("Longitude: ", "");
             }
             return MihSearchMzansi(
-              startUpSearch: widget.arguments.startUpSearch,
               personalSearch: widget.arguments.personalSearch,
               myLocation: myLocation,
             );

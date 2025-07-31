@@ -229,17 +229,13 @@ class MzansiAiArguments {
 }
 
 class MzansiDirectoryArguments {
-  final String? startUpSearch;
   final bool personalSearch;
   final int? packageIndex;
 
-  MzansiDirectoryArguments(
-    {
-    this.startUpSearch,
+  MzansiDirectoryArguments({
     required this.personalSearch,
     this.packageIndex,
-    }
-  );
+  });
 }
 
 class TestArguments {

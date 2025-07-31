@@ -39,6 +39,9 @@ class MihBusinessDetailsServices {
     if (searchType.isNotEmpty) {
       newSearchType = searchType;
     }
+    if (searchText.isEmpty && searchType.isEmpty) {
+      return [];
+    }
     var response = await http.get(
       Uri.parse(
           "${AppEnviroment.baseApiUrl}/business/search/$newSearchType/$newSearchText"),

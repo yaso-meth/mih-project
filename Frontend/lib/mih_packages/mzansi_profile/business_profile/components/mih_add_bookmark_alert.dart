@@ -12,11 +12,9 @@ import 'package:supertokens_flutter/supertokens.dart';
 
 class MihAddBookmarkAlert extends StatefulWidget {
   final Business business;
-  final String? startUpSearch;
   const MihAddBookmarkAlert({
     super.key,
     required this.business,
-    required this.startUpSearch,
   });
 
   @override
@@ -40,7 +38,6 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
           '/mzansi-directory',
           ModalRoute.withName('/'),
           arguments: MzansiDirectoryArguments(
-            startUpSearch: widget.startUpSearch, // startUpSearch
             personalSearch: false, // personalSearch
             packageIndex: 1,
           ),

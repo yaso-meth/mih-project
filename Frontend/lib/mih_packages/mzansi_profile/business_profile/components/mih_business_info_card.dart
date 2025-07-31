@@ -647,7 +647,6 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         businessReview: myReview,
         screenWidth: width,
         readOnly: false,
-        startUpSearch: widget.startUpSearch,
       ),
     );
   }
@@ -657,7 +656,6 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       context: context,
       builder: (context) => MihAddBookmarkAlert(
         business: widget.business,
-        startUpSearch: widget.startUpSearch,
       ),
     );
   }
