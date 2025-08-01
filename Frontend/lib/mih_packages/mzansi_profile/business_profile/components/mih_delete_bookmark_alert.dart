@@ -54,6 +54,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
           arguments: MzansiDirectoryArguments(
             personalSearch: false, // personalSearch
             packageIndex: 1,
+            startSearchText: widget.business.Name,
           ),
         );
         MihAlertServices().successAlert(

@@ -231,10 +231,12 @@ class MzansiAiArguments {
 class MzansiDirectoryArguments {
   final bool personalSearch;
   final int? packageIndex;
+  final String? startSearchText;
 
   MzansiDirectoryArguments({
     required this.personalSearch,
     this.packageIndex,
+    required this.startSearchText,
   });
 }
 

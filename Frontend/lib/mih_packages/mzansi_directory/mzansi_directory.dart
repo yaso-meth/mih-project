@@ -68,6 +68,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
             return MihSearchMzansi(
               personalSearch: widget.arguments.personalSearch,
               myLocation: myLocation,
+              startSearchText: widget.arguments.startSearchText,
             );
           }),
       // MihContacts(),

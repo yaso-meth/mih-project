@@ -100,6 +100,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                           '/mzansi-directory',
                           arguments: MzansiDirectoryArguments(
                             personalSearch: false, // personalSearch
+                            startSearchText: widget.business.Name,
                           ),
                         );
                         MihAlertServices().successAlert(
@@ -189,6 +190,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
               personalSearch: false, // personalSearch
+              startSearchText: widget.business.Name,
             ),
           );
           MihAlertServices().successAlert(
@@ -224,6 +226,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
               personalSearch: false, // personalSearch
+              startSearchText: widget.business.Name,
             ),
           );
           MihAlertServices().successAlert(

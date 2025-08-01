@@ -40,6 +40,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
           arguments: MzansiDirectoryArguments(
             personalSearch: false, // personalSearch
             packageIndex: 1,
+            startSearchText: widget.business.Name,
           ),
         );
         MihAlertServices().successAlert(

@@ -24,6 +24,7 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
           '/mzansi-directory',
           arguments: MzansiDirectoryArguments(
             personalSearch: true,
+            startSearchText: null,
           ),
         );
       },

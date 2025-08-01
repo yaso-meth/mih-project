@@ -18,10 +18,12 @@ import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 class MihSearchMzansi extends StatefulWidget {
   final bool personalSearch;
   final String? myLocation;
+  final String? startSearchText;
   const MihSearchMzansi({
     super.key,
     required this.personalSearch,
     required this.myLocation,
+    required this.startSearchText,
   });
 
   @override
@@ -98,10 +100,14 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     super.initState();
     setState(() {
       userSearch = widget.personalSearch;
-      mzansiSearchController.text = "";
-      // businessTypeController.text = "All";
       availableBusinessTypes =
           MihBusinessDetailsServices().fetchAllBusinessTypes();
+      if (widget.startSearchText != null) {
+        mzansiSearchController.text = widget.startSearchText!;
+        searchPressed();
+      } else {
+        mzansiSearchController.text = "";
+      }
     });
   }
 
