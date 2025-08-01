@@ -150,6 +150,9 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
       case "fresmart":
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/fresmart-min.png');
+      case "total energies":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/total_energies-min.png');
       default:
         return null;
     }

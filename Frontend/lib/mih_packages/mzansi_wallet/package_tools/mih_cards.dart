@@ -78,6 +78,14 @@ class _MihCardsState extends State<MihCards> {
     );
   }
 
+  void shopSelected() {
+    if (shopController.text.isNotEmpty) {
+      shopName.value = shopController.text;
+    } else {
+      shopName.value = "";
+    }
+  }
+
   void addCardWindow(BuildContext ctxt, double width) {
     showDialog(
       context: context,
@@ -153,6 +161,7 @@ class _MihCardsState extends State<MihCards> {
                       "Spar",
                       "Spur",
                       "TFG Group",
+                      "Total Energies",
                       "Toys R Us",
                       "Woermann Brock",
                       "Woolworths"
@@ -290,6 +299,7 @@ class _MihCardsState extends State<MihCards> {
   @override
   void dispose() {
     cardNumberController.dispose();
+    shopController.removeListener(shopSelected);
     shopController.dispose();
     cardSearchController.removeListener(searchShop);
     cardSearchController.dispose();
@@ -303,6 +313,7 @@ class _MihCardsState extends State<MihCards> {
   @override
   void initState() {
     cardList = MIHMzansiWalletApis.getLoyaltyCards(widget.signedInUser.app_id);
+    shopController.addListener(shopSelected);
     cardSearchController.addListener(searchShop);
     super.initState();
   }
