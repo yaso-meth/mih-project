@@ -163,54 +163,6 @@ class MihTheme {
     }
   }
 
-  AssetImage logoFrame() {
-    if (mode == "Dark") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/frame_dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/frame_light.png',
-      );
-    }
-  }
-
-  AssetImage altLogoFrame() {
-    if (mode == "Light") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/frame_dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/frame_light.png',
-      );
-    }
-  }
-
-  AssetImage logoImage() {
-    if (mode == "Dark") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/logo_dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/logo_light.png',
-      );
-    }
-  }
-
-  AssetImage altLogoImage() {
-    if (mode == "Light") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/logo_dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/logo_light.png',
-      );
-    }
-  }
-
   AssetImage loadingImage() {
     if (mode == "Dark") {
       loading = const AssetImage(

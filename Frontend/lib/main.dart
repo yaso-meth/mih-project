@@ -71,8 +71,6 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
-    precacheImage(theme.logoImage(), context);
-    precacheImage(theme.logoFrame(), context);
     return MaterialApp(
       title: getTitle(),
       themeMode: ThemeMode.dark,

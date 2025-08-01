@@ -47,8 +47,6 @@ class _MihInfoState extends State<MihInfo> {
     bio += "(University of the Western Cape)\n";
     bio +=
         "6 Year of banking experience with one of the big 5 banks of South Africa.";
-    ImageProvider logoFrame =
-        MzansiInnovationHub.of(context)!.theme.altLogoFrame();
     return Wrap(
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -61,18 +59,22 @@ class _MihInfoState extends State<MihInfo> {
             alignment: Alignment.center,
             fit: StackFit.loose,
             children: [
-              CircleAvatar(
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                backgroundImage: const AssetImage(
-                    "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
-                //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-                radius: 75,
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: CircleAvatar(
+                  backgroundColor:
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  backgroundImage: const AssetImage(
+                      "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
+                  //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
+                  radius: 75,
+                ),
               ),
-              SizedBox(
-                width: 165,
-                child: Image(image: logoFrame),
-              )
+              Icon(
+                MihIcons.mihRing,
+                size: 165,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
             ],
           ),
         ),
