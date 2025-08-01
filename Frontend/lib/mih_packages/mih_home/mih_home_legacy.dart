@@ -86,24 +86,22 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   //     );
 
   void setAppsNewPersonal(List<MIHTile> tileList) {
-    ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
-
     if (widget.signedInUser.fname == "") {
-      tileList.add(MIHTile(
-        videoID: "jFV3NN65DtQ",
-        onTap: () {
-          Navigator.of(context).pushNamed('/mzansi-profile',
-              arguments: AppProfileUpdateArguments(
-                  widget.signedInUser, widget.propicFile));
-        },
-        tileName: "Setup Profie",
-        tileIcon: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Image(image: logo),
-        ),
-        p: getPrim(),
-        s: getSec(),
-      ));
+      // tileList.add(MIHTile(
+      //   videoID: "jFV3NN65DtQ",
+      //   onTap: () {
+      //     Navigator.of(context).pushNamed('/mzansi-profile',
+      //         arguments: AppProfileUpdateArguments(
+      //             widget.signedInUser, widget.propicFile));
+      //   },
+      //   tileName: "Setup Profie",
+      //   tileIcon: Padding(
+      //     padding: const EdgeInsets.all(15.0),
+      //     child: Image(image: logo),
+      //   ),
+      //   p: getPrim(),
+      //   s: getSec(),
+      // ));
     }
   }
 
@@ -128,27 +126,26 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   void setAppsPersonal(List<MIHTile> tileList) {
-    ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
     ImageProvider aiLogo = MzansiInnovationHub.of(context)!.theme.aiLogoImage();
-    tileList.add(MIHTile(
-      videoID: "P2bM9eosJ_A",
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mzansi-profile',
-          arguments: AppProfileUpdateArguments(
-            widget.signedInUser,
-            widget.propicFile,
-          ),
-        );
-      },
-      tileName: "Mzansi Profile",
-      tileIcon: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Image(image: logo),
-      ),
-      p: getPrim(),
-      s: getSec(),
-    ));
+    // tileList.add(MIHTile(
+    //   videoID: "P2bM9eosJ_A",
+    //   onTap: () {
+    //     Navigator.of(context).pushNamed(
+    //       '/mzansi-profile',
+    //       arguments: AppProfileUpdateArguments(
+    //         widget.signedInUser,
+    //         widget.propicFile,
+    //       ),
+    //     );
+    //   },
+    //   tileName: "Mzansi Profile",
+    //   tileIcon: Padding(
+    //     padding: const EdgeInsets.all(15.0),
+    //     child: Image(image: logo),
+    //   ),
+    //   p: getPrim(),
+    //   s: getSec(),
+    // ));
     tileList.add(MIHTile(
       videoID: "6l8h0sjt08k",
       onTap: () {

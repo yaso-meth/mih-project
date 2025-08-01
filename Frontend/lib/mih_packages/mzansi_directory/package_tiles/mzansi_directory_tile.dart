@@ -23,8 +23,8 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
         Navigator.of(context).pushNamed(
           '/mzansi-directory',
           arguments: MzansiDirectoryArguments(
-            null, // startUpSearch
-            true, // personalSearch
+            personalSearch: true,
+            startSearchText: null,
           ),
         );
       },

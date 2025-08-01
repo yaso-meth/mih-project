@@ -23,14 +23,12 @@ class MihReviewBusinessWindow extends StatefulWidget {
   final BusinessReview? businessReview;
   final double screenWidth;
   final bool readOnly;
-  final String? startUpSearch;
   const MihReviewBusinessWindow({
     super.key,
     required this.business,
     required this.businessReview,
     required this.screenWidth,
     required this.readOnly,
-    required this.startUpSearch,
   });
 
   @override
@@ -101,8 +99,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         Navigator.of(context).pushNamed(
                           '/mzansi-directory',
                           arguments: MzansiDirectoryArguments(
-                            widget.startUpSearch, // startUpSearch
-                            false, // personalSearch
+                            personalSearch: false, // personalSearch
+                            startSearchText: widget.business.Name,
                           ),
                         );
                         MihAlertServices().successAlert(
@@ -191,8 +189,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           Navigator.of(context).pushNamed(
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
-              widget.startUpSearch, // startUpSearch
-              false, // personalSearch
+              personalSearch: false, // personalSearch
+              startSearchText: widget.business.Name,
             ),
           );
           MihAlertServices().successAlert(
@@ -227,8 +225,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           Navigator.of(context).pushNamed(
             '/mzansi-directory',
             arguments: MzansiDirectoryArguments(
-              widget.startUpSearch, // startUpSearch
-              false, // personalSearch
+              personalSearch: false, // personalSearch
+              startSearchText: widget.business.Name,
             ),
           );
           MihAlertServices().successAlert(
@@ -386,7 +384,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                           emptyColor: MzansiInnovationHub.of(context)!
                               .theme
                               .secondaryColor(),
-                          halfFilledColor: MihColors.getYellowColor(context),                          isHalfAllowed: true,
+                          halfFilledColor: MihColors.getYellowColor(context),
+                          isHalfAllowed: true,
                           initialRating: widget.businessReview != null
                               ? double.parse(_reviewScoreController.text)
                               : 1,

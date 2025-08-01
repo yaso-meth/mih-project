@@ -61,35 +61,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         backgroundColor:
             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       ),
-      // MIHProfilePicture(
-      //   profilePictureFile: widget.propicFile,
-      //   proPicController: proPicController,
-      //   proPic: null,
-      //   width: 60,
-      //   radius: 27,
-      //   drawerMode: true,
-      //   editable: false,
-      //   frameColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-      //   onChange: (newProPic) {},
-      // ),
-
-      // Stack(
-      //   alignment: Alignment.center,
-      //   fit: StackFit.loose,
-      //   children: [
-      //     CircleAvatar(
-      //       backgroundColor:
-      //           MzansiInnovationHub.of(context)!.theme.primaryColor(),
-      //       backgroundImage: widget.propicFile,
-      //       //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
-      //       radius: 27,
-      //     ),
-      //     SizedBox(
-      //       width: 60,
-      //       child: Image(image: logoFrame),
-      //     )
-      //   ],
-      // ),
     );
   }
 

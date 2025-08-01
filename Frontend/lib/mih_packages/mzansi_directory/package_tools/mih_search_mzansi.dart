@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
@@ -10,17 +11,19 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class MihSearchMzansi extends StatefulWidget {
-  final String? startUpSearch;
   final bool personalSearch;
+  final String? myLocation;
+  final String? startSearchText;
   const MihSearchMzansi({
     super.key,
-    required this.startUpSearch,
     required this.personalSearch,
+    required this.myLocation,
+    required this.startSearchText,
   });
 
   @override
@@ -29,14 +32,62 @@ class MihSearchMzansi extends StatefulWidget {
 
 class _MihSearchMzansiState extends State<MihSearchMzansi> {
   final TextEditingController mzansiSearchController = TextEditingController();
+  final TextEditingController businessTypeController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   late bool userSearch;
   Future<List<AppUser>?> futureUserSearchResults = Future.value();
   Future<List<Business>?> futureBusinessSearchResults = Future.value();
-  late Future<Position?> futurePosition =
-      MIHLocationAPI().getGPSPosition(context);
   List<AppUser> userSearchResults = [];
   List<Business> businessSearchResults = [];
+  late Future<List<String>> availableBusinessTypes;
+  bool filterOn = false;
+
+  void swapPressed() {
+    setState(() {
+      userSearch = !userSearch;
+      if (filterOn) {
+        filterOn = !filterOn;
+      }
+    });
+    if (businessTypeController.text.isNotEmpty) {
+      setState(() {
+        futureBusinessSearchResults = Future.value();
+        businessTypeController.clear();
+      });
+    }
+    searchPressed();
+  }
+
+  void clearAll() {
+    setState(() {
+      futureUserSearchResults = Future.value();
+      futureBusinessSearchResults = Future.value();
+      mzansiSearchController.clear();
+      businessTypeController.clear();
+    });
+  }
+
+  void searchPressed() {
+    setState(() {
+      // userSearch = !userSearch;
+      if (userSearch && mzansiSearchController.text.isNotEmpty) {
+        futureUserSearchResults =
+            MihUserServices().searchUsers(mzansiSearchController.text, context);
+      } else {
+        if (
+            // mzansiSearchController.text.isNotEmpty &&
+            businessTypeController.text.isNotEmpty) {
+          futureBusinessSearchResults = MihBusinessDetailsServices()
+              .searchBusinesses(mzansiSearchController.text,
+                  businessTypeController.text, context);
+        } else if (mzansiSearchController.text.isNotEmpty) {
+          futureBusinessSearchResults = MihBusinessDetailsServices()
+              .searchBusinesses(mzansiSearchController.text,
+                  businessTypeController.text, context);
+        }
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -49,13 +100,13 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     super.initState();
     setState(() {
       userSearch = widget.personalSearch;
-      mzansiSearchController.text = widget.startUpSearch ?? "";
-      if (userSearch) {
-        futureUserSearchResults =
-            MihUserServices().searchUsers(mzansiSearchController.text, context);
+      availableBusinessTypes =
+          MihBusinessDetailsServices().fetchAllBusinessTypes();
+      if (widget.startSearchText != null) {
+        mzansiSearchController.text = widget.startSearchText!;
+        searchPressed();
       } else {
-        futureBusinessSearchResults = MihBusinessDetailsServices()
-            .searchBusinesses(mzansiSearchController.text, context);
+        mzansiSearchController.text = "";
       }
     });
   }
@@ -76,76 +127,132 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: mzansiSearchController,
-              hintText: "Search Mzansi",
-              prefixIcon: Icons.search,
-              prefixAltIcon: userSearch ? Icons.person : Icons.business,
-              suffixTools: [
-                IconButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: MihSearchBar(
+                    controller: mzansiSearchController,
+                    hintText: "Search Mzansi",
+                    prefixIcon: Icons.search,
+                    prefixAltIcon: userSearch ? Icons.person : Icons.business,
+                    suffixTools: [
+                      IconButton(
+                        onPressed: () {
+                          swapPressed();
+                        },
+                        icon: Icon(
+                          Icons.swap_horiz_rounded,
+                          size: 35,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .primaryColor(),
+                        ),
+                      ),
+                    ],
+                    fillColor:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    hintColor:
+                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    onPrefixIconTap: () {
+                      searchPressed();
+                    },
+                    onClearIconTap: () {
+                      clearAll();
+                    },
+                    searchFocusNode: searchFocusNode,
+                  ),
+                ),
+                Visibility(
+                  visible: !userSearch,
+                  child: const SizedBox(width: 10),
+                ),
+                Visibility(
+                  visible: !userSearch,
+                  child: IconButton(
                     onPressed: () {
+                      if (filterOn) {
+                        clearAll();
+                      }
                       setState(() {
-                        // searchTypeVisibility = !searchTypeVisibility;
-                        userSearch = !userSearch;
-                        if (userSearch) {
-                          futureUserSearchResults = MihUserServices()
-                              .searchUsers(
-                                  mzansiSearchController.text, context);
-                        } else {
-                          futureBusinessSearchResults =
-                              MihBusinessDetailsServices().searchBusinesses(
-                                  mzansiSearchController.text, context);
-                        }
+                        filterOn = !filterOn;
                       });
                     },
                     icon: Icon(
-                      Icons.swap_horiz_rounded,
+                      !filterOn
+                          ? Icons.filter_list_rounded
+                          : Icons.filter_list_off_rounded,
                       size: 35,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                    ))
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                ),
               ],
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                if (userSearch) {
-                  setState(() {
-                    futureUserSearchResults = MihUserServices()
-                        .searchUsers(mzansiSearchController.text, context);
-                  });
-                } else {
-                  setState(() {
-                    futureBusinessSearchResults = MihBusinessDetailsServices()
-                        .searchBusinesses(mzansiSearchController.text, context);
-                  });
-                }
-              },
-              onClearIconTap: () {
-                setState(() {
-                  futureUserSearchResults = Future.value();
-                  futureBusinessSearchResults = Future.value();
-                  mzansiSearchController.clear();
-                });
-              },
-              searchFocusNode: searchFocusNode,
             ),
           ),
           const SizedBox(height: 10),
           FutureBuilder(
-              future: futurePosition,
+              future: availableBusinessTypes,
               builder: (context, asyncSnapshot) {
-                String myLocation = "";
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  myLocation = "Getting Your GPS Location Ready";
-                } else {
-                  myLocation = asyncSnapshot.data
-                      .toString()
-                      .replaceAll("Latitude: ", "")
-                      .replaceAll("Longitude: ", "");
+                List<String> options = [];
+                if (asyncSnapshot.connectionState == ConnectionState.done) {
+                  options.addAll(asyncSnapshot.data!);
                 }
-                return displaySearchResults(userSearch, myLocation);
+                return Visibility(
+                  visible: filterOn,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width / 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: MihDropdownField(
+                            controller: businessTypeController,
+                            hintText: "Business Type Filter",
+                            dropdownOptions: options,
+                            requiredText: true,
+                            editable: true,
+                            enableSearch: true,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        MihButton(
+                          onPressed: () {
+                            if (businessTypeController.text.isNotEmpty) {
+                              searchPressed();
+                            } else {
+                              MihAlertServices().errorAlert(
+                                "Business Type Not Selected",
+                                "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
+                                context,
+                              );
+                            }
+                          },
+                          buttonColor: MzansiInnovationHub.of(context)!
+                              .theme
+                              .successColor(),
+                          elevation: 10,
+                          child: Text(
+                            "Search",
+                            style: TextStyle(
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }),
+          const SizedBox(height: 10),
+          displaySearchResults(userSearch, widget.myLocation ?? ""),
         ],
       ),
     );

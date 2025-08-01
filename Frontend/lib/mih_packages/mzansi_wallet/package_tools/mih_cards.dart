@@ -161,6 +161,7 @@ class _MihCardsState extends State<MihCards> {
                       "Spar",
                       "Spur",
                       "TFG Group",
+                      "Total Energies",
                       "Toys R Us",
                       "Woermann Brock",
                       "Woolworths"
@@ -367,7 +368,7 @@ class _MihCardsState extends State<MihCards> {
                       builder: (BuildContext context,
                           List<MIHLoyaltyCard> value, Widget? child) {
                         return BuildLoyaltyCardList(
-                          cardList: searchShopName.value,
+                          cardList: value,
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
                           bannerAd: _bannerAd,

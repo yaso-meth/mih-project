@@ -109,6 +109,7 @@ class _MihSearchBarState extends State<MihSearchBar> {
       color: widget.fillColor,
       child: AnimatedContainer(
         // Keep AnimatedContainer for width/height transitions
+        alignment: Alignment.centerLeft,
         width: widget.width,
         height: widget.height ?? 50,
         duration: const Duration(milliseconds: 300),
@@ -123,6 +124,7 @@ class _MihSearchBarState extends State<MihSearchBar> {
             ),
           ),
           child: TextField(
+            textAlignVertical: TextAlignVertical.center,
             controller: widget.controller, // Assign the controller
             focusNode: widget.searchFocusNode,
             autocorrect: true,
@@ -134,17 +136,20 @@ class _MihSearchBarState extends State<MihSearchBar> {
             style: TextStyle(
               color: widget.hintColor,
               fontWeight: FontWeight.w600,
+              fontSize: 16,
             ),
             cursorColor: widget.hintColor,
             decoration: InputDecoration(
+              isDense: true,
               hintText: widget.hintText,
               hintStyle: TextStyle(
                 color: widget.hintColor,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
               ),
               border: InputBorder.none,
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
               prefixIcon: GestureDetector(
                 onTap: widget.onPrefixIconTap,
                 child: getPrefixIcon(),
@@ -152,12 +157,15 @@ class _MihSearchBarState extends State<MihSearchBar> {
               suffixIcon: Row(
                 // Use a Row for multiple suffix icons
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Optional suffix tools
                   if (widget.suffixTools != null) ...widget.suffixTools!,
                   // Clear Icon (conditionally visible)
                   if (_showClearIcon) // Only show if input is not empty
                     IconButton(
+                      iconSize: 35,
                       icon: Icon(Icons.clear,
                           color: widget.hintColor), // Clear icon
                       onPressed: widget.onClearIconTap ??

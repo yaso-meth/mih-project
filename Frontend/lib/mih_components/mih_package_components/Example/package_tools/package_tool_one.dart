@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 // import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
@@ -30,6 +31,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
+import 'package:redacted/redacted.dart';
 
 class PackageToolOne extends StatefulWidget {
   final AppUser user;
@@ -291,16 +293,34 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       }
                     }),
                 const SizedBox(height: 10),
-                // MihBusinessCard(
-                //   businessid: "123456",
-                //   businessName: "Mzansi Innovation Hub",
-                //   cellNumber: "0788300006",
-                //   email: "yasien.meth@mzansi-innovation-hub.co.za",
-                //   gpsLocation: "-26.1853611, 28.134664",
-                //   website:
-                //       "https://app.mzansi-innovation-hub.co.za/privacy.html",
-                //   rating: 3.25,
-                // ),
+                Text("This text should be redacted").redacted(
+                  context: context,
+                  redact: true,
+                ),
+                MihBusinessCard(
+                  business: Business(
+                    "business_id",
+                    "Name",
+                    "type",
+                    "registration_no",
+                    "logo_name",
+                    "logo_path",
+                    "contact_no",
+                    "bus_email",
+                    "app_id",
+                    "gps_location",
+                    "practice_no",
+                    "vat_no",
+                    "website",
+                    "rating",
+                    "mission_vision",
+                  ),
+                  startUpSearch: '',
+                  width: 300,
+                ).redacted(
+                  context: context,
+                  redact: true,
+                ),
                 const SizedBox(height: 10),
                 Divider(
                   color:

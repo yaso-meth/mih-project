@@ -9,12 +9,42 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
+  Future<List<String>> fetchAllBusinessTypes() async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/types/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<String> businessTypes =
+          jsonList.map((item) => item['type'].toString()).toList();
+      return businessTypes;
+    } else {
+      return [];
+    }
+  }
+
   Future<List<Business>> searchBusinesses(
     String searchText,
+    String searchType,
     BuildContext context,
   ) async {
+    String newSearchText = "All";
+    if (searchText.isNotEmpty) {
+      newSearchText = searchText;
+    }
+    String newSearchType = "All";
+    if (searchType.isNotEmpty) {
+      newSearchType = searchType;
+    }
+    if (searchText.isEmpty && searchType.isEmpty) {
+      return [];
+    }
     var response = await http.get(
-      Uri.parse("${AppEnviroment.baseApiUrl}/businesses/search/$searchText"),
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/business/search/$newSearchType/$newSearchText"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
@@ -29,11 +59,30 @@ class MihBusinessDetailsServices {
     }
   }
 
-  Future<Business?> getBusinessDetails(
+  Future<Business?> getBusinessDetailsByUser(
     String app_id,
   ) async {
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return Business.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
+  Future<Business?> getBusinessDetailsByBusinessId(
+    String business_id,
+  ) async {
+    var response = await http.get(
+      Uri.parse(
+          "${AppEnviroment.baseApiUrl}/business/business_id/$business_id"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },

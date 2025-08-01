@@ -44,7 +44,7 @@ class _MihPackageState extends State<MihPackage>
     int nextPage =
         currentPage + 1 < widget.appBody.length ? currentPage + 1 : currentPage;
     if (nextPage != currentPage) {
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 100));
       await _pageController.animateTo(
         currentOffset + peakOffset,
         duration: const Duration(milliseconds: 300),
@@ -86,10 +86,24 @@ class _MihPackageState extends State<MihPackage>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+    // if (!MzansiInnovationHub.of(context)!.theme.kIsWeb) {
+    //   // Trigger the peak animation on start (or call this elsewhere)
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     _peakAnimation();
+    //   });
+    // }
     if (!MzansiInnovationHub.of(context)!.theme.kIsWeb) {
-      // Trigger the peak animation on start (or call this elsewhere)
+      // Trigger the peak animation only AFTER the route transition is complete
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _peakAnimation();
+        final ModalRoute? currentRoute = ModalRoute.of(context);
+        if (currentRoute != null) {
+          currentRoute.animation?.addStatusListener((status) {
+            if (status == AnimationStatus.completed && mounted) {
+              // Ensure the widget is still mounted and the animation is completed
+              _peakAnimation();
+            }
+          });
+        }
       });
     }
   }

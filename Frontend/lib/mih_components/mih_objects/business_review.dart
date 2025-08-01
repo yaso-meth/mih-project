@@ -40,7 +40,8 @@ class BusinessReview {
           date_time: date_time,
           reviewer: reviewer,
         ),
-      _ => throw const FormatException('Failed to load loyalty card objects'),
+      _ =>
+        throw const FormatException('Failed to load Business Review objects'),
     };
   }
 }
