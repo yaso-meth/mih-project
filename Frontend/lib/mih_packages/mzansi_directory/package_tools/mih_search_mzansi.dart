@@ -61,7 +61,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
       futureUserSearchResults = Future.value();
       futureBusinessSearchResults = Future.value();
       mzansiSearchController.clear();
-      businessSearchResults.clear();
+      businessTypeController.clear();
     });
   }
 
@@ -165,13 +165,11 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   visible: !userSearch,
                   child: IconButton(
                     onPressed: () {
+                      if (filterOn) {
+                        clearAll();
+                      }
                       setState(() {
                         filterOn = !filterOn;
-                        if (filterOn) {
-                          businessTypeController.text = "";
-                        } else {
-                          businessTypeController.clear();
-                        }
                       });
                     },
                     icon: Icon(
