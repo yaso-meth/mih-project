@@ -213,6 +213,18 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     }
   }
 
+  void autoNavToProfile() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).pushNamed(
+        '/mzansi-profile',
+        arguments: AppProfileUpdateArguments(
+          widget.signedInUser,
+          widget.propicFile,
+        ),
+      );
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -229,17 +241,11 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     searchController.addListener(searchPackage);
     if (widget.isUserNew) {
       personalPackagesMap = setNerUserPersonalPackage();
+      autoNavToProfile();
     } else {
       personalPackagesMap = setPersonalPackagesMap();
     }
     searchPackage();
-    //Scrolling Banner message
-    // _marqueeController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(seconds: 12),
-    // );
-    // _scrollController = ScrollController();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => _startMarquee());
   }
 
   @override
