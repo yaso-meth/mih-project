@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -39,7 +38,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   PlatformFile? userPicFile;
   PlatformFile? userSignatureFile;
   final fileNameController = TextEditingController();
-  final titleDropdownController = TextEditingController();
   final titleTextController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
@@ -49,7 +47,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   late String env;
 
   bool isFormFilled() {
-    if (titleDropdownController.text.isEmpty) {
+    if (titleTextController.text.isEmpty) {
       return false;
     } else {
       return true;
@@ -93,7 +91,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
       int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
         widget.arguments.signedInUser.app_id,
         widget.arguments.businessUser!.business_id,
-        titleDropdownController.text,
+        titleTextController.text,
         accessController.text,
         signtureController.text,
         context,
@@ -171,7 +169,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   void dispose() {
     super.dispose();
     fileNameController.dispose();
-    titleDropdownController.dispose();
     titleTextController.dispose();
     fnameController.dispose();
     lnameController.dispose();
@@ -189,7 +186,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
           widget.arguments.signedInUser.pro_pic_path.split("/").last;
       signtureController.text =
           widget.arguments.businessUser!.sig_path.split("/").last;
-      titleDropdownController.text = widget.arguments.businessUser!.title;
       titleTextController.text = widget.arguments.businessUser!.title;
       fnameController.text = widget.arguments.signedInUser.fname;
       lnameController.text = widget.arguments.signedInUser.lname;
@@ -252,18 +248,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                MihDropdownField(
-                  controller: titleDropdownController,
-                  hintText: "Title",
-                  dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                  editable: true,
-                  enableSearch: true,
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                  requiredText: true,
-                ),
-                const SizedBox(height: 10),
                 MihTextFormField(
                   fillColor:
                       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
@@ -272,7 +256,8 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   controller: titleTextController,
                   multiLineInput: false,
                   requiredText: true,
-                  hintText: "Other Title",
+                  readOnly: false,
+                  hintText: "Title",
                   validator: (value) {
                     return MihValidationServices().isEmpty(value);
                   },
@@ -329,7 +314,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                   child: const Text(
                     "Signature:",
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
