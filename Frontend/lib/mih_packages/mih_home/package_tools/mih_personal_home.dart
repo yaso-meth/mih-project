@@ -281,29 +281,33 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           //   ),
           // ),
           // const SizedBox(height: 20),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: searchController,
-              hintText: "Ask Mzansi",
-              prefixIcon: Icons.search,
-              prefixAltIcon: MihIcons.mzansiAi,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                Navigator.of(context).pushNamed(
-                  '/mzansi-ai',
-                  arguments: MzansiAiArguments(
-                    widget.signedInUser,
-                    searchController.text.isEmpty
-                        ? null
-                        : searchController.text,
-                  ),
-                );
-                searchController.clear();
-              },
-              searchFocusNode: _searchFocusNode,
+          Visibility(
+            visible: !widget.isUserNew,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: MihSearchBar(
+                controller: searchController,
+                hintText: "Ask Mzansi",
+                prefixIcon: Icons.search,
+                prefixAltIcon: MihIcons.mzansiAi,
+                fillColor:
+                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                hintColor:
+                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                onPrefixIconTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/mzansi-ai',
+                    arguments: MzansiAiArguments(
+                      widget.signedInUser,
+                      searchController.text.isEmpty
+                          ? null
+                          : searchController.text,
+                    ),
+                  );
+                  searchController.clear();
+                },
+                searchFocusNode: _searchFocusNode,
+              ),
             ),
           ),
           const SizedBox(height: 20),
