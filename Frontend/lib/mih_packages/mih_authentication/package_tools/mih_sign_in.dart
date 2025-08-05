@@ -306,7 +306,8 @@ class _MihSignInState extends State<MihSignIn> {
                       passwordMode: true,
                       autofillHints: const [AutofillHints.password],
                       validator: (value) {
-                        return MihValidationServices().validatePassword(value);
+                        // return MihValidationServices().validatePassword(value);
+                        return null;
                       },
                     ),
                     const SizedBox(height: 10),
