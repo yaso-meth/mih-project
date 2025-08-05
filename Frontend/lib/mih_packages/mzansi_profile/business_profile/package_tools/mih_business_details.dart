@@ -284,17 +284,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                               return MihValidationServices().isEmpty(value);
                             },
                           ),
-                          // MihDropdownField(
-                          //   controller: typeController,
-                          //   hintText: "Business Type",
-                          //   dropdownOptions: const ["Doctors Office", "Other"],
-                          //   editable: true,
-                          //   enableSearch: true,
-                          //   validator: (value) {
-                          //     return MihValidationServices().isEmpty(value);
-                          //   },
-                          //   requiredText: true,
-                          // ),
                           const SizedBox(height: 10),
                           MihTextFormField(
                             fillColor: MzansiInnovationHub.of(context)!
@@ -326,23 +315,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             hintText: "Contact Number",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: websiteController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "Business Website",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateWebsite(value, false);
                             },
                           ),
                           const SizedBox(height: 10),
@@ -401,9 +373,26 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
+                            controller: websiteController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "Business Website",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateWebsite(value, false);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
                             controller: regController,
                             multiLineInput: false,
-                            requiredText: true,
+                            requiredText: false,
                             hintText: "Registration No.",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
@@ -419,8 +408,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 .primaryColor(),
                             controller: practiceNoController,
                             multiLineInput: false,
-                            requiredText:
-                                typeController.text == "Doctors Office",
+                            requiredText: false,
                             hintText: "Practice Number",
                             validator: (validateValue) {
                               return null;
@@ -436,7 +424,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 .primaryColor(),
                             controller: vatNoController,
                             multiLineInput: false,
-                            requiredText: true,
+                            requiredText: false,
                             hintText: "VAT Number",
                             validator: (value) {
                               return MihValidationServices().isEmpty(value);
