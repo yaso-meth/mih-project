@@ -1,6 +1,7 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -502,11 +503,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         padding: EdgeInsets.only(
           left: getHorizontalPaddingSize(size),
           right: getHorizontalPaddingSize(size),
-          //bottom: height / 5,
-          //top: 20,
         ),
-        // physics: ,
-        // shrinkWrap: true,
         itemCount: widget.cardList.length,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           mainAxisSpacing: 0,
@@ -526,39 +523,58 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           );
         },
       );
-      // return ListView.separated(
-      //   shrinkWrap: true,
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   separatorBuilder: (BuildContext context, int index) {
-      //     return Divider(
-      //       color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      //     );
-      //   },
-      //   itemCount: widget.cardList.length,
-      //   itemBuilder: (context, index) {
-      //     return ListTile(
-      //       title: MihCardDisplay(
-      //           shopName: widget.cardList[index].shop_name, height: 200),
-
-      //       onTap: () {
-      //         viewCardWindow(index);
-      //       },
-      //     );
-      //   },
-      // );
     } else {
       return Padding(
-        padding: const EdgeInsets.only(top: 25.0),
-        child: SizedBox(
-          height: size.height,
-          child: const Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              "No Cards Available",
-              style: TextStyle(fontSize: 25, color: Colors.grey),
-              textAlign: TextAlign.center,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Icon(
+              MihIcons.iDontKnow,
+              size: 165,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
-          ),
+            const SizedBox(height: 10),
+            Text(
+              "No Cards added yo your Mzansi Wallet.",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.menu,
+                        size: 25,
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    TextSpan(text: " to add your first loyalty card."),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       );
     }
