@@ -302,7 +302,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     controller: purposeController,
                     multiLineInput: true,
                     requiredText: true,
-                    hintText: "Your Purpose",
+                    hintText: "Your Personal Mission",
                     validator: (value) {
                       return MihValidationServices()
                           .validateLength(purposeController.text, 256);
@@ -513,7 +513,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     child: Text(
                       widget.arguments.signedInUser.purpose.isNotEmpty
                           ? widget.arguments.signedInUser.purpose
-                          : "No purpose added yet",
+                          : "No Personal Mission added yet",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,

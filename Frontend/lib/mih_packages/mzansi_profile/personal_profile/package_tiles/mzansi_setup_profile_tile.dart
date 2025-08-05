@@ -34,7 +34,7 @@ class _MzansiSetupProfileTileState extends State<MzansiSetupProfileTile> {
           ),
         );
       },
-      appName: "Setup Profile",
+      appName: "Set Up Profile",
       appIcon: Icon(
         MihIcons.profileSetup,
         color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
