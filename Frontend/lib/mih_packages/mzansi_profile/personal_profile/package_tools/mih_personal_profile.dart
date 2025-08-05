@@ -41,6 +41,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   PlatformFile? proPic;
   late ImageProvider<Object>? propicPreview;
+  late bool originalProfileTypeIsBusiness;
   late bool businessUser;
   late String oldProPicName;
   late String env;
@@ -125,13 +126,18 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       context,
     );
     if (responseCode == 200) {
+      bool stayOnPersonalSide = true;
+      if (originalProfileTypeIsBusiness == false && businessUser == true) {
+        stayOnPersonalSide = false;
+      }
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         '/',
         arguments: AuthArguments(
-          true,
+          stayOnPersonalSide,
+          // true,
           false,
         ),
       );
@@ -423,6 +429,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       usernameController.text = widget.arguments.signedInUser.username;
       purposeController.text = widget.arguments.signedInUser.purpose;
       businessUser = isBusinessUser();
+      if (businessUser) {
+        originalProfileTypeIsBusiness = true;
+      } else {
+        originalProfileTypeIsBusiness = false;
+      }
     });
   }
 
