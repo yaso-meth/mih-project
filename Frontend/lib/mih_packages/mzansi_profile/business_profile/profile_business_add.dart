@@ -14,7 +14,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -365,23 +364,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        controller: websiteController,
-                        multiLineInput: false,
-                        requiredText: false,
-                        hintText: "Business Website",
-                        validator: (value) {
-                          return MihValidationServices()
-                              .validateWebsite(value, false);
-                        },
-                      ),
-                      const SizedBox(height: 10.0),
-                      MihTextFormField(
                         height: 250,
                         fillColor: MzansiInnovationHub.of(context)!
                             .theme
@@ -429,6 +411,23 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
+                      MihTextFormField(
+                        fillColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        controller: websiteController,
+                        multiLineInput: false,
+                        requiredText: false,
+                        hintText: "Business Website",
+                        validator: (value) {
+                          return MihValidationServices()
+                              .validateWebsite(value, false);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
 
                       MihTextFormField(
                         fillColor: MzansiInnovationHub.of(context)!
@@ -439,10 +438,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             .primaryColor(),
                         controller: regController,
                         multiLineInput: false,
-                        requiredText: true,
+                        requiredText: false,
                         hintText: "Registration No.",
                         validator: (value) {
-                          return MihValidationServices().isEmpty(value);
+                          // return MihValidationServices().isEmpty(value);
+                          return null;
                         },
                       ),
                       const SizedBox(height: 10.0),
@@ -472,10 +472,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             .primaryColor(),
                         controller: vatNoController,
                         multiLineInput: false,
-                        requiredText: true,
+                        requiredText: false,
                         hintText: "VAT Number",
                         validator: (value) {
-                          return MihValidationServices().isEmpty(value);
+                          // return MihValidationServices().isEmpty(value);
+                          return null;
                         },
                       ),
                       const SizedBox(height: 10.0),
@@ -553,17 +554,32 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                               .theme
                               .secondaryColor()),
                       const SizedBox(height: 10.0),
-                      MihDropdownField(
+                      MihTextFormField(
+                        fillColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
                         controller: titleController,
+                        multiLineInput: false,
+                        requiredText: true,
                         hintText: "Title",
-                        dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                        editable: true,
-                        enableSearch: true,
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
-                        requiredText: true,
                       ),
+                      // MihDropdownField(
+                      //   controller: titleController,
+                      //   hintText: "Title",
+                      //   dropdownOptions: const ["Doctor", "Assistant", "Other"],
+                      //   editable: true,
+                      //   enableSearch: true,
+                      //   validator: (value) {
+                      //     return MihValidationServices().isEmpty(value);
+                      //   },
+                      //   requiredText: true,
+                      // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         fillColor: MzansiInnovationHub.of(context)!
@@ -575,6 +591,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         controller: fnameController,
                         multiLineInput: false,
                         requiredText: true,
+                        readOnly: true,
                         hintText: "First Name",
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
@@ -591,23 +608,40 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         controller: lnameController,
                         multiLineInput: false,
                         requiredText: true,
+                        readOnly: true,
                         hintText: "Surname",
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
                       ),
                       const SizedBox(height: 15.0),
-                      MihDropdownField(
+                      MihTextFormField(
+                        fillColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                        inputColor: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
                         controller: accessController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: true,
                         hintText: "Access Type",
-                        dropdownOptions: const ["Full", "Partial"],
-                        editable: true,
-                        enableSearch: true,
                         validator: (value) {
                           return MihValidationServices().isEmpty(value);
                         },
-                        requiredText: true,
                       ),
+                      // MihDropdownField(
+                      //   controller: accessController,
+                      //   hintText: "Access Type",
+                      //   dropdownOptions: const ["Full", "Partial"],
+                      //   editable: false,
+                      //   enableSearch: true,
+                      //   validator: (value) {
+                      //     return MihValidationServices().isEmpty(value);
+                      //   },
+                      //   requiredText: true,
+                      // ),
                       const SizedBox(height: 20.0),
                       Center(
                         child: MihButton(
