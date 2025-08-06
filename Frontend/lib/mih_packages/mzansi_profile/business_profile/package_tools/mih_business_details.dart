@@ -1,9 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
@@ -800,33 +798,33 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             ),
           ),
         ),
-        Positioned(
-          right: 5,
-          bottom: 10,
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            children: [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.edit,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Edit Profile",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  editBizProfileWindow(width);
-                },
-              )
-            ],
-          ),
-        ),
+        // Positioned(
+        //   right: 5,
+        //   bottom: 10,
+        //   child: MihFloatingMenu(
+        //     animatedIcon: AnimatedIcons.menu_close,
+        //     children: [
+        //       SpeedDialChild(
+        //         child: Icon(
+        //           Icons.edit,
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //         ),
+        //         label: "Edit Profile",
+        //         labelBackgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         labelStyle: TextStyle(
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //         backgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         onTap: () {
+        //           editBizProfileWindow(width);
+        //         },
+        //       )
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

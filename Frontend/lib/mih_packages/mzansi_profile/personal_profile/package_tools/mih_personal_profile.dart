@@ -1,6 +1,4 @@
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -564,33 +562,33 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             ),
           ),
         ),
-        Positioned(
-          right: 5,
-          bottom: 10,
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            children: [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.edit,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Edit Profile",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  editProfileWindow(width);
-                },
-              )
-            ],
-          ),
-        ),
+        // Positioned(
+        //   right: 5,
+        //   bottom: 10,
+        //   child: MihFloatingMenu(
+        //     animatedIcon: AnimatedIcons.menu_close,
+        //     children: [
+        //       SpeedDialChild(
+        //         child: Icon(
+        //           Icons.edit,
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //         ),
+        //         label: "Edit Profile",
+        //         labelBackgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         labelStyle: TextStyle(
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //         backgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         onTap: () {
+        //           editProfileWindow(width);
+        //         },
+        //       )
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
