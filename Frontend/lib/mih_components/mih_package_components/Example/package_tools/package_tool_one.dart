@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -185,6 +186,20 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                CountryCodePicker(
+                  padding: EdgeInsetsGeometry.all(0),
+                  onChanged: (selectedCode) {
+                    debugPrint("Selected Country Code: $selectedCode");
+                  },
+                  initialSelection: '+27',
+                  showDropDownButton: false,
+                  pickerStyle: PickerStyle.bottomSheet,
+                  dialogBackgroundColor:
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  barrierColor:
+                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                ),
+                const SizedBox(height: 10),
                 Center(
                   child: MihButton(
                     onPressed: () {
@@ -305,7 +320,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     "registration_no",
                     "logo_name",
                     "logo_path",
-                    "contact_no",
+                    "+27812345679",
                     "bus_email",
                     "app_id",
                     "gps_location",
