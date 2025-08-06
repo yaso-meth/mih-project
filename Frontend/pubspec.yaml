@@ -46,6 +46,7 @@ dependencies:
   google_mobile_ads: ^6.0.0
   redacted: ^1.0.13
   custom_rating_bar: ^3.0.0
+  country_code_picker: ^3.3.0
 
 dev_dependencies:
   flutter_test:
