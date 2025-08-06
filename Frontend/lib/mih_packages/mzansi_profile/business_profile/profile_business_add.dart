@@ -375,7 +375,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                               debugPrint(
                                   "Selected Country Code: ${countryCodeController.text}");
                             },
-                            initialSelection: '+27',
+                            initialSelection: countryCodeController.text,
                             showDropDownButton: false,
                             pickerStyle: PickerStyle.bottomSheet,
                             dialogBackgroundColor:
@@ -752,6 +752,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       fnameController.text = widget.signedInUser.fname;
       lnameController.text = widget.signedInUser.lname;
       accessController.text = "Full";
+      countryCodeController.text = "+27";
     });
     if (AppEnviroment.getEnv() == "Prod") {
       env = "Prod";
