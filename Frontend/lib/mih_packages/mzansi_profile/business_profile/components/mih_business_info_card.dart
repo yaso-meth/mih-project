@@ -40,7 +40,8 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri url = Uri(scheme: 'tel', path: phoneNumber);
+    String formattedNumber = phoneNumber.replaceAll("-", "");
+    final Uri url = Uri(scheme: 'tel', path: formattedNumber);
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {

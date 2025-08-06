@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -51,6 +52,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final titleController = TextEditingController();
   final signtureController = TextEditingController();
   final accessController = TextEditingController();
+  final countryCodeController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
@@ -124,7 +126,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       practiceNoController.text,
       vatNoController.text,
       emailController.text,
-      contactController.text,
+      getNumberWithCountryCode(),
+      // "${countryCodeController.text}-${contactController.text}",
       locationController.text,
       logonameController.text,
       websiteController.text,
@@ -139,6 +142,18 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     } else {
       internetConnectionPopUp();
     }
+  }
+
+  String getNumberWithCountryCode() {
+    String numberWithoutBeginingZero = "";
+    if (contactController.text[0] == "0") {
+      numberWithoutBeginingZero = contactController.text
+          .replaceAll(" ", "")
+          .substring(1, contactController.text.length);
+    } else {
+      numberWithoutBeginingZero = contactController.text.replaceAll("-", " ");
+    }
+    return "${countryCodeController.text}-$numberWithoutBeginingZero";
   }
 
   void internetConnectionPopUp() {
@@ -319,17 +334,6 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           return MihValidationServices().isEmpty(value);
                         },
                       ),
-                      // MihDropdownField(
-                      //   controller: typeController,
-                      //   hintText: "Business Type",
-                      //   dropdownOptions: const ["Doctors Office", "Other"],
-                      //   editable: true,
-                      //   enableSearch: true,
-                      //   validator: (value) {
-                      //     return MihValidationServices().isEmpty(value);
-                      //   },
-                      //   requiredText: true,
-                      // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         fillColor: MzansiInnovationHub.of(context)!
@@ -347,20 +351,60 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         },
                       ),
                       const SizedBox(height: 10.0),
-                      MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
-                        controller: contactController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Contact Number",
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
+                      Container(
+                        width: 300,
+                        alignment: Alignment.topLeft,
+                        child: const Text(
+                          "Contact Number:",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          CountryCodePicker(
+                            padding: EdgeInsetsGeometry.all(0),
+                            onChanged: (selectedCode) {
+                              setState(() {
+                                countryCodeController.text =
+                                    selectedCode.toString();
+                              });
+                              debugPrint(
+                                  "Selected Country Code: ${countryCodeController.text}");
+                            },
+                            initialSelection: '+27',
+                            showDropDownButton: false,
+                            pickerStyle: PickerStyle.bottomSheet,
+                            dialogBackgroundColor:
+                                MzansiInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                            barrierColor: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                          ),
+                          Expanded(
+                            child: MihTextFormField(
+                              fillColor: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                              inputColor: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              controller: contactController,
+                              numberMode: true,
+                              multiLineInput: false,
+                              requiredText: true,
+                              hintText: null,
+                              validator: (value) {
+                                return MihValidationServices().isEmpty(value);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
