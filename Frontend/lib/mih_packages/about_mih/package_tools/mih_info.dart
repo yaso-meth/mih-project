@@ -532,8 +532,8 @@ class _MihInfoState extends State<MihInfo> {
                 height: 10,
               ),
               Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 10,
                   runSpacing: 10,
                   children: [
