@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -140,18 +141,74 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.only(top: 35.0),
-        child: Center(
-          child: Text(
-            "Enter ID or Medical Aid No. of Patient",
-            style: TextStyle(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Icon(
+              MihIcons.patientProfile,
+              size: 165,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Search for a Patient of Mzansi to add to your Patient List",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
                 fontSize: 25,
-                color:
-                    MzansiInnovationHub.of(context)!.theme.messageTextColor()),
-            textAlign: TextAlign.center,
-          ),
+                fontWeight: FontWeight.bold,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  children: [
+                    TextSpan(
+                        text:
+                            "You can search using their teamtient ID or Medical Aid No."),
+                    // WidgetSpan(
+                    //   alignment: PlaceholderAlignment.middle,
+                    //   child: Icon(
+                    //     Icons.menu,
+                    //     size: 20,
+                    //     color: MzansiInnovationHub.of(context)!
+                    //         .theme
+                    //         .secondaryColor(),
+                    //   ),
+                    // ),
+                    // TextSpan(text: " to add your first loyalty card"),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       );
+      // return Padding(
+      //   padding: const EdgeInsets.only(top: 35.0),
+      //   child: Center(
+      //     child: Text(
+      //       "Enter ID or Medical Aid No. of Patient",
+      //       style: TextStyle(
+      //           fontSize: 25,
+      //           color:
+      //               MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ),
+      // );
     }
   }
 
