@@ -419,23 +419,47 @@ class _MihInfoState extends State<MihInfo> {
     }
   }
 
-  String getInstallButtonText() {
+  Widget getInstallButtonText() {
     final isWebAndroid =
         kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
     final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
-
+    String btnText = "";
+    IconData platformIcon;
     if (isWebAndroid) {
-      return "Install MIH (Play Store)";
+      btnText = "Install MIH";
+      platformIcon = FontAwesomeIcons.googlePlay;
     } else if (isWebIos) {
-      return "Install MIH (PWA)";
+      btnText = "Install MIH";
+      platformIcon = FontAwesomeIcons.appStoreIos;
     } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
         "Android") {
-      return "Update MIH (Play Store)";
+      btnText = "Update MIH";
+      platformIcon = FontAwesomeIcons.googlePlay;
     } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
-      return "Update MIH (App Store)";
+      btnText = "Update MIH";
+      platformIcon = FontAwesomeIcons.appStoreIos;
     } else {
-      return "Install MIH (PWA)";
+      btnText = "Install MIH";
+      platformIcon = FontAwesomeIcons.globe;
     }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FaIcon(
+          platformIcon,
+          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          btnText,
+          style: TextStyle(
+            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
   }
 
   void shareMIHLink(BuildContext context, String message, String link) {
@@ -508,8 +532,8 @@ class _MihInfoState extends State<MihInfo> {
                 height: 10,
               ),
               Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 10,
                   runSpacing: 10,
                   children: [
@@ -520,16 +544,7 @@ class _MihInfoState extends State<MihInfo> {
                       buttonColor:
                           MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
-                      child: Text(
-                        getInstallButtonText(),
-                        style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: getInstallButtonText(),
                     ),
                     MihButton(
                       onPressed: () {
@@ -542,15 +557,61 @@ class _MihInfoState extends State<MihInfo> {
                       buttonColor:
                           MzansiInnovationHub.of(context)!.theme.successColor(),
                       width: 300,
-                      child: Text(
-                        "MIH Beginners Guide",
-                        style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.youtube,
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "MIH Beginners Guide",
+                            style: TextStyle(
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    MihButton(
+                      onPressed: () {
+                        launchSocialUrl(
+                          Uri.parse(
+                            "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+                          ),
+                        );
+                      },
+                      buttonColor:
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.patreon,
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Support Our Journey",
+                            style: TextStyle(
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ]),
