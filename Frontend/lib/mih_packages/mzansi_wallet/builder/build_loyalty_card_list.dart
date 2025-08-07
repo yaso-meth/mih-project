@@ -22,6 +22,7 @@ class BuildLoyaltyCardList extends StatefulWidget {
   final List<MIHLoyaltyCard> cardList;
   final int navIndex;
   final MihBannerAd? bannerAd;
+  final bool favouritesMode;
   final void Function()? onCardViewClose;
 
   const BuildLoyaltyCardList({
@@ -29,6 +30,7 @@ class BuildLoyaltyCardList extends StatefulWidget {
     required this.signedInUser,
     required this.cardList,
     required this.navIndex,
+    required this.favouritesMode,
     this.bannerAd,
     this.onCardViewClose,
   });
@@ -524,59 +526,123 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         },
       );
     } else {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 50),
-            Icon(
-              MihIcons.iDontKnow,
-              size: 165,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "No Cards added yo your Mzansi Wallet.",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+      if (!widget.favouritesMode) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Icon(
+                MihIcons.iDontKnow,
+                size: 165,
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
-            ),
-            Center(
-              child: RichText(
+              const SizedBox(height: 10),
+              Text(
+                "No Cards added to your Mzansi Wallet.",
                 textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.menu,
-                        size: 25,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                      ),
-                    ),
-                    TextSpan(text: " to add your first loyalty card."),
-                  ],
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+              const SizedBox(height: 10),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                    children: [
+                      TextSpan(text: "Press "),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.menu,
+                          size: 20,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                      TextSpan(text: " to add your first loyalty card."),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Icon(
+                MihIcons.iDontKnow,
+                size: 165,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "No Favourite Cards in your Mzansi Wallet.",
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                    children: [
+                      TextSpan(text: "Press "),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.menu,
+                          size: 20,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ),
+                      TextSpan(
+                          text:
+                              " when viewing loyalty card to add it to your favorites."),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 }
