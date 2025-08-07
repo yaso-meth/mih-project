@@ -553,6 +553,39 @@ class _MihInfoState extends State<MihInfo> {
                         ),
                       ),
                     ),
+                    MihButton(
+                      onPressed: () {
+                        launchSocialUrl(
+                          Uri.parse(
+                            "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+                          ),
+                        );
+                      },
+                      buttonColor:
+                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // FaIcon(
+                          //   FontAwesomeIcons.patreon,
+                          //   color: MzansiInnovationHub.of(context)!
+                          //       .theme
+                          //       .primaryColor(),
+                          // ),
+                          Text(
+                            "Support Our Journey",
+                            style: TextStyle(
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .primaryColor(),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ]),
               const SizedBox(
                 height: 10,
