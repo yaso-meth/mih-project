@@ -85,34 +85,35 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
               color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          // const SizedBox(height: 10),
-          // Center(
-          //   child: RichText(
-          //     textAlign: TextAlign.center,
-          //     text: TextSpan(
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         fontWeight: FontWeight.normal,
-          //         color:
-          //             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-          //       ),
-          //       children: [
-          //         TextSpan(text: "Press "),
-          //         WidgetSpan(
-          //           alignment: PlaceholderAlignment.middle,
-          //           child: Icon(
-          //             Icons.menu,
-          //             size: 20,
-          //             color: MzansiInnovationHub.of(context)!
-          //                 .theme
-          //                 .secondaryColor(),
-          //           ),
-          //         ),
-          //         TextSpan(text: " to add your first loyalty card"),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+          const SizedBox(height: 10),
+          Center(
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                children: [
+                  TextSpan(
+                      text: "You can search using their Username or Email"),
+                  // WidgetSpan(
+                  //   alignment: PlaceholderAlignment.middle,
+                  //   child: Icon(
+                  //     Icons.menu,
+                  //     size: 20,
+                  //     color: MzansiInnovationHub.of(context)!
+                  //         .theme
+                  //         .secondaryColor(),
+                  //   ),
+                  // ),
+                  // TextSpan(text: " to add your first loyalty card"),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
