@@ -1,4 +1,5 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -83,21 +84,79 @@ class _PatientAccessRequestState extends State<Appointments> {
     }
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 35.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            "No Appointments for $selectedDay",
-            style: TextStyle(
-              fontSize: 25,
-              color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Icon(
+              MihIcons.calendar,
+              size: 165,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
-            textAlign: TextAlign.center,
-            softWrap: true,
-          ),
+            const SizedBox(height: 10),
+            Text(
+              "No Appointments for $selectedDay",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.menu,
+                        size: 20,
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    TextSpan(
+                        text:
+                            " to add an appointment or select a different date"),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+    // return Expanded(
+    //   child: Padding(
+    //     padding: const EdgeInsets.only(top: 35.0),
+    //     child: Align(
+    //       alignment: Alignment.center,
+    //       child: Text(
+    //         "No Appointments for $selectedDay",
+    //         style: TextStyle(
+    //           fontSize: 25,
+    //           color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
+    //         ),
+    //         textAlign: TextAlign.center,
+    //         softWrap: true,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   void addAppointmentWindow(double width) {
