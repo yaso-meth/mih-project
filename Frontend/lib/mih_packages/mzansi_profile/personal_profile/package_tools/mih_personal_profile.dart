@@ -1,6 +1,4 @@
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -41,6 +39,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   PlatformFile? proPic;
   late ImageProvider<Object>? propicPreview;
+  late bool originalProfileTypeIsBusiness;
   late bool businessUser;
   late String oldProPicName;
   late String env;
@@ -125,13 +124,18 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       context,
     );
     if (responseCode == 200) {
+      bool stayOnPersonalSide = true;
+      if (originalProfileTypeIsBusiness == false && businessUser == true) {
+        stayOnPersonalSide = false;
+      }
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pushNamed(
         '/',
         arguments: AuthArguments(
-          true,
+          stayOnPersonalSide,
+          // true,
           false,
         ),
       );
@@ -302,7 +306,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     controller: purposeController,
                     multiLineInput: true,
                     requiredText: true,
-                    hintText: "Your Purpose",
+                    hintText: "Your Personal Mission",
                     validator: (value) {
                       return MihValidationServices()
                           .validateLength(purposeController.text, 256);
@@ -423,6 +427,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
       usernameController.text = widget.arguments.signedInUser.username;
       purposeController.text = widget.arguments.signedInUser.purpose;
       businessUser = isBusinessUser();
+      if (businessUser) {
+        originalProfileTypeIsBusiness = true;
+      } else {
+        originalProfileTypeIsBusiness = false;
+      }
     });
   }
 
@@ -513,7 +522,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     child: Text(
                       widget.arguments.signedInUser.purpose.isNotEmpty
                           ? widget.arguments.signedInUser.purpose
-                          : "No purpose added yet",
+                          : "No Personal Mission added yet",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
@@ -553,33 +562,33 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             ),
           ),
         ),
-        Positioned(
-          right: 5,
-          bottom: 10,
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            children: [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.edit,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Edit Profile",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  editProfileWindow(width);
-                },
-              )
-            ],
-          ),
-        ),
+        // Positioned(
+        //   right: 5,
+        //   bottom: 10,
+        //   child: MihFloatingMenu(
+        //     animatedIcon: AnimatedIcons.menu_close,
+        //     children: [
+        //       SpeedDialChild(
+        //         child: Icon(
+        //           Icons.edit,
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //         ),
+        //         label: "Edit Profile",
+        //         labelBackgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         labelStyle: TextStyle(
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //         backgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         onTap: () {
+        //           editProfileWindow(width);
+        //         },
+        //       )
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

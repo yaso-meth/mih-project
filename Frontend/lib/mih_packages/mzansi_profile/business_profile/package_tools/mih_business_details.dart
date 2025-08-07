@@ -1,8 +1,7 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
@@ -44,6 +43,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   final typeController = TextEditingController();
   final practiceNoController = TextEditingController();
   final vatNoController = TextEditingController();
+  final countryCodeController = TextEditingController();
   final contactController = TextEditingController();
   final emailController = TextEditingController();
   final locationController = TextEditingController();
@@ -65,7 +65,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         practiceNoController.text,
         vatNoController.text,
         emailController.text,
-        contactController.text,
+        getNumberWithCountryCode(),
+        // contactController.text,
         locationController.text,
         fileNameController.text,
         websiteController.text,
@@ -196,6 +197,34 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     }
   }
 
+  void setContactNumberControllers() {
+    if (widget.arguments.business!.contact_no[0] == "+") {
+      List<String> contactDetails =
+          widget.arguments.business!.contact_no.split("-");
+      setState(() {
+        countryCodeController.text = contactDetails[0];
+        contactController.text = contactDetails[1];
+      });
+    } else {
+      setState(() {
+        countryCodeController.text = "+27";
+        contactController.text = widget.arguments.business!.contact_no;
+      });
+    }
+  }
+
+  String getNumberWithCountryCode() {
+    String numberWithoutBeginingZero = "";
+    if (contactController.text[0] == "0") {
+      numberWithoutBeginingZero = contactController.text
+          .replaceAll(" ", "")
+          .substring(1, contactController.text.length);
+    } else {
+      numberWithoutBeginingZero = contactController.text.replaceAll("-", " ");
+    }
+    return "${countryCodeController.text}-$numberWithoutBeginingZero";
+  }
+
   void editBizProfileWindow(double width) {
     showDialog(
         context: context,
@@ -204,6 +233,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               windowTitle: 'Edit Profile',
               onWindowTapClose: () {
                 Navigator.of(context).pop();
+                resetControllers();
               },
               windowBody: MihSingleChildScroll(
                 child: Padding(
@@ -284,17 +314,6 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                               return MihValidationServices().isEmpty(value);
                             },
                           ),
-                          // MihDropdownField(
-                          //   controller: typeController,
-                          //   hintText: "Business Type",
-                          //   dropdownOptions: const ["Doctors Office", "Other"],
-                          //   editable: true,
-                          //   enableSearch: true,
-                          //   validator: (value) {
-                          //     return MihValidationServices().isEmpty(value);
-                          //   },
-                          //   requiredText: true,
-                          // ),
                           const SizedBox(height: 10),
                           MihTextFormField(
                             fillColor: MzansiInnovationHub.of(context)!
@@ -313,37 +332,61 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             },
                           ),
                           const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: contactController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Contact Number",
-                            validator: (value) {
-                              return MihValidationServices().isEmpty(value);
-                            },
+                          Container(
+                            width: 300,
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              "Contact Number:",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
-                            controller: websiteController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "Business Website",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateWebsite(value, false);
-                            },
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CountryCodePicker(
+                                padding: EdgeInsetsGeometry.all(0),
+                                onChanged: (selectedCode) {
+                                  setState(() {
+                                    countryCodeController.text =
+                                        selectedCode.toString();
+                                  });
+                                  debugPrint(
+                                      "Selected Country Code: ${countryCodeController.text}");
+                                },
+                                initialSelection: countryCodeController.text,
+                                showDropDownButton: false,
+                                pickerStyle: PickerStyle.bottomSheet,
+                                dialogBackgroundColor:
+                                    MzansiInnovationHub.of(context)!
+                                        .theme
+                                        .primaryColor(),
+                                barrierColor: MzansiInnovationHub.of(context)!
+                                    .theme
+                                    .primaryColor(),
+                              ),
+                              Expanded(
+                                child: MihTextFormField(
+                                  fillColor: MzansiInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
+                                  inputColor: MzansiInnovationHub.of(context)!
+                                      .theme
+                                      .primaryColor(),
+                                  controller: contactController,
+                                  numberMode: true,
+                                  multiLineInput: false,
+                                  requiredText: true,
+                                  hintText: null,
+                                  validator: (value) {
+                                    return MihValidationServices()
+                                        .isEmpty(value);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 10),
                           MihTextFormField(
@@ -401,12 +444,30 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             inputColor: MzansiInnovationHub.of(context)!
                                 .theme
                                 .primaryColor(),
+                            controller: websiteController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "Business Website",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateWebsite(value, false);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                            inputColor: MzansiInnovationHub.of(context)!
+                                .theme
+                                .primaryColor(),
                             controller: regController,
                             multiLineInput: false,
-                            requiredText: true,
+                            requiredText: false,
                             hintText: "Registration No.",
                             validator: (value) {
-                              return MihValidationServices().isEmpty(value);
+                              // return MihValidationServices().isEmpty(value);
+                              return null;
                             },
                           ),
                           const SizedBox(height: 10),
@@ -419,8 +480,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 .primaryColor(),
                             controller: practiceNoController,
                             multiLineInput: false,
-                            requiredText:
-                                typeController.text == "Doctors Office",
+                            requiredText: false,
                             hintText: "Practice Number",
                             validator: (validateValue) {
                               return null;
@@ -436,10 +496,11 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 .primaryColor(),
                             controller: vatNoController,
                             multiLineInput: false,
-                            requiredText: true,
+                            requiredText: false,
                             hintText: "VAT Number",
                             validator: (value) {
-                              return MihValidationServices().isEmpty(value);
+                              // return MihValidationServices().isEmpty(value);
+                              return null;
                             },
                           ),
                           const SizedBox(height: 10),
@@ -547,6 +608,34 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     }
   }
 
+  void resetControllers() {
+    setState(() {
+      fileNameController.text =
+          widget.arguments.business!.logo_path.split("/").last;
+      regController.text = widget.arguments.business!.registration_no;
+      nameController.text = widget.arguments.business!.Name;
+      typeController.text = widget.arguments.business!.type;
+      practiceNoController.text = widget.arguments.business!.practice_no;
+      vatNoController.text = widget.arguments.business!.vat_no;
+      emailController.text = widget.arguments.business!.bus_email;
+      locationController.text = widget.arguments.business!.gps_location;
+      websiteController.text = widget.arguments.business!.website;
+      ratingController.text = widget.arguments.business!.rating;
+      missionVisionController.text = widget.arguments.business!.mission_vision;
+    });
+    setContactNumberControllers();
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
+    missionVisionController.addListener(() {
+      setState(() {
+        _counter.value = missionVisionController.text.characters.length;
+      });
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -568,31 +657,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      fileNameController.text =
-          widget.arguments.business!.logo_path.split("/").last;
-      regController.text = widget.arguments.business!.registration_no;
-      nameController.text = widget.arguments.business!.Name;
-      typeController.text = widget.arguments.business!.type;
-      practiceNoController.text = widget.arguments.business!.practice_no;
-      vatNoController.text = widget.arguments.business!.vat_no;
-      contactController.text = widget.arguments.business!.contact_no;
-      emailController.text = widget.arguments.business!.bus_email;
-      locationController.text = widget.arguments.business!.gps_location;
-      websiteController.text = widget.arguments.business!.website;
-      ratingController.text = widget.arguments.business!.rating;
-      missionVisionController.text = widget.arguments.business!.mission_vision;
-    });
-    if (AppEnviroment.getEnv() == "Prod") {
-      env = "Prod";
-    } else {
-      env = "Dev";
-    }
-    missionVisionController.addListener(() {
-      setState(() {
-        _counter.value = missionVisionController.text.characters.length;
-      });
-    });
+    resetControllers();
   }
 
   @override
@@ -733,33 +798,33 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
             ),
           ),
         ),
-        Positioned(
-          right: 5,
-          bottom: 10,
-          child: MihFloatingMenu(
-            animatedIcon: AnimatedIcons.menu_close,
-            children: [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.edit,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                ),
-                label: "Edit Profile",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
-                onTap: () {
-                  editBizProfileWindow(width);
-                },
-              )
-            ],
-          ),
-        ),
+        // Positioned(
+        //   right: 5,
+        //   bottom: 10,
+        //   child: MihFloatingMenu(
+        //     animatedIcon: AnimatedIcons.menu_close,
+        //     children: [
+        //       SpeedDialChild(
+        //         child: Icon(
+        //           Icons.edit,
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //         ),
+        //         label: "Edit Profile",
+        //         labelBackgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         labelStyle: TextStyle(
+        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //         backgroundColor:
+        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //         onTap: () {
+        //           editBizProfileWindow(width);
+        //         },
+        //       )
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

@@ -211,7 +211,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         Expanded(
                           child: MihDropdownField(
                             controller: businessTypeController,
-                            hintText: "Business Type Filter",
+                            hintText: "Business Type",
                             dropdownOptions: options,
                             requiredText: true,
                             editable: true,
@@ -282,31 +282,89 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               ],
             );
           } else if (!snapshot.hasData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                Icon(
-                  MihIcons.personalProfile,
-                  size: 165,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "People Of Mzansi!",
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.visible,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  Icon(
+                    MihIcons.personalProfile,
+                    size: 165,
                     color:
                         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Text(
+                    "Search for People Of Mzansi!",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                        children: [
+                          TextSpan(text: "Press "),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.swap_horiz_rounded,
+                              size: 20,
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                            ),
+                          ),
+                          TextSpan(text: " to search for Businesses of Mzansi"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
+            // return Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     const SizedBox(height: 50),
+            //     Icon(
+            //       MihIcons.personalProfile,
+            //       size: 165,
+            //       color:
+            //           MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            //     ),
+            //     const SizedBox(height: 10),
+            //     Text(
+            //       "People Of Mzansi!",
+            //       textAlign: TextAlign.center,
+            //       overflow: TextOverflow.visible,
+            //       style: TextStyle(
+            //         fontSize: 25,
+            //         fontWeight: FontWeight.bold,
+            //         color:
+            //             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            //       ),
+            //     ),
+            //   ],
+            // );
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData &&
               snapshot.requireData!.isEmpty) {
@@ -400,30 +458,92 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               ],
             );
           } else if (!snapshot.hasData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                Icon(
-                  MihIcons.businessProfile,
-                  size: 165,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Businesses Of Mzansi!",
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.visible,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  Icon(
+                    MihIcons.businessProfile,
+                    size: 165,
                     color:
                         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Text(
+                    "Search for Business Of Mzansi!",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MzansiInnovationHub.of(context)!
+                          .theme
+                          .secondaryColor(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                        children: [
+                          TextSpan(text: "Press "),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.swap_horiz_rounded,
+                              size: 20,
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                            ),
+                          ),
+                          TextSpan(text: " to search for People of Mzansi"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                        children: [
+                          TextSpan(text: "Press "),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.filter_list_rounded,
+                              size: 20,
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                            ),
+                          ),
+                          TextSpan(text: " to filter business types"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
             return Center(

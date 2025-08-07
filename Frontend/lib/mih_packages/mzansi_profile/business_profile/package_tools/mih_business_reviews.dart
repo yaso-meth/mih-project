@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
@@ -60,25 +61,99 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
             List<BusinessReview> reviews = asyncSnapshot.data!;
             print("Reviews: ${reviews.length}");
             if (reviews.isEmpty) {
-              return Column(
-                children: [
-                  const SizedBox(height: 50),
-                  Icon(
-                    Icons.star_rate_rounded,
-                    size: 150,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  ),
-                  Text(
-                    "No reviews yet, be the first the review\n${widget.business.Name}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 50),
+                    Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Icon(
+                            MihIcons.mihRing,
+                            size: 165,
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
+                        ),
+                        Icon(
+                          Icons.star_rate_rounded,
+                          size: 150,
+                          color: MzansiInnovationHub.of(context)!
+                              .theme
+                              .secondaryColor(),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    Text(
+                      "No reviews yet, be the first the review ${widget.business.Name}",
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    // const SizedBox(height: 10),
+                    // Center(
+                    //   child: RichText(
+                    //     textAlign: TextAlign.center,
+                    //     text: TextSpan(
+                    //       style: TextStyle(
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.normal,
+                    //         color: MzansiInnovationHub.of(context)!
+                    //             .theme
+                    //             .secondaryColor(),
+                    //       ),
+                    //       children: [
+                    //         TextSpan(text: "Press "),
+                    //         WidgetSpan(
+                    //           alignment: PlaceholderAlignment.middle,
+                    //           child: Icon(
+                    //             Icons.menu,
+                    //             size: 20,
+                    //             color: MzansiInnovationHub.of(context)!
+                    //                 .theme
+                    //                 .secondaryColor(),
+                    //           ),
+                    //         ),
+                    //         TextSpan(text: " to add your first loyalty card"),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               );
+              // return Column(
+              //   children: [
+              //     const SizedBox(height: 50),
+              //     Icon(
+              //       Icons.star_rate_rounded,
+              //       size: 150,
+              //       color:
+              //           MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              //     ),
+              //     Text(
+              //       "No reviews yet, be the first the review\n${widget.business.Name}",
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ],
+              // );
             } else {
               int descriptionDisplayCOunt = 75;
               return ListView.separated(

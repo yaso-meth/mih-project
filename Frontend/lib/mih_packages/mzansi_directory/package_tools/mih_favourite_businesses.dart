@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -143,55 +144,23 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                             children: [
                               const SizedBox(height: 50),
                               Icon(
-                                Icons
-                                    .search_off_rounded, // A different icon for "no results"
-                                size: 150,
+                                MihIcons.iDontKnow,
+                                size: 165,
                                 color: MzansiInnovationHub.of(context)!
                                     .theme
                                     .secondaryColor(),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: SizedBox(
-                                  width: 500,
-                                  child: Text(
-                                    "No businesses found for '${businessSearchController.text}'", // Specific message for no search results
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        } else if (businesses.isEmpty) {
-                          // Initial empty state
-                          return Column(
-                            children: [
-                              const SizedBox(height: 50),
-                              Icon(
-                                Icons.business_center_rounded,
-                                size: 150,
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: SizedBox(
-                                  width: 500,
-                                  child: Text(
-                                    "No favourites yet, use Mzansi Search to find and bookmark businesses you like",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                              const SizedBox(height: 10),
+                              Text(
+                                "Let's Try Refining Your Search",
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: MzansiInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
                                 ),
                               ),
                             ],
@@ -206,31 +175,68 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                     );
                   } else {
                     // This block handles the case where there are no bookmarked businesses initially
-                    return Column(
-                      children: [
-                        const SizedBox(height: 50),
-                        Icon(
-                          Icons.business_center_rounded,
-                          size: 150,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: SizedBox(
-                            width: 500,
-                            child: Text(
-                              "No favourites yet, use Mzansi Search to find and bookmark businesses you like",
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 50),
+                          Icon(
+                            MihIcons.businessProfile,
+                            size: 165,
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "No Businesses added to your Favourites",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: MzansiInnovationHub.of(context)!
+                                  .theme
+                                  .secondaryColor(),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: RichText(
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: MzansiInnovationHub.of(context)!
+                                      .theme
+                                      .secondaryColor(),
+                                ),
+                                children: [
+                                  TextSpan(text: "Use the Mzansi Search"),
+                                  // WidgetSpan(
+                                  //   alignment:
+                                  //       PlaceholderAlignment.middle,
+                                  //   child: Icon(
+                                  //     Icons.search,
+                                  //     size: 20,
+                                  //     color:
+                                  //         MzansiInnovationHub.of(context)!
+                                  //             .theme
+                                  //             .secondaryColor(),
+                                  //   ),
+                                  // ),
+                                  TextSpan(
+                                      text: " to find Businesses of Mzansi"),
+                                ],
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   }
                 } else if (snapshot.hasError) {

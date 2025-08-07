@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -11,7 +12,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.d
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/list_builders/build_my_patient_list_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MyPatientList extends StatefulWidget {
   final AppUser signedInUser;
@@ -35,6 +35,7 @@ class _MyPatientListState extends State<MyPatientList> {
   late Future<List<PatientAccess>> _myPatientList;
   TextEditingController _myPatientSearchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  bool hasSearchedBefore = false;
   String _myPatientIdSearchString = "";
   String baseUrl = AppEnviroment.baseApiUrl;
 
@@ -114,18 +115,98 @@ class _MyPatientListState extends State<MyPatientList> {
         businessUser: widget.businessUser,
       );
     }
-    return Padding(
-      padding: const EdgeInsets.only(top: 35.0),
-      child: Center(
-        child: Text(
-          "No Patients matching search",
-          style: TextStyle(
+    if (hasSearchedBefore && _myPatientIdSearchString.isNotEmpty) {
+      return Column(
+        children: [
+          const SizedBox(height: 50),
+          Icon(
+            MihIcons.iDontKnow,
+            size: 165,
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Let's Try Refining Your Search",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
               fontSize: 25,
-              color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
-          textAlign: TextAlign.center,
+              fontWeight: FontWeight.bold,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Icon(
+              MihIcons.patientProfile,
+              size: 165,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "You dont have access to any Patients Profile",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.search,
+                        size: 20,
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    TextSpan(
+                        text:
+                            " to use Patient Search to request access to their profile."),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    }
+    // return Padding(
+    //   padding: const EdgeInsets.only(top: 35.0),
+    //   child: Center(
+    //     child: Text(
+    //       "No Patients matching search",
+    //       style: TextStyle(
+    //           fontSize: 25,
+    //           color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+    //       textAlign: TextAlign.center,
+    //     ),
+    //   ),
+    // );
   }
 
   List<PatientAccess> filterAccessResults(
@@ -143,6 +224,7 @@ class _MyPatientListState extends State<MyPatientList> {
     setState(() {
       _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
           widget.business!.business_id);
+      hasSearchedBefore = true;
     });
   }
 

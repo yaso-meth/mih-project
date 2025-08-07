@@ -157,7 +157,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                 child: Text(
                   widget.user.purpose.isNotEmpty
                       ? widget.user.purpose
-                      : "No purpose added yet",
+                      : "No Personal Mission added yet",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,

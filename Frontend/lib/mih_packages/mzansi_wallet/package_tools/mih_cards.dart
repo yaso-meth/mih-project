@@ -372,6 +372,8 @@ class _MihCardsState extends State<MihCards> {
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
                           bannerAd: _bannerAd,
+                          favouritesMode: false,
+                          searchText: cardSearchController,
                           onCardViewClose: () {
                             setState(() {
                               _bannerAd = MihBannerAd();

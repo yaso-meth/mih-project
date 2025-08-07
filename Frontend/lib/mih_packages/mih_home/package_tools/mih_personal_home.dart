@@ -213,6 +213,18 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     }
   }
 
+  void autoNavToProfile() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).pushNamed(
+        '/mzansi-profile',
+        arguments: AppProfileUpdateArguments(
+          widget.signedInUser,
+          widget.propicFile,
+        ),
+      );
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -229,17 +241,11 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     searchController.addListener(searchPackage);
     if (widget.isUserNew) {
       personalPackagesMap = setNerUserPersonalPackage();
+      autoNavToProfile();
     } else {
       personalPackagesMap = setPersonalPackagesMap();
     }
     searchPackage();
-    //Scrolling Banner message
-    // _marqueeController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(seconds: 12),
-    // );
-    // _scrollController = ScrollController();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => _startMarquee());
   }
 
   @override
@@ -275,29 +281,33 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
           //   ),
           // ),
           // const SizedBox(height: 20),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 20),
-            child: MihSearchBar(
-              controller: searchController,
-              hintText: "Ask Mzansi",
-              prefixIcon: Icons.search,
-              prefixAltIcon: MihIcons.mzansiAi,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-              onPrefixIconTap: () {
-                Navigator.of(context).pushNamed(
-                  '/mzansi-ai',
-                  arguments: MzansiAiArguments(
-                    widget.signedInUser,
-                    searchController.text.isEmpty
-                        ? null
-                        : searchController.text,
-                  ),
-                );
-                searchController.clear();
-              },
-              searchFocusNode: _searchFocusNode,
+          Visibility(
+            visible: !widget.isUserNew,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: MihSearchBar(
+                controller: searchController,
+                hintText: "Ask Mzansi",
+                prefixIcon: Icons.search,
+                prefixAltIcon: MihIcons.mzansiAi,
+                fillColor:
+                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                hintColor:
+                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                onPrefixIconTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/mzansi-ai',
+                    arguments: MzansiAiArguments(
+                      widget.signedInUser,
+                      searchController.text.isEmpty
+                          ? null
+                          : searchController.text,
+                    ),
+                  );
+                  searchController.clear();
+                },
+                searchFocusNode: _searchFocusNode,
+              ),
             ),
           ),
           const SizedBox(height: 20),

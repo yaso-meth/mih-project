@@ -29,9 +29,9 @@ class _MzansiSetupBusinessProfileTileState
           arguments: widget.signedInUser,
         );
       },
-      appName: "Setup Business",
+      appName: "Set Up Business",
       appIcon: Icon(
-        MihIcons.profileSetup,
+        MihIcons.businessSetup,
         color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       ),
       iconSize: widget.packageSize,

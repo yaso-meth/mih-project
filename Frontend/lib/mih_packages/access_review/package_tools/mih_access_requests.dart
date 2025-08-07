@@ -1,3 +1,4 @@
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
@@ -186,17 +187,77 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                     patientAccessList: accessRequestList,
                   );
                 } else {
-                  return Center(
-                    child: Text(
-                      "No Request have been made.",
-                      style: TextStyle(
-                          fontSize: 25,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 50),
+                        Icon(
+                          MihIcons.accessControl,
+                          size: 165,
                           color: MzansiInnovationHub.of(context)!
                               .theme
-                              .messageTextColor()),
-                      textAlign: TextAlign.center,
+                              .secondaryColor(),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "No Access has been granted to your MIH Profile",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: MzansiInnovationHub.of(context)!
+                                .theme
+                                .secondaryColor(),
+                          ),
+                        ),
+                        // const SizedBox(height: 10),
+                        // Center(
+                        //   child: RichText(
+                        //     textAlign: TextAlign.center,
+                        //     text: TextSpan(
+                        //       style: TextStyle(
+                        //         fontSize: 20,
+                        //         fontWeight: FontWeight.normal,
+                        //         color: MzansiInnovationHub.of(context)!
+                        //             .theme
+                        //             .secondaryColor(),
+                        //       ),
+                        //       children: [
+                        //         TextSpan(text: "Press "),
+                        //         WidgetSpan(
+                        //           alignment: PlaceholderAlignment.middle,
+                        //           child: Icon(
+                        //             Icons.menu,
+                        //             size: 20,
+                        //             color: MzansiInnovationHub.of(context)!
+                        //                 .theme
+                        //                 .secondaryColor(),
+                        //           ),
+                        //         ),
+                        //         TextSpan(
+                        //             text: " to add your first loyalty card."),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
                   );
+                  // return Center(
+                  //   child: Text(
+                  //     "No Request have been made.",
+                  //     style: TextStyle(
+                  //         fontSize: 25,
+                  //         color: MzansiInnovationHub.of(context)!
+                  //             .theme
+                  //             .messageTextColor()),
+                  //     textAlign: TextAlign.center,
+                  //   ),
+                  // );
                 }
 
                 // return Expanded(
