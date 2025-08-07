@@ -535,13 +535,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             children: [
               const SizedBox(height: 50),
               Icon(
-                MihIcons.iDontKnow,
+                MihIcons.mzansiWallet,
                 size: 165,
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               const SizedBox(height: 10),
               Text(
-                "No Cards added to your Mzansi Wallet.",
+                "No Cards added to your Mzansi Wallet",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.visible,
                 style: TextStyle(
@@ -575,7 +575,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                               .secondaryColor(),
                         ),
                       ),
-                      TextSpan(text: " to add your first loyalty card."),
+                      TextSpan(text: " to add your first loyalty card"),
                     ],
                   ),
                 ),
@@ -592,13 +592,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             children: [
               const SizedBox(height: 50),
               Icon(
-                MihIcons.iDontKnow,
+                MihIcons.mzansiWallet,
                 size: 165,
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
               const SizedBox(height: 10),
               Text(
-                "No Favourite Cards in your Mzansi Wallet.",
+                "No Favourite Cards in your Mzansi Wallet",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.visible,
                 style: TextStyle(
@@ -634,7 +634,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       ),
                       TextSpan(
                           text:
-                              " when viewing loyalty card to add it to your favorites."),
+                              " when viewing loyalty card to add it to your favorites"),
                     ],
                   ),
                 ),

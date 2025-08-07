@@ -211,7 +211,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         Expanded(
                           child: MihDropdownField(
                             controller: businessTypeController,
-                            hintText: "Business Type Filter",
+                            hintText: "Business Type",
                             dropdownOptions: options,
                             requiredText: true,
                             editable: true,
@@ -466,7 +466,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 children: [
                   const SizedBox(height: 50),
                   Icon(
-                    MihIcons.personalProfile,
+                    MihIcons.businessProfile,
                     size: 165,
                     color:
                         MzansiInnovationHub.of(context)!.theme.secondaryColor(),
