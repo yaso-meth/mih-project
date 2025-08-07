@@ -36,6 +36,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
   TextEditingController _mihPatientSearchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _searchFocusNode = FocusNode();
+  bool hasSearchedBefore = false;
   String _mihPatientSearchString = "";
   String baseUrl = AppEnviroment.baseApiUrl;
   late Future<List<Patient>> _mihPatientSearchResults;
@@ -126,18 +127,26 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
         personalSelected: widget.personalSelected,
       );
     } else if (patientsList.isEmpty && searchString != "") {
-      return Padding(
-        padding: const EdgeInsets.only(top: 35.0),
-        child: Center(
-          child: Text(
-            "No ID or Medical Aid No. matches a Patient",
-            style: TextStyle(
-                fontSize: 25,
-                color:
-                    MzansiInnovationHub.of(context)!.theme.messageTextColor()),
-            textAlign: TextAlign.center,
+      return Column(
+        children: [
+          const SizedBox(height: 50),
+          Icon(
+            MihIcons.iDontKnow,
+            size: 165,
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
-        ),
+          const SizedBox(height: 10),
+          Text(
+            "Let's Try Refining Your Search",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+        ],
       );
     } else {
       return Padding(
@@ -218,6 +227,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
         _mihPatientSearchString = _mihPatientSearchController.text;
         _mihPatientSearchResults =
             MIHApiCalls.fetchPatients(_mihPatientSearchString);
+        hasSearchedBefore = true;
       });
     }
   }
