@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
@@ -653,6 +654,7 @@ class _AiChatState extends State<AiChat> {
                 },
                 child: Chat(
                   messages: _messages,
+                  emptyState: noMessagescDisplay(),
                   // onAttachmentPressed: _handleAttachmentPressed,
                   // onMessageTap: _handleMessageTap,
                   // onPreviewDataFetched: _handlePreviewDataFetched,
@@ -792,6 +794,65 @@ class _AiChatState extends State<AiChat> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget? noMessagescDisplay() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 50),
+          Icon(
+            MihIcons.mzansiAi,
+            size: 165,
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Mzansi AI is here to help",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                children: [
+                  TextSpan(
+                      text:
+                          "Send us a message and we'll try our best to assist you"),
+                  // WidgetSpan(
+                  //   alignment: PlaceholderAlignment.middle,
+                  //   child: Icon(
+                  //     Icons.menu,
+                  //     size: 20,
+                  //     color: MzansiInnovationHub.of(context)!
+                  //         .theme
+                  //         .secondaryColor(),
+                  //   ),
+                  // ),
+                  // TextSpan(text: " to add your first loyalty card."),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
