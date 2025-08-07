@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
@@ -61,15 +62,69 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
         arguments: widget.arguments,
       );
     }
-    return Center(
-      child: Text(
-        "Enter Username or Email to search",
-        style: TextStyle(
-            fontSize: 25,
-            color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
-        textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 50),
+          Icon(
+            MihIcons.personalProfile,
+            size: 165,
+            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Search for a Member of Mzansi to add to your team",
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            ),
+          ),
+          // const SizedBox(height: 10),
+          // Center(
+          //   child: RichText(
+          //     textAlign: TextAlign.center,
+          //     text: TextSpan(
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.normal,
+          //         color:
+          //             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          //       ),
+          //       children: [
+          //         TextSpan(text: "Press "),
+          //         WidgetSpan(
+          //           alignment: PlaceholderAlignment.middle,
+          //           child: Icon(
+          //             Icons.menu,
+          //             size: 20,
+          //             color: MzansiInnovationHub.of(context)!
+          //                 .theme
+          //                 .secondaryColor(),
+          //           ),
+          //         ),
+          //         TextSpan(text: " to add your first loyalty card"),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ],
       ),
     );
+    // return Center(
+    //   child: Text(
+    //     "Enter Username or Email to search",
+    //     style: TextStyle(
+    //         fontSize: 25,
+    //         color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+    //     textAlign: TextAlign.center,
+    //   ),
+    // );
   }
 
   @override
