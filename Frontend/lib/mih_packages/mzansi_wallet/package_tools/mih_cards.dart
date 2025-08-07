@@ -373,6 +373,7 @@ class _MihCardsState extends State<MihCards> {
                           navIndex: 0,
                           bannerAd: _bannerAd,
                           favouritesMode: false,
+                          searchText: cardSearchController,
                           onCardViewClose: () {
                             setState(() {
                               _bannerAd = MihBannerAd();

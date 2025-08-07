@@ -23,6 +23,7 @@ class BuildLoyaltyCardList extends StatefulWidget {
   final int navIndex;
   final MihBannerAd? bannerAd;
   final bool favouritesMode;
+  final TextEditingController searchText;
   final void Function()? onCardViewClose;
 
   const BuildLoyaltyCardList({
@@ -31,6 +32,7 @@ class BuildLoyaltyCardList extends StatefulWidget {
     required this.cardList,
     required this.navIndex,
     required this.favouritesMode,
+    required this.searchText,
     this.bannerAd,
     this.onCardViewClose,
   });
@@ -527,6 +529,30 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       );
     } else {
       if (!widget.favouritesMode) {
+        if (widget.searchText.text.isNotEmpty) {
+          return Column(
+            children: [
+              const SizedBox(height: 50),
+              Icon(
+                MihIcons.iDontKnow,
+                size: 165,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Let's Try Refining Your Search",
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ),
+            ],
+          );
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(

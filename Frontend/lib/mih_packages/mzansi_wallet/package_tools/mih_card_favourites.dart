@@ -64,6 +64,7 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
                       navIndex: 0,
                       bannerAd: _bannerAd,
                       favouritesMode: true,
+                      searchText: TextEditingController(),
                       onCardViewClose: () {
                         setState(() {
                           _bannerAd = MihBannerAd();
