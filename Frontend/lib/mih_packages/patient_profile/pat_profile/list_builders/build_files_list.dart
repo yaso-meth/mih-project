@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
@@ -400,13 +401,82 @@ class _BuildFilesListState extends State<BuildFilesList> {
         },
       );
     } else {
-      return const Center(
-        child: Text(
-          "No Documents Available",
-          style: TextStyle(fontSize: 25, color: Colors.grey),
-          textAlign: TextAlign.center,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Icon(
+                  MihIcons.mihRing,
+                  size: 165,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+                Icon(
+                  Icons.file_present,
+                  size: 110,
+                  color:
+                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "No Documents have been added to this profile.",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color:
+                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  ),
+                  children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.menu,
+                        size: 20,
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .secondaryColor(),
+                      ),
+                    ),
+                    TextSpan(text: " to add "),
+                    widget.business != null
+                        ? TextSpan(text: " or generate a the first document")
+                        : TextSpan(text: " the first document"),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       );
+      // return const Center(
+      //   child: Text(
+      //     "No Documents Available",
+      //     style: TextStyle(fontSize: 25, color: Colors.grey),
+      //     textAlign: TextAlign.center,
+      //   ),
+      // );
     }
   }
 }
