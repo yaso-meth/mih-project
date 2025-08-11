@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -259,7 +258,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           ValueListenableBuilder(
             valueListenable: searchPackageName,
             builder: (context, value, child) {

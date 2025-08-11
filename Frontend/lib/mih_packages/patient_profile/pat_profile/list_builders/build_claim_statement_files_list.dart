@@ -385,7 +385,7 @@ class _BuildClaimStatementFileListState
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Visibility(
               visible: widget.business != null,
               child: Center(

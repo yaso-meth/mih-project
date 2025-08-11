@@ -297,7 +297,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Search for People Of Mzansi!",
+                    "Search for people of Mzansi!",
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.visible,
                     style: TextStyle(
@@ -308,7 +308,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                           .secondaryColor(),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 25),
                   Center(
                     child: RichText(
                       textAlign: TextAlign.center,
@@ -332,7 +332,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                                   .secondaryColor(),
                             ),
                           ),
-                          TextSpan(text: " to search for Businesses of Mzansi"),
+                          TextSpan(text: " to search for businesses of Mzansi"),
                         ],
                       ),
                     ),
@@ -380,7 +380,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Let's Try Refining Your Search",
+                  "Let's try refining your search",
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
                   style: TextStyle(
@@ -443,9 +443,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   color:
                       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 25),
                 Text(
-                  "Let's Try Refining Your Search",
+                  "Let's try refining your search",
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
                   style: TextStyle(
@@ -473,7 +473,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Search for Business Of Mzansi!",
+                    "Search for businesses of Mzansi!",
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.visible,
                     style: TextStyle(
@@ -484,7 +484,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                           .secondaryColor(),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 25),
                   Center(
                     child: RichText(
                       textAlign: TextAlign.center,
@@ -508,7 +508,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                                   .secondaryColor(),
                             ),
                           ),
-                          TextSpan(text: " to search for People of Mzansi"),
+                          TextSpan(text: " to search for people of Mzansi"),
                         ],
                       ),
                     ),

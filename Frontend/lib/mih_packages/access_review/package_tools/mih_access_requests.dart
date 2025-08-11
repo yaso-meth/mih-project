@@ -203,7 +203,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "No Access has been granted to your MIH Profile",
+                          "No access has been granted to your MIH Profile",
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.visible,
                           style: TextStyle(

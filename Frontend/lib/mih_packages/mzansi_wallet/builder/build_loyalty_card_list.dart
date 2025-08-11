@@ -540,7 +540,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
               const SizedBox(height: 10),
               Text(
-                "Let's Try Refining Your Search",
+                "Let's try refining your search",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.visible,
                 style: TextStyle(
@@ -567,7 +567,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
               const SizedBox(height: 10),
               Text(
-                "No Cards added to your Mzansi Wallet",
+                "No cards added to your Mzansi Wallet",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.visible,
                 style: TextStyle(
@@ -577,7 +577,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 25),
               Center(
                 child: RichText(
                   textAlign: TextAlign.center,
@@ -624,7 +624,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
               const SizedBox(height: 10),
               Text(
-                "No Favourite Cards in your Mzansi Wallet",
+                "No favourite cards in your Mzansi Wallet",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.visible,
                 style: TextStyle(
@@ -634,7 +634,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 25),
               Center(
                 child: RichText(
                   textAlign: TextAlign.center,
@@ -660,7 +660,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       ),
                       TextSpan(
                           text:
-                              " when viewing loyalty card to add it to your favorites"),
+                              " when viewing a loyalty card to add it to your favorites"),
                     ],
                   ),
                 ),

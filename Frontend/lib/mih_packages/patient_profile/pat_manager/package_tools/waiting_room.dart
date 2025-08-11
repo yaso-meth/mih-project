@@ -193,7 +193,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,

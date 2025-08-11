@@ -126,7 +126,7 @@ class _MyPatientListState extends State<MyPatientList> {
           ),
           const SizedBox(height: 10),
           Text(
-            "Let's Try Refining Your Search",
+            "Let's try refining your search",
             textAlign: TextAlign.center,
             overflow: TextOverflow.visible,
             style: TextStyle(
@@ -161,7 +161,7 @@ class _MyPatientListState extends State<MyPatientList> {
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,

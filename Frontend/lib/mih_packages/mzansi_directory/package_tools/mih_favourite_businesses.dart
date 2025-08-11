@@ -152,7 +152,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                "Let's Try Refining Your Search",
+                                "Let's try refining your search",
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.visible,
                                 style: TextStyle(
@@ -192,7 +192,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            "No Businesses added to your Favourites",
+                            "No favourite businesses added to your mzansi directory",
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.visible,
                             style: TextStyle(
@@ -203,7 +203,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                                   .secondaryColor(),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 25),
                           Center(
                             child: RichText(
                               textAlign: TextAlign.center,
@@ -216,7 +216,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                                       .secondaryColor(),
                                 ),
                                 children: [
-                                  TextSpan(text: "Use the Mzansi Search"),
+                                  TextSpan(text: "Use the mzansi search"),
                                   // WidgetSpan(
                                   //   alignment:
                                   //       PlaceholderAlignment.middle,
@@ -230,7 +230,8 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                                   //   ),
                                   // ),
                                   TextSpan(
-                                      text: " to find Businesses of Mzansi"),
+                                      text:
+                                          " to find your favourite businesses of mzansi"),
                                 ],
                               ),
                             ),
