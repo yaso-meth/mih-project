@@ -137,7 +137,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           ),
           const SizedBox(height: 10),
           Text(
-            "Let's Try Refining Your Search",
+            "Let's try refining your search",
             textAlign: TextAlign.center,
             overflow: TextOverflow.visible,
             style: TextStyle(
@@ -172,7 +172,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,
@@ -186,7 +186,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                   children: [
                     TextSpan(
                         text:
-                            "You can search using their teamtient ID or Medical Aid No."),
+                            "You can search using their ID Number or Medical Aid No."),
                     // WidgetSpan(
                     //   alignment: PlaceholderAlignment.middle,
                     //   child: Icon(

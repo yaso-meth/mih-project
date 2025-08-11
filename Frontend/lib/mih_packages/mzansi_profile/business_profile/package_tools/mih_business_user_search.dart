@@ -74,7 +74,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
           ),
           const SizedBox(height: 10),
           Text(
-            "Let's Try Refining Your Search",
+            "Let's try refining your search",
             textAlign: TextAlign.center,
             overflow: TextOverflow.visible,
             style: TextStyle(
@@ -100,7 +100,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Search for a Member of Mzansi to add to your team",
+              "Search for a member of Mzansi to add to your team",
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               style: TextStyle(
@@ -109,7 +109,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                   ),
                   children: [
                     TextSpan(
-                        text: "You can search using their Username or Email"),
+                        text: "You can search using their username or email"),
                     // WidgetSpan(
                     //   alignment: PlaceholderAlignment.middle,
                     //   child: Icon(

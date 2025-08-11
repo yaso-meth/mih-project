@@ -804,7 +804,7 @@ class _AiChatState extends State<AiChat> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 50),
+          // const SizedBox(height: 50),
           Icon(
             MihIcons.mzansiAi,
             size: 165,
@@ -821,7 +821,7 @@ class _AiChatState extends State<AiChat> {
               color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 25),
           Center(
             child: RichText(
               textAlign: TextAlign.center,

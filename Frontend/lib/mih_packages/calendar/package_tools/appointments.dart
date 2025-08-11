@@ -97,7 +97,7 @@ class _PatientAccessRequestState extends State<Appointments> {
             ),
             const SizedBox(height: 10),
             Text(
-              "No Appointments for $selectedDay",
+              "No appointments for $selectedDay",
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               style: TextStyle(
@@ -106,7 +106,7 @@ class _PatientAccessRequestState extends State<Appointments> {
                 color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,
