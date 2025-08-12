@@ -193,19 +193,16 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         accessStatus = result;
       });
     });
-    // print(accessStatus);
-    // print(hasAccess);
-    var firstLetterFName = widget.patients[index].first_name[0];
-    var firstLetterLName = widget.patients[index].last_name[0];
-    var fnameStar = '*' * 8;
-    var lnameStar = '*' * 8;
     if (accessStatus == "") {
       accessStatus = "No Access";
     }
+    var idStars = '*' * (13 - 6);
+    String startedOutPatientIdNo =
+        "${widget.patients[index].id_no.substring(0, 6)}$idStars";
     setState(() {
-      idController.text = widget.patients[index].id_no;
-      fnameController.text = firstLetterFName + fnameStar;
-      lnameController.text = firstLetterLName + lnameStar;
+      idController.text = startedOutPatientIdNo;
+      fnameController.text = widget.patients[index].first_name;
+      lnameController.text = widget.patients[index].last_name;
       accessStatusController.text = accessStatus.toUpperCase();
     });
     //print(accessStatus);
@@ -476,17 +473,18 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
 
   Widget isMainMember(int index) {
     //var matchRE = RegExp(r'^[a-z]+$');
-    var firstLetterFName = widget.patients[index].first_name[0];
-    var firstLetterLName = widget.patients[index].last_name[0];
-    var fnameStar = '*' * 8;
-    var lnameStar = '*' * 8;
+    // var firstLetterFName = widget.patients[index].first_name[0];
+    // var firstLetterLName = widget.patients[index].last_name[0];
+    // var fnameStar = '*' * 8;
+    // var lnameStar = '*' * 8;
 
     if (widget.patients[index].medical_aid_main_member == "Yes") {
       return Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(
-            "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
+            // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
+            "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
             style: TextStyle(
               color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
             ),
@@ -502,7 +500,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       );
     } else {
       return Text(
-        "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
+        // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
+        "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
         style: TextStyle(
           color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
         ),
@@ -512,11 +511,14 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
 
   Widget hasMedicalAid(int index) {
     var medAidNoStar = '*' * 8;
+    var idStars = '*' * (13 - 6);
+    String startedOutPatientIdNo =
+        "${widget.patients[index].id_no.substring(0, 6)}$idStars";
     if (widget.patients[index].medical_aid == "Yes") {
       return ListTile(
         title: isMainMember(index),
         subtitle: Text(
-          "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
+          "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
             color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
@@ -540,7 +542,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       return ListTile(
         title: isMainMember(index),
         subtitle: Text(
-          "ID No.: ${widget.patients[index].id_no}\nMedical Aid No.: $medAidNoStar",
+          "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
             color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
           ),
