@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
@@ -10,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 // import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -186,6 +188,90 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      KenLogger.success("Successfully tested");
+                    },
+                    buttonColor: MihColors.getGreenColor(context),
+                    elevation: 10,
+                    width: 300,
+                    child: Text(
+                      "Success Logger",
+                      style: TextStyle(
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      KenLogger.error("Successfully tested");
+                    },
+                    buttonColor: MihColors.getRedColor(context),
+                    elevation: 10,
+                    width: 300,
+                    child: Text(
+                      "Error Logger",
+                      style: TextStyle(
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      KenLogger.warning("Successfully tested");
+                    },
+                    buttonColor: MihColors.getOrangeColor(context),
+                    elevation: 10,
+                    width: 300,
+                    child: Text(
+                      "Warning Logger",
+                      style: TextStyle(
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: MihButton(
+                    onPressed: () {
+                      KenLogger.info("Successfully tested");
+                    },
+                    buttonColor: MihColors.getBluishPurpleColor(context),
+                    elevation: 10,
+                    width: 300,
+                    child: Text(
+                      "Info Logger",
+                      style: TextStyle(
+                        color: MzansiInnovationHub.of(context)!
+                            .theme
+                            .primaryColor(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 CountryCodePicker(
                   padding: EdgeInsetsGeometry.all(0),
                   onChanged: (selectedCode) {
