@@ -2,6 +2,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -151,8 +152,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Update",
@@ -200,10 +200,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MzansiInnovationHub.of(context)!.theme.successColor(),
+          alertColour: MihColors.getGreenColor(context),
           alertIcon: Icon(
             Icons.favorite,
-            color: MzansiInnovationHub.of(context)!.theme.successColor(),
+            color: MihColors.getGreenColor(context),
             size: 100,
           ),
           alertTitle: "Add to Favourites",
@@ -233,8 +233,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     ctxt,
                   );
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(context),
                 width: 300,
                 child: Text(
                   "Add",
@@ -343,14 +342,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             label: widget.cardList[index].favourite == ""
                 ? "Add to Favourite"
                 : "Remove from Favourite",
-            labelBackgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            labelBackgroundColor: MihColors.getGreenColor(context),
             labelStyle: TextStyle(
               color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            backgroundColor: MihColors.getGreenColor(context),
             onTap: () {
               if (widget.cardList[index].favourite == "") {
                 addToFavCardWindow(context, index);
@@ -365,14 +362,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             label: "Edit Card Details",
-            labelBackgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            labelBackgroundColor: MihColors.getGreenColor(context),
             labelStyle: TextStyle(
               color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            backgroundColor: MihColors.getGreenColor(context),
             onTap: () {
               setState(() {
                 _cardNumberController.text = widget.cardList[index].card_number;
@@ -387,14 +382,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             ),
             label: "Delete Card",
-            labelBackgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            labelBackgroundColor: MihColors.getGreenColor(context),
             labelStyle: TextStyle(
               color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            backgroundColor: MihColors.getGreenColor(context),
             onTap: () {
               deleteCardWindow(context, index);
             },

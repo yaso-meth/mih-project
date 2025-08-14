@@ -5,6 +5,7 @@ import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
@@ -212,13 +213,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         ),
         label: "Download",
-        labelBackgroundColor:
-            MzansiInnovationHub.of(context)!.theme.successColor(),
+        labelBackgroundColor: MihColors.getGreenColor(context),
         labelStyle: TextStyle(
           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
+        backgroundColor: MihColors.getGreenColor(context),
         onTap: () {
           if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
             html.window.open(url, 'download');
@@ -236,14 +236,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           label: "Print",
-          labelBackgroundColor:
-              MzansiInnovationHub.of(context)!.theme.successColor(),
+          labelBackgroundColor: MihColors.getGreenColor(context),
           labelStyle: TextStyle(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             fontWeight: FontWeight.bold,
           ),
-          backgroundColor:
-              MzansiInnovationHub.of(context)!.theme.successColor(),
+          backgroundColor: MihColors.getGreenColor(context),
           onTap: () {
             printDocument(url, filePath);
           },
@@ -257,13 +255,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         ),
         label: "Full Screen",
-        labelBackgroundColor:
-            MzansiInnovationHub.of(context)!.theme.successColor(),
+        labelBackgroundColor: MihColors.getGreenColor(context),
         labelStyle: TextStyle(
           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
+        backgroundColor: MihColors.getGreenColor(context),
         onTap: () {
           Navigator.of(context).pushNamed(
             '/file-veiwer',
@@ -284,14 +281,12 @@ class _BuildFilesListState extends State<BuildFilesList> {
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           label: "Delete Document",
-          labelBackgroundColor:
-              MzansiInnovationHub.of(context)!.theme.successColor(),
+          labelBackgroundColor: MihColors.getGreenColor(context),
           labelStyle: TextStyle(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             fontWeight: FontWeight.bold,
           ),
-          backgroundColor:
-              MzansiInnovationHub.of(context)!.theme.successColor(),
+          backgroundColor: MihColors.getGreenColor(context),
           onTap: () {
             deleteFilePopUp(filePath, fileID);
           },

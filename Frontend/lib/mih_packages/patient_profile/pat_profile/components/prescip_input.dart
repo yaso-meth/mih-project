@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -552,7 +553,7 @@ class _PrescripInputState extends State<PrescripInput> {
               );
             }
           },
-          buttonColor: MzansiInnovationHub.of(context)!.theme.successColor(),
+          buttonColor: MihColors.getGreenColor(context),
           width: 300,
           child: Text(
             "Generate",

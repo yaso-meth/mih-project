@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihFloatingMenu extends StatefulWidget {
   final IconData? icon;
@@ -30,7 +31,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
       animatedIcon: widget.animatedIcon,
       direction: widget.direction ?? SpeedDialDirection.up,
       activeIcon: Icons.close,
-      backgroundColor: MzansiInnovationHub.of(context)!.theme.successColor(),
+      backgroundColor: MihColors.getGreenColor(context),
       activeBackgroundColor:
           MzansiInnovationHub.of(context)!.theme.errorColor(),
       foregroundColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),

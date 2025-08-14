@@ -134,8 +134,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  buttonColor: MihColors.getGreenColor(context),
                   child: Text(
                     "Cancel",
                     style: TextStyle(
@@ -305,14 +304,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "Delete Review",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(context),
                 labelStyle: TextStyle(
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(context),
                 onTap: () {
                   showDeleteReviewAlert();
                 },

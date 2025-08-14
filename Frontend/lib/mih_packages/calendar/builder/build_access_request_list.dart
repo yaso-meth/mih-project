@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/access_request.
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -133,8 +134,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     if (access == "APPROVED") {
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.successColor()));
+          style: TextStyle(color: MihColors.getGreenColor(context)));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
           text: "$access\n",
@@ -268,8 +268,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "approved");
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(context),
                     width: 300,
                     child: Text(
                       "Approve",

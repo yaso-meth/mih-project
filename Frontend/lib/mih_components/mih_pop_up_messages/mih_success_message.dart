@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHSuccessMessage extends StatefulWidget {
@@ -61,9 +62,8 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.successColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getGreenColor(context), width: 5.0),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,14 +71,14 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
               Icon(
                 Icons.check_circle_outline_rounded,
                 size: popUpIconSize,
-                color: MzansiInnovationHub.of(context)!.theme.successColor(),
+                color: MihColors.getGreenColor(context),
               ),
               //const SizedBox(height: 15),
               Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.successColor(),
+                  color: MihColors.getGreenColor(context),
                   fontSize: popUpTitleSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -100,8 +100,7 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(context),
                 width: 300,
                 child: Text(
                   "Dismiss",

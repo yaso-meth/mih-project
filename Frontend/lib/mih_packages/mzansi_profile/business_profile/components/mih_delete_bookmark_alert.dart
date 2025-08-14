@@ -103,8 +103,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(context),
                 child: Text(
                   "Cancel",
                   style: TextStyle(

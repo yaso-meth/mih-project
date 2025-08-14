@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -190,8 +191,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Book Appointment",
@@ -322,8 +322,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                       onPressed: () {
                         appointmentPopUp(index, width);
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Book Appointment",
@@ -386,8 +385,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       lastName = widget.patientAccesses[index].lname;
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.successColor()));
+          style: TextStyle(color: MihColors.getGreenColor(context)));
     } else if (access == "PENDING") {
       firstName = "${widget.patientAccesses[index].fname[0]}********";
       lastName = "${widget.patientAccesses[index].lname[0]}********";

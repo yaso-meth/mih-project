@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -367,8 +368,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Update",
@@ -541,8 +541,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       // Connect with the user
                       editProfileWindow(width);
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(context),
                     width: 300,
                     child: Text(
                       widget.arguments.signedInUser.username.isEmpty
@@ -575,13 +574,13 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
         //         ),
         //         label: "Edit Profile",
         //         labelBackgroundColor:
-        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //             MihColors.getGreenColor(context),
         //         labelStyle: TextStyle(
         //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         //           fontWeight: FontWeight.bold,
         //         ),
         //         backgroundColor:
-        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //             MihColors.getGreenColor(context),
         //         onTap: () {
         //           editProfileWindow(width);
         //         },

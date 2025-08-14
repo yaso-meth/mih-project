@@ -96,14 +96,14 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
         //           ),
         //           label: "Add Loyalty Card",
         //           labelBackgroundColor:
-        //               MzansiInnovationHub.of(context)!.theme.successColor(),
+        //               MihColors.getGreenColor(context),
         //           labelStyle: TextStyle(
         //             color:
         //                 MzansiInnovationHub.of(context)!.theme.primaryColor(),
         //             fontWeight: FontWeight.bold,
         //           ),
         //           backgroundColor:
-        //               MzansiInnovationHub.of(context)!.theme.successColor(),
+        //               MihColors.getGreenColor(context),
         //           onTap: () {
         //             // addCardWindow(context);
         //           },

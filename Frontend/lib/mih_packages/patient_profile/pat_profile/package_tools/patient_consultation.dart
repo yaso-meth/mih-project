@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -210,8 +211,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Add Note",
@@ -382,15 +382,13 @@ class _PatientConsultationState extends State<PatientConsultation> {
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Add Note",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(context),
                   labelStyle: TextStyle(
                     color:
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(context),
                   onTap: () {
                     // addConsultationNotePopUp();
                     addNotePopUp(width);

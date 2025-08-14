@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_build
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -155,8 +156,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Navigator.of(context).pop();
                   authenticateUser();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(context),
                 width: 300,
                 child: Text(
                   "Authenticate Now",
@@ -228,8 +228,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     onPressed: () {
                       authenticateUser();
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(context),
                     width: 300,
                     child: Text(
                       "Authenticate Now",

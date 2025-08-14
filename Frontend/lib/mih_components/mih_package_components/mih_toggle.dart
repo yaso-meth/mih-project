@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihToggle extends StatefulWidget {
   final String hintText;
@@ -79,7 +80,7 @@ class _MihToggleState extends State<MihToggle> {
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           activeTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzansiInnovationHub.of(context)!.theme.successColor(),
+              : MihColors.getGreenColor(context),
           inactiveThumbColor:
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           inactiveTrackColor: widget.readOnly == true

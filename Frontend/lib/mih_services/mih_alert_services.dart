@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihAlertServices {
   void formNotFilledCompletely(BuildContext context) {
@@ -64,7 +65,7 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.check_circle_outline_rounded,
             size: 150,
-            color: MzansiInnovationHub.of(context)!.theme.successColor(),
+            color: MihColors.getGreenColor(context),
           ),
           alertTitle: title,
           alertBody: Column(
@@ -81,7 +82,7 @@ class MihAlertServices {
               const SizedBox(height: 25),
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.successColor(),
+          alertColour: MihColors.getGreenColor(context),
         );
       },
     );

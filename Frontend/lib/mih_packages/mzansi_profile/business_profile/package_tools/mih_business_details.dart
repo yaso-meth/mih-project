@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
@@ -779,8 +780,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       // Connect with the user
                       editBizProfileWindow(width);
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(context),
                     width: 300,
                     child: Text(
                       "Edit Profile",
@@ -811,13 +811,13 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         //         ),
         //         label: "Edit Profile",
         //         labelBackgroundColor:
-        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //             MihColors.getGreenColor(context),
         //         labelStyle: TextStyle(
         //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         //           fontWeight: FontWeight.bold,
         //         ),
         //         backgroundColor:
-        //             MzansiInnovationHub.of(context)!.theme.successColor(),
+        //             MihColors.getGreenColor(context),
         //         onTap: () {
         //           editBizProfileWindow(width);
         //         },

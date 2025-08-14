@@ -104,14 +104,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Show New Window",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(context),
               labelStyle: TextStyle(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(context),
               onTap: () {
                 // showTestWindow();
               },
@@ -694,8 +692,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   onPressed: () {
                     print("Button Pressed");
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  buttonColor: MihColors.getGreenColor(context),
                   width: 300,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -824,15 +821,13 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Show New Window",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(context),
                   labelStyle: TextStyle(
                     color:
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(context),
                   onTap: () {
                     showTestWindow();
                   },
@@ -844,15 +839,13 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   ),
                   label: "Show New Full Window",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(context),
                   labelStyle: TextStyle(
                     color:
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(context),
                   onTap: () {
                     showTestFullWindow();
                   },

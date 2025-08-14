@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -84,8 +85,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     if (access == "APPROVED") {
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.successColor()));
+          style: TextStyle(color: MihColors.getGreenColor(context)));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
           text: "$access\n",
@@ -382,8 +382,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Text(
                         "Approve",

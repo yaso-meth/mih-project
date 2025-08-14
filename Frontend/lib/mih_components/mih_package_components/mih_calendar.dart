@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../../main.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -64,7 +65,7 @@ class _MIHCalendarState extends State<MIHCalendar> {
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
           ),
           todayDecoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.successColor(),
+            color: MihColors.getGreenColor(context),
             shape: BoxShape.circle,
           ),
           selectedTextStyle: TextStyle(

@@ -105,8 +105,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
                 onPressed: () {
                   addBookmark(widget.business.business_id);
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(context),
                 child: Text(
                   "Bookmark Business",
                   style: TextStyle(

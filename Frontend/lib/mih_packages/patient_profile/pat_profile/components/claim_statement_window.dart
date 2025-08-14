@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_icd10_code_services.dart';
@@ -383,8 +384,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       MihAlertServices().formNotFilledCompletely(context);
                     }
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  buttonColor: MihColors.getGreenColor(context),
                   width: 300,
                   child: Text(
                     "Generate",

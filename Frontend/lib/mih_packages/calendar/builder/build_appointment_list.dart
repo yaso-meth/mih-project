@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -95,8 +96,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         appointmentColor =
             MzansiInnovationHub.of(context)!.theme.messageTextColor();
       } else if (appointHour == hourNow) {
-        appointmentColor =
-            MzansiInnovationHub.of(context)!.theme.successColor();
+        appointmentColor = MihColors.getGreenColor(context);
       }
     } else if (DateTime.parse(appointDate).isBefore(DateTime.parse(date))) {
       appointmentColor =
@@ -161,14 +161,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Edit Appointment",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(context),
               labelStyle: TextStyle(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(context),
               onTap: () {
                 appointmentUpdateWindow(index, bodyWidth);
               },
@@ -179,14 +177,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Delete Appointment",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(context),
               labelStyle: TextStyle(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(context),
               onTap: () {
                 deleteAppointmentConfirmationWindow(index);
               },
@@ -279,14 +275,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Edit Appointment",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(context),
               labelStyle: TextStyle(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(context),
               onTap: () {
                 appointmentUpdateWindow(index, bodyWidth);
               },
@@ -297,14 +291,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
               ),
               label: "Delete Appointment",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(context),
               labelStyle: TextStyle(
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(context),
               onTap: () {
                 deleteAppointmentConfirmationWindow(index);
               },

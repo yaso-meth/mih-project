@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
@@ -541,8 +542,7 @@ class _MihInfoState extends State<MihInfo> {
                       onPressed: () {
                         MihInstallServices().installMihTrigger(context);
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: getInstallButtonText(),
                     ),
@@ -554,8 +554,7 @@ class _MihInfoState extends State<MihInfo> {
                           ),
                         );
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -588,8 +587,7 @@ class _MihInfoState extends State<MihInfo> {
                           ),
                         );
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(context),
                       width: 300,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -653,14 +651,12 @@ class _MihInfoState extends State<MihInfo> {
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - Web",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(context),
                 labelStyle: TextStyle(
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(context),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -675,14 +671,12 @@ class _MihInfoState extends State<MihInfo> {
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - iOS",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(context),
                 labelStyle: TextStyle(
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(context),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -697,14 +691,12 @@ class _MihInfoState extends State<MihInfo> {
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 ),
                 label: "MIH - Android",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(context),
                 labelStyle: TextStyle(
                   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(context),
                 onTap: () {
                   shareMIHLink(
                     context,

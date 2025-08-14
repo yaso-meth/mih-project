@@ -15,6 +15,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import "package:universal_html/html.dart" as html;
@@ -866,15 +867,13 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                           MzansiInnovationHub.of(context)!.theme.primaryColor(),
                     ),
                     label: "Delete File",
-                    labelBackgroundColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    labelBackgroundColor: MihColors.getGreenColor(context),
                     labelStyle: TextStyle(
                       color:
                           MzansiInnovationHub.of(context)!.theme.primaryColor(),
                       fontWeight: FontWeight.bold,
                     ),
-                    backgroundColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    backgroundColor: MihColors.getGreenColor(context),
                     onTap: () {},
                   ),
                 ],

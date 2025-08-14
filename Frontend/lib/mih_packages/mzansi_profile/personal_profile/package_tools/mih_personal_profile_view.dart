@@ -175,7 +175,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
             //       // Connect with the user
             //     },
             //     buttonColor:
-            //         MzansiInnovationHub.of(context)!.theme.successColor(),
+            //         MihColors.getGreenColor(context),
             //     width: 300,
             //     child: Text(
             //       widget.user.username.isEmpty

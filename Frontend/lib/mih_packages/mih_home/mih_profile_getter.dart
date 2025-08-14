@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
@@ -120,8 +121,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               onPressed: () {
                 Navigator.of(context).popAndPushNamed("/");
               },
-              buttonColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              buttonColor: MihColors.getGreenColor(context),
               width: 300,
               child: Text(
                 "Refresh",
