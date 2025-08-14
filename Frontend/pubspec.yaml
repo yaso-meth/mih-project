@@ -47,6 +47,7 @@ dependencies:
   redacted: ^1.0.13
   custom_rating_bar: ^3.0.0
   country_code_picker: ^3.3.0
+  ken_logger: ^0.0.3
 
 dev_dependencies:
   flutter_test:
