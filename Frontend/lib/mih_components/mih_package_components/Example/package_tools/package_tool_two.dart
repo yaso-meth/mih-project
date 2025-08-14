@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class PackageToolTwo extends StatefulWidget {
   const PackageToolTwo({super.key});
@@ -33,7 +34,8 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           const SizedBox(height: 10),
@@ -55,7 +57,8 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
               onPressed: () {},
               icon: Icon(
                 MihIcons.mihLogo,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
           )

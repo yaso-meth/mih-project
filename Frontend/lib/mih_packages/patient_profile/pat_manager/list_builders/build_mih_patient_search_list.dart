@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
@@ -219,9 +218,10 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         windowBody: Column(
           children: [
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: idController,
               multiLineInput: false,
               requiredText: true,
@@ -233,9 +233,10 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: fnameController,
               multiLineInput: false,
               requiredText: true,
@@ -247,9 +248,10 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: lnameController,
               multiLineInput: false,
               requiredText: true,
@@ -261,9 +263,10 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: accessStatusController,
               multiLineInput: false,
               requiredText: true,
@@ -284,14 +287,18 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     "Important Notice: Requesting Patient Profile Access",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getRedColor(context),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   Text(
                     "You are about to request access to a patient's profile. Please be aware of the following important points:",
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      color: MihColors.getRedColor(context),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   SizedBox(
@@ -300,7 +307,9 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "1. Permanent Access: Once the patient accepts your access request, it will become permanent.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: MihColors.getRedColor(context),
+                        color: MihColors.getRedColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ),
@@ -310,7 +319,9 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "2. Shared Information: Any updates you make to the patient's profile will be visible to others who have access to the profile.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: MihColors.getRedColor(context),
+                        color: MihColors.getRedColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ),
@@ -320,7 +331,9 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "3. Irreversible Access: Once granted, you cannot revoke your access to the patient's profile.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: MihColors.getRedColor(context),
+                        color: MihColors.getRedColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ),
@@ -328,7 +341,9 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     "By pressing the \"Request Access\" button you accept the above terms.\n",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getRedColor(context),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ],
@@ -361,14 +376,16 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             noAccessWarning();
                           }
                         },
-                        buttonColor: MihColors.getGreenColor(context),
+                        buttonColor: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 300,
                         child: Text(
                           "View Profile",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -395,14 +412,16 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MihColors.getGreenColor(context),
+                        buttonColor: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 300,
                         child: Text(
                           "Request Access",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -427,14 +446,16 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MihColors.getGreenColor(context),
+                        buttonColor: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 300,
                         child: Text(
                           "Re-apply",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -475,7 +496,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
             // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
             "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
             style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           const SizedBox(
@@ -483,7 +505,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           ),
           Icon(
             Icons.star_border_rounded,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ],
       );
@@ -492,7 +515,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
         "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       );
     }
@@ -509,7 +533,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         subtitle: Text(
           "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
         onTap: () {
@@ -524,7 +549,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         trailing: Icon(
           Icons.arrow_forward,
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       );
     } else {
@@ -533,7 +559,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         subtitle: Text(
           "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
         onTap: () {
@@ -547,7 +574,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         trailing: Icon(
           Icons.add,
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       );
     }
@@ -571,7 +599,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemCount: widget.patients.length,

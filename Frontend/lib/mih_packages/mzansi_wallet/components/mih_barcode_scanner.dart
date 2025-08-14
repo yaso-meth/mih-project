@@ -1,8 +1,7 @@
 import 'dart:async';
-
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
@@ -106,9 +105,9 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 5,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -126,15 +125,17 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                         _scannerController.stop();
                         Navigator.of(context).pop();
                       },
-                      buttonColor: MihColors.getRedColor(context),
+                      buttonColor: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 100,
                       height: 50,
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),

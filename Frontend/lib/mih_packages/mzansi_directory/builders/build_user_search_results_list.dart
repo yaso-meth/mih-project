@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class BuildUserSearchResultsList extends StatefulWidget {
   final List<AppUser> userList;
@@ -25,12 +26,14 @@ class _BuildUserSearchResultsListState
       itemCount: widget.userList.length,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemBuilder: (context, index) {
         return Material(
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(
@@ -38,9 +41,8 @@ class _BuildUserSearchResultsListState
                 arguments: widget.userList[index],
               );
             },
-            splashColor: MzansiInnovationHub.of(context)!
-                .theme
-                .secondaryColor()
+            splashColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark")
                 .withOpacity(0.2),
             borderRadius: BorderRadius.circular(15),
             child: Padding(

@@ -77,11 +77,13 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
   @override
   Widget build(BuildContext context) {
     return MihPackageAlert(
-      alertColour: MihColors.getSecondaryColor(context),
+      alertColour: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       alertIcon: Icon(
         Icons.warning_rounded,
         size: 100,
-        color: MihColors.getSecondaryColor(context),
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       ),
       alertTitle: "Remove Bookmark",
       alertBody: Column(
@@ -89,7 +91,8 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
           Text(
             "Are you sure you want to remove ${widget.business.Name} from your Mzansi Directory?",
             style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 15,
             ),
           ),
@@ -103,12 +106,13 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
-                buttonColor: MihColors.getGreenColor(context),
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 child: Text(
                   "Cancel",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -121,12 +125,13 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                   deleteBookmark(
                       widget.bookmarkBusiness!.idbookmarked_businesses);
                 },
-                buttonColor: MihColors.getRedColor(context),
+                buttonColor: MihColors.getRedColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 child: Text(
                   "Remove Business",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

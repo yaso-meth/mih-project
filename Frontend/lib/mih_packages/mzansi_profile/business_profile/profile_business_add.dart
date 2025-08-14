@@ -258,9 +258,11 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
   Color getMissionVisionLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+      return MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     } else {
-      return MihColors.getRedColor(context);
+      return MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
   }
 
@@ -297,20 +299,20 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                     ),
                   ),
                   Divider(
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   const SizedBox(height: 10.0),
                   MihForm(
                     formKey: _formKey,
                     formFields: [
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: nameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -321,12 +323,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: typeController,
                         multiLineInput: false,
                         requiredText: true,
@@ -337,12 +339,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: emailController,
                         multiLineInput: false,
                         requiredText: true,
@@ -379,22 +381,21 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                             initialSelection: countryCodeController.text,
                             showDropDownButton: false,
                             pickerStyle: PickerStyle.bottomSheet,
-                            dialogBackgroundColor:
-                                MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
-                            barrierColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            dialogBackgroundColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            barrierColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                           Expanded(
                             child: MihTextFormField(
-                              fillColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              inputColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              fillColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              inputColor: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               controller: contactController,
                               numberMode: true,
                               multiLineInput: false,
@@ -410,12 +411,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         height: 250,
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: missionVisionController,
                         multiLineInput: true,
                         requiredText: true,
@@ -457,12 +458,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: websiteController,
                         multiLineInput: false,
                         requiredText: false,
@@ -475,12 +476,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       const SizedBox(height: 10.0),
 
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: regController,
                         multiLineInput: false,
                         requiredText: false,
@@ -492,12 +493,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: practiceNoController,
                         multiLineInput: false,
                         requiredText: false,
@@ -509,12 +510,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
 
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: vatNoController,
                         multiLineInput: false,
                         requiredText: false,
@@ -530,12 +531,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         children: [
                           Flexible(
                             child: MihTextFormField(
-                              fillColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              inputColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              fillColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              inputColor: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               controller: locationController,
                               multiLineInput: false,
                               requiredText: true,
@@ -566,16 +567,18 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                                 Navigator.of(context).pop();
                               });
                             },
-                            buttonColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            buttonColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             width: 100,
                             child: Text(
                               "Set",
                               style: TextStyle(
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -595,17 +598,17 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         ),
                       ),
                       Divider(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor()),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark")),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: titleController,
                         multiLineInput: false,
                         requiredText: true,
@@ -627,12 +630,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: fnameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -644,12 +647,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: lnameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -661,12 +664,12 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       ),
                       const SizedBox(height: 15.0),
                       MihTextFormField(
-                        fillColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
-                        inputColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         controller: accessController,
                         multiLineInput: false,
                         requiredText: true,
@@ -698,16 +701,16 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                                   .formNotFilledCompletely(context);
                             }
                           },
-                          buttonColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .successColor(),
+                          buttonColor: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 300,
                           child: Text(
                             "Add",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),

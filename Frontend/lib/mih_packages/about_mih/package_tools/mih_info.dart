@@ -63,8 +63,8 @@ class _MihInfoState extends State<MihInfo> {
               Padding(
                 padding: const EdgeInsets.only(left: 4.0),
                 child: CircleAvatar(
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  backgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   backgroundImage: const AssetImage(
                       "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
                   //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
@@ -74,7 +74,8 @@ class _MihInfoState extends State<MihInfo> {
               Icon(
                 MihIcons.mihRing,
                 size: 165,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ],
           ),
@@ -234,12 +235,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.youtube,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 175,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -250,12 +254,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -266,12 +273,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.twitch,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -282,12 +292,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.threads,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -298,12 +311,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.whatsapp,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -314,12 +330,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.instagram,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
 
@@ -331,12 +350,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.xTwitter,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -347,12 +369,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.linkedin,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -363,12 +388,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -379,12 +407,15 @@ class _MihInfoState extends State<MihInfo> {
       tileIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.reddit,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     socials.add(MIHTile(
@@ -396,19 +427,22 @@ class _MihInfoState extends State<MihInfo> {
         child: Text(
           "KICK",
           style: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             fontWeight: FontWeight.bold,
             fontSize: 100,
           ),
         ),
         // FaIcon(
         //   FontAwesomeIcons.tv,
-        //   color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //   color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   size: 200,
         // ),
       ),
-      p: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      s: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      p: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      s: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
     return socials;
@@ -448,13 +482,15 @@ class _MihInfoState extends State<MihInfo> {
       children: [
         FaIcon(
           platformIcon,
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
         const SizedBox(width: 10),
         Text(
           btnText,
           style: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -490,8 +526,8 @@ class _MihInfoState extends State<MihInfo> {
                 child: FittedBox(
                   child: Icon(
                     MihIcons.mihLogo,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
               ),
@@ -542,7 +578,9 @@ class _MihInfoState extends State<MihInfo> {
                       onPressed: () {
                         MihInstallServices().installMihTrigger(context);
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: getInstallButtonText(),
                     ),
@@ -554,24 +592,26 @@ class _MihInfoState extends State<MihInfo> {
                           ),
                         );
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FaIcon(
                             FontAwesomeIcons.youtube,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                           const SizedBox(width: 10),
                           Text(
                             "MIH Beginners Guide",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -587,24 +627,26 @@ class _MihInfoState extends State<MihInfo> {
                           ),
                         );
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FaIcon(
                             FontAwesomeIcons.patreon,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                           const SizedBox(width: 10),
                           Text(
                             "Support Our Journey",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -648,15 +690,19 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.vpn_lock,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 label: "MIH - Web",
-                labelBackgroundColor: MihColors.getGreenColor(context),
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor: MihColors.getGreenColor(context),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -668,15 +714,19 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.apple,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 label: "MIH - iOS",
-                labelBackgroundColor: MihColors.getGreenColor(context),
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor: MihColors.getGreenColor(context),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onTap: () {
                   shareMIHLink(
                     context,
@@ -688,15 +738,19 @@ class _MihInfoState extends State<MihInfo> {
               SpeedDialChild(
                 child: Icon(
                   Icons.android,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 label: "MIH - Android",
-                labelBackgroundColor: MihColors.getGreenColor(context),
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor: MihColors.getGreenColor(context),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onTap: () {
                   shareMIHLink(
                     context,

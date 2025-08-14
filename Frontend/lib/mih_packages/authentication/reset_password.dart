@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -98,11 +99,13 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   Color getPrim() {
-    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    return MihColors.getSecondaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   Color getSec() {
-    return MzansiInnovationHub.of(context)!.theme.primaryColor();
+    return MihColors.getPrimaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   void loginError() {
@@ -214,9 +217,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                       Icon(
                         Icons.lock,
                         size: 100,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                       //spacer
                       const SizedBox(height: 10),
@@ -226,9 +229,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                       //spacer
@@ -237,12 +240,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                         formKey: _formKey,
                         formFields: [
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: passwordController,
                             multiLineInput: false,
                             requiredText: true,
@@ -257,12 +260,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                           //spacer
                           const SizedBox(height: 10),
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: confirmPasswordController,
                             multiLineInput: false,
                             requiredText: true,
@@ -288,16 +291,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       .formNotFilledCompletely(context);
                                 }
                               },
-                              buttonColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .successColor(),
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               width: 300,
                               child: Text(
                                 "Reset Password",
                                 style: TextStyle(
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),

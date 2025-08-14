@@ -57,10 +57,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -70,16 +72,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Access Pending",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,8 +90,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "Your access request is currently being reviewed.\nOnce approved, you'll be able to view patient data.\nPlease follow up with the patient to approve your access request.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -110,7 +112,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),
@@ -127,10 +130,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -140,16 +145,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Patient Profile Access Needed",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -158,8 +163,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "To proceed with booking an appointment, you must have access to the patient's profile. This will allow you to view their medical history and other relevant information. Please contact the appropriate administrator to request access.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -180,7 +185,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),
@@ -197,10 +203,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -210,16 +218,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Appointment Cancelled",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -228,8 +236,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "This appointment has been canceled. As a result, you no longer have access to the patient's profile. If you would like to view the patient's profile again, please book a new appointment.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -250,7 +258,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),
@@ -267,10 +276,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -280,16 +291,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Access Cancelled",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -298,8 +309,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "This appointment has been canceled. As a result, access has been cancelled and the doctor no longer have access to the patient's profile. If you would like them to view the patient's profile again, please book a new appointment through them.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -320,7 +331,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),
@@ -337,10 +349,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -350,16 +364,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Access Declined",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -368,8 +382,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "Your request to access the patient's profile has been denied. Please contact the patient directly to inquire about the reason for this restriction.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -390,7 +404,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),
@@ -407,10 +422,12 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: SingleChildScrollView(
@@ -420,16 +437,16 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Access Expired",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -438,8 +455,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
                 Text(
                   "You no longer have access to this patient profile. The authorized access period has ended. Access to a patients profile is limited to 7 days from appointment date.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -460,7 +477,8 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 35,
             ),
           ),

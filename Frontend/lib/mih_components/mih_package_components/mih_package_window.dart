@@ -85,9 +85,12 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               child: IconButton.filled(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                      MihColors.getRedColor(context)),
+                      MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                 ),
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 iconSize: 20,
                 onPressed: () {
                   widget.onWindowTapClose();
@@ -109,7 +112,8 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               style: TextStyle(
                 fontSize: windowTitleSize,
                 fontWeight: FontWeight.bold,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
           ),
@@ -166,10 +170,12 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       insetAnimationDuration: Durations.short1,
       child: Container(
         decoration: BoxDecoration(
-          color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           borderRadius: BorderRadius.circular(25.0),
           border: Border.all(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               width: 5.0),
         ),
         child: widget.fullscreen

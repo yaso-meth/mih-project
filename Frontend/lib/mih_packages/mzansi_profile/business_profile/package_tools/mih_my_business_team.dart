@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -61,7 +60,8 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
         "",
         style: TextStyle(
             fontSize: 25,
-            color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+            color: MihColors.getGreyColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
         textAlign: TextAlign.center,
       ),
     );
@@ -105,7 +105,10 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
                 child: Text(
                   "$errorCode: Error pulling Patients Data\n${AppEnviroment.baseApiUrl}/business-user/users/${widget.arguments.businessUser!.business_id}\n$errorBody",
                   style: TextStyle(
-                      fontSize: 25, color: MihColors.getRedColor(context)),
+                      fontSize: 25,
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   textAlign: TextAlign.center,
                 ),
               );

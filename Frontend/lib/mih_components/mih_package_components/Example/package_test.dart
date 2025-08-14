@@ -67,7 +67,8 @@ class _PackageTestState extends State<PackageTest> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: "Oops! Looks like some fields are missing.",
           alertBody: Column(
@@ -75,8 +76,8 @@ class _PackageTestState extends State<PackageTest> {
               Text(
                 "We noticed that some required fields are still empty. To ensure your request is processed smoothly, please fill out all the highlighted fields before submitting the form again.",
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -85,8 +86,8 @@ class _PackageTestState extends State<PackageTest> {
               RichText(
                 text: TextSpan(
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -95,16 +96,16 @@ class _PackageTestState extends State<PackageTest> {
                         text: "Here's a quick tip: ",
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .errorColor())),
+                            color: MihColors.getRedColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"))),
                     const TextSpan(text: "Look for fields with an asterisk ("),
                     TextSpan(
                         text: "*",
                         style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .errorColor())),
+                            color: MihColors.getRedColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"))),
                     const TextSpan(
                         text: ") next to them, as these are mandatory."),
                   ],
@@ -112,7 +113,8 @@ class _PackageTestState extends State<PackageTest> {
               ),
             ],
           ),
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );

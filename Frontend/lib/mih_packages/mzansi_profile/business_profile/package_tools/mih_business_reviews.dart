@@ -76,17 +76,17 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                           child: Icon(
                             MihIcons.mihRing,
                             size: 165,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                         ),
                         Icon(
                           Icons.star_rate_rounded,
                           size: 150,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ],
                     ),
@@ -98,9 +98,9 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                     // const SizedBox(height: 10),
@@ -142,7 +142,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
               //       Icons.star_rate_rounded,
               //       size: 150,
               //       color:
-              //           MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              //           MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               //     ),
               //     Text(
               //       "No reviews yet, be the first the review\n${widget.business.Name}",
@@ -170,19 +170,23 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                       filledIcon: Icons.star,
                       emptyIcon: Icons.star_border,
                       halfFilledIcon: Icons.star_half,
-                      filledColor: MihColors.getYellowColor(context),
-                      // MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                      emptyColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      halfFilledColor: MihColors.getYellowColor(context),
-                      // MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      filledColor: MihColors.getYellowColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                      emptyColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      halfFilledColor: MihColors.getYellowColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                       // filledColor:
-                      //     MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                      //     MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                       // emptyColor:
-                      //     MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                      //     MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                       // halfFilledColor:
-                      //     MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                      //     MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                       isHalfAllowed: true,
                       initialRating: double.parse(reviews[index].rating_score),
                       maxRating: 5,

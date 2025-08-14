@@ -863,17 +863,21 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                   SpeedDialChild(
                     child: Icon(
                       Icons.delete,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     label: "Delete File",
-                    labelBackgroundColor: MihColors.getGreenColor(context),
+                    labelBackgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     labelStyle: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontWeight: FontWeight.bold,
                     ),
-                    backgroundColor: MihColors.getGreenColor(context),
+                    backgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onTap: () {},
                   ),
                 ],
@@ -950,11 +954,13 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
   }
 
   Color getPrim() {
-    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    return MihColors.getSecondaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   Color getSec() {
-    return MzansiInnovationHub.of(context)!.theme.primaryColor();
+    return MihColors.getPrimaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   bool isBusinessUser(AppUser signedInUser) {
@@ -991,7 +997,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
           //   radius: 21,
           //   drawerMode: false,
           //   editable: false,
-          //   frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          //   frameColor: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           //   onChange: (newProPic) {},
           // ),
         ),
@@ -1021,7 +1027,8 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
             child: Icon(
               Icons.circle,
               size: 10,
-              color: MihColors.getRedColor(context),
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           )
         ],
@@ -1088,10 +1095,10 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
                     hintText: "Ask Mzansi",
                     prefixIcon: Icons.search,
                     prefixAltIcon: MihIcons.mzansiAi,
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    hintColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    hintColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onPrefixIconTap: () {
                       print("Search Text: ${searchController.text}");
                       setState(() {
@@ -1166,11 +1173,11 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
         child: Placeholder(),
         // GNav(
         //   //hoverColor: Colors.lightBlueAccent,
-        //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+        //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   iconSize: 35.0,
-        //   activeColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //   activeColor: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   tabBackgroundColor:
-        //       MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+        //       MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   //gap: 20,
         //   //padding: EdgeInsets.all(15),
         //   tabs: [

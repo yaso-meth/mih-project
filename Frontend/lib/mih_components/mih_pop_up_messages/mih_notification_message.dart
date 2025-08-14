@@ -132,8 +132,10 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   void initState() {
     super.initState();
     setState(() {
-      primary = MzansiInnovationHub.of(context)!.theme.primaryColor();
-      secondary = MihColors.getRedColor(context);
+      primary = MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      secondary = MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     });
     _animationController = AnimationController(
       vsync: this,

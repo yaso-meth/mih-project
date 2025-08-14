@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_authentication_services.dart';
@@ -159,11 +160,13 @@ class _MihSignInState extends State<MihSignIn> {
   }
 
   Color getPrim() {
-    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    return MihColors.getSecondaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   Color getSec() {
-    return MzansiInnovationHub.of(context)!.theme.primaryColor();
+    return MihColors.getPrimaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   void loginError() {
@@ -232,16 +235,16 @@ class _MihSignInState extends State<MihSignIn> {
                           onPressed: () {
                             MihInstallServices().installMihTrigger(context);
                           },
-                          buttonColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .successColor(),
+                          buttonColor: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 150,
                           child: Text(
                             "Install MIH",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -255,8 +258,8 @@ class _MihSignInState extends State<MihSignIn> {
                 Icon(
                   Icons.lock,
                   size: 100,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 //spacer
                 const SizedBox(height: 10),
@@ -266,8 +269,8 @@ class _MihSignInState extends State<MihSignIn> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
                 //spacer
@@ -276,11 +279,12 @@ class _MihSignInState extends State<MihSignIn> {
                   formKey: _formKey,
                   formFields: [
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: emailController,
                       multiLineInput: false,
                       requiredText: true,
@@ -294,11 +298,12 @@ class _MihSignInState extends State<MihSignIn> {
                     const SizedBox(height: 10),
                     //password input
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: passwordController,
                       multiLineInput: false,
                       requiredText: true,
@@ -327,9 +332,11 @@ class _MihSignInState extends State<MihSignIn> {
                               'Forgot Password?',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
+                                color: MihColors.getSecondaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -357,16 +364,18 @@ class _MihSignInState extends State<MihSignIn> {
                                     .formNotFilledCompletely(context);
                               }
                             },
-                            buttonColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             width: 300,
                             child: Text(
                               "Sign In",
                               style: TextStyle(
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -374,16 +383,18 @@ class _MihSignInState extends State<MihSignIn> {
                           ),
                           MihButton(
                             onPressed: widget.onNewUserButtonTap,
-                            buttonColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            buttonColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             width: 300,
                             child: Text(
                               "Create New Account",
                               style: TextStyle(
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -420,9 +431,11 @@ class _MihSignInState extends State<MihSignIn> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
-                                        color: MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .secondaryColor()),
+                                        color: MihColors.getSecondaryColor(
+                                            MzansiInnovationHub.of(context)!
+                                                    .theme
+                                                    .mode ==
+                                                "Dark")),
                                   ),
                                   onTap: () {
                                     setState(() {
@@ -469,9 +482,11 @@ class _MihSignInState extends State<MihSignIn> {
                                 "NB: These accounts are used for test purposes. Please do not store personal information on these profiles.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .errorColor(),
+                                  color: MihColors.getRedColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),

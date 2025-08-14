@@ -78,10 +78,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: _nicknameController,
                     multiLineInput: false,
                     requiredText: false,
@@ -95,12 +95,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     children: [
                       Flexible(
                         child: MihTextFormField(
-                          fillColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           controller: _cardNumberController,
                           multiLineInput: false,
                           requiredText: true,
@@ -116,16 +116,16 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         onPressed: () {
                           openscanner();
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        buttonColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 100,
                         child: Text(
                           "Scan",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -152,14 +152,16 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Update",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -200,10 +202,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MihColors.getGreenColor(context),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           alertIcon: Icon(
             Icons.favorite,
-            color: MihColors.getGreenColor(context),
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             size: 100,
           ),
           alertTitle: "Add to Favourites",
@@ -213,8 +217,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 "Are you sure you want to add this card to your favourites?",
                 style: TextStyle(
                   fontSize: 20,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
               const SizedBox(
@@ -233,13 +237,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     ctxt,
                   );
                 },
-                buttonColor: MihColors.getGreenColor(context),
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Add",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -258,10 +263,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           alertIcon: Icon(
             Icons.favorite_border,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             size: 100,
           ),
           alertTitle: "Remove From Favourites",
@@ -271,8 +278,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 "Are you sure you want to remove this card from your favourites?",
                 style: TextStyle(
                   fontSize: 20,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
               const SizedBox(
@@ -291,13 +298,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     ctxt,
                   );
                 },
-                buttonColor: MihColors.getRedColor(context),
+                buttonColor: MihColors.getRedColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Remove",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -330,23 +338,26 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             child: widget.cardList[index].favourite == ""
                 ? Icon(
                     Icons.favorite,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   )
                 : Icon(
                     Icons.favorite_border,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
             label: widget.cardList[index].favourite == ""
                 ? "Add to Favourite"
                 : "Remove from Favourite",
-            labelBackgroundColor: MihColors.getGreenColor(context),
+            labelBackgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             labelStyle: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor: MihColors.getGreenColor(context),
+            backgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
               if (widget.cardList[index].favourite == "") {
                 addToFavCardWindow(context, index);
@@ -358,15 +369,19 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           SpeedDialChild(
             child: Icon(
               Icons.edit,
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             label: "Edit Card Details",
-            labelBackgroundColor: MihColors.getGreenColor(context),
+            labelBackgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             labelStyle: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor: MihColors.getGreenColor(context),
+            backgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
               setState(() {
                 _cardNumberController.text = widget.cardList[index].card_number;
@@ -378,15 +393,19 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           SpeedDialChild(
             child: Icon(
               Icons.delete,
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             label: "Delete Card",
-            labelBackgroundColor: MihColors.getGreenColor(context),
+            labelBackgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             labelStyle: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor: MihColors.getGreenColor(context),
+            backgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
               deleteCardWindow(context, index);
             },
@@ -424,7 +443,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       height: 75,
                       // width: 300,
                       child: BarcodeWidget(
-                        //color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                        //color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                         barcode: Barcode.code128(),
                         backgroundColor: Colors.white,
                         data: widget.cardList[index].card_number,
@@ -446,7 +465,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         color: Colors.black,
                         fontSize: 25,
                         fontWeight: FontWeight.bold
-                        //MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                        //MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                         ),
                   ),
                 ],
@@ -528,7 +547,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               Icon(
                 MihIcons.iDontKnow,
                 size: 165,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               const SizedBox(height: 10),
               Text(
@@ -538,8 +558,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
             ],
@@ -555,7 +575,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               Icon(
                 MihIcons.mzansiWallet,
                 size: 165,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               const SizedBox(height: 10),
               Text(
@@ -565,8 +586,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
               const SizedBox(height: 25),
@@ -577,9 +598,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.normal,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     children: [
                       TextSpan(text: "Press "),
@@ -588,9 +609,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         child: Icon(
                           Icons.menu,
                           size: 20,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                       TextSpan(text: " to add your first loyalty card"),
@@ -612,7 +633,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               Icon(
                 MihIcons.mzansiWallet,
                 size: 165,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               const SizedBox(height: 10),
               Text(
@@ -622,8 +644,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
               const SizedBox(height: 25),
@@ -634,9 +656,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.normal,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     children: [
                       TextSpan(text: "Press "),
@@ -645,9 +667,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         child: Icon(
                           Icons.menu,
                           size: 20,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                       TextSpan(

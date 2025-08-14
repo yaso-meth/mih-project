@@ -39,7 +39,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle:
               "Are you sure you want to permanently delete your MIH account?",
@@ -49,8 +50,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
               Text(
                 "This action will remove all of your data, and it cannot be recovered. We understand this is a big decision, so please take a moment to double-check.\n\nIf you're certain, please confirm below. If you've changed your mind, you can simply close this window.",
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -65,14 +66,15 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                       MihUserServices.deleteAccount(
                           widget.signedInUser.app_id, context);
                     },
-                    buttonColor: MihColors.getRedColor(context),
+                    buttonColor: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Delete",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -82,14 +84,15 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    buttonColor: MihColors.getGreenColor(context),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -99,7 +102,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
               )
             ],
           ),
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -112,7 +116,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           Center(
             child: FaIcon(
               FontAwesomeIcons.trashCan,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               size: 150,
             ),
           ),
@@ -123,7 +128,8 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           const SizedBox(height: 10.0),
@@ -131,12 +137,14 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             onPressed: () {
               deleteAccountPopUp(context);
             },
-            buttonColor: MihColors.getRedColor(context),
+            buttonColor: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             width: 300,
             child: Text(
               "Delete Account",
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

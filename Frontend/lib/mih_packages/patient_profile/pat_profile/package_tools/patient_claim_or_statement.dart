@@ -127,17 +127,19 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.add,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Generate Claim/ Statement",
-                  labelBackgroundColor: MihColors.getGreenColor(context),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: MihColors.getGreenColor(context),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     claimOrStatementWindow();
                   },

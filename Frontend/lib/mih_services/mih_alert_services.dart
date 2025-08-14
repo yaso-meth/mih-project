@@ -12,7 +12,8 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 150,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: "Oops! Looks like some fields are missing.",
           alertBody: Column(
@@ -20,8 +21,8 @@ class MihAlertServices {
               Text(
                 "We noticed that some required fields are still empty. To ensure your request is processed smoothly, please fill out all the highlighted fields before submitting the form again.",
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -30,8 +31,8 @@ class MihAlertServices {
               RichText(
                 text: TextSpan(
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -40,9 +41,9 @@ class MihAlertServices {
                         text: "Here's a quick tip: ",
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .errorColor())),
+                            color: MihColors.getRedColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"))),
                     const TextSpan(
                         text:
                             "Look for fields without the \"(Optional)\" indicator next to them, as these are mandatory."),
@@ -51,7 +52,8 @@ class MihAlertServices {
               ),
             ],
           ),
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -65,7 +67,8 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.check_circle_outline_rounded,
             size: 150,
-            color: MihColors.getGreenColor(context),
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: title,
           alertBody: Column(
@@ -73,8 +76,8 @@ class MihAlertServices {
               Text(
                 message,
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -82,7 +85,8 @@ class MihAlertServices {
               const SizedBox(height: 25),
             ],
           ),
-          alertColour: MihColors.getGreenColor(context),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -96,7 +100,8 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 150,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: title,
           alertBody: Column(
@@ -104,8 +109,8 @@ class MihAlertServices {
               Text(
                 message,
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -113,7 +118,8 @@ class MihAlertServices {
               const SizedBox(height: 25),
             ],
           ),
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );

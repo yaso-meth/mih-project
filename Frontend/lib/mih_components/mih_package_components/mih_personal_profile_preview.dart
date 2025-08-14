@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 
 class MihPersonalProfilePreview extends StatefulWidget {
@@ -47,25 +48,26 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                   editable: false,
                   fileNameController: TextEditingController(),
                   userSelectedfile: file,
-                  frameColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  frameColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onChange: () {},
                 );
               } else {
                 return Icon(
                   MihIcons.iDontKnow,
                   size: profilePictureWidth,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 );
               }
             } else {
               return Icon(
                 MihIcons.mihRing,
                 size: profilePictureWidth,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               );
             }
           },

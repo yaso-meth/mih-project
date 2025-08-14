@@ -107,10 +107,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: officeController,
                     multiLineInput: false,
                     requiredText: true,
@@ -119,10 +119,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: doctorController,
                     multiLineInput: false,
                     requiredText: true,
@@ -131,10 +131,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: dateController,
                     multiLineInput: false,
                     requiredText: true,
@@ -143,10 +143,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: titleController,
                     multiLineInput: false,
                     requiredText: true,
@@ -158,10 +158,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     height: 250,
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: noteTextController,
                     multiLineInput: true,
                     requiredText: true,
@@ -211,14 +211,16 @@ class _PatientConsultationState extends State<PatientConsultation> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Add Note",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -278,9 +280,11 @@ class _PatientConsultationState extends State<PatientConsultation> {
 
   Color getNoteDetailLimitColor() {
     if (_counter.value <= 512) {
-      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+      return MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     } else {
-      return MihColors.getRedColor(context);
+      return MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
   }
 
@@ -378,17 +382,19 @@ class _PatientConsultationState extends State<PatientConsultation> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.add,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Add Note",
-                  labelBackgroundColor: MihColors.getGreenColor(context),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: MihColors.getGreenColor(context),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     // addConsultationNotePopUp();
                     addNotePopUp(width);

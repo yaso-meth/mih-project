@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihDropdownField extends StatefulWidget {
   final TextEditingController controller;
@@ -30,13 +31,13 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
 
   List<DropdownMenuEntry<String>> buildMenuOptions(List<String> options) {
     List<DropdownMenuEntry<String>> menuList = [];
-    final theme = MzansiInnovationHub.of(context)!.theme;
     for (final i in options) {
       menuList.add(DropdownMenuEntry(
         value: i,
         label: i,
         style: ButtonStyle(
-          foregroundColor: WidgetStatePropertyAll(theme.primaryColor()),
+          foregroundColor: WidgetStatePropertyAll(MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
         ),
       ));
     }
@@ -59,8 +60,6 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MzansiInnovationHub.of(context)!.theme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -70,7 +69,8 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
             Text(
               widget.hintText,
               style: TextStyle(
-                color: theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -79,7 +79,8 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
               Text(
                 "(Optional)",
                 style: TextStyle(
-                  color: theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -98,10 +99,16 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                 Theme(
                   data: Theme.of(context).copyWith(
                     textSelectionTheme: TextSelectionThemeData(
-                      cursorColor: theme.primaryColor(),
-                      selectionColor:
-                          theme.primaryColor().withValues(alpha: 0.3),
-                      selectionHandleColor: theme.primaryColor(),
+                      cursorColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      selectionColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark")
+                          .withValues(alpha: 0.3),
+                      selectionHandleColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   child: DropdownMenu(
@@ -115,16 +122,22 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     menuHeight: 400,
                     expandedInsets: EdgeInsets.zero,
                     textStyle: TextStyle(
-                      color: theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontWeight: FontWeight.w500,
                     ),
                     trailingIcon: Icon(
                       Icons.arrow_drop_down,
-                      color: theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     selectedTrailingIcon: Icon(
                       Icons.arrow_drop_up,
-                      color: theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     leadingIcon: IconButton(
                       onPressed: () {
@@ -133,17 +146,25 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                       },
                       icon: Icon(
                         Icons.delete_outline_rounded,
-                        color: theme.primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                     onSelected: (String? selectedValue) {
                       field.didChange(selectedValue);
                     },
                     menuStyle: MenuStyle(
-                      backgroundColor:
-                          WidgetStatePropertyAll(theme.secondaryColor()),
+                      backgroundColor: WidgetStatePropertyAll(
+                          MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark")),
                       side: WidgetStatePropertyAll(
-                        BorderSide(color: theme.primaryColor(), width: 1.0),
+                        BorderSide(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            width: 1.0),
                       ),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
@@ -157,7 +178,9 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 8.0),
                       filled: true,
-                      fillColor: theme.secondaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide.none,
@@ -166,22 +189,30 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
                           color: field.hasError
-                              ? theme.errorColor()
-                              : theme.secondaryColor(),
+                              ? MihColors.getRedColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark")
+                              : MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                           width: 3.0,
                         ),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
-                          color: theme.errorColor(),
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 3.0,
                         ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
-                          color: theme.errorColor(),
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 3.0,
                         ),
                       ),
@@ -195,7 +226,9 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                       field.errorText ?? '',
                       style: TextStyle(
                         fontSize: 12,
-                        color: theme.errorColor(),
+                        color: MihColors.getRedColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

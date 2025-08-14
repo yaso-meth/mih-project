@@ -89,18 +89,19 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     // print("Date: $date");
     // print("Appointment Date: $appointDate");
     // print("Appointment Hour: $appointHour");
-    Color appointmentColor =
-        MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    Color appointmentColor = MihColors.getSecondaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     if (date == appointDate) {
       if (appointHour < hourNow) {
-        appointmentColor =
-            MzansiInnovationHub.of(context)!.theme.messageTextColor();
+        appointmentColor = MihColors.getGreyColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
       } else if (appointHour == hourNow) {
-        appointmentColor = MihColors.getGreenColor(context);
+        appointmentColor = MihColors.getGreenColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
       }
     } else if (DateTime.parse(appointDate).isBefore(DateTime.parse(date))) {
-      appointmentColor =
-          MzansiInnovationHub.of(context)!.theme.messageTextColor();
+      appointmentColor = MihColors.getGreyColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
 
     return Container(
@@ -158,15 +159,19 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             SpeedDialChild(
               child: Icon(
                 Icons.edit,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               label: "Edit Appointment",
-              labelBackgroundColor: MihColors.getGreenColor(context),
+              labelBackgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               labelStyle: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(context),
+              backgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
                 appointmentUpdateWindow(index, bodyWidth);
               },
@@ -174,15 +179,19 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             SpeedDialChild(
               child: Icon(
                 Icons.delete,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               label: "Delete Appointment",
-              labelBackgroundColor: MihColors.getGreenColor(context),
+              labelBackgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               labelStyle: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(context),
+              backgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
                 deleteAppointmentConfirmationWindow(index);
               },
@@ -204,10 +213,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               children: [
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.titleController,
                   multiLineInput: false,
                   requiredText: true,
@@ -216,10 +225,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.dateController,
                   multiLineInput: false,
                   requiredText: true,
@@ -228,10 +237,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.timeController,
                   multiLineInput: false,
                   requiredText: true,
@@ -240,10 +249,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.descriptionIDController,
                   multiLineInput: true,
                   height: 250,
@@ -272,15 +281,19 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             SpeedDialChild(
               child: Icon(
                 Icons.edit,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               label: "Edit Appointment",
-              labelBackgroundColor: MihColors.getGreenColor(context),
+              labelBackgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               labelStyle: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(context),
+              backgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
                 appointmentUpdateWindow(index, bodyWidth);
               },
@@ -288,15 +301,19 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             SpeedDialChild(
               child: Icon(
                 Icons.delete,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               label: "Delete Appointment",
-              labelBackgroundColor: MihColors.getGreenColor(context),
+              labelBackgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               labelStyle: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(context),
+              backgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
                 deleteAppointmentConfirmationWindow(index);
               },
@@ -318,10 +335,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               children: [
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.titleController,
                   multiLineInput: false,
                   requiredText: true,
@@ -330,10 +347,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.dateController,
                   multiLineInput: false,
                   requiredText: true,
@@ -342,10 +359,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.timeController,
                   multiLineInput: false,
                   requiredText: true,
@@ -354,10 +371,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: widget.descriptionIDController,
                   multiLineInput: true,
                   height: 250,
@@ -417,11 +434,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                   formKey: _formKey,
                   formFields: [
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: widget.titleController,
                       multiLineInput: false,
                       requiredText: true,
@@ -450,11 +468,12 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: widget.descriptionIDController,
                       multiLineInput: true,
                       height: 250,
@@ -480,16 +499,18 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                                     .formNotFilledCompletely(context);
                               }
                             },
-                            buttonColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .successColor(),
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             width: 300,
                             child: Text(
                               "Update",
                               style: TextStyle(
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .primaryColor(),
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

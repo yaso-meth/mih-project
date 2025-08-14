@@ -92,18 +92,18 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
         //           child: Icon(
         //             Icons.add,
         //             color:
-        //                 MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //                 MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //           ),
         //           label: "Add Loyalty Card",
         //           labelBackgroundColor:
-        //               MihColors.getGreenColor(context),
+        //               MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //           labelStyle: TextStyle(
         //             color:
-        //                 MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //                 MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //             fontWeight: FontWeight.bold,
         //           ),
         //           backgroundColor:
-        //               MihColors.getGreenColor(context),
+        //               MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //           onTap: () {
         //             // addCardWindow(context);
         //           },

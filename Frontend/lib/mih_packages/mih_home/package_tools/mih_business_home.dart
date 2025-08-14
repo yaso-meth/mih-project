@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
@@ -215,7 +216,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           // Icon(
           //   MihIcons.mihLogo,
           //   size: width / 2,
-          //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           // ),
           // const SizedBox(height: 10),
           // Text(
@@ -225,7 +226,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           //   style: TextStyle(
           //     fontSize: 30,
           //     fontWeight: FontWeight.bold,
-          //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           //   ),
           // ),
           // const SizedBox(height: 20),
@@ -238,10 +239,10 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                 hintText: "Ask Mzansi",
                 prefixIcon: Icons.search,
                 prefixAltIcon: MihIcons.mzansiAi,
-                fillColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                hintColor:
-                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                hintColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onPrefixIconTap: () {
                   Navigator.of(context).pushNamed(
                     '/mzansi-ai',
@@ -292,9 +293,9 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                     Icon(
                       MihIcons.mzansiAi,
                       size: 165,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -304,9 +305,9 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],

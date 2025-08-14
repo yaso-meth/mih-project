@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihImageDisplay extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
@@ -33,7 +34,9 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
   ImageProvider<Object>? getImage() {
     Color dark = const Color(0XFF3A4454);
     if (widget.imageFile == null) {
-      if (MzansiInnovationHub.of(context)!.theme.secondaryColor() == dark) {
+      if (MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark") ==
+          dark) {
         print("here in light icon");
         return const AssetImage(
             'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
@@ -77,10 +80,11 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
               right: 0,
               child: IconButton.filled(
                 style: IconButton.styleFrom(
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  backgroundColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onPressed: () async {
                   try {
                     FilePickerResult? result =

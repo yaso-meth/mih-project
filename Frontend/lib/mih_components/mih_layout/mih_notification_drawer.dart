@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
 import '../../mih_config/mih_env.dart';
 import '../mih_pop_up_messages/mih_error_message.dart';
 
@@ -79,13 +78,15 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       title: Text(
         title,
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       onTap: () {},
@@ -102,7 +103,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         children: [
           Icon(
             Icons.circle_notifications,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           const SizedBox(
             width: 5,
@@ -111,7 +113,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             child: Text(
               title,
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
           ),
@@ -125,7 +128,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             child: Text(
               title,
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
           ),
@@ -137,7 +141,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       onTap: () {
@@ -160,7 +165,8 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, index) {
           return Divider(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           );
         },
         itemCount: widget.notifications.length,
@@ -199,14 +205,15 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
-          //backgroundColor:  MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          //backgroundColor:  MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,9 +223,9 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
                     child: Text(
                       "Notifications",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -233,7 +240,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
             //   physics: const NeverScrollableScrollPhysics(),
             //   separatorBuilder: (BuildContext context, index) {
             //     return Divider(
-            //       color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            //       color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             //     );
             //   },
             //   itemCount: widget.notifications.length,

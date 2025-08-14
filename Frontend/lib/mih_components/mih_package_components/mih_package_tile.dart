@@ -2,6 +2,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageTile extends StatefulWidget {
   final String appName;
@@ -84,8 +85,8 @@ class _MihPackageTileState extends State<MihPackageTile> {
                   // softWrap: true,
                   // overflow: TextOverflow.visible,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),

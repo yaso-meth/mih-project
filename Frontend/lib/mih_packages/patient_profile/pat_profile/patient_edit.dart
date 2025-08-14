@@ -203,11 +203,12 @@ class _EditPatientState extends State<EditPatient> {
               width: 700.0,
               height: (height / 3) * 2,
               decoration: BoxDecoration(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 borderRadius: BorderRadius.circular(25.0),
                 border: Border.all(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 5.0),
               ),
               child: SingleChildScrollView(
@@ -217,18 +218,18 @@ class _EditPatientState extends State<EditPatient> {
                     Icon(
                       Icons.warning_amber_rounded,
                       size: 100,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     const SizedBox(height: 15),
                     Text(
                       "Are you sure you want to delete this?",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -239,9 +240,9 @@ class _EditPatientState extends State<EditPatient> {
                       child: Text(
                         "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -253,9 +254,9 @@ class _EditPatientState extends State<EditPatient> {
                       child: Text(
                         "Here's what you'll be deleting:",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -270,9 +271,9 @@ class _EditPatientState extends State<EditPatient> {
                           "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -281,14 +282,16 @@ class _EditPatientState extends State<EditPatient> {
                     ),
                     MihButton(
                       onPressed: deletePatientApiCall,
-                      buttonColor: MihColors.getRedColor(context),
+                      buttonColor: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Delete",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -309,7 +312,8 @@ class _EditPatientState extends State<EditPatient> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MihColors.getRedColor(context),
+                  color: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   size: 35,
                 ),
               ),
@@ -396,23 +400,22 @@ class _EditPatientState extends State<EditPatient> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
                 ),
                 Divider(
-                    color: MzansiInnovationHub.of(context)!
-                        .theme
-                        .secondaryColor()),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: idController,
                   multiLineInput: false,
                   requiredText: true,
@@ -423,10 +426,10 @@ class _EditPatientState extends State<EditPatient> {
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -437,10 +440,10 @@ class _EditPatientState extends State<EditPatient> {
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -451,10 +454,10 @@ class _EditPatientState extends State<EditPatient> {
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: cellController,
                   multiLineInput: false,
                   requiredText: true,
@@ -465,10 +468,10 @@ class _EditPatientState extends State<EditPatient> {
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: emailController,
                   multiLineInput: false,
                   requiredText: true,
@@ -481,10 +484,10 @@ class _EditPatientState extends State<EditPatient> {
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   height: 100,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: addressController,
                   multiLineInput: true,
                   requiredText: true,
@@ -501,24 +504,23 @@ class _EditPatientState extends State<EditPatient> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25.0,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
                 Divider(
-                    color: MzansiInnovationHub.of(context)!
-                        .theme
-                        .secondaryColor()),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 const SizedBox(height: 10.0),
                 MihToggle(
                   hintText: "Medical Aid",
                   initialPostion: medAidPosition,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  secondaryFillColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  secondaryFillColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onChange: (value) {
                     if (value) {
                       setState(() {
@@ -544,12 +546,12 @@ class _EditPatientState extends State<EditPatient> {
                           MihToggle(
                             hintText: "Main Member",
                             initialPostion: medMainMemberPosition,
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            secondaryFillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            secondaryFillColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             onChange: (value) {
                               if (value) {
                                 setState(() {
@@ -566,12 +568,12 @@ class _EditPatientState extends State<EditPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: medNoController,
                             multiLineInput: false,
                             requiredText: true,
@@ -586,12 +588,12 @@ class _EditPatientState extends State<EditPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: medAidCodeController,
                             multiLineInput: false,
                             requiredText: true,
@@ -606,12 +608,12 @@ class _EditPatientState extends State<EditPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: medNameController,
                             multiLineInput: false,
                             requiredText: true,
@@ -626,12 +628,12 @@ class _EditPatientState extends State<EditPatient> {
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: medSchemeController,
                             multiLineInput: false,
                             requiredText: true,
@@ -660,14 +662,15 @@ class _EditPatientState extends State<EditPatient> {
                         MihAlertServices().formNotFilledCompletely(context);
                       }
                     },
-                    buttonColor: MihColors.getGreenColor(context),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Update",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

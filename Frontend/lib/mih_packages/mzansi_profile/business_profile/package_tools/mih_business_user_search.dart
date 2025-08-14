@@ -71,7 +71,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
           Icon(
             MihIcons.iDontKnow,
             size: 165,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           const SizedBox(height: 10),
           Text(
@@ -81,7 +82,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ],
@@ -97,7 +99,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             Icon(
               MihIcons.personalProfile,
               size: 165,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             const SizedBox(height: 10),
             Text(
@@ -107,7 +110,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
             const SizedBox(height: 25),
@@ -118,8 +122,8 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   children: [
                     TextSpan(
@@ -148,7 +152,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
     //     "Enter Username or Email to search",
     //     style: TextStyle(
     //         fontSize: 25,
-    //         color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+    //         color: MihColors.getGreyColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
     //     textAlign: TextAlign.center,
     //   ),
     // );
@@ -187,8 +191,10 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
             controller: searchController,
             hintText: "Search Users",
             prefixIcon: Icons.search,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            hintColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onPrefixIconTap: () {
               submitUserForm();
             },
@@ -224,7 +230,10 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                 child: Text(
                   "$errorCode: Error pulling Patients Data\n/users/search/$userSearch\n$errorBody",
                   style: TextStyle(
-                      fontSize: 25, color: MihColors.getRedColor(context)),
+                      fontSize: 25,
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   textAlign: TextAlign.center,
                 ),
               );

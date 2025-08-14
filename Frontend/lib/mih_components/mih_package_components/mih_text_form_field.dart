@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihTextFormField extends StatefulWidget {
   final double? width;
@@ -215,9 +216,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                     widget.borderRadius ?? 8.0),
                                 borderSide: field.hasError
                                     ? BorderSide(
-                                        color: MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .errorColor(),
+                                        color: MihColors.getRedColor(
+                                            MzansiInnovationHub.of(context)!
+                                                    .theme
+                                                    .mode ==
+                                                "Dark"),
                                         width: 2.0,
                                       )
                                     : BorderSide.none,
@@ -232,9 +235,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
                                   color: field.hasError
-                                      ? MzansiInnovationHub.of(context)!
-                                          .theme
-                                          .errorColor()
+                                      ? MihColors.getRedColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark")
                                       : widget.inputColor,
                                   width: 3.0,
                                 ),
@@ -243,9 +248,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 borderRadius: BorderRadius.circular(
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .errorColor(),
+                                  color: MihColors.getRedColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   width: 3.0,
                                 ),
                               ),
@@ -253,9 +260,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 borderRadius: BorderRadius.circular(
                                     widget.borderRadius ?? 8.0),
                                 borderSide: BorderSide(
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .errorColor(),
+                                  color: MihColors.getRedColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   width: 3.0,
                                 ),
                               ),
@@ -276,9 +285,11 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                                 field.errorText ?? '',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .errorColor(),
+                                  color: MihColors.getRedColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

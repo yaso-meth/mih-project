@@ -54,7 +54,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MihColors.getRedColor(context),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: "Too Slow, That Username is Taken",
           alertBody: const Text(
@@ -63,7 +64,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
               fontSize: 15,
             ),
           ),
-          alertColour: MihColors.getRedColor(context),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -194,9 +196,11 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
 
   Color getPurposeLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+      return MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     } else {
-      return MihColors.getRedColor(context);
+      return MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
   }
 
@@ -227,11 +231,12 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       editable: true,
                       fileNameController: proPicController,
                       userSelectedfile: proPic,
-                      frameColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      backgroundColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      frameColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      backgroundColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       onChange: (selectedImage) {
                         setState(() {
                           proPic = selectedImage;
@@ -243,11 +248,12 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   Visibility(
                     visible: false,
                     child: MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: proPicController,
                       multiLineInput: false,
                       requiredText: true,
@@ -257,10 +263,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: usernameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -271,10 +277,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: fnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -285,10 +291,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: lnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -300,10 +306,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   const SizedBox(height: 10.0),
                   MihTextFormField(
                     height: 250,
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: purposeController,
                     multiLineInput: true,
                     requiredText: true,
@@ -347,10 +353,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   MihToggle(
                     hintText: "Activate Business Account",
                     initialPostion: businessUser,
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    secondaryFillColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    secondaryFillColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onChange: (value) {
                       setState(() {
                         businessUser = value;
@@ -368,14 +374,16 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(context),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Update",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -464,10 +472,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     editable: false,
                     fileNameController: proPicController,
                     userSelectedfile: proPic,
-                    frameColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    backgroundColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    frameColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    backgroundColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onChange: (selectedImage) {
                       setState(() {
                         proPic = selectedImage;
@@ -483,9 +491,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -497,9 +505,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -509,9 +517,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -527,9 +535,9 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ),
@@ -541,16 +549,17 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       // Connect with the user
                       editProfileWindow(width);
                     },
-                    buttonColor: MihColors.getGreenColor(context),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       widget.arguments.signedInUser.username.isEmpty
                           ? "Set Up Profile"
                           : "Edit Profile",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -570,17 +579,17 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
         //       SpeedDialChild(
         //         child: Icon(
         //           Icons.edit,
-        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //         ),
         //         label: "Edit Profile",
         //         labelBackgroundColor:
-        //             MihColors.getGreenColor(context),
+        //             MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //         labelStyle: TextStyle(
-        //           color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //           color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //           fontWeight: FontWeight.bold,
         //         ),
         //         backgroundColor:
-        //             MihColors.getGreenColor(context),
+        //             MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //         onTap: () {
         //           editProfileWindow(width);
         //         },

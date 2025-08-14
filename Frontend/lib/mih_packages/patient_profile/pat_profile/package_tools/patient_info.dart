@@ -55,9 +55,10 @@ class _PatientInfoState extends State<PatientInfo> {
             width: textFieldWidth,
             child: MihTextFormField(
               // width: textFieldWidth,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: idController,
               multiLineInput: false,
               requiredText: true,
@@ -72,9 +73,10 @@ class _PatientInfoState extends State<PatientInfo> {
             width: textFieldWidth,
             child: MihTextFormField(
               // width: textFieldWidth,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: fnameController,
               multiLineInput: false,
               requiredText: true,
@@ -86,9 +88,10 @@ class _PatientInfoState extends State<PatientInfo> {
             width: textFieldWidth,
             child: MihTextFormField(
               // width: textFieldWidth,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: lnameController,
               multiLineInput: false,
               requiredText: true,
@@ -100,9 +103,10 @@ class _PatientInfoState extends State<PatientInfo> {
             width: textFieldWidth,
             child: MihTextFormField(
               // width: textFieldWidth,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: cellController,
               multiLineInput: false,
               requiredText: true,
@@ -114,9 +118,10 @@ class _PatientInfoState extends State<PatientInfo> {
             width: textFieldWidth,
             child: MihTextFormField(
               // width: textFieldWidth,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: emailController,
               multiLineInput: false,
               requiredText: true,
@@ -129,9 +134,10 @@ class _PatientInfoState extends State<PatientInfo> {
             child: MihTextFormField(
               // width: textFieldWidth,
               height: 100,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: addressController,
               multiLineInput: true,
               requiredText: true,
@@ -152,9 +158,10 @@ class _PatientInfoState extends State<PatientInfo> {
         child: MihToggle(
           hintText: "Medical Aid",
           initialPostion: medAidPosition,
-          fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-          secondaryFillColor:
-              MzansiInnovationHub.of(context)!.theme.primaryColor(),
+          fillColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          secondaryFillColor: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           readOnly: true,
           onChange: (value) {
             if (value) {
@@ -172,8 +179,8 @@ class _PatientInfoState extends State<PatientInfo> {
         ),
         // MihTextFormField(
         //   // width: textFieldWidth,
-        //   fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-        //   inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        //   fillColor: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        //   inputColor: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   controller: medAidController,
         //   multiLineInput: false,
         //   requiredText: true,
@@ -195,8 +202,10 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inputColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             controller: medMainMemController,
             multiLineInput: false,
             requiredText: true,
@@ -211,8 +220,10 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inputColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             controller: medNoController,
             multiLineInput: false,
             requiredText: true,
@@ -227,8 +238,10 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inputColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             controller: medAidCodeController,
             multiLineInput: false,
             requiredText: true,
@@ -243,8 +256,10 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inputColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             controller: medNameController,
             multiLineInput: false,
             requiredText: true,
@@ -259,8 +274,10 @@ class _PatientInfoState extends State<PatientInfo> {
           width: textFieldWidth,
           child: MihTextFormField(
             // width: textFieldWidth,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inputColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             controller: medSchemeController,
             multiLineInput: false,
             requiredText: true,
@@ -362,16 +379,16 @@ class _PatientInfoState extends State<PatientInfo> {
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                         ),
                       ]),
                   Divider(
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   const SizedBox(height: 10),
                   getPatientDetailsField(),
                   const SizedBox(height: 10),
@@ -382,16 +399,16 @@ class _PatientInfoState extends State<PatientInfo> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ),
                   Divider(
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor()),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   const SizedBox(height: 10),
                   getMedAidDetailsFields(),
                 ],
@@ -411,17 +428,19 @@ class _PatientInfoState extends State<PatientInfo> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.edit,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Edit Profile",
-                  labelBackgroundColor: MihColors.getGreenColor(context),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: MihColors.getGreenColor(context),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     Navigator.of(context).pushNamed('/patient-profile/edit',
                         arguments: PatientEditArguments(

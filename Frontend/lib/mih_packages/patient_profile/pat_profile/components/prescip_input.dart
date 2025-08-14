@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -361,9 +360,9 @@ class _PrescripInputState extends State<PrescripInput> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -372,10 +371,10 @@ class _PrescripInputState extends State<PrescripInput> {
                   controller: widget.medicineController,
                   hintText: "Search Medicine",
                   prefixIcon: Icons.search,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  hintColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onPrefixIconTap: () {
                     getMedsPopUp(widget.medicineController);
                   },
@@ -389,9 +388,10 @@ class _PrescripInputState extends State<PrescripInput> {
             const SizedBox(height: 10.0),
             MihNumericStepper(
               controller: widget.dosageController,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               hintText: "Dosage",
               requiredText: true,
               minValue: 1,
@@ -401,9 +401,10 @@ class _PrescripInputState extends State<PrescripInput> {
             const SizedBox(height: 10.0),
             MihNumericStepper(
               controller: widget.timesDailyController,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               hintText: "Times Daily",
               requiredText: true,
               minValue: 1,
@@ -413,9 +414,10 @@ class _PrescripInputState extends State<PrescripInput> {
             const SizedBox(height: 10.0),
             MihNumericStepper(
               controller: widget.noDaysController,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               hintText: "No. Days",
               requiredText: true,
               minValue: 1,
@@ -425,9 +427,10 @@ class _PrescripInputState extends State<PrescripInput> {
             const SizedBox(height: 10.0),
             MihNumericStepper(
               controller: widget.noRepeatsController,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               hintText: "No.Repeats",
               requiredText: true,
               minValue: 0,
@@ -462,14 +465,14 @@ class _PrescripInputState extends State<PrescripInput> {
                     MihAlertServices().formNotFilledCompletely(context);
                   }
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Add",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -489,10 +492,12 @@ class _PrescripInputState extends State<PrescripInput> {
           width: 550,
           height: 325,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 3.0),
           ),
           child: ListView.separated(
@@ -509,23 +514,23 @@ class _PrescripInputState extends State<PrescripInput> {
                 title: Text(
                   getPerscTitle(index),
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
                 subtitle: Text(
                   getPerscSubtitle(index),
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
                 //onTap: () {},
                 trailing: IconButton(
                   icon: Icon(
                     Icons.delete_forever_outlined,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   onPressed: () {
                     setState(() {
@@ -553,12 +558,14 @@ class _PrescripInputState extends State<PrescripInput> {
               );
             }
           },
-          buttonColor: MihColors.getGreenColor(context),
+          buttonColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           width: 300,
           child: Text(
             "Generate",
             style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

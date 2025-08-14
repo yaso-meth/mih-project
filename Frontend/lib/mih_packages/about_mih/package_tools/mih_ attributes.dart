@@ -35,8 +35,8 @@ class _MihAttributesState extends State<MihAttributes> {
                   child: Icon(
                     icon,
                     // size: 125,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
               ),
@@ -71,12 +71,14 @@ class _MihAttributesState extends State<MihAttributes> {
                   ),
                 );
               },
-              buttonColor: MihColors.getGreenColor(context),
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               width: 100,
               child: Text(
                 "Visit",
                 style: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -110,7 +112,8 @@ class _MihAttributesState extends State<MihAttributes> {
         children: [
           Icon(
             MihIcons.mihLogo,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             size: 165,
           ),
           const SizedBox(

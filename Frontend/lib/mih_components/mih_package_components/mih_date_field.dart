@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihDateField extends StatefulWidget {
   final TextEditingController controller;
@@ -47,7 +48,6 @@ class _MihDateFieldState extends State<MihDateField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = MzansiInnovationHub.of(context)!.theme;
     return Center(
       child: SizedBox(
         width: widget.width,
@@ -61,7 +61,8 @@ class _MihDateFieldState extends State<MihDateField> {
                 Text(
                   widget.labelText,
                   style: TextStyle(
-                    color: theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -70,7 +71,9 @@ class _MihDateFieldState extends State<MihDateField> {
                   Text(
                     "(Optional)",
                     style: TextStyle(
-                      color: theme.secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
@@ -96,25 +99,35 @@ class _MihDateFieldState extends State<MihDateField> {
                         readOnly: true,
                         onTap: () => _selectDate(context),
                         style: TextStyle(
-                          color: theme.primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontWeight: FontWeight.w500,
                         ),
                         decoration: InputDecoration(
                           suffixIcon: Icon(
                             Icons.calendar_today,
-                            color: theme.primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                           errorStyle: const TextStyle(height: 0, fontSize: 0),
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 8.0),
                           filled: true,
-                          fillColor: theme.secondaryColor(),
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
                                 widget.borderRadius ?? 8.0),
                             borderSide: field.hasError
                                 ? BorderSide(
-                                    color: theme.errorColor(),
+                                    color: MihColors.getRedColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
                                     width: 2.0,
                                   )
                                 : BorderSide.none,
@@ -129,8 +142,16 @@ class _MihDateFieldState extends State<MihDateField> {
                                 widget.borderRadius ?? 8.0),
                             borderSide: BorderSide(
                               color: field.hasError
-                                  ? theme.errorColor()
-                                  : theme.secondaryColor(),
+                                  ? MihColors.getRedColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark")
+                                  : MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                               width: 3.0,
                             ),
                           ),
@@ -138,7 +159,9 @@ class _MihDateFieldState extends State<MihDateField> {
                             borderRadius: BorderRadius.circular(
                                 widget.borderRadius ?? 8.0),
                             borderSide: BorderSide(
-                              color: theme.errorColor(),
+                              color: MihColors.getRedColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               width: 3.0,
                             ),
                           ),
@@ -146,7 +169,9 @@ class _MihDateFieldState extends State<MihDateField> {
                             borderRadius: BorderRadius.circular(
                                 widget.borderRadius ?? 8.0),
                             borderSide: BorderSide(
-                              color: theme.errorColor(),
+                              color: MihColors.getRedColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               width: 3.0,
                             ),
                           ),
@@ -163,7 +188,9 @@ class _MihDateFieldState extends State<MihDateField> {
                           field.errorText ?? '',
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.errorColor(),
+                            color: MihColors.getRedColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
