@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHWarningMessage extends StatefulWidget {
@@ -109,7 +110,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -179,7 +180,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -249,7 +250,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -319,7 +320,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -389,7 +390,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -459,7 +460,7 @@ class _MIHDeleteMessageState extends State<MIHWarningMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),

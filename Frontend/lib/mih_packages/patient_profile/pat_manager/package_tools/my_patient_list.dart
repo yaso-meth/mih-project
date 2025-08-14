@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -93,9 +94,7 @@ class _MyPatientListState extends State<MyPatientList> {
                 child: Text(
                   "Error pulling Patient Access Data\n$baseUrl/access-requests/business/patient/${widget.business!.business_id}",
                   style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      fontSize: 25, color: MihColors.getRedColor(context)),
                   textAlign: TextAlign.center,
                 ),
               );

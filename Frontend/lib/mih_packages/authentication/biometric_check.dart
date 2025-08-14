@@ -110,7 +110,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
     Widget alertpopUp = MihPackageAlert(
       alertIcon: Icon(
         Icons.fingerprint,
-        color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+        color: MihColors.getRedColor(context),
         size: 100,
       ),
       alertTitle: "Biometric Authentication Error",
@@ -172,7 +172,7 @@ class _BiometricCheckState extends State<BiometricCheck> {
           ),
         ],
       ),
-      alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+      alertColour: MihColors.getRedColor(context),
     );
     showDialog(
       context: context,

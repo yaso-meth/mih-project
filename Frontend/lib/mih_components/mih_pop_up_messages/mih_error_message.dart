@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHErrorMessage extends StatefulWidget {
@@ -57,9 +58,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -68,14 +68,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 5),
                 Text(
                   "Oops! Looks like some fields are missing.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -137,7 +137,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -156,9 +156,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -167,14 +166,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Password Doesn't Meet Requirements",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -243,7 +242,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -262,9 +261,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -273,14 +271,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Let's Fix That Username",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -311,7 +309,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -330,9 +328,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -341,14 +338,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Oops! Invalid Email",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -379,7 +376,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -398,9 +395,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -409,14 +405,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Email Already Exists",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -435,7 +431,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -466,7 +462,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -485,9 +481,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -496,14 +491,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Passwords Don't Match",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -522,7 +517,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -554,7 +549,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -573,9 +568,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -584,14 +578,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //SizedBox(height: 15),
                 Text(
                   "Uh oh! Login attempt unsuccessful.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -610,7 +604,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are some things to keep in mind:",
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -642,7 +636,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -661,9 +655,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -672,14 +665,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Internet Connection Lost!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -698,7 +691,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Text(
                   "Here are a few things you can try:",
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpSubtitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -730,7 +723,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -749,9 +742,8 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
           decoration: BoxDecoration(
             color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
             borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
-                width: 5.0),
+            border:
+                Border.all(color: MihColors.getRedColor(context), width: 5.0),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -760,14 +752,14 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 Icon(
                   Icons.warning_amber_rounded,
                   size: popUpIconSize,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 //const SizedBox(height: 15),
                 Text(
                   "Location Services Not Enabled",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     fontSize: popUpTitleSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -786,7 +778,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
                 // Text(
                 //   "Here are a few things you can try:",
                 //   style: TextStyle(
-                //     color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                //     color: MihColors.getRedColor(context),
                 //     fontSize: popUpSubtitleSize,
                 //     fontWeight: FontWeight.bold,
                 //   ),
@@ -818,7 +810,7 @@ class _MIHErrorMessageState extends State<MIHErrorMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),

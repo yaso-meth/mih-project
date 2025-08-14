@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -223,9 +224,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                 child: Text(
                   "$errorCode: Error pulling Patients Data\n/users/search/$userSearch\n$errorBody",
                   style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      fontSize: 25, color: MihColors.getRedColor(context)),
                   textAlign: TextAlign.center,
                 ),
               );

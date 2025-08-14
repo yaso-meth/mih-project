@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -101,7 +102,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         children: [
           Icon(
             Icons.circle_notifications,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           const SizedBox(
             width: 5,

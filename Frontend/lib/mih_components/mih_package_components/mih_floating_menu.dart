@@ -32,8 +32,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
       direction: widget.direction ?? SpeedDialDirection.up,
       activeIcon: Icons.close,
       backgroundColor: MihColors.getGreenColor(context),
-      activeBackgroundColor:
-          MzansiInnovationHub.of(context)!.theme.errorColor(),
+      activeBackgroundColor: MihColors.getRedColor(context),
       foregroundColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
       overlayColor: Colors.black,
       overlayOpacity: 0.5,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHDeleteMessage extends StatefulWidget {
@@ -99,8 +100,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 const SizedBox(height: 15),
                 MihButton(
                   onPressed: widget.onTap,
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -127,7 +127,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -184,8 +184,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 const SizedBox(height: 15),
                 MihButton(
                   onPressed: widget.onTap,
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -212,7 +211,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -270,8 +269,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
 
                 MihButton(
                   onPressed: widget.onTap,
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -298,7 +296,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -355,8 +353,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 const SizedBox(height: 15),
                 MihButton(
                   onPressed: widget.onTap,
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -383,7 +380,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),
@@ -440,8 +437,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
                 const SizedBox(height: 15),
                 MihButton(
                   onPressed: widget.onTap,
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Delete",
@@ -468,7 +464,7 @@ class _MIHDeleteMessageState extends State<MIHDeleteMessage> {
             },
             icon: Icon(
               Icons.close,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
               size: 35,
             ),
           ),

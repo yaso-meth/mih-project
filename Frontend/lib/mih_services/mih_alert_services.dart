@@ -12,7 +12,7 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 150,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           alertTitle: "Oops! Looks like some fields are missing.",
           alertBody: Column(
@@ -51,7 +51,7 @@ class MihAlertServices {
               ),
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );
@@ -96,7 +96,7 @@ class MihAlertServices {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 150,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           alertTitle: title,
           alertBody: Column(
@@ -113,7 +113,7 @@ class MihAlertServices {
               const SizedBox(height: 25),
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );

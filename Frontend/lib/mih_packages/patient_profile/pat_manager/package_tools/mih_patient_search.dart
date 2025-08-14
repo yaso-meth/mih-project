@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -91,9 +92,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                 child: Text(
                   "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
                   style: TextStyle(
-                      fontSize: 25,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      fontSize: 25, color: MihColors.getRedColor(context)),
                   textAlign: TextAlign.center,
                 ),
               );

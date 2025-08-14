@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -436,8 +437,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               child: Text(
                 "Error pulling Currency Exchange Data.",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
+                    fontSize: 25, color: MihColors.getRedColor(context)),
                 textAlign: TextAlign.center,
               ),
             );

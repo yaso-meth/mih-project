@@ -399,8 +399,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       lastName = "${widget.patientAccesses[index].lname[0]}********";
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
+          style: TextStyle(color: MihColors.getRedColor(context)));
     }
 
     return ListTile(

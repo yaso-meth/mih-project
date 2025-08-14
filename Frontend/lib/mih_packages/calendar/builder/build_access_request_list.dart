@@ -144,8 +144,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     } else {
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
+          style: TextStyle(color: MihColors.getRedColor(context)));
     }
 
     return ListTile(
@@ -250,8 +249,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "declined");
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    buttonColor: MihColors.getRedColor(context),
                     width: 300,
                     child: Text(
                       "Decline",

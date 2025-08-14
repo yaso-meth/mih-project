@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class SimpleCalc extends StatefulWidget {
   const SimpleCalc({super.key});
@@ -295,8 +296,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             equalPressed();
                           });
                         },
-                        buttonColor:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        buttonColor: MihColors.getRedColor(context),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
@@ -320,9 +320,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput = answer;
                           });
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 50,
                         height: 50,
                         borderRadius: 5,

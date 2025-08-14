@@ -121,8 +121,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                   deleteBookmark(
                       widget.bookmarkBusiness!.idbookmarked_businesses);
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                buttonColor: MihColors.getRedColor(context),
                 child: Text(
                   "Remove Business",
                   style: TextStyle(

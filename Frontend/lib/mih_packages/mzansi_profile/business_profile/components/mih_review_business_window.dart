@@ -52,11 +52,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     showDialog(
       context: context,
       builder: (context) => MihPackageAlert(
-        alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+        alertColour: MihColors.getRedColor(context),
         alertIcon: Icon(
           Icons.warning_rounded,
           size: 100,
-          color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          color: MihColors.getRedColor(context),
         ),
         alertTitle: "Delete Review",
         alertBody: Column(
@@ -117,8 +117,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       }
                     });
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   child: Text(
                     "Delete",
                     style: TextStyle(
@@ -157,7 +156,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     if (_counter.value <= limit) {
       return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzansiInnovationHub.of(context)!.theme.errorColor();
+      return MihColors.getRedColor(context);
     }
   }
 
@@ -501,9 +500,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           widget.businessReview != null

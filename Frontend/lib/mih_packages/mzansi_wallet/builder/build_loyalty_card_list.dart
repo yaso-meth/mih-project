@@ -258,10 +258,10 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       barrierDismissible: false,
       builder: (context) {
         return MihPackageAlert(
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
           alertIcon: Icon(
             Icons.favorite_border,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
             size: 100,
           ),
           alertTitle: "Remove From Favourites",
@@ -291,8 +291,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     ctxt,
                   );
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                buttonColor: MihColors.getRedColor(context),
                 width: 300,
                 child: Text(
                   "Remove",

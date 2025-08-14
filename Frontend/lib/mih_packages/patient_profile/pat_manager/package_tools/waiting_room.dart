@@ -419,9 +419,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           "Add",

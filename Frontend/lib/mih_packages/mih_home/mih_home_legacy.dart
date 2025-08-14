@@ -1021,7 +1021,7 @@ class _MIHHomeLegacyState extends State<MIHHomeLegacy> {
             child: Icon(
               Icons.circle,
               size: 10,
-              color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              color: MihColors.getRedColor(context),
             ),
           )
         ],

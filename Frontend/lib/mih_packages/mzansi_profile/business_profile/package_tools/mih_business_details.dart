@@ -105,7 +105,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 alertTitle: "Error Updating Business Details",
                 alertBody: Column(
@@ -120,8 +120,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                     ),
                   ],
                 ),
-                alertColour:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                alertColour: MihColors.getRedColor(context),
               );
             },
           );
@@ -605,7 +604,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
     if (_counter.value <= limit) {
       return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzansiInnovationHub.of(context)!.theme.errorColor();
+      return MihColors.getRedColor(context);
     }
   }
 

@@ -95,8 +95,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     } else {
       accessWithColour = TextSpan(
           text: "$access\n",
-          style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
+          style: TextStyle(color: MihColors.getRedColor(context)));
     }
 
     return ListTile(
@@ -212,16 +211,14 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "Important Notice: Approving Profile Access",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                     Text(
                       "You are about to accept access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                     SizedBox(
@@ -264,8 +261,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "By pressing the \"Approve\" button you accept the above terms.",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                   ],
@@ -281,16 +277,14 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "Important Notice: Approved Profile Access",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                     Text(
                       "You have accepted access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                     SizedBox(
@@ -355,8 +349,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      buttonColor: MihColors.getRedColor(context),
                       width: 300,
                       child: Text(
                         "Decline",

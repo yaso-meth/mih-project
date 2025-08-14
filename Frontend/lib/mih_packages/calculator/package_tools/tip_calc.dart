@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
@@ -392,9 +393,7 @@ class _TipCalcState extends State<TipCalc> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           "Calculate",
@@ -411,8 +410,7 @@ class _TipCalcState extends State<TipCalc> {
                         onPressed: () {
                           clearInput();
                         },
-                        buttonColor:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        buttonColor: MihColors.getRedColor(context),
                         width: 300,
                         child: Text(
                           "Clear",

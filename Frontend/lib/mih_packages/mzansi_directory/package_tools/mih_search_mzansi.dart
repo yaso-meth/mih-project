@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -397,8 +398,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               child: Text(
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
+                    fontSize: 25, color: MihColors.getRedColor(context)),
                 textAlign: TextAlign.center,
               ),
             );
@@ -550,8 +550,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               child: Text(
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
+                    fontSize: 25, color: MihColors.getRedColor(context)),
                 textAlign: TextAlign.center,
               ),
             );

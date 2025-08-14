@@ -11,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -159,7 +160,7 @@ class _MihRegisterState extends State<MihRegister> {
         return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
             size: 100,
           ),
           alertTitle: "Error While Signing Up",
@@ -170,7 +171,7 @@ class _MihRegisterState extends State<MihRegister> {
               fontSize: 18,
             ),
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );

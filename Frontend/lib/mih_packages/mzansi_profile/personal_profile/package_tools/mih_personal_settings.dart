@@ -39,7 +39,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           alertTitle:
               "Are you sure you want to permanently delete your MIH account?",
@@ -65,8 +65,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
                       MihUserServices.deleteAccount(
                           widget.signedInUser.app_id, context);
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    buttonColor: MihColors.getRedColor(context),
                     width: 300,
                     child: Text(
                       "Delete",
@@ -100,7 +99,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
               )
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );
@@ -132,7 +131,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             onPressed: () {
               deleteAccountPopUp(context);
             },
-            buttonColor: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            buttonColor: MihColors.getRedColor(context),
             width: 300,
             child: Text(
               "Delete Account",

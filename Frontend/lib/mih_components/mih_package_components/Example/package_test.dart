@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Exam
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class PackageTest extends StatefulWidget {
   // final AppUser user;
@@ -66,7 +67,7 @@ class _PackageTestState extends State<PackageTest> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           alertTitle: "Oops! Looks like some fields are missing.",
           alertBody: Column(
@@ -111,7 +112,7 @@ class _PackageTestState extends State<PackageTest> {
               ),
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );

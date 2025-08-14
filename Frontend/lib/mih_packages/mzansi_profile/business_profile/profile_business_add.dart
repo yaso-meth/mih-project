@@ -4,6 +4,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -259,7 +260,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     if (_counter.value <= limit) {
       return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzansiInnovationHub.of(context)!.theme.errorColor();
+      return MihColors.getRedColor(context);
     }
   }
 

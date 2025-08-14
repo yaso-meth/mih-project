@@ -721,8 +721,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   onPressed: () {
                     print("Button Pressed");
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(context),
                   width: 300,
                   child: Text(
                     "Click Me",

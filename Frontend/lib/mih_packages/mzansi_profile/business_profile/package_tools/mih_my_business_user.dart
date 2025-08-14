@@ -127,7 +127,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 alertTitle: "Error Updating Business User Details",
                 alertBody: Column(
@@ -142,8 +142,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                     ),
                   ],
                 ),
-                alertColour:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                alertColour: MihColors.getRedColor(context),
               );
             },
           );

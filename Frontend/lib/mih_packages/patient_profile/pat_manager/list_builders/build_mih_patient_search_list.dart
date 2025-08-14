@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -283,16 +284,14 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     "Important Notice: Requesting Patient Profile Access",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      color: MihColors.getRedColor(context),
                     ),
                   ),
                   Text(
                     "You are about to request access to a patient's profile. Please be aware of the following important points:",
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      color: MihColors.getRedColor(context),
                     ),
                   ),
                   SizedBox(
@@ -301,8 +300,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "1. Permanent Access: Once the patient accepts your access request, it will become permanent.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                   ),
@@ -312,8 +310,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "2. Shared Information: Any updates you make to the patient's profile will be visible to others who have access to the profile.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                   ),
@@ -323,8 +320,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       "3. Irreversible Access: Once granted, you cannot revoke your access to the patient's profile.",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color:
-                            MzansiInnovationHub.of(context)!.theme.errorColor(),
+                        color: MihColors.getRedColor(context),
                       ),
                     ),
                   ),
@@ -332,8 +328,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     "By pressing the \"Request Access\" button you accept the above terms.\n",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      color: MihColors.getRedColor(context),
                     ),
                   ),
                 ],
@@ -366,9 +361,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             noAccessWarning();
                           }
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           "View Profile",
@@ -402,9 +395,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           "Request Access",
@@ -436,9 +427,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             context,
                           );
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .successColor(),
+                        buttonColor: MihColors.getGreenColor(context),
                         width: 300,
                         child: Text(
                           "Re-apply",

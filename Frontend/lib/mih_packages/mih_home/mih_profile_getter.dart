@@ -142,8 +142,7 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                     "Error: $error",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      color: MihColors.getRedColor(context),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

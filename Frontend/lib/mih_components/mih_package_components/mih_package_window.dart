@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageWindow extends StatefulWidget {
   final String windowTitle;
@@ -84,7 +85,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               child: IconButton.filled(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                      MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      MihColors.getRedColor(context)),
                 ),
                 color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
                 iconSize: 20,

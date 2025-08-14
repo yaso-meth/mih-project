@@ -282,7 +282,7 @@ class _SignInState extends State<SignIn> {
                   },
                   icon: Icon(
                     Icons.close,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    color: MihColors.getRedColor(context),
                     size: 35,
                   ),
                 ),

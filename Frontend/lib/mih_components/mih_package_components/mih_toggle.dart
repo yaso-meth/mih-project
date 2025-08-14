@@ -85,7 +85,7 @@ class _MihToggleState extends State<MihToggle> {
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           inactiveTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzansiInnovationHub.of(context)!.theme.errorColor(),
+              : MihColors.getRedColor(context),
           // activeColor: widget.secondaryFillColor,
           // activeTrackColor: widget.fillColor,
           // inactiveThumbColor: widget.fillColor,

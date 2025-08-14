@@ -281,8 +281,7 @@ class _EditPatientState extends State<EditPatient> {
                     ),
                     MihButton(
                       onPressed: deletePatientApiCall,
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      buttonColor: MihColors.getRedColor(context),
                       width: 300,
                       child: Text(
                         "Delete",
@@ -310,7 +309,7 @@ class _EditPatientState extends State<EditPatient> {
                 },
                 icon: Icon(
                   Icons.close,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                   size: 35,
                 ),
               ),

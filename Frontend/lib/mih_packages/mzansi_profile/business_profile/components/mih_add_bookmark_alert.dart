@@ -88,8 +88,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                buttonColor: MihColors.getRedColor(context),
                 child: Text(
                   "Cancel",
                   style: TextStyle(

@@ -54,7 +54,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(context),
           ),
           alertTitle: "Too Slow, That Username is Taken",
           alertBody: const Text(
@@ -63,7 +63,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
               fontSize: 15,
             ),
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(context),
         );
       },
     );
@@ -196,7 +196,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     if (_counter.value <= limit) {
       return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzansiInnovationHub.of(context)!.theme.errorColor();
+      return MihColors.getRedColor(context);
     }
   }
 

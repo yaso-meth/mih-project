@@ -280,7 +280,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
     if (_counter.value <= 512) {
       return MzansiInnovationHub.of(context)!.theme.secondaryColor();
     } else {
-      return MzansiInnovationHub.of(context)!.theme.errorColor();
+      return MihColors.getRedColor(context);
     }
   }
 

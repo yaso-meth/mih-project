@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageAlert extends StatefulWidget {
   final Widget alertIcon;
@@ -101,7 +102,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
               },
               icon: Icon(
                 Icons.close,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(context),
                 size: 35,
               ),
             ),

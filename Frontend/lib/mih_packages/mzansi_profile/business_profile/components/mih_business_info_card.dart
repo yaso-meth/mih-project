@@ -52,7 +52,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(context),
               ),
               alertTitle: "Error Making Call",
               alertBody: Column(
@@ -68,7 +68,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MihColors.getRedColor(context),
             );
           });
     }
@@ -102,7 +102,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(context),
               ),
               alertTitle: "Error Creating Email",
               alertBody: Column(
@@ -118,7 +118,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MihColors.getRedColor(context),
             );
           });
     }
@@ -143,7 +143,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 alertTitle: "Error Creating Maps",
                 alertBody: Column(
@@ -159,8 +159,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     ),
                   ],
                 ),
-                alertColour:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                alertColour: MihColors.getRedColor(context),
               );
             });
       }
@@ -172,7 +171,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(context),
               ),
               alertTitle: "Error Creating Maps",
               alertBody: Column(
@@ -188,7 +187,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MihColors.getRedColor(context),
             );
           });
     }
@@ -212,7 +211,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 alertIcon: Icon(
                   Icons.warning_rounded,
                   size: 100,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(context),
                 ),
                 alertTitle: "Error Opening Website",
                 alertBody: Column(
@@ -228,8 +227,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                     ),
                   ],
                 ),
-                alertColour:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                alertColour: MihColors.getRedColor(context),
               );
             });
       }
@@ -241,7 +239,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               alertIcon: Icon(
                 Icons.warning_rounded,
                 size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(context),
               ),
               alertTitle: "Error Opening Website",
               alertBody: Column(
@@ -257,7 +255,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   ),
                 ],
               ),
-              alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+              alertColour: MihColors.getRedColor(context),
             );
           });
     }

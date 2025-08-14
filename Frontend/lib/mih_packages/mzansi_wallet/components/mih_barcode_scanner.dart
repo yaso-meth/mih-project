@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihBarcodeScanner extends StatefulWidget {
   final TextEditingController cardNumberController;
@@ -125,8 +126,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                         _scannerController.stop();
                         Navigator.of(context).pop();
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      buttonColor: MihColors.getRedColor(context),
                       width: 100,
                       height: 50,
                       child: Text(

@@ -313,7 +313,7 @@ class _AiChatState extends State<AiChat> {
           MzansiInnovationHub.of(context)!.theme.primaryColor(),
       primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
       secondaryColor: MihColors.getGreenColor(context),
-      errorColor: MzansiInnovationHub.of(context)!.theme.errorColor(),
+      errorColor: MihColors.getRedColor(context),
       sentMessageBodyTextStyle: TextStyle(
         color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
         fontSize: _chatFrontSize,
@@ -697,7 +697,7 @@ class _AiChatState extends State<AiChat> {
                   child: IconButton.filled(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                          MihColors.getRedColor(context)),
                     ),
                     color:
                         MzansiInnovationHub.of(context)!.theme.primaryColor(),
