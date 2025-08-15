@@ -6,13 +6,13 @@ FROM debian:latest AS build-env
 
 RUN apt-get update --fix-missing
 
-RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback
+RUN apt-get install -y curl git wget unzip gdb libstdc++6 libglu1-mesa fonts-droid-fallback
+# RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback
 RUN apt-get install python3 -y
-# RUN apt-get update --fix-missing
-# RUN apt-get install python3-Jinja2
+
 # download Flutter SDK from Flutter Github repo
-RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
-#RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+RUN git clone -b flutter-3.32-candidate.0 https://github.com/flutter/flutter.git /usr/local/flutter
+# RUN git clone -b stable https://github.com/flutter/flutter.git /usr/local/flutter
 
 # Set flutter environment path
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
@@ -21,17 +21,13 @@ ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PAT
 RUN flutter doctor -v
 
 # Enable flutter web
-RUN flutter channel stable
-# RUN flutter upgrade
-#RUN flutter pub add web:^0.5.0
+RUN flutter channel flutter-3.32-candidate.0
+# RUN flutter channel stable
 RUN flutter config --enable-web
 
 # Copy files to container and build
 RUN mkdir /app/
 COPY . /app/
-# COPY ./server/MIH_web_server.py /app/build/web/
-# VOLUME ["/app"]
-
 
 WORKDIR /app
 # RUN flutter upgrade
