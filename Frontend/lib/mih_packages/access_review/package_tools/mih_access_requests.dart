@@ -1,11 +1,12 @@
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
-import '../../../main.dart';
 import '../../../mih_services/mih_service_calls.dart';
 import '../../../mih_components/mih_layout/mih_action.dart';
 import '../../../mih_components/mih_layout/mih_header.dart';
@@ -197,9 +198,9 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                         Icon(
                           MihIcons.accessControl,
                           size: 165,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -209,9 +210,9 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                         ),
                         // const SizedBox(height: 10),
@@ -269,9 +270,9 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                     "$errorCode: Error pulling Patients Data\n$baseUrl/queue/patients/\n$errorBody",
                     style: TextStyle(
                         fontSize: 25,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .errorColor()),
+                        color: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark")),
                     textAlign: TextAlign.center,
                   ),
                 );

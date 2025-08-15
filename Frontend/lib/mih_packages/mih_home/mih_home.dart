@@ -8,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
@@ -117,9 +118,10 @@ class _MihHomeState extends State<MihHome> {
             fileNameController: proPicController,
             userSelectedfile: null,
             // frameColor: frameColor,
-            frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            frameColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            backgroundColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onChange: (_) {},
           ),
           // MIHProfilePicture(
@@ -130,7 +132,7 @@ class _MihHomeState extends State<MihHome> {
           //   radius: 21,
           //   drawerMode: false,
           //   editable: false,
-          //   frameColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          //   frameColor: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           //   onChange: (newProPic) {},
           // ),
         ),

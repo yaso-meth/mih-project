@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'mih_config/mih_env.dart';
 import 'mih_config/mih_routeGenerator.dart';
 import 'mih_config/mih_theme.dart';
@@ -20,7 +21,7 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   late MihTheme theme;
 
   Color getPrimany() {
-    return theme.primaryColor();
+    return MihColors.getPrimaryColor(theme.mode == "Dark");
   }
 
   String getTitle() {
@@ -60,9 +61,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     // } else {
     //   theme.mode = "Light";
     // }
+    super.initState();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
-    super.initState();
     //doInit();
   }
 

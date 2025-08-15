@@ -1,74 +1,96 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 
 class MihColors {
-
-  static Color getPrimaryColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getPrimaryColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0XFF3A4454);
-    }else{
+    } else {
       return const Color(0XFFbedcfe);
     }
   }
 
-  static Color getSecondaryColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getSecondaryColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0XFFbedcfe);
-    }else{
+    } else {
       return const Color(0XFF3A4454);
     }
   }
 
-  static Color getGreenColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getHighlightColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0XFF9bc7fa);
+    } else {
+      return const Color(0XFF354866);
+    }
+  }
+
+  static Color getGreyColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0XFFc8c8c8);
+    } else {
+      return const Color(0XFF747474);
+    }
+  }
+
+  static Color getGreenColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xff8ae290);
-    }else{
+    } else {
       return const Color(0xffB0F2B4);
     }
   }
 
-  static Color getRedColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getRedColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xffD87E8B);
-    }else{
+    } else {
       return const Color(0xffbb3d4f);
     }
   }
 
-  static Color getPinkColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getPinkColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xffdaa2e9);
-    }else{
+    } else {
       // Add a different shade of pink for light mode
       return const Color(0xffdaa2e9);
     }
   }
 
-  static Color getOrangeColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getOrangeColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xffd69d7d);
-    }else{
+    } else {
       // Add a different shade of pink for light mode
       return const Color(0xffd69d7d);
     }
   }
 
-  static Color getYellowColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getYellowColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xfff4e467);
-    }else{
+    } else {
       // Add a different shade of pink for light mode
       return const Color(0xffd4af37);
     }
-}
+  }
 
-  static Color getBluishPurpleColor(BuildContext context) {
-    if(MzansiInnovationHub.of(context)!.theme.mode == "Dark"){
+  static Color getBluishPurpleColor(bool darkMode) {
+    if (darkMode == true) {
       return const Color(0xff6e7dcc);
-    }else{
+    } else {
       // Add a different shade of pink for light mode
       return const Color(0xff6e7dcc);
     }
-}
+  }
 
+  static Color getPurpleColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xffb682e7);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xffb682e7);
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MzansiBusinessProfileTile extends StatefulWidget {
   final BusinessArguments arguments;
@@ -31,12 +32,15 @@ class _MzansiBusinessProfileTileState extends State<MzansiBusinessProfileTile> {
       appName: "Business Profile",
       appIcon: Icon(
         MihIcons.businessProfile,
-        color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      secondaryColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+      primaryColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      secondaryColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     );
   }
 }

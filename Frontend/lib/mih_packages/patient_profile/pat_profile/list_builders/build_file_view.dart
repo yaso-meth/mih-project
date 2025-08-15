@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:http/http.dart' as http;
@@ -118,8 +118,8 @@ class _BuildFileViewState extends State<BuildFileView> {
         height: 500,
         child: SfPdfViewerTheme(
           data: SfPdfViewerThemeData(
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            backgroundColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           child: SfPdfViewer.network(
             widget.link,

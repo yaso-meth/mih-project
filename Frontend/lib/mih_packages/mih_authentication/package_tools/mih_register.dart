@@ -11,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -159,18 +160,21 @@ class _MihRegisterState extends State<MihRegister> {
         return MihPackageAlert(
           alertIcon: Icon(
             Icons.warning_amber_rounded,
-            color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+            color: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             size: 100,
           ),
           alertTitle: "Error While Signing Up",
           alertBody: Text(
             "An error occurred while signing up. Please try again later.",
             style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 18,
             ),
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+          alertColour: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -257,7 +261,8 @@ class _MihRegisterState extends State<MihRegister> {
               Icon(
                 Icons.lock,
                 size: 100,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               //spacer
               const SizedBox(height: 10),
@@ -267,8 +272,8 @@ class _MihRegisterState extends State<MihRegister> {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
               //spacer
@@ -278,10 +283,10 @@ class _MihRegisterState extends State<MihRegister> {
                 formFields: [
                   //email input
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: emailController,
                     multiLineInput: false,
                     requiredText: true,
@@ -295,10 +300,10 @@ class _MihRegisterState extends State<MihRegister> {
                   const SizedBox(height: 10),
                   //password input
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: passwordController,
                     multiLineInput: false,
                     requiredText: true,
@@ -312,10 +317,10 @@ class _MihRegisterState extends State<MihRegister> {
                   //spacer
                   const SizedBox(height: 10),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: confirmPasswordController,
                     multiLineInput: false,
                     requiredText: true,
@@ -345,16 +350,16 @@ class _MihRegisterState extends State<MihRegister> {
                                   .formNotFilledCompletely(context);
                             }
                           },
-                          buttonColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .successColor(),
+                          buttonColor: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 300,
                           child: Text(
                             "Create New Account",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -362,16 +367,16 @@ class _MihRegisterState extends State<MihRegister> {
                         ),
                         MihButton(
                           onPressed: widget.onExistingUserButtonTap,
-                          buttonColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          buttonColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           width: 300,
                           child: Text(
                             "I have an account",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),

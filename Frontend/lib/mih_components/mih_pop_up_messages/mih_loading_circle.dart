@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 import 'package:gif_view/gif_view.dart';
 
@@ -58,11 +59,12 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
               // width: 250,
               // height: 275,
               decoration: BoxDecoration(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 borderRadius: BorderRadius.circular(25.0),
                 border: Border.all(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 5.0),
               ),
               child: Column(

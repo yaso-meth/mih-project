@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageToolBody extends StatefulWidget {
   final bool borderOn;
@@ -48,19 +49,23 @@ class _MihPackageToolBodyState extends State<MihPackageToolBody> {
     if (widget.borderOn) {
       _innerBodyPadding = 10.0;
       return BoxDecoration(
-        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        color: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             width: 3.0),
       );
     } else {
       _innerBodyPadding = 0.0;
       return BoxDecoration(
-        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        color: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             width: 3.0),
       );
     }

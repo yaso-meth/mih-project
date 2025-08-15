@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_numeric_stepper.dart';
@@ -188,21 +189,23 @@ class _AiChatState extends State<AiChat> {
                     SpeedDialChild(
                       child: Icon(
                         Icons.volume_up,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                       label: "Read Aloud",
-                      labelBackgroundColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      labelBackgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       labelStyle: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontWeight: FontWeight.bold,
                       ),
-                      backgroundColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      backgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       onTap: () {
                         _speakText(snapshot.requireData);
                       },
@@ -223,9 +226,9 @@ class _AiChatState extends State<AiChat> {
                     snapshot.requireData,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontSize: _chatFrontSize,
                       fontWeight: FontWeight.bold,
                     ),
@@ -306,29 +309,37 @@ class _AiChatState extends State<AiChat> {
 
   ChatTheme getChatTheme() {
     return DarkChatTheme(
-      backgroundColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-      inputBackgroundColor:
-          MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      inputTextColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
-      inputTextCursorColor:
-          MzansiInnovationHub.of(context)!.theme.primaryColor(),
-      primaryColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-      secondaryColor: MzansiInnovationHub.of(context)!.theme.successColor(),
-      errorColor: MzansiInnovationHub.of(context)!.theme.errorColor(),
+      backgroundColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      inputBackgroundColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      inputTextColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      inputTextCursorColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      primaryColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      secondaryColor: MihColors.getGreenColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      errorColor: MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       sentMessageBodyTextStyle: TextStyle(
-        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        color: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
       ),
       receivedMessageBodyTextStyle: TextStyle(
-        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        color: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
       ),
       emptyChatPlaceholderTextStyle: TextStyle(
-        color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
+        color: MihColors.getGreyColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         fontSize: _chatFrontSize,
         fontWeight: FontWeight.w500,
         fontFamily: 'Segoe UI',
@@ -350,13 +361,13 @@ class _AiChatState extends State<AiChat> {
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     borderRadius: BorderRadius.circular(25.0),
                     border: Border.all(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 3.0),
                   ),
                   child: Column(
@@ -371,9 +382,9 @@ class _AiChatState extends State<AiChat> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
                           ),
                         ],
@@ -386,13 +397,12 @@ class _AiChatState extends State<AiChat> {
                             child: MihRadioOptions(
                               controller: _modelController,
                               hintText: "AI Model",
-                              fillColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              secondaryFillColor:
-                                  MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
+                              fillColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              secondaryFillColor: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               requiredText: true,
                               radioOptions: [getModel()],
                             ),
@@ -446,13 +456,17 @@ class _AiChatState extends State<AiChat> {
                                   style: ButtonStyle(
                                     backgroundColor:
                                         WidgetStateProperty.all<Color>(
-                                            MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .successColor()),
+                                            MihColors.getGreenColor(
+                                                MzansiInnovationHub.of(context)!
+                                                        .theme
+                                                        .mode ==
+                                                    "Dark")),
                                   ),
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   iconSize: 25,
                                   onPressed: () {
                                     print("Start TTS now");
@@ -475,12 +489,12 @@ class _AiChatState extends State<AiChat> {
                             width: 300,
                             child: MihNumericStepper(
                               controller: _fontSizeController,
-                              fillColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
-                              inputColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              fillColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              inputColor: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               hintText: "Font Size",
                               requiredText: true,
                               minValue: 1,
@@ -698,10 +712,12 @@ class _AiChatState extends State<AiChat> {
                   child: IconButton.filled(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                          MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark")),
                     ),
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     iconSize: 20,
                     onPressed: () {
                       if (_showModelOptions.value == true) {
@@ -749,17 +765,19 @@ class _AiChatState extends State<AiChat> {
               SpeedDialChild(
                 child: Icon(
                   Icons.refresh,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 label: "New Chat",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onTap: () {
                   _resetChat();
                 },
@@ -767,17 +785,19 @@ class _AiChatState extends State<AiChat> {
               SpeedDialChild(
                 child: Icon(
                   Icons.settings,
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 label: "Settings",
-                labelBackgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontWeight: FontWeight.bold,
                 ),
-                backgroundColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onTap: () {
                   if (_showModelOptions.value == true) {
                     setState(() {
@@ -808,7 +828,8 @@ class _AiChatState extends State<AiChat> {
           Icon(
             MihIcons.mzansiAi,
             size: 165,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           const SizedBox(height: 10),
           Text(
@@ -818,7 +839,8 @@ class _AiChatState extends State<AiChat> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           const SizedBox(height: 25),
@@ -829,8 +851,8 @@ class _AiChatState extends State<AiChat> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 children: [
                   TextSpan(

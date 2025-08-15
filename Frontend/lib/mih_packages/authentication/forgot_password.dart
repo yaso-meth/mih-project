@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -79,11 +80,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Color getPrim() {
-    return MzansiInnovationHub.of(context)!.theme.secondaryColor();
+    return MihColors.getSecondaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   Color getSec() {
-    return MzansiInnovationHub.of(context)!.theme.primaryColor();
+    return MihColors.getPrimaryColor(
+        MzansiInnovationHub.of(context)!.theme.mode == "Dark");
   }
 
   void prePassResteWarning() {
@@ -94,7 +97,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           alertIcon: Icon(
             Icons.warning_amber_rounded,
             size: 100,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           alertTitle: "Password Reset Confirmation",
           alertBody: Column(
@@ -105,8 +109,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: Text(
                   "Before you reset your password, please be aware that you'll receive an email with a link to confirm your identity and set a new password. Make sure to check your inbox, including spam or junk folders. If you don't receive the email within a few minutes, please try resending the reset request.",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -121,14 +125,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   Navigator.of(context).pop();
                   validateInput();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Continue",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -136,7 +140,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ],
           ),
-          alertColour: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          alertColour: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -236,9 +241,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       Icon(
                         Icons.lock,
                         size: 100,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                       //spacer
                       const SizedBox(height: 10),
@@ -248,9 +253,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -258,12 +263,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         formKey: _formKey,
                         formFields: [
                           MihTextFormField(
-                            fillColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
-                            inputColor: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             controller: emailController,
                             multiLineInput: false,
                             requiredText: true,
@@ -286,16 +291,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       .formNotFilledCompletely(context);
                                 }
                               },
-                              buttonColor: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .successColor(),
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               width: 300,
                               child: Text(
                                 "Reset Password",
                                 style: TextStyle(
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .primaryColor(),
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),

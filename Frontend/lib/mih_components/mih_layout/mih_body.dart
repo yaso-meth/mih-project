@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHBody extends StatefulWidget {
@@ -46,10 +47,12 @@ class _MIHBodyState extends State<MIHBody> {
   Decoration? getBoader() {
     if (widget.borderOn) {
       return BoxDecoration(
-        color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+        color: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         borderRadius: BorderRadius.circular(25.0),
         border: Border.all(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             width: 3.0),
       );
     } else {

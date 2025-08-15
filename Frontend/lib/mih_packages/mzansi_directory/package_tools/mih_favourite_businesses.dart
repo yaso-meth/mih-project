@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
@@ -9,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_favourite_businesses_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
@@ -114,9 +114,10 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
               controller: businessSearchController,
               hintText: "Search Businesses",
               prefixIcon: Icons.search,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              hintColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onPrefixIconTap: () {},
               searchFocusNode: searchFocusNode,
             ),
@@ -146,9 +147,11 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                               Icon(
                                 MihIcons.iDontKnow,
                                 size: 165,
-                                color: MzansiInnovationHub.of(context)!
-                                    .theme
-                                    .secondaryColor(),
+                                color: MihColors.getSecondaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
                               ),
                               const SizedBox(height: 10),
                               Text(
@@ -158,9 +161,11 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .secondaryColor(),
+                                  color: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
                               ),
                             ],
@@ -186,9 +191,9 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                           Icon(
                             MihIcons.businessProfile,
                             size: 165,
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .secondaryColor(),
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -198,9 +203,9 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
                           ),
                           const SizedBox(height: 25),
@@ -211,9 +216,11 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.normal,
-                                  color: MzansiInnovationHub.of(context)!
-                                      .theme
-                                      .secondaryColor(),
+                                  color: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
                                 children: [
                                   TextSpan(text: "Use the mzansi search"),

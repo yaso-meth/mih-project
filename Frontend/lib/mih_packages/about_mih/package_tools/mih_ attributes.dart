@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihAttributes extends StatefulWidget {
@@ -34,8 +35,8 @@ class _MihAttributesState extends State<MihAttributes> {
                   child: Icon(
                     icon,
                     // size: 125,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
               ),
@@ -70,13 +71,14 @@ class _MihAttributesState extends State<MihAttributes> {
                   ),
                 );
               },
-              buttonColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               width: 100,
               child: Text(
                 "Visit",
                 style: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -110,7 +112,8 @@ class _MihAttributesState extends State<MihAttributes> {
         children: [
           Icon(
             MihIcons.mihLogo,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             size: 165,
           ),
           const SizedBox(

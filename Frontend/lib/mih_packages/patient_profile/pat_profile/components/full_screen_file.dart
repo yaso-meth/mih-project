@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../../../main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -123,7 +124,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -150,7 +152,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.arrow_forward,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -173,7 +176,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.zoom_in,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -198,7 +202,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
             },
             icon: Icon(
               Icons.zoom_out,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -210,7 +215,7 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         //   },
         //   icon: Icon(
         //     Icons.print,
-        //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+        //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         //   ),
         // ),
         IconButton(
@@ -230,7 +235,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
           },
           icon: Icon(
             Icons.download,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
       ],
@@ -245,8 +251,8 @@ class _FullScreenFileViewerState extends State<FullScreenFileViewer> {
         height: height - 70,
         child: SfPdfViewerTheme(
           data: SfPdfViewerThemeData(
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            backgroundColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           child: SfPdfViewer.network(
             widget.arguments.link,

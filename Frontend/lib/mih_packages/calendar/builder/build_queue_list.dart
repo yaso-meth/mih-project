@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_queue.dart';
-
-import '../../../main.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 
 class BuildQueueList extends StatefulWidget {
   final List<PatientQueue> patientQueue;
@@ -44,7 +44,8 @@ class _BuildQueueListState extends State<BuildQueueList> {
       title: Text(
         title,
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       subtitle: RichText(
@@ -121,7 +122,8 @@ class _BuildQueueListState extends State<BuildQueueList> {
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemCount: widget.patientQueue.length,

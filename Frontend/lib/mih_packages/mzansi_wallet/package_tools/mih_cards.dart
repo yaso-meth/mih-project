@@ -1,6 +1,7 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -187,10 +188,10 @@ class _MihCardsState extends State<MihCards> {
                   ),
                   const SizedBox(height: 10),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: _nicknameController,
                     multiLineInput: false,
                     requiredText: false,
@@ -204,12 +205,12 @@ class _MihCardsState extends State<MihCards> {
                     children: [
                       Flexible(
                         child: MihTextFormField(
-                          fillColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
-                          inputColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           controller: cardNumberController,
                           multiLineInput: false,
                           requiredText: true,
@@ -225,16 +226,16 @@ class _MihCardsState extends State<MihCards> {
                         onPressed: () {
                           openscanner();
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        buttonColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         width: 100,
                         child: Text(
                           "Scan",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -272,15 +273,16 @@ class _MihCardsState extends State<MihCards> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Add",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -341,10 +343,10 @@ class _MihCardsState extends State<MihCards> {
                   hintText: "Search Cards",
                   // prefixIcon: Icons.search,
                   prefixIcon: Icons.search,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  hintColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onPrefixIconTap: () {
                     // print("Search Icon Pressed: ${cardSearchController.text}");
                   },
@@ -402,19 +404,19 @@ class _MihCardsState extends State<MihCards> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.add,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Add Loyalty Card",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     addCardWindow(context, width);
                   },

@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageAlert extends StatefulWidget {
   final Widget alertIcon;
@@ -64,7 +65,8 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
             width: popUpWidth,
             height: popUpheight,
             decoration: BoxDecoration(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               borderRadius: BorderRadius.circular(25.0),
               border: Border.all(color: widget.alertColour, width: 5.0),
             ),
@@ -101,7 +103,8 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
               },
               icon: Icon(
                 Icons.close,
-                color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                color: MihColors.getRedColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 size: 35,
               ),
             ),

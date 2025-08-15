@@ -1,4 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -108,10 +109,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: idController,
                     multiLineInput: false,
                     requiredText: true,
@@ -123,10 +124,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: fnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -138,10 +139,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: lnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -190,15 +191,16 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Book Appointment",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -269,10 +271,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
           child: Column(
             children: [
               MihTextFormField(
-                fillColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                inputColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 controller: idController,
                 multiLineInput: false,
                 requiredText: true,
@@ -284,10 +286,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
               ),
               const SizedBox(height: 10.0),
               MihTextFormField(
-                fillColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                inputColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 controller: fnameController,
                 multiLineInput: false,
                 requiredText: true,
@@ -299,10 +301,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
               ),
               const SizedBox(height: 10.0),
               MihTextFormField(
-                fillColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                inputColor:
-                    MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                inputColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 controller: lnameController,
                 multiLineInput: false,
                 requiredText: true,
@@ -322,15 +324,16 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                       onPressed: () {
                         appointmentPopUp(index, width);
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Book Appointment",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -348,16 +351,16 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                                   "business",
                                 ));
                       },
-                      buttonColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      buttonColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "View Medical Records",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -387,29 +390,32 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.successColor()));
+              color: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     } else if (access == "PENDING") {
       firstName = "${widget.patientAccesses[index].fname[0]}********";
       lastName = "${widget.patientAccesses[index].lname[0]}********";
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color:
-                  MzansiInnovationHub.of(context)!.theme.messageTextColor()));
+              color: MihColors.getGreyColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     } else {
       firstName = "${widget.patientAccesses[index].fname[0]}********";
       lastName = "${widget.patientAccesses[index].lname[0]}********";
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     }
 
     return ListTile(
       title: Text(
         "$firstName $lastName",
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       subtitle: RichText(
@@ -438,7 +444,8 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       },
       trailing: Icon(
         Icons.arrow_forward,
-        color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       ),
     );
   }
@@ -461,7 +468,8 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemCount: widget.patientAccesses.length,

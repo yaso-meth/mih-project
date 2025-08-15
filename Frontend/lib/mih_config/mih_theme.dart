@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import "package:universal_html/html.dart" as html;
 
 class MihTheme {
-  late int _mainColor;
-  late int _secondColor;
+  // late int _mainColor;
+  // late int _secondColor;
   //late int _errColor;
   //late int _succColor;
-  late int _mesColor;
+  // late int _mesColor;
   late String mode;
   late String screenType;
   late AssetImage loading;
@@ -32,10 +33,10 @@ class MihTheme {
     //_mesColor = 0xffc8c8c8d9;
   }
 
-  ThemeData getData() {
+  ThemeData getData(bool bool) {
     return ThemeData(
         fontFamily: 'Segoe UI',
-        scaffoldBackgroundColor: primaryColor(),
+        scaffoldBackgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
         // pageTransitionsTheme: PageTransitionsTheme(
         //   builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
         //     TargetPlatform.values,
@@ -44,36 +45,37 @@ class MihTheme {
         // ),
         colorScheme: ColorScheme(
           brightness: getBritness(),
-          primary: secondaryColor(),
-          onPrimary: primaryColor(),
-          secondary: primaryColor(),
-          onSecondary: secondaryColor(),
-          error: errorColor(),
-          onError: primaryColor(),
-          surface: primaryColor(),
-          onSurface: secondaryColor(),
+          primary: MihColors.getSecondaryColor(mode == "Dark"),
+          onPrimary: MihColors.getPrimaryColor(mode == "Dark"),
+          secondary: MihColors.getPrimaryColor(mode == "Dark"),
+          onSecondary: MihColors.getSecondaryColor(mode == "Dark"),
+          error: MihColors.getRedColor(mode == "Dark"),
+          onError: MihColors.getPrimaryColor(mode == "Dark"),
+          surface: MihColors.getPrimaryColor(mode == "Dark"),
+          onSurface: MihColors.getSecondaryColor(mode == "Dark"),
         ),
         datePickerTheme: DatePickerThemeData(
-          backgroundColor: primaryColor(),
-          headerBackgroundColor: secondaryColor(),
-          headerForegroundColor: primaryColor(),
+          backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+          headerBackgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
+          headerForegroundColor: MihColors.getPrimaryColor(mode == "Dark"),
         ),
         appBarTheme: AppBarTheme(
-          color: secondaryColor(),
-          foregroundColor: primaryColor(),
+          color: MihColors.getSecondaryColor(mode == "Dark"),
+          foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
           titleTextStyle: TextStyle(
-            color: primaryColor(),
+            color: MihColors.getPrimaryColor(mode == "Dark"),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: secondaryColor(),
-          foregroundColor: primaryColor(),
-          extendedTextStyle: TextStyle(color: primaryColor()),
+          backgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
+          foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+          extendedTextStyle:
+              TextStyle(color: MihColors.getPrimaryColor(mode == "Dark")),
         ),
         drawerTheme: DrawerThemeData(
-          backgroundColor: primaryColor(),
+          backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
         ));
   }
 
@@ -110,15 +112,15 @@ class MihTheme {
   }
 
   ThemeData getThemeData() {
-    return getData();
+    return getData(mode == "Dark");
   }
 
   ThemeData darkMode() {
-    return getData();
+    return getData(mode == "Dark");
   }
 
   ThemeData lightMode() {
-    return getData();
+    return getData(mode == "Dark");
   }
 
   Brightness getBritness() {
@@ -129,39 +131,39 @@ class MihTheme {
     }
   }
 
-  Color messageTextColor() {
-    if (mode == "Dark") {
-      _mesColor = 0XFFc8c8c8;
-    } else {
-      _mesColor = 0XFF747474;
-    }
-    return Color(_mesColor);
-  }
+  // Color messageTextColor() {
+  //   if (mode == "Dark") {
+  //     _mesColor = 0XFFc8c8c8;
+  //   } else {
+  //     _mesColor = 0XFF747474;
+  //   }
+  //   return Color(_mesColor);
+  // }
 
-  Color errorColor() {
-    if (mode == "Dark") {
-      return const Color(0xffD87E8B);
-    } else {
-      return const Color(0xffbb3d4f);
-    }
-    //return Color(_errColor);
-  }
+  // Color errorColor() {
+  //   if (mode == "Dark") {
+  //     return const Color(0xffD87E8B);
+  //   } else {
+  //     return const Color(0xffbb3d4f);
+  //   }
+  //   //return Color(_errColor);
+  // }
 
-  Color highlightColor() {
-    if (mode == "Dark") {
-      return const Color(0XFF9bc7fa);
-    } else {
-      return const Color(0XFF354866);
-    }
-  }
+  // Color highlightColor() {
+  //   if (mode == "Dark") {
+  //     return const Color(0XFF9bc7fa);
+  //   } else {
+  //     return const Color(0XFF354866);
+  //   }
+  // }
 
-  Color successColor() {
-    if (mode == "Dark") {
-      return const Color(0xffB0F2B4);
-    } else {
-      return const Color(0xff56a95b);
-    }
-  }
+  // Color successColor() {
+  //   if (mode == "Dark") {
+  //     return const Color(0xffB0F2B4);
+  //   } else {
+  //     return const Color(0xff56a95b);
+  //   }
+  // }
 
   AssetImage loadingImage() {
     if (mode == "Dark") {
@@ -231,21 +233,21 @@ class MihTheme {
     }
   }
 
-  Color primaryColor() {
-    if (mode == "Dark") {
-      _mainColor = 0XFF3A4454;
-    } else {
-      _mainColor = 0XFFbedcfe;
-    }
-    return Color(_mainColor);
-  }
+  // Color MihColors.getPrimaryColor(mode == "Dark") {
+  //   if (mode == "Dark") {
+  //     _mainColor = 0XFF3A4454;
+  //   } else {
+  //     _mainColor = 0XFFbedcfe;
+  //   }
+  //   return Color(_mainColor);
+  // }
 
-  Color secondaryColor() {
-    if (mode == "Dark") {
-      _secondColor = 0XFFbedcfe;
-    } else {
-      _secondColor = 0XFF3A4454;
-    }
-    return Color(_secondColor);
-  }
+//   Color MihColors.getSecondaryColor(mode == "Dark") {
+//     if (mode == "Dark") {
+//       _secondColor = 0XFFbedcfe;
+//     } else {
+//       _secondColor = 0XFF3A4454;
+//     }
+//     return Color(_secondColor);
+//   }
 }

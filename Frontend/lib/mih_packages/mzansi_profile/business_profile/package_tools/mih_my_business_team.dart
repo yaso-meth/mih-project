@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
@@ -60,7 +60,8 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
         "",
         style: TextStyle(
             fontSize: 25,
-            color: MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+            color: MihColors.getGreyColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
         textAlign: TextAlign.center,
       ),
     );
@@ -105,8 +106,9 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
                   "$errorCode: Error pulling Patients Data\n${AppEnviroment.baseApiUrl}/business-user/users/${widget.arguments.businessUser!.business_id}\n$errorBody",
                   style: TextStyle(
                       fontSize: 25,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   textAlign: TextAlign.center,
                 ),
               );

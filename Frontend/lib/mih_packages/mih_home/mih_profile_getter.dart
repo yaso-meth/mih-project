@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               "Connection Error",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -100,7 +102,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
             Icon(
               Icons.power_off_outlined,
               size: 150,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             SizedBox(
               width: 500,
@@ -108,8 +111,8 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                 "Looks like we ran into an issue getting your data.\nPlease check you internet connection and try again.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -120,13 +123,14 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
               onPressed: () {
                 Navigator.of(context).popAndPushNamed("/");
               },
-              buttonColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               width: 300,
               child: Text(
                 "Refresh",
                 style: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -142,8 +146,9 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
                     "Error: $error",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor(),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

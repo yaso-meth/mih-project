@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -8,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
@@ -145,19 +145,19 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.delete,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Delete Note",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     deletePatientPopUp(selectednote.idpatient_notes);
                   },
@@ -171,9 +171,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
           children: [
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: businessNameController,
               multiLineInput: false,
               requiredText: true,
@@ -182,9 +183,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: userNameController,
               multiLineInput: false,
               requiredText: true,
@@ -193,9 +195,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: dateController,
               multiLineInput: false,
               requiredText: true,
@@ -204,9 +207,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
             ),
             const SizedBox(height: 10.0),
             MihTextFormField(
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: noteTitleController,
               multiLineInput: false,
               requiredText: true,
@@ -216,9 +220,10 @@ class _BuildNotesListState extends State<BuildNotesList> {
             const SizedBox(height: 10.0),
             MihTextFormField(
               height: 250,
-              fillColor:
-                  MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-              inputColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              inputColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               controller: noteTextController,
               multiLineInput: true,
               requiredText: true,
@@ -249,7 +254,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           );
         },
         itemCount: widget.notes.length,
@@ -262,18 +268,21 @@ class _BuildNotesListState extends State<BuildNotesList> {
             title: Text(
               "${widget.notes[index].note_name}\n${widget.notes[index].doc_office} - ${widget.notes[index].doctor}",
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
             subtitle: Text(
               "${widget.notes[index].insert_date}:\n$notePreview",
               style: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ), //Text(widget.notes[index].note_text),
             trailing: Icon(
               Icons.arrow_forward,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             onTap: () {
               viewNotePopUp(widget.notes[index]);
@@ -295,14 +304,14 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 Icon(
                   MihIcons.mihRing,
                   size: 165,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 Icon(
                   Icons.article_outlined,
                   size: 110,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ],
             ),
@@ -314,7 +323,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
             const SizedBox(height: 25),
@@ -327,9 +337,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.normal,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                     children: [
                       TextSpan(text: "Press "),
@@ -338,9 +348,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
                         child: Icon(
                           Icons.menu,
                           size: 20,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                       TextSpan(text: " to add the first note"),

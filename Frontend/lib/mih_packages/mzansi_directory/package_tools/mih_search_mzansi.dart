@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -144,16 +145,16 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         icon: Icon(
                           Icons.swap_horiz_rounded,
                           size: 35,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                       ),
                     ],
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    hintColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    hintColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onPrefixIconTap: () {
                       searchPressed();
                     },
@@ -183,9 +184,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                           ? Icons.filter_list_rounded
                           : Icons.filter_list_off_rounded,
                       size: 35,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -231,16 +232,16 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                               );
                             }
                           },
-                          buttonColor: MzansiInnovationHub.of(context)!
-                              .theme
-                              .successColor(),
+                          buttonColor: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           elevation: 10,
                           child: Text(
                             "Search",
                             style: TextStyle(
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .primaryColor(),
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -292,8 +293,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   Icon(
                     MihIcons.personalProfile,
                     size: 165,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -303,9 +304,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   const SizedBox(height: 25),
@@ -316,9 +317,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                         children: [
                           TextSpan(text: "Press "),
@@ -327,9 +328,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                             child: Icon(
                               Icons.swap_horiz_rounded,
                               size: 20,
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
                           ),
                           TextSpan(text: " to search for businesses of Mzansi"),
@@ -349,7 +350,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             //       MihIcons.personalProfile,
             //       size: 165,
             //       color:
-            //           MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            //           MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             //     ),
             //     const SizedBox(height: 10),
             //     Text(
@@ -360,7 +361,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             //         fontSize: 25,
             //         fontWeight: FontWeight.bold,
             //         color:
-            //             MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            //             MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             //       ),
             //     ),
             //   ],
@@ -375,8 +376,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 Icon(
                   MihIcons.iDontKnow,
                   size: 165,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -386,8 +387,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
               ],
@@ -398,7 +399,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
                     fontSize: 25,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
+                    color: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 textAlign: TextAlign.center,
               ),
             );
@@ -440,8 +442,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 Icon(
                   MihIcons.iDontKnow,
                   size: 165,
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 const SizedBox(height: 25),
                 Text(
@@ -451,8 +453,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
               ],
@@ -468,8 +470,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                   Icon(
                     MihIcons.businessProfile,
                     size: 165,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -479,9 +481,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   const SizedBox(height: 25),
@@ -492,9 +494,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                         children: [
                           TextSpan(text: "Press "),
@@ -503,9 +505,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                             child: Icon(
                               Icons.swap_horiz_rounded,
                               size: 20,
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
                           ),
                           TextSpan(text: " to search for people of Mzansi"),
@@ -521,9 +523,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .secondaryColor(),
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                         ),
                         children: [
                           TextSpan(text: "Press "),
@@ -532,9 +534,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                             child: Icon(
                               Icons.filter_list_rounded,
                               size: 20,
-                              color: MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .secondaryColor(),
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
                           ),
                           TextSpan(text: " to filter business types"),
@@ -551,7 +553,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                 "Error pulling Patients Data\n/users/search/${mzansiSearchController.text}",
                 style: TextStyle(
                     fontSize: 25,
-                    color: MzansiInnovationHub.of(context)!.theme.errorColor()),
+                    color: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 textAlign: TextAlign.center,
               ),
             );

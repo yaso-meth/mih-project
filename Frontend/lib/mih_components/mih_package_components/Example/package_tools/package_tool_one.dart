@@ -101,17 +101,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
             SpeedDialChild(
               child: Icon(
                 Icons.add,
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               label: "Show New Window",
-              labelBackgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              labelBackgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               labelStyle: TextStyle(
-                color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor:
-                  MzansiInnovationHub.of(context)!.theme.successColor(),
+              backgroundColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
                 // showTestWindow();
               },
@@ -180,9 +182,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
@@ -193,15 +195,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     onPressed: () {
                       KenLogger.success("Successfully tested");
                     },
-                    buttonColor: MihColors.getGreenColor(context),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     elevation: 10,
                     width: 300,
                     child: Text(
                       "Success Logger",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -214,15 +217,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     onPressed: () {
                       KenLogger.error("Successfully tested");
                     },
-                    buttonColor: MihColors.getRedColor(context),
+                    buttonColor: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     elevation: 10,
                     width: 300,
                     child: Text(
                       "Error Logger",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -235,15 +239,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     onPressed: () {
                       KenLogger.warning("Successfully tested");
                     },
-                    buttonColor: MihColors.getOrangeColor(context),
+                    buttonColor: MihColors.getOrangeColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     elevation: 10,
                     width: 300,
                     child: Text(
                       "Warning Logger",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -256,15 +261,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     onPressed: () {
                       KenLogger.info("Successfully tested");
                     },
-                    buttonColor: MihColors.getBluishPurpleColor(context),
+                    buttonColor: MihColors.getBluishPurpleColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     elevation: 10,
                     width: 300,
                     child: Text(
                       "Info Logger",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -280,10 +286,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   initialSelection: '+27',
                   showDropDownButton: false,
                   pickerStyle: PickerStyle.bottomSheet,
-                  dialogBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
-                  barrierColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  dialogBackgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  barrierColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 const SizedBox(height: 10),
                 Center(
@@ -298,16 +304,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         },
                       );
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    buttonColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     elevation: 10,
                     width: 300,
                     child: Text(
                       "Show Loading",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -324,9 +330,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
@@ -345,9 +351,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
@@ -424,8 +430,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 ),
                 const SizedBox(height: 10),
                 Divider(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   thickness: 2,
                 ),
                 const SizedBox(height: 10),
@@ -438,9 +444,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
@@ -448,8 +454,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 MihBannerAd(),
                 const SizedBox(height: 10),
                 Divider(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   thickness: 2,
                 ),
                 const SizedBox(height: 10),
@@ -458,11 +464,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   formFields: [
                     MihTextFormField(
                       width: 200,
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: _textFieldZeroController,
                       multiLineInput: false,
                       requiredText: false,
@@ -473,11 +480,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: _textFieldOneController,
                       multiLineInput: false,
                       requiredText: true,
@@ -489,11 +497,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: _textFieldTwoController,
                       multiLineInput: false,
                       requiredText: true,
@@ -506,11 +515,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: _textFieldThreeController,
                       multiLineInput: false,
                       requiredText: true,
@@ -523,11 +533,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     const SizedBox(height: 10),
                     MihNumericStepper(
                       controller: _textFieldFiveController,
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       hintText: "Number Stepper",
                       requiredText: true,
                       minValue: 1,
@@ -538,11 +549,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     MihToggle(
                       hintText: "Toggle",
                       initialPostion: switchpositioin,
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      secondaryFillColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      secondaryFillColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       readOnly: false,
                       onChange: (value) {
                         setState(() {
@@ -555,11 +567,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     MihRadioOptions(
                       controller: _textFieldSixController,
                       hintText: "Radio Options",
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      secondaryFillColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      secondaryFillColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       requiredText: true,
                       radioOptions: const ["Option 1", "Option 2"],
                     ),
@@ -600,11 +613,12 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     const SizedBox(height: 10),
                     MihTextFormField(
                       height: 250,
-                      fillColor: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
-                      inputColor:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       controller: _textFieldFourController,
                       multiLineInput: true,
                       requiredText: false,
@@ -628,17 +642,17 @@ class _PackageToolOneState extends State<PackageToolOne> {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
                         },
-                        buttonColor: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        buttonColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Submit Form",
                           style: TextStyle(
-                            color: MzansiInnovationHub.of(context)!
-                                .theme
-                                .primaryColor(),
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -649,8 +663,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 ),
                 const SizedBox(height: 10),
                 Divider(
-                  color:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   thickness: 2,
                 ),
                 const SizedBox(height: 10),
@@ -661,10 +675,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   prefixIcon: Icons.search,
                   prefixAltIcon: MihIcons.mzansiAi,
                   width: 300,
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  hintColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onPrefixIconTap: () {
                     print("Search Icon Pressed: ${_searchController.text}");
                   },
@@ -675,15 +689,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   onPressed: () {
                     print("Button Pressed");
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                  buttonColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   elevation: 10,
                   width: 300,
                   child: Text(
                     "Click Me",
                     style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -694,24 +709,24 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   onPressed: () {
                     print("Button Pressed");
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   width: 300,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.delete,
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                       Text(
                         "Click Me",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -724,14 +739,15 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   onPressed: () {
                     print("Button Pressed");
                   },
-                  buttonColor:
-                      MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  buttonColor: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   width: 300,
                   child: Text(
                     "Click Me",
                     style: TextStyle(
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -748,8 +764,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     onPressed: () {},
                     icon: Icon(
                       MihIcons.mihLogo,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                 ),
@@ -760,10 +777,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   editable: false,
                   fileNameController: _fileNameController,
                   userSelectedfile: file,
-                  frameColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  frameColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onChange: (selectedImage) {
                     setState(() {
                       file = selectedImage;
@@ -772,10 +789,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: _fileNameController,
                   hintText: "Selected Avatar File",
                   requiredText: false,
@@ -797,10 +814,10 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: _imagefileController,
                   hintText: "Selected Image File",
                   requiredText: false,
@@ -820,19 +837,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.add,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Show New Window",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     showTestWindow();
                   },
@@ -840,19 +857,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.add,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   label: "Show New Full Window",
-                  labelBackgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   labelStyle: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor:
-                      MzansiInnovationHub.of(context)!.theme.successColor(),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
                     showTestFullWindow();
                   },

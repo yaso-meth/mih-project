@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -50,8 +51,10 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             controller: _mihPatientSearchController,
             hintText: "Search Patient ID/ Aid No.",
             prefixIcon: Icons.search,
-            fillColor: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-            hintColor: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            fillColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            hintColor: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onPrefixIconTap: () {
               submitPatientSearch();
             },
@@ -92,8 +95,9 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                   "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
                   style: TextStyle(
                       fontSize: 25,
-                      color:
-                          MzansiInnovationHub.of(context)!.theme.errorColor()),
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark")),
                   textAlign: TextAlign.center,
                 ),
               );
@@ -133,7 +137,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           Icon(
             MihIcons.iDontKnow,
             size: 165,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           const SizedBox(height: 10),
           Text(
@@ -143,7 +148,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ],
@@ -159,7 +165,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             Icon(
               MihIcons.patientProfile,
               size: 165,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             const SizedBox(height: 10),
             Text(
@@ -169,7 +176,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
             const SizedBox(height: 25),
@@ -180,8 +188,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   children: [
                     TextSpan(
@@ -213,7 +221,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
       //       style: TextStyle(
       //           fontSize: 25,
       //           color:
-      //               MzansiInnovationHub.of(context)!.theme.messageTextColor()),
+      //               MihColors.getGreyColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
       //       textAlign: TextAlign.center,
       //     ),
       //   ),

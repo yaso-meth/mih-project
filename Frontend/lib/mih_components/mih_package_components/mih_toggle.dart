@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihToggle extends StatefulWidget {
   final String hintText;
@@ -66,25 +67,27 @@ class _MihToggleState extends State<MihToggle> {
                 return Colors.grey;
               }
               if (states.contains(WidgetState.selected)) {
-                return MzansiInnovationHub.of(context)!
-                    .theme
-                    .successColor(); // Outline color when active
+                return MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode ==
+                        "Dark"); // Outline color when active
               }
-              return MzansiInnovationHub.of(context)!
-                  .theme
-                  .errorColor(); // Outline color when active
+              return MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode ==
+                      "Dark"); // Outline color when active
             },
           ),
           activeColor:
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           activeTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzansiInnovationHub.of(context)!.theme.successColor(),
+              : MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           inactiveThumbColor:
               widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
           inactiveTrackColor: widget.readOnly == true
               ? Colors.grey.shade400
-              : MzansiInnovationHub.of(context)!.theme.errorColor(),
+              : MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           // activeColor: widget.secondaryFillColor,
           // activeTrackColor: widget.fillColor,
           // inactiveThumbColor: widget.fillColor,

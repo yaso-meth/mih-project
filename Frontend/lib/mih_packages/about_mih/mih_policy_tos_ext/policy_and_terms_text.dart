@@ -1,6 +1,7 @@
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class PolicyAndTermsText {
   List<Widget> getPrivacyPolicyText(BuildContext context) {
@@ -30,7 +31,8 @@ class PolicyAndTermsText {
         child: FittedBox(
           child: Icon(
             MihIcons.mihLogo,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
       ),
@@ -427,7 +429,8 @@ class PolicyAndTermsText {
         child: FittedBox(
           child: Icon(
             MihIcons.mihLogo,
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
       ),

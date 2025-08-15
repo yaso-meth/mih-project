@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 
@@ -109,9 +110,9 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                       child: IconButton.filled(
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<Color>(
-                              MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .errorColor()),
+                              MihColors.getRedColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark")),
                         ),
                         color: widget.inputColor,
                         iconSize: 20,
@@ -193,9 +194,9 @@ class _MihNumericStepperState extends State<MihNumericStepper> {
                       child: IconButton.filled(
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<Color>(
-                              MzansiInnovationHub.of(context)!
-                                  .theme
-                                  .successColor()),
+                              MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark")),
                         ),
                         color: widget.inputColor,
                         iconSize: 20,

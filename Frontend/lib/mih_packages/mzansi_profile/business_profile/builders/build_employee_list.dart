@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -161,17 +162,19 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
           SpeedDialChild(
             child: Icon(
               Icons.delete,
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             label: "Delete Employee",
-            labelBackgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            labelBackgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             labelStyle: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontWeight: FontWeight.bold,
             ),
-            backgroundColor:
-                MzansiInnovationHub.of(context)!.theme.successColor(),
+            backgroundColor: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
               showDeleteWarning(index);
             },
@@ -191,10 +194,10 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                 formKey: _formKey,
                 formFields: [
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: fnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -203,10 +206,10 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                   ),
                   const SizedBox(height: 10.0),
                   MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: lnameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -257,15 +260,16 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
                       },
-                      buttonColor:
-                          MzansiInnovationHub.of(context)!.theme.successColor(),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                       width: 300,
                       child: Text(
                         "Update",
                         style: TextStyle(
-                          color: MzansiInnovationHub.of(context)!
-                              .theme
-                              .primaryColor(),
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -309,7 +313,8 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemCount: widget.employees.length,
@@ -327,7 +332,8 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
           subtitle: Text(
             "${widget.employees[index].username}\n${widget.employees[index].email}\nAccess: ${widget.employees[index].access}",
             style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           onTap: () {

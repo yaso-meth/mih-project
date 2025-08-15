@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../main.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MIHCalendar extends StatefulWidget {
@@ -37,7 +38,8 @@ class _MIHCalendarState extends State<MIHCalendar> {
           formatButtonDecoration: BoxDecoration(
             border: Border.fromBorderSide(
               BorderSide(
-                color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
             borderRadius: const BorderRadius.all(
@@ -61,29 +63,36 @@ class _MIHCalendarState extends State<MIHCalendar> {
         calendarStyle: CalendarStyle(
           outsideDaysVisible: false,
           todayTextStyle: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           todayDecoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.successColor(),
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             shape: BoxShape.circle,
           ),
           selectedTextStyle: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           selectedDecoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             shape: BoxShape.circle,
           ),
           weekendTextStyle: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
+            color: MihColors.getGreyColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           weekendStyle: TextStyle(
-            color: MzansiInnovationHub.of(context)!.theme.messageTextColor(),
+            color: MihColors.getGreyColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
       ),

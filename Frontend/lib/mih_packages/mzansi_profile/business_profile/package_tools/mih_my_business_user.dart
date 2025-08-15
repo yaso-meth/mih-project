@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
@@ -126,7 +127,8 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               return MihPackageAlert(
                 alertIcon: Icon(
                   Icons.warning_rounded,
-                  color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+                  color: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 alertTitle: "Error Updating Business User Details",
                 alertBody: Column(
@@ -134,15 +136,15 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                     Text(
                       "An error occurred while updating the business User details. Please check internet connection and try again.",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .secondaryColor(),
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                       ),
                     ),
                   ],
                 ),
-                alertColour:
-                    MzansiInnovationHub.of(context)!.theme.errorColor(),
+                alertColour: MihColors.getRedColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               );
             },
           );
@@ -226,20 +228,20 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                     editable: false,
                     fileNameController: fileNameController,
                     userSelectedfile: userPicFile,
-                    frameColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    backgroundColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    frameColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    backgroundColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onChange: (_) {},
                   ),
                 ),
                 Visibility(
                   visible: false,
                   child: MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: fileNameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -249,10 +251,10 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 ),
                 const SizedBox(height: 20),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: titleTextController,
                   multiLineInput: false,
                   requiredText: true,
@@ -264,10 +266,10 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -279,10 +281,10 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -294,10 +296,10 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor:
-                      MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                  inputColor:
-                      MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  inputColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   controller: accessController,
                   multiLineInput: false,
                   requiredText: true,
@@ -338,10 +340,10 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 Visibility(
                   visible: false,
                   child: MihTextFormField(
-                    fillColor:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
-                    inputColor:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: fileNameController,
                     multiLineInput: false,
                     requiredText: true,
@@ -359,15 +361,15 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                         MihAlertServices().formNotFilledCompletely(context);
                       }
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Update",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

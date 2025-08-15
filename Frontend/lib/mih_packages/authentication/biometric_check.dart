@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_build
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -38,7 +39,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
           child: FittedBox(
             child: Icon(
               MihIcons.mihLogo,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -109,7 +111,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
     Widget alertpopUp = MihPackageAlert(
       alertIcon: Icon(
         Icons.fingerprint,
-        color: MzansiInnovationHub.of(context)!.theme.errorColor(),
+        color: MihColors.getRedColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         size: 100,
       ),
       alertTitle: "Biometric Authentication Error",
@@ -120,7 +123,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
             "Hi there! To jump into the MIH Home Package, you'll need to authenticate yourself with your phones biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
             style: TextStyle(
               fontSize: 15,
-              color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           const SizedBox(height: 20),
@@ -137,14 +141,14 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   );
                   Navigator.of(context).pop();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Set Up Authentication",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -155,14 +159,14 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Navigator.of(context).pop();
                   authenticateUser();
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Authenticate Now",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -172,7 +176,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
           ),
         ],
       ),
-      alertColour: MzansiInnovationHub.of(context)!.theme.errorColor(),
+      alertColour: MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     );
     showDialog(
       context: context,
@@ -197,8 +202,8 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Icon(
                     Icons.fingerprint,
                     size: 100,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   //spacer
                   const SizedBox(height: 10),
@@ -209,9 +214,9 @@ class _BiometricCheckState extends State<BiometricCheck> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MzansiInnovationHub.of(context)!
-                          .theme
-                          .secondaryColor(),
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
                     ),
                   ),
                   //spacer
@@ -220,23 +225,23 @@ class _BiometricCheckState extends State<BiometricCheck> {
                   Icon(
                     Icons.lock,
                     size: 200,
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   const SizedBox(height: 30),
                   MihButton(
                     onPressed: () {
                       authenticateUser();
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Authenticate Now",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

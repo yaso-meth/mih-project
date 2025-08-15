@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
 
 class MIHSuccessMessage extends StatefulWidget {
@@ -59,10 +60,12 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
           width: popUpWidth,
           height: popUpheight,
           decoration: BoxDecoration(
-            color: MzansiInnovationHub.of(context)!.theme.primaryColor(),
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             borderRadius: BorderRadius.circular(25.0),
             border: Border.all(
-                color: MzansiInnovationHub.of(context)!.theme.successColor(),
+                color: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 5.0),
           ),
           child: Column(
@@ -71,14 +74,16 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
               Icon(
                 Icons.check_circle_outline_rounded,
                 size: popUpIconSize,
-                color: MzansiInnovationHub.of(context)!.theme.successColor(),
+                color: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               //const SizedBox(height: 15),
               Text(
                 "Success!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MzansiInnovationHub.of(context)!.theme.successColor(),
+                  color: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: popUpTitleSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -88,8 +93,8 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                 child: Text(
                   message,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -100,14 +105,14 @@ class _MIHSuccessMessageState extends State<MIHSuccessMessage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                buttonColor:
-                    MzansiInnovationHub.of(context)!.theme.successColor(),
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 width: 300,
                 child: Text(
                   "Dismiss",
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.primaryColor(),
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

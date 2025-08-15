@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/access_request.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
@@ -132,25 +133,28 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.successColor()));
+              color: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color:
-                  MzansiInnovationHub.of(context)!.theme.messageTextColor()));
+              color: MihColors.getGreyColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     } else {
       accessWithColour = TextSpan(
           text: "$access\n",
           style: TextStyle(
-              color: MzansiInnovationHub.of(context)!.theme.errorColor()));
+              color: MihColors.getRedColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
     }
 
     return ListTile(
       title: Text(
         line1,
         style: TextStyle(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
       subtitle: RichText(
@@ -166,7 +170,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       // Text(
       //   subtitle,
       //   style: TextStyle(
-      //     color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       //   ),
       // ),
       onTap: () {
@@ -178,7 +182,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       },
       // trailing: Icon(
       //   Icons.arrow_forward,
-      //   color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+      //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       // ),
     );
   }
@@ -233,8 +237,8 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                   subtitle,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color:
-                        MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     fontSize: popUpBodySize,
                     //fontWeight: FontWeight.bold,
                   ),
@@ -248,15 +252,15 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "declined");
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.errorColor(),
+                    buttonColor: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Decline",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -266,15 +270,15 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "approved");
                     },
-                    buttonColor:
-                        MzansiInnovationHub.of(context)!.theme.successColor(),
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
                       "Approve",
                       style: TextStyle(
-                        color: MzansiInnovationHub.of(context)!
-                            .theme
-                            .primaryColor(),
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -311,7 +315,8 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MzansiInnovationHub.of(context)!.theme.secondaryColor(),
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
       itemCount: widget.accessRequests.length,
