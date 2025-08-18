@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -25,13 +26,20 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mzansi-ai',
-          arguments: MzansiAiArguments(
+        context.goNamed(
+          'mzansiAi',
+          extra: MzansiAiArguments(
             widget.signedInUser,
             "",
           ),
         );
+        // Navigator.of(context).pushNamed(
+        //   '/mzansi-ai',
+        //   arguments: MzansiAiArguments(
+        //     widget.signedInUser,
+        //     "",
+        //   ),
+        // );
       },
       appName: "Mzansi AI",
       appIcon: Icon(
