@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -27,9 +28,9 @@ class _MzansiSetupProfileTileState extends State<MzansiSetupProfileTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mzansi-profile',
-          arguments: AppProfileUpdateArguments(
+        context.goNamed(
+          'mzansiProfileManage',
+          extra: AppProfileUpdateArguments(
             widget.signedInUser,
             widget.propicFile,
           ),
