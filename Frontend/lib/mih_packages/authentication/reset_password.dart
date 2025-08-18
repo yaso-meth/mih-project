@@ -160,12 +160,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         ),
       ),
       iconSize: 35,
-      onTap: () {
-        // Navigator.of(context).pushNamed(
-        //   '/about',
-        //   //arguments: widget.signedInUser,
-        // );
-      },
+      onTap: () {},
     );
   }
 
