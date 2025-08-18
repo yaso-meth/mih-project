@@ -10,7 +10,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_profile_getter.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:supertokens_flutter/supertokens.dart';
 import 'package:app_settings/app_settings.dart';
 
 class BiometricCheck extends StatefulWidget {
@@ -47,12 +46,12 @@ class _BiometricCheckState extends State<BiometricCheck> {
       ),
       iconSize: 35,
       onTap: () async {
-        await SuperTokens.signOut(completionHandler: (error) {
-          print(error);
-        });
-        if (await SuperTokens.doesSessionExist() == false) {
-          Navigator.of(context).popAndPushNamed('/');
-        }
+        // await SuperTokens.signOut(completionHandler: (error) {
+        //   print(error);
+        // });
+        // if (await SuperTokens.doesSessionExist() == false) {
+        //   Navigator.of(context).popAndPushNamed('/');
+        // }
         // Navigator.of(context).pushNamed(
         //   '/about',
         //   //arguments: widget.signedInUser,

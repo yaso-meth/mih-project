@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,14 @@ class _AboutMihTileState extends State<AboutMihTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/about',
-          arguments: 0,
+        context.goNamed(
+          "aboutMih",
+          extra: 0,
         );
+        // Navigator.of(context).pushNamed(
+        //   '/about',
+        //   arguments: 0,
+        // );
       },
       appName: "About MIH",
       appIcon: Icon(

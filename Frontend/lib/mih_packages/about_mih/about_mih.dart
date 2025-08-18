@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
@@ -25,7 +27,7 @@ class _AboutMihState extends State<AboutMih> {
   void initState() {
     super.initState();
     setState(() {
-      if(widget.packageIndex == null) {
+      if (widget.packageIndex == null) {
         _selcetedIndex = 0;
       } else {
         _selcetedIndex = widget.packageIndex!;
@@ -55,7 +57,13 @@ class _AboutMihState extends State<AboutMih> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        context.goNamed(
+          'home',
+          extra: AuthArguments(
+            true,
+            false,
+          ),
+        );
         FocusScope.of(context).unfocus();
       },
     );
