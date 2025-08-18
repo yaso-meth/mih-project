@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'mih_config/mih_env.dart';
-import 'mih_config/mih_routeGenerator.dart';
+// import 'mih_config/mih_routeGenerator.dart';
+import 'mih_config/mih_go_router.dart';
 import 'mih_config/mih_theme.dart';
 
 class MzansiInnovationHub extends StatefulWidget {
@@ -53,18 +54,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   @override
   void initState() {
     theme = MihTheme();
-    // var systemTheme =
-    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    // bool isDarkMode = systemTheme == Brightness.dark;
-    // if (isDarkMode) {
-    //   theme.mode = "Dark";
-    // } else {
-    //   theme.mode = "Light";
-    // }
     super.initState();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
-    //doInit();
   }
 
   @override
@@ -72,14 +64,15 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
-    return MaterialApp(
+    return MaterialApp.router(
       title: getTitle(),
       themeMode: ThemeMode.dark,
       theme: theme.getThemeData(),
       darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      routerConfig: MihGoRouter().mihRouter,
+      // initialRoute: '/',
+      // onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
