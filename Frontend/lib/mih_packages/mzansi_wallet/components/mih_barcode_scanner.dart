@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -36,7 +37,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
       });
       print(bcode.barcodes.first.rawValue);
       _scannerController.stop();
-      Navigator.of(context).pop();
+      context.pop();
     }
   }
 
@@ -123,7 +124,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                     child: MihButton(
                       onPressed: () {
                         _scannerController.stop();
-                        Navigator.of(context).pop();
+                        context.pop();
                       },
                       buttonColor: MihColors.getRedColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==

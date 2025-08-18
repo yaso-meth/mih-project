@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
@@ -22,22 +22,12 @@ class MIHMzansiWalletApis {
   static Future<List<MIHLoyaltyCard>> getLoyaltyCards(
     String app_id,
   ) async {
-    //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/$app_id"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
     if (response.statusCode == 200) {
-      //print("Here1");
       Iterable l = jsonDecode(response.body);
-      //print("Here2");
       List<MIHLoyaltyCard> patientQueue = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      //print("Here3");
-      //print(patientQueue);
       return patientQueue;
     } else {
       throw Exception('failed to fatch loyalty cards');
@@ -55,19 +45,10 @@ class MIHMzansiWalletApis {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/favourites/$app_id"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
     if (response.statusCode == 200) {
-      // print("Here1");
       Iterable l = jsonDecode(response.body);
-      //print("Here2");
       List<MIHLoyaltyCard> patientQueue = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      //print("Here3");
-      //print(patientQueue);
       return patientQueue;
     } else {
       throw Exception('failed to fatch loyalty cards');
@@ -82,10 +63,9 @@ class MIHMzansiWalletApis {
   /// BuildContext context,
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
-  static Future<void> deleteLoyaltyCardAPICall(
+  static Future<int> deleteLoyaltyCardAPICall(
     AppUser signedInUser,
     int idloyalty_cards,
-    int navIndex,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -99,22 +79,24 @@ class MIHMzansiWalletApis {
     );
     //print("Here4");
     //print(response.statusCode);
-    if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/mzansi-wallet',
-        arguments: WalletArguments(signedInUser, navIndex),
-      );
-      String message =
-          "The loyalty card has been deleted successfully. This means it will no longer be visible in your Mzansi Wallet.";
-      successPopUp(message, context);
-    } else {
-      Navigator.pop(context);
-      internetConnectionPopUp(context);
-    }
+    context.pop();
+    return response.statusCode;
+    // if (response.statusCode == 200) {
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pushNamed(
+    //     '/mzansi-wallet',
+    //     arguments: WalletArguments(signedInUser, navIndex),
+    //   );
+    //   String message =
+    //       "The loyalty card has been deleted successfully. This means it will no longer be visible in your Mzansi Wallet.";
+    //   successPopUp(message, context);
+    // } else {
+    //   Navigator.pop(context);
+    //   internetConnectionPopUp(context);
+    // }
   }
 
   /// This function is used to add a lopyalty card to users mzansi wallet.
@@ -127,7 +109,7 @@ class MIHMzansiWalletApis {
   /// BuildContext context,
   ///
   /// Returns VOID (TRIGGERS SUCCESS pop up)
-  static Future<void> addLoyaltyCardAPICall(
+  static Future<int> addLoyaltyCardAPICall(
     AppUser signedInUser,
     String app_id,
     String shop_name,
@@ -135,7 +117,6 @@ class MIHMzansiWalletApis {
     String favourite,
     int priority_index,
     String nickname,
-    int navIndex,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -154,21 +135,23 @@ class MIHMzansiWalletApis {
         "nickname": nickname,
       }),
     );
-    if (response.statusCode == 201) {
-      Navigator.pop(context);
-      String message =
-          "Your $shop_name Loyalty Card was successfully added to your Mzansi Wallet.";
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.of(context).pushNamed(
-        '/mzansi-wallet',
-        arguments: WalletArguments(signedInUser, navIndex),
-      );
-      successPopUp(message, context);
-    } else {
-      Navigator.pop(context);
-      internetConnectionPopUp(context);
-    }
+    context.pop();
+    return response.statusCode;
+    // if (response.statusCode == 201) {
+    //   // Navigator.pop(context);
+    //   // String message =
+    //   //     "Your $shop_name Loyalty Card was successfully added to your Mzansi Wallet.";
+    //   // Navigator.pop(context);
+    //   // Navigator.pop(context);
+    //   // Navigator.of(context).pushNamed(
+    //   //   '/mzansi-wallet',
+    //   //   arguments: WalletArguments(signedInUser, navIndex),
+    //   // );
+    //   // successPopUp(message, context);
+    // } else {
+    //   // Navigator.pop(context);
+    //   // internetConnectionPopUp(context);
+    // }
   }
 
   /// This function is used to Update loyalty card from users mzansi wallet.
@@ -179,14 +162,13 @@ class MIHMzansiWalletApis {
   /// BuildContext context,
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
-  static Future<void> updateLoyaltyCardAPICall(
+  static Future<int> updateLoyaltyCardAPICall(
     AppUser signedInUser,
     int idloyalty_cards,
     String favourite,
     int priority_index,
     String nickname,
     String card_number,
-    int navIndex,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -204,23 +186,8 @@ class MIHMzansiWalletApis {
         "card_number": card_number,
       }),
     );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/mzansi-wallet',
-        arguments: WalletArguments(signedInUser, navIndex),
-      );
-      String message = "The loyalty card has been added to your favourites.";
-      successPopUp(message, context);
-    } else {
-      Navigator.pop(context);
-      internetConnectionPopUp(context);
-    }
+    context.pop();
+    return response.statusCode;
   }
 
   //================== POP UPS ==========================================================================

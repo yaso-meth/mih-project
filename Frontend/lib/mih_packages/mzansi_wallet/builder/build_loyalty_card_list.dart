@@ -1,7 +1,10 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
@@ -49,9 +52,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   final _formKey = GlobalKey<FormState>();
 
   void openscanner() async {
-    Navigator.of(context).pushNamed(
-      '/scanner',
-      arguments: _cardNumberController,
+    context.pushNamed(
+      "barcodeScanner",
+      extra: _cardNumberController,
     );
   }
 
@@ -136,18 +139,31 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   const SizedBox(height: 15),
                   Center(
                     child: MihButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                          int statusCode = await MIHMzansiWalletApis
+                              .updateLoyaltyCardAPICall(
                             widget.signedInUser,
                             widget.cardList[index].idloyalty_cards,
                             widget.cardList[index].favourite,
                             widget.cardList[index].priority_index,
                             _nicknameController.text,
                             _cardNumberController.text,
-                            0,
                             ctxt,
                           );
+                          if (statusCode == 200) {
+                            context.pop();
+                            context.pop();
+                            context.goNamed(
+                              "mzansiWallet",
+                              extra: WalletArguments(
+                                widget.signedInUser,
+                                0,
+                              ),
+                            );
+                          } else {
+                            internetConnectionPopUp();
+                          }
                         } else {
                           MihAlertServices().formNotFilledCompletely(context);
                         }
@@ -184,13 +200,23 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       builder: (context) {
         return MIHDeleteMessage(
             deleteType: "Loyalty Card",
-            onTap: () {
-              MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
+            onTap: () async {
+              int statusCode =
+                  await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
                 widget.signedInUser,
                 widget.cardList[index].idloyalty_cards,
-                widget.navIndex,
                 context,
               );
+              if (statusCode == 200) {
+                setState(() {
+                  widget.cardList.removeAt(index);
+                });
+                context.pop();
+                context.pop();
+              } else {
+                context.pop();
+                internetConnectionPopUp();
+              }
             });
       },
     );
@@ -225,17 +251,30 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 height: 15,
               ),
               MihButton(
-                onPressed: () {
-                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                onPressed: () async {
+                  int statusCode =
+                      await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
                     widget.signedInUser,
                     widget.cardList[index].idloyalty_cards,
                     "Yes",
                     _noFavourites,
                     widget.cardList[index].nickname,
                     widget.cardList[index].card_number,
-                    1,
                     ctxt,
                   );
+                  if (statusCode == 200) {
+                    context.pop();
+                    context.pop();
+                    context.goNamed(
+                      "mzansiWallet",
+                      extra: WalletArguments(
+                        widget.signedInUser,
+                        1,
+                      ),
+                    );
+                  } else {
+                    internetConnectionPopUp();
+                  }
                 },
                 buttonColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -252,6 +291,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
         );
       },
     );
@@ -286,17 +336,30 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 height: 15,
               ),
               MihButton(
-                onPressed: () {
-                  MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                onPressed: () async {
+                  int statusCode =
+                      await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
                     widget.signedInUser,
                     widget.cardList[index].idloyalty_cards,
                     "",
                     0,
                     widget.cardList[index].nickname,
                     widget.cardList[index].card_number,
-                    0,
                     ctxt,
                   );
+                  if (statusCode == 200) {
+                    context.pop();
+                    context.pop();
+                    context.goNamed(
+                      "mzansiWallet",
+                      extra: WalletArguments(
+                        widget.signedInUser,
+                        0,
+                      ),
+                    );
+                  } else {
+                    internetConnectionPopUp();
+                  }
                 },
                 buttonColor: MihColors.getRedColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
