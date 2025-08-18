@@ -569,7 +569,6 @@ class _AiChatState extends State<AiChat> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _modelController.dispose();
     _fontSizeController.dispose();
@@ -630,7 +629,6 @@ class _AiChatState extends State<AiChat> {
         content: systemPromt,
       ),
     );
-    _loadMessages();
     initTTS();
     _ttsVoiceController.addListener(voiceSelected);
     if (widget.startUpQuestion != null && widget.startUpQuestion!.isNotEmpty) {
