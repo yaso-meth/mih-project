@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
@@ -59,10 +60,9 @@ class _MihSignInState extends State<MihSignIn> {
   void submitSignInForm() async {
     await signUserIn();
     if (successfulSignIn) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/',
-        (route) => false,
-        arguments: AuthArguments(
+      context.goNamed(
+        'home',
+        extra: AuthArguments(
           true,
           true,
         ),
@@ -324,8 +324,11 @@ class _MihSignInState extends State<MihSignIn> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                '/forgot-password',
+                              // Navigator.of(context).pushNamed(
+                              //   '/forgot-password',
+                              // );
+                              context.goNamed(
+                                'forgotPassword',
                               );
                             },
                             child: Text(

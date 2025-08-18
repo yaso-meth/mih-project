@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -17,7 +19,6 @@ import '../../mih_components/mih_layout/mih_header.dart';
 import '../../mih_components/mih_layout/mih_layout_builder.dart';
 import '../../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../mih_config/mih_env.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -160,10 +161,62 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     showDialog(
       context: context,
       builder: (context) {
-        return const MIHSuccessMessage(
-            successType: "Success",
-            successMessage:
-                "We've sent a password reset link to your email address. Please check your inbox, including spam or junk folders.\n\nOnce you find the email, click on the link to reset your password.\n\nIf you don't receive the email within a few minutes, please try resending the reset request.\n\nThe reset link will expire after 2 hours");
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: "Successfully Sent Reset Link",
+          alertBody: Column(
+            children: [
+              Text(
+                "We've sent a password reset link to your email address. Please check your inbox, including spam or junk folders.\n\nOnce you find the email, click on the link to reset your password.\n\nIf you don't receive the email within a few minutes, please try resending the reset request.\n\nThe reset link will expire after 2 hours",
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      'home',
+                      extra: AuthArguments(
+                        true,
+                        true,
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return const MIHSuccessMessage(
+        //     successType: "Success",
+        //     successMessage:
+        //         "We've sent a password reset link to your email address. Please check your inbox, including spam or junk folders.\n\nOnce you find the email, click on the link to reset your password.\n\nIf you don't receive the email within a few minutes, please try resending the reset request.\n\nThe reset link will expire after 2 hours");
       },
     );
   }
@@ -179,7 +232,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     } else {
       await submitPasswodReset();
       if (successfulForgotPassword) {
-        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        // Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
         resetLinkSentSuccessfully();
       }
     }
@@ -190,7 +243,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
+        context.goNamed(
+          'home',
+          extra: AuthArguments(
+            true,
+            true,
+          ),
+        );
       },
     );
   }
