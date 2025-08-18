@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,14 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/calculator',
-          arguments: widget.personalSelected,
+        context.goNamed(
+          "mihCalculator",
+          extra: widget.personalSelected,
         );
+        // Navigator.of(context).pushNamed(
+        //   '/calculator',
+        //   arguments: widget.personalSelected,
+        // );
       },
       appName: "Calculator",
       appIcon: Icon(
