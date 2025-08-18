@@ -1,5 +1,7 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -143,23 +145,6 @@ class _PatientAccessRequestState extends State<Appointments> {
         ),
       ),
     );
-    // return Expanded(
-    //   child: Padding(
-    //     padding: const EdgeInsets.only(top: 35.0),
-    //     child: Align(
-    //       alignment: Alignment.center,
-    //       child: Text(
-    //         "No Appointments for $selectedDay",
-    //         style: TextStyle(
-    //           fontSize: 25,
-    //           color: MihColors.getGreyColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    //         ),
-    //         textAlign: TextAlign.center,
-    //         softWrap: true,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   void addAppointmentWindow(double width) {
@@ -284,10 +269,11 @@ class _PatientAccessRequestState extends State<Appointments> {
     }
   }
 
-  void addAppointmentCall() {
+  Future<void> addAppointmentCall() async {
     if (isAppointmentInputValid()) {
+      int statusCode;
       if (widget.personalSelected == false) {
-        MihMzansiCalendarApis.addBusinessAppointment(
+        statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
           widget.signedInUser,
           widget.business!,
           widget.businessUser!,
@@ -299,7 +285,7 @@ class _PatientAccessRequestState extends State<Appointments> {
           context,
         );
       } else {
-        MihMzansiCalendarApis.addPersonalAppointment(
+        statusCode = await MihMzansiCalendarApis.addPersonalAppointment(
           widget.signedInUser,
           _appointmentTitleController.text,
           _appointmentDescriptionIDController.text,
@@ -307,6 +293,27 @@ class _PatientAccessRequestState extends State<Appointments> {
           _appointmentTimeController.text,
           context,
         );
+      }
+      if (statusCode == 201) {
+        context.pop();
+        successPopUp("Successfully Added Appointment",
+            "You appointment has been successfully added to your calendar.");
+        setState(() {
+          if (widget.personalSelected) {
+            appointmentResults = MihMzansiCalendarApis.getPersonalAppointments(
+              widget.signedInUser.app_id,
+              selectedDay,
+            );
+          } else {
+            appointmentResults = MihMzansiCalendarApis.getBusinessAppointments(
+              widget.business!.business_id,
+              false,
+              selectedDay,
+            );
+          }
+        });
+      } else {
+        internetConnectionPopUp();
       }
     } else {
       showDialog(
@@ -317,6 +324,77 @@ class _PatientAccessRequestState extends State<Appointments> {
       );
     }
     checkforchange();
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                    setState(() {
+                      _appointmentDateController.clear();
+                      _appointmentTimeController.clear();
+                      _appointmentTitleController.clear();
+                      _appointmentDescriptionIDController.clear();
+                    });
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      },
+    );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
+        );
+      },
+    );
   }
 
   String getTitle() {
