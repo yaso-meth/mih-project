@@ -54,7 +54,7 @@ class _MihWalletState extends State<MihWallet> {
       iconSize: 35,
       onTap: () {
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             false,

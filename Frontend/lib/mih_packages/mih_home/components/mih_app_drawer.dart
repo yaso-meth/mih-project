@@ -267,7 +267,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               if (await SuperTokens.doesSessionExist() ==
                                   false) {
                                 context.goNamed(
-                                  'home',
+                                  'mihHome',
                                   extra: AuthArguments(
                                     true,
                                     true,

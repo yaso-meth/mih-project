@@ -44,7 +44,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
       onTap: () {
         // Navigator.of(context).pop();
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             false,

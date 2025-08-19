@@ -51,7 +51,7 @@ class MihUserServices {
     );
     if (response.statusCode == 201) {
       context.goNamed(
-        'home',
+        'mihHome',
         extra: AuthArguments(
           true,
           true,
@@ -260,7 +260,7 @@ class MihUserServices {
                 child: MihButton(
                   onPressed: () {
                     context.goNamed(
-                      'home',
+                      'mihHome',
                       extra: AuthArguments(
                         true,
                         true,

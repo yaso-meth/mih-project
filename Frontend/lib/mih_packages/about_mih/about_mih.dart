@@ -58,7 +58,7 @@ class _AboutMihState extends State<AboutMih> {
       iconSize: 35,
       onTap: () {
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             false,

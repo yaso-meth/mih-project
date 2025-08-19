@@ -44,7 +44,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       onTap: () {
         // Navigator.of(context).pop();
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             false,

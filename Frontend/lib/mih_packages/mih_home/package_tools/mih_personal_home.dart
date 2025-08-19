@@ -162,13 +162,20 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       temp.add({
         "test": MihPackageTile(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              '/package-dev',
-              arguments: TestArguments(
+            context.goNamed(
+              'testPackage',
+              extra: TestArguments(
                 widget.signedInUser,
                 widget.business,
               ),
             );
+            // Navigator.of(context).pushNamed(
+            //   '/package-dev',
+            //   arguments: TestArguments(
+            //     widget.signedInUser,
+            //     widget.business,
+            //   ),
+            // );
           },
           appName: "Test",
           appIcon: Icon(

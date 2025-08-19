@@ -45,7 +45,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       iconSize: 35,
       onTap: () {
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             widget.personalSelected,
             false,

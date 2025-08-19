@@ -181,7 +181,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                 child: MihButton(
                   onPressed: () {
                     context.goNamed(
-                      'home',
+                      'mihHome',
                       extra: AuthArguments(
                         stayOnPersonalSide,
                         false,

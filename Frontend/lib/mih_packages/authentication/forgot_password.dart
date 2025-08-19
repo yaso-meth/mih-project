@@ -185,7 +185,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: MihButton(
                   onPressed: () {
                     context.goNamed(
-                      'home',
+                      'mihHome',
                       extra: AuthArguments(
                         true,
                         true,
@@ -245,7 +245,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       onTap: () {
         // Navigator.of(context).pop();
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             true,

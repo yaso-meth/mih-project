@@ -30,7 +30,7 @@ class _MzansiAiState extends State<MzansiAi> {
       iconSize: 35,
       onTap: () {
         context.goNamed(
-          'home',
+          'mihHome',
           extra: AuthArguments(
             true,
             false,

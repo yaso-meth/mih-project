@@ -61,7 +61,7 @@ class _MihSignInState extends State<MihSignIn> {
     await signUserIn();
     if (successfulSignIn) {
       context.goNamed(
-        'home',
+        'mihHome',
         extra: AuthArguments(
           true,
           true,
