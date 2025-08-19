@@ -210,6 +210,7 @@ class MihUserServices {
         // ); //Pop and push to login page
         successPopUp(
           "Account Deleted Successfully",
+          "Your account has been successfully deleted. We are sorry to see you go, but we respect your decision.",
           context,
         ); // Show success message.
       }
@@ -232,7 +233,7 @@ class MihUserServices {
     );
   }
 
-  static void successPopUp(String message, BuildContext context) {
+  static void successPopUp(String title, String message, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -243,11 +244,11 @@ class MihUserServices {
             color: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
-          alertTitle: "Successfully Sent Reset Link",
+          alertTitle: title,
           alertBody: Column(
             children: [
               Text(
-                "We've sent a password reset link to your email address. Please check your inbox, including spam or junk folders.\n\nOnce you find the email, click on the link to reset your password.\n\nIf you don't receive the email within a few minutes, please try resending the reset request.\n\nThe reset link will expire after 2 hours",
+                message,
                 style: TextStyle(
                   color: MihColors.getSecondaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
