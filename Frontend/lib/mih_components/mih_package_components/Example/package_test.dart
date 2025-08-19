@@ -133,7 +133,7 @@ class _PackageTestState extends State<PackageTest> {
     List<Widget> toolBodies = [
       PackageToolOne(
         user: widget.arguments.user,
-        business: widget.arguments.business!,
+        business: widget.arguments.business,
       ),
       const PackageToolTwo(),
     ];
