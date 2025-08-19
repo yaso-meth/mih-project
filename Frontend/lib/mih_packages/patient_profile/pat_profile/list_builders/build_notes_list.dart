@@ -294,8 +294,9 @@ class _BuildNotesListState extends State<BuildNotesList> {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
             const SizedBox(height: 50),
             Stack(
@@ -316,16 +317,24 @@ class _BuildNotesListState extends State<BuildNotesList> {
               ],
             ),
             const SizedBox(height: 10),
-            Text(
-              "No Notes have been added to this profile.",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    "No Notes have been added to this profile.",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 25),
             Visibility(
