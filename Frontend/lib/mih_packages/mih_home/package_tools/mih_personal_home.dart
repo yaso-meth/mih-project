@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tiles/test_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
@@ -160,34 +160,10 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Dev ===============
     if (widget.isDevActive) {
       temp.add({
-        "test": MihPackageTile(
-          onTap: () {
-            context.goNamed(
-              'testPackage',
-              extra: TestArguments(
-                widget.signedInUser,
-                widget.business,
-              ),
-            );
-            // Navigator.of(context).pushNamed(
-            //   '/package-dev',
-            //   arguments: TestArguments(
-            //     widget.signedInUser,
-            //     widget.business,
-            //   ),
-            // );
-          },
-          appName: "Test",
-          appIcon: Icon(
-            Icons.warning_amber_rounded,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          iconSize: packageSize,
-          primaryColor: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          secondaryColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        "test": TestPackageTile(
+          signedInUser: widget.signedInUser,
+          business: widget.business,
+          packageSize: packageSize,
         )
       });
     }

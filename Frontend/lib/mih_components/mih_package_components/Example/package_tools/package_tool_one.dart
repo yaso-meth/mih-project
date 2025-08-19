@@ -399,11 +399,11 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         );
                       }
                     }),
-                const SizedBox(height: 10),
-                Text("This text should be redacted").redacted(
-                  context: context,
-                  redact: true,
-                ),
+                // const SizedBox(height: 10),
+                // Text("This text should be redacted").redacted(
+                //   context: context,
+                //   redact: true,
+                // ),
                 MihBusinessCard(
                   business: Business(
                     "business_id",
