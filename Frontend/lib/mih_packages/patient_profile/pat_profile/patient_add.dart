@@ -1,8 +1,9 @@
-import 'dart:convert';
-
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
@@ -13,13 +14,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class AddPatient extends StatefulWidget {
   final AppUser signedInUser;
@@ -89,38 +88,93 @@ class _AddPatientState extends State<AddPatient> {
     }
   }
 
-  Future<void> addPatientAPICall() async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/patients/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "id_no": idController.text,
-        "first_name": fnameController.text,
-        "last_name": lnameController.text,
-        "email": emailController.text,
-        "cell_no": cellController.text,
-        "medical_aid": medAidController.text,
-        "medical_aid_main_member": medMainMemController.text,
-        "medical_aid_no": medNoController.text,
-        "medical_aid_code": medAidCodeController.text,
-        "medical_aid_name": medNameController.text,
-        "medical_aid_scheme": medSchemeController.text,
-        "address": addressController.text,
-        "app_id": widget.signedInUser.app_id,
-      }),
+  Future<void> addPatientService() async {
+    int statusCode = await MihPatientServices().addPatientService(
+      idController.text,
+      fnameController.text,
+      lnameController.text,
+      emailController.text,
+      cellController.text,
+      medAidController.text,
+      medMainMemController.text,
+      medNoController.text,
+      medAidCodeController.text,
+      medNameController.text,
+      medSchemeController.text,
+      addressController.text,
+      widget.signedInUser,
     );
-    if (response.statusCode == 201) {
-      Navigator.of(context).popAndPushNamed('/patient-profile',
-          arguments: PatientViewArguments(
-              widget.signedInUser, null, null, null, "personal"));
+    if (statusCode == 201) {
       String message =
           "${fnameController.text} ${lnameController.text} patient profile has been successfully added!\n";
-      successPopUp(message);
+      successPopUp("Successfully created Patient Profile", message);
     } else {
       internetConnectionPopUp();
     }
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                    context.goNamed(
+                      'patientProfile',
+                      extra: PatientViewArguments(
+                        widget.signedInUser,
+                        null,
+                        null,
+                        null,
+                        "personal",
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      },
+    );
   }
 
   void internetConnectionPopUp() {
@@ -138,18 +192,6 @@ class _AddPatientState extends State<AddPatient> {
       builder: (context) {
         return AlertDialog(
           title: Text(error),
-        );
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
         );
       },
     );
@@ -217,6 +259,7 @@ class _AddPatientState extends State<AddPatient> {
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
+                  readOnly: true,
                   hintText: "First Name",
                   validator: (value) {
                     return MihValidationServices().isEmpty(value);
@@ -231,6 +274,7 @@ class _AddPatientState extends State<AddPatient> {
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
+                  readOnly: true,
                   hintText: "Surname",
                   validator: (value) {
                     return MihValidationServices().isEmpty(value);
@@ -471,7 +515,7 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   void submitForm() {
-    addPatientAPICall();
+    addPatientService();
   }
 
   MIHAction getActionButton() {
@@ -479,7 +523,14 @@ class _AddPatientState extends State<AddPatient> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        context.goNamed(
+          'mihHome',
+          extra: AuthArguments(
+            true,
+            false,
+          ),
+        );
+        FocusScope.of(context).unfocus();
       },
     );
   }
