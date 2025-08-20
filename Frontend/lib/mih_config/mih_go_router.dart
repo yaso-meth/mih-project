@@ -208,7 +208,10 @@ class MihGoRouter {
           KenLogger.success("MihGoRouter: businessProfileView");
           final BusinessViewArguments? args =
               state.extra as BusinessViewArguments?;
-          return MzansiBusinessProfileView(arguments: args!);
+          return MzansiBusinessProfileView(
+            key: UniqueKey(),
+            arguments: args!,
+          );
         },
       ),
       // ========================== MIH Calculator ==================================
