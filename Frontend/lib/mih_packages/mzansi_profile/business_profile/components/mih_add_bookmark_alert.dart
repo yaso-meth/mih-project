@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
@@ -33,23 +34,13 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
     await MihMzansiDirectoryServices()
         .addBookmarkedBusiness(user_id, business_id)
         .then((statusCode) {
+      context.pop();
       if (statusCode == 201) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          '/mzansi-directory',
-          ModalRoute.withName('/'),
-          arguments: MzansiDirectoryArguments(
-            personalSearch: false, // personalSearch
-            packageIndex: 1,
-            startSearchText: widget.business.Name,
-          ),
-        );
-        MihAlertServices().successAlert(
+        successPopUp(
           "Successfully Bookmarked Business!",
           "${widget.business.Name} has successfully been added to favourite businessess in the Mzansi Directory.",
-          context,
         );
       } else {
-        Navigator.of(context).pop();
         MihAlertServices().errorAlert(
           "Error Adding Bookmark",
           "An error occured while add ${widget.business.Name} to you Mzansi Directory, Please try again later.",
@@ -57,6 +48,71 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
         );
       }
     });
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      "mzansiDirectory",
+                      extra: MzansiDirectoryArguments(
+                        personalSearch: false,
+                        startSearchText: widget.business.Name,
+                        packageIndex: 1,
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
   }
 
   @override
