@@ -54,7 +54,6 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
   @override
   void initState() {
     super.initState();
-    print("Avatar started");
     setState(() {
       imagePreview = getAvatar();
     });
