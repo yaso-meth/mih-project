@@ -182,10 +182,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   onPressed: () {
                     context.goNamed(
                       'mihHome',
-                      extra: AuthArguments(
-                        stayOnPersonalSide,
-                        false,
-                      ),
+                      extra: stayOnPersonalSide,
                     );
                   },
                   buttonColor: MihColors.getGreenColor(

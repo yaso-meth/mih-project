@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
@@ -44,10 +43,7 @@ class _MihAccessState extends State<MihAccess> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

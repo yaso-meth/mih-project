@@ -45,10 +45,7 @@ class _PatientProfileState extends State<PatientProfile> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

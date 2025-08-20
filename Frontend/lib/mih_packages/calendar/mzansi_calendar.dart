@@ -45,10 +45,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
         // Navigator.of(context).pop();
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

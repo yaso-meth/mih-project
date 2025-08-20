@@ -31,10 +31,7 @@ class _MzansiAiState extends State<MzansiAi> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

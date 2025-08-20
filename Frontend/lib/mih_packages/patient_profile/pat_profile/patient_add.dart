@@ -525,10 +525,7 @@ class _AddPatientState extends State<AddPatient> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

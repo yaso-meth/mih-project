@@ -268,10 +268,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   false) {
                                 context.goNamed(
                                   'mihHome',
-                                  extra: AuthArguments(
-                                    true,
-                                    true,
-                                  ),
+                                  extra: true,
                                 );
                                 // Navigator.of(context).pop();
                                 // Navigator.of(context).popAndPushNamed(

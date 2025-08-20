@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -186,10 +185,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   onPressed: () {
                     context.goNamed(
                       'mihHome',
-                      extra: AuthArguments(
-                        true,
-                        true,
-                      ),
+                      extra: true,
                     );
                   },
                   buttonColor: MihColors.getGreenColor(
@@ -246,10 +242,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         // Navigator.of(context).pop();
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            true,
-          ),
+          extra: true,
         );
       },
     );

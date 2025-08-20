@@ -35,10 +35,7 @@ class _PackageTestState extends State<PackageTest> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
         // Navigator.of(context).pop();

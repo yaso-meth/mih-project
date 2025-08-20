@@ -100,10 +100,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: AuthArguments(
-            true,
-            false,
-          ),
+          extra: true,
         );
         FocusScope.of(context).unfocus();
       },
