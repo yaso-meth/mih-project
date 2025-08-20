@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
@@ -97,7 +98,13 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        context.goNamed(
+          'mihHome',
+          extra: AuthArguments(
+            true,
+            false,
+          ),
+        );
         FocusScope.of(context).unfocus();
       },
     );
