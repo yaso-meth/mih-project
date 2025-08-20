@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'mih_config/mih_env.dart';
-// import 'mih_config/mih_routeGenerator.dart';
-import 'mih_config/mih_go_router.dart';
 import 'mih_config/mih_theme.dart';
 
 class MzansiInnovationHub extends StatefulWidget {
+  final GoRouter router;
   const MzansiInnovationHub({
     super.key,
+    required this.router,
   });
 
   @override
@@ -70,9 +71,7 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
       theme: theme.getThemeData(),
       darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
-      routerConfig: MihGoRouter().mihRouter,
-      // initialRoute: '/',
-      // onGenerateRoute: RouteGenerator.generateRoute,
+      routerConfig: widget.router,
     );
   }
 }

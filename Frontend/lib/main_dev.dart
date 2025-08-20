@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_web_plugins/url_strategy.dart'
     if (dart.library.html) 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -25,6 +27,7 @@ void main() async {
   PWAInstall().setup(installCallback: () {
     debugPrint('APP INSTALLED!');
   });
+  final GoRouter appRouter = MihGoRouter().mihRouter;
   FlutterNativeSplash.remove();
-  runApp(const MzansiInnovationHub());
+  runApp(MzansiInnovationHub(router: appRouter,));
 }
