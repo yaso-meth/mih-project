@@ -58,7 +58,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
     }
   }
 
-  Future<bool> authenticateUser() async {
+  Future<bool> isUserAuthenticated() async {
     final bool canAuthWithBio = await _auth.canCheckBiometrics;
     final bool canAuthenticate =
         canAuthWithBio || await _auth.isDeviceSupported();
@@ -96,12 +96,12 @@ class _MihPackageTileState extends State<MihPackageTile> {
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         size: 100,
       ),
-      alertTitle: "Biometric Authentication Error",
+      alertTitle: "Biometric Authentication Required",
       alertBody: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Hi there! To jump into the MIH Home Package, you'll need to authenticate yourself with your phones biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
+            "Hi there! To jump into the ${widget.appName} Package, you'll need to authenticate yourself with your devices biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
             style: TextStyle(
               fontSize: 15,
               color: MihColors.getSecondaryColor(
@@ -168,6 +168,18 @@ class _MihPackageTileState extends State<MihPackageTile> {
     );
   }
 
+  Future<void> authenticateUser() async {
+    if (widget.authenticateUser != null &&
+        widget.authenticateUser! &&
+        !kIsWeb) {
+      if (await isUserAuthenticated()) {
+        widget.onTap();
+      }
+    } else {
+      widget.onTap();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -177,15 +189,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
       // height: widget.iconSize + widget.iconSize / 3,
       child: GestureDetector(
         onTap: () async {
-          if (widget.authenticateUser != null &&
-              widget.authenticateUser! &&
-              !kIsWeb) {
-            if (await authenticateUser()) {
-              widget.onTap();
-            }
-          } else {
-            widget.onTap();
-          }
+          authenticateUser();
         },
         onLongPress: null, // Do this later
         child: Column(
