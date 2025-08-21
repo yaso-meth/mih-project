@@ -94,23 +94,13 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       widget.business.rating,
                     )
                         .then((statusCode) {
-                      Navigator.of(context).pop(); //Remove loading dialog
-                      Navigator.of(context).pop(); //Remove delete dialog
+                      context.pop(); //Remove loading dialog
+                      context.pop(); //Remove delete dialog
                       if (statusCode == 200) {
-                        Navigator.of(context).pop(); //Remove window
-                        Navigator.of(context).pop(); //Remove profile
-                        Navigator.of(context).pop(); //Remove directory
-                        Navigator.of(context).pushNamed(
-                          '/mzansi-directory',
-                          arguments: MzansiDirectoryArguments(
-                            personalSearch: false, // personalSearch
-                            startSearchText: widget.business.Name,
-                          ),
-                        );
-                        MihAlertServices().successAlert(
+                        context.pop(); //Remove window
+                        successPopUp(
                           "Successfully Deleted Review!",
                           "Your review has successfully been delete and will no longer appear under the business.",
-                          context,
                         );
                       } else {
                         MihAlertServices().errorAlert(
@@ -137,7 +127,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                 MihButton(
                   width: 300,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
