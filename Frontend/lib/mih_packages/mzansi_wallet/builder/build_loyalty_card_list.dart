@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
@@ -20,6 +22,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.da
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
   final AppUser signedInUser;
@@ -49,6 +52,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _cardNumberController = TextEditingController();
   late int _noFavourites;
+  double? _originalBrightness;
   final _formKey = GlobalKey<FormState>();
 
   void openscanner() async {
@@ -474,10 +478,11 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             },
           ),
         ],
-        onWindowTapClose: widget.onCardViewClose ??
-            () {
-              Navigator.pop(context);
-            },
+        onWindowTapClose: () {
+          widget.onCardViewClose;
+          resetScreenBrightness();
+          context.pop();
+        },
         windowBody: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -561,6 +566,99 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     return count;
   }
 
+  Future<void> setScreenBrightness(double newBrightness) async {
+    if (!kIsWeb) {
+      bool canChange =
+          await ScreenBrightness.instance.canChangeSystemBrightness;
+
+      KenLogger.success("Can change system brightness: $canChange");
+      if (canChange) {
+        // Permission is granted, you can now change the system brightness
+        ScreenBrightness.instance.system.then((brightness) {
+          setState(() {
+            _originalBrightness = brightness;
+          });
+          KenLogger.success("Original brightness: $_originalBrightness");
+        });
+        await ScreenBrightness.instance
+            .setSystemScreenBrightness(newBrightness);
+        KenLogger.success("Brightness set to: $newBrightness");
+      } else {
+        context.pop();
+        showDialog(
+          context: context,
+          builder: (context) {
+            return MihPackageAlert(
+              alertIcon: Icon(
+                Icons.brightness_7_rounded,
+                size: 150,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              alertTitle: "Permission Required",
+              alertBody: Column(
+                children: [
+                  Text(
+                    "Sometimes it can be tough to scan your loyalty card if your phone screen is dim. To make sure your scan is successful every time, we need your permission to temporarily increase your screen brightness.\n\nWould you mind enabling this in your device settings?",
+                    style: TextStyle(
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  MihButton(
+                    onPressed: () async {
+                      context.pop();
+                      await ScreenBrightness.instance
+                          .setSystemScreenBrightness(newBrightness);
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "Grant Permission",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              alertColour: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            );
+          },
+        );
+      }
+    } else {
+      KenLogger.warning(
+          "Screen brightness adjustment is not supported on Web.");
+      // _originalBrightness = 1.0; // Default brightness for web
+      // await ScreenBrightness.instance.setSystemScreenBrightness(1.0);
+      // KenLogger.success("Brightness set to default value: 1.0");
+    }
+  }
+
+  void resetScreenBrightness() async {
+    if (!kIsWeb) {
+      KenLogger.success(
+          "Resetting screen brightness to original value: $_originalBrightness");
+      if (_originalBrightness != null) {
+        await ScreenBrightness.instance
+            .setSystemScreenBrightness(_originalBrightness!);
+      }
+    } else {
+      KenLogger.warning("Screen brightness reset is not supported on Web.");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -596,6 +694,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               height: 100,
             ),
             onTap: () {
+              setScreenBrightness(1.0);
               viewCardWindow(index, size.width);
             },
           );

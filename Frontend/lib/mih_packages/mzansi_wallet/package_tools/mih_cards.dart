@@ -461,7 +461,7 @@ class _MihCardsState extends State<MihCards> {
                             setState(() {
                               _bannerAd = MihBannerAd();
                             });
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
                           },
                         );
                       },
