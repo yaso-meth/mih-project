@@ -25,7 +25,7 @@ class _MihWalletTileState extends State<MihWalletTile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageTile(
-      authenticateUser: true,
+      // authenticateUser: true,
       onTap: () {
         context.goNamed(
           'mzansiWallet',

@@ -24,6 +24,7 @@ class _MihAccessTileState extends State<MihAccessTile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageTile(
+      authenticateUser: true,
       onTap: () {
         context.goNamed(
           "mihAccess",
