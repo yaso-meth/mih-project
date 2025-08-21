@@ -529,6 +529,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   // const SizedBox(height: 10),
                   Text(
                     formattedCardNumber,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 25,
