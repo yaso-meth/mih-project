@@ -1,4 +1,5 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -442,9 +443,13 @@ class _PatientInfoState extends State<PatientInfo> {
                   backgroundColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onTap: () {
-                    Navigator.of(context).pushNamed('/patient-profile/edit',
-                        arguments: PatientEditArguments(
-                            widget.signedInUser, widget.selectedPatient));
+                    context.goNamed(
+                      'patientProfileEdit',
+                      extra: PatientEditArguments(
+                        widget.signedInUser,
+                        widget.selectedPatient,
+                      ),
+                    );
                   },
                 )
               ],

@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
@@ -13,7 +16,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
@@ -84,49 +86,135 @@ class _EditPatientState extends State<EditPatient> {
   // }
 
   Future<void> updatePatientApiCall() async {
-    //print("Here1");
-    //userEmail = getLoginUserEmail() as String;
-    //print(userEmail);
-    //print("Here2");
-    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    //print(futureDocOfficeId.toString());
-    //print("Here3");
-    var response = await http.put(
-      Uri.parse(apiUrlEdit),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "id_no": idController.text,
-        "first_name": fnameController.text,
-        "last_name": lnameController.text,
-        "email": emailController.text,
-        "cell_no": cellController.text,
-        "medical_aid": medAidController.text,
-        "medical_aid_main_member": medMainMemController.text,
-        "medical_aid_no": medNoController.text,
-        "medical_aid_code": medAidCodeController.text,
-        "medical_aid_name": medNameController.text,
-        "medical_aid_scheme": medSchemeController.text,
-        "address": addressController.text,
-        "app_id": widget.selectedPatient.app_id,
-      }),
+    var statusCode = await MihPatientServices().updatePatientService(
+      widget.selectedPatient.app_id,
+      idController.text,
+      fnameController.text,
+      lnameController.text,
+      emailController.text,
+      cellController.text,
+      medAidController.text,
+      medMainMemController.text,
+      medNoController.text,
+      medAidCodeController.text,
+      medNameController.text,
+      medSchemeController.text,
+      addressController.text,
     );
-    // print("Here4");
-    // print(response.statusCode);
-    if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed('/patient-profile',
-          arguments: PatientViewArguments(
-              widget.signedInUser, null, null, null, "personal"));
-      //Navigator.of(context).pushNamed('/');
-      String message =
-          "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
-      successPopUp(message);
+    if (statusCode == 200) {
+      successPopUp(
+        "Successfully Updated Profile!",
+        "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.",
+      );
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().errorAlert(
+        "Error Updating Profile",
+        "There was an error updating your profile. Please try again later.",
+        context,
+      );
     }
+    // var response = await http.put(
+    //   Uri.parse(apiUrlEdit),
+    //   headers: <String, String>{
+    //     "Content-Type": "application/json; charset=UTF-8"
+    //   },
+    //   body: jsonEncode(<String, dynamic>{
+    //     "id_no": idController.text,
+    //     "first_name": fnameController.text,
+    //     "last_name": lnameController.text,
+    //     "email": emailController.text,
+    //     "cell_no": cellController.text,
+    //     "medical_aid": medAidController.text,
+    //     "medical_aid_main_member": medMainMemController.text,
+    //     "medical_aid_no": medNoController.text,
+    //     "medical_aid_code": medAidCodeController.text,
+    //     "medical_aid_name": medNameController.text,
+    //     "medical_aid_scheme": medSchemeController.text,
+    //     "address": addressController.text,
+    //     "app_id": widget.selectedPatient.app_id,
+    //   }),
+    // );
+    // print(response.statusCode);
+    // if (response.statusCode == 200) {
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pop();
+    //   Navigator.of(context).pushNamed('/patient-profile',
+    //       arguments: PatientViewArguments(
+    //           widget.signedInUser, null, null, null, "personal"));
+    //   //Navigator.of(context).pushNamed('/');
+    //   String message =
+    //       "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
+    //   successPopUp(message);
+    // } else {
+    //   internetConnectionPopUp();
+    // }
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      "patientProfile",
+                      extra: PatientViewArguments(
+                        widget.signedInUser,
+                        widget.selectedPatient,
+                        null,
+                        null,
+                        "personal",
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
   }
 
   Future<void> deletePatientApiCall() async {
@@ -156,7 +244,7 @@ class _EditPatientState extends State<EditPatient> {
               widget.signedInUser, null, null, null, "personal"));
       String message =
           "${fnameController.text} ${lnameController.text}'s record has been deleted successfully. This means it will no longer be visible in patient manager and cannot be used for future appointments.";
-      successPopUp(message);
+      successPopUp("Error", message);
     } else {
       internetConnectionPopUp();
     }
@@ -324,18 +412,6 @@ class _EditPatientState extends State<EditPatient> {
     );
   }
 
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
   bool isFieldsFilled() {
     if (medRequired.value) {
       if (idController.text.isEmpty ||
@@ -433,6 +509,7 @@ class _EditPatientState extends State<EditPatient> {
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
+                  readOnly: true,
                   hintText: "First Name",
                   validator: (value) {
                     return MihValidationServices().isEmpty(value);
@@ -447,6 +524,7 @@ class _EditPatientState extends State<EditPatient> {
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
+                  readOnly: true,
                   hintText: "Surname",
                   validator: (value) {
                     return MihValidationServices().isEmpty(value);
@@ -695,7 +773,17 @@ class _EditPatientState extends State<EditPatient> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        context.goNamed(
+          'patientProfile',
+          extra: PatientViewArguments(
+            widget.signedInUser,
+            null,
+            null,
+            null,
+            "personal",
+          ),
+        );
+        // Navigator.of(context).pop();
       },
     );
   }
