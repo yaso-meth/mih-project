@@ -184,10 +184,9 @@ class _MihPackageState extends State<MihPackage>
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
+                      const SizedBox(width: 5),
                       widget.appTools,
+                      const SizedBox(width: 5),
                     ],
                   ),
                   const SizedBox(height: 5),
