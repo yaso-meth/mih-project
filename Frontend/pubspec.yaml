@@ -50,6 +50,7 @@ dependencies:
   ken_logger: ^0.0.3
   go_router: ^16.1.0
   screen_brightness: ^2.1.6
+  gpt_markdown: ^1.1.2
 
 dev_dependencies:
   flutter_test:
