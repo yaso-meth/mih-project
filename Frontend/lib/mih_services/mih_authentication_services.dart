@@ -114,6 +114,54 @@ class MihAuthenticationServices {
     }
   }
 
+  Future<bool> forgotPassword(
+    String email,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/auth/user/password/reset/token"),
+      body: '{"formFields": [{"id": "email","value": "$email"}]}',
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var userSignedin = jsonDecode(response.body);
+      if (userSignedin["status"] == "OK") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(
+    String token,
+    String password,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/auth/user/password/reset"),
+      body:
+          '{"method": "token","formFields": [{"id": "password","value": "$password"}],"token": "$token"}',
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var userSignedin = jsonDecode(response.body);
+      if (userSignedin["status"] == "OK") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   void internetConnectionPopUp(BuildContext context) {
     showDialog(
       context: context,

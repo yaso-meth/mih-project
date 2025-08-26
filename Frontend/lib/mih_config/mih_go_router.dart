@@ -5,9 +5,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
-import 'package:mzansi_innovation_hub/mih_packages/authentication/forgot_password.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_auth_forgot_password.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_auth_password_reset.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
@@ -19,11 +20,12 @@ import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/add_or_view_patient.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihGoRouterPaths {
   // External
-  static const String resetPasswordExternal = '/auth/reset-password';
+  static const String resetPassword = '/auth/reset-password';
   static const String privacyPolicyExternal = '/privacy-policy';
   static const String termsOfServiceExternal = '/terms-of-service';
 
@@ -32,7 +34,7 @@ class MihGoRouterPaths {
   static const String mihAuthentication = '/mih-authentication';
   static const String mihHome = '/';
   static const String notifications = '/notifications';
-  static const String forgotPassword = '/forgot-password';
+  static const String forgotPassword = '/mih-authentication/forgot-password';
   static const String aboutMih = '/about';
   static const String mzansiProfileManage = '/mzansi-profile';
   static const String mzansiProfileView = '/mzansi-profile/view';
@@ -62,30 +64,21 @@ class MihGoRouter {
     initialLocation: MihGoRouterPaths.mihHome,
     redirect: (BuildContext context, GoRouterState state) async {
       final bool isUserSignedIn = await SuperTokens.doesSessionExist();
-
-      // Only redirect if absolutely necessary
-      if (!isUserSignedIn &&
-          state.fullPath != MihGoRouterPaths.mihAuthentication) {
+      final unauthenticatedPaths = [
+        MihGoRouterPaths.mihAuthentication,
+        MihGoRouterPaths.forgotPassword,
+        MihGoRouterPaths.resetPassword,
+      ];
+      if (!isUserSignedIn && !unauthenticatedPaths.contains(state.fullPath)) {
         return MihGoRouterPaths.mihAuthentication;
       }
-
-      if (isUserSignedIn &&
-          state.fullPath == MihGoRouterPaths.mihAuthentication) {
+      if (isUserSignedIn && unauthenticatedPaths.contains(state.fullPath)) {
         return MihGoRouterPaths.mihHome;
       }
-
       return null; // Stay on current route
     },
     routes: [
       // External Routes - use `GoRoute` with `path` and `builder`
-      // GoRoute(
-      //   name: "resetPasswordExternal",
-      //   path: MihGoRouterPaths.resetPasswordExternal,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     final token = state.queryParameters['token'];
-      //     return ResetPassword(token: token);
-      //   },
-      // ),
       // GoRoute(
       //   name: "privacyPolicyExternal",
       //   path: MihGoRouterPaths.privacyPolicyExternal,
@@ -100,27 +93,7 @@ class MihGoRouter {
       // ),
 
       // Internal Routes - handle arguments via `extra` or path parameters
-      // ========================== Mih Auth ==================================
-      // GoRoute(
-      //   name: "mihHome",
-      //   path: MihGoRouterPaths.authCheck,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     final AuthArguments? args = state.extra as AuthArguments?;
-      //     KenLogger.success("MihGoRouter: home");
-      //     return AuthCheck(
-      //       personalSelected: args?.personalSelected ?? true,
-      //       firstBoot: args?.firstBoot ?? true,
-      //     );
-      //   },
-      // ),
-      // GoRoute(
-      //   name: "mihAuthCheck",
-      //   path: MihGoRouterPaths.authCheck,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     KenLogger.success("MihGoRouter: mihAuthCheck");
-      //     return MihAuthCheck();
-      //   },
-      // ),
+      // ========================== MIH Auth ==================================
       GoRoute(
         name: "mihAuthentication",
         path: MihGoRouterPaths.mihAuthentication,
@@ -134,7 +107,21 @@ class MihGoRouter {
         path: MihGoRouterPaths.forgotPassword,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: forgotPassword");
-          return const ForgotPassword();
+          return const MihAuthForgotPassword();
+        },
+      ),
+      GoRoute(
+        name: "resetPassword",
+        path: MihGoRouterPaths.resetPassword,
+        builder: (BuildContext context, GoRouterState state) {
+          String? token = state.uri.queryParameters['token'];
+          if (token == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return MihAuthPasswordReset(token: token);
         },
       ),
       // ========================== MIH Home ==================================
@@ -208,9 +195,15 @@ class MihGoRouter {
           KenLogger.success("MihGoRouter: businessProfileView");
           final BusinessViewArguments? args =
               state.extra as BusinessViewArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
           return MzansiBusinessProfileView(
             key: UniqueKey(),
-            arguments: args!,
+            arguments: args,
           );
         },
       ),
@@ -320,9 +313,15 @@ class MihGoRouter {
         path: MihGoRouterPaths.mihAccess,
         builder: (BuildContext context, GoRouterState state) {
           final AppUser? signedInUser = state.extra as AppUser?;
+          if (signedInUser == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
           return MihAccess(
             key: UniqueKey(),
-            signedInUser: signedInUser!,
+            signedInUser: signedInUser,
           );
         },
       ),
@@ -331,11 +330,35 @@ class MihGoRouter {
         name: "patientProfile",
         path: MihGoRouterPaths.patientProfile,
         builder: (BuildContext context, GoRouterState state) {
-          final PatientViewArguments args = state.extra as PatientViewArguments;
-
+          final PatientViewArguments? args =
+              state.extra as PatientViewArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
           return AddOrViewPatient(
             key: UniqueKey(),
             arguments: args,
+          );
+        },
+      ),
+      GoRoute(
+        name: "patientProfileEdit",
+        path: MihGoRouterPaths.patientProfileEdit,
+        builder: (BuildContext context, GoRouterState state) {
+          final PatientEditArguments? args =
+              state.extra as PatientEditArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return EditPatient(
+            signedInUser: args.signedInUser,
+            selectedPatient: args.selectedPatient,
           );
         },
       ),
@@ -346,7 +369,13 @@ class MihGoRouter {
         builder: (BuildContext context, GoRouterState state) {
           final MzansiDirectoryArguments? args =
               state.extra as MzansiDirectoryArguments?;
-          return MzansiDirectory(arguments: args!);
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return MzansiDirectory(arguments: args);
         },
       ),
       // ========================== End ==================================
@@ -388,17 +417,6 @@ class MihGoRouter {
 //       builder: (BuildContext context, GoRouterState state) {
 //         final AppUser? signedInUser = state.extra as AppUser?;
 //         return AddPatient(signedInUser: signedInUser!);
-//       },
-//     ),
-//     GoRoute(
-//       name: "patientProfileEdit",
-//       path: MihGoRouterPaths.patientProfileEdit,
-//       builder: (BuildContext context, GoRouterState state) {
-//         final PatientEditArguments? args = state.extra as PatientEditArguments?;
-//         return EditPatient(
-//           signedInUser: args!.signedInUser,
-//           selectedPatient: args.selectedPatient,
-//         );
 //       },
 //     ),
 //     // Note: You can't have two separate GoRoutes with the same path.
