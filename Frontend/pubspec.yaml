@@ -22,7 +22,7 @@ dependencies:
   args: ^2.7.0
   gif_view: ^1.0.3
   intl: ^0.20.2
-  flutter_native_splash: ^2.4.1
+  flutter_native_splash: ^2.4.6
   printing: ^5.13.3
   geolocator: ^14.0.1
   table_calendar: ^3.1.2
@@ -75,13 +75,16 @@ flutter:
     - family: MihIcons
       fonts:
         - asset: lib/mih_components/mih_package_components/assets/fonts/Mih_Icons.ttf
+        
 flutter_native_splash:
   color: "#3A4454"
   image: lib/mih_components/mih_package_components/assets/images/logo_light.png
-  branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
+  image_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_loading_logo.gif
+  branding: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_branding.png
+  branding_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_splash_branding.gif
   branding_mode: bottom
-  branding_bottom_padding: 24
+  # branding_bottom_padding: 24
   android_12:
     image: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_icon.png
     color: "#3A4454"
-    branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
+    branding: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_branding.png

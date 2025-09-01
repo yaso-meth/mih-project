@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+<!DOCTYPE html><html><head>
   <base href="/">
 
   <!-- APP Description -->
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description"
-    content="MIH, the first Mzansi super app by Mzansi Innovation Hub. Streamline your life with Mzansi Profile, Wallet, Patient Manager, AI, Directory, Calendar, Calculator, & secure MIH Access. Unify social, business & personal tools.">
+  <meta name="description" content="MIH, the first Mzansi super app by Mzansi Innovation Hub. Streamline your life with Mzansi Profile, Wallet, Patient Manager, AI, Directory, Calendar, Calculator, &amp; secure MIH Access. Unify social, business &amp; personal tools.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,7 +16,7 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico">
 
-  <title>MIH App: Mzansi Innovation Hub - All-in-One Super App for Business & Personal Life</title>
+  <title>MIH App: Mzansi Innovation Hub - All-in-One Super App for Business &amp; Personal Life</title>
   <link rel="manifest" href="manifest.json">
 
   <!-- test stuff for speed -->
@@ -69,74 +65,8 @@
     var dartPdfJsBaseUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/";
   </script> -->
   <!--------------------->
-  <style id="splash-screen-style">
-    html {
-      height: 100%
-    }
-
-    body {
-      margin: 0;
-      min-height: 100%;
-      background-color: #3A4454;
-      background-size: 100% 100%;
-    }
-
-    .center {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-
-    .contain {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .stretch {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .cover {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .bottom {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
-    }
-
-    .bottomLeft {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
-
-    .bottomRight {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
-  </style>
-  <script id="splash-screen-script">
-    function removeSplashFromWeb() {
-      document.getElementById("splash")?.remove();
-      document.getElementById("splash-branding")?.remove();
-      document.body.style.background = "transparent";
-    }
-  </script>
+  
+  
   <script type="application/ld+json">
   {
     "@context": "http://schema.org",
@@ -173,9 +103,148 @@
     }
   }
   </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <style id="splash-screen-style">
+    html {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background-color: #3A4454;
+          background-size: 100% 100%;
+    }
+
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .contain {
+      display:block;
+      width:100%; height:100%;
+      object-fit: contain;
+    }
+
+    .stretch {
+      display:block;
+      width:100%; height:100%;
+    }
+
+    .cover {
+      display:block;
+      width:100%; height:100%;
+      object-fit: cover;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+
+    .bottomLeft {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .bottomRight {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+  <script id="splash-screen-script">
+    function removeSplashFromWeb() {
+      document.getElementById("splash")?.remove();
+      document.getElementById("splash-branding")?.remove();
+      document.body.style.background = "transparent";
+    }
+  </script>
 </head>
 
 <body>
+  <picture id="splash-branding">
+    <source srcset="splash/img/branding-1x.gif 1x, splash/img/branding-2x.gif 2x, splash/img/branding-3x.gif 3x, splash/img/branding-4x.gif 4x" media="(prefers-color-scheme: light)">
+    <source srcset="splash/img/branding-dark-1x.gif 1x, splash/img/branding-dark-2x.gif 2x, splash/img/branding-dark-3x.gif 3x, splash/img/branding-dark-4x.gif 4x" media="(prefers-color-scheme: dark)">
+    <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.gif" alt="">
+  </picture>
+  <picture id="splash">
+      <source srcset="splash/img/light-1x.gif 1x, splash/img/light-2x.gif 2x, splash/img/light-3x.gif 3x, splash/img/light-4x.gif 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/dark-1x.gif 1x, splash/img/dark-2x.gif 2x, splash/img/dark-3x.gif 3x, splash/img/dark-4x.gif 4x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/light-1x.gif" alt="">
+  </picture>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <div id="seo-content" style="display:none;">
       <h1>Mzansi Innovation Hub (MIH) - Your All-in-One Super App for South Africa</h1>
       <p>Tired of juggling multiple apps? Mzansi Innovation Hub (MIH) presents the first super app designed specifically for the people and businesses of Mzansi. MIH is your unified online information technology system to streamline both your personal and professional life, bridging the socio-economic divide during the digital revolution.</p>
@@ -186,7 +255,7 @@
           <li><strong>Mzansi Wallet:</strong> Go digital! Securely store all your loyalty cards in one convenient place, reducing clutter.</li>
           <li><strong>Patient Manager:</strong> Revolutionize medical practices with seamless patient appointment scheduling and efficient data management.</li>
           <li><strong>Mzansi AI:</strong> Get instant support and quick answers with our friendly AI assistant, available 24/7.</li>
-          <li><li><strong>Mzansi Directory:</strong> Discover and connect with people and businesses across Mzansi.</li>
+          <li></li><li><strong>Mzansi Directory:</strong> Discover and connect with people and businesses across Mzansi.</li>
           <li><strong>Calendar:</strong> Stay perfectly organized with an integrated calendar for all your personal and business appointments.</li>
           <li><strong>Calculator:</strong> Perform quick calculations, including tips and forex, right within the app.</li>
           <li><strong>MIH Access:</strong> Take control of your security. Easily manage and view who has access to your profile and data.</li>
@@ -209,24 +278,8 @@
       // You might need to adjust this script to ensure it hides *after* the Flutter app's visual elements are fully rendered.
       // A more robust solution might involve listening for a Flutter-specific event when the app is ready.
   </script>
-  <picture id="splash-branding">
-    <source
-      srcset="splash/img/branding-1x.png 1x, splash/img/branding-2x.png 2x, splash/img/branding-3x.png 3x, splash/img/branding-4x.png 4x"
-      media="(prefers-color-scheme: light)">
-    <source
-      srcset="splash/img/branding-dark-1x.png 1x, splash/img/branding-dark-2x.png 2x, splash/img/branding-dark-3x.png 3x, splash/img/branding-dark-4x.png 4x"
-      media="(prefers-color-scheme: dark)">
-    <img class="bottom" aria-hidden="true" src="splash/img/branding-1x.png" alt="Mzansi Innovation Hub Branding Logo">
-  </picture>
-  <picture id="splash">
-    <source
-      srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x"
-      media="(prefers-color-scheme: light)">
-    <source
-      srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x"
-      media="(prefers-color-scheme: dark)">
-    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="MIH App Splash Screen Logo">
-  </picture>
+  
+  
 
 
 
@@ -371,10 +424,9 @@
 
 
   <script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer=""></script>
-  <script id="pdfjs-worker" type="text/javascript"
-    src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js" defer=""></script>
+  <script id="pdfjs-worker" type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js" defer=""></script>
   <!--------------------->
 
-</body><!-- File Picker & PDF viewer -->
 
-</html>
+
+</body><!-- File Picker & PDF viewer --></html>

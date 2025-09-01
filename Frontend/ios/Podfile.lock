@@ -40,7 +40,7 @@ PODS:
   - fl_downloader (0.0.1):
     - Flutter
   - Flutter (1.0.0)
-  - flutter_native_splash (0.0.1):
+  - flutter_native_splash (2.4.3):
     - Flutter
   - flutter_tts (0.0.1):
     - Flutter
@@ -162,7 +162,7 @@ SPEC CHECKSUMS:
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   fl_downloader: dc99aa8dd303f862cccb830087f37acc9b0156ee
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_native_splash: 35ddbc7228eafcb3969dcc5f1fbbe27c1145a4f0
+  flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   flutter_tts: b88dbc8655d3dc961bc4a796e4e16a4cc1795833
   geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   Google-Mobile-Ads-SDK: 1dfb0c3cb46c7e2b00b0f4de74a1e06d9ea25d67
