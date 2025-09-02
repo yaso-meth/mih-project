@@ -13,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authen
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
@@ -68,11 +69,16 @@ class MihGoRouter {
         MihGoRouterPaths.mihAuthentication,
         MihGoRouterPaths.forgotPassword,
         MihGoRouterPaths.resetPassword,
+        MihGoRouterPaths.aboutMih,
       ];
+      KenLogger.success(
+          "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
       if (!isUserSignedIn && !unauthenticatedPaths.contains(state.fullPath)) {
         return MihGoRouterPaths.mihAuthentication;
       }
-      if (isUserSignedIn && unauthenticatedPaths.contains(state.fullPath)) {
+      if (isUserSignedIn &&
+          unauthenticatedPaths.contains(state.fullPath) &&
+          state.fullPath != MihGoRouterPaths.aboutMih) {
         return MihGoRouterPaths.mihHome;
       }
       return null; // Stay on current route
@@ -114,7 +120,9 @@ class MihGoRouter {
         name: "resetPassword",
         path: MihGoRouterPaths.resetPassword,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: resetPassword");
           String? token = state.uri.queryParameters['token'];
+          KenLogger.success("token: $token");
           if (token == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
@@ -188,6 +196,21 @@ class MihGoRouter {
         },
       ),
       // ========================== Mzansi Profile Business ==================================
+      GoRoute(
+        name: "businessProfileManage",
+        path: MihGoRouterPaths.businessProfileManage,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: businessProfileManage");
+          final BusinessArguments? args = state.extra as BusinessArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return MzansiBusinessProfile(arguments: args);
+        },
+      ),
       GoRoute(
         name: "businessProfileView",
         path: MihGoRouterPaths.businessProfileView,
@@ -386,15 +409,6 @@ class MihGoRouter {
       //     KenLogger.success("MihGoRouter: businessProfileSetup");
       //     final AppUser? signedInUser = state.extra as AppUser?;
       //     return ProfileBusinessAdd(signedInUser: signedInUser!);
-      //   },
-      // ),
-      // GoRoute(
-      //   name: "businessProfileManage",
-      //   path: MihGoRouterPaths.businessProfileManage,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     KenLogger.success("MihGoRouter: businessProfileManage");
-      //     final BusinessArguments? args = state.extra as BusinessArguments?;
-      //     return MzansiBusinessProfile(arguments: args!);
       //   },
       // ),
 //     GoRoute(

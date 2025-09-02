@@ -81,10 +81,10 @@ class RouteGenerator {
     // as it avoids string hashing for each case. For a small number,
     // a switch is also fine.
     if (extPath == AppRoutes.resetPasswordExternal) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => ResetPassword(token: Uri.base.queryParameters['token']),
-      );
+      // return MaterialPageRoute(
+      //   settings: settings,
+      //   builder: (_) => ResetPassword(token: Uri.base.queryParameters['token']),
+      // );
     } else if (extPath == AppRoutes.privacyPolicyExternal) {
       return MaterialPageRoute(
         settings: settings,

@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -78,6 +79,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
       if (statusCode == 200) {
         bool successfullyUploadedFile = await uploadFile();
         if (successfullyUploadedFile) {
+          //You left of here
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pushNamed(
@@ -234,7 +236,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
               fullscreen: false,
               windowTitle: 'Edit Profile',
               onWindowTapClose: () {
-                Navigator.of(context).pop();
+                context.pop();
                 resetControllers();
               },
               windowBody: MihSingleChildScroll(

@@ -20,7 +20,7 @@ import '../../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../../mih_config/mih_env.dart';
 
 class ResetPassword extends StatefulWidget {
-  final String? token;
+  final String token;
   const ResetPassword({
     super.key,
     required this.token,
@@ -208,6 +208,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        widget.token,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                      ),
+                      const SizedBox(height: 25),
                       //logo
                       Icon(
                         Icons.lock,
