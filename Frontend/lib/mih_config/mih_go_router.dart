@@ -208,7 +208,10 @@ class MihGoRouter {
             });
             return const SizedBox.shrink();
           }
-          return MzansiBusinessProfile(arguments: args);
+          return MzansiBusinessProfile(
+            key: UniqueKey(),
+            arguments: args,
+          );
         },
       ),
       GoRoute(
