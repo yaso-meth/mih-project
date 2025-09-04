@@ -80,7 +80,6 @@ flutter_native_splash:
   color: "#3A4454"
   image: lib/mih_components/mih_package_components/assets/images/logo_light.png
   image_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_loading_logo.gif
-  branding: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_branding.png
   branding_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_splash_branding.gif
   branding_mode: bottom
   # branding_bottom_padding: 24
