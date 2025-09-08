@@ -15,6 +15,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -84,21 +85,6 @@ class MihGoRouter {
       return null; // Stay on current route
     },
     routes: [
-      // External Routes - use `GoRoute` with `path` and `builder`
-      // GoRoute(
-      //   name: "privacyPolicyExternal",
-      //   path: MihGoRouterPaths.privacyPolicyExternal,
-      //   builder: (BuildContext context, GoRouterState state) =>
-      //       const MIHPrivacyPolocyExternal(),
-      // ),
-      // GoRoute(
-      //   name: "termsOfServiceExternal",
-      //   path: MihGoRouterPaths.termsOfServiceExternal,
-      //   builder: (BuildContext context, GoRouterState state) =>
-      //       const MIHTermsOfServiceExternal(),
-      // ),
-
-      // Internal Routes - handle arguments via `extra` or path parameters
       // ========================== MIH Auth ==================================
       GoRoute(
         name: "mihAuthentication",
@@ -141,10 +127,12 @@ class MihGoRouter {
           if (state.extra != null) {
             final bool personalSelected = state.extra as bool;
             return MihHome(
+              key: UniqueKey(),
               personalSelected: personalSelected,
             );
           }
           return MihHome(
+            key: UniqueKey(),
             personalSelected: true,
           );
         },
@@ -231,6 +219,15 @@ class MihGoRouter {
             key: UniqueKey(),
             arguments: args,
           );
+        },
+      ),
+      GoRoute(
+        name: "businessProfileSetup",
+        path: MihGoRouterPaths.businessProfileSetup,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: businessProfileSetup");
+          final AppUser? signedInUser = state.extra as AppUser?;
+          return ProfileBusinessAdd(signedInUser: signedInUser!);
         },
       ),
       // ========================== MIH Calculator ==================================
@@ -405,15 +402,6 @@ class MihGoRouter {
         },
       ),
       // ========================== End ==================================
-      // GoRoute(
-      //   name: "businessProfileSetup",
-      //   path: MihGoRouterPaths.businessProfileSetup,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     KenLogger.success("MihGoRouter: businessProfileSetup");
-      //     final AppUser? signedInUser = state.extra as AppUser?;
-      //     return ProfileBusinessAdd(signedInUser: signedInUser!);
-      //   },
-      // ),
 //     GoRoute(
 //       name: "mihAuthentication",
 //       path: MihGoRouterPaths.mihAuthentication,

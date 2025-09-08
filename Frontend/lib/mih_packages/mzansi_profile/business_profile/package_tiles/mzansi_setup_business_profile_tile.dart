@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -25,10 +26,14 @@ class _MzansiSetupBusinessProfileTileState
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/business-profile/set-up',
-          arguments: widget.signedInUser,
+        context.goNamed(
+          'businessProfileSetup',
+          extra: widget.signedInUser,
         );
+        // Navigator.of(context).pushNamed(
+        //   '/business-profile/set-up',
+        //   arguments: widget.signedInUser,
+        // );
       },
       appName: "Set Up Business",
       appIcon: Icon(

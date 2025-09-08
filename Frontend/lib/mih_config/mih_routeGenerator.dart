@@ -10,7 +10,7 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/mih_policy_tos_ext/
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
 import 'package:mzansi_innovation_hub/mih_packages/authentication/auth_check.dart';
 import 'package:mzansi_innovation_hub/mih_packages/authentication/forgot_password.dart';
-import 'package:mzansi_innovation_hub/mih_packages/authentication/reset_password.dart';
+// import 'package:mzansi_innovation_hub/mih_packages/authentication/reset_password.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/mzansi_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
