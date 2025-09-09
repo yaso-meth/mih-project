@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -61,10 +62,9 @@ class MihNotificationApis {
       String message =
           "A request has been sent to the patient advising that you have requested access to their profile. Only once access has been granted will you be able to book an appointment.";
       Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: PatManagerArguments(
+      context.goNamed(
+        'patientManager',
+        extra: PatManagerArguments(
           args.signedInUser,
           personalSelected,
           args.business,
@@ -108,16 +108,25 @@ class MihNotificationApis {
       String message =
           "A request has been sent to the patient advising that you have re-applied for access to their profile. Only once access has been granted will you be able to book an appointment.";
       Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: PatManagerArguments(
+      context.goNamed(
+        'patientManager',
+        extra: PatManagerArguments(
           args.signedInUser,
           personalSelected,
           args.business,
           args.businessUser,
         ),
       );
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pushNamed(
+      //   '/patient-manager',
+      //   arguments: PatManagerArguments(
+      //     args.signedInUser,
+      //     personalSelected,
+      //     args.business,
+      //     args.businessUser,
+      //   ),
+      // );
       successPopUp(message, context);
     } else {
       internetConnectionPopUp(context);

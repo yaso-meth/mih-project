@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -5,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import '../../../mih_services/mih_service_calls.dart';
 import '../../../mih_components/mih_layout/mih_action.dart';
@@ -105,12 +106,11 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
-
-        Navigator.of(context).popAndPushNamed(
-          '/',
-          arguments: AuthArguments(true, false),
+        context.goNamed(
+          'mihHome',
+          extra: false,
         );
+        FocusScope.of(context).unfocus();
       },
     );
   }
@@ -164,6 +164,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                   setState(() {
                     forceRefresh = true;
                   });
+                  KenLogger.warning("Refreshing Access List");
                   refreshList();
                 },
                 icon: const Icon(
@@ -186,6 +187,12 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                   return BuildBusinessAccessList(
                     signedInUser: widget.signedInUser,
                     patientAccessList: accessRequestList,
+                    onSuccessUpate: () {
+                      setState(() {
+                        forceRefresh = true;
+                      });
+                      refreshList();
+                    },
                   );
                 } else {
                   return Padding(

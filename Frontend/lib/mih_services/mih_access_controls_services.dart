@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -45,6 +46,7 @@ class MihAccessControlsServices {
         "approved_by": approved_by,
       }),
     );
+    context.pop();
     return response.statusCode;
     // if (response.statusCode == 200) {
     //   //Navigator.of(context).pushNamed('/home');

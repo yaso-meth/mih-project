@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -15,11 +16,13 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.
 class BuildBusinessAccessList extends StatefulWidget {
   final List<PatientAccess> patientAccessList;
   final AppUser signedInUser;
+  final void Function()? onSuccessUpate;
 
   const BuildBusinessAccessList({
     super.key,
     required this.patientAccessList,
     required this.signedInUser,
+    required this.onSuccessUpate,
   });
 
   @override
@@ -354,6 +357,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                         if (statusCode == 200) {
+                          context.pop();
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Declined access request");
                         } else {
@@ -389,6 +393,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           context,
                         );
                         if (statusCode == 200) {
+                          context.pop();
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Accepted access request");
                         } else {
@@ -452,10 +457,10 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                 child: MihButton(
                   onPressed: () {
                     context.pop();
-                    context.goNamed(
-                      "mihAccess",
-                      extra: widget.signedInUser,
-                    );
+                    KenLogger.warning("dismissing pop up and refreshing list");
+                    if (widget.onSuccessUpate != null) {
+                      widget.onSuccessUpate!();
+                    }
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
