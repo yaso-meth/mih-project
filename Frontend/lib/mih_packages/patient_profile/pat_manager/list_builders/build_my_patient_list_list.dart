@@ -1,4 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
@@ -49,14 +51,15 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  void submitApointment(int index) {
+  Future<void> submitApointment(int index) async {
     //To-Do: Add the appointment to the database
     // print("To-Do: Add the appointment to the database");
     String description =
         "Date: ${dateController.text}\nTime: ${timeController.text}\n";
     description += "Medical Practice: ${widget.business!.Name}\n";
     description += "Contact Number: ${widget.business!.contact_no}";
-    MihMzansiCalendarApis.addPatientAppointment(
+    int statusCode;
+    statusCode = await MihMzansiCalendarApis.addPatientAppointment(
       widget.signedInUser,
       false,
       widget.patientAccesses[index].app_id,
@@ -70,6 +73,86 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       dateController.text,
       timeController.text,
       context,
+    );
+    if (statusCode == 201) {
+      context.pop();
+      successPopUp("Successfully Added Appointment",
+          "You appointment has been successfully added to your calendar.");
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
+        );
+      },
+    );
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                    context.pop();
+                    setState(() {
+                      dateController.clear();
+                      timeController.clear();
+                      idController.clear();
+                      fnameController.clear();
+                      lnameController.clear();
+                    });
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      },
     );
   }
 
@@ -341,15 +424,24 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                     ),
                     MihButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed('/patient-manager/patient',
-                                arguments: PatientViewArguments(
-                                  widget.signedInUser,
-                                  patientProfile,
-                                  widget.businessUser,
-                                  widget.business,
-                                  "business",
-                                ));
+                        context.pop();
+                        context.pushNamed('patientManagerPatient',
+                            extra: PatientViewArguments(
+                              widget.signedInUser,
+                              patientProfile,
+                              widget.businessUser,
+                              widget.business,
+                              "business",
+                            ));
+                        // Navigator.of(context)
+                        //     .pushNamed('/patient-manager/patient',
+                        //         arguments: PatientViewArguments(
+                        //           widget.signedInUser,
+                        //           patientProfile,
+                        //           widget.businessUser,
+                        //           widget.business,
+                        //           "business",
+                        //         ));
                       },
                       buttonColor: MihColors.getSecondaryColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==

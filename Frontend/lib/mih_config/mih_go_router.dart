@@ -21,8 +21,10 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profi
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/add_or_view_patient.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihGoRouterPaths {
@@ -385,6 +387,38 @@ class MihGoRouter {
           );
         },
       ),
+      GoRoute(
+        name: "patientManager",
+        path: MihGoRouterPaths.patientManager,
+        builder: (BuildContext context, GoRouterState state) {
+          final PatManagerArguments? args = state.extra as PatManagerArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return PatManager(
+            key: UniqueKey(),
+            arguments: args,
+          );
+        },
+      ),
+      GoRoute(
+        name: "patientManagerPatient",
+        path: MihGoRouterPaths.patientManagerPatient,
+        builder: (BuildContext context, GoRouterState state) {
+          final PatientViewArguments? args =
+              state.extra as PatientViewArguments?;
+          if (args == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
+          return PatientProfile(arguments: args);
+        },
+      ),
       // ========================== Mzansi Directory ==================================
       GoRoute(
         name: "mzansiDirectory",
@@ -403,52 +437,11 @@ class MihGoRouter {
       ),
       // ========================== End ==================================
 //     GoRoute(
-//       name: "mihAuthentication",
-//       path: MihGoRouterPaths.mihAuthentication,
-//       builder: (BuildContext context, GoRouterState state) =>
-//           MihAuthentication(),
-//     ),
-//     GoRoute(
 //       name: "notifications",
 //       path: MihGoRouterPaths.notifications,
 //       builder: (BuildContext context, GoRouterState state) {
 //         final NotificationArguments? args = state.extra as NotificationArguments?;
 //         return MIHNotificationMessage(arguments: args!);
-//       },
-//     ),
-//     GoRoute(
-//       name: "patientProfileSetup",
-//       path: MihGoRouterPaths.patientProfileSetup,
-//       builder: (BuildContext context, GoRouterState state) {
-//         final AppUser? signedInUser = state.extra as AppUser?;
-//         return AddPatient(signedInUser: signedInUser!);
-//       },
-//     ),
-//     // Note: You can't have two separate GoRoutes with the same path.
-//     // 'appointments' and 'calendar' now need a distinct path, or be sub-routes.
-//     // Here, we'll assume they should be separate.
-//     GoRoute(
-//       name: "mihAppointments",
-//       path: MihGoRouterPaths.appointments,
-//       builder: (BuildContext context, GoRouterState state) {
-//         final CalendarArguments? args = state.extra as CalendarArguments?;
-//         return MzansiCalendar(arguments: args!);
-//       },
-//     ),
-//     GoRoute(
-//       name: "patientManager",
-//       path: MihGoRouterPaths.patientManager,
-//       builder: (BuildContext context, GoRouterState state) {
-//         final PatManagerArguments? args = state.extra as PatManagerArguments?;
-//         return PatManager(arguments: args!);
-//       },
-//     ),
-//     GoRoute(
-//       name: "patientManagerPatient",
-//       path: MihGoRouterPaths.patientManagerPatient,
-//       builder: (BuildContext context, GoRouterState state) {
-//         final PatientViewArguments? args = state.extra as PatientViewArguments?;
-//         return PatientProfile(arguments: args!);
 //       },
 //     ),
 //     GoRoute(

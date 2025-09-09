@@ -1,6 +1,8 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -269,7 +271,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
           fullscreen: false,
           windowTitle: "Appointment Type",
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           windowBody: Column(
             children: [
@@ -285,7 +287,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               MihButton(
                 onPressed: () {
                   widget.onIndexChange(1);
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
                 buttonColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -304,7 +306,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               MihButton(
                 onPressed: () {
                   widget.onIndexChange(2);
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
                 buttonColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -354,7 +356,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
           fullscreen: false,
           windowTitle: "Add Appointment",
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             _appointmentDateController.clear();
             _appointmentTimeController.clear();
             _appointmentTitleController.clear();
@@ -457,10 +459,11 @@ class _WaitingRoomState extends State<WaitingRoom> {
     );
   }
 
-  void addAppointmentCall() {
+  Future<void> addAppointmentCall() async {
     if (isAppointmentInputValid()) {
+      int statusCode;
       if (widget.personalSelected == false) {
-        MihMzansiCalendarApis.addBusinessAppointment(
+        statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
           widget.signedInUser,
           widget.business!,
           widget.businessUser!,
@@ -472,7 +475,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
           context,
         );
       } else {
-        MihMzansiCalendarApis.addPersonalAppointment(
+        statusCode = await MihMzansiCalendarApis.addPersonalAppointment(
           widget.signedInUser,
           _appointmentTitleController.text,
           _appointmentDescriptionIDController.text,
@@ -480,6 +483,13 @@ class _WaitingRoomState extends State<WaitingRoom> {
           _appointmentTimeController.text,
           context,
         );
+      }
+      if (statusCode == 201) {
+        context.pop();
+        successPopUp("Successfully Added Appointment",
+            "You appointment has been successfully added to your calendar.");
+      } else {
+        internetConnectionPopUp();
       }
     } else {
       showDialog(
@@ -490,6 +500,77 @@ class _WaitingRoomState extends State<WaitingRoom> {
       );
     }
     checkforchange();
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
+        );
+      },
+    );
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                    setState(() {
+                      _appointmentDateController.clear();
+                      _appointmentTimeController.clear();
+                      _appointmentTitleController.clear();
+                      _appointmentDescriptionIDController.clear();
+                    });
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      },
+    );
   }
 
   bool isAppointmentInputValid() {

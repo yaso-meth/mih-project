@@ -43,10 +43,14 @@ class _PatientProfileState extends State<PatientProfile> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        context.goNamed(
-          'mihHome',
-          extra: true,
-        );
+        if (widget.arguments.type == "business") {
+          context.pop();
+        } else {
+          context.goNamed(
+            'mihHome',
+            extra: true,
+          );
+        }
         FocusScope.of(context).unfocus();
       },
     );

@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
@@ -201,7 +202,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ),
           ],
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             widget.dateController.clear();
             widget.timeController.clear();
             widget.titleController.clear();
@@ -323,7 +324,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ),
           ],
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             widget.dateController.clear();
             widget.timeController.clear();
             widget.titleController.clear();
@@ -424,7 +425,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                   .split('T')[1]
                   .substring(0, 5);
             });
-            Navigator.of(context).pop();
+            context.pop();
           },
           windowBody: Padding(
             padding:
@@ -600,6 +601,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         context.pop();
         context.pop();
         if (!widget.inWaitingRoom) {
+          KenLogger.warning("calendar route");
           context.goNamed(
             "mihCalendar",
             extra: CalendarArguments(
@@ -610,7 +612,22 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ),
           );
         } else {
-          //to-Do waiting room apointments
+          KenLogger.warning("waiting room route");
+          // GoRouter.of(context).refresh();
+          context.goNamed(
+            'mihHome',
+            extra: false,
+          );
+          context.goNamed(
+            'patientManager',
+            extra: PatManagerArguments(
+              widget.signedInUser,
+              false,
+              widget.business,
+              widget.businessUser,
+            ),
+          );
+          // context.pop();
         }
       } else {
         internetConnectionPopUp();
