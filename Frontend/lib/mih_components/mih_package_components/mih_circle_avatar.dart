@@ -72,10 +72,14 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
         children: [
           Visibility(
             visible: imagePreview != null,
-            child: CircleAvatar(
-              radius: widget.width / 2.2,
-              backgroundColor: widget.backgroundColor,
-              backgroundImage: imagePreview,
+            child: Positioned(
+              bottom: 5,
+              right: 5,
+              child: CircleAvatar(
+                radius: widget.width / 2.2,
+                backgroundColor: widget.backgroundColor,
+                backgroundImage: imagePreview,
+              ),
             ),
           ),
           Visibility(
