@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
@@ -108,6 +109,11 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
         _selcetedIndex = 4;
       });
     };
+    temp[const Icon(Icons.qr_code_rounded)] = () {
+      setState(() {
+        _selcetedIndex = 5;
+      });
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -160,6 +166,10 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       MihMyBusinessTeam(arguments: widget.arguments),
       MihBusinessUserSearch(arguments: widget.arguments),
       MihBusinessReviews(business: widget.arguments.business!),
+      MihBusinessQrCode(
+        business: widget.arguments.business!,
+        startUpSearch: "",
+      ),
     ];
     return toolBodies;
   }
@@ -169,8 +179,9 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       "Profile",
       "User",
       "Team",
-      "Add Member",
+      "Add",
       "Reviews",
+      "Share",
     ];
     return toolTitles;
   }
