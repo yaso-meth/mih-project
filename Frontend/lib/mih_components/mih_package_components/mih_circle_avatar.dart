@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihCircleAvatar extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
@@ -102,6 +103,12 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
               bottom: 0,
               right: 0,
               child: IconButton.filled(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                ),
                 onPressed: () async {
                   try {
                     FilePickerResult? result =
@@ -153,7 +160,9 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                     print("Error: $e");
                   }
                 },
-                icon: const Icon(Icons.edit),
+                icon: Icon(
+                  Icons.edit,
+                ),
               ),
             ),
           ),
