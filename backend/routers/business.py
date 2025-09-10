@@ -176,7 +176,7 @@ async def read_all_businesses(search: str, type: str, session: SessionContainer 
 
 # Get List of all files
 @router.get("/business/business_id/{business_id}", tags=["MIH Business"])
-async def read_business_by_business_id(business_id: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+async def read_business_by_business_id(business_id: str): #, session: SessionContainer = Depends(verify_session())
     dbEngine = mih_database.mihDbConnections.dbAllConnect()
     dbSession = Session(dbEngine)
     try:
