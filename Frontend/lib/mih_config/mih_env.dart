@@ -6,6 +6,7 @@ enum Enviroment { dev, prod }
 
 //
 abstract class AppEnviroment {
+  static late String baseAppUrl;
   static late String baseApiUrl;
   static late String baseAiUrl;
   static late String baseFileUrl;
@@ -21,6 +22,7 @@ abstract class AppEnviroment {
         {
           if (kIsWeb) {
             //================= Web Dev Urls =================
+            baseAppUrl = "http://localhost:80";
             baseApiUrl = "http://localhost:8080";
             baseFileUrl = "http://localhost:9000";
             baseAiUrl = "http://localhost:11434";
@@ -28,12 +30,14 @@ abstract class AppEnviroment {
             break;
           } else if (Platform.isAndroid) {
             //================= Android Dev Urls =================
+            baseAppUrl = "http://10.0.2.2:80";
             baseApiUrl = "http://10.0.2.2:8080";
             baseFileUrl = "http://10.0.2.2:9000";
             baseAiUrl = "http://10.0.2.2:11434";
             bannerAdUnitId = 'ca-app-pub-3940256099942544/9214589741';
           } else {
             //================= Web & iOS Dev Urls =================
+            baseAppUrl = "http://localhost:80";
             baseApiUrl = "http://localhost:8080";
             baseFileUrl = "http://localhost:9000";
             baseAiUrl = "http://localhost:11434";
@@ -43,6 +47,7 @@ abstract class AppEnviroment {
         }
       case Enviroment.prod:
         {
+          baseApiUrl = "https://app.mzansi-innovation-hub.co.za";
           baseApiUrl = "https://api.mzansi-innovation-hub.co.za";
           baseFileUrl = "https://minio.mzansi-innovation-hub.co.za";
           baseAiUrl = "https://ai.mzansi-innovation-hub.co.za";
