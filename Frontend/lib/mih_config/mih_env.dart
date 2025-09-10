@@ -47,7 +47,7 @@ abstract class AppEnviroment {
         }
       case Enviroment.prod:
         {
-          baseApiUrl = "https://app.mzansi-innovation-hub.co.za";
+          baseAppUrl = "https://app.mzansi-innovation-hub.co.za";
           baseApiUrl = "https://api.mzansi-innovation-hub.co.za";
           baseFileUrl = "https://minio.mzansi-innovation-hub.co.za";
           baseAiUrl = "https://ai.mzansi-innovation-hub.co.za";
