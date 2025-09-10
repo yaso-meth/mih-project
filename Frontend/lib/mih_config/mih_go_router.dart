@@ -73,6 +73,7 @@ class MihGoRouter {
         MihGoRouterPaths.forgotPassword,
         MihGoRouterPaths.resetPassword,
         MihGoRouterPaths.aboutMih,
+        MihGoRouterPaths.businessProfileView,
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -81,7 +82,8 @@ class MihGoRouter {
       }
       if (isUserSignedIn &&
           unauthenticatedPaths.contains(state.fullPath) &&
-          state.fullPath != MihGoRouterPaths.aboutMih) {
+          state.fullPath != MihGoRouterPaths.aboutMih &&
+          state.fullPath != MihGoRouterPaths.businessProfileView) {
         return MihGoRouterPaths.mihHome;
       }
       return null; // Stay on current route
@@ -209,9 +211,11 @@ class MihGoRouter {
         path: MihGoRouterPaths.businessProfileView,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: businessProfileView");
+          String? businessId = state.uri.queryParameters['business_id'];
+          KenLogger.success("businessId: $businessId");
           final BusinessViewArguments? args =
               state.extra as BusinessViewArguments?;
-          if (args == null) {
+          if (args == null && businessId == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -220,6 +224,7 @@ class MihGoRouter {
           return MzansiBusinessProfileView(
             key: UniqueKey(),
             arguments: args,
+            businessId: businessId,
           );
         },
       ),
