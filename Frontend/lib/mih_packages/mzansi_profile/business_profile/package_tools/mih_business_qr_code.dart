@@ -35,8 +35,7 @@ class MihBusinessQrCode extends StatefulWidget {
 class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   late Future<String> futureImageUrl;
   PlatformFile? file;
-  String qrCodedata =
-      "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
+  late String qrCodedata;
   int qrSize = 500;
   bool _isUserSignedIn = false;
 
@@ -146,6 +145,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     _checkUserSession();
     futureImageUrl =
         MihFileApi.getMinioFileUrl(widget.business.logo_path, context);
+    qrCodedata =
+        "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
   }
 
   @override
@@ -160,85 +161,71 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
 
   Widget getBody(Size screenSize, BuildContext context) {
     double profilePictureWidth = 150;
-    return SizedBox(
-      height: screenSize.height,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          MihSingleChildScroll(
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        MihSingleChildScroll(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding:
+                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+                      ? EdgeInsets.symmetric(horizontal: screenSize.width * 0.2)
+                      : EdgeInsets.symmetric(
+                          horizontal: screenSize.width * 0), //.075),
               child: Padding(
-                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
-                        "desktop"
-                    ? EdgeInsets.symmetric(horizontal: screenSize.width * 0.2)
-                    : EdgeInsets.symmetric(
-                        horizontal: screenSize.width * 0), //.075),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Material(
-                    color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark")
-                        .withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(25),
-                    elevation: 10,
-                    shadowColor: Colors.black,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              FutureBuilder(
-                                future: futureImageUrl,
-                                builder: (context, asyncSnapshot) {
-                                  if (asyncSnapshot.connectionState ==
-                                          ConnectionState.done &&
-                                      asyncSnapshot.hasData) {
-                                    if (asyncSnapshot.requireData != "") {
-                                      return MihCircleAvatar(
-                                        imageFile: NetworkImage(
-                                            asyncSnapshot.requireData),
-                                        width: profilePictureWidth,
-                                        editable: false,
-                                        fileNameController:
-                                            TextEditingController(),
-                                        userSelectedfile: file,
-                                        frameColor: MihColors.getPrimaryColor(
-                                            MzansiInnovationHub.of(context)!
-                                                    .theme
-                                                    .mode ==
-                                                "Dark"),
-                                        backgroundColor:
-                                            MihColors.getSecondaryColor(
-                                                MzansiInnovationHub.of(context)!
-                                                        .theme
-                                                        .mode ==
-                                                    "Dark"),
-                                        onChange: () {},
-                                      );
-                                    } else {
-                                      return Icon(
-                                        MihIcons.iDontKnow,
-                                        size: profilePictureWidth,
-                                        color: MihColors.getSecondaryColor(
-                                            MzansiInnovationHub.of(context)!
-                                                    .theme
-                                                    .mode ==
-                                                "Dark"),
-                                      );
-                                    }
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Material(
+                  color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode == "Dark")
+                      .withValues(alpha: 0.6),
+                  borderRadius: BorderRadius.circular(25),
+                  elevation: 10,
+                  shadowColor: Colors.black,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FutureBuilder(
+                              future: futureImageUrl,
+                              builder: (context, asyncSnapshot) {
+                                if (asyncSnapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    asyncSnapshot.hasData) {
+                                  if (asyncSnapshot.requireData != "") {
+                                    return MihCircleAvatar(
+                                      imageFile: NetworkImage(
+                                          asyncSnapshot.requireData),
+                                      width: profilePictureWidth,
+                                      editable: false,
+                                      fileNameController:
+                                          TextEditingController(),
+                                      userSelectedfile: file,
+                                      frameColor: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                      backgroundColor:
+                                          MihColors.getSecondaryColor(
+                                              MzansiInnovationHub.of(context)!
+                                                      .theme
+                                                      .mode ==
+                                                  "Dark"),
+                                      onChange: () {},
+                                    );
                                   } else {
                                     return Icon(
-                                      MihIcons.mihRing,
+                                      MihIcons.iDontKnow,
                                       size: profilePictureWidth,
                                       color: MihColors.getSecondaryColor(
                                           MzansiInnovationHub.of(context)!
@@ -247,103 +234,111 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                                               "Dark"),
                                     );
                                   }
-                                },
-                              ),
-                              FittedBox(
-                                child: Text(
-                                  widget.business.Name,
-                                  style: TextStyle(
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.bold,
-                                    color: MihColors.getPrimaryColor(
+                                } else {
+                                  return Icon(
+                                    MihIcons.mihRing,
+                                    size: profilePictureWidth,
+                                    color: MihColors.getSecondaryColor(
                                         MzansiInnovationHub.of(context)!
                                                 .theme
                                                 .mode ==
                                             "Dark"),
-                                  ),
+                                  );
+                                }
+                              },
+                            ),
+                            FittedBox(
+                              child: Text(
+                                widget.business.Name,
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
                               ),
-                              FittedBox(
-                                child: Text(
-                                  widget.business.type,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                  ),
+                            ),
+                            FittedBox(
+                              child: Text(
+                                widget.business.type,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                width: 300,
-                                height: 300,
-                                child: CachedNetworkImage(
-                                  imageUrl: getQrCodeData(qrSize.toInt()),
-                                  placeholder: (context, url) =>
-                                      const Mihloadingcircle(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: 300,
+                              height: 300,
+                              child: CachedNetworkImage(
+                                imageUrl: getQrCodeData(qrSize.toInt()),
+                                placeholder: (context, url) =>
+                                    const Mihloadingcircle(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            FittedBox(
+                              child: Text(
+                                "Scan & Connect",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              FittedBox(
-                                child: Text(
-                                  "Scan & Connect",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
+                            ),
+                          ],
+                        )),
                   ),
                 ),
               ),
             ),
           ),
-          Positioned(
-            right: 10,
-            bottom: 10,
-            child: MihFloatingMenu(
-                animatedIcon: AnimatedIcons.menu_close,
-                children: [
-                  SpeedDialChild(
-                    child: Icon(
-                      Icons.download_rounded,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                    label: "Download QR Code",
-                    labelBackgroundColor: MihColors.getGreenColor(
+        ),
+        Positioned(
+          right: 10,
+          bottom: 10,
+          child: MihFloatingMenu(
+              animatedIcon: AnimatedIcons.menu_close,
+              children: [
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.download_rounded,
+                    color: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    labelStyle: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: MihColors.getGreenColor(
+                  ),
+                  label: "Download QR Code",
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  labelStyle: TextStyle(
+                    color: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onTap: () {
-                      downloadQrCode();
-                    },
-                  )
-                ]),
-          )
-        ],
-      ),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onTap: () {
+                    downloadQrCode();
+                  },
+                )
+              ]),
+        )
+      ],
     );
   }
 }
