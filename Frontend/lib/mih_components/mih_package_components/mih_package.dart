@@ -121,7 +121,8 @@ class _MihPackageState extends State<MihPackage>
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) {
-          if (GoRouterState.of(context).name == 'mihHome') {
+          if (GoRouterState.of(context).name == 'mihHome' ||
+              GoRouterState.of(context).name == 'mihAuthentication') {
             if (lastPressedAt == null ||
                 DateTime.now().difference(lastPressedAt!) >
                     const Duration(seconds: 2)) {
