@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
@@ -36,7 +37,8 @@ class MihGoRouterPaths {
   // Internal
   // static const String authCheck = '/';
   static const String mihAuthentication = '/mih-authentication';
-  static const String mihHome = '/';
+  static const String mihLoading = '/';
+  static const String mihHome = '/mih-home';
   static const String notifications = '/notifications';
   static const String forgotPassword = '/mih-authentication/forgot-password';
   static const String aboutMih = '/about';
@@ -65,7 +67,7 @@ class MihGoRouterPaths {
 
 class MihGoRouter {
   final GoRouter mihRouter = GoRouter(
-    initialLocation: MihGoRouterPaths.mihHome,
+    initialLocation: MihGoRouterPaths.mihLoading,
     redirect: (BuildContext context, GoRouterState state) async {
       final bool isUserSignedIn = await SuperTokens.doesSessionExist();
       final unauthenticatedPaths = [
@@ -74,6 +76,7 @@ class MihGoRouter {
         MihGoRouterPaths.resetPassword,
         MihGoRouterPaths.aboutMih,
         MihGoRouterPaths.businessProfileView,
+        MihGoRouterPaths.mihLoading,
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -89,6 +92,19 @@ class MihGoRouter {
       return null; // Stay on current route
     },
     routes: [
+      // ========================== MIH Loading ==================================
+      GoRoute(
+        name: "mihLoading",
+        path: MihGoRouterPaths.mihLoading,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: mihAuthentication");
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
+      ),
       // ========================== MIH Auth ==================================
       GoRoute(
         name: "mihAuthentication",
