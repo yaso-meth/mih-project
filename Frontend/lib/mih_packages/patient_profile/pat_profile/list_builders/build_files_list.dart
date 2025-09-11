@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -103,22 +104,22 @@ class _BuildFilesListState extends State<BuildFilesList> {
       }),
     );
     if (response2.statusCode == 200) {
-      Navigator.of(context).pop(); //Remove Loading Dialog
-      Navigator.of(context).pop(); //Remove Delete Dialog
-      Navigator.of(context).pop(); //Remove File View Dialog
+      context.pop(); //Remove Loading Dialog
+      context.pop(); //Remove Delete Dialog
+      context.pop(); //Remove File View Dialog
       Navigator.of(context).pop(); //Remove File List Dialog
       //print(widget.business);
       if (widget.business == null) {
-        Navigator.of(context).pushNamed('/patient-manager/patient',
-            arguments: PatientViewArguments(
+        context.pushNamed('patientManagerPatient',
+            extra: PatientViewArguments(
                 widget.signedInUser,
                 widget.selectedPatient,
                 widget.businessUser,
                 widget.business,
                 "personal"));
       } else {
-        Navigator.of(context).pushNamed('/patient-manager/patient',
-            arguments: PatientViewArguments(
+        context.pushNamed('patientManagerPatient',
+            extra: PatientViewArguments(
                 widget.signedInUser,
                 widget.selectedPatient,
                 widget.businessUser,
@@ -175,9 +176,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
   void printDocument(String link, String path) async {
     http2.Response response = await http.get(Uri.parse(link));
     var pdfData = response.bodyBytes;
-    Navigator.of(context).pushNamed(
-      '/file-veiwer/print-preview',
-      arguments: PrintPreviewArguments(
+    context.pop();
+    context.pushNamed(
+      'printPreview',
+      extra: PrintPreviewArguments(
         pdfData,
         getFileName(path),
       ),
@@ -274,9 +276,10 @@ class _BuildFilesListState extends State<BuildFilesList> {
         backgroundColor: MihColors.getGreenColor(
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         onTap: () {
-          Navigator.of(context).pushNamed(
-            '/file-veiwer',
-            arguments: FileViewArguments(
+          context.pop();
+          context.pushNamed(
+            'fileViewer',
+            extra: FileViewArguments(
               url,
               filePath,
             ),
