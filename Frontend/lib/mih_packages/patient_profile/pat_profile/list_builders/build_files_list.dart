@@ -107,7 +107,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
       context.pop(); //Remove Loading Dialog
       context.pop(); //Remove Delete Dialog
       context.pop(); //Remove File View Dialog
-      Navigator.of(context).pop(); //Remove File List Dialog
+      context.pop(); //Remove File List Dialog
       //print(widget.business);
       if (widget.business == null) {
         context.pushNamed('patientManagerPatient',

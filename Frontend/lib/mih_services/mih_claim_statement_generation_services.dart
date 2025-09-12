@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
@@ -89,12 +90,13 @@ class MIHClaimStatementGenerationApi {
         }),
       );
       if (response2.statusCode == 201) {
-        // end loading circle
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushNamed('/patient-manager/patient', arguments: args);
+        context.pop(); // end loading circle
+        context.pop();
+
+        context.pushNamed(
+          'patientManagerPatient',
+          extra: args,
+        );
         String message =
             "The ${data.document_type}: $fileName has been successfully generated and added to ${data.patient_full_name}'s record. You can now access and download it for their use.";
         successPopUp(message, context);
@@ -215,14 +217,13 @@ class MIHClaimStatementGenerationApi {
             <String, dynamic>{"idclaim_statement_file": fileID, "env": env}),
       );
       if (response2.statusCode == 200) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        context.pop();
+        context.pop();
+        context.pop();
+        context.pop();
         //print(widget.business);
 
-        Navigator.of(context)
-            .pushNamed('/patient-manager/patient', arguments: args);
+        context.pushNamed('patientManagerPatient', extra: args);
 
         // Navigator.of(context)
         //     .pushNamed('/patient-profile', arguments: widget.signedInUser);
