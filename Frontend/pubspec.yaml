@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.0+94
+version: 1.2.0+95
 
 environment:
   sdk: '>=3.5.3 <4.0.0'
@@ -87,5 +87,5 @@ flutter_native_splash:
   branding_bottom_padding: 24
   android_12:
     color: "#3A4454"
-    image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash.png
+    image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash_android.png
     branding: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
