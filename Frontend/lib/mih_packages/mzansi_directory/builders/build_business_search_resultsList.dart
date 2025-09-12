@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
@@ -41,13 +42,20 @@ class _BuildBusinessSearchResultsListState
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                '/business-profile/view',
-                arguments: BusinessViewArguments(
+              context.goNamed(
+                'businessProfileView',
+                extra: BusinessViewArguments(
                   widget.businessList[index],
                   widget.businessList[index].Name,
                 ),
               );
+              // // Navigator.of(context).pushNamed(
+              // //   '/business-profile/view',
+              // //   arguments: BusinessViewArguments(
+              // //     widget.businessList[index],
+              // //     widget.businessList[index].Name,
+              // //   ),
+              // );
             },
             splashColor: MihColors.getSecondaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark")

@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -24,10 +25,14 @@ class _MzansiCalendarTileState extends State<MzansiCalendarTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/calendar',
-          arguments: widget.arguments,
+        context.goNamed(
+          "mihCalendar",
+          extra: widget.arguments,
         );
+        // Navigator.of(context).pushNamed(
+        //   '/calendar',
+        //   arguments: widget.arguments,
+        // );
       },
       appName: "Calendar",
       appIcon: Icon(

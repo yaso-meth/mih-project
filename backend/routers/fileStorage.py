@@ -108,7 +108,7 @@ class claimStatementUploud(BaseModel):
     sig_path: str
 
 @router.get("/minio/pull/file/{env}/{app_id}/{folder}/{file_name}", tags=["Minio"])
-async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str): #, session: SessionContainer = Depends(verify_session())
     path = app_id + "/" + folder + "/" + file_name
     try:
         # print(f"env: {env}")

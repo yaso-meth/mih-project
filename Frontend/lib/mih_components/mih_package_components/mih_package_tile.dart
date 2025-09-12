@@ -1,4 +1,9 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:flutter/foundation.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +17,7 @@ class MihPackageTile extends StatefulWidget {
   final double iconSize;
   final Color primaryColor;
   final Color secondaryColor;
+  final bool? authenticateUser;
   const MihPackageTile({
     super.key,
     required this.onTap,
@@ -21,6 +27,7 @@ class MihPackageTile extends StatefulWidget {
     required this.iconSize,
     required this.primaryColor,
     required this.secondaryColor,
+    this.authenticateUser,
   });
 
   @override
@@ -28,6 +35,8 @@ class MihPackageTile extends StatefulWidget {
 }
 
 class _MihPackageTileState extends State<MihPackageTile> {
+  final LocalAuthentication _auth = LocalAuthentication();
+
   void displayHint() {
     if (widget.ytVideoID != null) {
       showDialog(
@@ -49,6 +58,128 @@ class _MihPackageTileState extends State<MihPackageTile> {
     }
   }
 
+  Future<bool> isUserAuthenticated() async {
+    final bool canAuthWithBio = await _auth.canCheckBiometrics;
+    final bool canAuthenticate =
+        canAuthWithBio || await _auth.isDeviceSupported();
+    print("Auth Available: $canAuthenticate");
+    if (canAuthenticate) {
+      try {
+        final bool didBioAuth = await _auth.authenticate(
+          localizedReason: "Authenticate to access ${widget.appName}",
+          options: const AuthenticationOptions(
+            biometricOnly: false,
+          ),
+        );
+        if (didBioAuth) {
+          return true;
+        } else {
+          authErrorPopUp();
+        }
+        // print("Authenticated: $didBioAuth");
+      } catch (error) {
+        print("Auth Error: $error");
+        authErrorPopUp();
+      }
+    } else {
+      print("Auth Error: No Biometrics Available");
+      authErrorPopUp();
+    }
+    return false;
+  }
+
+  void authErrorPopUp() {
+    Widget alertpopUp = MihPackageAlert(
+      alertIcon: Icon(
+        Icons.fingerprint,
+        color: MihColors.getRedColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        size: 100,
+      ),
+      alertTitle: "Biometric Authentication Required",
+      alertBody: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Hi there! To jump into the ${widget.appName} Package, you'll need to authenticate yourself with your devices biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
+            style: TextStyle(
+              fontSize: 15,
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Wrap(
+            runAlignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              MihButton(
+                onPressed: () {
+                  AppSettings.openAppSettings(
+                    type: AppSettingsType.security,
+                  );
+                  Navigator.of(context).pop();
+                },
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                child: Text(
+                  "Set Up Authentication",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              MihButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  authenticateUser();
+                },
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                child: Text(
+                  "Authenticate Now",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      alertColour: MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    showDialog(
+      context: context,
+      builder: (context) {
+        return alertpopUp;
+      },
+    );
+  }
+
+  Future<void> authenticateUser() async {
+    if (widget.authenticateUser != null &&
+        widget.authenticateUser! &&
+        !kIsWeb) {
+      if (await isUserAuthenticated()) {
+        widget.onTap();
+      }
+    } else {
+      widget.onTap();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,7 +188,9 @@ class _MihPackageTileState extends State<MihPackageTile> {
       // width: widget.iconSize,
       // height: widget.iconSize + widget.iconSize / 3,
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: () async {
+          authenticateUser();
+        },
         onLongPress: null, // Do this later
         child: Column(
           children: [

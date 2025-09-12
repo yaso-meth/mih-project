@@ -38,7 +38,7 @@ import 'package:redacted/redacted.dart';
 
 class PackageToolOne extends StatefulWidget {
   final AppUser user;
-  final Business business;
+  final Business? business;
   const PackageToolOne({
     super.key,
     required this.user,
@@ -393,17 +393,19 @@ class _PackageToolOneState extends State<PackageToolOne> {
                             .replaceAll("Latitude: ", "")
                             .replaceAll("Longitude: ", "");
                         print("My Location is this: $myLocation");
-                        return MihBusinessProfilePreview(
-                          business: widget.business,
-                          myLocation: myLocation,
-                        );
+                        return widget.business != null
+                            ? MihBusinessProfilePreview(
+                                business: widget.business!,
+                                myLocation: myLocation,
+                              )
+                            : Text("NoBusiness Data");
                       }
                     }),
-                const SizedBox(height: 10),
-                Text("This text should be redacted").redacted(
-                  context: context,
-                  redact: true,
-                ),
+                // const SizedBox(height: 10),
+                // Text("This text should be redacted").redacted(
+                //   context: context,
+                //   redact: true,
+                // ),
                 MihBusinessCard(
                   business: Business(
                     "business_id",

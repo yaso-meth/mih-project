@@ -1,44 +1,45 @@
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home_error.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 
 // ignore: must_be_immutable
 class MihHome extends StatefulWidget {
-  final AppUser signedInUser;
-  final BusinessUser? businessUser;
-  final Business? business;
-  final Patient? patient;
-  final List<MIHNotification> notifications;
-  final ImageProvider<Object>? propicFile;
-  final bool isUserNew;
-  final bool isBusinessUser;
-  final bool isBusinessUserNew;
-  final bool isDevActive;
-  bool personalSelected;
-  MihHome({
+  // final AppUser signedInUser;
+  // final BusinessUser? businessUser;
+  // final Business? business;
+  // final Patient? patient;
+  // final List<MIHNotification> notifications;
+  // final ImageProvider<Object>? propicFile;
+  // final bool isUserNew;
+  // final bool isBusinessUser;
+  // final bool isBusinessUserNew;
+  // final bool isDevActive;
+  final bool personalSelected;
+  const MihHome({
     super.key,
-    required this.signedInUser,
-    required this.businessUser,
-    required this.business,
-    required this.patient,
-    required this.notifications,
-    required this.propicFile,
-    required this.isUserNew,
-    required this.isBusinessUser,
-    required this.isBusinessUserNew,
-    required this.isDevActive,
+    // required this.signedInUser,
+    // required this.businessUser,
+    // required this.business,
+    // required this.patient,
+    // required this.notifications,
+    // required this.propicFile,
+    // required this.isUserNew,
+    // required this.isBusinessUser,
+    // required this.isBusinessUserNew,
+    // required this.isDevActive,
     required this.personalSelected,
   });
 
@@ -50,6 +51,7 @@ class _MihHomeState extends State<MihHome> {
   final proPicController = TextEditingController();
   late int _selcetedIndex;
   late bool _personalSelected;
+  late Future<HomeArguments> profileData;
 
   @override
   void dispose() {
@@ -59,7 +61,7 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
-
+    profileData = MIHApiCalls().getProfile(10, context);
     if (widget.personalSelected == true) {
       setState(() {
         _selcetedIndex = 0;
@@ -83,36 +85,60 @@ class _MihHomeState extends State<MihHome> {
 
   @override
   Widget build(BuildContext context) {
-    return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      actionDrawer: getActionDrawer(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        if (_selcetedIndex == 0) {
-          setState(() {
-            _selcetedIndex = newValue;
-            _personalSelected = true;
-          });
+    return FutureBuilder(
+      future: profileData,
+      builder: (context, asyncSnapshot) {
+        if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            body: const Mihloadingcircle(
+              message: "Fetching your Data...",
+            ),
+          );
+        } else if (asyncSnapshot.connectionState == ConnectionState.done &&
+            asyncSnapshot.hasData) {
+          return MihPackage(
+            appActionButton: getAction(asyncSnapshot.data!.profilePicUrl),
+            appTools:
+                getTools(asyncSnapshot.data!.signedInUser.type != "personal"),
+            appBody: getToolBody(asyncSnapshot.data!),
+            appToolTitles: getToolTitle(),
+            actionDrawer: getActionDrawer(
+              asyncSnapshot.data!.signedInUser,
+              asyncSnapshot.data!.profilePicUrl,
+            ),
+            selectedbodyIndex: _selcetedIndex,
+            onIndexChange: (newValue) {
+              if (_selcetedIndex == 0) {
+                setState(() {
+                  _selcetedIndex = newValue;
+                  _personalSelected = true;
+                });
+              } else {
+                setState(() {
+                  _selcetedIndex = newValue;
+                  _personalSelected = false;
+                });
+              }
+            },
+          );
         } else {
-          setState(() {
-            _selcetedIndex = newValue;
-            _personalSelected = false;
-          });
+          return MihHomeError(
+            errorMessage: asyncSnapshot.hasError
+                ? asyncSnapshot.error.toString()
+                : "An unknown error occurred",
+          );
         }
       },
     );
   }
 
-  Widget getAction() {
+  Widget getAction(String proPicUrl) {
     return Builder(builder: (context) {
       return MihPackageAction(
         icon: Padding(
           padding: const EdgeInsets.only(left: 5.0),
           child: MihCircleAvatar(
-            imageFile: widget.propicFile,
+            imageFile: proPicUrl != "" ? NetworkImage(proPicUrl) : null,
             width: 50,
             editable: false,
             fileNameController: proPicController,
@@ -147,14 +173,14 @@ class _MihHomeState extends State<MihHome> {
     });
   }
 
-  MIHAppDrawer getActionDrawer() {
+  MIHAppDrawer getActionDrawer(AppUser signedInUser, String proPicUrl) {
     return MIHAppDrawer(
-      signedInUser: widget.signedInUser,
-      propicFile: widget.propicFile,
+      signedInUser: signedInUser,
+      propicFile: proPicUrl != "" ? NetworkImage(proPicUrl) : null,
     );
   }
 
-  MihPackageTools getTools() {
+  MihPackageTools getTools(bool isBusinessUser) {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
       setState(() {
@@ -162,7 +188,7 @@ class _MihHomeState extends State<MihHome> {
         _personalSelected = true;
       });
     };
-    if (widget.isBusinessUser) {
+    if (isBusinessUser) {
       temp[const Icon(Icons.business_center)] = () {
         setState(() {
           _selcetedIndex = 1;
@@ -176,27 +202,29 @@ class _MihHomeState extends State<MihHome> {
     );
   }
 
-  List<Widget> getToolBody() {
+  List<Widget> getToolBody(HomeArguments profData) {
     List<Widget> toolBodies = [];
     toolBodies.add(
       MihPersonalHome(
-        signedInUser: widget.signedInUser,
+        signedInUser: profData.signedInUser,
         personalSelected: _personalSelected,
-        business: widget.business,
-        businessUser: widget.businessUser,
-        propicFile: widget.propicFile,
-        isUserNew: widget.isUserNew,
-        isDevActive: widget.isDevActive,
+        business: profData.business,
+        businessUser: profData.businessUser,
+        propicFile: profData.profilePicUrl != ""
+            ? NetworkImage(profData.profilePicUrl)
+            : null,
+        isDevActive: AppEnviroment.getEnv() == "Dev",
+        isUserNew: profData.signedInUser.username == "",
       ),
     );
-    if (widget.isBusinessUser) {
+    if (profData.signedInUser.type != "personal") {
       toolBodies.add(
         MihBusinessHome(
-          signedInUser: widget.signedInUser,
+          signedInUser: profData.signedInUser,
           personalSelected: _personalSelected,
-          businessUser: widget.businessUser,
-          business: widget.business,
-          isBusinessUserNew: widget.isBusinessUserNew,
+          businessUser: profData.businessUser,
+          business: profData.business,
+          isBusinessUserNew: profData.businessUser == null,
         ),
       );
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -125,13 +126,21 @@ class _BuildClaimStatementFileListState
   void printDocument(String link, String path) async {
     http2.Response response = await http.get(Uri.parse(link));
     var pdfData = response.bodyBytes;
-    Navigator.of(context).pushNamed(
-      '/file-veiwer/print-preview',
-      arguments: PrintPreviewArguments(
+    context.pop();
+    context.pushNamed(
+      'printPreview',
+      extra: PrintPreviewArguments(
         pdfData,
         getFileName(path),
       ),
     );
+    // Navigator.of(context).pushNamed(
+    //   '/file-veiwer/print-preview',
+    //   arguments: PrintPreviewArguments(
+    //     pdfData,
+    //     getFileName(path),
+    //   ),
+    // );
   }
 
   void nativeFileDownload(String fileLink) async {
@@ -222,7 +231,15 @@ class _BuildClaimStatementFileListState
         backgroundColor: MihColors.getGreenColor(
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         onTap: () {
-          printDocument(url, filePath);
+          context.pop();
+          context.pushNamed(
+            'fileViewer',
+            extra: FileViewArguments(
+              url,
+              filePath,
+            ),
+          );
+          // printDocument(url, filePath);
         },
       ),
     );
@@ -368,8 +385,9 @@ class _BuildClaimStatementFileListState
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
             const SizedBox(height: 50),
             Stack(
@@ -390,16 +408,23 @@ class _BuildClaimStatementFileListState
               ],
             ),
             const SizedBox(height: 10),
-            Text(
-              "No Claims or Statements have been added to this profile.",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    "No Claims or Statements have been added to this profile.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 25),
             Visibility(

@@ -75,7 +75,6 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
         _selcetedIndex = 0;
       });
     };
-
     return MihPackageTools(
       tools: temp,
       selcetedIndex: _selcetedIndex,
@@ -244,18 +243,18 @@ class _MIHProfileGetterState extends State<MIHProfileGetter> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return MihHome(
-              signedInUser: snapshot.requireData.signedInUser,
-              businessUser: snapshot.data!.businessUser,
-              business: snapshot.data!.business,
-              patient: snapshot.data!.patient,
-              notifications: snapshot.data!.notifi,
-              propicFile: snapshot.data!.profilePicUrl != ""
-                  ? NetworkImage(snapshot.data!.profilePicUrl)
-                  : null,
-              isUserNew: isUserNew(snapshot.requireData.signedInUser),
-              isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
-              isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),
-              isDevActive: isDevActive(),
+              // signedInUser: snapshot.requireData.signedInUser,
+              // businessUser: snapshot.data!.businessUser,
+              // business: snapshot.data!.business,
+              // patient: snapshot.data!.patient,
+              // notifications: snapshot.data!.notifi,
+              // propicFile: snapshot.data!.profilePicUrl != ""
+              //     ? NetworkImage(snapshot.data!.profilePicUrl)
+              //     : null,
+              // isUserNew: isUserNew(snapshot.requireData.signedInUser),
+              // isBusinessUser: isBusinessUser(snapshot.requireData.signedInUser),
+              // isBusinessUserNew: isBusinessUserNew(snapshot.data!.businessUser),
+              // isDevActive: isDevActive(),
               personalSelected: widget.personalSelected,
             );
             // return MIHHomeLegacy(

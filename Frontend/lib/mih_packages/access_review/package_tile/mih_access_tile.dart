@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -23,11 +24,16 @@ class _MihAccessTileState extends State<MihAccessTile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageTile(
+      authenticateUser: true,
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mih-access',
-          arguments: widget.signedInUser,
+        context.goNamed(
+          "mihAccess",
+          extra: widget.signedInUser,
         );
+        // Navigator.of(context).pushNamed(
+        //   '/mih-access',
+        //   arguments: widget.signedInUser,
+        // );
       },
       appName: "Access Controls",
       appIcon: Icon(

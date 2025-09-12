@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -15,7 +16,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 
@@ -100,25 +100,27 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
       if (statusCode == 200) {
         bool successfullyUploadedFile = await uploadFile();
         if (successfullyUploadedFile) {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(
-            '/',
-            arguments: AuthArguments(
-              false,
-              false,
-            ),
-          );
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pushNamed(
+          //   '/',
+          //   arguments: AuthArguments(
+          //     false,
+          //     false,
+          //   ),
+          // );
           // File uploaded successfully
-          showDialog(
-            context: context,
-            builder: (context) {
-              return const MIHSuccessMessage(
-                successType: "Success",
-                successMessage: "Business details updated successfully",
-              );
-            },
-          );
+          String message = "Business details updated successfully";
+          successPopUp(message, false);
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return const MIHSuccessMessage(
+          //       successType: "Success",
+          //       successMessage: "Business details updated successfully",
+          //     );
+          //   },
+          // );
         } else {
           // File upload failed
           showDialog(
@@ -165,6 +167,67 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
         },
       );
     }
+  }
+
+  void successPopUp(String message, bool stayOnPersonalSide) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: "Successfully Updated Profile",
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      'mihHome',
+                      extra: stayOnPersonalSide,
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
   }
 
   @override

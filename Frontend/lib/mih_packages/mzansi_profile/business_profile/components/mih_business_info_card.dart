@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
@@ -31,6 +34,14 @@ class MihBusinessCard extends StatefulWidget {
 class _MihBusinessCardState extends State<MihBusinessCard> {
   Future<BusinessReview?>? _businessReviewFuture;
   Future<BookmarkedBusiness?>? _bookmarkedBusinessFuture;
+  bool _isUserSignedIn = false;
+
+  Future<void> _checkUserSession() async {
+    final doesSessionExist = await SuperTokens.doesSessionExist();
+    setState(() {
+      _isUserSignedIn = doesSessionExist;
+    });
+  }
 
   RedactedConfiguration getRedactedConfiguration() {
     return RedactedConfiguration(
@@ -390,6 +401,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   @override
   void initState() {
     super.initState();
+    _checkUserSession();
     _businessReviewFuture = getUserReview();
     _bookmarkedBusinessFuture = getUserBookmark();
   }
@@ -665,33 +677,103 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
 
   Future<void> businessReviewRatingWindow(
       BusinessReview? myReview, bool previouslyRated, double width) async {
-    showDialog(
-      context: context,
-      builder: (context) => MihReviewBusinessWindow(
-        business: widget.business,
-        businessReview: myReview,
-        screenWidth: width,
-        readOnly: false,
-      ),
-    );
+    if (_isUserSignedIn) {
+      showDialog(
+        context: context,
+        builder: (context) => MihReviewBusinessWindow(
+          business: widget.business,
+          businessReview: myReview,
+          screenWidth: width,
+          readOnly: false,
+        ),
+      );
+    } else {
+      showSignInRequiredAlert();
+    }
   }
 
   void showAddBookmarkAlert() {
-    showDialog(
-      context: context,
-      builder: (context) => MihAddBookmarkAlert(
-        business: widget.business,
-      ),
-    );
+    if (_isUserSignedIn) {
+      showDialog(
+        context: context,
+        builder: (context) => MihAddBookmarkAlert(
+          business: widget.business,
+        ),
+      );
+    } else {
+      showSignInRequiredAlert();
+    }
   }
 
   void showDeleteBookmarkAlert(BookmarkedBusiness? bookmarkBusiness) {
+    if (_isUserSignedIn) {
+      showDialog(
+          context: context,
+          builder: (context) => MihDeleteBookmarkAlert(
+                business: widget.business,
+                bookmarkBusiness: bookmarkBusiness,
+                startUpSearch: widget.startUpSearch,
+              ));
+    } else {
+      showSignInRequiredAlert();
+    }
+  }
+
+  void showSignInRequiredAlert() {
     showDialog(
-        context: context,
-        builder: (context) => MihDeleteBookmarkAlert(
-              business: widget.business,
-              bookmarkBusiness: bookmarkBusiness,
-              startUpSearch: widget.startUpSearch,
-            ));
+      context: context,
+      builder: (context) => MihPackageAlert(
+        alertIcon: Column(
+          children: [
+            Icon(
+              MihIcons.mihLogo,
+              size: 125,
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+        alertTitle: "Let's Get Started",
+        alertBody: Column(
+          children: [
+            Text(
+              "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
+              style: TextStyle(
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 25),
+            Center(
+              child: MihButton(
+                onPressed: () {
+                  context.goNamed(
+                    'mihHome',
+                    extra: true,
+                  );
+                },
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                elevation: 10,
+                width: 300,
+                child: Text(
+                  "Sign In/ Create Account",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        alertColour: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      ),
+    );
   }
 }

@@ -1,5 +1,9 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -198,7 +202,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ),
           ],
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             widget.dateController.clear();
             widget.timeController.clear();
             widget.titleController.clear();
@@ -320,7 +324,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ),
           ],
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             widget.dateController.clear();
             widget.timeController.clear();
             widget.titleController.clear();
@@ -421,7 +425,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                   .split('T')[1]
                   .substring(0, 5);
             });
-            Navigator.of(context).pop();
+            context.pop();
           },
           windowBody: Padding(
             padding:
@@ -552,10 +556,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     );
   }
 
-  void updateAppointmentCall(int index) {
+  Future<void> updateAppointmentCall(int index) async {
+    int statusCode;
     if (isAppointmentInputValid()) {
       if (widget.personalSelected == true) {
-        MihMzansiCalendarApis.updatePersonalAppointment(
+        statusCode = await MihMzansiCalendarApis.updatePersonalAppointment(
           widget.signedInUser,
           widget.business,
           null,
@@ -568,7 +573,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         );
       } else if (widget.personalSelected == false &&
           widget.inWaitingRoom == false) {
-        MihMzansiCalendarApis.updateBusinessAppointment(
+        statusCode = await MihMzansiCalendarApis.updateBusinessAppointment(
           widget.signedInUser,
           widget.business,
           widget.businessUser,
@@ -580,7 +585,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           context,
         );
       } else {
-        MihMzansiCalendarApis.updatePatientAppointment(
+        statusCode = await MihMzansiCalendarApis.updatePatientAppointment(
           widget.signedInUser,
           widget.business,
           widget.businessUser,
@@ -592,6 +597,41 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           context,
         );
       }
+      if (statusCode == 200) {
+        context.pop();
+        context.pop();
+        if (!widget.inWaitingRoom) {
+          KenLogger.warning("calendar route");
+          context.goNamed(
+            "mihCalendar",
+            extra: CalendarArguments(
+              widget.signedInUser,
+              widget.personalSelected,
+              widget.business,
+              widget.businessUser,
+            ),
+          );
+        } else {
+          KenLogger.warning("waiting room route");
+          // GoRouter.of(context).refresh();
+          context.goNamed(
+            'mihHome',
+            extra: false,
+          );
+          context.goNamed(
+            'patientManager',
+            extra: PatManagerArguments(
+              widget.signedInUser,
+              false,
+              widget.business,
+              widget.businessUser,
+            ),
+          );
+          // context.pop();
+        }
+      } else {
+        internetConnectionPopUp();
+      }
     } else {
       showDialog(
         context: context,
@@ -602,9 +642,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     }
   }
 
-  void deleteAppointmentCall(int index) {
-    print("personal selected: ${widget.personalSelected}");
-    MihMzansiCalendarApis.deleteAppointmentAPICall(
+  Future<void> deleteAppointmentCall(int index) async {
+    int statucCode = await MihMzansiCalendarApis.deleteAppointmentAPICall(
       widget.signedInUser,
       widget.personalSelected,
       widget.business,
@@ -612,6 +651,82 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       widget.inWaitingRoom,
       widget.appointmentList[index].idappointments,
       context,
+    );
+    if (statucCode == 200) {
+      context.pop();
+      context.pop();
+      setState(() {
+        widget.appointmentList.removeAt(index);
+      });
+      successPopUp("Successfully Deleted Appointment",
+          "You appointment has been successfully deleted from your calendar.");
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      },
+    );
+  }
+
+  void internetConnectionPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MIHErrorMessage(
+          errorType: "Internet Connection",
+        );
+      },
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
@@ -67,19 +68,16 @@ class _MihAuthenticationState extends State<MihAuthentication> {
     );
   }
 
-  MihPackageAction getAction() {
-    return MihPackageAction(
-      icon: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: const Icon(MihIcons.mihLogo),
+  Widget getAction() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0),
+      child: MihPackageAction(
+        icon: const Icon(MihIcons.mihLogo),
+        iconSize: 45,
+        onTap: () {
+          context.goNamed("aboutMih", extra: 0);
+        },
       ),
-      iconSize: 45,
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          '/about',
-          arguments: 0,
-        );
-      },
     );
   }
 }

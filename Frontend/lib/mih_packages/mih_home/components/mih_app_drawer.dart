@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
@@ -32,23 +33,14 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   }
 
   Widget displayProPic() {
-    // return MIHProfilePicture(
-    //         profilePictureFile: widget.propicFile,
-    //         proPicController: proPicController,
-    //         proPic: null,
-    //         width: 45,
-    //         radius: 21,
-    //         editable: false,
-    //         onChange: (newProPic) {},
-    //       ),
-    //print(widget.propicFile);
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
-          '/mzansi-profile',
-          arguments:
-              AppProfileUpdateArguments(widget.signedInUser, widget.propicFile),
+        context.goNamed(
+          'mzansiProfileManage',
+          extra: AppProfileUpdateArguments(
+            widget.signedInUser,
+            widget.propicFile,
+          ),
         );
       },
       child: MihCircleAvatar(
@@ -208,10 +200,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                '/about',
-                                arguments: 1,
-                              );
+                              context.goNamed("aboutMih", extra: 1);
                             },
                           ),
                           ListTile(
@@ -241,10 +230,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                '/about',
-                                arguments: 2,
-                              );
+                              context.goNamed("aboutMih", extra: 2);
                             },
                           ),
                           ListTile(
@@ -280,11 +266,15 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               });
                               if (await SuperTokens.doesSessionExist() ==
                                   false) {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).popAndPushNamed(
-                                  '/',
-                                  arguments: AuthArguments(true, false),
+                                context.goNamed(
+                                  'mihHome',
+                                  extra: true,
                                 );
+                                // Navigator.of(context).pop();
+                                // Navigator.of(context).popAndPushNamed(
+                                //   '/',
+                                //   arguments: AuthArguments(true, false),
+                                // );
                               }
                             },
                           ),

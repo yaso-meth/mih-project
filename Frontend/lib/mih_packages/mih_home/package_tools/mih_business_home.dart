@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -244,15 +245,24 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                 hintColor: MihColors.getPrimaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 onPrefixIconTap: () {
-                  Navigator.of(context).pushNamed(
-                    '/mzansi-ai',
-                    arguments: MzansiAiArguments(
+                  context.goNamed(
+                    "mzansiAi",
+                    extra: MzansiAiArguments(
                       widget.signedInUser,
                       searchController.text.isEmpty
                           ? null
                           : searchController.text,
                     ),
                   );
+                  // Navigator.of(context).pushNamed(
+                  //   '/mzansi-ai',
+                  //   arguments: MzansiAiArguments(
+                  //     widget.signedInUser,
+                  //     searchController.text.isEmpty
+                  //         ? null
+                  //         : searchController.text,
+                  //   ),
+                  // );
                   searchController.clear();
                 },
                 searchFocusNode: _searchFocusNode,

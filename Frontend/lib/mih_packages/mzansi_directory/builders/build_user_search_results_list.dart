@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_personal_profile_preview.dart';
@@ -36,10 +37,14 @@ class _BuildUserSearchResultsListState
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                '/mzansi-profile/view',
-                arguments: widget.userList[index],
+              context.goNamed(
+                'mzansiProfileView',
+                extra: widget.userList[index],
               );
+              // Navigator.of(context).pushNamed(
+              //   '/mzansi-profile/view',
+              //   arguments: widget.userList[index],
+              // );
             },
             splashColor: MihColors.getSecondaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark")

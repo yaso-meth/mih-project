@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -102,10 +103,58 @@ class MihAuthenticationServices {
     if (response.statusCode == 200) {
       var userSignedin = jsonDecode(response.body);
       if (userSignedin["status"] == "OK") {
-        Navigator.of(context).pop();
+        context.pop();
         return true;
       } else {
-        Navigator.of(context).pop();
+        context.pop();
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> forgotPassword(
+    String email,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/auth/user/password/reset/token"),
+      body: '{"formFields": [{"id": "email","value": "$email"}]}',
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var userSignedin = jsonDecode(response.body);
+      if (userSignedin["status"] == "OK") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(
+    String token,
+    String password,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/auth/user/password/reset"),
+      body:
+          '{"method": "token","formFields": [{"id": "password","value": "$password"}],"token": "$token"}',
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var userSignedin = jsonDecode(response.body);
+      if (userSignedin["status"] == "OK") {
+        return true;
+      } else {
         return false;
       }
     } else {

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -46,18 +49,10 @@ class MihUserServices {
       }),
     );
     if (response.statusCode == 201) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/',
-        (route) => false,
-        arguments: AuthArguments(
-          true,
-          true,
-        ),
+      context.goNamed(
+        'mihHome',
+        extra: true,
       );
-      // signUpSuccess();
-      // setState(() {
-      //   successfulSignUp = true;
-      // });
     } else {
       internetConnectionPopUp(context);
     }
@@ -202,15 +197,16 @@ class MihUserServices {
         print(error);
       });
       if (await SuperTokens.doesSessionExist() == false) {
-        Navigator.of(context).pop(); // Pop loading dialog
-        Navigator.of(context).pop(); // Pop delete account dialog
-        Navigator.of(context).pop(); // Pop Mzansi Profile
-        Navigator.of(context).popAndPushNamed(
-          '/',
-          arguments: AuthArguments(true, false),
-        ); //Pop and push to login page
+        // Navigator.of(context).pop(); // Pop loading dialog
+        // Navigator.of(context).pop(); // Pop delete account dialog
+        // Navigator.of(context).pop(); // Pop Mzansi Profile
+        // Navigator.of(context).popAndPushNamed(
+        //   '/',
+        //   arguments: AuthArguments(true, false),
+        // ); //Pop and push to login page
         successPopUp(
           "Account Deleted Successfully",
+          "Your account has been successfully deleted. We are sorry to see you go, but we respect your decision.",
           context,
         ); // Show success message.
       }
@@ -233,14 +229,63 @@ class MihUserServices {
     );
   }
 
-  static void successPopUp(String message, BuildContext context) {
+  static void successPopUp(String title, String message, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      'mihHome',
+                      extra: true,
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
       },
     );
   }

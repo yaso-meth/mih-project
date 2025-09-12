@@ -1,4 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
@@ -40,7 +42,13 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        Navigator.of(context).pop();
+        context.goNamed(
+          "mzansiDirectory",
+          extra: MzansiDirectoryArguments(
+            personalSearch: true,
+            startSearchText: widget.user.username,
+          ),
+        );
         FocusScope.of(context).unfocus();
       },
     );

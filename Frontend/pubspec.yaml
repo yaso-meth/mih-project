@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.1.16+93
+version: 1.2.0+94
 
 environment:
   sdk: '>=3.5.3 <4.0.0'
@@ -22,7 +22,7 @@ dependencies:
   args: ^2.7.0
   gif_view: ^1.0.3
   intl: ^0.20.2
-  flutter_native_splash: ^2.4.1
+  flutter_native_splash: ^2.4.6
   printing: ^5.13.3
   geolocator: ^14.0.1
   table_calendar: ^3.1.2
@@ -48,6 +48,10 @@ dependencies:
   custom_rating_bar: ^3.0.0
   country_code_picker: ^3.3.0
   ken_logger: ^0.0.3
+  go_router: ^16.1.0
+  screen_brightness: ^2.1.6
+  cached_network_image: ^3.4.1
+  gpt_markdown: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -72,13 +76,16 @@ flutter:
     - family: MihIcons
       fonts:
         - asset: lib/mih_components/mih_package_components/assets/fonts/Mih_Icons.ttf
+        
 flutter_native_splash:
   color: "#3A4454"
-  image: lib/mih_components/mih_package_components/assets/images/logo_light.png
-  branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
+  image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash.png
+  branding: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
+  image_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash_temp.gif
+  branding_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash_temp.gif
   branding_mode: bottom
   branding_bottom_padding: 24
   android_12:
-    image: lib/mih_components/mih_package_components/assets/images/splash_screen/splash_screen_icon.png
     color: "#3A4454"
-    branding: lib/mih_components/mih_package_components/assets/images/branding_text.png
+    image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash.png
+    branding: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash.png

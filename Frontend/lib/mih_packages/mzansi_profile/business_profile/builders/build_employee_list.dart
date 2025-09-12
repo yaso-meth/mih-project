@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -13,7 +15,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
@@ -64,20 +65,20 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       }),
     );
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      //setState(() {});
-      Navigator.of(context).pushNamed(
-        '/business-profile/manage',
-        arguments: BusinessArguments(
-          widget.arguments.signedInUser,
-          widget.arguments.businessUser,
-          widget.arguments.business,
-        ),
-      );
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // //setState(() {});
+      // Navigator.of(context).pushNamed(
+      //   '/business-profile/manage',
+      //   arguments: BusinessArguments(
+      //     widget.arguments.signedInUser,
+      //     widget.arguments.businessUser,
+      //     widget.arguments.business,
+      //   ),
+      // );
       String message = "Your employees details have been updated.";
-      successPopUp(message);
+      successPopUp(message, false);
     } else {
       internetConnectionPopUp();
     }
@@ -97,23 +98,84 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
     //print("Here4");
     //print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed(
-        '/business-profile/manage',
-        arguments: BusinessArguments(
-          widget.arguments.signedInUser,
-          widget.arguments.businessUser,
-          widget.arguments.business,
-        ),
-      );
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pushNamed(
+      //   '/business-profile/manage',
+      //   arguments: BusinessArguments(
+      //     widget.arguments.signedInUser,
+      //     widget.arguments.businessUser,
+      //     widget.arguments.business,
+      //   ),
+      // );
       String message =
           "The employee has been deleted successfully. This means they will no longer have access to your business profile";
-      successPopUp(message);
+      successPopUp(message, false);
     } else {
       internetConnectionPopUp();
     }
+  }
+
+  void successPopUp(String message, bool stayOnPersonalSide) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: "Successfully Updated Profile",
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      'mihHome',
+                      extra: stayOnPersonalSide,
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
   }
 
   void internetConnectionPopUp() {
@@ -121,18 +183,6 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       context: context,
       builder: (context) {
         return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
       },
     );
   }
@@ -216,18 +266,29 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
                     readOnly: true,
                     hintText: "Surname",
                   ),
-                  const SizedBox(height: 15.0),
-                  MihDropdownField(
+                  const SizedBox(height: 10.0),
+                  MihTextFormField(
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     controller: typeController,
-                    hintText: "Title",
-                    dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                    editable: true,
-                    enableSearch: true,
-                    validator: (value) {
-                      return MihValidationServices().isEmpty(value);
-                    },
+                    multiLineInput: false,
                     requiredText: true,
+                    readOnly: true,
+                    hintText: "Title",
                   ),
+                  // MihDropdownField(
+                  //   controller: typeController,
+                  //   hintText: "Title",
+                  //   dropdownOptions: const ["Doctor", "Assistant", "Other"],
+                  //   editable: true,
+                  //   enableSearch: true,
+                  //   validator: (value) {
+                  //     return MihValidationServices().isEmpty(value);
+                  //   },
+                  //   requiredText: true,
+                  // ),
                   const SizedBox(height: 10.0),
                   MihDropdownField(
                     controller: accessController,

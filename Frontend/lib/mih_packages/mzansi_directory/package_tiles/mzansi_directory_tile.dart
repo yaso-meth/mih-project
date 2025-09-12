@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -21,13 +22,20 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mzansi-directory',
-          arguments: MzansiDirectoryArguments(
+        context.goNamed(
+          "mzansiDirectory",
+          extra: MzansiDirectoryArguments(
             personalSearch: true,
             startSearchText: null,
           ),
         );
+        // Navigator.of(context).pushNamed(
+        //   '/mzansi-directory',
+        //   arguments: MzansiDirectoryArguments(
+        //     personalSearch: true,
+        //     startSearchText: null,
+        //   ),
+        // );
       },
       appName: "Mzansi Directory",
       appIcon: Icon(

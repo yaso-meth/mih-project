@@ -168,6 +168,7 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
           FittedBox(
             child: Text(
               widget.nickname,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,

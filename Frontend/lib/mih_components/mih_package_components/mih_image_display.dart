@@ -76,11 +76,11 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
           Visibility(
             visible: widget.editable,
             child: Positioned(
-              bottom: 0,
-              right: 0,
+              bottom: 5,
+              right: 5,
               child: IconButton.filled(
                 style: IconButton.styleFrom(
-                  backgroundColor: MihColors.getSecondaryColor(
+                  backgroundColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 color: MihColors.getPrimaryColor(

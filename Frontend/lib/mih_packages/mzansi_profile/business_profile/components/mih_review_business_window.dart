@@ -1,6 +1,7 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
@@ -93,23 +94,13 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       widget.business.rating,
                     )
                         .then((statusCode) {
-                      Navigator.of(context).pop(); //Remove loading dialog
-                      Navigator.of(context).pop(); //Remove delete dialog
+                      context.pop(); //Remove loading dialog
+                      context.pop(); //Remove delete dialog
                       if (statusCode == 200) {
-                        Navigator.of(context).pop(); //Remove window
-                        Navigator.of(context).pop(); //Remove profile
-                        Navigator.of(context).pop(); //Remove directory
-                        Navigator.of(context).pushNamed(
-                          '/mzansi-directory',
-                          arguments: MzansiDirectoryArguments(
-                            personalSearch: false, // personalSearch
-                            startSearchText: widget.business.Name,
-                          ),
-                        );
-                        MihAlertServices().successAlert(
+                        context.pop(); //Remove window
+                        successPopUp(
                           "Successfully Deleted Review!",
                           "Your review has successfully been delete and will no longer appear under the business.",
-                          context,
                         );
                       } else {
                         MihAlertServices().errorAlert(
@@ -136,7 +127,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                 MihButton(
                   width: 300,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -188,22 +179,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         widget.business.rating,
       )
           .then((statusCode) {
-        Navigator.of(context).pop(); //Remove loading dialog
+        context.pop(); //Remove loading dialog
         if (statusCode == 200) {
-          Navigator.of(context).pop(); //pop window
-          Navigator.of(context).pop(); //pop business profile
-          Navigator.of(context).pop(); //pop directory
-          Navigator.of(context).pushNamed(
-            '/mzansi-directory',
-            arguments: MzansiDirectoryArguments(
-              personalSearch: false, // personalSearch
-              startSearchText: widget.business.Name,
-            ),
-          );
-          MihAlertServices().successAlert(
+          context.pop();
+          successPopUp(
             "Successfully Updated Review!",
             "Your review has successfully been updated and will now appear under the business.",
-            context,
           );
         } else {
           MihAlertServices().errorAlert(
@@ -224,22 +205,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         widget.business.rating.isEmpty ? "0.0" : widget.business.rating,
       )
           .then((statusCode) {
-        Navigator.of(context).pop(); //Remove loading dialog
+        context.pop(); //Remove loading dialog
         if (statusCode == 201) {
-          Navigator.of(context).pop(); // pop window
-          Navigator.of(context).pop(); // pop business profile
-          Navigator.of(context).pop(); // pop directory
-          Navigator.of(context).pushNamed(
-            '/mzansi-directory',
-            arguments: MzansiDirectoryArguments(
-              personalSearch: false, // personalSearch
-              startSearchText: widget.business.Name,
-            ),
-          );
-          MihAlertServices().successAlert(
+          context.pop();
+          successPopUp(
             "Successfully Added Review!",
             "Your review has successfully been added and will now appear under the business.",
-            context,
           );
         } else {
           MihAlertServices().errorAlert(
@@ -250,6 +221,70 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         }
       });
     }
+  }
+
+  void successPopUp(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      "mzansiDirectory",
+                      extra: MzansiDirectoryArguments(
+                        personalSearch: false,
+                        startSearchText: widget.business.Name,
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
   }
 
   String getWindowTitle() {

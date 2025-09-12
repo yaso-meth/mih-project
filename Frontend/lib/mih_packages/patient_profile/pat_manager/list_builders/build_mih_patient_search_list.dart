@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
@@ -363,15 +364,24 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       child: MihButton(
                         onPressed: () {
                           if (hasAccess) {
-                            Navigator.of(context)
-                                .pushNamed('/patient-manager/patient',
-                                    arguments: PatientViewArguments(
-                                      widget.signedInUser,
-                                      widget.patients[index],
-                                      widget.businessUser,
-                                      widget.business,
-                                      "business",
-                                    ));
+                            context.pop();
+                            context.pushNamed('patientManagerPatient',
+                                extra: PatientViewArguments(
+                                  widget.signedInUser,
+                                  widget.patients[index],
+                                  widget.businessUser,
+                                  widget.business,
+                                  "business",
+                                ));
+                            // Navigator.of(context)
+                            //     .pushNamed('/patient-manager/patient',
+                            //         arguments: PatientViewArguments(
+                            //           widget.signedInUser,
+                            //           widget.patients[index],
+                            //           widget.businessUser,
+                            //           widget.business,
+                            //           "business",
+                            //         ));
                           } else {
                             noAccessWarning();
                           }

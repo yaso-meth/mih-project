@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -24,11 +25,16 @@ class _MihWalletTileState extends State<MihWalletTile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageTile(
+      // authenticateUser: true,
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/mzansi-wallet',
-          arguments: WalletArguments(widget.signedInUser, 0),
+        context.goNamed(
+          'mzansiWallet',
+          extra: WalletArguments(widget.signedInUser, 0),
         );
+        // Navigator.of(context).pushNamed(
+        //   '/mzansi-wallet',
+        //   arguments: WalletArguments(widget.signedInUser, 0),
+        // );
       },
       appName: "Mzansi Wallet",
       appIcon: Icon(

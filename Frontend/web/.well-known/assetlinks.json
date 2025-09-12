@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "za.co.mzansiinnovationhub.mih",
+            "sha256_cert_fingerprints": [
+                "51:4C:93:E3:11:85:C5:7A:46:A9:C4:88:B7:E4:96:7F:41:11:80:4C:A4:2D:2D:55:30:C2:0B:A6:20:25:1E:98"
+            ]
+        }
+    }
+]

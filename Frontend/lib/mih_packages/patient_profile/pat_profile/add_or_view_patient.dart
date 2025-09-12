@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_add.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 
 class AddOrViewPatient extends StatefulWidget {
   //final AppUser signedInUser;
@@ -28,39 +26,15 @@ class _AddOrViewPatientState extends State<AddOrViewPatient> {
   late Widget loading;
   late Future<Patient?> patient;
 
-  Future<Patient?> fetchPatient() async {
-    //print("Patien manager page: $endpoint");
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/patients/${widget.arguments.signedInUser.app_id}"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // var errorCode = response.statusCode.toString();
-    // var errorBody = response.body;
-
-    if (response.statusCode == 200) {
-      // print("Here1");
-      var decodedData = jsonDecode(response.body);
-      // print("Here2");
-      Patient patients = Patient.fromJson(decodedData as Map<String, dynamic>);
-      // print("Here3");
-      // print(patients);
-      return patients;
-    }
-    return null;
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  Future<Patient?> fetchPatientData() async {
+    return await MihPatientServices()
+        .getPatientDetails(widget.arguments.signedInUser.app_id);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    patient = fetchPatient();
+    patient = fetchPatientData();
   }
 
   @override
