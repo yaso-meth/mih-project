@@ -31,7 +31,7 @@ class _MzansiAiState extends State<MzansiAi> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: true,
+          extra: widget.arguments.personalSelected,
         );
         FocusScope.of(context).unfocus();
       },

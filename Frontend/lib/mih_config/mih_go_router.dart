@@ -150,12 +150,14 @@ class MihGoRouter {
         path: MihGoRouterPaths.aboutMih,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: aboutMih");
-          final int? packageIndex = state.extra as int?;
+          final AboutArguments? args = state.extra as AboutArguments?;
           int index = 0;
-          if (packageIndex != null) {
-            index = packageIndex;
+          bool personalSelected = true;
+          if (args != null) {
+            index = args.packageIndex ?? 0;
+            personalSelected = args.personalSelected;
           }
-          return AboutMih(packageIndex: index);
+          return AboutMih(arguments: AboutArguments(personalSelected, index));
         },
       ),
       // ========================== Mzansi Profile Personal ==================================

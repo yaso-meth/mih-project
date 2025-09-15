@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
@@ -9,10 +10,10 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_t
 import 'package:flutter/material.dart';
 
 class AboutMih extends StatefulWidget {
-  final int? packageIndex;
+  final AboutArguments? arguments;
   const AboutMih({
     super.key,
-    this.packageIndex,
+    this.arguments,
   });
 
   @override
@@ -21,15 +22,18 @@ class AboutMih extends StatefulWidget {
 
 class _AboutMihState extends State<AboutMih> {
   late int _selcetedIndex;
+  late bool _personalSelected;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      if (widget.packageIndex == null) {
+      if (widget.arguments == null) {
         _selcetedIndex = 0;
+        _personalSelected = true;
       } else {
-        _selcetedIndex = widget.packageIndex!;
+        _selcetedIndex = widget.arguments!.packageIndex!;
+        _personalSelected = widget.arguments!.personalSelected;
       }
     });
   }
@@ -58,7 +62,7 @@ class _AboutMihState extends State<AboutMih> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: true,
+          extra: _personalSelected,
         );
         FocusScope.of(context).unfocus();
       },

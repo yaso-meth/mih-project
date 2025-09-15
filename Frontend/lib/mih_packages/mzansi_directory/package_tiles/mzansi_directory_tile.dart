@@ -8,9 +8,11 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MzansiDirectoryTile extends StatefulWidget {
   final double packageSize;
+  final bool personalSelected;
   const MzansiDirectoryTile({
     super.key,
     required this.packageSize,
+    required this.personalSelected,
   });
 
   @override
@@ -25,7 +27,7 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
         context.goNamed(
           "mzansiDirectory",
           extra: MzansiDirectoryArguments(
-            personalSearch: true,
+            personalSearch: widget.personalSelected,
             startSearchText: null,
           ),
         );
