@@ -118,6 +118,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     temp.add({
       "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
+        personalSelected: false,
       )
     });
     //=============== Calculator ===============
@@ -130,12 +131,21 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //=============== Mzansi AI ===============
     temp.add({
       "Mzansi AI": MzansiAiTile(
-        signedInUser: widget.signedInUser,
+        arguments: MzansiAiArguments(
+          widget.signedInUser,
+          "",
+          false,
+        ),
         packageSize: packageSize,
       )
     });
     //=============== About MIH ===============
-    temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
+    temp.add({
+      "About MIH": AboutMihTile(
+        packageSize: packageSize,
+        personalSelected: false,
+      )
+    });
     return temp;
   }
 
@@ -252,6 +262,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                       searchController.text.isEmpty
                           ? null
                           : searchController.text,
+                      false,
                     ),
                   );
                   // Navigator.of(context).pushNamed(

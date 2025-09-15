@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -7,9 +8,11 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class AboutMihTile extends StatefulWidget {
   final double packageSize;
+  final bool personalSelected;
   const AboutMihTile({
     super.key,
     required this.packageSize,
+    required this.personalSelected,
   });
 
   @override
@@ -23,7 +26,10 @@ class _AboutMihTileState extends State<AboutMihTile> {
       onTap: () {
         context.goNamed(
           "aboutMih",
-          extra: 0,
+          extra: AboutArguments(
+            widget.personalSelected,
+            0,
+          ),
         );
         // Navigator.of(context).pushNamed(
         //   '/about',

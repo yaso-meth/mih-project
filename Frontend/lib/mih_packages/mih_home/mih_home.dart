@@ -91,8 +91,8 @@ class _MihHomeState extends State<MihHome> {
         if (asyncSnapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             body: const Mihloadingcircle(
-              message: "Fetching your Data...",
-            ),
+                // message: "Fetching your Data...",
+                ),
           );
         } else if (asyncSnapshot.connectionState == ConnectionState.done &&
             asyncSnapshot.hasData) {

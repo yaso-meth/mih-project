@@ -2,18 +2,17 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MzansiAiTile extends StatefulWidget {
-  final AppUser signedInUser;
+  final MzansiAiArguments arguments;
   final double packageSize;
 
   const MzansiAiTile({
     super.key,
-    required this.signedInUser,
+    required this.arguments,
     required this.packageSize,
   });
 
@@ -28,10 +27,7 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
       onTap: () {
         context.goNamed(
           'mzansiAi',
-          extra: MzansiAiArguments(
-            widget.signedInUser,
-            "",
-          ),
+          extra: widget.arguments,
         );
         // Navigator.of(context).pushNamed(
         //   '/mzansi-ai',

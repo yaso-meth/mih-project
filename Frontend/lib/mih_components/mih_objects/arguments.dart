@@ -221,10 +221,12 @@ class WalletArguments {
 class MzansiAiArguments {
   final AppUser signedInUser;
   final String? startUpQuestion;
+  final bool personalSelected;
 
   MzansiAiArguments(
     this.signedInUser,
     this.startUpQuestion,
+    this.personalSelected,
   );
 }
 
@@ -238,6 +240,16 @@ class MzansiDirectoryArguments {
     this.packageIndex,
     required this.startSearchText,
   });
+}
+
+class AboutArguments {
+  final bool personalSelected;
+  final int? packageIndex;
+
+  AboutArguments(
+    this.personalSelected,
+    this.packageIndex,
+  );
 }
 
 class TestArguments {

@@ -116,6 +116,9 @@ class _MihCardsState extends State<MihCards> {
               Center(
                 child: MihButton(
                   onPressed: () {
+                    shopController.clear();
+                    _nicknameController.clear();
+                    cardNumberController.clear();
                     context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(

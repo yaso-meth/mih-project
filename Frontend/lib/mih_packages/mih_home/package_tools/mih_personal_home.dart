@@ -120,6 +120,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     temp.add({
       "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
+        personalSelected: true,
       )
     });
     //=============== Calendar ===============
@@ -137,7 +138,11 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Mzansi AI ===============
     temp.add({
       "Mzansi AI": MzansiAiTile(
-        signedInUser: widget.signedInUser,
+        arguments: MzansiAiArguments(
+          widget.signedInUser,
+          "",
+          true,
+        ),
         packageSize: packageSize,
       )
     });
@@ -156,7 +161,12 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       )
     });
     //=============== About MIH ===============
-    temp.add({"About MIH": AboutMihTile(packageSize: packageSize)});
+    temp.add({
+      "About MIH": AboutMihTile(
+        packageSize: packageSize,
+        personalSelected: true,
+      )
+    });
     //=============== Dev ===============
     if (widget.isDevActive) {
       temp.add({
@@ -290,6 +300,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                       searchController.text.isEmpty
                           ? null
                           : searchController.text,
+                      true,
                     ),
                   );
                   // Navigator.of(context).pushNamed(
