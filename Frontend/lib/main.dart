@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:upgrader/upgrader.dart';
 import 'mih_config/mih_env.dart';
 import 'mih_config/mih_theme.dart';
 
@@ -72,6 +73,12 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
       darkTheme: theme.getThemeData(),
       debugShowCheckedModeBanner: false,
       routerConfig: widget.router,
+      builder: (context, child) {
+        return UpgradeAlert(
+          navigatorKey: widget.router.routerDelegate.navigatorKey,
+          child: child ?? const Text('Upgrade Alert'),
+        );
+      },
     );
   }
 }
