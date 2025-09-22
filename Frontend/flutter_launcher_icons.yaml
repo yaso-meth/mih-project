@@ -1,16 +1,16 @@
 # flutter pub run flutter_launcher_icons
 flutter_launcher_icons:
-  image_path: "images/app_icon/App_Icon_3.png"
+  image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
 
   android: "launcher_icon"
   # image_path_android: "assets/icon/icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   adaptive_icon_background: "#3A4454"
-  adaptive_icon_foreground: "images/app_icon/App_Icon_3.png"
+  adaptive_icon_foreground: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
   # adaptive_icon_monochrome: "assets/icon/monochrome.png"
 
   ios: true
-  image_path_ios: "images/app_icon/mih_app_icon.png"
+  image_path_ios: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
   remove_alpha_channel_ios: true
   # image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
   # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
@@ -18,15 +18,15 @@ flutter_launcher_icons:
 
   web:
     generate: true
-    image_path: "images/app_icon/circle_logo.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
     background_color: "#3A4454"
     theme_color: "#3A4454"
 
   windows:
     generate: true
-    image_path: "images/app_icon/circle_logo.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
     icon_size: 48 # min:48, max:256, default: 48
 
   macos:
     generate: true
-    image_path: "images/app_icon/circle_logo.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
