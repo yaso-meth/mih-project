@@ -33,6 +33,21 @@ class MihUserServices {
     }
   }
 
+  Future<int> fetchUserCount() async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/users/count/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonBody = jsonDecode(response.body);
+      return jsonBody['count'];
+    } else {
+      return 0;
+    }
+  }
+
   Future<void> createUser(
     String email,
     String app_id,

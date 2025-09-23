@@ -9,6 +9,21 @@ import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
+  Future<int> fetchBusinessCount() async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/count/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonBody = jsonDecode(response.body);
+      return jsonBody['count'];
+    } else {
+      return 0;
+    }
+  }
+
   Future<List<String>> fetchAllBusinessTypes() async {
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/types/"),
