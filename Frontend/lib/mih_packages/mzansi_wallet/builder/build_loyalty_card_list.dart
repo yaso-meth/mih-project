@@ -575,7 +575,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       KenLogger.success("Can change system brightness: $canChange");
       if (canChange) {
         // Permission is granted, you can now change the system brightness
-        ScreenBrightness.instance.system.then((brightness) {
+        await ScreenBrightness.instance.system.then((brightness) {
           setState(() {
             _originalBrightness = brightness;
           });
