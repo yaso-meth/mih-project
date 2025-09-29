@@ -92,7 +92,7 @@ class _MihInfoState extends State<MihInfo> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               //fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 17,
             ),
           ),
         ),
@@ -512,116 +512,111 @@ class _MihInfoState extends State<MihInfo> {
   }
 
   Widget displayBusinessCount() {
-    return SizedBox(
-      // width: 300,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FutureBuilder<int>(
-            future: _futureBusinessCount,
-            builder: (context, snapshot) {
-              bool isLoading = true;
-              String userCount = "⚠️";
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                isLoading = true;
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasError) {
-                isLoading = false;
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                isLoading = false;
-                userCount = snapshot.data.toString();
-              } else {
-                isLoading = true;
-              }
-              return SizedBox(
-                child: Text(
-                  userCount,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<int>(
+          future: _futureBusinessCount,
+          builder: (context, snapshot) {
+            bool isLoading = true;
+            String userCount = "⚠️";
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              isLoading = true;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasError) {
+              isLoading = false;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              isLoading = false;
+              userCount = snapshot.data.toString();
+            } else {
+              isLoading = true;
+            }
+            return SizedBox(
+              child: Text(
+                userCount,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
                 ),
-              ).redacted(
-                context: context,
-                redact: isLoading,
-                configuration: RedactedConfiguration(
-                  defaultBorderRadius: BorderRadius.circular(5),
-                  redactedColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-                  ),
+              ),
+            ).redacted(
+              context: context,
+              redact: isLoading,
+              configuration: RedactedConfiguration(
+                defaultBorderRadius: BorderRadius.circular(5),
+                redactedColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark",
                 ),
-              );
-            },
+              ),
+            );
+          },
+        ),
+        Text(
+          "Businesses",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
           ),
-          Text(
-            "Businesses",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget displayUserCount() {
-    return SizedBox(
-      // width: 300,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FutureBuilder<int>(
-            future: _futureUserCount,
-            builder: (context, snapshot) {
-              bool isLoading = true;
-              String userCount = "⚠️";
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                isLoading = true;
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasError) {
-                isLoading = false;
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                isLoading = false;
-                userCount = snapshot.data.toString();
-              } else {
-                isLoading = true;
-              }
-              return SizedBox(
-                child: Text(
-                  userCount,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                  ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<int>(
+          future: _futureUserCount,
+          builder: (context, snapshot) {
+            bool isLoading = true;
+            String userCount = "⚠️";
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              isLoading = true;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasError) {
+              isLoading = false;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              isLoading = false;
+              userCount = snapshot.data.toString();
+            } else {
+              isLoading = true;
+            }
+            return SizedBox(
+              child: Text(
+                userCount,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
                 ),
-              ).redacted(
-                context: context,
-                redact: isLoading,
-                configuration: RedactedConfiguration(
-                  defaultBorderRadius: BorderRadius.circular(5),
-                  redactedColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-                  ),
+              ),
+            ).redacted(
+              context: context,
+              redact: isLoading,
+              configuration: RedactedConfiguration(
+                defaultBorderRadius: BorderRadius.circular(5),
+                redactedColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark",
                 ),
-              );
-            },
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        Text(
+          "Users",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
           ),
-          Text(
-            "Users",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -675,29 +670,22 @@ class _MihInfoState extends State<MihInfo> {
                 ),
               ),
               // ===================== Divider
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 25,
-                ),
-                child: Divider(
-                  thickness: 1,
-                  color: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              // const SizedBox(
-              //   height: 10,
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //     vertical: 10.0,
+              //     horizontal: 25,
+              //   ),
+              //   child: Divider(
+              //     thickness: 1,
+              //     color: MihColors.getGreyColor(
+              //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              //   ),
               // ),
-              Text(
-                "The MIH Family",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
+              const SizedBox(
+                height: 10,
               ),
               Wrap(
-                alignment: WrapAlignment.spaceEvenly,
+                alignment: WrapAlignment.spaceAround,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: 25,
                 runSpacing: 10,
@@ -705,6 +693,13 @@ class _MihInfoState extends State<MihInfo> {
                   displayUserCount(),
                   displayBusinessCount(),
                 ],
+              ),
+              Text(
+                "The MIH Family",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
               ),
               // ===================== Divider
               Padding(
@@ -714,7 +709,7 @@ class _MihInfoState extends State<MihInfo> {
                 ),
                 child: Divider(
                   thickness: 1,
-                  color: MihColors.getGreenColor(
+                  color: MihColors.getGreyColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
@@ -835,7 +830,7 @@ class _MihInfoState extends State<MihInfo> {
                 ),
                 child: Divider(
                   thickness: 1,
-                  color: MihColors.getGreenColor(
+                  color: MihColors.getGreyColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
@@ -858,7 +853,7 @@ class _MihInfoState extends State<MihInfo> {
                 ),
                 child: Divider(
                   thickness: 1,
-                  color: MihColors.getGreenColor(
+                  color: MihColors.getGreyColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
