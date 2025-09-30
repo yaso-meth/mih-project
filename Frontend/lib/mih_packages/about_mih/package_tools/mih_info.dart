@@ -687,6 +687,14 @@ class _MihInfoState extends State<MihInfo> {
               const SizedBox(
                 height: 10,
               ),
+              // Text(
+              //   "The MIH Community",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //     fontSize: 22,
+              //   ),
+              // ),
               Wrap(
                 alignment: WrapAlignment.spaceAround,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -698,11 +706,11 @@ class _MihInfoState extends State<MihInfo> {
                 ],
               ),
               Text(
-                "The MIH Family",
+                "The MIH Community",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 25,
+                  fontSize: 22,
                 ),
               ),
               // ===================== Divider

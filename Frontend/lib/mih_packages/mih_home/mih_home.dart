@@ -284,7 +284,7 @@ class _MihHomeState extends State<MihHome> {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    "To keep using the MIH app, please take a moment to review and accept our Privacy Policy and Terms of Service. our agreement helps us keep things running smoothly and securely.",
+                                    "To keep using the MIH app, please take a moment to review and accept our Policies. Our agreements helps us keep things running smoothly and securely.",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: MihColors.getSecondaryColor(

@@ -204,7 +204,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                 "aboutMih",
                                 extra: AboutArguments(
                                   true,
-                                  2,
+                                  1,
                                 ),
                               );
                             },
