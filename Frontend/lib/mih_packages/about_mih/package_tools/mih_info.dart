@@ -512,7 +512,7 @@ class _MihInfoState extends State<MihInfo> {
   }
 
   Widget displayBusinessCount() {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -553,6 +553,7 @@ class _MihInfoState extends State<MihInfo> {
             );
           },
         ),
+        const SizedBox(width: 10),
         Text(
           "Businesses",
           textAlign: TextAlign.center,
@@ -657,6 +658,7 @@ class _MihInfoState extends State<MihInfo> {
               ),
               const Text(
                 "Mzansi Innovation Hub",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -664,6 +666,7 @@ class _MihInfoState extends State<MihInfo> {
               ),
               Text(
                 "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
@@ -696,6 +699,7 @@ class _MihInfoState extends State<MihInfo> {
               ),
               Text(
                 "The MIH Family",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
