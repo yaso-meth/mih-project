@@ -14,7 +14,7 @@ class MihTheme {
   late String loadingAssetText;
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
-  String latestVersion = "1.2.0";
+  String latestVersion = "1.2.1";
   // Options:-
   // f3f9d2 = Cream
   // f0f0c9 = cream2
