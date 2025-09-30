@@ -223,15 +223,17 @@ class _AiChatState extends State<AiChat> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  GptMarkdown(
-                    snapshot.requireData,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: _chatFrontSize,
-                      fontWeight: FontWeight.bold,
+                  SelectionArea(
+                    child: GptMarkdown(
+                      snapshot.requireData,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: _chatFrontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
