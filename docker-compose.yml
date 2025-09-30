@@ -65,21 +65,21 @@ services:
       timeout: 5s
       retries: 5
   #============== PHP My Admin ====================================================================        
-  phpmyadmin:
-    platform: linux/amd64
-    image: phpmyadmin/phpmyadmin
-    container_name: MIH-phpmyadmin
-    environment:
-      PMA_HOST: mysqlDB
-      PMA_PORT: 3306
-      PMA_ARBITRARY:
-    networks:
-      - MIH-network
-    restart: always
-    ports:
-      - 8081:80
-    depends_on:
-      - mysqldb
+  # phpmyadmin:
+  #   platform: linux/amd64
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: MIH-phpmyadmin
+  #   environment:
+  #     PMA_HOST: mysqlDB
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY:
+  #   networks:
+  #     - MIH-network
+  #   restart: always
+  #   ports:
+  #     - 8081:80
+  #   depends_on:
+  #     - mysqldb
   #============== Nginx Proxy Server ====================================================================
   nginx:
     container_name: nginx
