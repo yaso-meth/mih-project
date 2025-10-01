@@ -26,7 +26,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
   bool _isScannerStarting = false;
   bool barcodeScanned = false;
 
-  void foundCode(BarcodeCapture bcode) {
+  Future<void> foundCode(BarcodeCapture bcode) async {
     if (mounted &&
         barcodeScanned == false &&
         bcode.barcodes.isNotEmpty &&
@@ -36,8 +36,10 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
         widget.cardNumberController.text = bcode.barcodes.first.rawValue!;
       });
       print(bcode.barcodes.first.rawValue);
-      _scannerController.stop();
-      context.pop();
+      await _scannerController.stop();
+      if (mounted) {
+        context.pop();
+      }
     }
   }
 
@@ -69,13 +71,12 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
   }
 
   @override
-  Future<void> dispose() async {
-    // TODO: implement dispose
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     unawaited(_subscription?.cancel());
     _subscription = null;
+    _scannerController.dispose();
     super.dispose();
-    await _scannerController.dispose();
   }
 
   @override
@@ -83,7 +84,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _subscription = _scannerController.barcodes.listen(foundCode);
-    unawaited(_scannerController.start());
+    // unawaited(_scannerController.start());
   }
 
   @override
