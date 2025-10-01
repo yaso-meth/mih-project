@@ -304,17 +304,30 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  FittedBox(
-                    child: Text(
-                      "Powered by MIH",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          "Powered by MIH",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Icon(
+                        MihIcons.mihLogo,
+                        size: 20,
                         color: MihColors.getPrimaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                       ),
-                    ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
