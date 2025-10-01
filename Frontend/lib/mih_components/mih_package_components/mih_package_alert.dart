@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -99,7 +100,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
             height: 50,
             child: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
               },
               icon: Icon(
                 Icons.close,

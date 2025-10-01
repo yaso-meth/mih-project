@@ -200,7 +200,13 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
-                              context.goNamed("aboutMih", extra: 1);
+                              context.goNamed(
+                                "aboutMih",
+                                extra: AboutArguments(
+                                  true,
+                                  1,
+                                ),
+                              );
                             },
                           ),
                           ListTile(
@@ -230,7 +236,13 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
-                              context.goNamed("aboutMih", extra: 2);
+                              context.goNamed(
+                                "aboutMih",
+                                extra: AboutArguments(
+                                  true,
+                                  2,
+                                ),
+                              );
                             },
                           ),
                           ListTile(

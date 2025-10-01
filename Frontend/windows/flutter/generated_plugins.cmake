@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  file_saver
   fl_downloader
   flutter_tts
   geolocator_windows

@@ -1,6 +1,7 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
@@ -11,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:redacted/redacted.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MihInfo extends StatefulWidget {
@@ -22,6 +25,8 @@ class MihInfo extends StatefulWidget {
 }
 
 class _MihInfoState extends State<MihInfo> {
+  late Future<int> _futureUserCount;
+  late Future<int> _futureBusinessCount;
   final Uri _tiktokUrl =
       Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
   final Uri _whatsappUrl =
@@ -87,7 +92,7 @@ class _MihInfoState extends State<MihInfo> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               //fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 17,
             ),
           ),
         ),
@@ -144,7 +149,7 @@ class _MihInfoState extends State<MihInfo> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               //fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 17,
             ),
           ),
         ],
@@ -178,7 +183,7 @@ class _MihInfoState extends State<MihInfo> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               //fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 17,
             ),
           ),
         ],
@@ -506,6 +511,123 @@ class _MihInfoState extends State<MihInfo> {
     );
   }
 
+  Widget displayBusinessCount() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<int>(
+          future: _futureBusinessCount,
+          builder: (context, snapshot) {
+            bool isLoading = true;
+            String userCount = "⚠️";
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              isLoading = true;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasError) {
+              isLoading = false;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              isLoading = false;
+              userCount = snapshot.data.toString();
+            } else {
+              isLoading = true;
+            }
+            return SizedBox(
+              child: Text(
+                userCount,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+              ),
+            ).redacted(
+              context: context,
+              redact: isLoading,
+              configuration: RedactedConfiguration(
+                defaultBorderRadius: BorderRadius.circular(5),
+                redactedColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        Text(
+          "Businesses",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget displayUserCount() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<int>(
+          future: _futureUserCount,
+          builder: (context, snapshot) {
+            bool isLoading = true;
+            String userCount = "⚠️";
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              isLoading = true;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasError) {
+              isLoading = false;
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              isLoading = false;
+              userCount = snapshot.data.toString();
+            } else {
+              isLoading = true;
+            }
+            return SizedBox(
+              child: Text(
+                userCount,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+              ),
+            ).redacted(
+              context: context,
+              redact: isLoading,
+              configuration: RedactedConfiguration(
+                defaultBorderRadius: BorderRadius.circular(5),
+                redactedColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        Text(
+          "Users",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 20,
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _futureUserCount = MihUserServices().fetchUserCount();
+    _futureBusinessCount = MihBusinessDetailsServices().fetchBusinessCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
@@ -536,6 +658,7 @@ class _MihInfoState extends State<MihInfo> {
               ),
               const Text(
                 "Mzansi Innovation Hub",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -543,30 +666,83 @@ class _MihInfoState extends State<MihInfo> {
               ),
               Text(
                 "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(),
+              // ===================== Divider
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //     vertical: 10.0,
+              //     horizontal: 25,
+              //   ),
+              //   child: Divider(
+              //     thickness: 1,
+              //     color: MihColors.getGreyColor(
+              //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              //   ),
+              // ),
+              const SizedBox(
+                height: 10,
+              ),
+              // Text(
+              //   "The MIH Community",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //     fontSize: 22,
+              //   ),
+              // ),
+              Wrap(
+                alignment: WrapAlignment.spaceAround,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 25,
+                runSpacing: 10,
+                children: [
+                  displayUserCount(),
+                  displayBusinessCount(),
+                ],
+              ),
+              Text(
+                "The MIH Community",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+              // ===================== Divider
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 25,
+                ),
+                child: Divider(
+                  thickness: 1,
+                  color: MihColors.getGreyColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
               ),
               // const SizedBox(
               //   height: 10,
               // ),
-              Wrap(
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  ourVision(),
-                  ourMission(),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    ourVision(),
+                    ourMission(),
+                  ],
+                ),
               ),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
               Wrap(
                   alignment: WrapAlignment.center,
@@ -658,9 +834,17 @@ class _MihInfoState extends State<MihInfo> {
               const SizedBox(
                 height: 10,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(),
+              // ===================== Divider
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 25,
+                ),
+                child: Divider(
+                  thickness: 1,
+                  color: MihColors.getGreyColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -673,9 +857,17 @@ class _MihInfoState extends State<MihInfo> {
                   founderBio(),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(),
+              // ===================== Divider
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 25,
+                ),
+                child: Divider(
+                  thickness: 1,
+                  color: MihColors.getGreyColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
               ),
               mihSocials(),
             ],

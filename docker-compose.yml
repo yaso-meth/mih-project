@@ -65,21 +65,21 @@ services:
       timeout: 5s
       retries: 5
   #============== PHP My Admin ====================================================================        
-  phpmyadmin:
-    platform: linux/amd64
-    image: phpmyadmin/phpmyadmin
-    container_name: MIH-phpmyadmin
-    environment:
-      PMA_HOST: mysqlDB
-      PMA_PORT: 3306
-      PMA_ARBITRARY:
-    networks:
-      - MIH-network
-    restart: always
-    ports:
-      - 8081:80
-    depends_on:
-      - mysqldb
+  # phpmyadmin:
+  #   platform: linux/amd64
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: MIH-phpmyadmin
+  #   environment:
+  #     PMA_HOST: mysqlDB
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY:
+  #   networks:
+  #     - MIH-network
+  #   restart: always
+  #   ports:
+  #     - 8081:80
+  #   depends_on:
+  #     - mysqldb
   #============== Nginx Proxy Server ====================================================================
   nginx:
     container_name: nginx
@@ -127,7 +127,8 @@ services:
     platform: linux/amd64
     container_name: MIH-Minio
     hostname: minio
-    image: docker.io/bitnami/minio:2022
+    # image: docker.io/bitnami/minio:2022
+    image: minio/minio
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -138,6 +139,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PW}
     networks:
       - MIH-network
+    command: ["server", "/data", "--console-address", ":9001"]
   #============== MIH-Monitor Portainer ==================================================================== 
   portainer:
     container_name: MIH-Monitor
@@ -168,15 +170,15 @@ services:
       - OLLAMA_HOST=0.0.0.0
     networks:
       - MIH-network
-    # === Added section for NVIDIA GPU acceleration ===
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all # or specify a number of GPUs
-              capabilities: [ gpu ]
+# === Added section for NVIDIA GPU acceleration ===
+runtime: nvidia
+deploy:
+  resources:
+    reservations:
+      devices:
+        - driver: nvidia
+          count: all # or specify a number of GPUs
+          capabilities: [ gpu ]
 #============== Firebaase ====================================================================   
 # firebase:
 #   container_name: MIH-firebase-emulator

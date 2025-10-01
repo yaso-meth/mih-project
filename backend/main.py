@@ -18,6 +18,7 @@ import routers.access_request as access_request
 import routers.patient_access as patient_access
 import routers.mzansi_wallet as mzansi_wallet
 import routers.mzansi_directory as mzansi_directory
+import routers.user_consent as user_consent
 import routers.icd10_codes as icd10_codes
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
@@ -94,6 +95,7 @@ app.include_router(business.router)
 app.include_router(notifications.router)
 app.include_router(mzansi_wallet.router)
 app.include_router(mzansi_directory.router)
+app.include_router(user_consent.router)
 app.include_router(icd10_codes.router)
 app.include_router(appointments.router)
 

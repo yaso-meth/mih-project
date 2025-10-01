@@ -1,4 +1,4 @@
-from sqlalchemy import DateTime, Column, Integer, String
+from sqlalchemy import DateTime, Column, Integer, String, text
 from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
@@ -81,4 +81,20 @@ class BookmarkedBusiness(Base):
         return (
             f"<BusinessRating(idbookmarked_businesses={self.idbookmarked_businesses}, app_id='{self.app_id}', "
             f"business_id='{self.business_id}', created_date='{self.created_date}')>"
+        )
+
+class UserConsent(Base):
+    __tablename__ = 'user_consent'
+    __table_args__ = {'schema': 'app_data'}
+    iduser_consent = Column(Integer, primary_key=True) 
+    app_id = Column(String(128), nullable=False,server_default=text("''"))
+    privacy_policy_accepted = Column(DateTime, nullable=True)
+    terms_of_services_accepted = Column(DateTime, nullable=True)
+
+    def __repr__(self):
+        return (
+            f"<UserConsent(iduser_consent={self.iduser_consent}, "
+            f"app_id='{self.app_id}', "
+            f"privacy_policy_accepted='{self.privacy_policy_accepted}', "
+            f"terms_of_services_accepted='{self.terms_of_services_accepted}')>"
         )

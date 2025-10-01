@@ -8,6 +8,7 @@ class MihToggle extends StatefulWidget {
   final Color fillColor;
   final Color secondaryFillColor;
   final bool? readOnly;
+  final double? elevation;
   final void Function(bool) onChange;
   const MihToggle({
     super.key,
@@ -16,6 +17,7 @@ class MihToggle extends StatefulWidget {
     required this.fillColor,
     required this.secondaryFillColor,
     this.readOnly,
+    this.elevation,
     required this.onChange,
   });
 
@@ -59,49 +61,73 @@ class _MihToggleState extends State<MihToggle> {
           ),
         ),
         const SizedBox(width: 10),
-        Switch(
-          value: togglePosition,
-          trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
-            (states) {
-              if (widget.readOnly == true) {
-                return Colors.grey;
-              }
-              if (states.contains(WidgetState.selected)) {
-                return MihColors.getGreenColor(
+        // Material(
+        // elevation: widget.elevation ?? 0.01,
+        // shadowColor: widget.secondaryFillColor.withOpacity(0.5),
+        // color: Colors.transparent,
+        // shape: StadiumBorder(),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(
+                30), // Adjust the border radius to match the toggle
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                offset: Offset(
+                    0, widget.elevation ?? 10), // Adjust the vertical offset
+                blurRadius: widget.elevation ?? 10,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: Switch(
+            value: togglePosition,
+            trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+              (states) {
+                if (widget.readOnly == true) {
+                  return Colors.grey;
+                }
+                if (states.contains(WidgetState.selected)) {
+                  return MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode ==
+                          "Dark"); // Outline color when active
+                }
+                return MihColors.getRedColor(
                     MzansiInnovationHub.of(context)!.theme.mode ==
                         "Dark"); // Outline color when active
-              }
-              return MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode ==
-                      "Dark"); // Outline color when active
-            },
+              },
+            ),
+            activeColor: widget.readOnly == true
+                ? Colors.grey
+                : widget.secondaryFillColor,
+            activeTrackColor: widget.readOnly == true
+                ? Colors.grey.shade400
+                : MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            inactiveThumbColor: widget.readOnly == true
+                ? Colors.grey
+                : widget.secondaryFillColor,
+            inactiveTrackColor: widget.readOnly == true
+                ? Colors.grey.shade400
+                : MihColors.getRedColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            // activeColor: widget.secondaryFillColor,
+            // activeTrackColor: widget.fillColor,
+            // inactiveThumbColor: widget.fillColor,
+            // inactiveTrackColor: widget.secondaryFillColor,
+            // onChanged: widget.readOnly != true ? widget.onChange : null,
+            onChanged: widget.readOnly != true
+                ? (newValue) {
+                    setState(() {
+                      togglePosition = newValue; // Update internal state
+                    });
+                    widget.onChange(newValue); // Call the parent's onChange
+                  }
+                : null,
           ),
-          activeColor:
-              widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
-          activeTrackColor: widget.readOnly == true
-              ? Colors.grey.shade400
-              : MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          inactiveThumbColor:
-              widget.readOnly == true ? Colors.grey : widget.secondaryFillColor,
-          inactiveTrackColor: widget.readOnly == true
-              ? Colors.grey.shade400
-              : MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          // activeColor: widget.secondaryFillColor,
-          // activeTrackColor: widget.fillColor,
-          // inactiveThumbColor: widget.fillColor,
-          // inactiveTrackColor: widget.secondaryFillColor,
-          // onChanged: widget.readOnly != true ? widget.onChange : null,
-          onChanged: widget.readOnly != true
-              ? (newValue) {
-                  setState(() {
-                    togglePosition = newValue; // Update internal state
-                  });
-                  widget.onChange(newValue); // Call the parent's onChange
-                }
-              : null,
         ),
+        const SizedBox(width: 10),
       ],
     );
   }

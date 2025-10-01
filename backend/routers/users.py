@@ -1,7 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 #from ..mih_database import dbConnection
 import mih_database
+import mih_database.mihDbConnections
+from mih_database.mihDbObjects import User, Business, BusinessRating, BookmarkedBusiness
+from sqlalchemy import desc, or_
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -66,6 +71,26 @@ class userDeleteRequest(BaseModel):
 #     db.close()
 #     return items[0]
     
+
+    
+@router.get("/users/count/", tags=["MIH Users"])
+async def read_users_by_app_id(): #, session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(func.count(User.app_id)).scalar()
+        response_data = {"count": queryResults}
+        return response_data 
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
 
 # Get List of all files
 @router.get("/users/search/{search}", tags=["MIH Users"])

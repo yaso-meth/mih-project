@@ -6,6 +6,7 @@ import mih_database.mihDbConnections
 from mih_database.mihDbObjects import User, Business, BusinessRating, BookmarkedBusiness
 from sqlalchemy import desc, or_
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 #SuperToken Auth from front end
 from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.session import SessionContainer
@@ -62,6 +63,24 @@ class businessUpdateRequestV2(BaseModel):
     rating: str
     mission_vision: str
     
+@router.get("/business/count/", tags=["MIH Business"])
+async def read_business_by_business_id(): #, session: SessionContainer = Depends(verify_session())
+    dbEngine = mih_database.mihDbConnections.dbAllConnect()
+    dbSession = Session(dbEngine)
+    try:
+        queryResults = dbSession.query(func.count(Business.business_id)).scalar()
+        response_data = {"count": queryResults}
+        return response_data 
+    except Exception as e:
+        print(f"An error occurred during the ORM query: {e}")
+        if dbSession.is_active:
+            dbSession.rollback()
+        raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve records due to an internal server error."
+            )
+    finally:
+        dbSession.close()
 
 # Get List of all files
 @router.get("/business/types/", tags=["MIH Business"])
