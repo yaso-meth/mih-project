@@ -153,6 +153,9 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
       case "total energies":
         return Image.asset(
             'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/total_energies-min.png');
+      case "engen":
+        return Image.asset(
+            'lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/engen-min.png');
       default:
         return null;
     }
