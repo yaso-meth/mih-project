@@ -74,9 +74,16 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
       debugShowCheckedModeBanner: false,
       routerConfig: widget.router,
       builder: (context, child) {
+        if (child == null) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
         return UpgradeAlert(
           navigatorKey: widget.router.routerDelegate.navigatorKey,
-          child: child ?? const Text('Upgrade Alert'),
+          child: child,
         );
       },
     );
