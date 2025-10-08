@@ -3,17 +3,19 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_card_favourites.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_cards.dart';
-import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
+import 'package:provider/provider.dart';
 
 class MihWallet extends StatefulWidget {
   final WalletArguments arguments;
-  // final AppUser signedInUser;
   const MihWallet({
     super.key,
     required this.arguments,
-    // required this.signedInUser,
   });
 
   @override
@@ -21,13 +23,34 @@ class MihWallet extends StatefulWidget {
 }
 
 class _MihWalletState extends State<MihWallet> {
-  late int _selcetedIndex;
+  bool isLoading = true;
+
+  void setPackageIndex() {
+    if (widget.arguments.index >= 0 && widget.arguments.index <= 3) {
+      context.read<MzansiWalletProvider>().setToolIndex(widget.arguments.index);
+    }
+  }
+
+  Future<void> setLoyaltyCards() async {
+    await MIHMzansiWalletApis.getLoyaltyCards(
+        widget.arguments.signedInUser.app_id, context);
+  }
+
+  Future<void> setFavouritesCards() async {
+    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+        widget.arguments.signedInUser.app_id, context);
+  }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _selcetedIndex = widget.arguments.index;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      setPackageIndex();
+      await setLoyaltyCards();
+      await setFavouritesCards();
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -38,12 +61,13 @@ class _MihWalletState extends State<MihWallet> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+      selectedbodyIndex: context.watch<MzansiWalletProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<MzansiWalletProvider>().setToolIndex(newIndex);
+        // setState(() {
+        //   _selcetedIndex = newValue;
+        // });
+        // print("Index: $_selcetedIndex");
       },
     );
   }
@@ -65,19 +89,15 @@ class _MihWalletState extends State<MihWallet> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.card_membership)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MzansiWalletProvider>().setToolIndex(0);
     };
     temp[const Icon(Icons.favorite)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<MzansiWalletProvider>().setToolIndex(1);
     };
 
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MzansiWalletProvider>().toolIndex,
     );
   }
 
@@ -90,6 +110,13 @@ class _MihWalletState extends State<MihWallet> {
         signedInUser: widget.arguments.signedInUser,
       ),
     ];
+    if (isLoading) {
+      return [
+        const Center(
+          child: Mihloadingcircle(),
+        )
+      ];
+    }
     return toolBodies;
   }
 

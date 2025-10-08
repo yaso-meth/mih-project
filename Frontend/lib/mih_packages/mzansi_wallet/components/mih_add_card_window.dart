@@ -1,12 +1,9 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
@@ -22,12 +19,10 @@ import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart'
 
 class MihAddCardWindow extends StatefulWidget {
   final AppUser signedInUser;
-  Future<List<MIHLoyaltyCard>> cardList;
 
-  MihAddCardWindow({
+  const MihAddCardWindow({
     super.key,
     required this.signedInUser,
-    required this.cardList,
   });
 
   @override
@@ -132,8 +127,6 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
       _shopName.value = "";
     }
   }
-
-  // ... rest of your existing methods
 
   @override
   Widget build(BuildContext context) {
@@ -320,11 +313,6 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                             context,
                           );
                           if (statusCode == 201) {
-                            setState(() {
-                              widget.cardList =
-                                  MIHMzansiWalletApis.getLoyaltyCards(
-                                      widget.signedInUser.app_id);
-                            });
                             context.pop();
                             KenLogger.error("Card Added Successfully");
                             successPopUp(

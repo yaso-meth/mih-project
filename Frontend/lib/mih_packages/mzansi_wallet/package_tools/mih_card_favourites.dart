@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
+import 'package:provider/provider.dart';
 
 class MihCardFavourites extends StatefulWidget {
   final AppUser signedInUser;
@@ -24,13 +24,17 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
   late MihBannerAd _bannerAd;
   List<MIHLoyaltyCard> listOfCards = [];
 
+  void getFavouriteLoyaltyCards(BuildContext context) async {
+    setState(() {
+      listOfCards = context.read<MzansiWalletProvider>().favouriteCards;
+    });
+  }
+
   @override
   void initState() {
-    super.initState();
     _bannerAd = MihBannerAd();
-    cardList = MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-      widget.signedInUser.app_id,
-    );
+    getFavouriteLoyaltyCards(context);
+    super.initState();
   }
 
   @override
@@ -47,69 +51,23 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              FutureBuilder(
-                future: cardList,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: Mihloadingcircle(),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    listOfCards = snapshot.data!;
-                    // searchShop();
-                    return BuildLoyaltyCardList(
-                      cardList: listOfCards,
-                      signedInUser: widget.signedInUser,
-                      navIndex: 0,
-                      bannerAd: _bannerAd,
-                      favouritesMode: true,
-                      searchText: TextEditingController(),
-                      onCardViewClose: () {
-                        setState(() {
-                          _bannerAd = MihBannerAd();
-                        });
-                        Navigator.pop(context);
-                      },
-                    );
-                  } else {
-                    return const Center(
-                      child: Text("Error Loading Loyalty Cards"),
-                    );
-                  }
+              BuildLoyaltyCardList(
+                cardList: listOfCards,
+                signedInUser: widget.signedInUser,
+                navIndex: 0,
+                bannerAd: _bannerAd,
+                favouritesMode: true,
+                searchText: TextEditingController(),
+                onCardViewClose: () {
+                  setState(() {
+                    _bannerAd = MihBannerAd();
+                  });
+                  Navigator.pop(context);
                 },
               ),
             ],
           ),
         ),
-        // Positioned(
-        //   right: 0,
-        //   bottom: 0,
-        //   child: MihFloatingMenu(
-        //       animatedIcon: AnimatedIcons.menu_close,
-        //       children: [
-        //         SpeedDialChild(
-        //           child: Icon(
-        //             Icons.add,
-        //             color:
-        //                 MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //           ),
-        //           label: "Add Loyalty Card",
-        //           labelBackgroundColor:
-        //               MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //           labelStyle: TextStyle(
-        //             color:
-        //                 MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //             fontWeight: FontWeight.bold,
-        //           ),
-        //           backgroundColor:
-        //               MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //           onTap: () {
-        //             // addCardWindow(context);
-        //           },
-        //         )
-        //       ]),
-        // )
       ],
     );
   }

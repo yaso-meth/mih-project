@@ -3,10 +3,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
@@ -22,6 +22,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.da
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
@@ -149,6 +150,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                               .updateLoyaltyCardAPICall(
                             widget.signedInUser,
                             widget.cardList[index].idloyalty_cards,
+                            widget.cardList[index].shop_name,
                             widget.cardList[index].favourite,
                             widget.cardList[index].priority_index,
                             _nicknameController.text,
@@ -158,13 +160,28 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           if (statusCode == 200) {
                             context.pop();
                             context.pop();
-                            context.goNamed(
-                              "mzansiWallet",
-                              extra: WalletArguments(
-                                widget.signedInUser,
-                                0,
-                              ),
-                            );
+                            // context
+                            //     .read<MzansiWalletProvider>()
+                            //     .editLoyaltyCard(
+                            //       updatedCard: MIHLoyaltyCard(
+                            //         idloyalty_cards:
+                            //             widget.cardList[index].idloyalty_cards,
+                            //         app_id: widget.signedInUser.app_id,
+                            //         shop_name: widget.cardList[index].shop_name,
+                            //         card_number: _cardNumberController.text,
+                            //         favourite: widget.cardList[index].favourite,
+                            //         priority_index:
+                            //             widget.cardList[index].priority_index,
+                            //         nickname: _nicknameController.text,
+                            //       ),
+                            //     );
+                            // context.goNamed(
+                            //   "mzansiWallet",
+                            //   extra: WalletArguments(
+                            //     widget.signedInUser,
+                            //     0,
+                            //   ),
+                            // );
                           } else {
                             internetConnectionPopUp();
                           }
@@ -212,9 +229,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 context,
               );
               if (statusCode == 200) {
-                setState(() {
-                  widget.cardList.removeAt(index);
-                });
                 context.pop();
                 context.pop();
               } else {
@@ -260,6 +274,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
                     widget.signedInUser,
                     widget.cardList[index].idloyalty_cards,
+                    widget.cardList[index].shop_name,
                     "Yes",
                     _noFavourites,
                     widget.cardList[index].nickname,
@@ -269,13 +284,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   if (statusCode == 200) {
                     context.pop();
                     context.pop();
-                    context.goNamed(
-                      "mzansiWallet",
-                      extra: WalletArguments(
-                        widget.signedInUser,
-                        1,
-                      ),
-                    );
+                    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                        widget.signedInUser.app_id, context);
+                    context.read<MzansiWalletProvider>().setToolIndex(1);
                   } else {
                     internetConnectionPopUp();
                   }
@@ -345,6 +356,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
                     widget.signedInUser,
                     widget.cardList[index].idloyalty_cards,
+                    widget.cardList[index].shop_name,
                     "",
                     0,
                     widget.cardList[index].nickname,
@@ -354,13 +366,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   if (statusCode == 200) {
                     context.pop();
                     context.pop();
-                    context.goNamed(
-                      "mzansiWallet",
-                      extra: WalletArguments(
-                        widget.signedInUser,
-                        0,
-                      ),
-                    );
+                    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                        widget.signedInUser.app_id, context);
+                    context.read<MzansiWalletProvider>().setToolIndex(0);
                   } else {
                     internetConnectionPopUp();
                   }

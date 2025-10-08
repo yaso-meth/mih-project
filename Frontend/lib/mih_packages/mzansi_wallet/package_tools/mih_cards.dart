@@ -3,21 +3,21 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:provider/provider.dart';
 
 class MihCards extends StatefulWidget {
   final AppUser signedInUser;
@@ -33,7 +33,6 @@ class MihCards extends StatefulWidget {
 class _MihCardsState extends State<MihCards> {
   final TextEditingController cardSearchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  late Future<List<MIHLoyaltyCard>> cardList;
   MihBannerAd _bannerAd = MihBannerAd();
   List<MIHLoyaltyCard> listOfCards = [];
   final ValueNotifier<List<MIHLoyaltyCard>> searchShopName = ValueNotifier([]);
@@ -132,7 +131,6 @@ class _MihCardsState extends State<MihCards> {
       barrierDismissible: false,
       builder: (context) => MihAddCardWindow(
         signedInUser: widget.signedInUser,
-        cardList: cardList,
       ),
     );
   }
@@ -146,9 +144,16 @@ class _MihCardsState extends State<MihCards> {
     super.dispose();
   }
 
+  void getLoyaltyCards(BuildContext context) async {
+    setState(() {
+      listOfCards = context.read<MzansiWalletProvider>().loyaltyCards;
+    });
+    searchShop();
+  }
+
   @override
   void initState() {
-    cardList = MIHMzansiWalletApis.getLoyaltyCards(widget.signedInUser.app_id);
+    getLoyaltyCards(context);
     cardSearchController.addListener(searchShop);
     super.initState();
   }
@@ -187,23 +192,14 @@ class _MihCardsState extends State<MihCards> {
                 ),
               ),
               const SizedBox(height: 10),
-              FutureBuilder(
-                future: cardList,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: Mihloadingcircle(),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    listOfCards = snapshot.data!;
-                    searchShop();
-                    return ValueListenableBuilder(
+              Consumer<MzansiWalletProvider>(
+                builder: (context, mzansiWalletProvider, child) {
+                  listOfCards = mzansiWalletProvider.loyaltyCards;
+                  return ValueListenableBuilder<List<MIHLoyaltyCard>>(
                       valueListenable: searchShopName,
-                      builder: (BuildContext context,
-                          List<MIHLoyaltyCard> value, Widget? child) {
+                      builder: (context, filteredCards, child) {
                         return BuildLoyaltyCardList(
-                          cardList: value,
+                          cardList: filteredCards, //listOfCards,
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
                           bannerAd: _bannerAd,
@@ -216,13 +212,7 @@ class _MihCardsState extends State<MihCards> {
                             // Navigator.pop(context);
                           },
                         );
-                      },
-                    );
-                  } else {
-                    return const Center(
-                      child: Text("Error Loading Loyalty Cards"),
-                    );
-                  }
+                      });
                 },
               ),
             ],
