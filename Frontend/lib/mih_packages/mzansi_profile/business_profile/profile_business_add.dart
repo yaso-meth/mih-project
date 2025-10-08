@@ -387,7 +387,8 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                         requiredText: true,
                         hintText: "Business Type",
                         validator: (value) {
-                          return MihValidationServices().isEmpty(value);
+                          return MihValidationServices()
+                              .validateNoSpecialChars(value);
                         },
                       ),
                       const SizedBox(height: 10.0),

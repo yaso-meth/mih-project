@@ -359,7 +359,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             requiredText: true,
                             hintText: "Business Type",
                             validator: (value) {
-                              return MihValidationServices().isEmpty(value);
+                              return MihValidationServices()
+                                  .validateNoSpecialChars(value);
                             },
                           ),
                           const SizedBox(height: 10),
