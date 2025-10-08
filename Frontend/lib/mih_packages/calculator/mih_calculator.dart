@@ -3,10 +3,12 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/currency_exchange_rate.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/simple_calc.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/tip_calc.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
 import 'package:provider/provider.dart';
 
 class MIHCalculator extends StatefulWidget {
@@ -21,13 +23,16 @@ class MIHCalculator extends StatefulWidget {
 }
 
 class _MIHCalculatorState extends State<MIHCalculator> {
-  int _selectedIndex = 0;
+  Future<void> getCurrencyCodeList() async {
+    await MihCurrencyExchangeRateServices.getCurrencyCodeList(context);
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<MihBannerAdProvider>().loadBannerAd();
+      await getCurrencyCodeList();
     });
   }
 
@@ -38,12 +43,9 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selectedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selectedIndex = newValue;
-        });
-        print("Index: $_selectedIndex");
+      selectedbodyIndex: context.watch<MihCalculatorProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<MihCalculatorProvider>().setToolIndex(newIndex);
       },
     );
   }
@@ -65,23 +67,17 @@ class _MIHCalculatorState extends State<MIHCalculator> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.calculate)] = () {
-      setState(() {
-        _selectedIndex = 0;
-      });
+      context.read<MihCalculatorProvider>().setToolIndex(0);
     };
     temp[const Icon(Icons.money)] = () {
-      setState(() {
-        _selectedIndex = 1;
-      });
+      context.read<MihCalculatorProvider>().setToolIndex(1);
     };
     temp[const Icon(Icons.currency_exchange)] = () {
-      setState(() {
-        _selectedIndex = 2;
-      });
+      context.read<MihCalculatorProvider>().setToolIndex(2);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selectedIndex,
+      selcetedIndex: context.watch<MihCalculatorProvider>().toolIndex,
     );
   }
 

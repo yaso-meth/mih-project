@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
@@ -76,6 +77,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => MihBannerAdProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MihCalculatorProvider(),
         ),
       ],
       child: MaterialApp.router(

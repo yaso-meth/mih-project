@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/currency.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihCurrencyExchangeRateServices {
@@ -21,7 +24,7 @@ class MihCurrencyExchangeRateServices {
     }
   }
 
-  static Future<List<String>> getCurrencyCodeList() async {
+  static Future<void> getCurrencyCodeList(BuildContext context) async {
     final response = await http.get(Uri.parse(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.min.json"));
     if (response.statusCode == 200) {
@@ -32,7 +35,11 @@ class MihCurrencyExchangeRateServices {
         currencies.add("$code - $name");
       });
       currencies.sort();
-      return currencies;
+      if (response.statusCode == 200) {
+        context
+            .read<MihCalculatorProvider>()
+            .setAvailableCurrencies(currencies: currencies);
+      }
     } else {
       throw Exception('failed to fatch currencies');
     }
