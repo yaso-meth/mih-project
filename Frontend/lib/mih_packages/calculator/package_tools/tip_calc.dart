@@ -1,5 +1,6 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
+import 'package:provider/provider.dart';
 
 class TipCalc extends StatefulWidget {
   const TipCalc({super.key});
@@ -30,7 +32,6 @@ class _TipCalcState extends State<TipCalc> {
   final ValueNotifier<String> splitValue = ValueNotifier("");
   late bool splitPosition;
   final _formKey = GlobalKey<FormState>();
-  MihBannerAd _bannerAd = MihBannerAd();
   String tip = "";
   String total = "";
   String amountPerPerson = "";
@@ -98,9 +99,7 @@ class _TipCalcState extends State<TipCalc> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
-          setState(() {
-            _bannerAd = MihBannerAd();
-          });
+          context.read<MihBannerAdProvider>().loadBannerAd();
           Navigator.pop(context);
         },
         windowBody: Column(
@@ -231,7 +230,9 @@ class _TipCalcState extends State<TipCalc> {
                 ),
               ),
             SizedBox(height: 10),
-            SizedBox(child: _bannerAd),
+            Consumer(builder: (context, bannerAdDisplay, child) {
+              return MihBannerAd();
+            }),
             // if (splitBillController.text == "Yes") const Divider(),
           ],
         ),

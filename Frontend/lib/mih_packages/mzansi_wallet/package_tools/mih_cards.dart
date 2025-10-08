@@ -1,7 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -33,7 +32,6 @@ class MihCards extends StatefulWidget {
 class _MihCardsState extends State<MihCards> {
   final TextEditingController cardSearchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  MihBannerAd _bannerAd = MihBannerAd();
   List<MIHLoyaltyCard> listOfCards = [];
   final ValueNotifier<List<MIHLoyaltyCard>> searchShopName = ValueNotifier([]);
   final MobileScannerController scannerController = MobileScannerController(
@@ -202,15 +200,8 @@ class _MihCardsState extends State<MihCards> {
                           cardList: filteredCards, //listOfCards,
                           signedInUser: widget.signedInUser,
                           navIndex: 0,
-                          bannerAd: _bannerAd,
                           favouritesMode: false,
                           searchText: cardSearchController,
-                          onCardViewClose: () {
-                            setState(() {
-                              _bannerAd = MihBannerAd();
-                            });
-                            // Navigator.pop(context);
-                          },
                         );
                       });
                 },

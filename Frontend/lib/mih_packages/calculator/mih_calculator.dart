@@ -2,10 +2,12 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/currency_exchange_rate.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/simple_calc.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/tip_calc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MIHCalculator extends StatefulWidget {
   final bool personalSelected;
@@ -20,6 +22,14 @@ class MIHCalculator extends StatefulWidget {
 
 class _MIHCalculatorState extends State<MIHCalculator> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

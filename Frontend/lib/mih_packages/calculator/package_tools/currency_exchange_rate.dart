@@ -10,10 +10,12 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
+import 'package:provider/provider.dart';
 
 class CurrencyExchangeRate extends StatefulWidget {
   const CurrencyExchangeRate({super.key});
@@ -29,7 +31,6 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   final TextEditingController _fromAmountController = TextEditingController();
   final TextEditingController _toAmountController = TextEditingController();
   late Future<List<String>> availableCurrencies;
-  MihBannerAd _bannerAd = MihBannerAd();
 
   Future<void> submitForm() async {
     String fromCurrencyCode = _fromCurrencyController.text.split(" - ")[0];
@@ -67,9 +68,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
-          setState(() {
-            _bannerAd = MihBannerAd();
-          });
+          context.read<MihBannerAdProvider>().loadBannerAd();
           Navigator.pop(context);
         },
         windowBody: Column(
@@ -160,7 +159,9 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               ],
             ),
             SizedBox(height: 10),
-            SizedBox(child: _bannerAd),
+            Consumer(builder: (context, bannerAdDisplay, child) {
+              return MihBannerAd();
+            }),
           ],
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -29,10 +30,8 @@ class BuildLoyaltyCardList extends StatefulWidget {
   final AppUser signedInUser;
   final List<MIHLoyaltyCard> cardList;
   final int navIndex;
-  final MihBannerAd? bannerAd;
   final bool favouritesMode;
   final TextEditingController searchText;
-  final void Function()? onCardViewClose;
 
   const BuildLoyaltyCardList({
     super.key,
@@ -41,8 +40,6 @@ class BuildLoyaltyCardList extends StatefulWidget {
     required this.navIndex,
     required this.favouritesMode,
     required this.searchText,
-    this.bannerAd,
-    this.onCardViewClose,
   });
 
   @override
@@ -487,7 +484,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           ),
         ],
         onWindowTapClose: () {
-          widget.onCardViewClose;
+          context.read<MihBannerAdProvider>().loadBannerAd();
           resetScreenBrightness();
           context.pop();
         },
@@ -549,7 +546,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ),
             SizedBox(height: 10),
-            widget.bannerAd ?? SizedBox(),
+            Consumer(builder: (context, bannerAdDisplay, child) {
+              return MihBannerAd();
+            }),
             // MihBannerAd(),
           ],
         ),

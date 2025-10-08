@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
@@ -21,7 +20,6 @@ class MihCardFavourites extends StatefulWidget {
 
 class _MihCardFavouritesState extends State<MihCardFavourites> {
   late Future<List<MIHLoyaltyCard>> cardList;
-  late MihBannerAd _bannerAd;
   List<MIHLoyaltyCard> listOfCards = [];
 
   void getFavouriteLoyaltyCards(BuildContext context) async {
@@ -32,7 +30,6 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
 
   @override
   void initState() {
-    _bannerAd = MihBannerAd();
     getFavouriteLoyaltyCards(context);
     super.initState();
   }
@@ -55,15 +52,8 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
                 cardList: listOfCards,
                 signedInUser: widget.signedInUser,
                 navIndex: 0,
-                bannerAd: _bannerAd,
                 favouritesMode: true,
                 searchText: TextEditingController(),
-                onCardViewClose: () {
-                  setState(() {
-                    _bannerAd = MihBannerAd();
-                  });
-                  Navigator.pop(context);
-                },
               ),
             ],
           ),
