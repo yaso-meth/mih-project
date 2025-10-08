@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 import 'mih_config/mih_env.dart';
 import 'mih_config/mih_theme.dart';
@@ -66,26 +68,33 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
     precacheImage(theme.loadingImage(), context);
-    return MaterialApp.router(
-      title: getTitle(),
-      themeMode: ThemeMode.dark,
-      theme: theme.getThemeData(),
-      darkTheme: theme.getThemeData(),
-      debugShowCheckedModeBanner: false,
-      routerConfig: widget.router,
-      builder: (context, child) {
-        if (child == null) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => MzansiWalletProvider(),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: getTitle(),
+        themeMode: ThemeMode.dark,
+        theme: theme.getThemeData(),
+        darkTheme: theme.getThemeData(),
+        debugShowCheckedModeBanner: false,
+        routerConfig: widget.router,
+        builder: (context, child) {
+          if (child == null) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return UpgradeAlert(
+            navigatorKey: widget.router.routerDelegate.navigatorKey,
+            child: child,
           );
-        }
-        return UpgradeAlert(
-          navigatorKey: widget.router.routerDelegate.navigatorKey,
-          child: child,
-        );
-      },
+        },
+      ),
     );
   }
 }
