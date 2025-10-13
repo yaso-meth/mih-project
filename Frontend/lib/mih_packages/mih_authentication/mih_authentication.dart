@@ -4,8 +4,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_register.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class MihAuthentication extends StatefulWidget {
   const MihAuthentication({super.key});
@@ -15,56 +17,35 @@ class MihAuthentication extends StatefulWidget {
 }
 
 class _MihAuthenticationState extends State<MihAuthentication> {
-  int _selcetedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
+      selectedbodyIndex: context.watch<MihAuthenticationProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<MihAuthenticationProvider>().setToolIndex(newIndex);
       },
     );
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihSignIn(
-        onNewUserButtonTap: () {
-          setState(() {
-            _selcetedIndex = 1;
-          });
-        },
-      ),
-      MihRegister(onExistingUserButtonTap: () {
-        setState(() {
-          _selcetedIndex = 0;
-        });
-      })
-    ];
+    List<Widget> toolBodies = [MihSignIn(), MihRegister()];
     return toolBodies;
   }
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.perm_identity)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MihAuthenticationProvider>().setToolIndex(0);
     };
     temp[const Icon(Icons.create)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<MihAuthenticationProvider>().setToolIndex(1);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MihAuthenticationProvider>().toolIndex,
     );
   }
 
@@ -75,7 +56,7 @@ class _MihAuthenticationState extends State<MihAuthentication> {
         icon: const Icon(MihIcons.mihLogo),
         iconSize: 45,
         onTap: () {
-          context.goNamed("aboutMih", extra: 0);
+          context.goNamed("aboutMih", extra: true);
         },
       ),
     );

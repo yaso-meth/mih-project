@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
@@ -74,6 +75,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     precacheImage(theme.loadingImage(), context);
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => MihAuthenticationProvider(),
+        ),
         ChangeNotifierProvider(
           create: (context) => MzansiWalletProvider(),
         ),
