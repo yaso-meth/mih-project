@@ -4,7 +4,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:provider/provider.dart';
 import '../../../main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
@@ -200,12 +202,15 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_) async {
+                                context
+                                    .read<AboutMihProvider>()
+                                    .setToolIndex(1);
+                              });
                               context.goNamed(
                                 "aboutMih",
-                                extra: AboutArguments(
-                                  true,
-                                  1,
-                                ),
+                                extra: true,
                               );
                             },
                           ),
@@ -236,12 +241,15 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                               ],
                             ),
                             onTap: () {
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_) async {
+                                context
+                                    .read<AboutMihProvider>()
+                                    .setToolIndex(2);
+                              });
                               context.goNamed(
                                 "aboutMih",
-                                extra: AboutArguments(
-                                  true,
-                                  2,
-                                ),
+                                extra: true,
                               );
                             },
                           ),

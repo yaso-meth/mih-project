@@ -1,19 +1,22 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_%20attributes.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_privacy_policy.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_terms_of_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AboutMih extends StatefulWidget {
-  final AboutArguments? arguments;
+  final bool? personalSelected;
+  // final AboutArguments? arguments;
   const AboutMih({
     super.key,
-    this.arguments,
+    // this.arguments,
+    this.personalSelected,
   });
 
   @override
@@ -21,19 +24,16 @@ class AboutMih extends StatefulWidget {
 }
 
 class _AboutMihState extends State<AboutMih> {
-  late int _selcetedIndex;
   late bool _personalSelected;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      if (widget.arguments == null) {
-        _selcetedIndex = 0;
+      if (widget.personalSelected == null) {
         _personalSelected = true;
       } else {
-        _selcetedIndex = widget.arguments!.packageIndex!;
-        _personalSelected = widget.arguments!.personalSelected;
+        _personalSelected = widget.personalSelected!;
       }
     });
   }
@@ -45,12 +45,9 @@ class _AboutMihState extends State<AboutMih> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        // print("Index: $_selcetedIndex");
+      selectedbodyIndex: context.watch<AboutMihProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<AboutMihProvider>().setToolIndex(newIndex);
       },
     );
   }
@@ -72,28 +69,20 @@ class _AboutMihState extends State<AboutMih> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.info)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<AboutMihProvider>().setToolIndex(0);
     };
     temp[const Icon(Icons.policy)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<AboutMihProvider>().setToolIndex(1);
     };
     temp[const Icon(Icons.design_services)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
+      context.read<AboutMihProvider>().setToolIndex(2);
     };
     temp[const Icon(Icons.star_rounded)] = () {
-      setState(() {
-        _selcetedIndex = 3;
-      });
+      context.read<AboutMihProvider>().setToolIndex(3);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<AboutMihProvider>().toolIndex,
     );
   }
 

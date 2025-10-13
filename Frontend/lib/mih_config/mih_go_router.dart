@@ -13,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_auth_p
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/mih_authentication.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_route_error.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/mih_mine_sweeper.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
@@ -63,6 +64,7 @@ class MihGoRouterPaths {
   static const String barcodeScanner = '/scanner';
   static const String calculator = '/calculator';
   static const String mzansiAi = '/mzansi-ai';
+  static const String mihMineSweeper = '/mih-mine-sweeper';
   static const String packageDevTest = '/package-dev';
 }
 
@@ -150,14 +152,12 @@ class MihGoRouter {
         path: MihGoRouterPaths.aboutMih,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: aboutMih");
-          final AboutArguments? args = state.extra as AboutArguments?;
-          int index = 0;
+          final bool? args = state.extra as bool?;
           bool personalSelected = true;
           if (args != null) {
-            index = args.packageIndex ?? 0;
-            personalSelected = args.personalSelected;
+            personalSelected = args;
           }
-          return AboutMih(arguments: AboutArguments(personalSelected, index));
+          return AboutMih(personalSelected: personalSelected);
         },
       ),
       // ========================== Mzansi Profile Personal ==================================
@@ -461,6 +461,15 @@ class MihGoRouter {
           final PrintPreviewArguments? args =
               state.extra as PrintPreviewArguments?;
           return MIHPrintPreview(arguments: args!);
+        },
+      ),
+      // ========================== MIH Calculator ==================================
+      GoRoute(
+        name: "mihMineSweeper",
+        path: MihGoRouterPaths.mihMineSweeper,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: mihMineSweeper");
+          return MihMineSweeper();
         },
       ),
       // ========================== End ==================================
