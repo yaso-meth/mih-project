@@ -610,7 +610,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
         const SizedBox(width: 10),
         Text(
-          "Users",
+          "People",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.normal,
