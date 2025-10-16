@@ -14,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_
 import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tile/mih_access_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tiles/mih_mine_sweeper_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tiles/mzansi_ai_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tiles/mzansi_directory_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_profile_tile.dart';
@@ -149,6 +150,13 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Calculator ===============
     temp.add({
       "Calculator": MihCalculatorTile(
+        personalSelected: widget.personalSelected,
+        packageSize: packageSize,
+      )
+    });
+    //=============== Mine Sweeper ===============
+    temp.add({
+      "Mine Sweeper": MihMineSweeperTile(
         personalSelected: widget.personalSelected,
         packageSize: packageSize,
       )

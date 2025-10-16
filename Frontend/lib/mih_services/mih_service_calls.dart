@@ -61,7 +61,7 @@ class MIHApiCalls {
 
     // Get Userdata
     var uid = await SuperTokens.getUserId();
-    AppUser? user = await MihUserServices().getUserDetails(uid, context);
+    AppUser? user = await MihUserServices().getUserDetails(context);
     if (user != null) {
       userData = user;
     } else {
@@ -70,7 +70,7 @@ class MIHApiCalls {
 
     // Get BusinessUserdata
     BusinessUser? businessUser =
-        await MihMyBusinessUserServices().getBusinessUser(uid);
+        await MihMyBusinessUserServices().getBusinessUser(context);
     if (businessUser != null) {
       bUserData = businessUser;
     } else {
@@ -79,9 +79,7 @@ class MIHApiCalls {
 
     // Get Businessdata
     Business? business =
-        await MihBusinessDetailsServices().getBusinessDetailsByUser(
-      uid,
-    );
+        await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
     if (business != null) {
       busData = business;
     } else {

@@ -3,8 +3,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tools/appointments.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MzansiCalendar extends StatefulWidget {
   final CalendarArguments arguments;
@@ -18,8 +20,6 @@ class MzansiCalendar extends StatefulWidget {
 }
 
 class _MzansiCalendarState extends State<MzansiCalendar> {
-  int _selcetedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -27,12 +27,9 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+      selectedbodyIndex: context.watch<MihCalendarProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<MihCalendarProvider>().setToolIndex(newIndex);
       },
     );
   }
@@ -55,14 +52,12 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.calendar_month)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MihCalendarProvider>().setToolIndex(0);
     };
 
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MihCalendarProvider>().toolIndex,
     );
   }
 

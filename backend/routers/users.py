@@ -249,6 +249,7 @@ async def delete_users_data_by_app_id(itemRequest:  userDeleteRequest, session: 
             "DELETE FROM patient_manager.patient_notes where app_id = %s",
             "DELETE FROM patient_manager.patient_files where app_id = %s",
             "DELETE FROM patient_manager.claim_statement_file where app_id = %s",
+            "DELETE FROM app_data.user_consent where app_id = %s",
             "DELETE FROM app_data.users where app_id = %s",
         ]
         # Delete user from all tables

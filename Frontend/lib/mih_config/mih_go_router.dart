@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/mih_calculator.dart';
@@ -29,6 +30,7 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/a
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihGoRouterPaths {
@@ -133,16 +135,8 @@ class MihGoRouter {
         path: MihGoRouterPaths.mihHome,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihHome");
-          if (state.extra != null) {
-            final bool personalSelected = state.extra as bool;
-            return MihHome(
-              key: UniqueKey(),
-              personalSelected: personalSelected,
-            );
-          }
           return MihHome(
             key: UniqueKey(),
-            personalSelected: true,
           );
         },
       ),
@@ -166,15 +160,13 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiProfileManage,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiProfileManage");
-          final AppProfileUpdateArguments? args =
-              state.extra as AppProfileUpdateArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return MzansiProfile(arguments: args);
+          return MzansiProfile();
         },
       ),
       GoRoute(
@@ -198,8 +190,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.businessProfileManage,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: businessProfileManage");
-          final BusinessArguments? args = state.extra as BusinessArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -207,7 +198,6 @@ class MihGoRouter {
           }
           return MzansiBusinessProfile(
             key: UniqueKey(),
-            arguments: args,
           );
         },
       ),

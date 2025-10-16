@@ -32,19 +32,8 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
   late ImageProvider<Object>? imagePreview;
 
   ImageProvider<Object>? getImage() {
-    Color dark = const Color(0XFF3A4454);
     if (widget.imageFile == null) {
-      if (MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark") ==
-          dark) {
-        print("here in light icon");
-        return const AssetImage(
-            'lib/mih_components/mih_package_components/assets/images/i-dont-know-dark.png');
-      } else {
-        print("here in dark icon");
-        return const AssetImage(
-            'lib/mih_components/mih_package_components/assets/images/i-dont-know-light.png');
-      }
+      return null;
     } else {
       return widget.imageFile;
     }
@@ -69,9 +58,12 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(widget.width * 0.1),
-            child: Image(image: imagePreview!),
+          Visibility(
+            visible: imagePreview != null,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(widget.width * 0.1),
+              child: Image(image: imagePreview!),
+            ),
           ),
           Visibility(
             visible: widget.editable,

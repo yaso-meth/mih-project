@@ -28,10 +28,6 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
           "mihCalculator",
           extra: widget.personalSelected,
         );
-        // Navigator.of(context).pushNamed(
-        //   '/calculator',
-        //   arguments: widget.personalSelected,
-        // );
       },
       appName: "Calculator",
       appIcon: Icon(

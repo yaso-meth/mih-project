@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -16,19 +17,17 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_del
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class BuildEmployeeList extends StatefulWidget {
   final List<BusinessEmployee> employees;
-  final BusinessArguments arguments;
 
   const BuildEmployeeList({
     super.key,
     required this.employees,
-    required this.arguments,
   });
 
   @override
@@ -369,36 +368,41 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (BuildContext context, index) {
-        return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
-      itemCount: widget.employees.length,
-      itemBuilder: (context, index) {
-        //final patient = widget.patients[index].id_no.contains(widget.searchString);
-        //print(index);
-        var isMe = "";
-        if (widget.arguments.signedInUser.app_id ==
-            widget.employees[index].app_id) {
-          isMe = "(You)";
-        }
-        return ListTile(
-          title: Text(
-              "${widget.employees[index].fname} ${widget.employees[index].lname} - ${widget.employees[index].title} $isMe"),
-          subtitle: Text(
-            "${widget.employees[index].username}\n${widget.employees[index].email}\nAccess: ${widget.employees[index].access}",
-            style: TextStyle(
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, index) {
+            return Divider(
               color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-          ),
-          onTap: () {
-            updateEmployeePopUp(index, screenWidth);
+            );
+          },
+          itemCount: widget.employees.length,
+          itemBuilder: (context, index) {
+            //final patient = widget.patients[index].id_no.contains(widget.searchString);
+            //print(index);
+            var isMe = "";
+            if (mzansiProfileProvider.user!.app_id ==
+                widget.employees[index].app_id) {
+              isMe = "(You)";
+            }
+            return ListTile(
+              title: Text(
+                  "${widget.employees[index].fname} ${widget.employees[index].lname} - ${widget.employees[index].title} $isMe"),
+              subtitle: Text(
+                "${widget.employees[index].username}\n${widget.employees[index].email}\nAccess: ${widget.employees[index].access}",
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              onTap: () {
+                updateEmployeePopUp(index, screenWidth);
+              },
+            );
           },
         );
       },

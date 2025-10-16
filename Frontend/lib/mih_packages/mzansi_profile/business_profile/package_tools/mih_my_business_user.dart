@@ -1,7 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -17,18 +19,11 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:provider/provider.dart';
 
 class MihMyBusinessUser extends StatefulWidget {
-  final BusinessArguments arguments;
-  final ImageProvider<Object>? userProPicImage;
-  final ImageProvider<Object>? userSignatureImage;
-
   const MihMyBusinessUser({
     super.key,
-    required this.arguments,
-    required this.userProPicImage,
-    required this.userSignatureImage,
   });
 
   @override
@@ -37,7 +32,7 @@ class MihMyBusinessUser extends StatefulWidget {
 
 class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   PlatformFile? userPicFile;
-  PlatformFile? userSignatureFile;
+  PlatformFile? newSelectedSignaturePic;
   final fileNameController = TextEditingController();
   final titleTextController = TextEditingController();
   final fnameController = TextEditingController();
@@ -55,23 +50,24 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     }
   }
 
-  Future<bool> uploadFile() async {
-    if (userSignatureFile != null) {
+  Future<bool> uploadFile(MzansiProfileProvider mzansiProfileProvider) async {
+    if (newSelectedSignaturePic != null) {
       int uploadStatusCode = 0;
       uploadStatusCode = await MihFileApi.uploadFile(
-        widget.arguments.signedInUser.app_id,
+        mzansiProfileProvider.user!.app_id,
         env,
         "business_files",
-        userSignatureFile!,
+        newSelectedSignaturePic!,
         context,
       );
       if (uploadStatusCode == 200) {
+        signtureController.text = newSelectedSignaturePic!.name;
         int deleteStatusCode = 0;
         deleteStatusCode = await MihFileApi.deleteFile(
-          widget.arguments.signedInUser.app_id,
+          mzansiProfileProvider.user!.app_id,
           env,
           "business_files",
-          widget.arguments.businessUser!.sig_path.split("/").last,
+          mzansiProfileProvider.businessUser!.sig_path.split("/").last,
           context,
         );
         if (deleteStatusCode == 200) {
@@ -87,42 +83,34 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     }
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
+    KenLogger.success("Start Submit Form");
     if (isFormFilled()) {
-      int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
-        widget.arguments.signedInUser.app_id,
-        widget.arguments.businessUser!.business_id,
-        titleTextController.text,
-        accessController.text,
-        signtureController.text,
-        context,
-      );
-      if (statusCode == 200) {
-        bool successfullyUploadedFile = await uploadFile();
-        if (successfullyUploadedFile) {
-          // Navigator.of(context).pop();
-          // Navigator.of(context).pop();
-          // Navigator.of(context).pushNamed(
-          //   '/',
-          //   arguments: AuthArguments(
-          //     false,
-          //     false,
-          //   ),
-          // );
-          // File uploaded successfully
+      KenLogger.success("Form Filled");
+      KenLogger.success("Start File Upload");
+      bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
+      KenLogger.success(
+          "File Upload Complete: outcome $successfullyUploadedFile");
+      if (!mounted) return;
+      KenLogger.success("is mounted");
+      if (successfullyUploadedFile) {
+        int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
+          mzansiProfileProvider.user!.app_id,
+          mzansiProfileProvider.businessUser!.business_id,
+          titleTextController.text,
+          accessController.text,
+          signtureController.text,
+          mzansiProfileProvider,
+          context,
+        );
+        KenLogger.success("Details Update Complete: status code $statusCode");
+        if (!mounted) return;
+        KenLogger.success("is mounted");
+        if (statusCode == 200) {
+          KenLogger.success("Start Success Message");
           String message = "Business details updated successfully";
           successPopUp(message, false);
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return const MIHSuccessMessage(
-          //       successType: "Success",
-          //       successMessage: "Business details updated successfully",
-          //     );
-          //   },
-          // );
         } else {
-          // File upload failed
           showDialog(
             context: context,
             builder: (context) {
@@ -196,10 +184,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
               Center(
                 child: MihButton(
                   onPressed: () {
-                    context.goNamed(
-                      'mihHome',
-                      extra: stayOnPersonalSide,
-                    );
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -230,6 +215,29 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     );
   }
 
+  void setControllers() {
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
+    setState(() {
+      fileNameController.text =
+          mzansiProfileProvider.user!.pro_pic_path.split("/").last;
+      signtureController.text =
+          mzansiProfileProvider.businessUser!.sig_path.split("/").last;
+      KenLogger.success("title: ${mzansiProfileProvider.businessUser!.title}");
+      KenLogger.success(
+          "sig url: ${mzansiProfileProvider.businessUser!.sig_path}");
+      titleTextController.text = mzansiProfileProvider.businessUser!.title;
+      fnameController.text = mzansiProfileProvider.user!.fname;
+      lnameController.text = mzansiProfileProvider.user!.lname;
+      accessController.text = mzansiProfileProvider.businessUser!.access;
+    });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
+    } else {
+      env = "Dev";
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -240,27 +248,13 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     accessController.dispose();
     signtureController.dispose();
     userPicFile = null;
-    userSignatureFile = null;
+    newSelectedSignaturePic = null;
   }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      fileNameController.text =
-          widget.arguments.signedInUser.pro_pic_path.split("/").last;
-      signtureController.text =
-          widget.arguments.businessUser!.sig_path.split("/").last;
-      titleTextController.text = widget.arguments.businessUser!.title;
-      fnameController.text = widget.arguments.signedInUser.fname;
-      lnameController.text = widget.arguments.signedInUser.lname;
-      accessController.text = widget.arguments.businessUser!.access;
-    });
-    if (AppEnviroment.getEnv() == "Prod") {
-      env = "Prod";
-    } else {
-      env = "Dev";
-    }
+    setControllers();
   }
 
   @override
@@ -274,177 +268,200 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   }
 
   Widget getBody(double width) {
-    return MihSingleChildScroll(
-      child: Padding(
-        padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-            ? EdgeInsets.symmetric(horizontal: width * 0.2)
-            : EdgeInsets.symmetric(horizontal: width * 0.075),
-        child: Column(
-          children: [
-            MihForm(
-              formKey: _formKey,
-              formFields: [
-                Center(
-                  child: MihCircleAvatar(
-                    imageFile: widget.userProPicImage,
-                    width: 150,
-                    editable: false,
-                    fileNameController: fileNameController,
-                    userSelectedfile: userPicFile,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onChange: (_) {},
-                  ),
-                ),
-                Visibility(
-                  visible: false,
-                  child: MihTextFormField(
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    controller: fileNameController,
-                    multiLineInput: false,
-                    requiredText: true,
-                    readOnly: true,
-                    hintText: "Selected File Name",
-                  ),
-                ),
-                const SizedBox(height: 20),
-                MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  controller: titleTextController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: false,
-                  hintText: "Title",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10),
-                MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  controller: fnameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "First Name",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10),
-                MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  controller: lnameController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  readOnly: true,
-                  hintText: "Surname",
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10),
-                MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  controller: accessController,
-                  multiLineInput: false,
-                  requiredText: true,
-                  hintText: "Access Level",
-                  readOnly: true,
-                  validator: (value) {
-                    return MihValidationServices().isEmpty(value);
-                  },
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  width: 300,
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    "Signature:",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Center(
-                  child: MihImageDisplay(
-                    imageFile: widget.userSignatureImage,
-                    width: 300,
-                    height: 200,
-                    editable: true,
-                    fileNameController: signtureController,
-                    userSelectedfile: userSignatureFile,
-                    onChange: (selectedFile) {
-                      setState(() {
-                        userSignatureFile = selectedFile;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Visibility(
-                  visible: false,
-                  child: MihTextFormField(
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    controller: fileNameController,
-                    multiLineInput: false,
-                    requiredText: true,
-                    readOnly: true,
-                    hintText: "Selected Signature File",
-                  ),
-                ),
-                const SizedBox(height: 15),
-                Center(
-                  child: MihButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        submitForm();
-                      } else {
-                        MihAlertServices().formNotFilledCompletely(context);
-                      }
-                    },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 300,
-                    child: Text(
-                      "Update",
-                      style: TextStyle(
-                        color: MihColors.getPrimaryColor(
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+        return MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
+                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+            child: Column(
+              children: [
+                MihForm(
+                  formKey: _formKey,
+                  formFields: [
+                    Center(
+                      child: MihCircleAvatar(
+                        imageFile: mzansiProfileProvider.userProfilePicture,
+                        width: 150,
+                        editable: false,
+                        fileNameController: fileNameController,
+                        userSelectedfile: userPicFile,
+                        frameColor: MihColors.getSecondaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        backgroundColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        onChange: (_) {},
                       ),
                     ),
-                  ),
+                    Visibility(
+                      visible: false,
+                      child: MihTextFormField(
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        controller: fileNameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: true,
+                        hintText: "Selected File Name",
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    MihTextFormField(
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      controller: titleTextController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      readOnly: false,
+                      hintText: "Title",
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      controller: fnameController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      readOnly: true,
+                      hintText: "First Name",
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      controller: lnameController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      readOnly: true,
+                      hintText: "Surname",
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihTextFormField(
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      controller: accessController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      hintText: "Access Level",
+                      readOnly: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      width: 300,
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        "Signature:",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: MihImageDisplay(
+                        imageFile: newSelectedSignaturePic != null
+                            ? MemoryImage(newSelectedSignaturePic!.bytes!)
+                            : mzansiProfileProvider.businessUserSignature,
+                        width: 300,
+                        height: 200,
+                        editable: true,
+                        fileNameController: signtureController,
+                        userSelectedfile: newSelectedSignaturePic,
+                        onChange: (selectedFile) {
+                          setState(() {
+                            newSelectedSignaturePic = selectedFile;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Visibility(
+                      visible: false,
+                      child: MihTextFormField(
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        controller: fileNameController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: true,
+                        hintText: "Selected Signature File",
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Center(
+                      child: MihButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            submitForm(mzansiProfileProvider);
+                          } else {
+                            MihAlertServices().formNotFilledCompletely(context);
+                          }
+                        },
+                        buttonColor: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        width: 300,
+                        child: Text(
+                          "Update",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
-                const SizedBox(height: 20),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -75,7 +76,7 @@ class MihFileApi {
     request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
         filename: file.name.replaceAll(RegExp(r' '), '-')));
     var response = await request.send();
-    Navigator.of(context).pop(); // Pop loading dialog
+    context.pop(); // Pop loading dialog
     return response.statusCode;
   }
 
@@ -99,7 +100,7 @@ class MihFileApi {
         "env": env,
       }),
     );
-    Navigator.of(context).pop(); // Pop loading dialog
+    context.pop(); // Pop loading dialog
     return response.statusCode;
   }
 
