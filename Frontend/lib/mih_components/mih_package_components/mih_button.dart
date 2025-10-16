@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MihButton extends StatelessWidget {
   final void Function()? onPressed;
+  final void Function()? onLongPressed;
   final Color buttonColor;
   final double? width;
   final double? height;
@@ -12,6 +13,7 @@ class MihButton extends StatelessWidget {
   const MihButton({
     super.key,
     required this.onPressed,
+    this.onLongPressed,
     required this.buttonColor,
     this.width,
     this.height,
@@ -49,6 +51,7 @@ class MihButton extends StatelessWidget {
           highlightColor: rippleColor.withValues(alpha: 0.2),
           hoverColor: rippleColor.withValues(alpha: 0.3),
           onTap: onPressed,
+          onLongPress: onLongPressed,
           child: Container(
             width: width,
             height: height,
