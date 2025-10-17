@@ -36,6 +36,7 @@ class MineTile extends StatelessWidget {
           child: Text(
             '${square.bombsAround}',
             style: TextStyle(
+              fontSize: 25,
               fontWeight: FontWeight.bold,
               color: _getTileColor(square.bombsAround, context),
             ),

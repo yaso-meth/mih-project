@@ -35,7 +35,23 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   int squaresLeft = -1;
   bool _isFirstLoad = true;
 
+  String getModeConfig() {
+    switch (modeController.text) {
+      case ("Easy"):
+        return "Columns: 10\nRows: 10\nBomds: 15";
+      case ("Normal"):
+        return "Columns: 10\nRows: 15\nBomds: 23";
+      case ("Hard"):
+        return "Columns: 10\nRows: 20\nBomds: 30";
+      default:
+        return "Error";
+    }
+  }
+
   void showStartGameWindow(MihMineSweeperProvider mihMineSweeperProvider) {
+    // easy - 10 * 10 & 15 bombs
+    // Normal - 10 * 15 & 23 bombs
+    // Hard - 10 * 20 & 30 bombs
     showDialog(
         context: context,
         builder: (context) {
@@ -57,6 +73,17 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       requiredText: true,
                       editable: true,
                       enableSearch: false,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      getModeConfig(),
+                      style: TextStyle(
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 25),
                     Center(
