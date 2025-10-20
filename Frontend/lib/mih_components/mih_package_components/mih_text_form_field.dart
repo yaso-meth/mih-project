@@ -191,18 +191,21 @@ class _MihTextFormFieldState extends State<MihTextFormField> {
                             ),
                             decoration: InputDecoration(
                               suffixIcon: widget.passwordMode == true
-                                  ? IconButton(
-                                      icon: Icon(
-                                        _obscureText
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color: widget.inputColor,
+                                  ? FocusScope(
+                                      canRequestFocus: false,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureText
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                          color: widget.inputColor,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                          });
+                                        },
                                       ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscureText = !_obscureText;
-                                        });
-                                      },
                                     )
                                   : null,
                               errorStyle: const TextStyle(
