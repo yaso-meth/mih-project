@@ -1,16 +1,14 @@
-import 'dart:convert';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_employee_list.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
 import 'package:provider/provider.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMyBusinessTeam extends StatefulWidget {
   const MihMyBusinessTeam({
@@ -25,6 +23,12 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   String errorCode = "";
   String errorBody = "";
 
+  void getEmployeeData(MzansiProfileProvider mzansiProfileProvider) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await MihBusinessEmployeeServices()
+          .fetchEmployees(mzansiProfileProvider, context);
+    });
+  }
   // Future<void> fetchEmployees(
   //     MzansiProfileProvider mzansiProfileProvider) async {
   //   //print("Patien manager page: $endpoint");
@@ -49,9 +53,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
 
   Widget displayEmployeeList(List<BusinessEmployee> employeeList) {
     if (employeeList.isNotEmpty) {
-      return BuildEmployeeList(
-        employees: employeeList,
-      );
+      return BuildEmployeeList();
     }
     return Center(
       child: Text(
@@ -87,6 +89,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
         if (mzansiProfileProvider.employeeList == null) {
+          getEmployeeData(mzansiProfileProvider);
           return Center(
             child: Mihloadingcircle(),
           );

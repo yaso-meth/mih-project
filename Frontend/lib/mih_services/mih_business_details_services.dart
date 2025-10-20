@@ -120,7 +120,7 @@ class MihBusinessDetailsServices {
   }
 
   Future<Response> createBusinessDetails(
-    String appId,
+    MzansiProfileProvider provider,
     String busineName,
     String businessType,
     String businessRegistrationNo,
@@ -141,9 +141,6 @@ class MihBusinessDetailsServices {
         return const Mihloadingcircle();
       },
     );
-    String logoPath = businessLogoFilename.isNotEmpty
-        ? "$appId/business_files/$businessLogoFilename"
-        : "";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/"),
       headers: <String, String>{
@@ -154,7 +151,7 @@ class MihBusinessDetailsServices {
         "type": businessType,
         "registration_no": businessRegistrationNo,
         "logo_name": businessLogoFilename,
-        "logo_path": logoPath,
+        "logo_path": "",
         "contact_no": businessPhoneNumber,
         "bus_email": businessEmail,
         "gps_location": businessLocation,
@@ -165,7 +162,50 @@ class MihBusinessDetailsServices {
         "mission_vision": businessMissionVision,
       }),
     );
-    Navigator.of(context).pop();
+    context.pop();
+    if (response.statusCode == 201) {
+      int finalStatusCode = await updateBusinessDetailsV2(
+        jsonDecode(response.body)['business_id'],
+        busineName,
+        businessType,
+        businessRegistrationNo,
+        businessPracticeNo,
+        businessVatNo,
+        businessEmail,
+        businessPhoneNumber,
+        businessLocation,
+        businessLogoFilename,
+        businessWebsite,
+        businessRating,
+        businessMissionVision,
+        provider,
+        context,
+      );
+      if (finalStatusCode == 200) {
+        String logoPath = businessLogoFilename.isNotEmpty
+            ? "${jsonDecode(response.body)['business_id']}/business_files/$businessLogoFilename"
+            : "";
+        provider.setBusiness(
+          newBusiness: Business(
+            jsonDecode(response.body)['business_id'],
+            busineName,
+            businessType,
+            businessRegistrationNo,
+            businessLogoFilename,
+            logoPath,
+            businessPhoneNumber,
+            businessEmail,
+            provider.user!.app_id,
+            businessLocation,
+            businessPracticeNo,
+            businessVatNo,
+            businessWebsite,
+            businessRating,
+            businessMissionVision,
+          ),
+        );
+      }
+    }
     return response;
   }
 
@@ -227,7 +267,7 @@ class MihBusinessDetailsServices {
           filePath,
           business_phone_number,
           business_email,
-          provider.business!.app_id,
+          business_id,
           business_location,
           business_practice_no,
           business_vat_no,

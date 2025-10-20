@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
@@ -32,6 +33,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
   late ImageProvider<Object>? imagePreview;
 
   ImageProvider<Object>? getImage() {
+    KenLogger.success(widget.imageFile.toString());
     if (widget.imageFile == null) {
       return null;
     } else {
@@ -58,13 +60,26 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Visibility(
-            visible: imagePreview != null,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(widget.width * 0.1),
-              child: Image(image: imagePreview!),
-            ),
-          ),
+          imagePreview != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(widget.width * 0.1),
+                  child: Image(image: imagePreview!),
+                )
+              : Container(
+                  width: widget.width,
+                  height: widget.height,
+                  decoration: BoxDecoration(
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    borderRadius: BorderRadius.circular(widget.width * 0.1),
+                  ),
+                  child: Icon(
+                    Icons.image_not_supported_rounded,
+                    size: widget.width * 0.3,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                ),
           Visibility(
             visible: widget.editable,
             child: Positioned(
@@ -125,7 +140,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
                       }
                     }
                   } catch (e) {
-                    print("Error: $e");
+                    print("here 2 Error: $e");
                   }
                 },
                 icon: const Icon(

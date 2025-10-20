@@ -5,17 +5,14 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class MihBusinessUserSearch extends StatefulWidget {
-  final BusinessArguments arguments;
   const MihBusinessUserSearch({
     super.key,
-    required this.arguments,
   });
 
   @override
@@ -33,18 +30,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
 
   Future<List<AppUser>> fetchUsers(String search) async {
     return MihUserServices().searchUsers(search, context);
-    // final response = await http
-    //     .get(Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$search"));
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-    // if (response.statusCode == 200) {
-    //   Iterable l = jsonDecode(response.body);
-    //   List<AppUser> users =
-    //       List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
-    //   return users;
-    // } else {
-    //   throw Exception('failed to load patients');
-    // }
   }
 
   void submitUserForm() {
@@ -61,7 +46,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
     if (userList.isNotEmpty) {
       return BuildUserList(
         users: userList,
-        arguments: widget.arguments,
       );
     }
     if (hasSearchedBefore && userSearch.isNotEmpty) {

@@ -506,8 +506,8 @@ class _MihInfoState extends State<MihInfo> {
 
   void shareMIHLink(BuildContext context, String message, String link) {
     String shareText = "$message: $link";
-    Share.share(
-      shareText,
+    SharePlus.instance.share(
+      ShareParams(text: shareText),
     );
   }
 

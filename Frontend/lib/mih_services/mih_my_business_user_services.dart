@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class MihMyBusinessUserServices {
       },
     );
     if (response.statusCode == 200) {
-      KenLogger.success(response.body);
+      // KenLogger.success(response.body);
       BusinessUser? businessUser =
           BusinessUser.fromJson(jsonDecode(response.body));
       context
@@ -42,6 +41,7 @@ class MihMyBusinessUserServices {
     String signatureFilename,
     String title,
     String access,
+    MzansiProfileProvider provider,
     BuildContext context,
   ) async {
     showDialog(
@@ -50,6 +50,7 @@ class MihMyBusinessUserServices {
         return const Mihloadingcircle();
       },
     );
+    String sigPath = "$business_id/business_files/$signatureFilename";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/insert/"),
       headers: <String, String>{
@@ -59,13 +60,17 @@ class MihMyBusinessUserServices {
         "business_id": business_id,
         "app_id": app_id,
         "signature": signatureFilename,
-        "sig_path": "$business_id/business_files/$signatureFilename",
+        "sig_path": sigPath,
         "title": title,
         "access": access,
       }),
     );
     context.pop();
     if (response.statusCode == 201) {
+      provider.setBusinessUser(
+        newBusinessUser: BusinessUser(
+            0, business_id, app_id, signatureFilename, sigPath, title, access),
+      );
       return 201;
     } else {
       internetConnectionPopUp(context);

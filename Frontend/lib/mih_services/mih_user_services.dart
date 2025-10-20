@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -132,11 +133,13 @@ class MihUserServices {
     var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
     var filePath = "${signedInUser.app_id}/profile_files/$fileName";
     String profileType;
+    KenLogger.success("is Busines User: $isBusinessUser");
     if (isBusinessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
+    KenLogger.success("Profile Type: $profileType");
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
       headers: <String, String>{

@@ -1,18 +1,16 @@
-import 'dart:convert';
-
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
 import 'package:provider/provider.dart';
-import 'package:supertokens_flutter/http.dart' as http;
 
 class MzansiBusinessProfile extends StatefulWidget {
   const MzansiBusinessProfile({
@@ -24,40 +22,6 @@ class MzansiBusinessProfile extends StatefulWidget {
 }
 
 class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
-  String errorCode = "";
-  String errorBody = "";
-
-  Future<void> fetchEmployees() async {
-    //print("Patien manager page: $endpoint");
-    MzansiProfileProvider mzansiProfileProvider =
-        context.read<MzansiProfileProvider>();
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/business-user/employees/${mzansiProfileProvider.businessUser!.business_id}"));
-    errorCode = response.statusCode.toString();
-    errorBody = response.body;
-    if (response.statusCode == 200) {
-      //print("Here1");
-      Iterable l = jsonDecode(response.body);
-      //print("Here2");
-      List<BusinessEmployee> employeeList = List<BusinessEmployee>.from(
-          l.map((model) => BusinessEmployee.fromJson(model)));
-      mzansiProfileProvider.setEmployeeList(employeeList: employeeList);
-      //print("Here3");
-      //print(patientQueue);
-      // return patientQueue;
-    } else {
-      throw Exception('failed to load employees');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await fetchEmployees();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -82,6 +46,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
           extra: false,
         );
         FocusScope.of(context).unfocus();
+        context.read<MzansiProfileProvider>().setBusinessIndex(0);
       },
     );
   }
@@ -97,15 +62,15 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
     temp[const Icon(Icons.people)] = () {
       context.read<MzansiProfileProvider>().setBusinessIndex(2);
     };
-    // temp[const Icon(Icons.add)] = () {
-    //   context.read<MzansiProfileProvider>().setBusinessIndex(3);
-    // };
-    // temp[const Icon(Icons.star_rate_rounded)] = () {
-    //   context.read<MzansiProfileProvider>().setBusinessIndex(4);
-    // };
-    // temp[const Icon(Icons.qr_code_rounded)] = () {
-    //   context.read<MzansiProfileProvider>().setBusinessIndex(5);
-    // };
+    temp[const Icon(Icons.add)] = () {
+      context.read<MzansiProfileProvider>().setBusinessIndex(3);
+    };
+    temp[const Icon(Icons.star_rate_rounded)] = () {
+      context.read<MzansiProfileProvider>().setBusinessIndex(4);
+    };
+    temp[const Icon(Icons.qr_code_rounded)] = () {
+      context.read<MzansiProfileProvider>().setBusinessIndex(5);
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: context.watch<MzansiProfileProvider>().businessIndex,
@@ -117,12 +82,13 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       MihBusinessDetails(),
       MihMyBusinessUser(),
       MihMyBusinessTeam(),
-      // MihBusinessUserSearch(arguments: widget.arguments),
-      // MihBusinessReviews(business: widget.arguments.business!),
-      // MihBusinessQrCode(
-      //   business: widget.arguments.business!,
-      //   startUpSearch: "",
-      // ),
+      MihBusinessUserSearch(),
+      MihBusinessReviews(
+          business: context.watch<MzansiProfileProvider>().business!),
+      MihBusinessQrCode(
+        business: context.watch<MzansiProfileProvider>().business!,
+        startUpSearch: "",
+      ),
     ];
     return toolBodies;
   }
@@ -132,9 +98,9 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       "Profile",
       "User",
       "Team",
-      // "Add",
-      // "Reviews",
-      // "Share",
+      "Add",
+      "Reviews",
+      "Share",
     ];
     return toolTitles;
   }

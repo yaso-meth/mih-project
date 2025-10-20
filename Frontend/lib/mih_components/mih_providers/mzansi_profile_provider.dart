@@ -99,4 +99,31 @@ class MzansiProfileProvider extends ChangeNotifier {
     this.employeeList = employeeList;
     notifyListeners();
   }
+
+  void addLoyaltyCard({required BusinessEmployee newEmployee}) {
+    employeeList!.add(newEmployee);
+    notifyListeners();
+  }
+
+  void updateEmplyeeDetails({required BusinessEmployee updatedEmployee}) {
+    int index = employeeList!.indexWhere((employee) =>
+        employee.business_id == updatedEmployee.business_id &&
+        employee.app_id == updatedEmployee.app_id);
+    if (index != -1) {
+      employeeList![index] = updatedEmployee;
+      notifyListeners();
+    }
+  }
+
+  void deleteEmplyee({required BusinessEmployee deletedEmployee}) {
+    employeeList!.removeWhere((employee) =>
+        employee.business_id == deletedEmployee.business_id &&
+        employee.app_id == deletedEmployee.app_id);
+    notifyListeners();
+  }
+
+  void addEmployee({required BusinessEmployee newEmployee}) {
+    employeeList!.add(newEmployee);
+    notifyListeners();
+  }
 }

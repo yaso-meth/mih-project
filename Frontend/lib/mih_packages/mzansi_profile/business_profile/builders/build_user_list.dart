@@ -1,32 +1,18 @@
-import 'dart:convert';
-
-import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_employee_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class BuildUserList extends StatefulWidget {
   final List<AppUser> users;
-  final BusinessArguments arguments;
 
   const BuildUserList({
     super.key,
     required this.users,
-    required this.arguments,
   });
 
   @override
@@ -34,132 +20,7 @@ class BuildUserList extends StatefulWidget {
 }
 
 class _BuildUserListState extends State<BuildUserList> {
-  TextEditingController accessController = TextEditingController();
-  TextEditingController typeController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
   final baseAPI = AppEnviroment.baseApiUrl;
-
-  Future<void> createBusinessUserAPICall(int index) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    var response = await http.post(
-      Uri.parse("$baseAPI/business-user/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": widget.arguments.business!.business_id,
-        "app_id": widget.users[index].app_id,
-        "signature": "",
-        "sig_path": "",
-        "title": "",
-        "access": accessController.text,
-      }),
-    );
-    if (response.statusCode == 201) {
-      // Navigator.of(context).pop();
-      // Navigator.of(context).pop();
-      // Navigator.of(context).pop();
-      // Navigator.of(context).pushNamed(
-      //   '/business-profile/manage',
-      //   arguments: BusinessArguments(
-      //     widget.arguments.signedInUser,
-      //     widget.arguments.businessUser,
-      //     widget.arguments.business,
-      //   ),
-      // );
-      String message =
-          "${widget.users[index].username} is now apart of your team with ${accessController.text} access to ${widget.arguments.business!.Name}";
-      successPopUp(message, false);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  void successPopUp(String message, bool stayOnPersonalSide) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Successfully Updated Profile",
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.goNamed(
-                      'mihHome',
-                      extra: stayOnPersonalSide,
-                    );
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  bool isRequiredFieldsCaptured() {
-    if (accessController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
 
   String hideEmail(String email) {
     var firstLetter = email[0];
@@ -168,180 +29,50 @@ class _BuildUserListState extends State<BuildUserList> {
   }
 
   void addEmployeePopUp(int index, double width) {
-    setState(() {
-      //accessController.text = widget.users[index].access;
-      //typeController.text = widget.users[index].title;
-      // var fnameInitial = widget.users[index].fname[0];
-      // var lnameInitial = widget.users[index].lname[0];
-      usernameController.text = widget.users[index].username;
-      emailController.text = hideEmail(widget.users[index].email);
-    });
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => MihPackageWindow(
-            fullscreen: false,
-            windowTitle: "Add Employee",
-            windowBody: Padding(
-              padding:
-                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                      ? EdgeInsets.symmetric(horizontal: width * 0.05)
-                      : const EdgeInsets.symmetric(horizontal: 0),
-              child: Column(
-                children: [
-                  MihForm(
-                    formKey: _formKey,
-                    formFields: [
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: usernameController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        readOnly: true,
-                        hintText: "Username",
-                      ),
-                      const SizedBox(height: 10.0),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: emailController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        readOnly: true,
-                        hintText: "Email",
-                      ),
-                      const SizedBox(height: 10.0),
-                      // MihTextFormField(
-                      //   fillColor: MihColors.getSecondaryColor(
-                      //       MzansiInnovationHub.of(context)!.theme.mode ==
-                      //           "Dark"),
-                      //   inputColor: MihColors.getPrimaryColor(
-                      //       MzansiInnovationHub.of(context)!.theme.mode ==
-                      //           "Dark"),
-                      //   controller: typeController,
-                      //   multiLineInput: false,
-                      //   requiredText: true,
-                      //   readOnly: true,
-                      //   hintText: "Title",
-                      // ),
-                      // MihDropdownField(
-                      //   controller: typeController,
-                      //   hintText: "Title",
-                      //   dropdownOptions: const ["Doctor", "Assistant", "Other"],
-                      //   editable: true,
-                      //   enableSearch: true,
-                      //   validator: (value) {
-                      //     return MihValidationServices().isEmpty(value);
-                      //   },
-                      //   requiredText: true,
-                      // ),
-                      // const SizedBox(height: 10.0),
-                      MihDropdownField(
-                        controller: accessController,
-                        hintText: "Access Type",
-                        dropdownOptions: const ["Full", "Partial"],
-                        editable: true,
-                        enableSearch: true,
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
-                        requiredText: true,
-                      ),
-                      const SizedBox(height: 15.0),
-                      Center(
-                        child: MihButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              if (isRequiredFieldsCaptured()) {
-                                createBusinessUserAPICall(index);
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const MIHErrorMessage(
-                                        errorType: "Input Error");
-                                  },
-                                );
-                              }
-                            } else {
-                              MihAlertServices()
-                                  .formNotFilledCompletely(context);
-                            }
-                          },
-                          buttonColor: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          width: 300,
-                          child: Text(
-                            "Add",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            onWindowTapClose: () {
-              Navigator.pop(context);
-            }));
-  }
-
-  @override
-  void dispose() {
-    accessController.dispose();
-    typeController.dispose();
-    usernameController.dispose();
-    emailController.dispose();
-    super.dispose();
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MihAddEmployeeWindow(
+        user: widget.users[index],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (BuildContext context, index) {
-        return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
-      itemCount: widget.users.length,
-      itemBuilder: (context, index) {
-        var isYou = "";
-        if (widget.arguments.signedInUser.app_id ==
-            widget.users[index].app_id) {
-          isYou = "(You)";
-        }
-        return ListTile(
-          title: Text("@${widget.users[index].username} $isYou"),
-          subtitle: Text(
-            "Email: ${hideEmail(widget.users[index].email)}",
-            style: TextStyle(
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, index) {
+            return Divider(
               color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-          ),
-          onTap: () {
-            addEmployeePopUp(index, screenWidth);
+            );
+          },
+          itemCount: widget.users.length,
+          itemBuilder: (context, index) {
+            var isYou = "";
+            if (mzansiProfileProvider.user!.app_id ==
+                widget.users[index].app_id) {
+              isYou = "(You)";
+            }
+            return ListTile(
+              title: Text("@${widget.users[index].username} $isYou"),
+              subtitle: Text(
+                "Email: ${hideEmail(widget.users[index].email)}",
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              onTap: () {
+                addEmployeePopUp(index, screenWidth);
+              },
+            );
           },
         );
       },

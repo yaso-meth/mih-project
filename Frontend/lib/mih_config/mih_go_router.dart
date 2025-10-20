@@ -19,7 +19,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/profile_business_add.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_set_up_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile_view.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -228,8 +228,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.businessProfileSetup,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: businessProfileSetup");
-          final AppUser? signedInUser = state.extra as AppUser?;
-          return ProfileBusinessAdd(signedInUser: signedInUser!);
+          return MzansiSetUpBusinessProfile();
         },
       ),
       // ========================== MIH Calculator ==================================

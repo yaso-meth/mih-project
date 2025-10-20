@@ -39,7 +39,6 @@ class MihHome extends StatefulWidget {
 }
 
 class _MihHomeState extends State<MihHome> {
-  final proPicController = TextEditingController();
   late int _selcetedIndex;
   late bool _personalHome;
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
@@ -47,11 +46,30 @@ class _MihHomeState extends State<MihHome> {
   bool _isLoadingInitialData = true;
 
   Future<void> _loadInitialData() async {
+    if (mounted) {
+      setState(() {
+        _isLoadingInitialData = true;
+      });
+    }
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
     // Note: getUserData sets user and userProfilePicUrl in the provider
-    await getUserData();
+    if (mzansiProfileProvider.user == null) {
+      await getUserData();
+    }
     // Note: getUserConsentStatus sets userConsent in the provider
-    await getUserConsentStatus();
-    await getBusinessData();
+    if (mzansiProfileProvider.userConsent == null) {
+      await getUserConsentStatus();
+    }
+    // 1. Get Business Data
+    if (mzansiProfileProvider.user != null &&
+        mzansiProfileProvider.user!.type == "business" &&
+        mzansiProfileProvider.business == null) {
+      KenLogger.success(mzansiProfileProvider.business == null
+          ? "Business is null, fetching business data..."
+          : "Business data already loaded.");
+      await getBusinessData();
+    }
     // 2. Set state after all data is loaded
     if (mounted) {
       setState(() {
@@ -61,13 +79,23 @@ class _MihHomeState extends State<MihHome> {
   }
 
   Future<void> getBusinessData() async {
-    Business? business = context.read<MzansiProfileProvider>().business;
     AppUser? user = context.read<MzansiProfileProvider>().user;
     String logoUrl;
     String signatureUrl;
-    if (business == null && user!.type == "business") {
+    Business? responseBusiness =
+        await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
+    if (responseBusiness == null && user!.type == "business") {
+      if (mounted) {
+        context.goNamed(
+          'businessProfileSetup',
+          extra: user,
+        );
+      }
+    }
+
+    if (responseBusiness != null && user!.type == "business") {
       // Get Business
-      await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
+      // Business Profile Set Up aleary
       logoUrl = await MihFileApi.getMinioFileUrl(
         context.read<MzansiProfileProvider>().business!.logo_path,
         context,
@@ -152,10 +180,12 @@ class _MihHomeState extends State<MihHome> {
   }
 
   Future<void> getUserData() async {
+    if (!mounted) return;
     String url;
     await MihUserServices().getUserDetails(
       context,
     );
+    if (!mounted) return;
     url = await MihFileApi.getMinioFileUrl(
       context.read<MzansiProfileProvider>().user!.pro_pic_path,
       context,
@@ -164,6 +194,7 @@ class _MihHomeState extends State<MihHome> {
   }
 
   Future<void> getUserConsentStatus() async {
+    if (!mounted) return;
     await MihUserConsentServices().getUserConsentStatus(context);
   }
 
@@ -175,9 +206,6 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _loadInitialData();
-    });
     if (context.read<MzansiProfileProvider>().personalHome == true) {
       _selcetedIndex = 0;
       _personalHome = true;
@@ -185,6 +213,7 @@ class _MihHomeState extends State<MihHome> {
       _selcetedIndex = 1;
       _personalHome = false;
     }
+    _loadInitialData();
   }
 
   List<String> getToolTitle() {
@@ -211,28 +240,39 @@ class _MihHomeState extends State<MihHome> {
         //     showPolicyWindow(mzansiProfileProvider.userConsent);
         return Stack(
           children: [
-            MihPackage(
-              appActionButton:
-                  getAction(mzansiProfileProvider.userProfilePicUrl as String),
-              appTools:
-                  getTools(mzansiProfileProvider.user!.type != "personal"),
-              appBody: getToolBody(),
-              appToolTitles: getToolTitle(),
-              actionDrawer: getActionDrawer(),
-              selectedbodyIndex: _selcetedIndex,
-              onIndexChange: (newValue) {
-                if (_selcetedIndex == 0) {
-                  setState(() {
-                    _selcetedIndex = newValue;
-                    _personalHome = true;
-                  });
-                } else {
-                  setState(() {
-                    _selcetedIndex = newValue;
-                    _personalHome = false;
-                  });
-                }
+            RefreshIndicator(
+              onRefresh: () async {
+                await _loadInitialData();
               },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: MihPackage(
+                    appActionButton: getAction(
+                        mzansiProfileProvider.userProfilePicUrl as String),
+                    appTools: getTools(
+                        mzansiProfileProvider.user!.type != "personal"),
+                    appBody: getToolBody(),
+                    appToolTitles: getToolTitle(),
+                    actionDrawer: getActionDrawer(),
+                    selectedbodyIndex: _selcetedIndex,
+                    onIndexChange: (newValue) {
+                      if (_selcetedIndex == 0) {
+                        setState(() {
+                          _selcetedIndex = newValue;
+                          _personalHome = true;
+                        });
+                      } else {
+                        setState(() {
+                          _selcetedIndex = newValue;
+                          _personalHome = false;
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
             ),
             Visibility(
               visible: showPolicyWindow(mzansiProfileProvider.userConsent),
@@ -443,7 +483,7 @@ class _MihHomeState extends State<MihHome> {
             imageFile: proPicUrl != "" ? NetworkImage(proPicUrl) : null,
             width: 50,
             editable: false,
-            fileNameController: proPicController,
+            fileNameController: null,
             userSelectedfile: null,
             // frameColor: frameColor,
             frameColor: MihColors.getSecondaryColor(
@@ -452,17 +492,6 @@ class _MihHomeState extends State<MihHome> {
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onChange: (_) {},
           ),
-          // MIHProfilePicture(
-          //   profilePictureFile: widget.propicFile,
-          //   proPicController: proPicController,
-          //   proPic: null,
-          //   width: 45,
-          //   radius: 21,
-          //   drawerMode: false,
-          //   editable: false,
-          //   frameColor: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          //   onChange: (newProPic) {},
-          // ),
         ),
         iconSize: 45,
         onTap: () {
@@ -531,13 +560,7 @@ class _MihHomeState extends State<MihHome> {
     );
     if (user.type != "personal") {
       toolBodies.add(
-        MihBusinessHome(
-          signedInUser: user,
-          personalSelected: _personalHome,
-          businessUser: businessUser,
-          business: business,
-          isBusinessUserNew: businessUser == null,
-        ),
+        MihBusinessHome(),
       );
     }
     return toolBodies;

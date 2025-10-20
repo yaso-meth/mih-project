@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -21,6 +20,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihBusinessQrCode extends StatefulWidget {
@@ -320,6 +320,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     );
   }
 
+  void shareMIHLink(BuildContext context, String message, String link) {
+    String shareText = "$message: $link";
+    SharePlus.instance.share(
+      ShareParams(text: shareText),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -391,7 +398,31 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   onTap: () {
                     downloadQrCode();
                   },
-                )
+                ),
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.share_rounded,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                  label: "Share Business",
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  labelStyle: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onTap: () {
+                    shareMIHLink(
+                      context,
+                      "Check out ${widget.business.Name} on the MIH app",
+                      "$qrCodedata${widget.business.business_id}",
+                    );
+                  },
+                ),
               ]),
         )
       ],

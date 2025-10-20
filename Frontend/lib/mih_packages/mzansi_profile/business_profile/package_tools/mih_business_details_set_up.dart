@@ -1,53 +1,43 @@
-import 'dart:convert';
-
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
 
-class ProfileBusinessAdd extends StatefulWidget {
-  //final BusinessUserScreenArguments arguments;
-  final AppUser signedInUser;
-  const ProfileBusinessAdd({
-    super.key,
-    required this.signedInUser,
-  });
+class MihBusinessDetailsSetUp extends StatefulWidget {
+  const MihBusinessDetailsSetUp({super.key});
 
   @override
-  State<ProfileBusinessAdd> createState() => _ProfileBusinessAddState();
+  State<MihBusinessDetailsSetUp> createState() =>
+      _MihBusinessDetailsSetUpState();
 }
 
-class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
-  final FocusNode _focusNode = FocusNode();
-  final baseAPI = AppEnviroment.baseApiUrl;
-
+class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
   final nameController = TextEditingController();
   final typeController = TextEditingController();
   final regController = TextEditingController();
   final addressController = TextEditingController();
-  final logonameController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
   final titleController = TextEditingController();
@@ -62,65 +52,33 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
   final websiteController = TextEditingController();
   final ratingController = TextEditingController();
   final missionVisionController = TextEditingController();
-
-  ImageProvider<Object>? logoPreview;
-  ImageProvider<Object>? signaturePreview;
-  PlatformFile? selectedLogo;
-  PlatformFile? selectedSignature;
-
+  final logoFileNameController = TextEditingController();
+  PlatformFile? newSelectedLogoPic;
+  PlatformFile? newSelectedSignaturePic;
+  final FocusNode _focusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   final ValueNotifier<String> busType = ValueNotifier("");
-  final _formKey = GlobalKey<FormState>();
   late String env;
 
-  Future<bool> uploadFile(String id, PlatformFile? selectedFile) async {
-    print("Inside uploud file method");
-    int uploadStatusCode = 0;
-    uploadStatusCode = await MihFileApi.uploadFile(
-      id,
-      env,
-      "business_files",
-      selectedFile,
-      context,
-    );
-    print("Status code: $uploadStatusCode");
-    if (uploadStatusCode == 200) {
-      return true;
+  void submitForm(MzansiProfileProvider mzansiProfileProvider) {
+    if (isFieldsFilled()) {
+      createBusinessProfileAPICall(mzansiProfileProvider);
     } else {
-      return false;
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const MIHErrorMessage(errorType: "Input Error");
+        },
+      );
     }
   }
 
-  Future<void> createBusinessUserAPICall(String business_id) async {
-    print("Inside create bus user method");
-    int statusCode = await MihMyBusinessUserServices().createBusinessUser(
-      business_id,
-      widget.signedInUser.app_id,
-      signtureController.text,
-      titleController.text,
-      accessController.text,
-      context,
-    );
-    print("Status code: $statusCode");
-    if (statusCode == 201) {
-      // Navigator.of(context).pop();
-      // Navigator.of(context).popAndPushNamed(
-      //   '/',
-      //   arguments: AuthArguments(false, false),
-      // );
-      String message =
-          "Your business profile is now live! You can now start connecting with customers and growing your business.";
-      successPopUp(message, false);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> createBusinessProfileAPICall() async {
-    print("Inside create business profile method");
+  Future<void> createBusinessProfileAPICall(
+      MzansiProfileProvider mzansiProfileProvider) async {
     Response response =
         await MihBusinessDetailsServices().createBusinessDetails(
-      widget.signedInUser.app_id,
+      mzansiProfileProvider,
       nameController.text,
       typeController.text,
       regController.text,
@@ -128,20 +86,84 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
       vatNoController.text,
       emailController.text,
       getNumberWithCountryCode(),
-      // "${countryCodeController.text}-${contactController.text}",
       locationController.text,
-      logonameController.text,
+      logoFileNameController.text,
       websiteController.text,
       "0",
       missionVisionController.text,
       context,
     );
-    print(response.body);
     if (response.statusCode == 201) {
-      var businessResponse = jsonDecode(response.body);
-      createBusinessUserAPICall(businessResponse['business_id']);
+      bool successUpload =
+          await uploadFile(mzansiProfileProvider, newSelectedLogoPic);
+      if (successUpload) {
+        String logoUrl = await MihFileApi.getMinioFileUrl(
+            mzansiProfileProvider.business!.logo_path, context);
+        mzansiProfileProvider.setBusinessProfilePicUrl(logoUrl);
+      }
+      await createBusinessUserAPICall(mzansiProfileProvider);
     } else {
       internetConnectionPopUp();
+    }
+  }
+
+  Future<void> createBusinessUserAPICall(
+      MzansiProfileProvider mzansiProfileProvider) async {
+    int statusCode = await MihMyBusinessUserServices().createBusinessUser(
+      mzansiProfileProvider.business!.business_id,
+      mzansiProfileProvider.user!.app_id,
+      signtureController.text,
+      titleController.text,
+      accessController.text,
+      mzansiProfileProvider,
+      context,
+    );
+    if (statusCode == 201) {
+      bool successUpload =
+          await uploadFile(mzansiProfileProvider, newSelectedSignaturePic);
+      if (successUpload) {
+        String sigUrl = await MihFileApi.getMinioFileUrl(
+            mzansiProfileProvider.businessUser!.sig_path, context);
+        mzansiProfileProvider.setBusinessUserSignatureUrl(sigUrl);
+        String message =
+            "Your business profile is now live! You can now start connecting with customers and growing your business.";
+        successPopUp(message, false);
+      } else {
+        internetConnectionPopUp();
+      }
+    } else {
+      internetConnectionPopUp();
+    }
+  }
+
+  Future<bool> uploadFile(
+      MzansiProfileProvider mzansiProfileProvider, PlatformFile? image) async {
+    if (newSelectedLogoPic != null) {
+      int uploadStatusCode = 0;
+      uploadStatusCode = await MihFileApi.uploadFile(
+        mzansiProfileProvider.business!.business_id,
+        env,
+        "business_files",
+        image,
+        context,
+      );
+      if (uploadStatusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true; // No file selected, so no upload needed
+    }
+  }
+
+  bool isFieldsFilled() {
+    if (typeController.text.isEmpty ||
+        titleController.text.isEmpty ||
+        accessController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -157,13 +179,22 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     return "${countryCodeController.text}-$numberWithoutBeginingZero";
   }
 
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
+  Color getMissionVisionLimitColor(int limit) {
+    if (_counter.value <= limit) {
+      return MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+    } else {
+      return MihColors.getRedColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+    }
+  }
+
+  void typeSelected() {
+    if (typeController.text.isNotEmpty) {
+      busType.value = typeController.text;
+    } else {
+      busType.value = "";
+    }
   }
 
   void successPopUp(String message, bool stayOnPersonalSide) {
@@ -227,110 +258,90 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
     );
   }
 
-  bool isFieldsFilled() {
-    if (typeController.text.isEmpty ||
-        titleController.text.isEmpty ||
-        accessController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void submitForm() {
-    if (isFieldsFilled()) {
-      print("Inside submit method");
-      createBusinessProfileAPICall();
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
-    }
-  }
-
-  void emailError() {
+  void internetConnectionPopUp() {
     showDialog(
       context: context,
       builder: (context) {
-        return const MIHErrorMessage(errorType: "Invalid Email");
+        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
 
-  bool isEmailValid() {
-    String text = emailController.text;
-    var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
-    return regex.hasMatch(text);
-  }
-
-  // bool validEmail() {
-  //   String text = emailController.text;
-  //   var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
-  //   return regex.hasMatch(text);
-  // }
-
-  void typeSelected() {
-    if (typeController.text.isNotEmpty) {
-      busType.value = typeController.text;
+  void initialiseControlers(MzansiProfileProvider mzansiProfileProvider) {
+    typeController.addListener(typeSelected);
+    setState(() {
+      fnameController.text = mzansiProfileProvider.user!.fname;
+      lnameController.text = mzansiProfileProvider.user!.lname;
+      accessController.text = "Full";
+      countryCodeController.text = "+27";
+    });
+    if (AppEnviroment.getEnv() == "Prod") {
+      env = "Prod";
     } else {
-      busType.value = "";
+      env = "Dev";
     }
+    missionVisionController.addListener(() {
+      setState(() {
+        _counter.value = missionVisionController.text.characters.length;
+      });
+    });
   }
 
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        // Navigator.of(context).pop();
-        context.goNamed(
-          'mihHome',
-          extra: true,
-        );
-      },
-    );
+  @override
+  void dispose() {
+    typeController.removeListener(typeSelected);
+    nameController.dispose();
+    typeController.dispose();
+    regController.dispose();
+    addressController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
+    titleController.dispose();
+    signtureController.dispose();
+    accessController.dispose();
+    countryCodeController.dispose();
+    contactController.dispose();
+    emailController.dispose();
+    locationController.dispose();
+    practiceNoController.dispose();
+    vatNoController.dispose();
+    websiteController.dispose();
+    ratingController.dispose();
+    missionVisionController.dispose();
+    logoFileNameController.dispose();
+    busType.dispose();
+    _focusNode.dispose();
+    _counter.dispose();
+    super.dispose();
   }
 
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Set Up Business Profile",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
+  @override
+  void initState() {
+    super.initState();
+    initialiseControlers(context.read<MzansiProfileProvider>());
   }
 
-  Color getMissionVisionLimitColor(int limit) {
-    if (_counter.value <= limit) {
-      return MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
-    } else {
-      return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
-    }
-  }
-
-  MIHBody getBody(double width) {
-    return MIHBody(
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return MihPackageToolBody(
       borderOn: false,
-      bodyItems: [
-        KeyboardListener(
+      bodyItem: getBody(screenWidth),
+    );
+  }
+
+  Widget getBody(double width) {
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+        return KeyboardListener(
           focusNode: _focusNode,
           autofocus: true,
           onKeyEvent: (event) async {
             if (event is KeyDownEvent &&
                 event.logicalKey == LogicalKeyboardKey.enter) {
               if (_formKey.currentState!.validate()) {
-                submitForm();
+                submitForm(mzansiProfileProvider);
               } else {
                 MihAlertServices().formNotFilledCompletely(context);
               }
@@ -345,7 +356,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
               child: Column(
                 children: [
                   const Text(
-                    "My Business Details",
+                    "Business Details",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -359,6 +370,29 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                   MihForm(
                     formKey: _formKey,
                     formFields: [
+                      Center(
+                        child: MihCircleAvatar(
+                          imageFile: newSelectedLogoPic != null
+                              ? MemoryImage(newSelectedLogoPic!.bytes!)
+                              : mzansiProfileProvider.businessProfilePicture,
+                          width: 150,
+                          editable: true,
+                          fileNameController: logoFileNameController,
+                          userSelectedfile: newSelectedLogoPic,
+                          frameColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          backgroundColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          onChange: (selectedfile) {
+                            setState(() {
+                              newSelectedLogoPic = selectedfile;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       MihTextFormField(
                         fillColor: MihColors.getSecondaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
@@ -644,7 +678,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                       //const SizedBox(height: 15.0),
                       const Center(
                         child: Text(
-                          "My Business User",
+                          "Business User",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
@@ -716,7 +750,7 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           return MihValidationServices().isEmpty(value);
                         },
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: 10.0),
                       MihTextFormField(
                         fillColor: MihColors.getSecondaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
@@ -733,23 +767,41 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           return MihValidationServices().isEmpty(value);
                         },
                       ),
-                      // MihDropdownField(
-                      //   controller: accessController,
-                      //   hintText: "Access Type",
-                      //   dropdownOptions: const ["Full", "Partial"],
-                      //   editable: false,
-                      //   enableSearch: true,
-                      //   validator: (value) {
-                      //     return MihValidationServices().isEmpty(value);
-                      //   },
-                      //   requiredText: true,
-                      // ),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: 300,
+                        alignment: Alignment.topLeft,
+                        child: const Text(
+                          "Signature:",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: MihImageDisplay(
+                          imageFile: newSelectedSignaturePic != null
+                              ? MemoryImage(newSelectedSignaturePic!.bytes!)
+                              : mzansiProfileProvider.businessUserSignature,
+                          width: 300,
+                          height: 200,
+                          editable: true,
+                          fileNameController: signtureController,
+                          userSelectedfile: newSelectedSignaturePic,
+                          onChange: (selectedFile) {
+                            setState(() {
+                              newSelectedSignaturePic = selectedFile;
+                            });
+                          },
+                        ),
+                      ),
                       const SizedBox(height: 20.0),
                       Center(
                         child: MihButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              submitForm();
+                              submitForm(mzansiProfileProvider);
                             } else {
                               MihAlertServices()
                                   .formNotFilledCompletely(context);
@@ -771,72 +823,15 @@ class _ProfileBusinessAddState extends State<ProfileBusinessAdd> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    typeController.dispose();
-    regController.dispose();
-    logonameController.dispose();
-    fnameController.dispose();
-    lnameController.dispose();
-    titleController.dispose();
-    signtureController.dispose();
-    accessController.dispose();
-    contactController.dispose();
-    emailController.dispose();
-    locationController.dispose();
-    practiceNoController.dispose();
-    vatNoController.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    typeController.addListener(typeSelected);
-    setState(() {
-      fnameController.text = widget.signedInUser.fname;
-      lnameController.text = widget.signedInUser.lname;
-      accessController.text = "Full";
-      countryCodeController.text = "+27";
-    });
-    if (AppEnviroment.getEnv() == "Prod") {
-      env = "Prod";
-    } else {
-      env = "Dev";
-    }
-    missionVisionController.addListener(() {
-      setState(() {
-        _counter.value = missionVisionController.text.characters.length;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      secondaryActionButton: null,
-      header: getHeader(),
-      body: getBody(screenWidth),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+        );
+      },
     );
   }
 }

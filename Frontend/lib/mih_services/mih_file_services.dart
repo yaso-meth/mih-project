@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -44,8 +45,9 @@ class MihFileApi {
         fileUrl = decodedData['minioURL'];
       } else {
         // internetConnectionPopUp(context);
-        print("Error: ${response.statusCode}");
-        print("Error: ${response.body}");
+        KenLogger.error("Get File Error: $url");
+        KenLogger.error("Get File Error: ${response.statusCode}");
+        KenLogger.error("Get File Error: ${response.body}");
       }
     } catch (e) {
       // internetConnectionPopUp(context);
