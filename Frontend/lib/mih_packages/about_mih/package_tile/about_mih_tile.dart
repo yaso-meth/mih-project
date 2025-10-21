@@ -7,11 +7,9 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class AboutMihTile extends StatefulWidget {
   final double packageSize;
-  final bool personalSelected;
   const AboutMihTile({
     super.key,
     required this.packageSize,
-    required this.personalSelected,
   });
 
   @override
@@ -25,7 +23,6 @@ class _AboutMihTileState extends State<AboutMihTile> {
       onTap: () {
         context.goNamed(
           "aboutMih",
-          extra: widget.personalSelected,
         );
         // Navigator.of(context).pushNamed(
         //   '/about',

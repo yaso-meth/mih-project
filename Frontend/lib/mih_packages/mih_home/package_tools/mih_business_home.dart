@@ -130,7 +130,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     temp.add({
       "About MIH": AboutMihTile(
         packageSize: packageSize,
-        personalSelected: false,
       )
     });
     return temp;

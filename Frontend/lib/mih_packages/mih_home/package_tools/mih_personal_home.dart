@@ -164,7 +164,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     temp.add({
       "About MIH": AboutMihTile(
         packageSize: packageSize,
-        personalSelected: true,
       )
     });
     //=============== Dev ===============
