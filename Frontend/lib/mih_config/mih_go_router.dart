@@ -276,8 +276,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiWallet,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiWallet");
-          final WalletArguments? args = state.extra as WalletArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -285,7 +284,6 @@ class MihGoRouter {
           }
           return MihWallet(
             key: UniqueKey(),
-            arguments: args,
           );
         },
       ),

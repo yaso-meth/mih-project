@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:provider/provider.dart';
 
 class MihCardFavourites extends StatefulWidget {
-  final AppUser signedInUser;
   const MihCardFavourites({
     super.key,
-    required this.signedInUser,
   });
 
   @override
@@ -50,7 +47,6 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
             children: [
               BuildLoyaltyCardList(
                 cardList: listOfCards,
-                signedInUser: widget.signedInUser,
                 navIndex: 0,
                 favouritesMode: true,
                 searchText: TextEditingController(),

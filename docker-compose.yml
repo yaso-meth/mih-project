@@ -171,14 +171,14 @@ services:
     networks:
       - MIH-network
 # === Added section for NVIDIA GPU acceleration ===
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all # or specify a number of GPUs
-              capabilities: [ gpu ]
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all # or specify a number of GPUs
+    #           capabilities: [ gpu ]
 #============== Firebaase ====================================================================   
 # firebase:
 #   container_name: MIH-firebase-emulator

@@ -11,7 +11,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +18,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 class MihCards extends StatefulWidget {
-  final AppUser signedInUser;
   const MihCards({
     super.key,
-    required this.signedInUser,
   });
 
   @override
@@ -127,9 +124,7 @@ class _MihCardsState extends State<MihCards> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => MihAddCardWindow(
-        signedInUser: widget.signedInUser,
-      ),
+      builder: (context) => MihAddCardWindow(),
     );
   }
 
@@ -198,7 +193,6 @@ class _MihCardsState extends State<MihCards> {
                       builder: (context, filteredCards, child) {
                         return BuildLoyaltyCardList(
                           cardList: filteredCards, //listOfCards,
-                          signedInUser: widget.signedInUser,
                           navIndex: 0,
                           favouritesMode: false,
                           searchText: cardSearchController,

@@ -7,6 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -18,7 +19,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,6 @@ import 'package:provider/provider.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 class BuildLoyaltyCardList extends StatefulWidget {
-  final AppUser signedInUser;
   final List<MIHLoyaltyCard> cardList;
   final int navIndex;
   final bool favouritesMode;
@@ -35,7 +34,6 @@ class BuildLoyaltyCardList extends StatefulWidget {
 
   const BuildLoyaltyCardList({
     super.key,
-    required this.signedInUser,
     required this.cardList,
     required this.navIndex,
     required this.favouritesMode,
@@ -60,7 +58,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void editCardWindow(BuildContext ctxt, int index, double width) {
+  void editCardWindow(MzansiProfileProvider mzansiProfileProvider,
+      BuildContext ctxt, int index, double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -145,7 +144,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         if (_formKey.currentState!.validate()) {
                           int statusCode = await MIHMzansiWalletApis
                               .updateLoyaltyCardAPICall(
-                            widget.signedInUser,
+                            mzansiProfileProvider.user!,
                             widget.cardList[index].idloyalty_cards,
                             widget.cardList[index].shop_name,
                             widget.cardList[index].favourite,
@@ -211,7 +210,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void deleteCardWindow(BuildContext ctxt, int index) {
+  void deleteCardWindow(MzansiProfileProvider mzansiProfileProvider,
+      BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -221,7 +221,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             onTap: () async {
               int statusCode =
                   await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
-                widget.signedInUser,
+                mzansiProfileProvider.user!,
                 widget.cardList[index].idloyalty_cards,
                 context,
               );
@@ -237,7 +237,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void addToFavCardWindow(BuildContext ctxt, int index) {
+  void addToFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
+      BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -269,7 +270,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 onPressed: () async {
                   int statusCode =
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                    widget.signedInUser,
+                    mzansiProfileProvider.user!,
                     widget.cardList[index].idloyalty_cards,
                     widget.cardList[index].shop_name,
                     "Yes",
@@ -282,7 +283,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     context.pop();
                     context.pop();
                     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                        widget.signedInUser.app_id, context);
+                      mzansiProfileProvider.user!.app_id,
+                      context,
+                    );
                     context.read<MzansiWalletProvider>().setToolIndex(1);
                   } else {
                     internetConnectionPopUp();
@@ -319,7 +322,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void removeFromFavCardWindow(BuildContext ctxt, int index) {
+  void removeFromFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
+      BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -351,7 +355,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 onPressed: () async {
                   int statusCode =
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                    widget.signedInUser,
+                    mzansiProfileProvider.user!,
                     widget.cardList[index].idloyalty_cards,
                     widget.cardList[index].shop_name,
                     "",
@@ -364,7 +368,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     context.pop();
                     context.pop();
                     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                        widget.signedInUser.app_id, context);
+                      mzansiProfileProvider.user!.app_id,
+                      context,
+                    );
                     context.read<MzansiWalletProvider>().setToolIndex(0);
                   } else {
                     internetConnectionPopUp();
@@ -390,7 +396,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void viewCardWindow(int index, double width) {
+  void viewCardWindow(
+      MzansiProfileProvider mzansiProfileProvider, int index, double width) {
     //print(widget.cardList[index].card_number);
     String formattedCardNumber = "";
     for (int i = 0; i <= widget.cardList[index].card_number.length - 1; i++) {
@@ -432,9 +439,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
               if (widget.cardList[index].favourite == "") {
-                addToFavCardWindow(context, index);
+                addToFavCardWindow(
+                  mzansiProfileProvider,
+                  context,
+                  index,
+                );
               } else {
-                removeFromFavCardWindow(context, index);
+                removeFromFavCardWindow(
+                  mzansiProfileProvider,
+                  context,
+                  index,
+                );
               }
             },
           ),
@@ -459,7 +474,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 _cardNumberController.text = widget.cardList[index].card_number;
                 _nicknameController.text = widget.cardList[index].nickname;
               });
-              editCardWindow(context, index, width);
+              editCardWindow(
+                mzansiProfileProvider,
+                context,
+                index,
+                width,
+              );
             },
           ),
           SpeedDialChild(
@@ -479,7 +499,11 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             backgroundColor: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onTap: () {
-              deleteCardWindow(context, index);
+              deleteCardWindow(
+                mzansiProfileProvider,
+                context,
+                index,
+              );
             },
           ),
         ],
@@ -681,29 +705,38 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     // final double width = size.width;
     //final double height = size.height;
     if (widget.cardList.isNotEmpty) {
-      return GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        padding: EdgeInsets.only(
-          left: getHorizontalPaddingSize(size),
-          right: getHorizontalPaddingSize(size),
-        ),
-        itemCount: widget.cardList.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          mainAxisSpacing: 0,
-          crossAxisSpacing: 5,
-          maxCrossAxisExtent: 200,
-        ),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            child: MihCardDisplay(
-              shopName: widget.cardList[index].shop_name,
-              nickname: widget.cardList[index].nickname,
-              height: 100,
+      return Consumer<MzansiProfileProvider>(
+        builder: (BuildContext context,
+            MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+          return GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.only(
+              left: getHorizontalPaddingSize(size),
+              right: getHorizontalPaddingSize(size),
             ),
-            onTap: () {
-              setScreenBrightness(1.0);
-              viewCardWindow(index, size.width);
+            itemCount: widget.cardList.length,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 5,
+              maxCrossAxisExtent: 200,
+            ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                child: MihCardDisplay(
+                  shopName: widget.cardList[index].shop_name,
+                  nickname: widget.cardList[index].nickname,
+                  height: 100,
+                ),
+                onTap: () {
+                  setScreenBrightness(1.0);
+                  viewCardWindow(
+                    mzansiProfileProvider,
+                    index,
+                    size.width,
+                  );
+                },
+              );
             },
           );
         },

@@ -79,8 +79,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     List<Map<String, Widget>> temp = [];
     temp.add({
       "Setup Profile": MzansiSetupProfileTile(
-        signedInUser: widget.signedInUser,
-        propicFile: widget.propicFile,
         packageSize: packageSize,
       )
     });
@@ -92,8 +90,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Mzansi Profile ===============
     temp.add({
       "Mzansi Profile": MzansiProfileTile(
-        signedInUser: widget.signedInUser,
-        propicFile: widget.propicFile,
         packageSize: packageSize,
       )
     });
