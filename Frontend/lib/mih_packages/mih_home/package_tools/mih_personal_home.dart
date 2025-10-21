@@ -143,7 +143,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Calculator ===============
     temp.add({
       "Calculator": MihCalculatorTile(
-        personalSelected: widget.personalSelected,
         packageSize: packageSize,
       )
     });

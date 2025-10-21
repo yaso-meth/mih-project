@@ -117,7 +117,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //=============== Calculator ===============
     temp.add({
       "Calculator": MihCalculatorTile(
-        personalSelected: mzansiProfileProvider.personalHome,
         packageSize: packageSize,
       )
     });
