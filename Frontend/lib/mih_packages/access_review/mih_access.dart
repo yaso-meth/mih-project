@@ -43,7 +43,6 @@ class _MihAccessState extends State<MihAccess> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

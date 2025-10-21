@@ -52,7 +52,6 @@ class _PatManagerState extends State<PatManager> {
         // Navigator.of(context).pop();
         context.goNamed(
           'mihHome',
-          extra: false,
         );
         FocusScope.of(context).unfocus();
       },

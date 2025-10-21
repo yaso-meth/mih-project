@@ -39,8 +39,6 @@ class MihHome extends StatefulWidget {
 }
 
 class _MihHomeState extends State<MihHome> {
-  late int _selcetedIndex;
-  late bool _personalHome;
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
   bool _isLoadingInitialData = true;
@@ -206,13 +204,6 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
-    if (context.read<MzansiProfileProvider>().personalHome == true) {
-      _selcetedIndex = 0;
-      _personalHome = true;
-    } else {
-      _selcetedIndex = 1;
-      _personalHome = false;
-    }
     _loadInitialData();
   }
 
@@ -249,26 +240,16 @@ class _MihHomeState extends State<MihHome> {
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: MihPackage(
-                    appActionButton: getAction(
-                        mzansiProfileProvider.userProfilePicUrl as String),
-                    appTools: getTools(
+                    appActionButton: getAction(),
+                    appTools: getTools(mzansiProfileProvider,
                         mzansiProfileProvider.user!.type != "personal"),
-                    appBody: getToolBody(),
+                    appBody: getToolBody(mzansiProfileProvider),
                     appToolTitles: getToolTitle(),
                     actionDrawer: getActionDrawer(),
-                    selectedbodyIndex: _selcetedIndex,
+                    selectedbodyIndex:
+                        mzansiProfileProvider.personalHome ? 0 : 1,
                     onIndexChange: (newValue) {
-                      if (_selcetedIndex == 0) {
-                        setState(() {
-                          _selcetedIndex = newValue;
-                          _personalHome = true;
-                        });
-                      } else {
-                        setState(() {
-                          _selcetedIndex = newValue;
-                          _personalHome = false;
-                        });
-                      }
+                      mzansiProfileProvider.setPersonalHome(newValue == 0);
                     },
                   ),
                 ),
@@ -474,81 +455,88 @@ class _MihHomeState extends State<MihHome> {
     );
   }
 
-  Widget getAction(String proPicUrl) {
+  Widget getAction() {
     return Builder(builder: (context) {
-      return MihPackageAction(
-        icon: Padding(
-          padding: const EdgeInsets.only(left: 5.0),
-          child: MihCircleAvatar(
-            imageFile: proPicUrl != "" ? NetworkImage(proPicUrl) : null,
-            width: 50,
-            editable: false,
-            fileNameController: null,
-            userSelectedfile: null,
-            // frameColor: frameColor,
-            frameColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            backgroundColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            onChange: (_) {},
-          ),
-        ),
-        iconSize: 45,
-        onTap: () {
-          Scaffold.of(context).openDrawer();
-          FocusScope.of(context)
-              .requestFocus(FocusNode()); // Fully unfocus all fields
-          // FocusScope.of(context).unfocus(); // Unfocus any text fields
+      return Consumer<MzansiProfileProvider>(
+        builder: (BuildContext context,
+            MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+          ImageProvider<Object>? currentImage;
+          String imageKey;
+          if (mzansiProfileProvider.personalHome) {
+            currentImage = mzansiProfileProvider.userProfilePicture;
+            imageKey = 'user_${mzansiProfileProvider.userProfilePicUrl}';
+          } else {
+            currentImage = mzansiProfileProvider.businessProfilePicture;
+            imageKey =
+                'business_${mzansiProfileProvider.businessProfilePicUrl}';
+          }
+          return MihPackageAction(
+            icon: Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: MihCircleAvatar(
+                key: Key(imageKey),
+                imageFile: currentImage,
+                width: 50,
+                editable: false,
+                fileNameController: null,
+                userSelectedfile: null,
+                // frameColor: frameColor,
+                frameColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                backgroundColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                onChange: (_) {},
+              ),
+            ),
+            iconSize: 45,
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+              FocusScope.of(context)
+                  .requestFocus(FocusNode()); // Fully unfocus all fields
+              // FocusScope.of(context).unfocus(); // Unfocus any text fields
+            },
+          );
         },
       );
     });
   }
 
   MIHAppDrawer getActionDrawer() {
-    AppUser signedInUser =
-        context.watch<MzansiProfileProvider>().user as AppUser;
-    String proPicUrl =
-        context.watch<MzansiProfileProvider>().userProfilePicUrl ?? "";
-    return MIHAppDrawer(
-      signedInUser: signedInUser,
-      propicFile: proPicUrl != "" ? NetworkImage(proPicUrl) : null,
-    );
+    return MIHAppDrawer();
   }
 
-  MihPackageTools getTools(bool isBusinessUser) {
+  MihPackageTools getTools(
+      MzansiProfileProvider mzansiProfileProvider, bool isBusinessUser) {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
       setState(() {
-        _selcetedIndex = 0;
-        _personalHome = true;
+        mzansiProfileProvider.setPersonalHome(true);
       });
     };
     if (isBusinessUser) {
       temp[const Icon(Icons.business_center)] = () {
         setState(() {
-          _selcetedIndex = 1;
-          _personalHome = false;
+          mzansiProfileProvider.setPersonalHome(false);
         });
       };
     }
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: mzansiProfileProvider.personalHome ? 0 : 1,
     );
   }
 
-  List<Widget> getToolBody() {
+  List<Widget> getToolBody(MzansiProfileProvider mzansiProfileProvider) {
     List<Widget> toolBodies = [];
-    AppUser? user = context.watch<MzansiProfileProvider>().user;
-    Business? business = context.watch<MzansiProfileProvider>().business;
-    BusinessUser? businessUser =
-        context.watch<MzansiProfileProvider>().businessUser;
+    AppUser? user = mzansiProfileProvider.user;
+    Business? business = mzansiProfileProvider.business;
+    BusinessUser? businessUser = mzansiProfileProvider.businessUser;
     String userProfilePictureUrl =
-        context.watch<MzansiProfileProvider>().userProfilePicUrl ?? "";
+        mzansiProfileProvider.userProfilePicUrl ?? "";
     toolBodies.add(
       MihPersonalHome(
         signedInUser: user!,
-        personalSelected: _personalHome,
+        personalSelected: mzansiProfileProvider.personalHome,
         business: business,
         businessUser: businessUser,
         propicFile: userProfilePictureUrl != ""

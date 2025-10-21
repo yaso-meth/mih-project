@@ -11,12 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AboutMih extends StatefulWidget {
-  final bool? personalSelected;
-  // final AboutArguments? arguments;
   const AboutMih({
     super.key,
-    // this.arguments,
-    this.personalSelected,
   });
 
   @override
@@ -24,18 +20,9 @@ class AboutMih extends StatefulWidget {
 }
 
 class _AboutMihState extends State<AboutMih> {
-  late bool _personalSelected;
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      if (widget.personalSelected == null) {
-        _personalSelected = true;
-      } else {
-        _personalSelected = widget.personalSelected!;
-      }
-    });
   }
 
   @override
@@ -59,7 +46,6 @@ class _AboutMihState extends State<AboutMih> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: _personalSelected,
         );
         FocusScope.of(context).unfocus();
       },

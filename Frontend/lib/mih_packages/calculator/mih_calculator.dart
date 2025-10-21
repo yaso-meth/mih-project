@@ -12,10 +12,8 @@ import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_se
 import 'package:provider/provider.dart';
 
 class MIHCalculator extends StatefulWidget {
-  final bool personalSelected;
   const MIHCalculator({
     super.key,
-    required this.personalSelected,
   });
 
   @override
@@ -57,7 +55,6 @@ class _MIHCalculatorState extends State<MIHCalculator> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: widget.personalSelected,
         );
         FocusScope.of(context).unfocus();
       },

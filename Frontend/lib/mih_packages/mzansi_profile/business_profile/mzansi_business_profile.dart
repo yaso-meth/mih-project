@@ -43,7 +43,6 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: false,
         );
         FocusScope.of(context).unfocus();
         context.read<MzansiProfileProvider>().setBusinessIndex(0);

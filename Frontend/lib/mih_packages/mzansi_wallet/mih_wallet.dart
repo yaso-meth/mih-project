@@ -81,7 +81,6 @@ class _MihWalletState extends State<MihWallet> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

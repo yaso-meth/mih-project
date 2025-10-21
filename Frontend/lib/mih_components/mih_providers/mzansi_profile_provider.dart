@@ -43,6 +43,11 @@ class MzansiProfileProvider extends ChangeNotifier {
     userConsent = null;
   }
 
+  void setPersonalHome(bool isPersonalHome) {
+    personalHome = isPersonalHome;
+    notifyListeners();
+  }
+
   void setPersonalIndex(int index) {
     personalIndex = index;
     notifyListeners();

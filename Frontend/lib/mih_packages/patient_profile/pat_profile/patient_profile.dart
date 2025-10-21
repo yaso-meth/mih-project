@@ -48,7 +48,6 @@ class _PatientProfileState extends State<PatientProfile> {
         } else {
           context.goNamed(
             'mihHome',
-            extra: true,
           );
         }
         FocusScope.of(context).unfocus();

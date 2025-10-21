@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -12,13 +11,8 @@ import '../../../main.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MIHAppDrawer extends StatefulWidget {
-  final AppUser signedInUser;
-  final ImageProvider<Object>? propicFile;
-
   const MIHAppDrawer({
     super.key,
-    required this.signedInUser,
-    required this.propicFile,
   });
 
   @override
@@ -35,19 +29,23 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     return true;
   }
 
-  Widget displayProPic() {
+  Widget displayProPic(MzansiProfileProvider mzansiProfileProvider) {
     return GestureDetector(
       onTap: () {
-        context.goNamed(
-          'mzansiProfileManage',
-          extra: AppProfileUpdateArguments(
-            widget.signedInUser,
-            widget.propicFile,
-          ),
-        );
+        if (mzansiProfileProvider.personalHome) {
+          context.goNamed(
+            'mzansiProfileManage',
+          );
+        } else {
+          context.goNamed(
+            "businessProfileManage",
+          );
+        }
       },
       child: MihCircleAvatar(
-        imageFile: widget.propicFile,
+        imageFile: mzansiProfileProvider.personalHome
+            ? mzansiProfileProvider.userProfilePicture
+            : mzansiProfileProvider.businessProfilePicture,
         width: 60,
         editable: false,
         fileNameController: proPicController,
@@ -69,9 +67,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
 
   @override
   void initState() {
-    setState(() {
-      profilePictureLoaded = displayProPic();
-    });
     super.initState();
   }
 
@@ -102,38 +97,74 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                     "Dark"),
                           ),
                           child: SizedBox(
-                            height: 400,
+                            // height: 300,
                             width: constraints.maxWidth,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                profilePictureLoaded,
-                                Text(
-                                  "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
+                                displayProPic(mzansiProfileProvider),
+                                Visibility(
+                                  visible: !mzansiProfileProvider.personalHome,
+                                  child: Text(
+                                    mzansiProfileProvider.business!.Name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: mzansiProfileProvider.personalHome,
+                                  child: Text(
+                                    "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: !mzansiProfileProvider.personalHome,
+                                  child: Text(
+                                    mzansiProfileProvider.business!.type,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: mzansiProfileProvider.personalHome,
+                                  child: Text(
+                                    "@${mzansiProfileProvider.user!.username}",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
                                   ),
                                 ),
                                 Text(
-                                  "@${widget.signedInUser.username}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                  ),
-                                ),
-                                Text(
-                                  widget.signedInUser.type.toUpperCase(),
+                                  mzansiProfileProvider.user!.type
+                                      .toUpperCase(),
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,

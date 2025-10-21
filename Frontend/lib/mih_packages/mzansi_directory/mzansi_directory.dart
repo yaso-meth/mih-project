@@ -100,7 +100,6 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: widget.arguments.personalSearch,
         );
         FocusScope.of(context).unfocus();
       },

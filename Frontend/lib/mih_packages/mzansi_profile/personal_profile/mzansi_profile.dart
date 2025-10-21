@@ -40,7 +40,6 @@ class _MzansiProfileState extends State<MzansiProfile> {
         // Navigator.of(context).pop();
         context.goNamed(
           'mihHome',
-          extra: true,
         );
         FocusScope.of(context).unfocus();
       },

@@ -146,12 +146,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.aboutMih,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: aboutMih");
-          final bool? args = state.extra as bool?;
-          bool personalSelected = true;
-          if (args != null) {
-            personalSelected = args;
-          }
-          return AboutMih(personalSelected: personalSelected);
+          return AboutMih();
         },
       ),
       // ========================== Mzansi Profile Personal ==================================
@@ -237,12 +232,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.calculator,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihCalculator");
-          final bool? personalSelected = state.extra as bool?;
-          bool personal = true;
-          if (personalSelected != null) {
-            personal = personalSelected;
-          }
-          return MIHCalculator(personalSelected: personal);
+          return MIHCalculator();
         },
       ),
       // ========================== MIH Calculator ==================================
