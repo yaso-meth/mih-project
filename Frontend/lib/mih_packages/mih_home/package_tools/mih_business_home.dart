@@ -98,12 +98,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //=============== Calendar ===============
     temp.add({
       "Calendar": MzansiCalendarTile(
-        arguments: CalendarArguments(
-          mzansiProfileProvider.user!,
-          false,
-          mzansiProfileProvider.business!,
-          mzansiProfileProvider.businessUser!,
-        ),
         packageSize: packageSize,
       )
     });

@@ -125,12 +125,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Calendar ===============
     temp.add({
       "Calendar": MzansiCalendarTile(
-        arguments: CalendarArguments(
-          widget.signedInUser,
-          true,
-          widget.business,
-          widget.businessUser,
-        ),
         packageSize: packageSize,
       )
     });

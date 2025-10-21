@@ -241,8 +241,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.calendar,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihCalendar");
-          final CalendarArguments? args = state.extra as CalendarArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -250,7 +249,6 @@ class MihGoRouter {
           }
           return MzansiCalendar(
             key: UniqueKey(),
-            arguments: args,
           );
         },
       ),
@@ -260,7 +258,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiAi,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiAi");
-          if (context.watch<MzansiProfileProvider>().business == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });

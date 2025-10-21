@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_pro
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
@@ -94,6 +95,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => MihCalculatorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MihCalendarProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AboutMihProvider(),

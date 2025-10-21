@@ -8,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
@@ -23,9 +24,10 @@ class MihMzansiCalendarApis {
   /// date (yyyy-mm-dd),
   ///
   /// Returns Future<List<Appointment>>.
-  static Future<List<Appointment>> getPersonalAppointments(
+  static Future<int> getPersonalAppointments(
     String app_id,
     String date,
+    MihCalendarProvider mihCalendarProvider,
   ) async {
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/appointments/personal/$app_id?date=$date"));
@@ -33,7 +35,9 @@ class MihMzansiCalendarApis {
       Iterable l = jsonDecode(response.body);
       List<Appointment> personalAppointments =
           List<Appointment>.from(l.map((model) => Appointment.fromJson(model)));
-      return personalAppointments;
+      mihCalendarProvider.setPersonalAppointments(
+          appointments: personalAppointments);
+      return response.statusCode;
     } else {
       throw Exception('failed to fatch personal appointments');
     }
@@ -46,38 +50,21 @@ class MihMzansiCalendarApis {
   /// date (yyyy-mm-dd),
   ///
   /// Returns Future<List<Appointment>>.
-  static Future<List<Appointment>> getBusinessAppointments(
+  static Future<int> getBusinessAppointments(
     String business_id,
     bool waitingRoom,
     String date,
+    MihCalendarProvider mihCalendarProvider,
   ) async {
-    //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/appointments/business/$business_id?date=$date"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-
     if (response.statusCode == 200) {
-      //print("Here1");
       Iterable l = jsonDecode(response.body);
-      //print("Here2");
       List<Appointment> businessAppointments =
           List<Appointment>.from(l.map((model) => Appointment.fromJson(model)));
-      //print("Here3");
-      //print(patientQueue);
-      // if (waitingRoom == true) {
-      //   businessAppointments = businessAppointments
-      //       .where((element) => element.app_id != "")
-      //       .toList();
-      // } else {
-      //   businessAppointments = businessAppointments
-      //       .where((element) => element.app_id == "")
-      //       .toList();
-      // }
-      return businessAppointments;
+      mihCalendarProvider.setBusinessAppointments(
+          appointments: businessAppointments);
+      return response.statusCode;
     } else {
       throw Exception('failed to fatch business appointments');
     }
@@ -98,6 +85,7 @@ class MihMzansiCalendarApis {
     BusinessUser? businessUser,
     bool inWaitingRoom,
     int idappointments,
+    MihCalendarProvider mihCalendarProvider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -109,6 +97,19 @@ class MihMzansiCalendarApis {
       body: jsonEncode(<String, dynamic>{"idappointments": idappointments}),
     );
     context.pop();
+    if (response.statusCode == 200) {
+      if (personalSelected == true) {
+        mihCalendarProvider.deletePersonalAppointment(
+            appointmentId: idappointments);
+        getPersonalAppointments(signedInUser.app_id,
+            mihCalendarProvider.selectedDay, mihCalendarProvider);
+      } else {
+        mihCalendarProvider.deleteBusinessAppointment(
+            appointmentId: idappointments);
+        getBusinessAppointments(business!.business_id, inWaitingRoom,
+            mihCalendarProvider.selectedDay, mihCalendarProvider);
+      }
+    }
     return response.statusCode;
     //print("Here4");
     //print(response.statusCode);
@@ -163,6 +164,7 @@ class MihMzansiCalendarApis {
     String description,
     String date,
     String time,
+    MihCalendarProvider mihCalendarProvider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -181,6 +183,18 @@ class MihMzansiCalendarApis {
       }),
     );
     context.pop();
+    if (response.statusCode == 201) {
+      mihCalendarProvider.addPersonalAppointment(
+        newAppointment: Appointment(
+          idappointments: 0,
+          app_id: signedInUser.app_id,
+          business_id: "",
+          date_time: "$date $time",
+          title: title,
+          description: description,
+        ),
+      );
+    }
     return response.statusCode;
     // if (response.statusCode == 201) {
     //   Navigator.pop(context);
@@ -227,6 +241,7 @@ class MihMzansiCalendarApis {
     String description,
     String date,
     String time,
+    MihCalendarProvider mihCalendarProvider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -245,43 +260,19 @@ class MihMzansiCalendarApis {
       }),
     );
     context.pop();
+    if (response.statusCode == 201) {
+      mihCalendarProvider.addBusinessAppointment(
+        newAppointment: Appointment(
+          idappointments: 0,
+          app_id: "",
+          business_id: business.business_id,
+          date_time: "$date $time",
+          title: title,
+          description: description,
+        ),
+      );
+    }
     return response.statusCode;
-    // if (response.statusCode == 201) {
-    //   // Navigator.pop(context);
-    //   Navigator.pop(context);
-    //   Navigator.pop(context);
-    //   Navigator.pop(context);
-    //   String message =
-    //       "Your appointment \"$title\" for the $date $title has been deleted.";
-
-    //   // Navigator.pop(context);
-    //   if (inWaitingRoom) {
-    //     Navigator.of(context).pushNamed(
-    //       '/patient-manager',
-    //       arguments: PatManagerArguments(
-    //         signedInUser,
-    //         false,
-    //         business,
-    //         businessUser,
-    //       ),
-    //     );
-    //   } else {
-    //     Navigator.of(context).pushNamed(
-    //       '/calendar',
-    //       arguments: CalendarArguments(
-    //         signedInUser,
-    //         false,
-    //         business,
-    //         businessUser,
-    //       ),
-    //     );
-    //   }
-
-    //   successPopUp(message, context);
-    // } else {
-    //   Navigator.pop(context);
-    //   internetConnectionPopUp(context);
-    // }
   }
 
   /// This function is used to add an appointment to users mzansi Calendar.
@@ -324,20 +315,6 @@ class MihMzansiCalendarApis {
     );
     context.pop();
     return response.statusCode;
-    // if (response.statusCode == 201) {
-    //   MihNotificationApis.addNewAppointmentNotificationAPICall(
-    //     patientAppId,
-    //     personalSelected,
-    //     date,
-    //     time,
-    //     businessArgs,
-    //     context,
-    //   );
-    //   // Navigator.pop(context);
-    // } else {
-    //   Navigator.pop(context);
-    //   internetConnectionPopUp(context);
-    // }
   }
 
   /// This function is used to update an appointment to users mzansi Calendar.
@@ -362,6 +339,7 @@ class MihMzansiCalendarApis {
     String description,
     String date,
     String time,
+    MihCalendarProvider mihCalendarProvider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -379,6 +357,18 @@ class MihMzansiCalendarApis {
       }),
     );
     context.pop();
+    if (response.statusCode == 200) {
+      mihCalendarProvider.editPersonalAppointment(
+        updatedAppointment: Appointment(
+          idappointments: idappointments,
+          app_id: signedInUser.app_id,
+          business_id: "",
+          date_time: "$date $time",
+          title: title,
+          description: description,
+        ),
+      );
+    }
     return response.statusCode;
     // if (response.statusCode == 200) {
     //   Navigator.pop(context);
@@ -426,6 +416,7 @@ class MihMzansiCalendarApis {
     String description,
     String date,
     String time,
+    MihCalendarProvider mihCalendarProvider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -443,6 +434,18 @@ class MihMzansiCalendarApis {
       }),
     );
     context.pop();
+    if (response.statusCode == 200) {
+      mihCalendarProvider.editBusinessAppointment(
+        updatedAppointment: Appointment(
+          idappointments: idappointments,
+          app_id: "",
+          business_id: business!.business_id,
+          date_time: "$date $time",
+          title: title,
+          description: description,
+        ),
+      );
+    }
     return response.statusCode;
     // if (response.statusCode == 200) {
     //   Navigator.pop(context);
