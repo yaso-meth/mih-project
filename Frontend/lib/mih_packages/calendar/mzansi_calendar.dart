@@ -37,7 +37,6 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        // Navigator.of(context).pop();
         context.read<MihCalendarProvider>().resetSelectedDay();
         context.goNamed(
           'mihHome',

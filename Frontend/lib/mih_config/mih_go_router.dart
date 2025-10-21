@@ -321,8 +321,7 @@ class MihGoRouter {
         name: "mihAccess",
         path: MihGoRouterPaths.mihAccess,
         builder: (BuildContext context, GoRouterState state) {
-          final AppUser? signedInUser = state.extra as AppUser?;
-          if (signedInUser == null) {
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -330,7 +329,6 @@ class MihGoRouter {
           }
           return MihAccess(
             key: UniqueKey(),
-            signedInUser: signedInUser,
           );
         },
       ),

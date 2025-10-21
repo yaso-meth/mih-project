@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
@@ -95,6 +96,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => MihCalculatorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MihAccessControllsProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => MihCalendarProvider(),

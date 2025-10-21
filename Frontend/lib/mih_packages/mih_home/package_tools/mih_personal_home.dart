@@ -98,7 +98,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Mzansi Wallet ===============
     temp.add({
       "Mzansi Wallet": MihWalletTile(
-        signedInUser: widget.signedInUser,
         packageSize: packageSize,
       )
     });
@@ -150,7 +149,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== MIH Access ===============
     temp.add({
       "MIH Access": MihAccessTile(
-        signedInUser: widget.signedInUser,
         packageSize: packageSize,
       )
     });
