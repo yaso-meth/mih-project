@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
@@ -123,11 +124,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //=============== Mzansi AI ===============
     temp.add({
       "Mzansi AI": MzansiAiTile(
-        arguments: MzansiAiArguments(
-          mzansiProfileProvider.user!,
-          "",
-          false,
-        ),
         packageSize: packageSize,
       )
     });
@@ -205,9 +201,11 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
   }
 
   Widget getBody(double width, double height) {
-    return Consumer<MzansiProfileProvider>(
+    return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
       builder: (BuildContext context,
-          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+          MzansiProfileProvider mzansiProfileProvider,
+          MzansiAiProvider mzansiAiProvider,
+          Widget? child) {
         if (mzansiProfileProvider.business == null) {
           return Center(
             child: Mihloadingcircle(),
@@ -228,25 +226,10 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                   hintColor: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   onPrefixIconTap: () {
+                    mzansiAiProvider.setStartUpQuestion(searchController.text);
                     context.goNamed(
                       "mzansiAi",
-                      extra: MzansiAiArguments(
-                        mzansiProfileProvider.user!,
-                        searchController.text.isEmpty
-                            ? null
-                            : searchController.text,
-                        false,
-                      ),
                     );
-                    // Navigator.of(context).pushNamed(
-                    //   '/mzansi-ai',
-                    //   arguments: MzansiAiArguments(
-                    //     widget.signedInUser,
-                    //     searchController.text.isEmpty
-                    //         ? null
-                    //         : searchController.text,
-                    //   ),
-                    // );
                     searchController.clear();
                   },
                   searchFocusNode: _searchFocusNode,

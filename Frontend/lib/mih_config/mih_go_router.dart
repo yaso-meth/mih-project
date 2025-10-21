@@ -260,14 +260,13 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiAi,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiAi");
-          final MzansiAiArguments? args = state.extra as MzansiAiArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return MzansiAi(arguments: args);
+          return MzansiAi();
         },
       ),
       // ========================== Mzansi Wallet ==================================

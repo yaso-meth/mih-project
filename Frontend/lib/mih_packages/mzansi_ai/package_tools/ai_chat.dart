@@ -4,6 +4,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
@@ -14,22 +16,18 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ollama_dart/ollama_dart.dart' as ollama;
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class AiChat extends StatefulWidget {
-  final AppUser signedInUser;
-  final String? startUpQuestion;
   const AiChat({
     super.key,
-    required this.signedInUser,
-    this.startUpQuestion,
   });
 
   @override
@@ -615,9 +613,13 @@ class _AiChatState extends State<AiChat> {
   @override
   void initState() {
     super.initState();
+    MzansiAiProvider mzansiAiProvider = context.read<MzansiAiProvider>();
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
     _user = types.User(
-      firstName: widget.signedInUser.fname,
-      id: widget.signedInUser.app_id, //'82091008-a484-4a89-ae75-a22bf8d6f3ac',
+      firstName: mzansiProfileProvider.user!.fname,
+      id: mzansiProfileProvider
+          .user!.app_id, //'82091008-a484-4a89-ae75-a22bf8d6f3ac',
     );
     _mihAI = types.User(
       firstName: "Mzansi AI",
@@ -634,8 +636,10 @@ class _AiChatState extends State<AiChat> {
     );
     initTTS();
     _ttsVoiceController.addListener(voiceSelected);
-    if (widget.startUpQuestion != null && widget.startUpQuestion!.isNotEmpty) {
-      final partialText = types.PartialText(text: widget.startUpQuestion!);
+    if (mzansiAiProvider.startUpQuestion != null &&
+        mzansiAiProvider.startUpQuestion!.isNotEmpty) {
+      final partialText =
+          types.PartialText(text: mzansiAiProvider.startUpQuestion!);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _handleSendPressed(partialText);
       });
