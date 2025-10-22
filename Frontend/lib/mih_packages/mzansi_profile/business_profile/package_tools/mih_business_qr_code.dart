@@ -25,11 +25,11 @@ import 'package:supertokens_flutter/supertokens.dart';
 
 class MihBusinessQrCode extends StatefulWidget {
   final Business business;
-  final String? startUpSearch;
+  // final String? startUpSearch;
   const MihBusinessQrCode({
     super.key,
     required this.business,
-    required this.startUpSearch,
+    // required this.startUpSearch,
   });
 
   @override

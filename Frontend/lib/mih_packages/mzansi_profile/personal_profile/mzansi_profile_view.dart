@@ -1,6 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
@@ -8,10 +6,8 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profi
 import 'package:flutter/material.dart';
 
 class MzansiProfileView extends StatefulWidget {
-  final AppUser user;
   const MzansiProfileView({
     super.key,
-    required this.user,
   });
 
   @override
@@ -42,13 +38,7 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        context.goNamed(
-          "mzansiDirectory",
-          extra: MzansiDirectoryArguments(
-            personalSearch: true,
-            startSearchText: widget.user.username,
-          ),
-        );
+        context.pop();
         FocusScope.of(context).unfocus();
       },
     );
@@ -69,9 +59,9 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [];
-    toolBodies.add(MihPersonalProfileView(
-      user: widget.user,
-    ));
+    toolBodies.add(
+      MihPersonalProfileView(),
+    );
     return toolBodies;
   }
 

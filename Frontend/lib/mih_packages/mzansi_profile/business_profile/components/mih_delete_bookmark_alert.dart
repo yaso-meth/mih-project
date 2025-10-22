@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -14,12 +13,14 @@ import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services
 class MihDeleteBookmarkAlert extends StatefulWidget {
   final Business business;
   final BookmarkedBusiness? bookmarkBusiness;
-  final String? startUpSearch;
+  final void Function()? onSuccessDismissPressed;
+  // final String? startUpSearch;
   const MihDeleteBookmarkAlert({
     super.key,
     required this.business,
     required this.bookmarkBusiness,
-    required this.startUpSearch,
+    required this.onSuccessDismissPressed,
+    // required this.startUpSearch,
   });
 
   @override
@@ -80,14 +81,17 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
               Center(
                 child: MihButton(
                   onPressed: () {
-                    context.goNamed(
-                      "mzansiDirectory",
-                      extra: MzansiDirectoryArguments(
-                        personalSearch: false,
-                        startSearchText: widget.business.Name,
-                        packageIndex: 1,
-                      ),
-                    );
+                    // context.goNamed(
+                    //   "mzansiDirectory",
+                    //   extra: MzansiDirectoryArguments(
+                    //     personalSearch: false,
+                    //     startSearchText: widget.business.Name,
+                    //     packageIndex: 1,
+                    //   ),
+                    // );
+                    widget.onSuccessDismissPressed!.call();
+                    context.pop();
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),

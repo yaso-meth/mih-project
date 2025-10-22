@@ -105,7 +105,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     temp.add({
       "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
-        personalSelected: false,
       )
     });
     //=============== Calculator ===============

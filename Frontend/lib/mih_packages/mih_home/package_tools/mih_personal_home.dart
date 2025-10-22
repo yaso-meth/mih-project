@@ -118,7 +118,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     temp.add({
       "Mzansi Directory": MzansiDirectoryTile(
         packageSize: packageSize,
-        personalSelected: true,
       )
     });
     //=============== Calendar ===============

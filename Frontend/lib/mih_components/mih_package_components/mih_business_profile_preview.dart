@@ -4,17 +4,17 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
+import 'package:provider/provider.dart';
 
 class MihBusinessProfilePreview extends StatefulWidget {
   final Business business;
-  final String? myLocation;
   const MihBusinessProfilePreview({
     super.key,
     required this.business,
-    required this.myLocation,
   });
 
   @override
@@ -26,10 +26,10 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
   late Future<String> futureImageUrl;
   PlatformFile? file;
 
-  String calculateDistance() {
+  String calculateDistance(MzansiDirectoryProvider directoryProvider) {
     try {
       double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
-              widget.myLocation!, widget.business.gps_location) /
+              directoryProvider.userLocation, widget.business.gps_location) /
           1000;
       return "${distanceInKm.toStringAsFixed(2)} km";
     } catch (error) {
@@ -48,73 +48,82 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
   @override
   Widget build(BuildContext context) {
     double profilePictureWidth = 60;
-    return Row(
-      children: [
-        FutureBuilder(
-            future: futureImageUrl,
-            builder: (context, asyncSnapshot) {
-              if (asyncSnapshot.connectionState == ConnectionState.done &&
-                  asyncSnapshot.hasData) {
-                if (asyncSnapshot.requireData != "") {
-                  return MihCircleAvatar(
-                    imageFile: NetworkImage(asyncSnapshot.requireData),
-                    width: profilePictureWidth,
-                    editable: false,
-                    fileNameController: TextEditingController(),
-                    userSelectedfile: file,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onChange: () {},
-                  );
-                } else {
-                  return Icon(
-                    MihIcons.iDontKnow,
-                    size: profilePictureWidth,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  );
-                }
-              } else {
-                return Icon(
-                  MihIcons.mihRing,
-                  size: profilePictureWidth,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                );
-              }
-            }),
-        const SizedBox(width: 15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Consumer<MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
+          Widget? child) {
+        return Row(
           children: [
-            Text(
-              widget.business.Name,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            Text(
-              widget.business.type,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              widget.myLocation != null || widget.myLocation!.isEmpty
-                  ? calculateDistance()
-                  : "0.00 km",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 10,
-              ),
-            ),
+            FutureBuilder(
+                future: futureImageUrl,
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.connectionState == ConnectionState.done &&
+                      asyncSnapshot.hasData) {
+                    if (asyncSnapshot.requireData != "") {
+                      return MihCircleAvatar(
+                        imageFile: NetworkImage(asyncSnapshot.requireData),
+                        width: profilePictureWidth,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        backgroundColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        onChange: () {},
+                      );
+                    } else {
+                      return Icon(
+                        MihIcons.iDontKnow,
+                        size: profilePictureWidth,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      );
+                    }
+                  } else {
+                    return Icon(
+                      MihIcons.mihRing,
+                      size: profilePictureWidth,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    );
+                  }
+                }),
+            const SizedBox(width: 15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.business.Name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  widget.business.type,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(
+                  directoryProvider.userPosition != null
+                      ? calculateDistance(directoryProvider)
+                      : "0.00 km",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            )
           ],
-        )
-      ],
+        );
+      },
     );
   }
 }

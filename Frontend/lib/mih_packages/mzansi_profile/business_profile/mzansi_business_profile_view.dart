@@ -1,23 +1,22 @@
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:provider/provider.dart';
 
 class MzansiBusinessProfileView extends StatefulWidget {
-  final BusinessViewArguments? arguments;
   final String? businessId;
   const MzansiBusinessProfileView({
     super.key,
-    required this.arguments,
     required this.businessId,
   });
 
@@ -28,16 +27,10 @@ class MzansiBusinessProfileView extends StatefulWidget {
 
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   int _selcetedIndex = 0;
-  Business? business;
-  String startUpSearch = "";
 
-  Future<void> _fetchBusinessDetails() async {
-    if (widget.arguments != null) {
-      setState(() {
-        business = widget.arguments!.business;
-        startUpSearch = widget.arguments!.startUpSearch ?? "";
-      });
-    } else if (widget.businessId != null) {
+  Future<void> _fetchBusinessDetails(
+      MzansiDirectoryProvider directoryProvider) async {
+    if (widget.businessId != null) {
       final biz = await MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(widget.businessId!);
       if (biz == null) {
@@ -47,10 +40,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
         );
       } else {
         KenLogger.success("Business found: ${biz.Name}");
-        setState(() {
-          business = biz;
-          startUpSearch = "";
-        });
+        directoryProvider.setSelectedBusiness(business: biz);
       }
     }
   }
@@ -58,32 +48,39 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   @override
   void initState() {
     super.initState();
-    _fetchBusinessDetails();
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
+    _fetchBusinessDetails(directoryProvider);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (business == null) {
-      KenLogger.warning("Business is null, showing loading indicator");
-      return Scaffold(
-        body: const Center(
-          child: Mihloadingcircle(),
-        ),
-      );
-    } else {
-      return MihPackage(
-        appActionButton: getAction(),
-        appTools: getTools(),
-        appBody: getToolBody(),
-        appToolTitles: getToolTitle(),
-        selectedbodyIndex: _selcetedIndex,
-        onIndexChange: (newValue) {
-          setState(() {
-            _selcetedIndex = newValue;
-          });
-        },
-      );
-    }
+    return Consumer<MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
+          Widget? child) {
+        if (directoryProvider.selectedBusiness == null) {
+          KenLogger.warning("Business is null, showing loading indicator");
+          return Scaffold(
+            body: const Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        } else {
+          return MihPackage(
+            appActionButton: getAction(),
+            appTools: getTools(),
+            appBody: getToolBody(directoryProvider),
+            appToolTitles: getToolTitle(),
+            selectedbodyIndex: _selcetedIndex,
+            onIndexChange: (newValue) {
+              setState(() {
+                _selcetedIndex = newValue;
+              });
+            },
+          );
+        }
+      },
+    );
   }
 
   MihPackageAction getAction() {
@@ -91,13 +88,18 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        context.goNamed(
-          "mzansiDirectory",
-          extra: MzansiDirectoryArguments(
-            personalSearch: false,
-            startSearchText: business!.Name,
-          ),
-        );
+        MzansiProfileProvider profileProvider =
+            context.read<MzansiProfileProvider>();
+        if (profileProvider.user == null) {
+          context.goNamed(
+            'mihHome',
+          );
+        } else {
+          context.pop();
+        }
+        // context.goNamed(
+        //   "mzansiDirectory",
+        // );
         FocusScope.of(context).unfocus();
       },
     );
@@ -126,16 +128,12 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     );
   }
 
-  List<Widget> getToolBody() {
+  List<Widget> getToolBody(MzansiDirectoryProvider directoryProvider) {
     List<Widget> toolBodies = [
-      MihBusinessDetailsView(
-        business: business!,
-        startUpSearch: startUpSearch,
-      ),
-      MihBusinessReviews(business: business!),
+      MihBusinessDetailsView(),
+      MihBusinessReviews(business: directoryProvider.selectedBusiness!),
       MihBusinessQrCode(
-        business: business!,
-        startUpSearch: startUpSearch,
+        business: directoryProvider.selectedBusiness!,
       )
     ];
     return toolBodies;

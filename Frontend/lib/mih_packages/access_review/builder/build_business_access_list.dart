@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -10,18 +13,15 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
+import 'package:provider/provider.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
-  final List<PatientAccess> patientAccessList;
-  final AppUser signedInUser;
+  final String filterText;
   final void Function()? onSuccessUpate;
 
   const BuildBusinessAccessList({
     super.key,
-    required this.patientAccessList,
-    required this.signedInUser,
+    required this.filterText,
     required this.onSuccessUpate,
   });
 
@@ -60,18 +60,20 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     );
   }
 
-  Widget displayQueue(int index) {
-    String line1 =
-        "Business Name: ${widget.patientAccessList[index].requested_by}";
+  Widget displayQueue(
+      MzansiProfileProvider mzansiProfileProvider,
+      MihAccessControllsProvider accessProvider,
+      int index,
+      List<PatientAccess> filteredList) {
+    String line1 = "Business Name: ${filteredList[index].requested_by}";
     String line2 = "";
 
     line2 +=
-        "Request Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
-    line2 +=
-        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
+        "Request Date: ${filteredList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
+    line2 += "Profile Type: ${filteredList[index].type.toUpperCase()}\n";
     //subtitle += "Business Type: ${widget.patientAccessList[index].type}\n";
     String line3 = "Status: ";
-    String access = widget.patientAccessList[index].status.toUpperCase();
+    String access = filteredList[index].status.toUpperCase();
 
     TextSpan accessWithColour;
     if (access == "APPROVED") {
@@ -118,7 +120,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
       //   ),
       // ),
       onTap: () {
-        viewApprovalPopUp(index);
+        viewApprovalPopUp(mzansiProfileProvider, accessProvider, index);
       },
       // trailing: Icon(
       //   Icons.arrow_forward,
@@ -153,23 +155,24 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     }
   }
 
-  void viewApprovalPopUp(int index) {
+  void viewApprovalPopUp(MzansiProfileProvider mzansiProfileProvider,
+      MihAccessControllsProvider accessProvider, int index) {
     String subtitle =
-        "Business Name: ${widget.patientAccessList[index].requested_by}\n";
+        "Business Name: ${accessProvider.accessList![index].requested_by}\n";
     subtitle +=
-        "Requested Date: ${widget.patientAccessList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
+        "Requested Date: ${accessProvider.accessList![index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
 
     subtitle +=
-        "Profile Type: ${widget.patientAccessList[index].type.toUpperCase()}\n";
+        "Profile Type: ${accessProvider.accessList![index].type.toUpperCase()}\n";
     subtitle +=
-        "Status: ${widget.patientAccessList[index].status.toUpperCase()}";
-    if (widget.patientAccessList[index].status == 'pending') {
+        "Status: ${accessProvider.accessList![index].status.toUpperCase()}";
+    if (accessProvider.accessList![index].status == 'pending') {
       //     "\nYou are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.\nIf you are unsure about an upcoming appointment with ${widget.patientAccessList[index].requested_by}, please contact *Add Number here* for clarification before approving this request.";
     } else {
       subtitle +=
-          "\nActioned By: ${widget.patientAccessList[index].approved_by}\n";
+          "\nActioned By: ${accessProvider.accessList![index].approved_by}\n";
       subtitle +=
-          "Actioned On: ${widget.patientAccessList[index].approved_on.substring(0, 16).replaceAll("T", " ")}";
+          "Actioned On: ${accessProvider.accessList![index].approved_on.substring(0, 16).replaceAll("T", " ")}";
       // subtitle +=
       //     "You have approved this access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.";
     }
@@ -199,7 +202,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
               ),
               const SizedBox(height: 20.0),
               Visibility(
-                visible: widget.patientAccessList[index].status == 'pending',
+                visible: accessProvider.accessList![index].status == 'pending',
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -271,7 +274,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                 ),
               ),
               Visibility(
-                visible: widget.patientAccessList[index].status == 'approved',
+                visible: accessProvider.accessList![index].status == 'approved',
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -338,7 +341,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                 height: 20,
               ),
               Visibility(
-                visible: widget.patientAccessList[index].status == 'pending',
+                visible: accessProvider.accessList![index].status == 'pending',
                 child: Wrap(
                   runSpacing: 10,
                   spacing: 10,
@@ -348,15 +351,20 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         print("request declined");
                         int statusCode = await MihAccessControlsServices()
                             .updatePatientAccessAPICall(
-                          widget.patientAccessList[index].business_id,
-                          widget.patientAccessList[index].requested_by,
-                          widget.patientAccessList[index].app_id,
+                          accessProvider.accessList![index].business_id,
+                          accessProvider.accessList![index].requested_by,
+                          accessProvider.accessList![index].app_id,
                           "declined",
-                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                          widget.signedInUser,
+                          "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
+                          mzansiProfileProvider.user!,
                           context,
                         );
                         if (statusCode == 200) {
+                          await MihAccessControlsServices()
+                              .getBusinessAccessListOfPatient(
+                            mzansiProfileProvider.user!.app_id,
+                            accessProvider,
+                          );
                           context.pop();
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Declined access request");
@@ -384,15 +392,20 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         print("request approved");
                         int statusCode = await MihAccessControlsServices()
                             .updatePatientAccessAPICall(
-                          widget.patientAccessList[index].business_id,
-                          widget.patientAccessList[index].requested_by,
-                          widget.patientAccessList[index].app_id,
+                          accessProvider.accessList![index].business_id,
+                          accessProvider.accessList![index].requested_by,
+                          accessProvider.accessList![index].app_id,
                           "approved",
-                          "${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-                          widget.signedInUser,
+                          "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
+                          mzansiProfileProvider.user!,
                           context,
                         );
                         if (statusCode == 200) {
+                          await MihAccessControlsServices()
+                              .getBusinessAccessListOfPatient(
+                            mzansiProfileProvider.user!.app_id,
+                            accessProvider,
+                          );
                           context.pop();
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Accepted access request");
@@ -487,6 +500,16 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     );
   }
 
+  List<PatientAccess> filterAccessList(List<PatientAccess> accessList) {
+    if (widget.filterText == "All") {
+      return accessList;
+    }
+    return accessList
+        .where((item) =>
+            item.status.toLowerCase() == widget.filterText.toLowerCase())
+        .toList();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -500,20 +523,29 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
       height = size.height;
     });
     checkScreenSize();
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (BuildContext context, index) {
-        return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    return Consumer2<MzansiProfileProvider, MihAccessControllsProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider,
+          MihAccessControllsProvider accessProvider,
+          Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, index) {
+            return Divider(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            );
+          },
+          itemCount: filterAccessList(accessProvider.accessList!).length,
+          itemBuilder: (context, index) {
+            //final patient = widget.patients[index].id_no.contains(widget.searchString);
+            //print(index);
+            final filteredList = filterAccessList(accessProvider.accessList!);
+            return displayQueue(
+                mzansiProfileProvider, accessProvider, index, filteredList);
+          },
         );
-      },
-      itemCount: widget.patientAccessList.length,
-      itemBuilder: (context, index) {
-        //final patient = widget.patients[index].id_no.contains(widget.searchString);
-        //print(index);
-        return displayQueue(index);
       },
     );
   }

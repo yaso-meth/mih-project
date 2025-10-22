@@ -396,7 +396,6 @@ class _PackageToolOneState extends State<PackageToolOne> {
                         return widget.business != null
                             ? MihBusinessProfilePreview(
                                 business: widget.business!,
-                                myLocation: myLocation,
                               )
                             : Text("NoBusiness Data");
                       }
@@ -424,7 +423,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     "rating",
                     "mission_vision",
                   ),
-                  startUpSearch: '',
+                  // startUpSearch: '',
                   width: 300,
                 ).redacted(
                   context: context,

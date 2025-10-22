@@ -135,7 +135,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       width: 700,
                       child: MihBusinessCard(
                         business: mzansiProfileProvider.business!,
-                        startUpSearch: null,
+                        // startUpSearch: null,
                         width: width,
                       ),
                     ),

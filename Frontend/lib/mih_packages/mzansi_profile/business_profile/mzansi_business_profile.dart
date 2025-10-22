@@ -86,7 +86,7 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
           business: context.watch<MzansiProfileProvider>().business!),
       MihBusinessQrCode(
         business: context.watch<MzansiProfileProvider>().business!,
-        startUpSearch: "",
+        // startUpSearch: "",
       ),
     ];
     return toolBodies;

@@ -7,23 +7,24 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
+import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihBusinessCard extends StatefulWidget {
   final Business business;
-  final String? startUpSearch;
   final double width;
   const MihBusinessCard({
     super.key,
     required this.business,
-    required this.startUpSearch,
     required this.width,
   });
 
@@ -409,274 +410,292 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   @override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
-    return Material(
-      color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-          .withValues(alpha: 0.6),
-      borderRadius: BorderRadius.circular(25),
-      elevation: 10,
-      shadowColor: Colors.black,
-      child: Container(
-        decoration: BoxDecoration(
+    return Consumer<MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
+          Widget? child) {
+        return Material(
           color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            _buildContactInfo(
-              "Call",
-              "Give us a quick call.",
-              Icons.phone,
-              MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")
+              .withValues(alpha: 0.6),
+          borderRadius: BorderRadius.circular(25),
+          elevation: 10,
+          shadowColor: Colors.black,
+          child: Container(
+            decoration: BoxDecoration(
+              color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              false,
-              () {
-                // print("Calling ${widget.cellNumber}");
-                _makePhoneCall(widget.business.contact_no);
-              },
+              borderRadius: BorderRadius.circular(10),
             ),
-            Divider(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-            _buildContactInfo(
-              "Email",
-              "Send us an email.",
-              Icons.email,
-              MihColors.getPinkColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              false,
-              () {
-                // print("Emailing ${widget.email}");
-                _launchEmail(
-                  widget.business.bus_email,
-                  "Inquiery about ${widget.business.Name}",
-                  "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
-                );
-              },
-            ),
-            Visibility(
-              visible: isValidGps(widget.business.gps_location),
-              child: Column(
-                children: [
-                  Divider(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                _buildContactInfo(
+                  "Call",
+                  "Give us a quick call.",
+                  Icons.phone,
+                  MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  false,
+                  () {
+                    // print("Calling ${widget.cellNumber}");
+                    _makePhoneCall(widget.business.contact_no);
+                  },
+                ),
+                Divider(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+                _buildContactInfo(
+                  "Email",
+                  "Send us an email.",
+                  Icons.email,
+                  MihColors.getPinkColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  false,
+                  () {
+                    // print("Emailing ${widget.email}");
+                    _launchEmail(
+                      widget.business.bus_email,
+                      "Inquiery about ${widget.business.Name}",
+                      "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                    );
+                  },
+                ),
+                Visibility(
+                  visible: isValidGps(widget.business.gps_location),
+                  child: Column(
+                    children: [
+                      Divider(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      _buildContactInfo(
+                        "Location",
+                        "Come visit us.",
+                        Icons.location_on,
+                        MihColors.getOrangeColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        false,
+                        () {
+                          final latitude = double.parse(
+                              widget.business.gps_location.split(',')[0]);
+                          final longitude = double.parse(
+                              widget.business.gps_location.split(',')[1]);
+                          _launchGoogleMapsWithUrl(
+                            latitude: latitude,
+                            longitude: longitude,
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  _buildContactInfo(
-                    "Location",
-                    "Come visit us.",
-                    Icons.location_on,
-                    MihColors.getOrangeColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    false,
-                    () {
-                      final latitude = double.parse(
-                          widget.business.gps_location.split(',')[0]);
-                      final longitude = double.parse(
-                          widget.business.gps_location.split(',')[1]);
-                      _launchGoogleMapsWithUrl(
-                        latitude: latitude,
-                        longitude: longitude,
+                ),
+                Visibility(
+                  visible: widget.business.website.isNotEmpty &&
+                      widget.business.website != "",
+                  child: Column(
+                    children: [
+                      Divider(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      _buildContactInfo(
+                        "Website",
+                        "Find out more about us.",
+                        Icons.vpn_lock,
+                        MihColors.getRedColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        false,
+                        () {
+                          _launchWebsite(widget.business.website);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                FutureBuilder(
+                  future: _businessReviewFuture,
+                  builder: (context, asyncSnapshot) {
+                    if (asyncSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      // return const SizedBox.shrink();
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Divider(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          Container(
+                            child: _buildContactInfo(
+                              "Loading Rating",
+                              "Loading your rating.",
+                              Icons.star_rate_rounded,
+                              MihColors.getYellowColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              true,
+                              null,
+                            ),
+                          ).redacted(context: context, redact: true),
+                        ],
                       );
-                    },
-                  ),
-                ],
-              ),
+                    } else {
+                      BusinessReview? businessReview = asyncSnapshot.data;
+                      String ratingDisplayTitle = "";
+                      if (businessReview == null) {
+                        ratingDisplayTitle = "Rate Us";
+                      } else {
+                        ratingDisplayTitle = "Update Rating";
+                      }
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Divider(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          _buildContactInfo(
+                            ratingDisplayTitle,
+                            "Let us know how we are doing.",
+                            Icons.star_rate_rounded,
+                            MihColors.getYellowColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            false,
+                            () {
+                              businessReviewRatingWindow(directoryProvider,
+                                  businessReview, true, widget.width);
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: _bookmarkedBusinessFuture,
+                  builder: (context, asyncSnapshot) {
+                    if (asyncSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      // return const SizedBox.shrink();
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Divider(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          Container(
+                            child: _buildContactInfo(
+                              "Loading Bookmark",
+                              "Loading your bookmark.",
+                              Icons.bookmark_add_rounded,
+                              MihColors.getBluishPurpleColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              true,
+                              null,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
+                      String bookmarkDisplayTitle = "";
+                      if (bookmarkBusiness == null) {
+                        bookmarkDisplayTitle = "Bookmark Us";
+                      } else {
+                        bookmarkDisplayTitle = "Remove Bookmark";
+                      }
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Divider(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          _buildContactInfo(
+                            bookmarkDisplayTitle,
+                            "Save us for later.",
+                            bookmarkBusiness == null
+                                ? Icons.bookmark_add_rounded
+                                : Icons.bookmark_remove_rounded,
+                            MihColors.getBluishPurpleColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            false,
+                            () {
+                              // _launchWebsite(widget.website);
+                              if (bookmarkBusiness == null) {
+                                showAddBookmarkAlert();
+                              } else {
+                                showDeleteBookmarkAlert(bookmarkBusiness);
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: Divider(
+                //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //   ),
+                // ),
+                // _buildContactInfo(
+                //   "Bookmark",
+                //   "Save us for later.",
+                //   Icons.bookmark_add_rounded,
+                //   MihColors.getBluishPurpleColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //   () {
+                //     // _launchWebsite(widget.website);
+                //     print("Saving ${widget.business.Name} to Directory");
+                //     showBookmarkAlert();
+                //   },
+                // ),
+                const SizedBox(height: 10),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: Divider(
+                //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //   ),
+                // ),
+              ],
             ),
-            Visibility(
-              visible: widget.business.website.isNotEmpty &&
-                  widget.business.website != "",
-              child: Column(
-                children: [
-                  Divider(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                  _buildContactInfo(
-                    "Website",
-                    "Find out more about us.",
-                    Icons.vpn_lock,
-                    MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    false,
-                    () {
-                      _launchWebsite(widget.business.website);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            FutureBuilder(
-              future: _businessReviewFuture,
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  // return const SizedBox.shrink();
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Divider(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                      Container(
-                        child: _buildContactInfo(
-                          "Loading Rating",
-                          "Loading your rating.",
-                          Icons.star_rate_rounded,
-                          MihColors.getYellowColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          true,
-                          null,
-                        ),
-                      ).redacted(context: context, redact: true),
-                    ],
-                  );
-                } else {
-                  BusinessReview? businessReview = asyncSnapshot.data;
-                  String ratingDisplayTitle = "";
-                  if (businessReview == null) {
-                    ratingDisplayTitle = "Rate Us";
-                  } else {
-                    ratingDisplayTitle = "Update Rating";
-                  }
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Divider(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                      _buildContactInfo(
-                        ratingDisplayTitle,
-                        "Let us know how we are doing.",
-                        Icons.star_rate_rounded,
-                        MihColors.getYellowColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        false,
-                        () {
-                          businessReviewRatingWindow(
-                              businessReview, true, widget.width);
-                        },
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-            FutureBuilder(
-              future: _bookmarkedBusinessFuture,
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  // return const SizedBox.shrink();
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Divider(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                      Container(
-                        child: _buildContactInfo(
-                          "Loading Bookmark",
-                          "Loading your bookmark.",
-                          Icons.bookmark_add_rounded,
-                          MihColors.getBluishPurpleColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          true,
-                          null,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
-                  String bookmarkDisplayTitle = "";
-                  if (bookmarkBusiness == null) {
-                    bookmarkDisplayTitle = "Bookmark Us";
-                  } else {
-                    bookmarkDisplayTitle = "Remove Bookmark";
-                  }
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Divider(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                      _buildContactInfo(
-                        bookmarkDisplayTitle,
-                        "Save us for later.",
-                        bookmarkBusiness == null
-                            ? Icons.bookmark_add_rounded
-                            : Icons.bookmark_remove_rounded,
-                        MihColors.getBluishPurpleColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        false,
-                        () {
-                          // _launchWebsite(widget.website);
-                          if (bookmarkBusiness == null) {
-                            showAddBookmarkAlert();
-                          } else {
-                            showDeleteBookmarkAlert(bookmarkBusiness);
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: Divider(
-            //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //   ),
-            // ),
-            // _buildContactInfo(
-            //   "Bookmark",
-            //   "Save us for later.",
-            //   Icons.bookmark_add_rounded,
-            //   MihColors.getBluishPurpleColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //   () {
-            //     // _launchWebsite(widget.website);
-            //     print("Saving ${widget.business.Name} to Directory");
-            //     showBookmarkAlert();
-            //   },
-            // ),
-            const SizedBox(height: 10),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: Divider(
-            //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //   ),
-            // ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
   Future<void> businessReviewRatingWindow(
-      BusinessReview? myReview, bool previouslyRated, double width) async {
+      MzansiDirectoryProvider directoryProvider,
+      BusinessReview? myReview,
+      bool previouslyRated,
+      double width) async {
     if (_isUserSignedIn) {
       showDialog(
         context: context,
@@ -685,6 +704,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
           businessReview: myReview,
           screenWidth: width,
           readOnly: false,
+          onSuccessDismissPressed: () async {
+            List<Business>? businessSearchResults = [];
+            businessSearchResults = await MihBusinessDetailsServices()
+                .searchBusinesses(directoryProvider.searchTerm,
+                    directoryProvider.businessTypeFilter, context);
+            directoryProvider.setSearchedBusinesses(
+                searchedBusinesses: businessSearchResults);
+            setState(() {
+              _businessReviewFuture = getUserReview();
+            });
+          },
         ),
       );
     } else {
@@ -698,6 +728,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
         context: context,
         builder: (context) => MihAddBookmarkAlert(
           business: widget.business,
+          onSuccessDismissPressed: () {
+            setState(() {
+              _bookmarkedBusinessFuture = getUserBookmark();
+            });
+          },
         ),
       );
     } else {
@@ -712,7 +747,12 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
           builder: (context) => MihDeleteBookmarkAlert(
                 business: widget.business,
                 bookmarkBusiness: bookmarkBusiness,
-                startUpSearch: widget.startUpSearch,
+                onSuccessDismissPressed: () {
+                  setState(() {
+                    _bookmarkedBusinessFuture = getUserBookmark();
+                  });
+                },
+                // startUpSearch: widget.startUpSearch,
               ));
     } else {
       showSignInRequiredAlert();

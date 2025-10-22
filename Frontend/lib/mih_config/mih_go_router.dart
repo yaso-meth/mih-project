@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_print_prevew.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_test.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
@@ -169,14 +169,15 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiProfileView,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiProfileView");
-          final AppUser? user = state.extra as AppUser?;
-          if (user == null) {
+          MzansiDirectoryProvider directoryProvider =
+              context.read<MzansiDirectoryProvider>();
+          if (directoryProvider.selectedUser == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return MzansiProfileView(user: user);
+          return MzansiProfileView();
         },
       ),
       // ========================== Mzansi Profile Business ==================================
@@ -203,9 +204,10 @@ class MihGoRouter {
           KenLogger.success("MihGoRouter: businessProfileView");
           String? businessId = state.uri.queryParameters['business_id'];
           KenLogger.success("businessId: $businessId");
-          final BusinessViewArguments? args =
-              state.extra as BusinessViewArguments?;
-          if (args == null && businessId == null) {
+          MzansiDirectoryProvider directoryProvider =
+              context.read<MzansiDirectoryProvider>();
+          if (directoryProvider.selectedBusiness == null &&
+              businessId == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -213,7 +215,6 @@ class MihGoRouter {
           }
           return MzansiBusinessProfileView(
             key: UniqueKey(),
-            arguments: args,
             businessId: businessId,
           );
         },
@@ -406,15 +407,13 @@ class MihGoRouter {
         name: "mzansiDirectory",
         path: MihGoRouterPaths.mzansiDirectory,
         builder: (BuildContext context, GoRouterState state) {
-          final MzansiDirectoryArguments? args =
-              state.extra as MzansiDirectoryArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return MzansiDirectory(arguments: args);
+          return MzansiDirectory();
         },
       ),
       // ========================== End ==================================
