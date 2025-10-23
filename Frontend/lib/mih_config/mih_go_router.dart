@@ -25,11 +25,11 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profi
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/pat_manager.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/add_or_view_patient.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/full_screen_file.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_edit.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/pat_manager.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/add_or_view_patient.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/full_screen_file.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_edit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 

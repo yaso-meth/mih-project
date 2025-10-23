@@ -18,7 +18,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/components/icd10_search_window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/icd10_search_window.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_err
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/medicine.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_med_list.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_med_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:supertokens_flutter/http.dart' as http;

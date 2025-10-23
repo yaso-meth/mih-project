@@ -3,35 +3,29 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/mih_patient_search.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/my_patient_list.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tools/waiting_room.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_consultation.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_documents.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_info.dart';
 import 'package:flutter/material.dart';
 
-class PatManager extends StatefulWidget {
-  final PatManagerArguments arguments;
-  const PatManager({
+class PatientProfile extends StatefulWidget {
+  final PatientViewArguments arguments;
+  const PatientProfile({
     super.key,
     required this.arguments,
   });
 
   @override
-  State<PatManager> createState() => _PatManagerState();
+  State<PatientProfile> createState() => _PatientProfileState();
 }
 
-class _PatManagerState extends State<PatManager> {
+class _PatientProfileState extends State<PatientProfile> {
   int _selcetedIndex = 0;
-
-  void updateIndex(int index) {
-    setState(() {
-      _selcetedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getActionButton(),
+      appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
@@ -44,15 +38,18 @@ class _PatManagerState extends State<PatManager> {
     );
   }
 
-  MihPackageAction getActionButton() {
+  MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        // Navigator.of(context).pop();
-        context.goNamed(
-          'mihHome',
-        );
+        if (widget.arguments.type == "business") {
+          context.pop();
+        } else {
+          context.goNamed(
+            'mihHome',
+          );
+        }
         FocusScope.of(context).unfocus();
       },
     );
@@ -60,21 +57,24 @@ class _PatManagerState extends State<PatManager> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(Icons.calendar_month)] = () {
+    temp[const Icon(Icons.perm_identity)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
     };
-
-    temp[const Icon(Icons.check_box_outlined)] = () {
+    temp[const Icon(Icons.article_outlined)] = () {
       setState(() {
         _selcetedIndex = 1;
       });
     };
-
-    temp[const Icon(Icons.search)] = () {
+    temp[const Icon(Icons.file_present)] = () {
       setState(() {
         _selcetedIndex = 2;
+      });
+    };
+    temp[const Icon(Icons.file_open_outlined)] = () {
+      setState(() {
+        _selcetedIndex = 3;
       });
     };
     return MihPackageTools(
@@ -85,30 +85,34 @@ class _PatManagerState extends State<PatManager> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      //appointment here
-      // Appointments(
-      //   signedInUser: widget.arguments.signedInUser,
-      //   business: widget.arguments.business,
-      //   personalSelected: widget.arguments.personalSelected,
-      // ),
-      WaitingRoom(
+      PatientInfo(
         signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
-        onIndexChange: updateIndex,
+        selectedPatient: widget.arguments.selectedPatient!,
+        type: widget.arguments.type,
       ),
-      MyPatientList(
+      PatientConsultation(
+        patientAppId: widget.arguments.selectedPatient!.app_id,
+        selectedPatient: widget.arguments.selectedPatient!,
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
         businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
+        type: widget.arguments.type,
       ),
-      MihPatientSearch(
+      PatientDocuments(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
         signedInUser: widget.arguments.signedInUser,
         business: widget.arguments.business,
-        personalSelected: widget.arguments.personalSelected,
         businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
+      ),
+      PatientClaimOrStatement(
+        patientIndex: widget.arguments.selectedPatient!.idpatients,
+        selectedPatient: widget.arguments.selectedPatient!,
+        signedInUser: widget.arguments.signedInUser,
+        business: widget.arguments.business,
+        businessUser: widget.arguments.businessUser,
+        type: widget.arguments.type,
       ),
     ];
     return toolBodies;
@@ -116,9 +120,10 @@ class _PatManagerState extends State<PatManager> {
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "Waiting Room",
-      "My Patients",
-      "Search Patients",
+      "Details",
+      "Notes",
+      "Documents",
+      "Claims",
     ];
     return toolTitles;
   }

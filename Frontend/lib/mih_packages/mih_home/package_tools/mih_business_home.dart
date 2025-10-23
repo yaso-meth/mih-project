@@ -16,7 +16,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tiles/mzans
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tiles/mzansi_directory_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/package_tiles/pat_manager_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tiles/pat_manager_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

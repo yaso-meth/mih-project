@@ -11,61 +11,63 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_manager/list_builders/build_mih_patient_search_list.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/list_builders/build_my_patient_list_list.dart';
 import 'package:flutter/material.dart';
 
-class MihPatientSearch extends StatefulWidget {
+class MyPatientList extends StatefulWidget {
   final AppUser signedInUser;
   final Business? business;
   final BusinessUser? businessUser;
   final bool personalSelected;
 
-  const MihPatientSearch({
+  const MyPatientList({
     super.key,
     required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.personalSelected,
+    this.business,
+    this.businessUser,
+    this.personalSelected = false,
   });
 
   @override
-  State<MihPatientSearch> createState() => _MihPatientSearchState();
+  State<MyPatientList> createState() => _MyPatientListState();
 }
 
-class _MihPatientSearchState extends State<MihPatientSearch> {
-  TextEditingController _mihPatientSearchController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+class _MyPatientListState extends State<MyPatientList> {
+  late Future<List<PatientAccess>> _myPatientList;
+  TextEditingController _myPatientSearchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool hasSearchedBefore = false;
-  String _mihPatientSearchString = "";
+  String _myPatientIdSearchString = "";
   String baseUrl = AppEnviroment.baseApiUrl;
-  late Future<List<Patient>> _mihPatientSearchResults;
 
-  Widget getPatientSearch(double width) {
+  final FocusNode _focusNode = FocusNode();
+
+  Widget myPatientListTool(double width) {
     return MihSingleChildScroll(
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: width / 20),
           child: MihSearchBar(
-            controller: _mihPatientSearchController,
-            hintText: "Search Patient ID/ Aid No.",
+            controller: _myPatientSearchController,
+            hintText: "Search Patient ID",
             prefixIcon: Icons.search,
             fillColor: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             hintColor: MihColors.getPrimaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onPrefixIconTap: () {
-              submitPatientSearch();
+              setState(() {
+                _myPatientIdSearchString = _myPatientSearchController.text;
+                _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+                    widget.business!.business_id);
+              });
             },
             onClearIconTap: () {
               setState(() {
-                _mihPatientSearchController.clear();
-                _mihPatientSearchString = "";
+                _myPatientSearchController.clear();
+                _myPatientIdSearchString = "";
               });
-              submitPatientSearch();
-              //To-Do: Implement the search function
-              // print("To-Do: Implement the search function");
+              getMyPatientList();
             },
             searchFocusNode: _searchFocusNode,
           ),
@@ -73,26 +75,26 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
         //spacer
         const SizedBox(height: 10),
         FutureBuilder(
-          future: _mihPatientSearchResults,
+          future: _myPatientList,
           builder: (context, snapshot) {
             //print("patient Liust  ${snapshot.data}");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Mihloadingcircle();
             } else if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
-              List<Patient> patientsList;
-              if (_mihPatientSearchString == "") {
-                patientsList = [];
+              List<PatientAccess> patientsAccessList;
+              if (_myPatientIdSearchString == "") {
+                patientsAccessList = snapshot.data!;
               } else {
-                patientsList = filterSearchResults(
-                    snapshot.data!, _mihPatientSearchString);
+                patientsAccessList = filterAccessResults(
+                    snapshot.data!, _myPatientIdSearchString);
                 //print(patientsList);
               }
-              return displayPatientList(patientsList, _mihPatientSearchString);
+              return displayMyPatientList(patientsAccessList);
             } else {
               return Center(
                 child: Text(
-                  "Error pulling Patients Data\n$baseUrl/patients/search/$_mihPatientSearchString",
+                  "Error pulling Patient Access Data\n$baseUrl/access-requests/business/patient/${widget.business!.business_id}",
                   style: TextStyle(
                       fontSize: 25,
                       color: MihColors.getRedColor(
@@ -108,29 +110,16 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
     );
   }
 
-  List<Patient> filterSearchResults(List<Patient> patList, String query) {
-    List<Patient> templist = [];
-    //print(query);
-    for (var item in patList) {
-      if (item.id_no.contains(_mihPatientSearchString) ||
-          item.medical_aid_no.contains(_mihPatientSearchString)) {
-        //print(item.medical_aid_no);
-        templist.add(item);
-      }
-    }
-    return templist;
-  }
-
-  Widget displayPatientList(List<Patient> patientsList, String searchString) {
-    if (patientsList.isNotEmpty) {
-      return BuildMihPatientSearchList(
-        patients: patientsList,
+  Widget displayMyPatientList(List<PatientAccess> patientsAccessList) {
+    if (patientsAccessList.isNotEmpty) {
+      return BuildMyPatientListList(
+        patientAccesses: patientsAccessList,
         signedInUser: widget.signedInUser,
         business: widget.business,
         businessUser: widget.businessUser,
-        personalSelected: widget.personalSelected,
       );
-    } else if (patientsList.isEmpty && searchString != "") {
+    }
+    if (hasSearchedBefore && _myPatientIdSearchString.isNotEmpty) {
       return Column(
         children: [
           const SizedBox(height: 50),
@@ -170,7 +159,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Search for a Patient of Mzansi to add to your Patient List",
+              "You dont have access to any Patients Profile",
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               style: TextStyle(
@@ -192,20 +181,20 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                   children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.search,
+                        size: 20,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                    ),
                     TextSpan(
                         text:
-                            "You can search using their ID Number or Medical Aid No."),
-                    // WidgetSpan(
-                    //   alignment: PlaceholderAlignment.middle,
-                    //   child: Icon(
-                    //     Icons.menu,
-                    //     size: 20,
-                    //     color: MzansiInnovationHub.of(context)!
-                    //         .theme
-                    //         .secondaryColor(),
-                    //   ),
-                    // ),
-                    // TextSpan(text: " to add your first loyalty card"),
+                            " to use Patient Search to request access to their profile."),
                   ],
                 ),
               ),
@@ -213,58 +202,53 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
           ],
         ),
       );
-      // return Padding(
-      //   padding: const EdgeInsets.only(top: 35.0),
-      //   child: Center(
-      //     child: Text(
-      //       "Enter ID or Medical Aid No. of Patient",
-      //       style: TextStyle(
-      //           fontSize: 25,
-      //           color:
-      //               MihColors.getGreyColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
-      //       textAlign: TextAlign.center,
-      //     ),
-      //   ),
-      // );
     }
+    // return Padding(
+    //   padding: const EdgeInsets.only(top: 35.0),
+    //   child: Center(
+    //     child: Text(
+    //       "No Patients matching search",
+    //       style: TextStyle(
+    //           fontSize: 25,
+    //           color: MihColors.getGreyColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
+    //       textAlign: TextAlign.center,
+    //     ),
+    //   ),
+    // );
   }
 
-  void submitPatientSearch() {
-    if (_mihPatientSearchController.text != "") {
-      setState(() {
-        _mihPatientSearchString = _mihPatientSearchController.text;
-        _mihPatientSearchResults =
-            MIHApiCalls.fetchPatients(_mihPatientSearchString);
-        hasSearchedBefore = true;
-      });
-    }
-  }
-
-  //Patient Access Widgets/ Functions
   List<PatientAccess> filterAccessResults(
       List<PatientAccess> patAccList, String query) {
     List<PatientAccess> templist = [];
-    //print(query);
     for (var item in patAccList) {
       if (item.id_no.contains(query)) {
-        //print(item.medical_aid_no);
         templist.add(item);
       }
     }
     return templist;
   }
 
+  void getMyPatientList() {
+    setState(() {
+      _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+          widget.business!.business_id);
+      hasSearchedBefore = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _mihPatientSearchResults = MIHApiCalls.fetchPatients("abc");
+    _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
+        widget.business!.business_id);
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     super.dispose();
+    _myPatientSearchController.dispose();
     _searchFocusNode.dispose();
-    _mihPatientSearchController.dispose();
     _focusNode.dispose();
   }
 
@@ -275,7 +259,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
     return MihPackageToolBody(
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getPatientSearch(width),
+      bodyItem: myPatientListTool(width),
     );
   }
 }

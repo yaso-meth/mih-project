@@ -3,8 +3,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loa
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_add.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/patient_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_add.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 

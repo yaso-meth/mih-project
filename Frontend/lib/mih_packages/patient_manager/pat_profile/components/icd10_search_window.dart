@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/icd10_code.dart.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_icd10_code_list.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_icd10_code_list.dart';
 import 'package:flutter/material.dart';
 
 class ICD10SearchWindow extends StatefulWidget {

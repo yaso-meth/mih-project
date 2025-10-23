@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -6,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
@@ -18,23 +18,23 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/list_builders/build_file_view.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
 import "package:universal_html/html.dart" as html;
 
-class BuildClaimStatementFileList extends StatefulWidget {
+class BuildFilesList extends StatefulWidget {
   final AppUser signedInUser;
-  final List<ClaimStatementFile> files;
+  final List<PFile> files;
   final Patient selectedPatient;
   final Business? business;
   final BusinessUser? businessUser;
   final String type;
   final String env;
-  const BuildClaimStatementFileList({
+  const BuildFilesList({
     super.key,
     required this.files,
     required this.signedInUser,
@@ -46,12 +46,10 @@ class BuildClaimStatementFileList extends StatefulWidget {
   });
 
   @override
-  State<BuildClaimStatementFileList> createState() =>
-      _BuildClaimStatementFileListState();
+  State<BuildFilesList> createState() => _BuildFilesListState();
 }
 
-class _BuildClaimStatementFileListState
-    extends State<BuildClaimStatementFileList> {
+class _BuildFilesListState extends State<BuildFilesList> {
   int indexOn = 0;
   final baseAPI = AppEnviroment.baseApiUrl;
   final basefile = AppEnviroment.baseFileUrl;
@@ -68,6 +66,72 @@ class _BuildClaimStatementFileListState
       teporaryFileUrl = value;
     });
     return teporaryFileUrl;
+  }
+
+  Future<void> deleteFileApiCall(String filePath, int fileID) async {
+    var response = await MihFileApi.deleteFile(
+      widget.selectedPatient.app_id,
+      widget.env,
+      "patient_files",
+      filePath.split("/").last,
+      context,
+    );
+    if (response == 200) {
+      // delete file from database
+      await deletePatientFileLocationToDB(fileID);
+    } else {
+      String message =
+          "The File has not been deleted successfully. Please try again.";
+      successPopUp(message);
+    }
+  }
+
+  Future<void> deletePatientFileLocationToDB(int fileID) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Mihloadingcircle();
+      },
+    );
+    var response2 = await http.delete(
+      Uri.parse("$baseAPI/patient_files/delete/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "idpatient_files": fileID,
+        "env": widget.env,
+      }),
+    );
+    if (response2.statusCode == 200) {
+      context.pop(); //Remove Loading Dialog
+      context.pop(); //Remove Delete Dialog
+      context.pop(); //Remove File View Dialog
+      context.pop(); //Remove File List Dialog
+      //print(widget.business);
+      if (widget.business == null) {
+        context.pushNamed('patientManagerPatient',
+            extra: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "personal"));
+      } else {
+        context.pushNamed('patientManagerPatient',
+            extra: PatientViewArguments(
+                widget.signedInUser,
+                widget.selectedPatient,
+                widget.businessUser,
+                widget.business,
+                "business"));
+      }
+      String message =
+          "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
+      successPopUp(message);
+    } else {
+      internetConnectionPopUp();
+    }
   }
 
   void internetConnectionPopUp() {
@@ -98,21 +162,7 @@ class _BuildClaimStatementFileListState
       builder: (context) => MIHDeleteMessage(
         deleteType: "File",
         onTap: () async {
-          //API Call here
-          await MIHClaimStatementGenerationApi
-              .deleteClaimStatementFilesByFileID(
-            PatientViewArguments(
-              widget.signedInUser,
-              widget.selectedPatient,
-              widget.businessUser,
-              widget.business,
-              "business",
-            ),
-            widget.env,
-            filePath,
-            fileID,
-            context,
-          );
+          await deleteFileApiCall(filePath, fileID);
         },
       ),
     );
@@ -134,13 +184,6 @@ class _BuildClaimStatementFileListState
         getFileName(path),
       ),
     );
-    // Navigator.of(context).pushNamed(
-    //   '/file-veiwer/print-preview',
-    //   arguments: PrintPreviewArguments(
-    //     pdfData,
-    //     getFileName(path),
-    //   ),
-    // );
   }
 
   void nativeFileDownload(String fileLink) async {
@@ -191,28 +234,30 @@ class _BuildClaimStatementFileListState
         },
       ),
     ];
-    menuList.add(
-      SpeedDialChild(
-        child: Icon(
-          Icons.print,
-          color: MihColors.getPrimaryColor(
+    if (filePath.split(".").last.toLowerCase() == "pdf") {
+      menuList.add(
+        SpeedDialChild(
+          child: Icon(
+            Icons.print,
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          label: "Print",
+          labelBackgroundColor: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        ),
-        label: "Print",
-        labelBackgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        labelStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
+          labelStyle: TextStyle(
+            color: MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          fontWeight: FontWeight.bold,
+          onTap: () {
+            printDocument(url, filePath);
+          },
         ),
-        backgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        onTap: () {
-          printDocument(url, filePath);
-        },
-      ),
-    );
+      );
+    }
     menuList.add(
       SpeedDialChild(
         child: Icon(
@@ -239,11 +284,10 @@ class _BuildClaimStatementFileListState
               filePath,
             ),
           );
-          // printDocument(url, filePath);
         },
       ),
     );
-
+    // }
     if (hasAccessToDelete) {
       menuList.add(
         SpeedDialChild(
@@ -268,24 +312,16 @@ class _BuildClaimStatementFileListState
         ),
       );
     }
-
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => MihPackageWindow(
         fullscreen: false,
         windowTitle: fileName,
-        windowBody: Column(
-          children: [
-            BuildFileView(
-              link: url,
-              path: filePath,
-              //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
-            ),
-            const SizedBox(
-              height: 10,
-            )
-          ],
+        windowBody: BuildFileView(
+          link: url,
+          path: filePath,
+          //pdfLink: '${AppEnviroment.baseFileUrl}/mih/$filePath',
         ),
         menuOptions: menuList,
         onWindowTapClose: () {
@@ -375,7 +411,7 @@ class _BuildClaimStatementFileListState
               viewFilePopUp(
                   widget.files[index].file_name,
                   widget.files[index].file_path,
-                  widget.files[index].idclaim_statement_file,
+                  widget.files[index].idpatient_files,
                   fileUrl);
             },
           );
@@ -385,9 +421,8 @@ class _BuildClaimStatementFileListState
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
             Stack(
@@ -400,7 +435,7 @@ class _BuildClaimStatementFileListState
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
                 Icon(
-                  Icons.file_open_outlined,
+                  Icons.file_present,
                   size: 110,
                   color: MihColors.getSecondaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -408,59 +443,58 @@ class _BuildClaimStatementFileListState
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    "No Claims or Statements have been added to this profile.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              "No Documents have been added to this profile.",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
             ),
             const SizedBox(height: 25),
-            Visibility(
-              visible: widget.business != null,
-              child: Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                    children: [
-                      TextSpan(text: "Press "),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Icons.menu,
-                          size: 20,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                      TextSpan(text: " to generate the first document"),
-                    ],
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
+                  children: [
+                    TextSpan(text: "Press "),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.menu,
+                        size: 20,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                    ),
+                    TextSpan(text: " to add "),
+                    widget.business != null
+                        ? TextSpan(text: " or generate a the first document")
+                        : TextSpan(text: " the first document"),
+                  ],
                 ),
               ),
             ),
           ],
         ),
       );
+      // return const Center(
+      //   child: Text(
+      //     "No Documents Available",
+      //     style: TextStyle(fontSize: 25, color: Colors.grey),
+      //     textAlign: TextAlign.center,
+      //   ),
+      // );
     }
   }
 }

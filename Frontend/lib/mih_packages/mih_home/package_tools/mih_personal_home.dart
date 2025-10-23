@@ -21,7 +21,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tile
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tiles/mzansi_setup_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tiles/mih_wallet_tile.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_profile/pat_profile/package_tiles/patient_profile_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tiles/patient_profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
