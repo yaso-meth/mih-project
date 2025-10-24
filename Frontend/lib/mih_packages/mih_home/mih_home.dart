@@ -82,14 +82,14 @@ class _MihHomeState extends State<MihHome> {
     String signatureUrl;
     Business? responseBusiness =
         await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
-    if (responseBusiness == null && user!.type == "business") {
-      if (mounted) {
-        context.goNamed(
-          'businessProfileSetup',
-          extra: user,
-        );
-      }
-    }
+    // if (responseBusiness == null && user!.type == "business") {
+    //   if (mounted) {
+    //     context.goNamed(
+    //       'businessProfileSetup',
+    //       extra: user,
+    //     );
+    //   }
+    // }
 
     if (responseBusiness != null && user!.type == "business") {
       // Get Business
@@ -548,7 +548,9 @@ class _MihHomeState extends State<MihHome> {
     );
     if (user.type != "personal") {
       toolBodies.add(
-        MihBusinessHome(),
+        MihBusinessHome(
+          isLoading: _isLoadingInitialData,
+        ),
       );
     }
     return toolBodies;

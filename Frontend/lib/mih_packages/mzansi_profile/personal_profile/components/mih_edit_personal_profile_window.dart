@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
@@ -96,13 +97,14 @@ class _MihEditPersonalProfileWindowState
         setProfileVariables(mzansiProfileProvider);
         newSelectedProPic = null;
       });
-      bool stayOnPersonalSide = true;
       // if (originalProfileTypeIsBusiness == false && businessUser == true) {
       //   stayOnPersonalSide = false;
       // }
       String message = "Your information has been updated successfully!";
-      context.pop();
-      successPopUp(message, stayOnPersonalSide);
+      successPopUp(
+        mzansiProfileProvider,
+        message,
+      );
     } else {
       internetConnectionPopUp();
     }
@@ -158,7 +160,10 @@ class _MihEditPersonalProfileWindowState
     }
   }
 
-  void successPopUp(String message, bool stayOnPersonalSide) {
+  void successPopUp(
+    MzansiProfileProvider profileProvider,
+    String message,
+  ) {
     showDialog(
       context: context,
       builder: (context) {
@@ -185,7 +190,14 @@ class _MihEditPersonalProfileWindowState
               Center(
                 child: MihButton(
                   onPressed: () {
-                    context.pop();
+                    if (profileProvider.user!.type.toLowerCase() ==
+                            "business" &&
+                        profileProvider.business == null) {
+                      setupBusinessPopUp(profileProvider);
+                    } else {
+                      context.pop();
+                      context.pop();
+                    }
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -206,6 +218,101 @@ class _MihEditPersonalProfileWindowState
             ],
           ),
           alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+        // return MIHSuccessMessage(
+        //   successType: "Success",
+        //   successMessage: message,
+        // );
+      },
+    );
+  }
+
+  void setupBusinessPopUp(
+    MzansiProfileProvider profileProvider,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageAlert(
+          alertIcon: Icon(
+            MihIcons.businessSetup,
+            size: 150,
+            color: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: "Setup Business Profile?",
+          alertBody: Column(
+            children: [
+              Text(
+                "It looks like this is the first time activating your business account. Would you like to set up your business now or would you like to do it later?",
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    MihButton(
+                      onPressed: () {
+                        context.pop();
+                        context.goNamed(
+                          'businessProfileSetup',
+                          extra: profileProvider.user,
+                        );
+                      },
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      elevation: 10,
+                      width: 300,
+                      child: Text(
+                        "Setup Business",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    MihButton(
+                      onPressed: () {
+                        context.pop();
+                        context.pop();
+                        context.pop();
+                      },
+                      buttonColor: MihColors.getOrangeColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      elevation: 10,
+                      width: 300,
+                      child: Text(
+                        "Setup Later",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
         // return MIHSuccessMessage(
@@ -447,7 +554,9 @@ class _MihEditPersonalProfileWindowState
                                 "Dark"),
                         width: 300,
                         child: Text(
-                          "Update",
+                          mzansiProfileProvider.user!.username.isEmpty
+                              ? "Setup Profile"
+                              : "Update",
                           style: TextStyle(
                             color: MihColors.getPrimaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==

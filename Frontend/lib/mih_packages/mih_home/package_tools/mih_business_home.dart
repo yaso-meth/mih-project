@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -21,8 +21,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MihBusinessHome extends StatefulWidget {
+  final bool isLoading;
   const MihBusinessHome({
     super.key,
+    required this.isLoading,
   });
 
   @override
@@ -61,7 +63,6 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     List<Map<String, Widget>> temp = [];
     temp.add({
       "Setup Business": MzansiSetupBusinessProfileTile(
-        signedInUser: context.read<MzansiProfileProvider>().user!,
         packageSize: packageSize,
       )
     });
@@ -71,12 +72,22 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
   List<Map<String, Widget>> setBusinessPackages() {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    if (mzansiProfileProvider.user == null ||
-        mzansiProfileProvider.business == null ||
-        mzansiProfileProvider.businessUser == null) {
-      return []; // Return empty list if data isn't ready
-    }
+    // if (mzansiProfileProvider.user == null ||
+    //     mzansiProfileProvider.business == null ||
+    //     mzansiProfileProvider.businessUser == null) {
+    //   return []; // Return empty list if data isn't ready
+    // }
     List<Map<String, Widget>> temp = [];
+    KenLogger.success("here");
+    if (mzansiProfileProvider.business == null && !widget.isLoading) {
+      KenLogger.success("here");
+      temp.add({
+        "Setup Business": MzansiSetupBusinessProfileTile(
+          packageSize: packageSize,
+        )
+      });
+      return temp;
+    }
     //=============== Biz Profile ===============
     temp.add({
       "Business Profile": MzansiBusinessProfileTile(
@@ -174,10 +185,8 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     super.initState();
     searchController.addListener(searchPackage);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      businessPackagesMap = setBusinessPackages();
-      searchPackage();
-    });
+    businessPackagesMap = setBusinessPackages();
+    searchPackage();
   }
 
   @override
@@ -197,33 +206,39 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           MzansiProfileProvider mzansiProfileProvider,
           MzansiAiProvider mzansiAiProvider,
           Widget? child) {
-        if (mzansiProfileProvider.business == null) {
-          return Center(
-            child: Mihloadingcircle(),
-          );
-        }
+        // if (mzansiProfileProvider.user == null ||
+        //     mzansiProfileProvider.business == null ||
+        //     mzansiProfileProvider.businessUser == null) {
+        //   return Center(
+        //     child: Mihloadingcircle(),
+        //   );
+        // }
         return MihSingleChildScroll(
           child: Column(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: MihSearchBar(
-                  controller: searchController,
-                  hintText: "Ask Mzansi",
-                  prefixIcon: Icons.search,
-                  prefixAltIcon: MihIcons.mzansiAi,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onPrefixIconTap: () {
-                    mzansiAiProvider.setStartUpQuestion(searchController.text);
-                    context.goNamed(
-                      "mzansiAi",
-                    );
-                    searchController.clear();
-                  },
-                  searchFocusNode: _searchFocusNode,
+                child: Visibility(
+                  visible: mzansiProfileProvider.business != null,
+                  child: MihSearchBar(
+                    controller: searchController,
+                    hintText: "Ask Mzansi",
+                    prefixIcon: Icons.search,
+                    prefixAltIcon: MihIcons.mzansiAi,
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    hintColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    onPrefixIconTap: () {
+                      mzansiAiProvider
+                          .setStartUpQuestion(searchController.text);
+                      context.goNamed(
+                        "mzansiAi",
+                      );
+                      searchController.clear();
+                    },
+                    searchFocusNode: _searchFocusNode,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
