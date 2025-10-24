@@ -14,6 +14,13 @@ class MihBannerAdProvider extends ChangeNotifier {
     this.errorMessage = '',
   });
 
+  void reset() {
+    bannerAd = null;
+    isBannerAdLoaded = false;
+    errorMessage = "";
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     bannerAd?.dispose();

@@ -12,6 +12,12 @@ class MzansiWalletProvider extends ChangeNotifier {
     this.toolIndex = 0,
   });
 
+  void reset() {
+    toolIndex = 0;
+    loyaltyCards = [];
+    favouriteCards = [];
+  }
+
   void setToolIndex(int index) {
     toolIndex = index;
     notifyListeners();

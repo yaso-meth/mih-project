@@ -41,6 +41,7 @@ class MzansiProfileProvider extends ChangeNotifier {
     businessUserSignatureUrl = null;
     businessUserSignature = null;
     userConsent = null;
+    notifyListeners();
   }
 
   void setPersonalHome(bool isPersonalHome) {

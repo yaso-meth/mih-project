@@ -9,6 +9,12 @@ class MihAccessControllsProvider extends ChangeNotifier {
     this.toolIndex = 0,
   });
 
+  void reset() {
+    toolIndex = 0;
+    accessList = null;
+    notifyListeners();
+  }
+
   void setToolIndex(int index) {
     toolIndex = index;
   }

@@ -26,6 +26,22 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     this.businessTypeFilter = "",
   });
 
+  void reset() {
+    toolIndex = 0;
+    userPosition = null;
+    userLocation = "Unknown Location";
+    personalSearch = true;
+    bookmarkedBusinesses = [];
+    businessDetailsMap = {};
+    searchedBusinesses = null;
+    selectedBusiness = null;
+    searchedUsers = null;
+    selectedUser = null;
+    searchTerm = "";
+    businessTypeFilter = "";
+    notifyListeners();
+  }
+
   void setToolIndex(int index) {
     toolIndex = index;
     notifyListeners();

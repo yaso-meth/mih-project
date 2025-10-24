@@ -9,6 +9,12 @@ class MihCalculatorProvider extends ChangeNotifier {
     this.toolIndex = 0,
   });
 
+  void reset() {
+    availableCurrencies = [];
+    toolIndex = 0;
+    notifyListeners();
+  }
+
   void setToolIndex(int index) {
     toolIndex = index;
     notifyListeners();

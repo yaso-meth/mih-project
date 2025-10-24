@@ -11,6 +11,13 @@ class MihCalendarProvider extends ChangeNotifier {
     this.toolIndex = 0,
   });
 
+  void reset() {
+    toolIndex = 0;
+    personalAppointments = null;
+    businessAppointments = null;
+    notifyListeners();
+  }
+
   void setToolIndex(int index) {
     toolIndex = index;
     notifyListeners();
