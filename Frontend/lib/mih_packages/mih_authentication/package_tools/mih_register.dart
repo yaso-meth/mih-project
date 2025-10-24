@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -75,6 +76,7 @@ class _MihRegisterState extends State<MihRegister> {
   }
 
   Future<void> signUserUp() async {
+    context.read<MzansiProfileProvider>().reset();
     if (!validEmail()) {
       emailError();
     } else if (passwordController.text != confirmPasswordController.text) {

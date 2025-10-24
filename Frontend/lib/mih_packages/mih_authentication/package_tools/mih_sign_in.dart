@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -39,6 +40,7 @@ class _MihSignInState extends State<MihSignIn> {
 
   //sign user in
   Future<void> signUserIn() async {
+    context.read<MzansiProfileProvider>().reset();
     try {
       successfulSignIn = await MihAuthenticationServices().signUserIn(
         emailController.text,

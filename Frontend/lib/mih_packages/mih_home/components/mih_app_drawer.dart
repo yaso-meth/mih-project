@@ -4,7 +4,17 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart'
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 import '../../../main.dart';
@@ -22,6 +32,21 @@ class MIHAppDrawer extends StatefulWidget {
 class _MIHAppDrawerState extends State<MIHAppDrawer> {
   final proPicController = TextEditingController();
   late Widget profilePictureLoaded;
+
+  void resetProviders() {
+    context.read<AboutMihProvider>().reset();
+    context.read<MihAccessControllsProvider>().reset();
+    context.read<MihAuthenticationProvider>().reset();
+    context.read<MihBannerAdProvider>().reset();
+    context.read<MihCalculatorProvider>().reset();
+    context.read<MihCalendarProvider>().reset();
+    context.read<MihMineSweeperProvider>().reset();
+    context.read<MzansiAiProvider>().reset();
+    context.read<MzansiDirectoryProvider>().reset();
+    context.read<MzansiWalletProvider>().reset();
+    context.read<PatientManagerProvider>().reset();
+  }
+
   Future<bool> signOut() async {
     await SuperTokens.signOut(completionHandler: (error) {
       // handle error if any
@@ -107,7 +132,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                 Visibility(
                                   visible: !mzansiProfileProvider.personalHome,
                                   child: Text(
-                                    mzansiProfileProvider.business!.Name,
+                                    mzansiProfileProvider.business?.Name ?? "",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: MihColors.getPrimaryColor(
@@ -135,7 +160,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                 Visibility(
                                   visible: !mzansiProfileProvider.personalHome,
                                   child: Text(
-                                    mzansiProfileProvider.business!.type,
+                                    mzansiProfileProvider.business?.type ?? "",
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
@@ -321,16 +346,13 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   });
                                   if (await SuperTokens.doesSessionExist() ==
                                       false) {
-                                    mzansiProfileProvider.reset();
-                                    context.goNamed(
-                                      'mihHome',
-                                      extra: true,
-                                    );
-                                    // Navigator.of(context).pop();
-                                    // Navigator.of(context).popAndPushNamed(
-                                    //   '/',
-                                    //   arguments: AuthArguments(true, false),
-                                    // );
+                                    resetProviders();
+                                    await Future.delayed(Duration.zero);
+                                    if (context.mounted) {
+                                      context.goNamed(
+                                        'mihHome',
+                                      );
+                                    }
                                   }
                                 },
                               ),
