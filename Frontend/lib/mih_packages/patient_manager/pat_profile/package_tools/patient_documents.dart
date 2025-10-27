@@ -1,10 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -16,34 +19,16 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/prescip_input.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_files_list.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class PatientDocuments extends StatefulWidget {
-  final int patientIndex;
-  final Patient selectedPatient;
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final String type;
   const PatientDocuments({
     super.key,
-    required this.patientIndex,
-    required this.selectedPatient,
-    required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.type,
   });
 
   @override
@@ -51,7 +36,6 @@ class PatientDocuments extends StatefulWidget {
 }
 
 class _PatientDocumentsState extends State<PatientDocuments> {
-  late Future<List<PFile>> futueFiles;
   final selectedFileController = TextEditingController();
   final startDateController = TextEditingController();
   final endDateTextController = TextEditingController();
@@ -68,9 +52,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   final _formKey2 = GlobalKey<FormState>();
   late String env;
 
-  Future<void> submitDocUploadForm() async {
+  Future<void> submitDocUploadForm(
+      PatientManagerProvider patientManagerProvider) async {
     if (isFileFieldsFilled()) {
-      await uploadSelectedFile(selected);
+      await uploadSelectedFile(patientManagerProvider, selected);
     } else {
       showDialog(
         context: context,
@@ -81,75 +66,49 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  Future<List<PFile>> fetchFiles() async {
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/patient_files/get/${widget.selectedPatient.app_id}"));
-    //print(response.statusCode);
-    //print(response.body);
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<PFile> files =
-          List<PFile>.from(l.map((model) => PFile.fromJson(model)));
-      return files;
-    } else {
-      internetConnectionPopUp();
-      throw Exception('failed to load patients');
-    }
-  }
-
-  Future<void> addPatientFileLocationToDB(PlatformFile? file) async {
+  Future<void> addPatientFileLocationToDB(
+      PatientManagerProvider patientManagerProvider, PlatformFile? file) async {
     showDialog(
       context: context,
       builder: (context) {
         return const Mihloadingcircle();
       },
     );
-    var fname = file!.name.replaceAll(RegExp(r' '), '-');
-    var filePath = "${widget.selectedPatient.app_id}/patient_files/$fname";
-    var response2 = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "file_path": filePath,
-        "file_name": fname,
-        "app_id": widget.selectedPatient.app_id
-      }),
-    );
-    //print("here5");
-    //print(response2.statusCode);
-    if (response2.statusCode == 201) {
+    int statusCode =
+        await MihPatientServices().addPatientFile(file, patientManagerProvider);
+    if (statusCode == 201) {
       setState(() {
         selectedFileController.clear();
-        futueFiles = fetchFiles();
       });
+      var fname = file!.name.replaceAll(RegExp(r' '), '-');
       // end loading circle
       Navigator.of(context).pop();
       String message =
-          "The file ${file.name.replaceAll(RegExp(r' '), '-')} has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-      successPopUp(message);
+          "The file $fname has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
+      successPopUp("Successfully Uplouded File", message);
     } else {
       internetConnectionPopUp();
     }
   }
 
-  Future<void> uploadSelectedFile(PlatformFile? file) async {
+  Future<void> uploadSelectedFile(
+      PatientManagerProvider patientManagerProvider, PlatformFile? file) async {
     var response = await MihFileApi.uploadFile(
-      widget.selectedPatient.app_id,
+      patientManagerProvider.selectedPatient!.app_id,
       env,
       "patient_files",
       file,
       context,
     );
     if (response == 200) {
-      await addPatientFileLocationToDB(file);
+      await addPatientFileLocationToDB(patientManagerProvider, file);
     } else {
       internetConnectionPopUp();
     }
   }
 
-  Future<void> generateMedCert() async {
+  Future<void> generateMedCert(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider) async {
     //start loading circle
     showDialog(
       context: context,
@@ -157,73 +116,30 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         return const Mihloadingcircle();
       },
     );
-    DateTime now = DateTime.now();
-    // DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "Med-Cert-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${now.toString().substring(0, 19)}.pdf"
-            .replaceAll(RegExp(r' '), '-');
-    var response1 = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/med-cert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": widget.selectedPatient.app_id,
-        "env": env,
-        "patient_full_name":
-            "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
-        "fileName": fileName,
-        "id_no": widget.selectedPatient.id_no,
-        "docfname":
-            "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-        "startDate": startDateController.text,
-        "busName": widget.business!.Name,
-        "busAddr": "*TO BE ADDED IN THE FUTURE*",
-        "busNo": widget.business!.contact_no,
-        "busEmail": widget.business!.bus_email,
-        "endDate": endDateTextController.text,
-        "returnDate": retDateTextController.text,
-        "logo_path": widget.business!.logo_path,
-        "sig_path": widget.businessUser!.sig_path,
-      }),
+    int statusCodeCetificateGeneration =
+        await MihPatientServices().generateMedicalCertificate(
+      startDateController.text,
+      endDateTextController.text,
+      retDateTextController.text,
+      profileProvider,
+      patientManagerProvider,
     );
-    print(response1.statusCode);
-    if (response1.statusCode == 200) {
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "file_path":
-              "${widget.selectedPatient.app_id}/patient_files/$fileName",
-          "file_name": fileName,
-          "app_id": widget.selectedPatient.app_id
-        }),
-      );
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        setState(() {
-          startDateController.clear();
-          endDateTextController.clear();
-          retDateTextController.clear();
-          futueFiles = fetchFiles();
-        });
-        // end loading circle
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        String message =
-            "The medical certificate $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
-      } else {
-        internetConnectionPopUp();
-      }
+    DateTime now = DateTime.now();
+    String fileName =
+        "Med-Cert-${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}-${now.toString().substring(0, 19)}.pdf"
+            .replaceAll(RegExp(r' '), '-');
+    if (statusCodeCetificateGeneration == 200) {
+      context.pop(); //Loading removal
+      String message =
+          "The medical certificate $fileName has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
+      successPopUp("Successfully Generated Certificate", message);
     } else {
       internetConnectionPopUp();
     }
   }
 
-  void uploudFilePopUp(double width) {
+  void uploudFilePopUp(
+      PatientManagerProvider patientManagerProvider, double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -304,7 +220,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                     child: MihButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          submitDocUploadForm();
+                          submitDocUploadForm(patientManagerProvider);
                           // uploadSelectedFile(selected);
                           Navigator.pop(context);
                         } else {
@@ -336,7 +252,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     );
   }
 
-  void medCertPopUp() {
+  void medCertPopUp(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+  ) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -387,7 +306,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                   child: MihButton(
                     onPressed: () async {
                       if (_formKey2.currentState!.validate()) {
-                        await generateMedCert();
+                        await generateMedCert(
+                            profileProvider, patientManagerProvider);
                         //Navigator.pop(context);
                       } else {
                         MihAlertServices().formNotFilledCompletely(context);
@@ -416,7 +336,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     );
   }
 
-  void prescritionPopUp() {
+  void prescritionPopUp(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+  ) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -442,10 +365,10 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               noDaysController: noDaysController,
               noRepeatsController: noRepeatsController,
               outputController: outputController,
-              selectedPatient: widget.selectedPatient,
-              signedInUser: widget.signedInUser,
-              business: widget.business,
-              businessUser: widget.businessUser,
+              selectedPatient: patientManagerProvider.selectedPatient!,
+              signedInUser: profileProvider.user!,
+              business: profileProvider.business,
+              businessUser: profileProvider.businessUser,
               env: env,
             ),
           ],
@@ -472,8 +395,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  Widget getMenu(double width) {
-    if (widget.type == "personal") {
+  Widget getMenu(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider, double width) {
+    if (patientManagerProvider.personalMode) {
       return Positioned(
         right: 10,
         bottom: 10,
@@ -498,7 +422,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                uploudFilePopUp(width);
+                uploudFilePopUp(patientManagerProvider, width);
               },
             )
           ],
@@ -529,7 +453,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                uploudFilePopUp(width);
+                uploudFilePopUp(patientManagerProvider, width);
               },
             ),
             SpeedDialChild(
@@ -549,7 +473,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                medCertPopUp();
+                medCertPopUp(profileProvider, patientManagerProvider);
               },
             ),
             SpeedDialChild(
@@ -569,7 +493,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                prescritionPopUp();
+                prescritionPopUp(profileProvider, patientManagerProvider);
               },
             ),
           ],
@@ -578,13 +502,56 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     }
   }
 
-  void successPopUp(String message) {
+  void successPopUp(String title, String message) {
     showDialog(
       context: context,
       builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
+        return MihPackageAlert(
+          alertIcon: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 150,
+            color: MihColors.getGreenColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          ),
+          alertTitle: title,
+          alertBody: Column(
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.pop();
+                    context.pop();
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Dismiss",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          alertColour: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
     );
@@ -617,7 +584,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
 
   @override
   void initState() {
-    futueFiles = fetchFiles();
     if (AppEnviroment.getEnv() == "Prod") {
       env = "Prod";
     } else {
@@ -636,39 +602,20 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   }
 
   Widget getBody(double width) {
-    return Stack(
-      children: [
-        MihSingleChildScroll(
-          child: FutureBuilder(
-            future: futueFiles,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: Mihloadingcircle(),
-                );
-              } else if (snapshot.hasData) {
-                final filesList = snapshot.data!;
-                return Column(children: [
-                  BuildFilesList(
-                    files: filesList,
-                    signedInUser: widget.signedInUser,
-                    selectedPatient: widget.selectedPatient,
-                    business: widget.business,
-                    businessUser: widget.businessUser,
-                    type: widget.type,
-                    env: env,
-                  ),
-                ]);
-              } else {
-                return const Center(
-                  child: Text("Error Loading Notes"),
-                );
-              }
-            },
-          ),
-        ),
-        getMenu(width),
-      ],
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        return Stack(
+          children: [
+            MihSingleChildScroll(
+              child: Column(children: [
+                BuildFilesList(),
+              ]),
+            ),
+            getMenu(profileProvider, patientManagerProvider, width),
+          ],
+        );
+      },
     );
   }
 }

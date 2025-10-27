@@ -1,44 +1,30 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_layout_builder.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:supertokens_flutter/supertokens.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:provider/provider.dart';
 
-class EditPatient extends StatefulWidget {
-  final Patient selectedPatient;
-  final AppUser signedInUser;
-  const EditPatient({
-    super.key,
-    required this.selectedPatient,
-    required this.signedInUser,
-  });
+class MihEditPatientDetailsWindow extends StatefulWidget {
+  const MihEditPatientDetailsWindow({super.key});
 
   @override
-  State<EditPatient> createState() => _EditPatientState();
+  State<MihEditPatientDetailsWindow> createState() =>
+      _MihEditPatientDetailsWindowState();
 }
 
-class _EditPatientState extends State<EditPatient> {
+class _MihEditPatientDetailsWindowState
+    extends State<MihEditPatientDetailsWindow> {
   var idController = TextEditingController();
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
@@ -51,43 +37,16 @@ class _EditPatientState extends State<EditPatient> {
   final medAidController = TextEditingController();
   final medMainMemController = TextEditingController();
   final medAidCodeController = TextEditingController();
-  final baseAPI = AppEnviroment.baseApiUrl;
-  final docOfficeIdApiUrl = "${AppEnviroment.baseApiUrl}/users/profile/";
-  final apiUrlEdit = "${AppEnviroment.baseApiUrl}/patients/update/";
-  final apiUrlDelete = "${AppEnviroment.baseApiUrl}/patients/delete/";
+  final FocusNode _focusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
-
   late bool medAidPosition;
   late bool medMainMemberPosition;
-  late int futureDocOfficeId;
-  late String userEmail;
-  // bool medRequired = false;
   final ValueNotifier<bool> medRequired = ValueNotifier(false);
 
-  late double width;
-  late double height;
-
-  final FocusNode _focusNode = FocusNode();
-
-  // Future getOfficeIdByUser(String endpoint) async {
-  //   final response = await http.get(Uri.parse(endpoint));
-  //   if (response.statusCode == 200) {
-  //     String body = response.body;
-  //     var decodedData = jsonDecode(body);
-  //     AppUser u = AppUser.fromJson(decodedData as Map<String, dynamic>);
-  //     setState(() {
-  //       //futureDocOfficeId = u.docOffice_id;
-  //       //print(futureDocOfficeId);
-  //     });
-  //   } else {
-  //     internetConnectionPopUp();
-  //     throw Exception('failed to load patients');
-  //   }
-  // }
-
-  Future<void> updatePatientApiCall() async {
+  Future<void> updatePatientApiCall(
+      PatientManagerProvider patientManagerProvider) async {
     var statusCode = await MihPatientServices().updatePatientService(
-      widget.selectedPatient.app_id,
+      patientManagerProvider.selectedPatient!.app_id,
       idController.text,
       fnameController.text,
       lnameController.text,
@@ -100,6 +59,7 @@ class _EditPatientState extends State<EditPatient> {
       medNameController.text,
       medSchemeController.text,
       addressController.text,
+      patientManagerProvider,
     );
     if (statusCode == 200) {
       successPopUp(
@@ -113,41 +73,6 @@ class _EditPatientState extends State<EditPatient> {
         context,
       );
     }
-    // var response = await http.put(
-    //   Uri.parse(apiUrlEdit),
-    //   headers: <String, String>{
-    //     "Content-Type": "application/json; charset=UTF-8"
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     "id_no": idController.text,
-    //     "first_name": fnameController.text,
-    //     "last_name": lnameController.text,
-    //     "email": emailController.text,
-    //     "cell_no": cellController.text,
-    //     "medical_aid": medAidController.text,
-    //     "medical_aid_main_member": medMainMemController.text,
-    //     "medical_aid_no": medNoController.text,
-    //     "medical_aid_code": medAidCodeController.text,
-    //     "medical_aid_name": medNameController.text,
-    //     "medical_aid_scheme": medSchemeController.text,
-    //     "address": addressController.text,
-    //     "app_id": widget.selectedPatient.app_id,
-    //   }),
-    // );
-    // print(response.statusCode);
-    // if (response.statusCode == 200) {
-    //   Navigator.of(context).pop();
-    //   Navigator.of(context).pop();
-    //   Navigator.of(context).pushNamed('/patient-profile',
-    //       arguments: PatientViewArguments(
-    //           widget.signedInUser, null, null, null, "personal"));
-    //   //Navigator.of(context).pushNamed('/');
-    //   String message =
-    //       "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.";
-    //   successPopUp(message);
-    // } else {
-    //   internetConnectionPopUp();
-    // }
   }
 
   void successPopUp(String title, String message) {
@@ -177,16 +102,18 @@ class _EditPatientState extends State<EditPatient> {
               Center(
                 child: MihButton(
                   onPressed: () {
-                    context.goNamed(
-                      "patientProfile",
-                      extra: PatientViewArguments(
-                        widget.signedInUser,
-                        widget.selectedPatient,
-                        null,
-                        null,
-                        "personal",
-                      ),
-                    );
+                    // context.goNamed(
+                    //   "patientProfile",
+                    //   extra: PatientViewArguments(
+                    //     widget.signedInUser,
+                    //     widget.selectedPatient,
+                    //     null,
+                    //     null,
+                    //     "personal",
+                    //   ),
+                    // );
+                    context.pop();
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -217,251 +144,13 @@ class _EditPatientState extends State<EditPatient> {
     );
   }
 
-  Future<void> deletePatientApiCall() async {
-    //print("Here1");
-    //userEmail = getLoginUserEmail() as String;
-    //print(userEmail);
-    //print("Here2");
-    //await getOfficeIdByUser(docOfficeIdApiUrl + userEmail);
-    //print("Office ID: ${futureDocOfficeId.toString()}");
-    //print("OPatient ID No: ${idController.text}");
-    //print("Here3");
-    var response = await http.delete(
-      Uri.parse(apiUrlDelete),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(
-          <String, dynamic>{"app_id": widget.selectedPatient.app_id}),
-    );
-    //print("Here4");
-    //print(response.statusCode);
-    if (response.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      Navigator.of(context).popAndPushNamed('/patient-profile',
-          arguments: PatientViewArguments(
-              widget.signedInUser, null, null, null, "personal"));
-      String message =
-          "${fnameController.text} ${lnameController.text}'s record has been deleted successfully. This means it will no longer be visible in patient manager and cannot be used for future appointments.";
-      successPopUp("Error", message);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> getLoginUserEmail() async {
-    var uid = await SuperTokens.getUserId();
-    var response = await http.get(Uri.parse("$baseAPI/user/$uid"));
-    if (response.statusCode == 200) {
-      var user = jsonDecode(response.body);
-      userEmail = user["email"];
-    }
-  }
-
-  void messagePopUp(error) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(error),
-        );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void deletePatientPopUp() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: 700.0,
-              height: (height / 3) * 2,
-              decoration: BoxDecoration(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 5.0),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  //mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      size: 100,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      "Are you sure you want to delete this?",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Text(
-                        "This action is permanent! Deleting ${fnameController.text} ${lnameController.text} will remove him\\her from your account. You won't be able to recover it once it's gone.",
-                        style: TextStyle(
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Text(
-                        "Here's what you'll be deleting:",
-                        style: TextStyle(
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: SizedBox(
-                        width: 450,
-                        child: Text(
-                          "1) Patient Profile Information.\n2) Patient Notes\n3) Patient Files.",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    MihButton(
-                      onPressed: deletePatientApiCall,
-                      buttonColor: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 5,
-              right: 5,
-              width: 50,
-              height: 50,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  size: 35,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  bool isFieldsFilled() {
-    if (medRequired.value) {
-      if (idController.text.isEmpty ||
-          fnameController.text.isEmpty ||
-          lnameController.text.isEmpty ||
-          cellController.text.isEmpty ||
-          emailController.text.isEmpty ||
-          medNoController.text.isEmpty ||
-          medNameController.text.isEmpty ||
-          medSchemeController.text.isEmpty ||
-          addressController.text.isEmpty ||
-          medAidController.text.isEmpty ||
-          medMainMemController.text.isEmpty ||
-          medAidCodeController.text.isEmpty) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      if (idController.text.isEmpty ||
-          fnameController.text.isEmpty ||
-          lnameController.text.isEmpty ||
-          cellController.text.isEmpty ||
-          emailController.text.isEmpty ||
-          addressController.text.isEmpty ||
-          medAidController.text.isEmpty) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }
-
-  void isRequired() {
-    print("listerner triggered");
-    if (medAidController.text == "Yes") {
-      medRequired.value = true;
-    } else if (medAidController.text == "No") {
-      medRequired.value = false;
-    } else {
-      //print("here");
-    }
-  }
-
-  Widget displayForm(double width) {
+  Widget displayForm(
+      PatientManagerProvider patientManagerProvider, double width) {
     return SingleChildScrollView(
       child: Padding(
         padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-            ? EdgeInsets.symmetric(horizontal: width * 0.2)
-            : EdgeInsets.symmetric(horizontal: width * 0.075),
+            ? EdgeInsets.symmetric(horizontal: width * 0.05)
+            : const EdgeInsets.symmetric(horizontal: 0),
         child: Column(
           children: [
             MihForm(
@@ -735,7 +424,7 @@ class _EditPatientState extends State<EditPatient> {
                   child: MihButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        submitForm();
+                        updatePatientApiCall(patientManagerProvider);
                       } else {
                         MihAlertServices().formNotFilledCompletely(context);
                       }
@@ -764,66 +453,12 @@ class _EditPatientState extends State<EditPatient> {
     );
   }
 
-  void submitForm() {
-    updatePatientApiCall();
-  }
-
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        context.goNamed(
-          'patientProfile',
-          extra: PatientViewArguments(
-            widget.signedInUser,
-            null,
-            null,
-            null,
-            "personal",
-          ),
-        );
-        // Navigator.of(context).pop();
-      },
-    );
-  }
-
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Edit Patient Details",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
-  }
-
-  MIHBody getBody(double width) {
-    return MIHBody(
-      borderOn: false,
-      bodyItems: [
-        KeyboardListener(
-          focusNode: _focusNode,
-          autofocus: true,
-          onKeyEvent: (event) async {
-            if (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.enter) {
-              if (_formKey.currentState!.validate()) {
-                submitForm();
-              } else {
-                MihAlertServices().formNotFilledCompletely(context);
-              }
-            }
-          },
-          child: displayForm(width),
-        ),
-      ],
-    );
+  void isRequired() {
+    if (medAidController.text == "Yes") {
+      medRequired.value = true;
+    } else if (medAidController.text == "No") {
+      medRequired.value = false;
+    } else {}
   }
 
   @override
@@ -848,24 +483,29 @@ class _EditPatientState extends State<EditPatient> {
 
   @override
   void initState() {
-    getLoginUserEmail();
     medAidController.addListener(isRequired);
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
     setState(() {
-      idController.text = widget.selectedPatient.id_no;
-      fnameController.text = widget.selectedPatient.first_name;
-      lnameController.text = widget.selectedPatient.last_name;
-      cellController.text = widget.selectedPatient.cell_no;
-      emailController.text = widget.selectedPatient.email;
-      medNameController.text = widget.selectedPatient.medical_aid_name;
-      medNoController.text = widget.selectedPatient.medical_aid_no;
-      medSchemeController.text = widget.selectedPatient.medical_aid_scheme;
-      addressController.text = widget.selectedPatient.address;
-      medAidController.text = widget.selectedPatient.medical_aid;
+      idController.text = patientManagerProvider.selectedPatient!.id_no;
+      fnameController.text = patientManagerProvider.selectedPatient!.first_name;
+      lnameController.text = patientManagerProvider.selectedPatient!.last_name;
+      cellController.text = patientManagerProvider.selectedPatient!.cell_no;
+      emailController.text = patientManagerProvider.selectedPatient!.email;
+      medNameController.text =
+          patientManagerProvider.selectedPatient!.medical_aid_name;
+      medNoController.text =
+          patientManagerProvider.selectedPatient!.medical_aid_no;
+      medSchemeController.text =
+          patientManagerProvider.selectedPatient!.medical_aid_scheme;
+      addressController.text = patientManagerProvider.selectedPatient!.address;
+      medAidController.text =
+          patientManagerProvider.selectedPatient!.medical_aid;
       medMainMemController.text =
-          widget.selectedPatient.medical_aid_main_member;
-      medAidCodeController.text = widget.selectedPatient.medical_aid_code;
+          patientManagerProvider.selectedPatient!.medical_aid_main_member;
+      medAidCodeController.text =
+          patientManagerProvider.selectedPatient!.medical_aid_code;
     });
-
     if (medAidController.text == "Yes") {
       medAidPosition = true;
     } else {
@@ -884,20 +524,36 @@ class _EditPatientState extends State<EditPatient> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    setState(() {
-      width = size.width;
-      height = size.height;
-    });
-    return MIHLayoutBuilder(
-      actionButton: getActionButton(),
-      header: getHeader(),
-      secondaryActionButton: null,
-      body: getBody(width),
-      actionDrawer: null,
-      secondaryActionDrawer: null,
-      bottomNavBar: null,
-      pullDownToRefresh: false,
-      onPullDown: () async {},
+    return MihPackageWindow(
+      fullscreen: false,
+      windowTitle: "Edit Patient Details",
+      onWindowTapClose: () {
+        context.pop();
+      },
+      windowBody: getBody(size.width),
+    );
+  }
+
+  Widget getBody(double width) {
+    return Consumer<PatientManagerProvider>(
+      builder: (BuildContext context,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        return KeyboardListener(
+          focusNode: _focusNode,
+          autofocus: true,
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.enter) {
+              if (_formKey.currentState!.validate()) {
+                updatePatientApiCall(patientManagerProvider);
+              } else {
+                MihAlertServices().formNotFilledCompletely(context);
+              }
+            }
+          },
+          child: displayForm(patientManagerProvider, width),
+        );
+      },
     );
   }
 }

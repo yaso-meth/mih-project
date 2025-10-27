@@ -11,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_pro
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
@@ -112,6 +113,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => MihMineSweeperProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PatientManagerProvider(),
         ),
       ],
       child: MaterialApp.router(

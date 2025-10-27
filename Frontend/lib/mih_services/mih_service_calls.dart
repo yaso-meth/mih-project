@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -88,14 +87,14 @@ class MIHApiCalls {
     );
 
     //get patient profile
-    Patient? patient = await MihPatientServices().getPatientDetails(
-      uid,
-    );
-    if (patient != null) {
-      patientData = patient;
-    } else {
-      patientData = null;
-    }
+    // Patient? patient = await MihPatientServices().getPatientDetails(
+    //   uid,
+    // );
+    // if (patient != null) {
+    //   patientData = patient;
+    // } else {
+    //   patientData = null;
+    // }
 
     return HomeArguments(
         userData, bUserData, busData, patientData, notifi, userPic);

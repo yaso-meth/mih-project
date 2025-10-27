@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 
 class PatientManagerProvider extends ChangeNotifier {
   int patientProfileIndex;
   int patientManagerIndex;
+  int fileViewerIndex;
   bool personalMode;
   Patient? selectedPatient;
+  List<Note>? consultationNotes;
+  List<PFile>? patientDocuments;
 
   PatientManagerProvider({
     this.patientProfileIndex = 0,
     this.patientManagerIndex = 0,
+    this.fileViewerIndex = 0,
     this.personalMode = true,
   });
 
@@ -30,6 +36,11 @@ class PatientManagerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setFileViewerIndex(int index) {
+    patientProfileIndex = index;
+    notifyListeners();
+  }
+
   void setPersonalMode(bool personalMode) {
     this.personalMode = personalMode;
     notifyListeners();
@@ -37,6 +48,16 @@ class PatientManagerProvider extends ChangeNotifier {
 
   void setSelectedPatient({required Patient? selectedPatient}) {
     this.selectedPatient = selectedPatient;
+    notifyListeners();
+  }
+
+  void setConsultationNotes({required List<Note>? consultationNotes}) {
+    this.consultationNotes = consultationNotes ?? [];
+    notifyListeners();
+  }
+
+  void setPatientDocuments({required List<PFile>? patientDocuments}) {
+    this.patientDocuments = patientDocuments ?? [];
     notifyListeners();
   }
 }

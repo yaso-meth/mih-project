@@ -2,18 +2,21 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_consultation.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_documents.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_info.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:provider/provider.dart';
 
 class PatientProfile extends StatefulWidget {
-  final PatientViewArguments arguments;
+  final String? patientAppId;
   const PatientProfile({
     super.key,
-    required this.arguments,
+    required this.patientAppId,
   });
 
   @override
@@ -21,7 +24,42 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  int _selcetedIndex = 0;
+  bool isLoading = true;
+
+  Future<void> initialisePatientData() async {
+    setState(() {
+      isLoading = true;
+    });
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
+    String? app_id = widget.patientAppId ?? profileProvider.user!.app_id;
+
+    if (patientManagerProvider.selectedPatient == null) {
+      await MihPatientServices()
+          .getPatientDetails(app_id, patientManagerProvider);
+    }
+
+    if (patientManagerProvider.selectedPatient == null) {
+      // go to set up patient package
+      context.goNamed("patientProfileSetup");
+    } else {
+      await MihPatientServices()
+          .getPatientConsultationNotes(patientManagerProvider);
+      await MihPatientServices().getPatientDocuments(patientManagerProvider);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialisePatientData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -29,21 +67,24 @@ class _PatientProfileState extends State<PatientProfile> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      selectedbodyIndex:
+          context.watch<PatientManagerProvider>().patientProfileIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
+        context.read<PatientManagerProvider>().setPatientProfileIndex(newValue);
       },
     );
   }
 
   MihPackageAction getAction() {
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        if (widget.arguments.type == "business") {
+        patientManagerProvider.setPatientProfileIndex(0);
+        patientManagerProvider.setPatientManagerIndex(0);
+        if (!patientManagerProvider.personalMode) {
           context.pop();
         } else {
           context.goNamed(
@@ -56,64 +97,54 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   MihPackageTools getTools() {
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.perm_identity)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      patientManagerProvider.setPatientProfileIndex(0);
     };
     temp[const Icon(Icons.article_outlined)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      patientManagerProvider.setPatientProfileIndex(1);
     };
     temp[const Icon(Icons.file_present)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
+      patientManagerProvider.setPatientProfileIndex(2);
     };
     temp[const Icon(Icons.file_open_outlined)] = () {
-      setState(() {
-        _selcetedIndex = 3;
-      });
+      patientManagerProvider.setPatientProfileIndex(3);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: patientManagerProvider.patientProfileIndex,
     );
   }
 
   List<Widget> getToolBody() {
+    if (isLoading) {
+      return [
+        Center(
+          child: Mihloadingcircle(),
+        ),
+      ];
+    }
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
+    if (patientManagerProvider.selectedPatient == null) {
+      return [
+        const SizedBox(),
+      ];
+    }
     List<Widget> toolBodies = [
-      PatientInfo(
-        signedInUser: widget.arguments.signedInUser,
-        selectedPatient: widget.arguments.selectedPatient!,
-        type: widget.arguments.type,
-      ),
-      PatientConsultation(
-        patientAppId: widget.arguments.selectedPatient!.app_id,
-        selectedPatient: widget.arguments.selectedPatient!,
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        type: widget.arguments.type,
-      ),
-      PatientDocuments(
-        patientIndex: widget.arguments.selectedPatient!.idpatients,
-        selectedPatient: widget.arguments.selectedPatient!,
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        type: widget.arguments.type,
-      ),
-      PatientClaimOrStatement(
-        patientIndex: widget.arguments.selectedPatient!.idpatients,
-        selectedPatient: widget.arguments.selectedPatient!,
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        type: widget.arguments.type,
-      ),
+      PatientInfo(),
+      PatientConsultation(),
+      PatientDocuments(),
+      // PatientClaimOrStatement(
+      //   patientIndex: widget.arguments.selectedPatient!.idpatients,
+      //   selectedPatient: widget.arguments.selectedPatient!,
+      //   signedInUser: widget.arguments.signedInUser,
+      //   business: widget.arguments.business,
+      //   businessUser: widget.arguments.businessUser,
+      //   type: widget.arguments.type,
+      // ),
     ];
     return toolBodies;
   }

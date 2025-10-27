@@ -28,7 +28,6 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
       onTap: () {
         context.goNamed(
           'patientProfile',
-          extra: widget.arguments,
         );
         // Navigator.of(context).pushNamed(
         //   '/patient-profile',

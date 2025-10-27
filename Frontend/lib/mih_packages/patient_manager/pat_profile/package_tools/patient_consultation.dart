@@ -1,6 +1,7 @@
-import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -12,33 +13,15 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_notes_list.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class PatientConsultation extends StatefulWidget {
-  final String patientAppId;
-  final Patient selectedPatient;
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final String type;
   const PatientConsultation({
     super.key,
-    required this.patientAppId,
-    required this.selectedPatient,
-    required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.type,
   });
 
   @override
@@ -46,7 +29,6 @@ class PatientConsultation extends StatefulWidget {
 }
 
 class _PatientConsultationState extends State<PatientConsultation> {
-  late Future<List<Note>> futueNotes;
   final titleController = TextEditingController();
   final noteTextController = TextEditingController();
   final officeController = TextEditingController();
@@ -56,33 +38,18 @@ class _PatientConsultationState extends State<PatientConsultation> {
   String endpoint = "${AppEnviroment.baseApiUrl}/notes/patients/";
   final _formKey = GlobalKey<FormState>();
 
-  Future<List<Note>> fetchNotes(String endpoint) async {
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/notes/patients/${widget.selectedPatient.app_id}"));
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<Note> notes =
-          List<Note>.from(l.map((model) => Note.fromJson(model)));
-      //print("Here notes");
-      return notes;
-    } else {
-      internetConnectionPopUp();
-      throw Exception('failed to load patients');
-    }
-  }
-
-  void addNotePopUp(double width) {
+  void addNotePopUp(MzansiProfileProvider profileProvider, double width) {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     var title = "";
-    print("Business User: ${widget.businessUser}");
-    if (widget.businessUser?.title == "Doctor") {
+    print("Business User: ${profileProvider.businessUser}");
+    if (profileProvider.businessUser?.title == "Doctor") {
       title = "Dr.";
     }
     setState(() {
-      officeController.text = widget.business!.Name;
+      officeController.text = profileProvider.business!.Name;
       doctorController.text =
-          "$title ${widget.signedInUser.fname} ${widget.signedInUser.lname}";
+          "$title ${profileProvider.user!.fname} ${profileProvider.user!.lname}";
       dateController.text = date.toString().substring(0, 10);
     });
     showDialog(
@@ -205,7 +172,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
                     child: MihButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          addPatientNoteAPICall();
+                          // addPatientNoteAPICall();
                           Navigator.pop(context);
                         } else {
                           MihAlertServices().formNotFilledCompletely(context);
@@ -234,38 +201,6 @@ class _PatientConsultationState extends State<PatientConsultation> {
         ),
       ),
     );
-  }
-
-  Future<void> addPatientNoteAPICall() async {
-    // String title = "";
-    // if (widget.businessUser!.title == "Doctor") {
-    //   title = "Dr.";
-    // }
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/notes/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "note_name": titleController.text,
-        "note_text": noteTextController.text,
-        "doc_office": officeController.text,
-        "doctor": doctorController.text,
-        "app_id": widget.selectedPatient.app_id,
-      }),
-    );
-    if (response.statusCode == 201) {
-      setState(() {
-        futueNotes = fetchNotes(endpoint + widget.patientAppId.toString());
-      });
-      // Navigator.of(context)
-      //     .pushNamed('/patient-manager', arguments: widget.userEmail);
-      String message =
-          "Your note has been successfully added to the patients medical record. You can now view it alongside their other important information.";
-      successPopUp(message);
-    } else {
-      internetConnectionPopUp();
-    }
   }
 
   bool isFieldsFilled() {
@@ -321,7 +256,6 @@ class _PatientConsultationState extends State<PatientConsultation> {
 
   @override
   void initState() {
-    futueNotes = fetchNotes(endpoint + widget.patientAppId);
     noteTextController.addListener(() {
       setState(() {
         _counter.value = noteTextController.text.characters.length;
@@ -340,71 +274,56 @@ class _PatientConsultationState extends State<PatientConsultation> {
   }
 
   Widget getBody(double width) {
-    return Stack(
-      children: [
-        MihSingleChildScroll(
-          child: FutureBuilder(
-            future: futueNotes,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: Mihloadingcircle(),
-                );
-              } else if (snapshot.hasData) {
-                final notesList = snapshot.data!;
-                return Column(children: [
-                  BuildNotesList(
-                    notes: notesList,
-                    signedInUser: widget.signedInUser,
-                    selectedPatient: widget.selectedPatient,
-                    business: widget.business,
-                    businessUser: widget.businessUser,
-                    type: widget.type,
-                  ),
-                ]);
-              } else {
-                return const Center(
-                  child: Text("Error Loading Notes"),
-                );
-              }
-            },
-          ),
-        ),
-        Visibility(
-          visible: widget.type != "personal",
-          child: Positioned(
-            right: 10,
-            bottom: 10,
-            child: MihFloatingMenu(
-              icon: Icons.add,
-              animatedIcon: AnimatedIcons.menu_close,
-              children: [
-                SpeedDialChild(
-                  child: Icon(
-                    Icons.add,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                  label: "Add Note",
-                  labelBackgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  labelStyle: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  backgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onTap: () {
-                    // addConsultationNotePopUp();
-                    addNotePopUp(width);
-                  },
-                )
-              ],
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        return Stack(
+          children: [
+            MihSingleChildScroll(
+                child: Column(children: [
+              BuildNotesList(),
+            ])),
+            Visibility(
+              visible: !patientManagerProvider.personalMode,
+              child: Positioned(
+                right: 10,
+                bottom: 10,
+                child: MihFloatingMenu(
+                  icon: Icons.add,
+                  animatedIcon: AnimatedIcons.menu_close,
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(
+                        Icons.add,
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      label: "Add Note",
+                      labelBackgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      labelStyle: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      backgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      onTap: () {
+                        // addConsultationNotePopUp();
+                        addNotePopUp(profileProvider, width);
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

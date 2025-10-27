@@ -26,10 +26,9 @@ import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_barcode_scanner.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/pat_manager.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/add_or_view_patient.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/full_screen_file.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_edit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_set_up.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
@@ -53,7 +52,6 @@ class MihGoRouterPaths {
   static const String businessProfileView = '/business-profile/view';
   static const String patientProfile = '/patient-profile';
   static const String patientProfileSetup = '/patient-profile/set-up';
-  static const String patientProfileEdit = '/patient-profile/edit';
   static const String mzansiWallet = '/mzansi-wallet';
   static const String mzansiDirectory = '/mzansi-directory';
   static const String mihAccess = '/mih-access';
@@ -66,7 +64,7 @@ class MihGoRouterPaths {
   static const String barcodeScanner = '/scanner';
   static const String calculator = '/calculator';
   static const String mzansiAi = '/mzansi-ai';
-  static const String mihMineSweeper = '/mih-mine-sweeper';
+  static const String mihMineSweeper = '/mih-minesweeper';
   static const String packageDevTest = '/package-dev';
 }
 
@@ -274,7 +272,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.mzansiWallet,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mzansiWallet");
-          if (context.watch<MzansiProfileProvider>().business == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -322,7 +320,7 @@ class MihGoRouter {
         name: "mihAccess",
         path: MihGoRouterPaths.mihAccess,
         builder: (BuildContext context, GoRouterState state) {
-          if (context.watch<MzansiProfileProvider>().business == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -338,36 +336,27 @@ class MihGoRouter {
         name: "patientProfile",
         path: MihGoRouterPaths.patientProfile,
         builder: (BuildContext context, GoRouterState state) {
-          final PatientViewArguments? args =
-              state.extra as PatientViewArguments?;
-          if (args == null) {
+          final String? argPatientAppId = state.extra as String?;
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return AddOrViewPatient(
-            key: UniqueKey(),
-            arguments: args,
-          );
+          return PatientProfile(patientAppId: argPatientAppId);
         },
       ),
       GoRoute(
-        name: "patientProfileEdit",
-        path: MihGoRouterPaths.patientProfileEdit,
+        name: "patientProfileSetup",
+        path: MihGoRouterPaths.patientProfileSetup,
         builder: (BuildContext context, GoRouterState state) {
-          final PatientEditArguments? args =
-              state.extra as PatientEditArguments?;
-          if (args == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return EditPatient(
-            signedInUser: args.signedInUser,
-            selectedPatient: args.selectedPatient,
-          );
+          return PatientSetUp();
         },
       ),
       GoRoute(
@@ -391,15 +380,14 @@ class MihGoRouter {
         name: "patientManagerPatient",
         path: MihGoRouterPaths.patientManagerPatient,
         builder: (BuildContext context, GoRouterState state) {
-          final PatientViewArguments? args =
-              state.extra as PatientViewArguments?;
-          if (args == null) {
+          final String? argPatientAppId = state.extra as String?;
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return PatientProfile(arguments: args);
+          return PatientProfile(patientAppId: argPatientAppId);
         },
       ),
       // ========================== Mzansi Directory ==================================
@@ -407,7 +395,7 @@ class MihGoRouter {
         name: "mzansiDirectory",
         path: MihGoRouterPaths.mzansiDirectory,
         builder: (BuildContext context, GoRouterState state) {
-          if (context.watch<MzansiProfileProvider>().business == null) {
+          if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -436,10 +424,16 @@ class MihGoRouter {
       ),
       // ========================== MIH Calculator ==================================
       GoRoute(
-        name: "mihMineSweeper",
+        name: "mihMinesweeper",
         path: MihGoRouterPaths.mihMineSweeper,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihMineSweeper");
+          if (context.watch<MzansiProfileProvider>().user == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go(MihGoRouterPaths.mihHome);
+            });
+            return const SizedBox.shrink();
+          }
           return MihMineSweeper();
         },
       ),
