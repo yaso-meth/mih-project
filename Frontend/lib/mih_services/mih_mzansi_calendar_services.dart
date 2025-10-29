@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
@@ -291,7 +290,7 @@ class MihMzansiCalendarApis {
     AppUser signedInUser,
     bool personalSelected,
     String patientAppId,
-    BusinessArguments businessArgs,
+    String businessId,
     String title,
     String description,
     String date,
@@ -306,7 +305,7 @@ class MihMzansiCalendarApis {
       },
       body: jsonEncode(<String, dynamic>{
         "app_id": patientAppId,
-        "business_id": businessArgs.business?.business_id,
+        "business_id": businessId,
         "title": title,
         "description": description,
         "date": date,

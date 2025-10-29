@@ -27,7 +27,6 @@ class _PatManagerTileState extends State<PatManagerTile> {
       onTap: () {
         context.goNamed(
           'patientManager',
-          extra: widget.arguments,
         );
         // Navigator.of(context).pushNamed(
         //   '/patient-manager',

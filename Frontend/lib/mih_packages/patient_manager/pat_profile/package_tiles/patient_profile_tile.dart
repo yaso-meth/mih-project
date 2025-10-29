@@ -4,7 +4,9 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:provider/provider.dart';
 
 class PatientProfileTile extends StatefulWidget {
   final PatientViewArguments arguments;
@@ -26,6 +28,9 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
     return MihPackageTile(
       authenticateUser: true,
       onTap: () {
+        PatientManagerProvider patientManagerProvider =
+            context.read<PatientManagerProvider>();
+        patientManagerProvider.setPersonalMode(true);
         context.goNamed(
           'patientProfile',
         );

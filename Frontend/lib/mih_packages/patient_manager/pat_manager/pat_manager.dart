@@ -2,17 +2,19 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/mih_patient_search.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/my_patient_list.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:provider/provider.dart';
 
 class PatManager extends StatefulWidget {
-  final PatManagerArguments arguments;
   const PatManager({
     super.key,
-    required this.arguments,
   });
 
   @override
@@ -20,11 +22,39 @@ class PatManager extends StatefulWidget {
 }
 
 class _PatManagerState extends State<PatManager> {
-  int _selcetedIndex = 0;
+  bool isLoading = true;
 
-  void updateIndex(int index) {
+  Future<void> initialisePatientData() async {
     setState(() {
-      _selcetedIndex = index;
+      isLoading = true;
+    });
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
+    MihCalendarProvider mihCalendarProvider =
+        context.read<MihCalendarProvider>();
+    patientManagerProvider.setPersonalMode(false);
+    if (profileProvider.business != null) {
+      await MihMzansiCalendarApis.getBusinessAppointments(
+        profileProvider.business!.business_id,
+        false,
+        mihCalendarProvider.selectedDay,
+        mihCalendarProvider,
+      );
+      MihPatientServices().getPatientAccessListOfBusiness(
+          patientManagerProvider, profileProvider.business!.business_id);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initialisePatientData();
     });
   }
 
@@ -35,24 +65,30 @@ class _PatManagerState extends State<PatManager> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      selectedbodyIndex:
+          context.watch<PatientManagerProvider>().patientManagerIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
+        context.read<PatientManagerProvider>().setPatientManagerIndex(newValue);
       },
     );
   }
 
   MihPackageAction getActionButton() {
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        // Navigator.of(context).pop();
-        context.goNamed(
-          'mihHome',
-        );
+        patientManagerProvider.setPatientProfileIndex(0);
+        patientManagerProvider.setPatientManagerIndex(0);
+        if (!patientManagerProvider.personalMode) {
+          context.pop();
+        } else {
+          context.goNamed(
+            'mihHome',
+          );
+        }
         FocusScope.of(context).unfocus();
       },
     );
@@ -61,55 +97,33 @@ class _PatManagerState extends State<PatManager> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.calendar_month)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<PatientManagerProvider>().setPatientManagerIndex(0);
     };
-
     temp[const Icon(Icons.check_box_outlined)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<PatientManagerProvider>().setPatientManagerIndex(1);
     };
 
     temp[const Icon(Icons.search)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
+      context.read<PatientManagerProvider>().setPatientManagerIndex(2);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex:
+          context.watch<PatientManagerProvider>().patientManagerIndex,
     );
   }
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      //appointment here
-      // Appointments(
+      WaitingRoom(),
+      MyPatientList(),
+      Placeholder(),
+      // MihPatientSearch(
       //   signedInUser: widget.arguments.signedInUser,
       //   business: widget.arguments.business,
       //   personalSelected: widget.arguments.personalSelected,
+      //   businessUser: widget.arguments.businessUser,
       // ),
-      WaitingRoom(
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
-        onIndexChange: updateIndex,
-      ),
-      MyPatientList(
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
-      ),
-      MihPatientSearch(
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        personalSelected: widget.arguments.personalSelected,
-        businessUser: widget.arguments.businessUser,
-      ),
     ];
     return toolBodies;
   }

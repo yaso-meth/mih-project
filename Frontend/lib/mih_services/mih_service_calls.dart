@@ -126,29 +126,6 @@ class MIHApiCalls {
     }
   }
 
-  /// This function is used to get list of access the business has.
-  ///
-  /// Patameters: String business_id.
-  ///
-  /// Returns List<PatientAccess> (List of access that match the above parameters).
-  static Future<List<PatientAccess>> getPatientAccessListOfBusiness(
-      String business_id) async {
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
-    // var errorCode = response.statusCode.toString();
-    // print(response.statusCode);
-    // print(response.body);
-
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
-          l.map((model) => PatientAccess.fromJson(model)));
-      return patientAccesses;
-    } else {
-      throw Exception('failed to pull patient access List for business');
-    }
-  }
-
   /// This function is used to UPDATE access the business has.
   ///
   /// Patameters:-

@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -22,27 +23,14 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WaitingRoom extends StatefulWidget {
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final bool personalSelected;
-  final Function(int) onIndexChange;
   const WaitingRoom({
     super.key,
-    required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.personalSelected,
-    required this.onIndexChange,
   });
 
   @override
@@ -71,8 +59,12 @@ class _WaitingRoomState extends State<WaitingRoom> {
 
   // Business Appointment Tool
   Widget getBusinessAppointmentsTool(double width) {
-    return Consumer<MihCalendarProvider>(
-      builder: (BuildContext context, MihCalendarProvider mihCalendarProvider,
+    return Consumer3<MzansiProfileProvider, PatientManagerProvider,
+        MihCalendarProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider,
+          MihCalendarProvider mihCalendarProvider,
           Widget? child) {
         if (isLoading) {
           return const Center(
@@ -132,7 +124,8 @@ class _WaitingRoomState extends State<WaitingRoom> {
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onTap: () {
                       // addAppointmentWindow();
-                      appointmentTypeSelection(mihCalendarProvider, width);
+                      appointmentTypeSelection(profileProvider,
+                          patientManagerProvider, mihCalendarProvider, width);
                     },
                   )
                 ],
@@ -237,7 +230,10 @@ class _WaitingRoomState extends State<WaitingRoom> {
   }
 
   void appointmentTypeSelection(
-      MihCalendarProvider mihCalendarProvider, double width) {
+      MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider,
+      MihCalendarProvider mihCalendarProvider,
+      double width) {
     String question = "What type of appointment would you like to add?";
     question +=
         "\n\nExisting Patient: Add an appointment for an patient your practice has access to.";
@@ -268,7 +264,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               const SizedBox(height: 15),
               MihButton(
                 onPressed: () {
-                  widget.onIndexChange(1);
+                  patientManagerProvider.setPatientManagerIndex(1);
                   context.pop();
                 },
                 buttonColor: MihColors.getGreenColor(
@@ -287,7 +283,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
               const SizedBox(height: 10),
               MihButton(
                 onPressed: () {
-                  widget.onIndexChange(2);
+                  patientManagerProvider.setPatientManagerIndex(2);
                   context.pop();
                 },
                 buttonColor: MihColors.getGreenColor(
@@ -307,7 +303,8 @@ class _WaitingRoomState extends State<WaitingRoom> {
               MihButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  addAppointmentWindow(mihCalendarProvider, width);
+                  addAppointmentWindow(
+                      profileProvider, mihCalendarProvider, width);
                 },
                 buttonColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -329,7 +326,7 @@ class _WaitingRoomState extends State<WaitingRoom> {
     );
   }
 
-  void addAppointmentWindow(
+  void addAppointmentWindow(MzansiProfileProvider profileProvider,
       MihCalendarProvider mihCalendarProvider, double width) {
     showDialog(
       context: context,
@@ -411,7 +408,8 @@ class _WaitingRoomState extends State<WaitingRoom> {
                       child: MihButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            addAppointmentCall(mihCalendarProvider);
+                            addAppointmentCall(
+                                profileProvider, mihCalendarProvider);
                           } else {
                             MihAlertServices().formNotFilledCompletely(context);
                           }
@@ -442,34 +440,23 @@ class _WaitingRoomState extends State<WaitingRoom> {
     );
   }
 
-  Future<void> addAppointmentCall(
+  Future<void> addAppointmentCall(MzansiProfileProvider profileProvider,
       MihCalendarProvider mihCalendarProvider) async {
     if (isAppointmentInputValid()) {
       int statusCode;
-      if (widget.personalSelected == false) {
-        statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
-          widget.signedInUser,
-          widget.business!,
-          widget.businessUser!,
-          true,
-          _appointmentTitleController.text,
-          _appointmentDescriptionIDController.text,
-          _appointmentDateController.text,
-          _appointmentTimeController.text,
-          mihCalendarProvider,
-          context,
-        );
-      } else {
-        statusCode = await MihMzansiCalendarApis.addPersonalAppointment(
-          widget.signedInUser,
-          _appointmentTitleController.text,
-          _appointmentDescriptionIDController.text,
-          _appointmentDateController.text,
-          _appointmentTimeController.text,
-          mihCalendarProvider,
-          context,
-        );
-      }
+      statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
+        profileProvider.user!,
+        profileProvider.business!,
+        profileProvider.businessUser!,
+        true,
+        _appointmentTitleController.text,
+        _appointmentDescriptionIDController.text,
+        _appointmentDateController.text,
+        _appointmentTimeController.text,
+        mihCalendarProvider,
+        context,
+      );
+
       if (statusCode == 201) {
         context.pop();
         successPopUp("Successfully Added Appointment",

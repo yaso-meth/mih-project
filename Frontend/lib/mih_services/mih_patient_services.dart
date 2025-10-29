@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
@@ -288,5 +289,22 @@ class MihPatientServices {
       }
     }
     return response.statusCode;
+  }
+
+  Future<List<PatientAccess>> getPatientAccessListOfBusiness(
+    PatientManagerProvider patientManagerProvider,
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      patientManagerProvider.setMyPatientList(myPaitentList: patientAccesses);
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
   }
 }

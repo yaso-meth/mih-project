@@ -1,31 +1,21 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/list_builders/build_my_patient_list_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyPatientList extends StatefulWidget {
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final bool personalSelected;
-
   const MyPatientList({
     super.key,
-    required this.signedInUser,
-    this.business,
-    this.businessUser,
-    this.personalSelected = false,
   });
 
   @override
@@ -33,7 +23,6 @@ class MyPatientList extends StatefulWidget {
 }
 
 class _MyPatientListState extends State<MyPatientList> {
-  late Future<List<PatientAccess>> _myPatientList;
   TextEditingController _myPatientSearchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool hasSearchedBefore = false;
@@ -42,7 +31,8 @@ class _MyPatientListState extends State<MyPatientList> {
 
   final FocusNode _focusNode = FocusNode();
 
-  Widget myPatientListTool(double width) {
+  Widget myPatientListTool(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider, double width) {
     return MihSingleChildScroll(
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         Padding(
@@ -56,10 +46,11 @@ class _MyPatientListState extends State<MyPatientList> {
             hintColor: MihColors.getPrimaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             onPrefixIconTap: () {
-              setState(() {
+              setState(() async {
                 _myPatientIdSearchString = _myPatientSearchController.text;
-                _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-                    widget.business!.business_id);
+                await MihPatientServices().getPatientAccessListOfBusiness(
+                    patientManagerProvider,
+                    profileProvider.business!.business_id);
               });
             },
             onClearIconTap: () {
@@ -67,57 +58,21 @@ class _MyPatientListState extends State<MyPatientList> {
                 _myPatientSearchController.clear();
                 _myPatientIdSearchString = "";
               });
-              getMyPatientList();
+              getMyPatientList(profileProvider, patientManagerProvider);
             },
             searchFocusNode: _searchFocusNode,
           ),
         ),
         //spacer
         const SizedBox(height: 10),
-        FutureBuilder(
-          future: _myPatientList,
-          builder: (context, snapshot) {
-            //print("patient Liust  ${snapshot.data}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              List<PatientAccess> patientsAccessList;
-              if (_myPatientIdSearchString == "") {
-                patientsAccessList = snapshot.data!;
-              } else {
-                patientsAccessList = filterAccessResults(
-                    snapshot.data!, _myPatientIdSearchString);
-                //print(patientsList);
-              }
-              return displayMyPatientList(patientsAccessList);
-            } else {
-              return Center(
-                child: Text(
-                  "Error pulling Patient Access Data\n$baseUrl/access-requests/business/patient/${widget.business!.business_id}",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-          },
-        ),
+        displayMyPatientList(patientManagerProvider),
       ]),
     );
   }
 
-  Widget displayMyPatientList(List<PatientAccess> patientsAccessList) {
-    if (patientsAccessList.isNotEmpty) {
-      return BuildMyPatientListList(
-        patientAccesses: patientsAccessList,
-        signedInUser: widget.signedInUser,
-        business: widget.business,
-        businessUser: widget.businessUser,
-      );
+  Widget displayMyPatientList(PatientManagerProvider patientManagerProvider) {
+    if (patientManagerProvider.myPaitentList!.isNotEmpty) {
+      return BuildMyPatientListList();
     }
     if (hasSearchedBefore && _myPatientIdSearchString.isNotEmpty) {
       return Column(
@@ -228,10 +183,11 @@ class _MyPatientListState extends State<MyPatientList> {
     return templist;
   }
 
-  void getMyPatientList() {
+  Future<void> getMyPatientList(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider) async {
+    await MihPatientServices().getPatientAccessListOfBusiness(
+        patientManagerProvider, profileProvider.business!.business_id);
     setState(() {
-      _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-          widget.business!.business_id);
       hasSearchedBefore = true;
     });
   }
@@ -239,8 +195,6 @@ class _MyPatientListState extends State<MyPatientList> {
   @override
   void initState() {
     super.initState();
-    _myPatientList = MIHApiCalls.getPatientAccessListOfBusiness(
-        widget.business!.business_id);
   }
 
   @override
@@ -256,10 +210,16 @@ class _MyPatientListState extends State<MyPatientList> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
-    return MihPackageToolBody(
-      borderOn: false,
-      innerHorizontalPadding: 10,
-      bodyItem: myPatientListTool(width),
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        return MihPackageToolBody(
+          borderOn: false,
+          innerHorizontalPadding: 10,
+          bodyItem:
+              myPatientListTool(profileProvider, patientManagerProvider, width),
+        );
+      },
     );
   }
 }

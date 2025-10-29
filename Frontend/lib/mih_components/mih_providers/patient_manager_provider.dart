@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 
 class PatientManagerProvider extends ChangeNotifier {
@@ -9,6 +10,7 @@ class PatientManagerProvider extends ChangeNotifier {
   int patientManagerIndex;
   int fileViewerIndex;
   bool personalMode;
+  List<PatientAccess>? myPaitentList;
   Patient? selectedPatient;
   List<Note>? consultationNotes;
   List<PFile>? patientDocuments;
@@ -50,6 +52,11 @@ class PatientManagerProvider extends ChangeNotifier {
 
   void setSelectedPatient({required Patient? selectedPatient}) {
     this.selectedPatient = selectedPatient;
+    notifyListeners();
+  }
+
+  void setMyPatientList({required List<PatientAccess>? myPaitentList}) {
+    this.myPaitentList = myPaitentList ?? [];
     notifyListeners();
   }
 

@@ -129,7 +129,6 @@ class MIHClaimStatementGenerationApi {
       List<ClaimStatementFile> docList = List<ClaimStatementFile>.from(
           l.map((model) => ClaimStatementFile.fromJson(model)));
       //print("Here3");
-      print(docList);
       patientManagerProvider.setClaimsDocuments(
           patientClaimsDocuments: docList);
       return docList;

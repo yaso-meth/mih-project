@@ -15,10 +15,8 @@ import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
 class PatientProfile extends StatefulWidget {
-  final String? patientAppId;
   const PatientProfile({
     super.key,
-    required this.patientAppId,
   });
 
   @override
@@ -36,13 +34,11 @@ class _PatientProfileState extends State<PatientProfile> {
         context.read<MzansiProfileProvider>();
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
-    String? app_id = widget.patientAppId ?? profileProvider.user!.app_id;
-
+    String? app_id = profileProvider.user!.app_id;
     if (patientManagerProvider.selectedPatient == null) {
       await MihPatientServices()
           .getPatientDetails(app_id, patientManagerProvider);
     }
-
     if (patientManagerProvider.selectedPatient == null) {
       // go to set up patient package
       context.goNamed("patientProfileSetup");
@@ -61,7 +57,9 @@ class _PatientProfileState extends State<PatientProfile> {
   @override
   void initState() {
     super.initState();
-    initialisePatientData();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initialisePatientData();
+    });
   }
 
   @override
@@ -87,7 +85,6 @@ class _PatientProfileState extends State<PatientProfile> {
       iconSize: 35,
       onTap: () {
         patientManagerProvider.setPatientProfileIndex(0);
-        patientManagerProvider.setPatientManagerIndex(0);
         if (!patientManagerProvider.personalMode) {
           context.pop();
         } else {

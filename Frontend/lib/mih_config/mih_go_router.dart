@@ -320,6 +320,7 @@ class MihGoRouter {
         name: "mihAccess",
         path: MihGoRouterPaths.mihAccess,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: mihAccess");
           if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
@@ -336,20 +337,21 @@ class MihGoRouter {
         name: "patientProfile",
         path: MihGoRouterPaths.patientProfile,
         builder: (BuildContext context, GoRouterState state) {
-          final String? argPatientAppId = state.extra as String?;
+          KenLogger.success("MihGoRouter: patientProfile");
           if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return PatientProfile(patientAppId: argPatientAppId);
+          return PatientProfile();
         },
       ),
       GoRoute(
         name: "patientProfileSetup",
         path: MihGoRouterPaths.patientProfileSetup,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: patientProfileSetup");
           if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
@@ -363,8 +365,8 @@ class MihGoRouter {
         name: "patientManager",
         path: MihGoRouterPaths.patientManager,
         builder: (BuildContext context, GoRouterState state) {
-          final PatManagerArguments? args = state.extra as PatManagerArguments?;
-          if (args == null) {
+          KenLogger.success("MihGoRouter: patientManager");
+          if (context.watch<MzansiProfileProvider>().business == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
@@ -372,7 +374,6 @@ class MihGoRouter {
           }
           return PatManager(
             key: UniqueKey(),
-            arguments: args,
           );
         },
       ),
@@ -380,14 +381,14 @@ class MihGoRouter {
         name: "patientManagerPatient",
         path: MihGoRouterPaths.patientManagerPatient,
         builder: (BuildContext context, GoRouterState state) {
-          final String? argPatientAppId = state.extra as String?;
+          KenLogger.success("MihGoRouter: patientManagerPatient");
           if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
             });
             return const SizedBox.shrink();
           }
-          return PatientProfile(patientAppId: argPatientAppId);
+          return PatientProfile();
         },
       ),
       // ========================== Mzansi Directory ==================================
@@ -395,6 +396,7 @@ class MihGoRouter {
         name: "mzansiDirectory",
         path: MihGoRouterPaths.mzansiDirectory,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: mzansiDirectory");
           if (context.watch<MzansiProfileProvider>().user == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(MihGoRouterPaths.mihHome);
@@ -409,6 +411,7 @@ class MihGoRouter {
         name: "fileViewer",
         path: MihGoRouterPaths.fileViewer,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: fileViewer");
           final FileViewArguments? args = state.extra as FileViewArguments?;
           return FullScreenFileViewer(arguments: args!);
         },
@@ -417,6 +420,7 @@ class MihGoRouter {
         name: "printPreview",
         path: MihGoRouterPaths.printPreview,
         builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: printPreview");
           final PrintPreviewArguments? args =
               state.extra as PrintPreviewArguments?;
           return MIHPrintPreview(arguments: args!);
