@@ -5,44 +5,26 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
 import "package:universal_html/html.dart" as html;
 
 class BuildClaimStatementFileList extends StatefulWidget {
-  final AppUser signedInUser;
-  final List<ClaimStatementFile> files;
-  final Patient selectedPatient;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final String type;
-  final String env;
   const BuildClaimStatementFileList({
     super.key,
-    required this.files,
-    required this.signedInUser,
-    required this.selectedPatient,
-    required this.business,
-    required this.businessUser,
-    required this.type,
-    required this.env,
   });
 
   @override
@@ -91,32 +73,32 @@ class _BuildClaimStatementFileListState
     );
   }
 
-  void deleteFilePopUp(String filePath, int fileID) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => MIHDeleteMessage(
-        deleteType: "File",
-        onTap: () async {
-          //API Call here
-          await MIHClaimStatementGenerationApi
-              .deleteClaimStatementFilesByFileID(
-            PatientViewArguments(
-              widget.signedInUser,
-              widget.selectedPatient,
-              widget.businessUser,
-              widget.business,
-              "business",
-            ),
-            widget.env,
-            filePath,
-            fileID,
-            context,
-          );
-        },
-      ),
-    );
-  }
+  // void deleteFilePopUp(String filePath, int fileID) {
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) => MIHDeleteMessage(
+  //       deleteType: "File",
+  //       onTap: () async {
+  //         //API Call here
+  //         await MIHClaimStatementGenerationApi
+  //             .deleteClaimStatementFilesByFileID(
+  //           PatientViewArguments(
+  //             widget.signedInUser,
+  //             widget.selectedPatient,
+  //             widget.businessUser,
+  //             widget.business,
+  //             "business",
+  //           ),
+  //           widget.env,
+  //           filePath,
+  //           fileID,
+  //           context,
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
@@ -159,9 +141,10 @@ class _BuildClaimStatementFileListState
     }
   }
 
-  void viewFilePopUp(String fileName, String filePath, int fileID, String url) {
+  void viewFilePopUp(PatientManagerProvider patientManagerProvider,
+      String fileName, String filePath, int fileID, String url) {
     bool hasAccessToDelete = false;
-    if (widget.type == "business") {
+    if (!patientManagerProvider.personalMode) {
       hasAccessToDelete = true;
     }
 
@@ -263,7 +246,7 @@ class _BuildClaimStatementFileListState
           backgroundColor: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           onTap: () {
-            deleteFilePopUp(filePath, fileID);
+            // deleteFilePopUp(filePath, fileID);
           },
         ),
       );
@@ -332,135 +315,149 @@ class _BuildClaimStatementFileListState
 
   @override
   Widget build(BuildContext context) {
-    if (widget.files.isNotEmpty) {
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          );
-        },
-        itemCount: widget.files.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              widget.files[index].file_name,
-              style: TextStyle(
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        if (patientManagerProvider.patientClaimsDocuments!.isNotEmpty) {
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
                 color: MihColors.getSecondaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-            ),
-            subtitle: Text(
-              widget.files[index].insert_date,
-              style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-            ),
-            // trailing: Icon(
-            //   Icons.arrow_forward,
-            //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            // ),
-            onTap: () async {
-              await getFileUrlApiCall(widget.files[index].file_path)
-                  .then((urlHere) {
-                //print(url);
-                setState(() {
-                  fileUrl = urlHere;
-                });
-              });
-
-              viewFilePopUp(
-                  widget.files[index].file_name,
-                  widget.files[index].file_path,
-                  widget.files[index].idclaim_statement_file,
-                  fileUrl);
+              );
             },
-          );
-        },
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const SizedBox(height: 50),
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Icon(
-                  MihIcons.mihRing,
-                  size: 165,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-                Icon(
-                  Icons.file_open_outlined,
-                  size: 110,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    "No Claims or Statements have been added to this profile.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
+            itemCount: patientManagerProvider.patientClaimsDocuments!.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(
+                  patientManagerProvider
+                      .patientClaimsDocuments![index].file_name,
+                  style: TextStyle(
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            Visibility(
-              visible: widget.business != null,
-              child: Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
+                subtitle: Text(
+                  patientManagerProvider
+                      .patientClaimsDocuments![index].insert_date,
+                  style: TextStyle(
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                ),
+                // trailing: Icon(
+                //   Icons.arrow_forward,
+                //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                // ),
+                onTap: () async {
+                  await getFileUrlApiCall(patientManagerProvider
+                          .patientClaimsDocuments![index].file_path)
+                      .then((urlHere) {
+                    //print(url);
+                    setState(() {
+                      fileUrl = urlHere;
+                    });
+                  });
+
+                  viewFilePopUp(
+                      patientManagerProvider,
+                      patientManagerProvider
+                          .patientClaimsDocuments![index].file_name,
+                      patientManagerProvider
+                          .patientClaimsDocuments![index].file_path,
+                      patientManagerProvider.patientClaimsDocuments![index]
+                          .idclaim_statement_file,
+                      fileUrl);
+                },
+              );
+            },
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const SizedBox(height: 50),
+                Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Icon(
+                      MihIcons.mihRing,
+                      size: 165,
                       color: MihColors.getSecondaryColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
                               "Dark"),
                     ),
-                    children: [
-                      TextSpan(text: "Press "),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Icons.menu,
-                          size: 20,
+                    Icon(
+                      Icons.file_open_outlined,
+                      size: 110,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "No Claims or Statements have been added to this profile.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
                           color: MihColors.getSecondaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
                         ),
                       ),
-                      TextSpan(text: " to generate the first document"),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                Visibility(
+                  visible: !patientManagerProvider.personalMode,
+                  child: Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        children: [
+                          TextSpan(text: "Press "),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.menu,
+                              size: 20,
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          TextSpan(text: " to generate the first document"),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      );
-    }
+          );
+        }
+      },
+    );
   }
 }

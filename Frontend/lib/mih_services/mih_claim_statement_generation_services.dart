@@ -5,6 +5,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loa
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -20,8 +22,9 @@ class MIHClaimStatementGenerationApi {
   ///
   /// Returns TBC.
   Future<void> generateClaimStatement(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
     ClaimStatementGenerationArguments data,
-    PatientViewArguments args,
     String env,
     BuildContext context,
   ) async {
@@ -84,19 +87,13 @@ class MIHClaimStatementGenerationApi {
         },
         body: jsonEncode(<String, dynamic>{
           "app_id": data.patient_app_id,
-          "business_id": args.business!.business_id,
+          "business_id": profileProvider.business!.business_id,
           "file_path": "${data.patient_app_id}/claims-statements/$fileName",
           "file_name": fileName
         }),
       );
       if (response2.statusCode == 201) {
-        context.pop(); // end loading circle
-        context.pop();
-
-        context.pushNamed(
-          'patientManagerPatient',
-          extra: args,
-        );
+        getClaimStatementFilesByPatient(patientManagerProvider);
         String message =
             "The ${data.document_type}: $fileName has been successfully generated and added to ${data.patient_full_name}'s record. You can now access and download it for their use.";
         successPopUp(message, context);
@@ -114,11 +111,11 @@ class MIHClaimStatementGenerationApi {
   ///
   /// Returns List<ClaimStatementFile>.
   static Future<List<ClaimStatementFile>> getClaimStatementFilesByPatient(
-    String app_id,
+    PatientManagerProvider patientManagerProvider,
   ) async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/files/claim-statement/patient/$app_id"));
+        "${AppEnviroment.baseApiUrl}/files/claim-statement/patient/${patientManagerProvider.selectedPatient!.app_id}"));
     // print("Here");
     // print("Body: ${response.body}");
     // print("Code: ${response.statusCode}");
@@ -132,7 +129,9 @@ class MIHClaimStatementGenerationApi {
       List<ClaimStatementFile> docList = List<ClaimStatementFile>.from(
           l.map((model) => ClaimStatementFile.fromJson(model)));
       //print("Here3");
-      //print(patientQueue);
+      print(docList);
+      patientManagerProvider.setClaimsDocuments(
+          patientClaimsDocuments: docList);
       return docList;
     } else {
       throw Exception(

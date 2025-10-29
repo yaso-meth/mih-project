@@ -5,10 +5,12 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_consultation.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_documents.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_info.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +50,8 @@ class _PatientProfileState extends State<PatientProfile> {
       await MihPatientServices()
           .getPatientConsultationNotes(patientManagerProvider);
       await MihPatientServices().getPatientDocuments(patientManagerProvider);
+      await MIHClaimStatementGenerationApi.getClaimStatementFilesByPatient(
+          patientManagerProvider);
     }
     setState(() {
       isLoading = false;
@@ -137,14 +141,7 @@ class _PatientProfileState extends State<PatientProfile> {
       PatientInfo(),
       PatientConsultation(),
       PatientDocuments(),
-      // PatientClaimOrStatement(
-      //   patientIndex: widget.arguments.selectedPatient!.idpatients,
-      //   selectedPatient: widget.arguments.selectedPatient!,
-      //   signedInUser: widget.arguments.signedInUser,
-      //   business: widget.arguments.business,
-      //   businessUser: widget.arguments.businessUser,
-      //   type: widget.arguments.type,
-      // ),
+      PatientClaimOrStatement(),
     ];
     return toolBodies;
   }

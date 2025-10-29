@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
@@ -11,6 +12,7 @@ class PatientManagerProvider extends ChangeNotifier {
   Patient? selectedPatient;
   List<Note>? consultationNotes;
   List<PFile>? patientDocuments;
+  List<ClaimStatementFile>? patientClaimsDocuments;
 
   PatientManagerProvider({
     this.patientProfileIndex = 0,
@@ -58,6 +60,12 @@ class PatientManagerProvider extends ChangeNotifier {
 
   void setPatientDocuments({required List<PFile>? patientDocuments}) {
     this.patientDocuments = patientDocuments ?? [];
+    notifyListeners();
+  }
+
+  void setClaimsDocuments(
+      {required List<ClaimStatementFile>? patientClaimsDocuments}) {
+    this.patientClaimsDocuments = patientClaimsDocuments ?? [];
     notifyListeners();
   }
 }
