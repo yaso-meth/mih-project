@@ -422,7 +422,7 @@ class MihGoRouter {
           return MIHPrintPreview(arguments: args!);
         },
       ),
-      // ========================== MIH Calculator ==================================
+      // ========================== MIH Minesweeper ==================================
       GoRoute(
         name: "mihMinesweeper",
         path: MihGoRouterPaths.mihMineSweeper,

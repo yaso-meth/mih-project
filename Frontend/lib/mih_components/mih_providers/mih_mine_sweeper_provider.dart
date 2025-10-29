@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/minesweeper_player_score.dart';
 
 class MihMineSweeperProvider extends ChangeNotifier {
   String difficulty;
@@ -6,9 +7,12 @@ class MihMineSweeperProvider extends ChangeNotifier {
   int rowCount;
   int columnCount;
   int totalMines;
+  List<MinesweeperPlayerScore>? leaderboard;
+  List<MinesweeperPlayerScore>? myScoreboard;
+  List<ImageProvider<Object>?> leaderboardUserPictures = [];
 
   MihMineSweeperProvider({
-    this.difficulty = "Normal",
+    this.difficulty = "Easy",
     this.toolIndex = 0,
     this.rowCount = 10,
     this.columnCount = 10,
@@ -16,7 +20,7 @@ class MihMineSweeperProvider extends ChangeNotifier {
   });
 
   void reset() {
-    difficulty = "Normal";
+    difficulty = "Easy";
     toolIndex = 0;
     rowCount = 10;
     columnCount = 10;
@@ -46,6 +50,32 @@ class MihMineSweeperProvider extends ChangeNotifier {
 
   void setTotalMines(int totalMines) {
     this.totalMines = totalMines;
+    notifyListeners();
+  }
+
+  void setLeaderboard({required List<MinesweeperPlayerScore>? leaderboard}) {
+    if (leaderboard == null) {
+      this.leaderboard = [];
+    } else {
+      this.leaderboard = leaderboard;
+    }
+    notifyListeners();
+  }
+
+  void setMyScoreboard({
+    required List<MinesweeperPlayerScore>? myScoreboard,
+  }) {
+    if (myScoreboard == null) {
+      this.myScoreboard = [];
+    } else {
+      this.myScoreboard = myScoreboard;
+    }
+    notifyListeners();
+  }
+
+  void setLeaderboardUserPictures(
+      {required List<ImageProvider<Object>?> leaderboardUserPictures}) {
+    this.leaderboardUserPictures = leaderboardUserPictures;
     notifyListeners();
   }
 }

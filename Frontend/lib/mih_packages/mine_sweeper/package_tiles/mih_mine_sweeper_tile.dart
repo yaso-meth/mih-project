@@ -24,10 +24,10 @@ class _MihMineSweeperTileState extends State<MihMineSweeperTile> {
     return MihPackageTile(
       onTap: () {
         context.goNamed(
-          "mihMineSweeper",
+          "mihMinesweeper",
         );
       },
-      appName: "MineSweeper",
+      appName: "Minesweeper",
       appIcon: Icon(
         MihIcons.mineSweeper,
         color: MihColors.getSecondaryColor(

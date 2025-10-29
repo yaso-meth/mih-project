@@ -4,8 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mih_mine_sweeper_leader_board.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mine_sweeper_game.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mine_sweeper_quick_start_guide.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/my_score_board.dart';
 import 'package:provider/provider.dart';
 
 class MihMineSweeper extends StatefulWidget {
@@ -16,6 +20,14 @@ class MihMineSweeper extends StatefulWidget {
 }
 
 class _MihMineSweeperState extends State<MihMineSweeper> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -35,9 +47,12 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
+        MihMineSweeperProvider mineSweeperProvider =
+            context.read<MihMineSweeperProvider>();
+        mineSweeperProvider.setToolIndex(0);
+        mineSweeperProvider.setDifficulty("Easy");
         context.goNamed(
           'mihHome',
-          extra: true,
         );
         FocusScope.of(context).unfocus();
       },
@@ -49,6 +64,15 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
     temp[const Icon(FontAwesomeIcons.bomb)] = () {
       context.read<MihMineSweeperProvider>().setToolIndex(0);
     };
+    temp[const Icon(Icons.leaderboard_rounded)] = () {
+      context.read<MihMineSweeperProvider>().setToolIndex(1);
+    };
+    temp[const Icon(Icons.perm_identity_rounded)] = () {
+      context.read<MihMineSweeperProvider>().setToolIndex(2);
+    };
+    temp[const Icon(Icons.rule_rounded)] = () {
+      context.read<MihMineSweeperProvider>().setToolIndex(3);
+    };
     return MihPackageTools(
       tools: temp,
       selcetedIndex: context.watch<MihMineSweeperProvider>().toolIndex,
@@ -57,7 +81,10 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "MineSweeper",
+      "Minesweeper",
+      "Leader Board",
+      "My Scores",
+      "Guide",
     ];
     return toolTitles;
   }
@@ -65,6 +92,9 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       const MineSweeperGame(),
+      const MihMineSweeperLeaderBoard(),
+      const MyScoreBoard(),
+      const MineSweeperQuickStartGuide(),
     ];
     return toolBodies;
   }
