@@ -119,8 +119,10 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     enableSearch: widget.enableSearch,
                     enableFilter: widget.enableSearch,
                     enabled: widget.editable,
-                    textInputAction: TextInputAction.search,
-                    requestFocusOnTap: true,
+                    textInputAction: widget.enableSearch
+                        ? TextInputAction.search
+                        : TextInputAction.none,
+                    requestFocusOnTap: widget.enableSearch,
                     menuHeight: 400,
                     expandedInsets: EdgeInsets.zero,
                     textStyle: TextStyle(

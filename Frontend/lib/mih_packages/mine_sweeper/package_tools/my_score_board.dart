@@ -122,7 +122,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                           ],
                           requiredText: true,
                           editable: true,
-                          enableSearch: true,
+                          enableSearch: false,
                           validator: (value) {
                             return MihValidationServices().isEmpty(value);
                           },
