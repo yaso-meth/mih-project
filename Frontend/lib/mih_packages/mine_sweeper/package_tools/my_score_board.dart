@@ -31,13 +31,10 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
     filterController.text = mineSweeperProvider.difficulty;
-    if (mineSweeperProvider.myScoreboard == null ||
-        mineSweeperProvider.myScoreboard!.isEmpty) {
-      KenLogger.success("getting data");
-      await MihMinesweeperServices()
-          .getMyScoreboard(profileProvider, mineSweeperProvider);
-      KenLogger.success("${mineSweeperProvider.myScoreboard}");
-    }
+    KenLogger.success("getting data");
+    await MihMinesweeperServices()
+        .getMyScoreboard(profileProvider, mineSweeperProvider);
+    KenLogger.success("${mineSweeperProvider.myScoreboard}");
   }
 
   void refreshLeaderBoard(

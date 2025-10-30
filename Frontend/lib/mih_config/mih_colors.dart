@@ -93,4 +93,31 @@ class MihColors {
       return const Color(0xFF9857D4);
     }
   }
+
+  static Color getGoldColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xFFD4AF37);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xffFFD700);
+    }
+  }
+
+  static Color getSilverColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xffC0C0C0);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xFFA6A6A6);
+    }
+  }
+
+  static Color getBronze(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xffB1560F);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xFFCD7F32);
+    }
+  }
 }

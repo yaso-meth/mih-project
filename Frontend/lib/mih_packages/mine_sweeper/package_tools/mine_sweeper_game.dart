@@ -38,12 +38,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   Timer? _timer;
   int _milliseconds = 0;
   bool _isRunning = false;
-  static const int millisecondsPerUpdate = 10;
+  static const int millisecondsPerUpdate = 100;
 
   double timeStringToTotalSeconds(String timeString) {
     try {
       List<String> parts = timeString.split(':');
-      if (parts.length < 4) {
+      if (parts.length != 4) {
         return 0.0;
       }
       double hours = double.parse(parts[0]);
@@ -51,7 +51,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
       double seconds = double.parse(parts[2]);
       double milliseconds = double.parse(parts[3]);
       double totalSeconds =
-          (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
+          (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 100);
       return totalSeconds;
     } catch (e) {
       print("Error parsing time string: $e");
@@ -113,7 +113,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
 
   String _formatTime() {
     Duration duration = Duration(milliseconds: _milliseconds);
-    final int hours = duration.inHours.remainder(60);
+    final int hours = duration.inHours;
     final int minutes = duration.inMinutes.remainder(60);
     final int seconds = duration.inSeconds.remainder(60);
     final int centiseconds = (duration.inMilliseconds.remainder(1000)) ~/ 10;
@@ -735,7 +735,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   children: [
                     SpeedDialChild(
                       child: Icon(
-                        Icons.add,
+                        Icons.rule_rounded,
                         color: MihColors.getPrimaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),

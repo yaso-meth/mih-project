@@ -29,20 +29,16 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
     filterController.text = mineSweeperProvider.difficulty;
-    if (mineSweeperProvider.leaderboard == null ||
-        mineSweeperProvider.leaderboard!.isEmpty) {
-      KenLogger.success("getting data");
-      await MihMinesweeperServices().getTop20Leaderboard(mineSweeperProvider);
-      List<ImageProvider<Object>?> userPictures = [];
-      String userPicUrl = "";
-      for (final ranking in mineSweeperProvider.leaderboard!) {
-        userPicUrl =
-            await MihFileApi.getMinioFileUrl(ranking.proPicUrl, context);
-        userPictures.add(NetworkImage(userPicUrl));
-      }
-      mineSweeperProvider.setLeaderboardUserPictures(
-          leaderboardUserPictures: userPictures);
+    KenLogger.success("getting data");
+    await MihMinesweeperServices().getTop20Leaderboard(mineSweeperProvider);
+    List<ImageProvider<Object>?> userPictures = [];
+    String userPicUrl = "";
+    for (final ranking in mineSweeperProvider.leaderboard!) {
+      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl, context);
+      userPictures.add(NetworkImage(userPicUrl));
     }
+    mineSweeperProvider.setLeaderboardUserPictures(
+        leaderboardUserPictures: userPictures);
   }
 
   void refreshLeaderBoard(

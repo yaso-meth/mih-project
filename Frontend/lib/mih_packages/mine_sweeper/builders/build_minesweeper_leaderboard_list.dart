@@ -16,8 +16,26 @@ class BuildMinesweeperLeaderboardList extends StatefulWidget {
 
 class _BuildMinesweeperLeaderboardListState
     extends State<BuildMinesweeperLeaderboardList> {
+  Color getMedalColor(int index) {
+    switch (index) {
+      case (0):
+        return MihColors.getGoldColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      case (1):
+        return MihColors.getSilverColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      case (2):
+        return MihColors.getBronze(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      default:
+        return MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
     return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
@@ -32,14 +50,15 @@ class _BuildMinesweeperLeaderboardListState
           },
           itemCount: mineSweeperProvider.leaderboard!.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: Row(
                 children: [
                   Text(
                     "#${index + 1}",
                     style: TextStyle(
                       fontSize: 25,
+                      color: getMedalColor(index),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -49,35 +68,41 @@ class _BuildMinesweeperLeaderboardListState
                         mineSweeperProvider.leaderboardUserPictures.isNotEmpty
                             ? mineSweeperProvider.leaderboardUserPictures[index]
                             : null,
-                    width: 60,
+                    width: 80,
                     editable: false,
                     fileNameController: null,
                     userSelectedfile: null,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    frameColor: getMedalColor(index),
                     backgroundColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onChange: () {},
                   ),
+                  const SizedBox(width: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${mineSweeperProvider.leaderboard![index].username}${profileProvider.user!.username == mineSweeperProvider.leaderboard![index].username ? " (You)" : ""}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: getMedalColor(index),
+                        ),
+                      ),
+                      Text(
+                        "Score: ${mineSweeperProvider.leaderboard![index].game_score}\nTime: ${mineSweeperProvider.leaderboard![index].game_time}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 18,
+                          // fontWeight: FontWeight.bold,
+                          color: getMedalColor(index),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              ),
-              title: Text(
-                "${mineSweeperProvider.leaderboard![index].username}${profileProvider.user!.username == mineSweeperProvider.leaderboard![index].username ? " (You)" : ""}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              subtitle: Text(
-                "Score: ${mineSweeperProvider.leaderboard![index].game_score}\nTime: ${mineSweeperProvider.leaderboard![index].game_time}",
-                style: TextStyle(
-                  fontSize: 18,
-                  // fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
               ),
             );
           },

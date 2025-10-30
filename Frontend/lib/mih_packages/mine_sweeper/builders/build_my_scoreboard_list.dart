@@ -15,8 +15,26 @@ class BuildMyScoreBoardList extends StatefulWidget {
 
 class _BuildMinesweeperLeaderboardListState
     extends State<BuildMyScoreBoardList> {
+  Color getMedalColor(int index) {
+    switch (index) {
+      case (0):
+        return MihColors.getGoldColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      case (1):
+        return MihColors.getSilverColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      case (2):
+        return MihColors.getBronze(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      default:
+        return MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
     return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
@@ -31,35 +49,43 @@ class _BuildMinesweeperLeaderboardListState
           },
           itemCount: mineSweeperProvider.myScoreboard!.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: Row(
                 children: [
                   Text(
                     "#${index + 1}",
                     style: TextStyle(
                       fontSize: 25,
+                      color: getMedalColor(index),
                     ),
                   ),
+                  const SizedBox(width: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Score: ${mineSweeperProvider.myScoreboard![index].game_score}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: getMedalColor(index),
+                        ),
+                      ),
+                      Text(
+                        "Time: ${mineSweeperProvider.myScoreboard![index].game_time}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 18,
+                          // fontWeight: FontWeight.bold,
+                          color: getMedalColor(index),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              ),
-              title: Text(
-                "Score: ${mineSweeperProvider.myScoreboard![index].game_score}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              subtitle: Text(
-                "Time: ${mineSweeperProvider.myScoreboard![index].game_time}",
-                style: TextStyle(
-                  fontSize: 18,
-                  // fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
               ),
             );
           },
