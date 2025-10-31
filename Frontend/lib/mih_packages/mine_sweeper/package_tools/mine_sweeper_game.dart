@@ -274,7 +274,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
               alertBody: Column(
                 children: [
                   Text(
-                    "Your lost this game of MIH MineSweeper!!!",
+                    "Your lost this game of MIH Minesweeper!!!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -405,7 +405,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
             alertBody: Column(
               children: [
                 Text(
-                  "Your won this game of MIH MineSweeper!!!",
+                  "Your won this game of MIH Minesweeper!!!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
@@ -565,226 +565,246 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
           MihMineSweeperProvider mihMineSweeperProvider,
           MihBannerAdProvider adProvider,
           Widget? child) {
-        return Stack(
-          alignment: Alignment.topCenter,
+        return Column(
           children: [
-            MihSingleChildScroll(
-              child: board.isEmpty && squaresLeft < 0
-                  // Start Up Message before setting up game
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 50),
-                          Icon(
-                            MihIcons.mineSweeper,
-                            size: 165,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Welcom to Minesweeper, the first game of MIH.",
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.visible,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                            ),
-                          ),
-                          const SizedBox(height: 25),
-                          Center(
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
+            Expanded(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  MihSingleChildScroll(
+                    child: board.isEmpty && squaresLeft < 0
+                        // Start Up Message before setting up game
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 50),
+                                Icon(
+                                  MihIcons.mineSweeper,
+                                  size: 165,
                                   color: MihColors.getSecondaryColor(
                                       MzansiInnovationHub.of(context)!
                                               .theme
                                               .mode ==
                                           "Dark"),
                                 ),
-                                children: [
-                                  TextSpan(text: "Press "),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
-                                      Icons.menu,
-                                      size: 20,
-                                      color: MihColors.getSecondaryColor(
-                                          MzansiInnovationHub.of(context)!
-                                                  .theme
-                                                  .mode ==
-                                              "Dark"),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "Welcom to Minesweeper, the first game of MIH.",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: MihColors.getSecondaryColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                                Center(
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                        color: MihColors.getSecondaryColor(
+                                            MzansiInnovationHub.of(context)!
+                                                    .theme
+                                                    .mode ==
+                                                "Dark"),
+                                      ),
+                                      children: [
+                                        TextSpan(text: "Press "),
+                                        WidgetSpan(
+                                          alignment:
+                                              PlaceholderAlignment.middle,
+                                          child: Icon(
+                                            Icons.menu,
+                                            size: 20,
+                                            color: MihColors.getSecondaryColor(
+                                                MzansiInnovationHub.of(context)!
+                                                        .theme
+                                                        .mode ==
+                                                    "Dark"),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                            text:
+                                                " to start a new game or learn how to play the minesweeper."),
+                                      ],
                                     ),
                                   ),
-                                  TextSpan(
-                                      text:
-                                          " to start a new game or learn how to play the minesweeper."),
+                                ),
+                              ],
+                            ),
+                          )
+                        // Display Game Board when game started
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // Display game status
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text(
+                                        'Mines: ${mihMineSweeperProvider.totalMines}',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text(
+                                        _formatTime().replaceAll("00:", ""),
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  // Display Game Board when game started
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Display game status
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Text(
-                                  'Mines: ${mihMineSweeperProvider.totalMines}',
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
+                              Text(
+                                mihMineSweeperProvider.difficulty,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: getDifficultyColor(
+                                      mihMineSweeperProvider),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Text(
-                                  _formatTime().replaceAll("00:", ""),
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
+
+                              // const SizedBox(
+                              //   height: 30,
+                              // ),
+                              // The Board Grid
+                              SizedBox(
+                                width: mihMineSweeperProvider.columnCount *
+                                    40.0, // Control size based on columns
+                                height: mihMineSweeperProvider.rowCount *
+                                    40.0, // Control size based on rows
+                                child: GridView.builder(
+                                  physics:
+                                      const NeverScrollableScrollPhysics(), // Prevent scrolling
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        mihMineSweeperProvider.columnCount,
+                                    crossAxisSpacing: 0,
+                                    mainAxisSpacing: 0,
+                                  ),
+                                  itemCount: mihMineSweeperProvider.rowCount *
+                                      mihMineSweeperProvider.columnCount,
+                                  itemBuilder: (context, index) {
+                                    int r = index ~/
+                                        mihMineSweeperProvider
+                                            .columnCount; // Integer division for row
+                                    int c = index %
+                                        mihMineSweeperProvider
+                                            .columnCount; // Remainder for column
+
+                                    return MineTile(
+                                      square: board[r][c],
+                                      onTap: () => handleTap(
+                                          profileProvider,
+                                          mihMineSweeperProvider,
+                                          adProvider,
+                                          r,
+                                          c),
+                                      onLongPress: () => handleLongPress(r, c),
+                                    );
+                                  },
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          mihMineSweeperProvider.difficulty,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: getDifficultyColor(mihMineSweeperProvider),
+                              SizedBox(height: 30),
+                              // const SizedBox(height: 100),
+                            ],
                           ),
-                        ),
-
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
-                        // The Board Grid
-                        SizedBox(
-                          width: mihMineSweeperProvider.columnCount *
-                              40.0, // Control size based on columns
-                          height: mihMineSweeperProvider.rowCount *
-                              40.0, // Control size based on rows
-                          child: GridView.builder(
-                            physics:
-                                const NeverScrollableScrollPhysics(), // Prevent scrolling
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  mihMineSweeperProvider.columnCount,
-                              crossAxisSpacing: 0,
-                              mainAxisSpacing: 0,
+                  ),
+                  Positioned(
+                    right: 10,
+                    bottom: 10,
+                    child: MihFloatingMenu(
+                        animatedIcon: AnimatedIcons.menu_close,
+                        children: [
+                          SpeedDialChild(
+                            child: Icon(
+                              Icons.rule_rounded,
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
                             ),
-                            itemCount: mihMineSweeperProvider.rowCount *
-                                mihMineSweeperProvider.columnCount,
-                            itemBuilder: (context, index) {
-                              int r = index ~/
-                                  mihMineSweeperProvider
-                                      .columnCount; // Integer division for row
-                              int c = index %
-                                  mihMineSweeperProvider
-                                      .columnCount; // Remainder for column
-
-                              return MineTile(
-                                square: board[r][c],
-                                onTap: () => handleTap(profileProvider,
-                                    mihMineSweeperProvider, adProvider, r, c),
-                                onLongPress: () => handleLongPress(r, c),
-                              );
+                            label: "Learn how to play",
+                            labelBackgroundColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            labelStyle: TextStyle(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              fontWeight: FontWeight.bold,
+                            ),
+                            backgroundColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            onTap: () {
+                              mihMineSweeperProvider.setToolIndex(2);
                             },
                           ),
-                        ),
-                        SizedBox(height: 30),
-                        MihBannerAd(),
-                        // const SizedBox(height: 100),
-                      ],
-                    ),
+                          SpeedDialChild(
+                            child: Icon(
+                              Icons.add,
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                            label: board.isEmpty && squaresLeft < 0
+                                ? "Start Game"
+                                : "Reset Game",
+                            labelBackgroundColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            labelStyle: TextStyle(
+                              color: MihColors.getPrimaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              fontWeight: FontWeight.bold,
+                            ),
+                            backgroundColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            onTap: () {
+                              showStartGameWindow(
+                                  mihMineSweeperProvider, adProvider);
+                            },
+                          ),
+                        ]),
+                  )
+                ],
+              ),
             ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: MihFloatingMenu(
-                  animatedIcon: AnimatedIcons.menu_close,
-                  children: [
-                    SpeedDialChild(
-                      child: Icon(
-                        Icons.rule_rounded,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                      label: "Learn how to play",
-                      labelBackgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      labelStyle: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onTap: () {
-                        mihMineSweeperProvider.setToolIndex(2);
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(
-                        Icons.add,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                      label: board.isEmpty && squaresLeft < 0
-                          ? "Start Game"
-                          : "Reset Game",
-                      labelBackgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      labelStyle: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onTap: () {
-                        showStartGameWindow(mihMineSweeperProvider, adProvider);
-                      },
-                    ),
-                  ]),
-            )
+            MihBannerAd(),
+            SizedBox(height: 15),
           ],
         );
       },
