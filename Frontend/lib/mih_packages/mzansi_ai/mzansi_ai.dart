@@ -2,19 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tools/ai_chat.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MzansiAi extends StatefulWidget {
-  // final AppUser signedInUser;
-  // final String? startUpQuestion;
-  final MzansiAiArguments arguments;
   const MzansiAi({
     super.key,
-    required this.arguments,
-    // required this.signedInUser,
-    // this.startUpQuestion,
   });
 
   @override
@@ -22,16 +17,14 @@ class MzansiAi extends StatefulWidget {
 }
 
 class _MzansiAiState extends State<MzansiAi> {
-  int _selcetedIndex = 0;
-
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
+        context.read<MzansiAiProvider>().setStartUpQuestion(null);
         context.goNamed(
           'mihHome',
-          extra: widget.arguments.personalSelected,
         );
         FocusScope.of(context).unfocus();
       },
@@ -41,23 +34,18 @@ class _MzansiAiState extends State<MzansiAi> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.chat)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MzansiAiProvider>().setToolIndex(0);
     };
 
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MzansiAiProvider>().toolIndex,
     );
   }
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      AiChat(
-        signedInUser: widget.arguments.signedInUser,
-        startUpQuestion: widget.arguments.startUpQuestion,
-      ),
+      AiChat(),
     ];
     return toolBodies;
   }
@@ -81,12 +69,9 @@ class _MzansiAiState extends State<MzansiAi> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      selectedbodyIndex: context.watch<MzansiAiProvider>().toolIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+        context.read<MzansiAiProvider>().setToolIndex(newValue);
       },
     );
   }

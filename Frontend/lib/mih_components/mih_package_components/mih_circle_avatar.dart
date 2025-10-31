@@ -10,7 +10,7 @@ class MihCircleAvatar extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
   final double width;
   final bool editable;
-  final TextEditingController fileNameController;
+  final TextEditingController? fileNameController;
   final onChange;
   final PlatformFile? userSelectedfile;
   final Color frameColor;
@@ -130,7 +130,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                       });
 
                       setState(() {
-                        widget.fileNameController.text = selectedFile.name;
+                        widget.fileNameController!.text = selectedFile.name;
                       });
                     } else {
                       if (result != null) {
@@ -148,7 +148,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                         });
 
                         setState(() {
-                          widget.fileNameController.text =
+                          widget.fileNameController!.text =
                               file.path.split('/').last;
                         });
                       } else {
@@ -157,7 +157,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                       }
                     }
                   } catch (e) {
-                    print("Error: $e");
+                    print("Here Error: $e");
                   }
                 },
                 icon: Icon(

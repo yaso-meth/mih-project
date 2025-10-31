@@ -1,4 +1,4 @@
-from sqlalchemy import DateTime, Column, Integer, String, text
+from sqlalchemy import DateTime, Column, Integer, String, DECIMAL, text
 from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
@@ -83,6 +83,7 @@ class BookmarkedBusiness(Base):
             f"business_id='{self.business_id}', created_date='{self.created_date}')>"
         )
 
+
 class UserConsent(Base):
     __tablename__ = 'user_consent'
     __table_args__ = {'schema': 'app_data'}
@@ -97,4 +98,24 @@ class UserConsent(Base):
             f"app_id='{self.app_id}', "
             f"privacy_policy_accepted='{self.privacy_policy_accepted}', "
             f"terms_of_services_accepted='{self.terms_of_services_accepted}')>"
+        )
+
+class MineSweeperLeaderboard(Base):
+    __tablename__ = 'player_score' 
+    __table_args__ = {'schema': 'minesweeper_leaderboard'}
+    idplayer_score = Column(Integer, primary_key=True) 
+    app_id = Column(String(128), nullable=False,server_default=text("''"))
+    difficulty = Column(String(45), nullable=False,server_default=text("''"))
+    game_time = Column(String(45), nullable=False,server_default=text("''"))
+    game_score = Column(DECIMAL(45), nullable=False)
+    played_date = Column(DateTime, nullable=True)
+
+    def __repr__(self):
+        return (
+            f"<MineSweeperLeaderboard(idplayer_score={self.idplayer_score}, "
+            f"app_id='{self.app_id}', "
+            f"difficulty='{self.difficulty}', "
+            f"game_time='{self.game_time}', "
+            f"game_score='{self.game_score}' "
+            f"played_date='{self.played_date}')>"
         )

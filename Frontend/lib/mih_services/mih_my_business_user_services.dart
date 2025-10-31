@@ -1,15 +1,21 @@
 import 'dart:convert';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:provider/provider.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMyBusinessUserServices {
   Future<BusinessUser?> getBusinessUser(
-    String app_id,
+    BuildContext context,
   ) async {
+    String app_id = await SuperTokens.getUserId();
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/$app_id"),
       headers: <String, String>{
@@ -17,7 +23,13 @@ class MihMyBusinessUserServices {
       },
     );
     if (response.statusCode == 200) {
-      return BusinessUser.fromJson(jsonDecode(response.body));
+      // KenLogger.success(response.body);
+      BusinessUser? businessUser =
+          BusinessUser.fromJson(jsonDecode(response.body));
+      context
+          .read<MzansiProfileProvider>()
+          .setBusinessUser(newBusinessUser: businessUser);
+      return businessUser;
     } else {
       return null;
     }
@@ -29,6 +41,7 @@ class MihMyBusinessUserServices {
     String signatureFilename,
     String title,
     String access,
+    MzansiProfileProvider provider,
     BuildContext context,
   ) async {
     showDialog(
@@ -37,6 +50,7 @@ class MihMyBusinessUserServices {
         return const Mihloadingcircle();
       },
     );
+    String sigPath = "$business_id/business_files/$signatureFilename";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/insert/"),
       headers: <String, String>{
@@ -46,13 +60,17 @@ class MihMyBusinessUserServices {
         "business_id": business_id,
         "app_id": app_id,
         "signature": signatureFilename,
-        "sig_path": "$business_id/business_files/$signatureFilename",
+        "sig_path": sigPath,
         "title": title,
         "access": access,
       }),
     );
-    Navigator.of(context).pop();
+    context.pop();
     if (response.statusCode == 201) {
+      provider.setBusinessUser(
+        newBusinessUser: BusinessUser(
+            0, business_id, app_id, signatureFilename, sigPath, title, access),
+      );
       return 201;
     } else {
       internetConnectionPopUp(context);
@@ -67,6 +85,7 @@ class MihMyBusinessUserServices {
     String bUserTitle,
     String bUserAccess,
     String signatureFileName,
+    MzansiProfileProvider provider,
     BuildContext context,
   ) async {
     showDialog(
@@ -75,6 +94,7 @@ class MihMyBusinessUserServices {
         return const Mihloadingcircle();
       },
     );
+    var filePath = "$app_id/business_files/$signatureFileName";
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
       headers: <String, String>{
@@ -84,32 +104,26 @@ class MihMyBusinessUserServices {
         "business_id": business_id,
         "app_id": app_id,
         "signature": signatureFileName,
-        "sig_path": "$app_id/business_files/$signatureFileName",
+        "sig_path": filePath,
         "title": bUserTitle,
         "access": bUserAccess,
       }),
     );
-    // var response = await http.put(
-    //   Uri.parse("${AppEnviroment.baseApiUrl}/business/update/"),
-    //   headers: <String, String>{
-    //     "Content-Type": "application/json; charset=UTF-8"
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     "business_id": business_id,
-    //     "Name": business_name,
-    //     "type": business_type,
-    //     "registration_no": business_registration_no,
-    //     "logo_name": business_logo_name,
-    //     "logo_path": "$business_id/business_files/$business_logo_name",
-    //     "contact_no": business_phone_number,
-    //     "bus_email": business_email,
-    //     "gps_location": business_location,
-    //     "practice_no": business_practice_no,
-    //     "vat_no": business_vat_no,
-    //   }),
-    // );
-    Navigator.of(context).pop();
+    context.pop();
     if (response.statusCode == 200) {
+      provider.setBusinessUser(
+        newBusinessUser: BusinessUser(
+          provider.businessUser!.idbusiness_users,
+          business_id,
+          app_id,
+          signatureFileName,
+          filePath,
+          bUserTitle,
+          bUserAccess,
+        ),
+      );
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      provider.setBusinessUserSignatureUrl(newProPicUrl);
       return 200;
     } else {
       internetConnectionPopUp(context);

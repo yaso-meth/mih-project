@@ -1,10 +1,15 @@
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:provider/provider.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -75,8 +80,9 @@ class MihBusinessDetailsServices {
   }
 
   Future<Business?> getBusinessDetailsByUser(
-    String app_id,
+    BuildContext context,
   ) async {
+    String app_id = await SuperTokens.getUserId();
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
       headers: <String, String>{
@@ -86,7 +92,9 @@ class MihBusinessDetailsServices {
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
-      return Business.fromJson(jsonBody);
+      Business? business = Business.fromJson(jsonBody);
+      context.read<MzansiProfileProvider>().setBusiness(newBusiness: business);
+      return business;
     } else {
       return null;
     }
@@ -112,7 +120,7 @@ class MihBusinessDetailsServices {
   }
 
   Future<Response> createBusinessDetails(
-    String appId,
+    MzansiProfileProvider provider,
     String busineName,
     String businessType,
     String businessRegistrationNo,
@@ -133,9 +141,6 @@ class MihBusinessDetailsServices {
         return const Mihloadingcircle();
       },
     );
-    String logoPath = businessLogoFilename.isNotEmpty
-        ? "$appId/business_files/$businessLogoFilename"
-        : "";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/"),
       headers: <String, String>{
@@ -146,7 +151,7 @@ class MihBusinessDetailsServices {
         "type": businessType,
         "registration_no": businessRegistrationNo,
         "logo_name": businessLogoFilename,
-        "logo_path": logoPath,
+        "logo_path": "",
         "contact_no": businessPhoneNumber,
         "bus_email": businessEmail,
         "gps_location": businessLocation,
@@ -157,7 +162,50 @@ class MihBusinessDetailsServices {
         "mission_vision": businessMissionVision,
       }),
     );
-    Navigator.of(context).pop();
+    context.pop();
+    if (response.statusCode == 201) {
+      int finalStatusCode = await updateBusinessDetailsV2(
+        jsonDecode(response.body)['business_id'],
+        busineName,
+        businessType,
+        businessRegistrationNo,
+        businessPracticeNo,
+        businessVatNo,
+        businessEmail,
+        businessPhoneNumber,
+        businessLocation,
+        businessLogoFilename,
+        businessWebsite,
+        businessRating,
+        businessMissionVision,
+        provider,
+        context,
+      );
+      if (finalStatusCode == 200) {
+        String logoPath = businessLogoFilename.isNotEmpty
+            ? "${jsonDecode(response.body)['business_id']}/business_files/$businessLogoFilename"
+            : "";
+        provider.setBusiness(
+          newBusiness: Business(
+            jsonDecode(response.body)['business_id'],
+            busineName,
+            businessType,
+            businessRegistrationNo,
+            businessLogoFilename,
+            logoPath,
+            businessPhoneNumber,
+            businessEmail,
+            provider.user!.app_id,
+            businessLocation,
+            businessPracticeNo,
+            businessVatNo,
+            businessWebsite,
+            businessRating,
+            businessMissionVision,
+          ),
+        );
+      }
+    }
     return response;
   }
 
@@ -175,6 +223,7 @@ class MihBusinessDetailsServices {
     String businessWebsite,
     String businessRating,
     String businessMissionVision,
+    MzansiProfileProvider provider,
     BuildContext context,
   ) async {
     showDialog(
@@ -183,6 +232,7 @@ class MihBusinessDetailsServices {
         return const Mihloadingcircle();
       },
     );
+    var filePath = "$business_id/business_files/$business_logo_name";
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/update/v2/"),
       headers: <String, String>{
@@ -194,7 +244,7 @@ class MihBusinessDetailsServices {
         "type": business_type,
         "registration_no": business_registration_no,
         "logo_name": business_logo_name,
-        "logo_path": "$business_id/business_files/$business_logo_name",
+        "logo_path": filePath,
         "contact_no": business_phone_number,
         "bus_email": business_email,
         "gps_location": business_location,
@@ -205,8 +255,29 @@ class MihBusinessDetailsServices {
         "mission_vision": businessMissionVision,
       }),
     );
-    Navigator.of(context).pop();
+    context.pop();
     if (response.statusCode == 200) {
+      provider.setBusiness(
+        newBusiness: Business(
+          business_id,
+          business_name,
+          business_type,
+          business_registration_no,
+          business_logo_name,
+          filePath,
+          business_phone_number,
+          business_email,
+          business_id,
+          business_location,
+          business_practice_no,
+          business_vat_no,
+          businessWebsite,
+          businessRating,
+          businessMissionVision,
+        ),
+      );
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      provider.setBusinessProfilePicUrl(newProPicUrl);
       return 200;
     } else {
       return 500;

@@ -9,18 +9,19 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_authentication_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
+import 'package:provider/provider.dart';
 
 class MihSignIn extends StatefulWidget {
-  final void Function()? onNewUserButtonTap;
   const MihSignIn({
     super.key,
-    required this.onNewUserButtonTap,
   });
 
   @override
@@ -39,6 +40,7 @@ class _MihSignInState extends State<MihSignIn> {
 
   //sign user in
   Future<void> signUserIn() async {
+    context.read<MzansiProfileProvider>().reset();
     try {
       successfulSignIn = await MihAuthenticationServices().signUserIn(
         emailController.text,
@@ -381,7 +383,11 @@ class _MihSignInState extends State<MihSignIn> {
                             ),
                           ),
                           MihButton(
-                            onPressed: widget.onNewUserButtonTap,
+                            onPressed: () {
+                              context
+                                  .read<MihAuthenticationProvider>()
+                                  .setToolIndex(1);
+                            },
                             buttonColor: MihColors.getSecondaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),

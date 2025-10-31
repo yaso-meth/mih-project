@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -21,15 +20,16 @@ import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihBusinessQrCode extends StatefulWidget {
   final Business business;
-  final String? startUpSearch;
+  // final String? startUpSearch;
   const MihBusinessQrCode({
     super.key,
     required this.business,
-    required this.startUpSearch,
+    // required this.startUpSearch,
   });
 
   @override
@@ -89,43 +89,6 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
         mimeType: MimeType.png,
       );
     }
-    // if (kIsWeb) {
-    //   final blob = html.Blob([imageBytes]);
-    //   final url = html.Url.createObjectUrlFromBlob(blob);
-    //   final anchor = html.document.createElement('a') as html.AnchorElement
-    //     ..href = url
-    //     ..style.display = 'none'
-    //     ..download = filename; // Suggested filename for the download
-
-    //   html.document.body!.children.add(anchor);
-    //   anchor.click(); // Programmatically click the link to trigger download
-
-    //   html.document.body!.children.remove(anchor);
-    //   html.Url.revokeObjectUrl(url);
-    // } else {
-    //   var permission = await FlDownloader.requestPermission();
-    //   if (permission == StoragePermissionStatus.granted) {
-    //     try {
-    //       mihLoadingPopUp();
-    //       KenLogger.success("Downloading from URL: $url");
-    //       await FlDownloader.download(url);
-    //       Navigator.of(context).pop();
-    //     } on Exception catch (error) {
-    //       Navigator.of(context).pop();
-    //       print(error);
-    //     }
-    //   } else {
-    //     print("denied");
-    //   }
-    // try {
-    //   final directory = await getDownloadsDirectory();
-    //   final file = File('${directory?.path}/$filename');
-    //   await file.writeAsBytes(imageBytes);
-    //   KenLogger.success("File saved at: ${file.path}");
-    // } catch (e) {
-    //   KenLogger.error("Error saving file: $e");
-    // }
-    // }
   }
 
   void mihLoadingPopUp() {
@@ -139,10 +102,6 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
 
   Future<void> downloadQrCode() async {
     if (_isUserSignedIn) {
-      // final Uri uri = Uri.parse(getQrCodeData(1024));
-      // if (!await launchUrl(uri)) {
-      //   throw 'Could not launch $uri';
-      // }
       await screenshotController.capture().then((image) {
         KenLogger.success("Image Captured: $image");
         setState(() {
@@ -244,7 +203,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       if (asyncSnapshot.connectionState ==
                               ConnectionState.done &&
                           asyncSnapshot.hasData) {
-                        if (asyncSnapshot.requireData != "") {
+                        if (asyncSnapshot.requireData != "" ||
+                            asyncSnapshot.requireData.isNotEmpty) {
                           return MihCircleAvatar(
                             imageFile: NetworkImage(asyncSnapshot.requireData),
                             width: profilePictureWidth,
@@ -263,7 +223,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           return Icon(
                             MihIcons.iDontKnow,
                             size: profilePictureWidth,
-                            color: MihColors.getSecondaryColor(
+                            color: MihColors.getPrimaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
                           );
@@ -272,7 +232,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                         return Icon(
                           MihIcons.mihRing,
                           size: profilePictureWidth,
-                          color: MihColors.getSecondaryColor(
+                          color: MihColors.getPrimaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
                         );
@@ -360,6 +320,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     );
   }
 
+  void shareMIHLink(BuildContext context, String message, String link) {
+    String shareText = "$message: $link";
+    SharePlus.instance.share(
+      ShareParams(text: shareText),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -431,7 +398,31 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   onTap: () {
                     downloadQrCode();
                   },
-                )
+                ),
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.share_rounded,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                  label: "Share Business",
+                  labelBackgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  labelStyle: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onTap: () {
+                    shareMIHLink(
+                      context,
+                      "Check out ${widget.business.Name} on the MIH app",
+                      "$qrCodedata${widget.business.business_id}",
+                    );
+                  },
+                ),
               ]),
         )
       ],

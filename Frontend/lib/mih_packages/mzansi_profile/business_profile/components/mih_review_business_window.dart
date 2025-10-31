@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
@@ -13,23 +12,28 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:supertokens_flutter/supertokens.dart';
+import 'package:provider/provider.dart';
 
 class MihReviewBusinessWindow extends StatefulWidget {
   final Business business;
   final BusinessReview? businessReview;
   final double screenWidth;
   final bool readOnly;
+  final void Function()? onSuccessDismissPressed;
   const MihReviewBusinessWindow({
     super.key,
     required this.business,
     required this.businessReview,
     required this.screenWidth,
     required this.readOnly,
+    required this.onSuccessDismissPressed,
   });
 
   @override
@@ -47,9 +51,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
       TextEditingController();
   late final VoidCallback _reviewDescriptionListener;
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
-  String userId = "";
 
-  void showDeleteReviewAlert() {
+  void showDeleteReviewAlert(MzansiDirectoryProvider directoryProvider) {
     showDialog(
       context: context,
       builder: (context) => MihPackageAlert(
@@ -93,10 +96,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       widget.businessReview!.rating_score,
                       widget.business.rating,
                     )
-                        .then((statusCode) {
+                        .then((statusCode) async {
                       context.pop(); //Remove loading dialog
                       context.pop(); //Remove delete dialog
                       if (statusCode == 200) {
+                        await refreshBusiness(directoryProvider);
                         context.pop(); //Remove window
                         successPopUp(
                           "Successfully Deleted Review!",
@@ -160,7 +164,19 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     }
   }
 
-  void submitForm() async {
+  Future<void> refreshBusiness(
+      MzansiDirectoryProvider directoryProvider) async {
+    Business? refresedBusiness = await MihBusinessDetailsServices()
+        .getBusinessDetailsByBusinessId(widget.business.business_id);
+    if (refresedBusiness != null) {
+      directoryProvider.setSelectedBusiness(business: refresedBusiness);
+    }
+  }
+
+  void submitForm(
+    MzansiProfileProvider profileProvider,
+    MzansiDirectoryProvider directoryProvider,
+  ) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -178,9 +194,10 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         widget.businessReview!.rating_score,
         widget.business.rating,
       )
-          .then((statusCode) {
+          .then((statusCode) async {
         context.pop(); //Remove loading dialog
         if (statusCode == 200) {
+          await refreshBusiness(directoryProvider);
           context.pop();
           successPopUp(
             "Successfully Updated Review!",
@@ -197,16 +214,17 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     } else {
       await MihMzansiDirectoryServices()
           .addBusinessReview(
-        userId,
+        profileProvider.user!.app_id,
         widget.business.business_id,
         _reviewTitleController.text,
         _reviewDescriptionController.text,
         _reviewScoreController.text,
         widget.business.rating.isEmpty ? "0.0" : widget.business.rating,
       )
-          .then((statusCode) {
+          .then((statusCode) async {
         context.pop(); //Remove loading dialog
         if (statusCode == 201) {
+          await refreshBusiness(directoryProvider);
           context.pop();
           successPopUp(
             "Successfully Added Review!",
@@ -250,13 +268,15 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
               Center(
                 child: MihButton(
                   onPressed: () {
-                    context.goNamed(
-                      "mzansiDirectory",
-                      extra: MzansiDirectoryArguments(
-                        personalSearch: false,
-                        startSearchText: widget.business.Name,
-                      ),
-                    );
+                    // context.goNamed(
+                    //   "mzansiDirectory",
+                    //   extra: MzansiDirectoryArguments(
+                    //     personalSearch: false,
+                    //     startSearchText: widget.business.Name,
+                    //   ),
+                    // );
+                    widget.onSuccessDismissPressed!.call();
+                    context.pop();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -323,265 +343,277 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     } else {
       _reviewScoreController.text = "1.0"; // Default score
     }
-    SuperTokens.getUserId().then((value) {
-      setState(() {
-        userId = value;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     // return const Placeholder();
-    return MihPackageWindow(
-      fullscreen: false,
-      windowTitle: getWindowTitle(),
-      onWindowTapClose: () {
-        Navigator.of(context).pop();
-      },
-      menuOptions: widget.businessReview != null && !widget.readOnly
-          ? [
-              SpeedDialChild(
-                child: Icon(
-                  Icons.delete,
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-                label: "Delete Review",
-                labelBackgroundColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                labelStyle: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                onTap: () {
-                  showDeleteReviewAlert();
-                },
-              ),
-            ]
-          : null,
-      windowBody: MihSingleChildScroll(
-        child: Padding(
-          padding:
-              MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+    return Consumer2<MzansiProfileProvider, MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MzansiDirectoryProvider directoryProvider, Widget? child) {
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: getWindowTitle(),
+          onWindowTapClose: () {
+            Navigator.of(context).pop();
+          },
+          menuOptions: widget.businessReview != null && !widget.readOnly
+              ? [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.delete,
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    label: "Delete Review",
+                    labelBackgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    labelStyle: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    onTap: () {
+                      showDeleteReviewAlert(directoryProvider);
+                    },
+                  ),
+                ]
+              : null,
+          windowBody: MihSingleChildScroll(
+            child: Padding(
+              padding: MzansiInnovationHub.of(context)!.theme.screenType ==
+                      "desktop"
                   ? EdgeInsets.symmetric(horizontal: widget.screenWidth * 0.05)
                   : EdgeInsets.symmetric(horizontal: widget.screenWidth * 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              MihForm(
-                formKey: _formKey,
-                formFields: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Business Rating",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: MihColors.getSecondaryColor(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  MihForm(
+                    formKey: _formKey,
+                    formFields: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Business Rating",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      widget.readOnly
+                          ? RatingBar.readOnly(
+                              size: 50,
+                              alignment: Alignment.centerLeft,
+                              filledIcon: Icons.star,
+                              emptyIcon: Icons.star_border,
+                              halfFilledIcon: Icons.star_half,
+                              filledColor: MihColors.getYellowColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              // filledColor: MzansiInnovationHub.of(context)!
+                              //     .theme
+                              //     .secondaryColor(),
+                              emptyColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              halfFilledColor: MihColors.getYellowColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              // MzansiInnovationHub.of(context)!
+                              //     .theme
+                              //     .secondaryColor(),
+                              isHalfAllowed: true,
+                              initialRating: widget.businessReview != null
+                                  ? double.parse(_reviewScoreController.text)
+                                  : 1,
+                              maxRating: 5,
+                            )
+                          : RatingBar(
+                              size: 50,
+                              alignment: Alignment.centerLeft,
+                              filledIcon: Icons.star,
+                              emptyIcon: Icons.star_border,
+                              halfFilledIcon: Icons.star_half,
+                              filledColor: MihColors.getYellowColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              emptyColor: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              halfFilledColor: MihColors.getYellowColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              isHalfAllowed: true,
+                              initialRating: widget.businessReview != null
+                                  ? double.parse(_reviewScoreController.text)
+                                  : 1,
+                              maxRating: 5,
+                              onRatingChanged: (double) {
+                                setState(() {
+                                  _reviewScoreController.text =
+                                      double.toStringAsFixed(1);
+                                });
+                                print(_reviewScoreController.text);
+                              },
+                            ),
+                      Visibility(
+                        visible: widget.readOnly,
+                        child: const SizedBox(height: 10),
+                      ),
+                      Visibility(
+                        visible: widget.readOnly,
+                        child: MihTextFormField(
+                          // width: 200,
+                          fillColor: MihColors.getSecondaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          controller: _reviewReviewerController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          readOnly: true,
+                          hintText: "Reviewer",
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      MihTextFormField(
+                        // width: 200,
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        controller: _reviewTitleController,
+                        multiLineInput: false,
+                        requiredText: true,
+                        readOnly: widget.readOnly,
+                        hintText: "Review Title",
+                        validator: (value) {
+                          return MihValidationServices()
+                              .isEmpty(_reviewTitleController.text);
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      MihTextFormField(
+                        height: 250,
+                        fillColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        inputColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        controller: _reviewDescriptionController,
+                        multiLineInput: true,
+                        requiredText: widget.readOnly,
+                        readOnly: widget.readOnly,
+                        hintText: "Review Description",
+                        validator: (value) {
+                          if (_reviewDescriptionController.text.isEmpty) {
+                            return null;
+                          } else {
+                            return MihValidationServices().validateLength(
+                                _reviewDescriptionController.text, 256);
+                          }
+                        },
+                      ),
+                      Visibility(
+                        visible: !widget.readOnly,
+                        child: SizedBox(
+                          height: 15,
+                          child: ValueListenableBuilder(
+                            valueListenable: _counter,
+                            builder: (BuildContext context, int value,
+                                Widget? child) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "$value",
+                                    style: TextStyle(
+                                      color: getMissionVisionLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    "/256",
+                                    style: TextStyle(
+                                      color: getMissionVisionLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 25),
+                      Visibility(
+                        visible: !widget.readOnly,
+                        child: Center(
+                          child: MihButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                submitForm(
+                                  profileProvider,
+                                  directoryProvider,
+                                );
+                              } else {
+                                MihAlertServices()
+                                    .formNotFilledCompletely(context);
+                              }
+                            },
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            width: 300,
+                            child: Text(
+                              widget.businessReview != null
+                                  ? "Update Review"
+                                  : "Add Review",
+                              style: TextStyle(
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  widget.readOnly
-                      ? RatingBar.readOnly(
-                          size: 50,
-                          alignment: Alignment.centerLeft,
-                          filledIcon: Icons.star,
-                          emptyIcon: Icons.star_border,
-                          halfFilledIcon: Icons.star_half,
-                          filledColor: MihColors.getYellowColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          // filledColor: MzansiInnovationHub.of(context)!
-                          //     .theme
-                          //     .secondaryColor(),
-                          emptyColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          halfFilledColor: MihColors.getYellowColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          // MzansiInnovationHub.of(context)!
-                          //     .theme
-                          //     .secondaryColor(),
-                          isHalfAllowed: true,
-                          initialRating: widget.businessReview != null
-                              ? double.parse(_reviewScoreController.text)
-                              : 1,
-                          maxRating: 5,
-                        )
-                      : RatingBar(
-                          size: 50,
-                          alignment: Alignment.centerLeft,
-                          filledIcon: Icons.star,
-                          emptyIcon: Icons.star_border,
-                          halfFilledIcon: Icons.star_half,
-                          filledColor: MihColors.getYellowColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          emptyColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          halfFilledColor: MihColors.getYellowColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          isHalfAllowed: true,
-                          initialRating: widget.businessReview != null
-                              ? double.parse(_reviewScoreController.text)
-                              : 1,
-                          maxRating: 5,
-                          onRatingChanged: (double) {
-                            setState(() {
-                              _reviewScoreController.text =
-                                  double.toStringAsFixed(1);
-                            });
-                            print(_reviewScoreController.text);
-                          },
-                        ),
-                  Visibility(
-                    visible: widget.readOnly,
-                    child: const SizedBox(height: 10),
-                  ),
-                  Visibility(
-                    visible: widget.readOnly,
-                    child: MihTextFormField(
-                      // width: 200,
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: _reviewReviewerController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: true,
-                      hintText: "Reviewer",
-                      validator: (value) {
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  MihTextFormField(
-                    // width: 200,
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    controller: _reviewTitleController,
-                    multiLineInput: false,
-                    requiredText: true,
-                    readOnly: widget.readOnly,
-                    hintText: "Review Title",
-                    validator: (value) {
-                      return MihValidationServices()
-                          .isEmpty(_reviewTitleController.text);
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  MihTextFormField(
-                    height: 250,
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    controller: _reviewDescriptionController,
-                    multiLineInput: true,
-                    requiredText: widget.readOnly,
-                    readOnly: widget.readOnly,
-                    hintText: "Review Description",
-                    validator: (value) {
-                      if (_reviewDescriptionController.text.isEmpty) {
-                        return null;
-                      } else {
-                        return MihValidationServices().validateLength(
-                            _reviewDescriptionController.text, 256);
-                      }
-                    },
-                  ),
-                  Visibility(
-                    visible: !widget.readOnly,
-                    child: SizedBox(
-                      height: 15,
-                      child: ValueListenableBuilder(
-                        valueListenable: _counter,
-                        builder:
-                            (BuildContext context, int value, Widget? child) {
-                          return Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$value",
-                                style: TextStyle(
-                                  color: getMissionVisionLimitColor(256),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "/256",
-                                style: TextStyle(
-                                  color: getMissionVisionLimitColor(256),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Visibility(
-                    visible: !widget.readOnly,
-                    child: Center(
-                      child: MihButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            submitForm();
-                          } else {
-                            MihAlertServices().formNotFilledCompletely(context);
-                          }
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          widget.businessReview != null
-                              ? "Update Review"
-                              : "Add Review",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

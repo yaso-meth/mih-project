@@ -3,19 +3,17 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
+import 'package:provider/provider.dart';
 
 class MihBusinessUserSearch extends StatefulWidget {
-  final BusinessArguments arguments;
   const MihBusinessUserSearch({
     super.key,
-    required this.arguments,
   });
 
   @override
@@ -31,38 +29,24 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   String errorCode = "";
   String errorBody = "";
 
-  Future<List<AppUser>> fetchUsers(String search) async {
-    return MihUserServices().searchUsers(search, context);
-    // final response = await http
-    //     .get(Uri.parse("${AppEnviroment.baseApiUrl}/users/search/$search"));
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-    // if (response.statusCode == 200) {
-    //   Iterable l = jsonDecode(response.body);
-    //   List<AppUser> users =
-    //       List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
-    //   return users;
-    // } else {
-    //   throw Exception('failed to load patients');
-    // }
+  Future<List<AppUser>> fetchUsers(
+      MzansiProfileProvider profileProvider, String search) async {
+    return MihUserServices().searchUsers(profileProvider, search, context);
   }
 
-  void submitUserForm() {
+  void submitUserForm(MzansiProfileProvider profileProvider) {
     if (searchController.text != "") {
       setState(() {
         userSearch = searchController.text;
         hasSearchedBefore = true;
-        userSearchResults = fetchUsers(userSearch);
+        userSearchResults = fetchUsers(profileProvider, userSearch);
       });
     }
   }
 
-  Widget displayUserList(List<AppUser> userList) {
-    if (userList.isNotEmpty) {
-      return BuildUserList(
-        users: userList,
-        arguments: widget.arguments,
-      );
+  Widget displayUserList(MzansiProfileProvider profileProvider) {
+    if (profileProvider.userSearchResults.isNotEmpty) {
+      return BuildUserList();
     }
     if (hasSearchedBefore && userSearch.isNotEmpty) {
       return Column(
@@ -161,7 +145,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   @override
   void initState() {
     super.initState();
-    userSearchResults = fetchUsers("abc");
   }
 
   @override
@@ -183,64 +166,42 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   }
 
   Widget getBody(double width) {
-    return MihSingleChildScroll(
-      child: Column(mainAxisSize: MainAxisSize.max, children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 20),
-          child: MihSearchBar(
-            controller: searchController,
-            hintText: "Search Users",
-            prefixIcon: Icons.search,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            hintColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            onPrefixIconTap: () {
-              submitUserForm();
-            },
-            onClearIconTap: () {
-              setState(() {
-                searchController.clear();
-                userSearch = "";
-              });
-              submitUserForm();
-            },
-            searchFocusNode: _searchFocusNode,
-          ),
-        ),
-        const SizedBox(height: 10),
-        FutureBuilder(
-          future: userSearchResults,
-          builder: (context, snapshot) {
-            //print("patient Liust  ${snapshot.data}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Mihloadingcircle();
-            } else if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              List<AppUser> patientsList;
-              if (userSearch == "") {
-                patientsList = [];
-              } else {
-                patientsList = snapshot.data!;
-                //print(patientsList);
-              }
-              return displayUserList(patientsList);
-            } else {
-              return Center(
-                child: Text(
-                  "$errorCode: Error pulling Patients Data\n/users/search/$userSearch\n$errorBody",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
-                  textAlign: TextAlign.center,
+    // dscvds
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          Widget? child) {
+        return MihSingleChildScroll(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: MihSearchBar(
+                  controller: searchController,
+                  hintText: "Search Users",
+                  prefixIcon: Icons.search,
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onPrefixIconTap: () {
+                    submitUserForm(profileProvider);
+                  },
+                  onClearIconTap: () {
+                    setState(() {
+                      searchController.clear();
+                      userSearch = "";
+                    });
+                  },
+                  searchFocusNode: _searchFocusNode,
                 ),
-              );
-            }
-          },
-        ),
-      ]),
+              ),
+              const SizedBox(height: 10),
+              displayUserList(profileProvider),
+            ],
+          ),
+        );
+      },
     );
   }
 }

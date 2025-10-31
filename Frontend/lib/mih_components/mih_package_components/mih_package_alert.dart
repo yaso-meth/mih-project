@@ -35,7 +35,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
       setState(() {
         popUpWidth = (size!.width / 4) * 2;
         popUpheight = null;
-        popUpTitleSize = 25.0;
+        popUpTitleSize = 30.0;
         popUpSubtitleSize = 20.0;
         popUpBodySize = 15;
         popUpPaddingSize = 25.0;
@@ -45,7 +45,7 @@ class _MihPackageAlertState extends State<MihPackageAlert> {
       setState(() {
         popUpWidth = size!.width - (size!.width * 0.1);
         popUpheight = null;
-        popUpTitleSize = 20.0;
+        popUpTitleSize = 25.0;
         popUpSubtitleSize = 18.0;
         popUpBodySize = 15;
         popUpPaddingSize = 15.0;

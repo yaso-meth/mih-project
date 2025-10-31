@@ -9,11 +9,13 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
+import 'package:provider/provider.dart';
 
 class CurrencyExchangeRate extends StatefulWidget {
   const CurrencyExchangeRate({super.key});
@@ -28,8 +30,6 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   final TextEditingController _toCurrencyController = TextEditingController();
   final TextEditingController _fromAmountController = TextEditingController();
   final TextEditingController _toAmountController = TextEditingController();
-  late Future<List<String>> availableCurrencies;
-  MihBannerAd _bannerAd = MihBannerAd();
 
   Future<void> submitForm() async {
     String fromCurrencyCode = _fromCurrencyController.text.split(" - ")[0];
@@ -67,9 +67,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
-          setState(() {
-            _bannerAd = MihBannerAd();
-          });
+          context.read<MihBannerAdProvider>().loadBannerAd();
           Navigator.pop(context);
         },
         windowBody: Column(
@@ -160,7 +158,9 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               ],
             ),
             SizedBox(height: 10),
-            SizedBox(child: _bannerAd),
+            Consumer(builder: (context, bannerAdDisplay, child) {
+              return MihBannerAd();
+            }),
           ],
         ),
       ),
@@ -275,7 +275,6 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   @override
   void initState() {
     super.initState();
-    availableCurrencies = MihCurrencyExchangeRateServices.getCurrencyCodeList();
   }
 
   @override
@@ -289,177 +288,155 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   }
 
   Widget getBody(double width) {
-    return FutureBuilder(
-        future: availableCurrencies,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Mihloadingcircle();
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            return MihSingleChildScroll(
-              child: Padding(
-                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
-                        "desktop"
+    return Consumer<MihCalculatorProvider>(
+      builder: (context, calculatorProvider, child) {
+        return MihSingleChildScroll(
+          child: Padding(
+            padding:
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
                     : EdgeInsets.symmetric(horizontal: width * 0.075),
-                child: Column(
-                  children: [
-                    MihForm(
-                      formKey: _formKey,
-                      formFields: <Widget>[
-                        MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
+            child: Column(
+              children: [
+                MihForm(
+                  formKey: _formKey,
+                  formFields: <Widget>[
+                    MihTextFormField(
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      inputColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      controller: _fromAmountController,
+                      multiLineInput: false,
+                      requiredText: true,
+                      hintText: "Currency Amount",
+                      numberMode: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    MihDropdownField(
+                      controller: _fromCurrencyController,
+                      hintText: "From",
+                      dropdownOptions: calculatorProvider.availableCurrencies,
+                      editable: true,
+                      enableSearch: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                      requiredText: true,
+                    ),
+                    const SizedBox(height: 10),
+                    MihDropdownField(
+                      controller: _toCurrencyController,
+                      hintText: "To",
+                      dropdownOptions: calculatorProvider.availableCurrencies,
+                      editable: true,
+                      enableSearch: true,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                      requiredText: true,
+                    ),
+                    const SizedBox(height: 15),
+                    RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: MihColors.getRedColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          controller: _fromAmountController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          hintText: "Currency Amount",
-                          numberMode: true,
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
                         ),
-                        const SizedBox(height: 10),
-                        MihDropdownField(
-                          controller: _fromCurrencyController,
-                          hintText: "From",
-                          dropdownOptions: snapshot.data!,
-                          editable: true,
-                          enableSearch: true,
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                          requiredText: true,
-                        ),
-                        const SizedBox(height: 10),
-                        MihDropdownField(
-                          controller: _toCurrencyController,
-                          hintText: "To",
-                          dropdownOptions: snapshot.data!,
-                          editable: true,
-                          enableSearch: true,
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                          requiredText: true,
-                        ),
-                        const SizedBox(height: 15),
-                        RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
+                        children: [
+                          const TextSpan(
+                              text: "* Experimental Feature: Please review "),
+                          TextSpan(
+                            text: "Diclaimer",
                             style: TextStyle(
-                              fontSize: 15,
-                              color: MihColors.getRedColor(
+                              decoration: TextDecoration.underline,
+                              color: MihColors.getSecondaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
+                              fontWeight: FontWeight.bold,
                             ),
-                            children: [
-                              const TextSpan(
-                                  text:
-                                      "* Experimental Feature: Please review "),
-                              TextSpan(
-                                text: "Diclaimer",
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    displayDisclaimer();
-                                  },
-                              ),
-                              const TextSpan(text: " before use."),
-                            ],
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                displayDisclaimer();
+                              },
                           ),
-                        ),
-                        const SizedBox(height: 25),
-                        Center(
-                          child: Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              MihButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    submitForm();
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                  } else {
-                                    MihAlertServices()
-                                        .formNotFilledCompletely(context);
-                                  }
-                                },
-                                buttonColor: MihColors.getGreenColor(
+                          const TextSpan(text: " before use."),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Center(
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          MihButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                submitForm();
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                              } else {
+                                MihAlertServices()
+                                    .formNotFilledCompletely(context);
+                              }
+                            },
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            width: 300,
+                            child: Text(
+                              "Calculate",
+                              style: TextStyle(
+                                color: MihColors.getPrimaryColor(
                                     MzansiInnovationHub.of(context)!
                                             .theme
                                             .mode ==
                                         "Dark"),
-                                width: 300,
-                                child: Text(
-                                  "Calculate",
-                                  style: TextStyle(
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                              MihButton(
-                                onPressed: () {
-                                  clearInput();
-                                },
-                                buttonColor: MihColors.getRedColor(
+                            ),
+                          ),
+                          MihButton(
+                            onPressed: () {
+                              clearInput();
+                            },
+                            buttonColor: MihColors.getRedColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            width: 300,
+                            child: Text(
+                              "Clear",
+                              style: TextStyle(
+                                color: MihColors.getPrimaryColor(
                                     MzansiInnovationHub.of(context)!
                                             .theme
                                             .mode ==
                                         "Dark"),
-                                width: 300,
-                                child: Text(
-                                  "Clear",
-                                  style: TextStyle(
-                                    color: MihColors.getPrimaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(
-                "Error pulling Currency Exchange Data.",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
-                textAlign: TextAlign.center,
-              ),
-            );
-          }
-        });
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

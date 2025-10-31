@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.1+99
+version: 1.2.2+99
 # version: 1.1.1+97 #--- Updated version for upgrader package testing
 
 environment:
@@ -13,6 +13,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
 
+  cupertino_icons: ^1.0.8
   font_awesome_flutter: ^10.7.0
   syncfusion_flutter_core: ^29.2.10
   syncfusion_flutter_pdfviewer: ^29.2.10
@@ -57,6 +58,7 @@ dependencies:
   upgrader: ^12.0.0
   screenshot: ^3.0.0
   file_saver: ^0.3.1
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:

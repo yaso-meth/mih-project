@@ -2,8 +2,11 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
@@ -17,18 +20,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BuildAppointmentList extends StatefulWidget {
-  final List<Appointment> appointmentList;
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final bool personalSelected;
   final bool inWaitingRoom;
   final TextEditingController titleController;
   final TextEditingController descriptionIDController;
@@ -38,11 +33,6 @@ class BuildAppointmentList extends StatefulWidget {
 
   const BuildAppointmentList({
     super.key,
-    required this.appointmentList,
-    required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.personalSelected,
     required this.inWaitingRoom,
     required this.titleController,
     required this.descriptionIDController,
@@ -77,22 +67,39 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     }
   }
 
-  Widget displayAppointment(int index, double bodyWidth) {
-    String heading =
-        "${widget.appointmentList[index].date_time.split('T')[1].substring(0, 5)} - ${widget.appointmentList[index].title.toUpperCase()}";
-    String description = widget.appointmentList[index].description;
-    DateTime now = new DateTime.now();
-    int hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
-    String date =
-        new DateTime(now.year, now.month, now.day).toString().split(' ')[0];
-    String appointDate = widget.appointmentList[index].date_time.split('T')[0];
-    int appointHour = int.parse(
-        widget.appointmentList[index].date_time.split('T')[1].substring(0, 2));
-    // print("Date Time Now: $now");
-    // print("Hour Now: $hourNow");
-    // print("Date: $date");
-    // print("Appointment Date: $appointDate");
-    // print("Appointment Hour: $appointHour");
+  Widget displayAppointment(MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider, int index, double bodyWidth) {
+    List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+        ? mihCalendarProvider.personalAppointments!
+        : mihCalendarProvider.businessAppointments!;
+    String heading = "";
+    String description = "";
+    DateTime now;
+    int hourNow = 0;
+    String date = "";
+    int appointHour = 0;
+    String appointDate = "";
+    if (appointmentList[index].date_time.contains("T")) {
+      heading =
+          "${appointmentList[index].date_time.split('T')[1].substring(0, 5)} - ${appointmentList[index].title.toUpperCase()}";
+      description = appointmentList[index].description;
+      now = DateTime.now();
+      hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
+      date = DateTime(now.year, now.month, now.day).toString().split(' ')[0];
+      appointDate = appointmentList[index].date_time.split('T')[0];
+      appointHour = int.parse(
+          appointmentList[index].date_time.split('T')[1].substring(0, 2));
+    } else {
+      heading =
+          "${appointmentList[index].date_time.split(' ')[1].substring(0, 5)} - ${appointmentList[index].title.toUpperCase()}";
+      description = appointmentList[index].description;
+      now = DateTime.now();
+      hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
+      date = DateTime(now.year, now.month, now.day).toString().split(' ')[0];
+      appointDate = appointmentList[index].date_time.split(' ')[0];
+      appointHour = int.parse(
+          appointmentList[index].date_time.split(' ')[1].substring(0, 2));
+    }
     Color appointmentColor = MihColors.getSecondaryColor(
         MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     if (date == appointDate) {
@@ -132,26 +139,28 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         ),
         onTap: () {
           setState(() {
-            widget.titleController.text = widget.appointmentList[index].title;
+            widget.titleController.text = appointmentList[index].title;
             widget.descriptionIDController.text =
-                widget.appointmentList[index].description;
+                appointmentList[index].description;
             widget.dateController.text =
-                widget.appointmentList[index].date_time.split('T')[0];
-            widget.timeController.text = widget.appointmentList[index].date_time
-                .split('T')[1]
-                .substring(0, 5);
+                appointmentList[index].date_time.split('T')[0];
+            widget.timeController.text =
+                appointmentList[index].date_time.split('T')[1].substring(0, 5);
           });
           if (widget.inWaitingRoom == false) {
-            appointmentDetailsWindow(index, bodyWidth);
+            appointmentDetailsWindow(
+                mzansiProfileProvider, mihCalendarProvider, index, bodyWidth);
           } else {
-            waitingRiinAppointmentDetailsWindow(index, bodyWidth);
+            waitingRoomAppointmentDetailsWindow(
+                mzansiProfileProvider, mihCalendarProvider, index, bodyWidth);
           }
         },
       ),
     );
   }
 
-  void appointmentDetailsWindow(int index, double bodyWidth) {
+  void appointmentDetailsWindow(MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider, int index, double bodyWidth) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -177,7 +186,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                appointmentUpdateWindow(index, bodyWidth);
+                appointmentUpdateWindow(mzansiProfileProvider,
+                    mihCalendarProvider, index, bodyWidth);
               },
             ),
             SpeedDialChild(
@@ -197,7 +207,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                deleteAppointmentConfirmationWindow(index);
+                deleteAppointmentConfirmationWindow(
+                    mzansiProfileProvider, mihCalendarProvider, index);
               },
             ),
           ],
@@ -273,7 +284,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     );
   }
 
-  void waitingRiinAppointmentDetailsWindow(int index, double bodyWidth) {
+  void waitingRoomAppointmentDetailsWindow(
+      MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider,
+      int index,
+      double bodyWidth) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -299,7 +314,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                appointmentUpdateWindow(index, bodyWidth);
+                appointmentUpdateWindow(mzansiProfileProvider,
+                    mihCalendarProvider, index, bodyWidth);
               },
             ),
             SpeedDialChild(
@@ -319,7 +335,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
               backgroundColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               onTap: () {
-                deleteAppointmentConfirmationWindow(index);
+                deleteAppointmentConfirmationWindow(
+                    mzansiProfileProvider, mihCalendarProvider, index);
               },
             ),
           ],
@@ -405,7 +422,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     );
   }
 
-  void appointmentUpdateWindow(int index, double bodyWidth) {
+  void appointmentUpdateWindow(MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider, int index, double bodyWidth) {
+    List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+        ? mihCalendarProvider.personalAppointments!
+        : mihCalendarProvider.businessAppointments!;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -415,13 +436,13 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           windowTitle: "Update Appointment",
           onWindowTapClose: () {
             setState(() {
-              widget.titleController.text = widget.appointmentList[index].title;
+              widget.titleController.text = appointmentList[index].title;
               widget.descriptionIDController.text =
-                  widget.appointmentList[index].description;
+                  appointmentList[index].description;
               widget.dateController.text =
-                  widget.appointmentList[index].date_time.split('T')[0];
-              widget.timeController.text = widget
-                  .appointmentList[index].date_time
+                  appointmentList[index].date_time.split('T')[0];
+              widget.timeController.text = appointmentList[index]
+                  .date_time
                   .split('T')[1]
                   .substring(0, 5);
             });
@@ -497,7 +518,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                           MihButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                updateAppointmentCall(index);
+                                updateAppointmentCall(mzansiProfileProvider,
+                                    mihCalendarProvider, index);
                               } else {
                                 MihAlertServices()
                                     .formNotFilledCompletely(context);
@@ -542,7 +564,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     }
   }
 
-  void deleteAppointmentConfirmationWindow(int index) {
+  void deleteAppointmentConfirmationWindow(
+      MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider,
+      int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -550,46 +575,55 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         return MIHDeleteMessage(
             deleteType: "Appointment",
             onTap: () {
-              deleteAppointmentCall(index);
+              deleteAppointmentCall(
+                  mzansiProfileProvider, mihCalendarProvider, index);
             });
       },
     );
   }
 
-  Future<void> updateAppointmentCall(int index) async {
+  Future<void> updateAppointmentCall(
+      MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider,
+      int index) async {
     int statusCode;
     if (isAppointmentInputValid()) {
-      if (widget.personalSelected == true) {
+      List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+          ? mihCalendarProvider.personalAppointments!
+          : mihCalendarProvider.businessAppointments!;
+      if (mzansiProfileProvider.personalHome == true) {
         statusCode = await MihMzansiCalendarApis.updatePersonalAppointment(
-          widget.signedInUser,
-          widget.business,
+          mzansiProfileProvider.user!,
+          mzansiProfileProvider.business,
           null,
-          widget.appointmentList[index].idappointments,
+          appointmentList[index].idappointments,
           widget.titleController.text,
           widget.descriptionIDController.text,
           widget.dateController.text,
           widget.timeController.text,
+          mihCalendarProvider,
           context,
         );
-      } else if (widget.personalSelected == false &&
+      } else if (mzansiProfileProvider.personalHome == false &&
           widget.inWaitingRoom == false) {
         statusCode = await MihMzansiCalendarApis.updateBusinessAppointment(
-          widget.signedInUser,
-          widget.business,
-          widget.businessUser,
-          widget.appointmentList[index].idappointments,
+          mzansiProfileProvider.user!,
+          mzansiProfileProvider.business,
+          mzansiProfileProvider.businessUser,
+          appointmentList[index].idappointments,
           widget.titleController.text,
           widget.descriptionIDController.text,
           widget.dateController.text,
           widget.timeController.text,
+          mihCalendarProvider,
           context,
         );
       } else {
         statusCode = await MihMzansiCalendarApis.updatePatientAppointment(
-          widget.signedInUser,
-          widget.business,
-          widget.businessUser,
-          widget.appointmentList[index].idappointments,
+          mzansiProfileProvider.user!,
+          mzansiProfileProvider.business,
+          mzansiProfileProvider.businessUser,
+          appointmentList[index].idappointments,
           widget.titleController.text,
           widget.descriptionIDController.text,
           widget.dateController.text,
@@ -604,27 +638,20 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           KenLogger.warning("calendar route");
           context.goNamed(
             "mihCalendar",
-            extra: CalendarArguments(
-              widget.signedInUser,
-              widget.personalSelected,
-              widget.business,
-              widget.businessUser,
-            ),
           );
         } else {
           KenLogger.warning("waiting room route");
           // GoRouter.of(context).refresh();
           context.goNamed(
             'mihHome',
-            extra: false,
           );
           context.goNamed(
             'patientManager',
             extra: PatManagerArguments(
-              widget.signedInUser,
+              mzansiProfileProvider.user!,
               false,
-              widget.business,
-              widget.businessUser,
+              mzansiProfileProvider.business,
+              mzansiProfileProvider.businessUser,
             ),
           );
           // context.pop();
@@ -642,22 +669,26 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     }
   }
 
-  Future<void> deleteAppointmentCall(int index) async {
+  Future<void> deleteAppointmentCall(
+      MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider,
+      int index) async {
+    List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+        ? mihCalendarProvider.personalAppointments!
+        : mihCalendarProvider.businessAppointments!;
     int statucCode = await MihMzansiCalendarApis.deleteAppointmentAPICall(
-      widget.signedInUser,
-      widget.personalSelected,
-      widget.business,
-      widget.businessUser,
+      mzansiProfileProvider.user!,
+      mzansiProfileProvider.personalHome,
+      mzansiProfileProvider.business,
+      mzansiProfileProvider.businessUser,
       widget.inWaitingRoom,
-      widget.appointmentList[index].idappointments,
+      appointmentList[index].idappointments,
+      mihCalendarProvider,
       context,
     );
     if (statucCode == 200) {
       context.pop();
       context.pop();
-      setState(() {
-        widget.appointmentList.removeAt(index);
-      });
       successPopUp("Successfully Deleted Appointment",
           "You appointment has been successfully deleted from your calendar.");
     } else {
@@ -730,20 +761,24 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     );
   }
 
-  bool canEditAppointment(int index) {
-    if (widget.personalSelected == true &&
-        widget.appointmentList[index].app_id == widget.signedInUser.app_id &&
-        widget.appointmentList[index].business_id == "") {
+  bool canEditAppointment(MzansiProfileProvider mzansiProfileProvider,
+      MihCalendarProvider mihCalendarProvider, int index) {
+    List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+        ? mihCalendarProvider.personalAppointments!
+        : mihCalendarProvider.businessAppointments!;
+    if (mzansiProfileProvider.personalHome == true &&
+        appointmentList[index].app_id == mzansiProfileProvider.user!.app_id &&
+        appointmentList[index].business_id == "") {
       return true;
-    } else if (widget.personalSelected == false &&
-        widget.appointmentList[index].business_id ==
-            widget.business!.business_id &&
-        widget.appointmentList[index].app_id.isEmpty) {
+    } else if (mzansiProfileProvider.personalHome == false &&
+        appointmentList[index].business_id ==
+            mzansiProfileProvider.business!.business_id &&
+        appointmentList[index].app_id.isEmpty) {
       return true;
-    } else if (widget.personalSelected == false &&
-        widget.appointmentList[index].business_id ==
-            widget.business!.business_id &&
-        widget.appointmentList[index].app_id.isNotEmpty) {
+    } else if (mzansiProfileProvider.personalHome == false &&
+        appointmentList[index].business_id ==
+            mzansiProfileProvider.business!.business_id &&
+        appointmentList[index].app_id.isNotEmpty) {
       return true;
     } else {
       return false;
@@ -765,16 +800,27 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       width = size.width;
       height = size.height;
     });
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getPaddingSize()),
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: widget.appointmentList.length,
-        itemBuilder: (context, index) {
-          return displayAppointment(index, width);
-        },
-      ),
+    return Consumer2<MzansiProfileProvider, MihCalendarProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider,
+          MihCalendarProvider mihCalendarProvider,
+          Widget? child) {
+        List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+            ? mihCalendarProvider.personalAppointments!
+            : mihCalendarProvider.businessAppointments!;
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: getPaddingSize()),
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: appointmentList.length,
+            itemBuilder: (context, index) {
+              return displayAppointment(
+                  mzansiProfileProvider, mihCalendarProvider, index, width);
+            },
+          ),
+        );
+      },
     );
   }
 }

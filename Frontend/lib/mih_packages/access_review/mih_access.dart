@@ -2,15 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tools/mih_access_requests.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MihAccess extends StatefulWidget {
-  final AppUser signedInUser;
   const MihAccess({
     super.key,
-    required this.signedInUser,
   });
 
   @override
@@ -18,7 +17,6 @@ class MihAccess extends StatefulWidget {
 }
 
 class _MihAccessState extends State<MihAccess> {
-  int _selcetedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -26,12 +24,9 @@ class _MihAccessState extends State<MihAccess> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      selectedbodyIndex: context.watch<MihAccessControllsProvider>().toolIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+        context.read<MihAccessControllsProvider>().setToolIndex(newValue);
       },
     );
   }
@@ -43,7 +38,6 @@ class _MihAccessState extends State<MihAccess> {
       onTap: () {
         context.goNamed(
           'mihHome',
-          extra: true,
         );
         FocusScope.of(context).unfocus();
       },
@@ -53,21 +47,17 @@ class _MihAccessState extends State<MihAccess> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.people)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MihAccessControllsProvider>().setToolIndex(0);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MihAccessControllsProvider>().toolIndex,
     );
   }
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      MihAccessRequest(
-        signedInUser: widget.signedInUser,
-      ),
+      MihAccessRequest(),
     ];
     return toolBodies;
   }

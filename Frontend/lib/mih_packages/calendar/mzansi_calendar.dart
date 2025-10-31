@@ -2,15 +2,15 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tools/appointments.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MzansiCalendar extends StatefulWidget {
-  final CalendarArguments arguments;
   const MzansiCalendar({
     super.key,
-    required this.arguments,
   });
 
   @override
@@ -18,8 +18,6 @@ class MzansiCalendar extends StatefulWidget {
 }
 
 class _MzansiCalendarState extends State<MzansiCalendar> {
-  int _selcetedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -27,12 +25,9 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+      selectedbodyIndex: context.watch<MihCalendarProvider>().toolIndex,
+      onIndexChange: (newIndex) {
+        context.read<MihCalendarProvider>().setToolIndex(newIndex);
       },
     );
   }
@@ -42,10 +37,9 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        // Navigator.of(context).pop();
+        context.read<MihCalendarProvider>().resetSelectedDay();
         context.goNamed(
           'mihHome',
-          extra: widget.arguments.personalSelected,
         );
         FocusScope.of(context).unfocus();
       },
@@ -55,33 +49,28 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.calendar_month)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MihCalendarProvider>().setToolIndex(0);
     };
 
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MihCalendarProvider>().toolIndex,
     );
   }
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
       //appointment here
-      Appointments(
-        signedInUser: widget.arguments.signedInUser,
-        business: widget.arguments.business,
-        businessUser: widget.arguments.businessUser,
-        personalSelected: widget.arguments.personalSelected,
-      ),
+      Appointments(),
     ];
     return toolBodies;
   }
 
   List<String> getToolTitle() {
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
     List<String> toolTitles = [
-      widget.arguments.personalSelected == true ? "Personal" : "Business",
+      mzansiProfileProvider.personalHome == true ? "Personal" : "Business",
     ];
     return toolTitles;
   }

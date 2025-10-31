@@ -6,12 +6,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihCalculatorTile extends StatefulWidget {
-  final bool personalSelected;
   final double packageSize;
 
   const MihCalculatorTile({
     super.key,
-    required this.personalSelected,
     required this.packageSize,
   });
 
@@ -26,12 +24,7 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
       onTap: () {
         context.goNamed(
           "mihCalculator",
-          extra: widget.personalSelected,
         );
-        // Navigator.of(context).pushNamed(
-        //   '/calculator',
-        //   arguments: widget.personalSelected,
-        // );
       },
       appName: "Calculator",
       appIcon: Icon(

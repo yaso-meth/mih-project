@@ -5,6 +5,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
@@ -14,45 +16,39 @@ import '../mih_config/mih_env.dart';
 class MIHMzansiWalletApis {
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  /// This function is used to fetch a list of loyalty cards for a user.
-  ///
-  /// Patameters: app_id .
-  ///
-  /// Returns List<PatientQueue>.
-  static Future<List<MIHLoyaltyCard>> getLoyaltyCards(
+  static Future<void> getLoyaltyCards(
     String app_id,
+    BuildContext context,
   ) async {
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/$app_id"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
-      List<MIHLoyaltyCard> patientQueue = List<MIHLoyaltyCard>.from(
+      List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      return patientQueue;
+      context.read<MzansiWalletProvider>().setLoyaltyCards(cards: myCards);
+      // return myCards;
     } else {
       throw Exception('failed to fatch loyalty cards');
     }
   }
 
-  /// This function is used to fetch a list of loyalty cards for a user.
-  ///
-  /// Patameters: app_id .
-  ///
-  /// Returns List<PatientQueue>.
-  static Future<List<MIHLoyaltyCard>> getFavouriteLoyaltyCards(
+  static Future<void> getFavouriteLoyaltyCards(
     String app_id,
+    BuildContext context,
   ) async {
     //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/favourites/$app_id"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
-      List<MIHLoyaltyCard> patientQueue = List<MIHLoyaltyCard>.from(
+      List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      return patientQueue;
-    } else {
-      throw Exception('failed to fatch loyalty cards');
+      context.read<MzansiWalletProvider>().setFavouriteCards(cards: myCards);
     }
+    // else {
+    //   throw Exception('failed to fatch loyalty cards');
+    // }
   }
 
   /// This function is used to Delete loyalty card from users mzansi wallet.
@@ -80,6 +76,11 @@ class MIHMzansiWalletApis {
     //print("Here4");
     //print(response.statusCode);
     context.pop();
+    if (response.statusCode == 200) {
+      context
+          .read<MzansiWalletProvider>()
+          .deleteLoyaltyCard(cardId: idloyalty_cards);
+    }
     return response.statusCode;
     // if (response.statusCode == 200) {
     //   Navigator.of(context).pop();
@@ -165,6 +166,7 @@ class MIHMzansiWalletApis {
   static Future<int> updateLoyaltyCardAPICall(
     AppUser signedInUser,
     int idloyalty_cards,
+    String shopName,
     String favourite,
     int priority_index,
     String nickname,
@@ -187,6 +189,19 @@ class MIHMzansiWalletApis {
       }),
     );
     context.pop();
+    if (response.statusCode == 200) {
+      context.read<MzansiWalletProvider>().editLoyaltyCard(
+            updatedCard: MIHLoyaltyCard(
+              idloyalty_cards: idloyalty_cards,
+              app_id: signedInUser.app_id,
+              shop_name: shopName,
+              card_number: card_number,
+              favourite: favourite,
+              priority_index: priority_index,
+              nickname: nickname,
+            ),
+          );
+    }
     return response.statusCode;
   }
 

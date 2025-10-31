@@ -20,6 +20,12 @@ void main() async {
     apiBasePath: "/auth",
   );
   if (!kIsWeb) {
+    const List<String> testDeviceIds = ['733d4c68-9b54-453a-9622-2df407310f40'];
+    MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        testDeviceIds: testDeviceIds,
+      ),
+    );
     MobileAds.instance.initialize();
   } else {
     usePathUrlStrategy();
@@ -29,5 +35,7 @@ void main() async {
   });
   final GoRouter appRouter = MihGoRouter().mihRouter;
   FlutterNativeSplash.remove();
-  runApp(MzansiInnovationHub(router: appRouter,));
+  runApp(MzansiInnovationHub(
+    router: appRouter,
+  ));
 }

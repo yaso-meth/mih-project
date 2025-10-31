@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -156,14 +157,17 @@ class MihMzansiDirectoryServices {
 
   Future<List<BookmarkedBusiness>> getAllUserBookmarkedBusiness(
     String app_id,
+    MzansiDirectoryProvider directoryProvider,
   ) async {
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/user/all/$app_id/"));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
-      List<BookmarkedBusiness> businessReviews = List<BookmarkedBusiness>.from(
-          l.map((model) => BookmarkedBusiness.fromJson(model)));
-      return businessReviews;
+      List<BookmarkedBusiness> favouriteBusinesses =
+          List<BookmarkedBusiness>.from(
+              l.map((model) => BookmarkedBusiness.fromJson(model)));
+      directoryProvider.setFavouriteBusinesses(businesses: favouriteBusinesses);
+      return favouriteBusinesses;
     } else if (response.statusCode == 404) {
       return [];
     } else {

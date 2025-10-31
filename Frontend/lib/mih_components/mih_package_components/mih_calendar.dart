@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MIHCalendar extends StatefulWidget {
@@ -19,14 +22,27 @@ class MIHCalendar extends StatefulWidget {
 }
 
 class _MIHCalendarState extends State<MIHCalendar> {
-  DateTime selectedDay = DateTime.now();
+  late DateTime selectedDay;
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   void onDaySelected(DateTime day, DateTime focusedDay) {
+    KenLogger.success("Selected Day: $day");
     setState(() {
       selectedDay = day;
     });
     widget.setDate(selectedDay.toString().split(" ")[0]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    MihCalendarProvider mihCalendarProvider =
+        context.read<MihCalendarProvider>();
+    if (mihCalendarProvider.selectedDay.isNotEmpty) {
+      selectedDay = DateTime.parse(mihCalendarProvider.selectedDay);
+    } else {
+      selectedDay = DateTime.now();
+    }
   }
 
   @override

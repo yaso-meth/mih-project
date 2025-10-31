@@ -41,6 +41,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
           businessReview: businessReview,
           screenWidth: width,
           readOnly: true,
+          onSuccessDismissPressed: () {},
         );
       },
     );

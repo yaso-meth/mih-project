@@ -506,8 +506,8 @@ class _MihInfoState extends State<MihInfo> {
 
   void shareMIHLink(BuildContext context, String message, String link) {
     String shareText = "$message: $link";
-    Share.share(
-      shareText,
+    SharePlus.instance.share(
+      ShareParams(text: shareText),
     );
   }
 
@@ -610,7 +610,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
         const SizedBox(width: 10),
         Text(
-          "Users",
+          "People",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.normal,

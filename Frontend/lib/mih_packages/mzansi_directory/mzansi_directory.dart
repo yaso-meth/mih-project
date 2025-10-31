@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
+import 'package:provider/provider.dart';
 
 class MzansiDirectory extends StatefulWidget {
-  final MzansiDirectoryArguments arguments;
   const MzansiDirectory({
     super.key,
-    required this.arguments,
   });
 
   @override
@@ -21,75 +20,56 @@ class MzansiDirectory extends StatefulWidget {
 }
 
 class _MzansiDirectoryState extends State<MzansiDirectory> {
-  int _selcetedIndex = 0;
   late Future<Position?> futurePosition =
       MIHLocationAPI().getGPSPosition(context);
+
+  Future<void> initialiseGPSLocation() async {
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
+    MIHLocationAPI().getGPSPosition(context).then((position) {
+      directoryProvider.setUserPosition(position);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    if (widget.arguments.packageIndex == null) {
-      _selcetedIndex = 0;
-    } else {
-      _selcetedIndex = widget.arguments.packageIndex!;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initialiseGPSLocation();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('MzansiDirectory build method called!');
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
       appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      selectedbodyIndex: context.watch<MzansiDirectoryProvider>().toolIndex,
       onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
+        context.read<MzansiDirectoryProvider>().setToolIndex(newValue);
       },
     );
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      FutureBuilder(
-          future: futurePosition,
-          builder: (context, asyncSnapshot) {
-            String myLocation = "";
-            if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-              myLocation = "Getting Your GPS Location Ready";
-            } else {
-              myLocation = asyncSnapshot.data
-                  .toString()
-                  .replaceAll("Latitude: ", "")
-                  .replaceAll("Longitude: ", "");
-            }
-            return MihSearchMzansi(
-              personalSearch: widget.arguments.personalSearch,
-              myLocation: myLocation,
-              startSearchText: widget.arguments.startSearchText,
-            );
-          }),
+    List<Widget> toolBodies = [];
+    // String myLocation = "Getting Your GPS Location Ready";
+    // if (directoryProvider.userPosition != null) {
+    //   myLocation = directoryProvider.userPosition
+    //       .toString()
+    //       .replaceAll("Latitude: ", "")
+    //       .replaceAll("Longitude: ", "");
+    // }
+    toolBodies.addAll([
+      MihSearchMzansi(
+          // personalSearch: directoryProvider.personalSearch,
+          // startSearchText: "",
+          ),
       // MihContacts(),
-      FutureBuilder(
-          future: futurePosition,
-          builder: (context, asyncSnapshot) {
-            String myLocation = "";
-            if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-              myLocation = "Getting Your GPS Location Ready";
-            } else {
-              myLocation = asyncSnapshot.data
-                  .toString()
-                  .replaceAll("Latitude: ", "")
-                  .replaceAll("Longitude: ", "");
-            }
-            return MihFavouriteBusinesses(
-              myLocation: myLocation,
-            );
-          }),
-    ];
+      MihFavouriteBusinesses(),
+    ]);
     return toolBodies;
   }
 
@@ -98,10 +78,13 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
+        MzansiDirectoryProvider directoryProvider =
+            context.read<MzansiDirectoryProvider>();
         context.goNamed(
           'mihHome',
-          extra: widget.arguments.personalSearch,
         );
+        directoryProvider.setToolIndex(0);
+        directoryProvider.setPersonalSearch(true);
         FocusScope.of(context).unfocus();
       },
     );
@@ -110,23 +93,14 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.search)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MzansiDirectoryProvider>().setToolIndex(0);
     };
-    // temp[const Icon(Icons.person)] = () {
-    //   setState(() {
-    //     _selcetedIndex = 1;
-    //   });
-    // };
     temp[const Icon(Icons.business_center)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<MzansiDirectoryProvider>().setToolIndex(1);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selcetedIndex: context.watch<MzansiDirectoryProvider>().toolIndex,
     );
   }
 
@@ -134,7 +108,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     List<String> toolTitles = [
       "Mzansi Search",
       "Favourite Businesses",
-      "Contacts",
+      // "Contacts",
     ];
     return toolTitles;
   }

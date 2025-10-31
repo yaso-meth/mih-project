@@ -37,7 +37,7 @@ class MihColors {
     if (darkMode == true) {
       return const Color(0xff8ae290);
     } else {
-      return const Color(0xffB0F2B4);
+      return const Color(0xFF41B349);
     }
   }
 
@@ -63,7 +63,7 @@ class MihColors {
       return const Color(0xffd69d7d);
     } else {
       // Add a different shade of pink for light mode
-      return const Color(0xffd69d7d);
+      return const Color(0xFFBD7145);
     }
   }
 
@@ -81,7 +81,7 @@ class MihColors {
       return const Color(0xff6e7dcc);
     } else {
       // Add a different shade of pink for light mode
-      return const Color(0xff6e7dcc);
+      return const Color(0xFF5567C0);
     }
   }
 
@@ -90,7 +90,34 @@ class MihColors {
       return const Color(0xffb682e7);
     } else {
       // Add a different shade of pink for light mode
-      return const Color(0xffb682e7);
+      return const Color(0xFF9857D4);
+    }
+  }
+
+  static Color getGoldColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xFFD4AF37);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xffFFD700);
+    }
+  }
+
+  static Color getSilverColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xffC0C0C0);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xFFA6A6A6);
+    }
+  }
+
+  static Color getBronze(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0xffB1560F);
+    } else {
+      // Add a different shade of pink for light mode
+      return const Color(0xFFCD7F32);
     }
   }
 }

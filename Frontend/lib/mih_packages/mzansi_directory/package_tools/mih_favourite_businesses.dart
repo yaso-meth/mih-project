@@ -1,24 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_favourite_businesses_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
-import 'package:supertokens_flutter/supertokens.dart';
+import 'package:provider/provider.dart';
 
 class MihFavouriteBusinesses extends StatefulWidget {
-  final String? myLocation;
   const MihFavouriteBusinesses({
     super.key,
-    required this.myLocation,
   });
 
   @override
@@ -29,42 +27,42 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
   final TextEditingController businessSearchController =
       TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  late Future<List<BookmarkedBusiness>> boookmarkedBusinessListFuture;
-  List<BookmarkedBusiness> listBookmarkedBusinesses = [];
   final ValueNotifier<List<Business?>> searchBookmarkedBusinesses =
       ValueNotifier([]);
-  late Future<Map<String, Business?>> businessDetailsMapFuture;
-  Map<String, Business?> _businessDetailsMap = {};
   Timer? _debounce;
 
-  Future<Map<String, Business?>>
-      getAndMapAllBusinessDetailsForBookmarkedBusinesses() async {
-    String user_id = await SuperTokens.getUserId();
-    List<BookmarkedBusiness> bookmarked = await MihMzansiDirectoryServices()
-        .getAllUserBookmarkedBusiness(user_id);
-    listBookmarkedBusinesses = bookmarked;
+  Future<void> getAndMapAllBusinessDetailsForBookmarkedBusinesses(
+    MzansiProfileProvider mzansiProfileProvider,
+    MzansiDirectoryProvider directoryProvider,
+  ) async {
+    await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
+      mzansiProfileProvider.user!.app_id,
+      directoryProvider,
+    );
     Map<String, Business?> businessMap = {};
     List<Future<Business?>> detailFutures = [];
-    for (var item in bookmarked) {
+    for (var item in directoryProvider.bookmarkedBusinesses) {
       detailFutures.add(MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(item.business_id));
     }
     List<Business?> details = await Future.wait(detailFutures);
-    for (int i = 0; i < bookmarked.length; i++) {
-      businessMap[bookmarked[i].business_id] = details[i];
+    for (int i = 0; i < directoryProvider.bookmarkedBusinesses.length; i++) {
+      businessMap[directoryProvider.bookmarkedBusinesses[i].business_id] =
+          details[i];
     }
-    _businessDetailsMap = businessMap;
-    _filterAndSetBusinesses();
-    return businessMap;
+    directoryProvider.setBusinessDetailsMap(detailsMap: businessMap);
+    _filterAndSetBusinesses(directoryProvider);
   }
 
-  void _filterAndSetBusinesses() {
+  void _filterAndSetBusinesses(MzansiDirectoryProvider directoryProvider) {
     List<Business?> businessesToDisplay = [];
     String query = businessSearchController.text.toLowerCase();
-    for (var bookmarked in listBookmarkedBusinesses) {
+    for (var bookmarked in directoryProvider.bookmarkedBusinesses) {
       if (bookmarked.business_name.toLowerCase().contains(query)) {
-        if (_businessDetailsMap.containsKey(bookmarked.business_id)) {
-          businessesToDisplay.add(_businessDetailsMap[bookmarked.business_id]);
+        if (directoryProvider.businessDetailsMap
+            .containsKey(bookmarked.business_id)) {
+          businessesToDisplay.add(
+              directoryProvider.businessDetailsMap[bookmarked.business_id]);
         }
       }
     }
@@ -82,14 +80,21 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
   @override
   void initState() {
     super.initState();
-    businessDetailsMapFuture =
-        getAndMapAllBusinessDetailsForBookmarkedBusinesses();
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
+
+    getAndMapAllBusinessDetailsForBookmarkedBusinesses(
+      mzansiProfileProvider,
+      directoryProvider,
+    );
     businessSearchController.addListener(() {
       if (_debounce?.isActive ?? false) {
         _debounce!.cancel();
       }
       _debounce = Timer(const Duration(milliseconds: 200), () {
-        _filterAndSetBusinesses();
+        _filterAndSetBusinesses(directoryProvider);
       });
     });
   }
@@ -123,141 +128,95 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
             ),
           ),
           const SizedBox(height: 10),
-          FutureBuilder<Map<String, Business?>>(
-              future: businessDetailsMapFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Mihloadingcircle(
-                    message: "Getting your favourites",
+          ValueListenableBuilder<List<Business?>>(
+              valueListenable: searchBookmarkedBusinesses,
+              builder: (context, filteredBusinesses, child) {
+                if (filteredBusinesses.isEmpty &&
+                    businessSearchController.text.isNotEmpty) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 50),
+                      Icon(
+                        MihIcons.iDontKnow,
+                        size: 165,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Let's try refining your search",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                      ),
+                    ],
                   );
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                    // No need to re-filter here, _filterAndSetBusinesses is called in initState
-                    // and by the text controller listener.
-                    return ValueListenableBuilder<List<Business?>>(
-                      valueListenable:
-                          searchBookmarkedBusinesses, // Listen to changes in this
-                      builder: (context, businesses, child) {
-                        // Display message if no results after search
-                        if (businesses.isEmpty &&
-                            businessSearchController.text.isNotEmpty) {
-                          return Column(
-                            children: [
-                              const SizedBox(height: 50),
-                              Icon(
-                                MihIcons.iDontKnow,
-                                size: 165,
+                } else if (filteredBusinesses.isEmpty &&
+                    businessSearchController.text.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 50),
+                        Icon(
+                          MihIcons.businessProfile,
+                          size: 165,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "No favourite businesses added to your mzansi directory",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        Center(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
                                 color: MihColors.getSecondaryColor(
                                     MzansiInnovationHub.of(context)!
                                             .theme
                                             .mode ==
                                         "Dark"),
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                "Let's try refining your search",
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.visible,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                        return BuildFavouriteBusinessesList(
-                          favouriteBusinesses:
-                              businesses, // Pass the filtered list from ValueNotifier
-                          myLocation: widget.myLocation,
-                        );
-                      },
-                    );
-                  } else {
-                    // This block handles the case where there are no bookmarked businesses initially
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 50),
-                          Icon(
-                            MihIcons.businessProfile,
-                            size: 165,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "No favourite businesses added to your mzansi directory",
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.visible,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              children: [
+                                TextSpan(text: "Use the mzansi search"),
+                                TextSpan(
+                                    text:
+                                        " to find your favourite businesses of mzansi"),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 25),
-                          Center(
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                ),
-                                children: [
-                                  TextSpan(text: "Use the mzansi search"),
-                                  // WidgetSpan(
-                                  //   alignment:
-                                  //       PlaceholderAlignment.middle,
-                                  //   child: Icon(
-                                  //     Icons.search,
-                                  //     size: 20,
-                                  //     color:
-                                  //         MzansiInnovationHub.of(context)!
-                                  //             .theme
-                                  //             .secondaryColor(),
-                                  //   ),
-                                  // ),
-                                  TextSpan(
-                                      text:
-                                          " to find your favourite businesses of mzansi"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                        "Error loading bookmarked businesses: ${snapshot.error}"), // Show specific error
-                  );
-                } else {
-                  // Fallback for unexpected states
-                  return Center(
-                    child: Text("An unknown error occurred."),
+                        ),
+                      ],
+                    ),
                   );
                 }
+                return BuildFavouriteBusinessesList(
+                  favouriteBusinesses: filteredBusinesses,
+                );
               }),
         ],
       ),

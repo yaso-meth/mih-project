@@ -1,15 +1,19 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 
@@ -74,6 +78,7 @@ class MihUserServices {
   }
 
   Future<List<AppUser>> searchUsers(
+    MzansiProfileProvider profileProvider,
     String searchText,
     BuildContext context,
   ) async {
@@ -87,6 +92,7 @@ class MihUserServices {
       Iterable l = jsonDecode(response.body);
       List<AppUser> users =
           List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
+      profileProvider.setUserearchResults(userSearchResults: users);
       return users;
     } else {
       throw Exception('failed to load users');
@@ -94,9 +100,9 @@ class MihUserServices {
   }
 
   Future<AppUser?> getUserDetails(
-    String app_id,
     BuildContext context,
   ) async {
+    String app_id = await SuperTokens.getUserId();
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
       headers: <String, String>{
@@ -107,6 +113,9 @@ class MihUserServices {
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
+      context.read<MzansiProfileProvider>().setUser(
+            newUser: AppUser.fromJson(jsonBody),
+          );
       return AppUser.fromJson(jsonBody);
     } else {
       return null;
@@ -126,11 +135,13 @@ class MihUserServices {
     var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
     var filePath = "${signedInUser.app_id}/profile_files/$fileName";
     String profileType;
+    KenLogger.success("is Busines User: $isBusinessUser");
     if (isBusinessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
+    KenLogger.success("Profile Type: $profileType");
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
       headers: <String, String>{
@@ -147,6 +158,21 @@ class MihUserServices {
       }),
     );
     if (response.statusCode == 200) {
+      context.read<MzansiProfileProvider>().setUser(
+            newUser: AppUser(
+              signedInUser.idUser,
+              signedInUser.email,
+              firstName,
+              lastName,
+              profileType,
+              signedInUser.app_id,
+              username,
+              filePath,
+              purpose,
+            ),
+          );
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      context.read<MzansiProfileProvider>().setUserProfilePicUrl(newProPicUrl);
       return response.statusCode;
     } else {
       return response.statusCode;
@@ -192,7 +218,7 @@ class MihUserServices {
   }
 
   static Future<void> deleteAccount(
-    String app_id,
+    MzansiProfileProvider provider,
     BuildContext context,
   ) async {
     loadingPopUp(context);
@@ -202,7 +228,7 @@ class MihUserServices {
         "Content-Type": "application/json; charset=UTF-8"
       },
       body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
+        "app_id": provider.user!.app_id,
         "env": AppEnviroment.getEnv(),
       }),
     );
@@ -212,18 +238,12 @@ class MihUserServices {
         print(error);
       });
       if (await SuperTokens.doesSessionExist() == false) {
-        // Navigator.of(context).pop(); // Pop loading dialog
-        // Navigator.of(context).pop(); // Pop delete account dialog
-        // Navigator.of(context).pop(); // Pop Mzansi Profile
-        // Navigator.of(context).popAndPushNamed(
-        //   '/',
-        //   arguments: AuthArguments(true, false),
-        // ); //Pop and push to login page
         successPopUp(
           "Account Deleted Successfully",
           "Your account has been successfully deleted. We are sorry to see you go, but we respect your decision.",
           context,
         ); // Show success message.
+        provider.dispose();
       }
     } else {
       Navigator.of(context).pop(); // Pop loading dialog

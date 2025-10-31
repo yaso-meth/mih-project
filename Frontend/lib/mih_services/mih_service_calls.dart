@@ -1,26 +1,12 @@
 import 'dart:convert';
-
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
-// import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
-// import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-// import '../mih_env/mih_env.dart';
-// import '../mih_objects/app_user.dart';
-// import '../mih_objects/arguments.dart';
-// import '../mih_objects/business.dart';
-// import '../mih_objects/business_user.dart';
-// import '../mih_objects/notification.dart';
-// import '../mih_objects/patient_access.dart';
-// import '../mih_objects/patient_queue.dart';
-// import '../mih_objects/patients.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../mih_config/mih_env.dart';
@@ -61,7 +47,7 @@ class MIHApiCalls {
 
     // Get Userdata
     var uid = await SuperTokens.getUserId();
-    AppUser? user = await MihUserServices().getUserDetails(uid, context);
+    AppUser? user = await MihUserServices().getUserDetails(context);
     if (user != null) {
       userData = user;
     } else {
@@ -70,7 +56,7 @@ class MIHApiCalls {
 
     // Get BusinessUserdata
     BusinessUser? businessUser =
-        await MihMyBusinessUserServices().getBusinessUser(uid);
+        await MihMyBusinessUserServices().getBusinessUser(context);
     if (businessUser != null) {
       bUserData = businessUser;
     } else {
@@ -79,9 +65,7 @@ class MIHApiCalls {
 
     // Get Businessdata
     Business? business =
-        await MihBusinessDetailsServices().getBusinessDetailsByUser(
-      uid,
-    );
+        await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
     if (business != null) {
       busData = business;
     } else {
@@ -103,14 +87,14 @@ class MIHApiCalls {
     );
 
     //get patient profile
-    Patient? patient = await MihPatientServices().getPatientDetails(
-      uid,
-    );
-    if (patient != null) {
-      patientData = patient;
-    } else {
-      patientData = null;
-    }
+    // Patient? patient = await MihPatientServices().getPatientDetails(
+    //   uid,
+    // );
+    // if (patient != null) {
+    //   patientData = patient;
+    // } else {
+    //   patientData = null;
+    // }
 
     return HomeArguments(
         userData, bUserData, busData, patientData, notifi, userPic);
@@ -139,52 +123,6 @@ class MIHApiCalls {
       return patientAccesses;
     } else {
       throw Exception('failed to pull patient access for business');
-    }
-  }
-
-  /// This function is used to get list of access the business has.
-  ///
-  /// Patameters: String business_id.
-  ///
-  /// Returns List<PatientAccess> (List of access that match the above parameters).
-  static Future<List<PatientAccess>> getPatientAccessListOfBusiness(
-      String business_id) async {
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
-    // var errorCode = response.statusCode.toString();
-    // print(response.statusCode);
-    // print(response.body);
-
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
-          l.map((model) => PatientAccess.fromJson(model)));
-      return patientAccesses;
-    } else {
-      throw Exception('failed to pull patient access List for business');
-    }
-  }
-
-  /// This function is used to get list of access the business has.
-  ///
-  /// Patameters: String business_id.
-  ///
-  /// Returns List<PatientAccess> (List of access that match the above parameters).
-  static Future<List<PatientAccess>> getBusinessAccessListOfPatient(
-      String app_id) async {
-    final response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/access-requests/personal/patient/$app_id"));
-    // var errorCode = response.statusCode.toString();
-    // print(response.statusCode);
-    // print(response.body);
-
-    if (response.statusCode == 200) {
-      Iterable l = jsonDecode(response.body);
-      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
-          l.map((model) => PatientAccess.fromJson(model)));
-      return patientAccesses;
-    } else {
-      throw Exception('failed to pull patient access List for business');
     }
   }
 
@@ -336,12 +274,10 @@ class MIHApiCalls {
   /// Patameters: String dsearch.
   ///
   /// Returns List<Patient>.
+
   static Future<List<Patient>> fetchPatients(String search) async {
     final response = await http
         .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/search/$search"));
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<Patient> patients =

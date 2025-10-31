@@ -6,6 +6,17 @@ class MihValidationServices {
     return null;
   }
 
+  String? validateNoSpecialChars(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field is required";
+    }
+    final specialCharRegex = RegExp(r"^[\w,'& ]+$");
+    if (!specialCharRegex.hasMatch(value)) {
+      return "Only , ' & _ Special characters are allowed";
+    }
+    return null;
+  }
+
   String? validateLength(String? value, int maxLength) {
     if (value == null || value.isEmpty) {
       return "This field is required";

@@ -10,6 +10,7 @@ class MihDropdownField extends StatefulWidget {
   final bool editable;
   final bool enableSearch;
   final FormFieldValidator<String>? validator;
+  final Function(String?)? onSelected;
 
   const MihDropdownField({
     super.key,
@@ -20,6 +21,7 @@ class MihDropdownField extends StatefulWidget {
     required this.editable,
     required this.enableSearch,
     this.validator,
+    this.onSelected,
   });
 
   @override
@@ -117,8 +119,10 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     enableSearch: widget.enableSearch,
                     enableFilter: widget.enableSearch,
                     enabled: widget.editable,
-                    textInputAction: TextInputAction.search,
-                    requestFocusOnTap: true,
+                    textInputAction: widget.enableSearch
+                        ? TextInputAction.search
+                        : TextInputAction.none,
+                    requestFocusOnTap: widget.enableSearch,
                     menuHeight: 400,
                     expandedInsets: EdgeInsets.zero,
                     textStyle: TextStyle(
@@ -153,6 +157,7 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     ),
                     onSelected: (String? selectedValue) {
                       field.didChange(selectedValue);
+                      widget.onSelected?.call(selectedValue);
                     },
                     menuStyle: MenuStyle(
                       backgroundColor: WidgetStatePropertyAll(
