@@ -78,6 +78,7 @@ class MihUserServices {
   }
 
   Future<List<AppUser>> searchUsers(
+    MzansiProfileProvider profileProvider,
     String searchText,
     BuildContext context,
   ) async {
@@ -91,6 +92,7 @@ class MihUserServices {
       Iterable l = jsonDecode(response.body);
       List<AppUser> users =
           List<AppUser>.from(l.map((model) => AppUser.fromJson(model)));
+      profileProvider.setUserearchResults(userSearchResults: users);
       return users;
     } else {
       throw Exception('failed to load users');

@@ -62,6 +62,9 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       context.read<MzansiProfileProvider>().setBusinessIndex(2);
     };
     temp[const Icon(Icons.add)] = () {
+      context
+          .read<MzansiProfileProvider>()
+          .setUserearchResults(userSearchResults: []);
       context.read<MzansiProfileProvider>().setBusinessIndex(3);
     };
     temp[const Icon(Icons.star_rate_rounded)] = () {

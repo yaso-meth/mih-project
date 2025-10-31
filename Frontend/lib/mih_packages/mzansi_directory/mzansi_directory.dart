@@ -34,7 +34,9 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   @override
   void initState() {
     super.initState();
-    initialiseGPSLocation();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initialiseGPSLocation();
+    });
   }
 
   @override

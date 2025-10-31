@@ -11,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
@@ -40,7 +41,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   bool filterOn = false;
   bool loadingSearchResults = false;
 
-  Future<void> swapPressed(MzansiDirectoryProvider directoryProvider) async {
+  Future<void> swapPressed(MzansiProfileProvider profileProvider,
+      MzansiDirectoryProvider directoryProvider) async {
     directoryProvider.setPersonalSearch(!directoryProvider.personalSearch);
     setState(() {
       if (filterOn) {
@@ -52,7 +54,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         businessTypeController.clear();
       });
     }
-    await searchPressed(directoryProvider);
+    await searchPressed(profileProvider, directoryProvider);
   }
 
   void clearAll(MzansiDirectoryProvider directoryProvider) {
@@ -65,7 +67,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     });
   }
 
-  Future<void> searchPressed(MzansiDirectoryProvider directoryProvider) async {
+  Future<void> searchPressed(MzansiProfileProvider profileProvider,
+      MzansiDirectoryProvider directoryProvider) async {
     setState(() {
       loadingSearchResults = true;
     });
@@ -75,7 +78,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     if (directoryProvider.personalSearch &&
         directoryProvider.searchTerm.isNotEmpty) {
       final userResults = await MihUserServices()
-          .searchUsers(directoryProvider.searchTerm, context);
+          .searchUsers(profileProvider, directoryProvider.searchTerm, context);
       directoryProvider.setSearchedUsers(searchedUsers: userResults);
     } else {
       List<Business>? businessSearchResults = [];
@@ -108,11 +111,11 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    directoryProvider.setSearchedUsers(searchedUsers: []);
-    setState(() {
-      availableBusinessTypes =
-          MihBusinessDetailsServices().fetchAllBusinessTypes();
-      mzansiSearchController.text = "";
+    availableBusinessTypes =
+        MihBusinessDetailsServices().fetchAllBusinessTypes();
+    mzansiSearchController.text = "";
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      directoryProvider.setSearchedUsers(searchedUsers: []);
     });
   }
 
@@ -127,9 +130,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   }
 
   Widget getBody(double width) {
-    return Consumer<MzansiDirectoryProvider>(
-      builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
-          Widget? child) {
+    return Consumer2<MzansiProfileProvider, MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MzansiDirectoryProvider directoryProvider, Widget? child) {
         return MihSingleChildScroll(
           child: Column(
             children: [
@@ -149,7 +152,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                         suffixTools: [
                           IconButton(
                             onPressed: () {
-                              swapPressed(directoryProvider);
+                              swapPressed(profileProvider, directoryProvider);
                             },
                             icon: Icon(
                               Icons.swap_horiz_rounded,
@@ -167,7 +170,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         onPrefixIconTap: () {
-                          searchPressed(directoryProvider);
+                          searchPressed(profileProvider, directoryProvider);
                         },
                         onClearIconTap: () {
                           clearAll(directoryProvider);
@@ -234,7 +237,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                             MihButton(
                               onPressed: () {
                                 if (businessTypeController.text.isNotEmpty) {
-                                  searchPressed(directoryProvider);
+                                  searchPressed(
+                                      profileProvider, directoryProvider);
                                 } else {
                                   MihAlertServices().errorAlert(
                                     "Business Type Not Selected",

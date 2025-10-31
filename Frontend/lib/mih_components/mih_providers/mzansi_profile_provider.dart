@@ -20,6 +20,7 @@ class MzansiProfileProvider extends ChangeNotifier {
   ImageProvider<Object>? businessUserSignature;
   UserConsent? userConsent;
   List<BusinessEmployee>? employeeList;
+  List<AppUser> userSearchResults = [];
 
   MzansiProfileProvider({
     this.personalHome = true,
@@ -130,6 +131,11 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void addEmployee({required BusinessEmployee newEmployee}) {
     employeeList!.add(newEmployee);
+    notifyListeners();
+  }
+
+  void setUserearchResults({required List<AppUser> userSearchResults}) {
+    this.userSearchResults = userSearchResults;
     notifyListeners();
   }
 }

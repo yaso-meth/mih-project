@@ -49,7 +49,11 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setUserPosition(Position? position) {
     userPosition = position;
-    userLocation = "${position?.latitude}, ${position?.longitude}";
+    if (position == null) {
+      userLocation = "Unknown Location";
+    } else {
+      userLocation = "${position.latitude}, ${position.longitude}";
+    }
     notifyListeners();
   }
 
