@@ -274,12 +274,10 @@ class MIHApiCalls {
   /// Patameters: String dsearch.
   ///
   /// Returns List<Patient>.
+
   static Future<List<Patient>> fetchPatients(String search) async {
     final response = await http
         .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/search/$search"));
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<Patient> patients =

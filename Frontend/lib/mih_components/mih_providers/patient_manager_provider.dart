@@ -15,6 +15,7 @@ class PatientManagerProvider extends ChangeNotifier {
   List<Note>? consultationNotes;
   List<PFile>? patientDocuments;
   List<ClaimStatementFile>? patientClaimsDocuments;
+  List<Patient> patientSearchResults = [];
 
   PatientManagerProvider({
     this.patientProfileIndex = 0,
@@ -73,6 +74,11 @@ class PatientManagerProvider extends ChangeNotifier {
   void setClaimsDocuments(
       {required List<ClaimStatementFile>? patientClaimsDocuments}) {
     this.patientClaimsDocuments = patientClaimsDocuments ?? [];
+    notifyListeners();
+  }
+
+  void setPatientSearchResults({required List<Patient> patientSearchResults}) {
+    this.patientSearchResults = patientSearchResults;
     notifyListeners();
   }
 }

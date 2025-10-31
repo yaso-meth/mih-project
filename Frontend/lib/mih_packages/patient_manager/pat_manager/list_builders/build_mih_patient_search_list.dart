@@ -1,38 +1,25 @@
-import 'dart:convert';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
 import 'package:flutter/material.dart';
-import 'package:supertokens_flutter/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class BuildMihPatientSearchList extends StatefulWidget {
-  final List<Patient> patients;
-  final AppUser signedInUser;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final bool personalSelected;
-
   const BuildMihPatientSearchList({
     super.key,
-    required this.patients,
-    required this.signedInUser,
-    required this.business,
-    required this.businessUser,
-    required this.personalSelected,
   });
 
   @override
@@ -48,90 +35,6 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
   TextEditingController accessStatusController = TextEditingController();
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  Future<void> addPatientAccessAPICall(int index) async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/access-requests/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": widget.business!.business_id,
-        "app_id": widget.patients[index].app_id,
-        "date": dateController.text,
-        "time": timeController.text,
-        "access": "pending",
-      }),
-    );
-    if (response.statusCode == 201) {
-      // Navigator.pushNamed(context, '/patient-manager/patient',
-      //     arguments: widget.signedInUser);
-      String message =
-          "The appointment has been successfully booked!\n\nAn approval request as been sent to the patient.Once the access request has been approved, you will be able to access the patients profile. ou can check the status of your request in patient queue under the appointment.";
-      //     "${fnameController.text} ${lnameController.text} patient profiole has been successfully added!\n";
-      Navigator.pop(context);
-      Navigator.pop(context);
-      setState(() {
-        dateController.text = "";
-        timeController.text = "";
-      });
-      Navigator.of(context).pushNamed(
-        '/patient-manager',
-        arguments: BusinessArguments(
-          widget.signedInUser,
-          widget.businessUser,
-          widget.business,
-        ),
-      );
-      successPopUp(message);
-      addAccessReviewNotificationAPICall(index);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  Future<void> addAccessReviewNotificationAPICall(int index) async {
-    var response = await http.post(
-      Uri.parse("$baseAPI/notifications/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": widget.patients[index].app_id,
-        "notification_type": "New Appointment Booked",
-        "notification_message":
-            "A new Appointment has been booked by ${widget.business!.Name} for the ${dateController.text} ${timeController.text}. Please approve the Access Review request.",
-        "action_path": "/mih-access",
-      }),
-    );
-    if (response.statusCode == 201) {
-      // Navigator.pushNamed(context, '/patient-manager/patient',
-      //     arguments: widget.signedInUser);
-    } else {
-      internetConnectionPopUp();
-    }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
   void noAccessWarning() {
     showDialog(
       context: context,
@@ -141,10 +44,12 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     );
   }
 
-  Future<bool> hasAccessToProfile(int index) async {
+  Future<bool> hasAccessToProfile(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider, int index) async {
     var hasAccess = false;
     await MIHApiCalls.checkBusinessAccessToPatient(
-            widget.business!.business_id, widget.patients[index].app_id)
+            profileProvider.business!.business_id,
+            patientManagerProvider.patientSearchResults[index].app_id)
         .then((results) {
       if (results.isEmpty) {
         setState(() {
@@ -163,10 +68,12 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     return hasAccess;
   }
 
-  Future<String> getAccessStatusOfProfile(int index) async {
+  Future<String> getAccessStatusOfProfile(MzansiProfileProvider profileProvider,
+      PatientManagerProvider patientManagerProvider, int index) async {
     var accessStatus = "";
     await MIHApiCalls.checkBusinessAccessToPatient(
-            widget.business!.business_id, widget.patients[index].app_id)
+            profileProvider.business!.business_id,
+            patientManagerProvider.patientSearchResults[index].app_id)
         .then((results) {
       if (results.isEmpty) {
         setState(() {
@@ -181,15 +88,22 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     return accessStatus;
   }
 
-  void patientProfileChoicePopUp(int index) async {
+  void patientProfileChoicePopUp(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+    int index,
+  ) async {
     var hasAccess = false;
     String accessStatus = "";
-    await hasAccessToProfile(index).then((result) {
+    await hasAccessToProfile(profileProvider, patientManagerProvider, index)
+        .then((result) {
       setState(() {
         hasAccess = result;
       });
     });
-    await getAccessStatusOfProfile(index).then((result) {
+    await getAccessStatusOfProfile(
+            profileProvider, patientManagerProvider, index)
+        .then((result) {
       setState(() {
         accessStatus = result;
       });
@@ -197,13 +111,22 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     if (accessStatus == "") {
       accessStatus = "No Access";
     }
-    var idStars = '*' * (13 - 6);
-    String startedOutPatientIdNo =
-        "${widget.patients[index].id_no.substring(0, 6)}$idStars";
+    String patientIdNo =
+        patientManagerProvider.patientSearchResults[index].id_no;
+    String displayedIdNo;
+
+    if (patientIdNo.length >= 6) {
+      var idStars = '*' * (patientIdNo.length - 6);
+      displayedIdNo = "${patientIdNo.substring(0, 6)}$idStars";
+    } else {
+      displayedIdNo = "${patientIdNo}******";
+    }
     setState(() {
-      idController.text = startedOutPatientIdNo;
-      fnameController.text = widget.patients[index].first_name;
-      lnameController.text = widget.patients[index].last_name;
+      idController.text = displayedIdNo;
+      fnameController.text =
+          patientManagerProvider.patientSearchResults[index].first_name;
+      lnameController.text =
+          patientManagerProvider.patientSearchResults[index].last_name;
       accessStatusController.text = accessStatus.toUpperCase();
     });
     //print(accessStatus);
@@ -362,17 +285,21 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     visible: hasAccess,
                     child: Center(
                       child: MihButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (hasAccess) {
+                            await MihPatientServices().getPatientDetails(
+                                patientManagerProvider
+                                    .patientSearchResults[index].app_id,
+                                patientManagerProvider);
                             context.pop();
-                            context.pushNamed('patientManagerPatient',
-                                extra: PatientViewArguments(
-                                  widget.signedInUser,
-                                  widget.patients[index],
-                                  widget.businessUser,
-                                  widget.business,
-                                  "business",
-                                ));
+                            context.pushNamed(
+                              'patientManagerPatient',
+                            );
+                            // context.pushNamed(
+                            //   'patientPatient',
+                            //   extra: patientManagerProvider
+                            //       .patientSearchResults![index].app_id,
+                            // );
                             // Navigator.of(context)
                             //     .pushNamed('/patient-manager/patient',
                             //         arguments: PatientViewArguments(
@@ -407,17 +334,19 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     visible: !hasAccess && accessStatus == "No Access",
                     child: Center(
                       child: MihButton(
-                        onPressed: () {
-                          MIHApiCalls.addPatientAccessAPICall(
-                            widget.business!.business_id,
-                            widget.patients[index].app_id,
+                        onPressed: () async {
+                          await MihAccessControlsServices
+                              .addPatientAccessAPICall(
+                            profileProvider.business!.business_id,
+                            patientManagerProvider
+                                .patientSearchResults[index].app_id,
                             "patient",
-                            widget.business!.Name,
-                            widget.personalSelected,
+                            profileProvider.business!.Name,
+                            patientManagerProvider.personalMode,
                             BusinessArguments(
-                              widget.signedInUser,
-                              widget.businessUser,
-                              widget.business,
+                              profileProvider.user!,
+                              profileProvider.businessUser,
+                              profileProvider.business,
                             ),
                             context,
                           );
@@ -443,15 +372,16 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     visible: !hasAccess && accessStatus == "declined",
                     child: Center(
                       child: MihButton(
-                        onPressed: () {
-                          MIHApiCalls.reapplyPatientAccessAPICall(
-                            widget.business!.business_id,
-                            widget.patients[index].app_id,
-                            widget.personalSelected,
+                        onPressed: () async {
+                          await MIHApiCalls.reapplyPatientAccessAPICall(
+                            profileProvider.business!.business_id,
+                            patientManagerProvider
+                                .patientSearchResults[index].app_id,
+                            patientManagerProvider.personalMode,
                             BusinessArguments(
-                              widget.signedInUser,
-                              widget.businessUser,
-                              widget.business,
+                              profileProvider.user!,
+                              profileProvider.businessUser,
+                              profileProvider.business,
                             ),
                             context,
                           );
@@ -491,20 +421,17 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     );
   }
 
-  Widget isMainMember(int index) {
-    //var matchRE = RegExp(r'^[a-z]+$');
-    // var firstLetterFName = widget.patients[index].first_name[0];
-    // var firstLetterLName = widget.patients[index].last_name[0];
-    // var fnameStar = '*' * 8;
-    // var lnameStar = '*' * 8;
-
-    if (widget.patients[index].medical_aid_main_member == "Yes") {
+  Widget isMainMember(
+      PatientManagerProvider patientManagerProvider, int index) {
+    if (patientManagerProvider
+            .patientSearchResults[index].medical_aid_main_member ==
+        "Yes") {
       return Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(
             // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
-            "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+            "${patientManagerProvider.patientSearchResults[index].first_name} ${patientManagerProvider.patientSearchResults[index].last_name}",
             style: TextStyle(
               color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -523,7 +450,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     } else {
       return Text(
         // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
-        "${widget.patients[index].first_name} ${widget.patients[index].last_name}",
+        "${patientManagerProvider.patientSearchResults[index].first_name} ${patientManagerProvider.patientSearchResults[index].last_name}",
         style: TextStyle(
           color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -532,23 +459,37 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     }
   }
 
-  Widget hasMedicalAid(int index) {
+  Widget hasMedicalAid(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+    int index,
+  ) {
+    String patientIdNo =
+        patientManagerProvider.patientSearchResults[index].id_no;
+    String displayedIdNo;
     var medAidNoStar = '*' * 8;
-    var idStars = '*' * (13 - 6);
-    String startedOutPatientIdNo =
-        "${widget.patients[index].id_no.substring(0, 6)}$idStars";
-    if (widget.patients[index].medical_aid == "Yes") {
+    if (patientIdNo.length >= 6) {
+      var idStars = '*' * (patientIdNo.length - 6);
+      displayedIdNo = "${patientIdNo.substring(0, 6)}$idStars";
+    } else {
+      // If ID is shorter than 6 characters, just show it with stars
+      displayedIdNo = "${patientIdNo}******";
+    }
+
+    if (patientManagerProvider.patientSearchResults[index].medical_aid ==
+        "Yes") {
       return ListTile(
-        title: isMainMember(index),
+        title: isMainMember(patientManagerProvider, index),
         subtitle: Text(
-          "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
+          "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
             color: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
         onTap: () {
-          patientProfileChoicePopUp(index);
+          patientProfileChoicePopUp(
+              profileProvider, patientManagerProvider, index);
           // setState(() {
           //   appointmentPopUp(index);
           //   // Add popup to add patienmt to queue
@@ -565,16 +506,17 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       );
     } else {
       return ListTile(
-        title: isMainMember(index),
+        title: isMainMember(patientManagerProvider, index),
         subtitle: Text(
-          "ID No.: $startedOutPatientIdNo\nMedical Aid No.: $medAidNoStar",
+          "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
           style: TextStyle(
             color: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         ),
         onTap: () {
-          patientProfileChoicePopUp(index);
+          patientProfileChoicePopUp(
+              profileProvider, patientManagerProvider, index);
           // setState(() {
           //   appointmentPopUp(index);
           //   // Navigator.of(context).pushNamed('/patient-manager/patient',
@@ -599,25 +541,34 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     fnameController.dispose();
     lnameController.dispose();
     accessStatusController.dispose();
+    PatientManagerProvider patientManagerProvider =
+        context.read<PatientManagerProvider>();
+    patientManagerProvider.setPatientSearchResults(patientSearchResults: []);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (BuildContext context, index) {
-        return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, index) {
+            return Divider(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            );
+          },
+          itemCount: patientManagerProvider.patientSearchResults.length,
+          itemBuilder: (context, index) {
+            KenLogger.success(
+                "Search Results Count: ${patientManagerProvider.patientSearchResults.length}");
+            return hasMedicalAid(
+                profileProvider, patientManagerProvider, index);
+          },
         );
-      },
-      itemCount: widget.patients.length,
-      itemBuilder: (context, index) {
-        //final patient = widget.patients[index].id_no.contains(widget.searchString);
-        //print(index);
-        return hasMedicalAid(index);
       },
     );
   }

@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/mih_patient_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/my_patient_list.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _PatManagerState extends State<PatManager> {
         mihCalendarProvider.selectedDay,
         mihCalendarProvider,
       );
-      MihPatientServices().getPatientAccessListOfBusiness(
+      await MihPatientServices().getPatientAccessListOfBusiness(
           patientManagerProvider, profileProvider.business!.business_id);
     }
     setState(() {
@@ -82,13 +83,9 @@ class _PatManagerState extends State<PatManager> {
       onTap: () {
         patientManagerProvider.setPatientProfileIndex(0);
         patientManagerProvider.setPatientManagerIndex(0);
-        if (!patientManagerProvider.personalMode) {
-          context.pop();
-        } else {
-          context.goNamed(
-            'mihHome',
-          );
-        }
+        context.goNamed(
+          'mihHome',
+        );
         FocusScope.of(context).unfocus();
       },
     );
@@ -104,6 +101,9 @@ class _PatManagerState extends State<PatManager> {
     };
 
     temp[const Icon(Icons.search)] = () {
+      context
+          .read<PatientManagerProvider>()
+          .setPatientSearchResults(patientSearchResults: []);
       context.read<PatientManagerProvider>().setPatientManagerIndex(2);
     };
     return MihPackageTools(
@@ -117,13 +117,7 @@ class _PatManagerState extends State<PatManager> {
     List<Widget> toolBodies = [
       WaitingRoom(),
       MyPatientList(),
-      Placeholder(),
-      // MihPatientSearch(
-      //   signedInUser: widget.arguments.signedInUser,
-      //   business: widget.arguments.business,
-      //   personalSelected: widget.arguments.personalSelected,
-      //   businessUser: widget.arguments.businessUser,
-      // ),
+      MihPatientSearch(),
     ];
     return toolBodies;
   }

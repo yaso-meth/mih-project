@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -78,9 +77,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //   return []; // Return empty list if data isn't ready
     // }
     List<Map<String, Widget>> temp = [];
-    KenLogger.success("here");
     if (mzansiProfileProvider.business == null && !widget.isLoading) {
-      KenLogger.success("here");
       temp.add({
         "Setup Business": MzansiSetupBusinessProfileTile(
           packageSize: packageSize,

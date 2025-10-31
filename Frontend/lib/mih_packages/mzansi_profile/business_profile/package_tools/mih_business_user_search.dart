@@ -167,6 +167,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   }
 
   Widget getBody(double width) {
+    // dscvds
     return MihSingleChildScroll(
       child: Column(mainAxisSize: MainAxisSize.max, children: [
         Padding(
@@ -187,7 +188,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                 searchController.clear();
                 userSearch = "";
               });
-              submitUserForm();
             },
             searchFocusNode: _searchFocusNode,
           ),

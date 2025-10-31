@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
@@ -26,13 +25,30 @@ class MihPatientServices {
     );
     if (response.statusCode == 200) {
       String body = response.body;
-      KenLogger.success(response.body);
       var jsonBody = jsonDecode(body);
       Patient patient = Patient.fromJson(jsonBody);
       patientManagerProvider.setSelectedPatient(selectedPatient: patient);
       return patient;
     } else {
       return null;
+    }
+  }
+
+  static Future<List<Patient>> searchPatients(
+    PatientManagerProvider patientManagerProvider,
+    String search,
+  ) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patients/search/$search"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Patient> patients =
+          List<Patient>.from(l.map((model) => Patient.fromJson(model)));
+      patientManagerProvider.setPatientSearchResults(
+          patientSearchResults: patients);
+      return patients;
+    } else {
+      throw Exception('failed to load patients');
     }
   }
 
