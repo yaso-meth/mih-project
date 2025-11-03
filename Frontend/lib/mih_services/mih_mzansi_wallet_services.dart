@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
 import '../mih_config/mih_env.dart';
@@ -17,6 +16,7 @@ class MIHMzansiWalletApis {
   final baseAPI = AppEnviroment.baseApiUrl;
 
   static Future<void> getLoyaltyCards(
+    MzansiWalletProvider walletProvider,
     String app_id,
     BuildContext context,
   ) async {
@@ -26,7 +26,7 @@ class MIHMzansiWalletApis {
       Iterable l = jsonDecode(response.body);
       List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      context.read<MzansiWalletProvider>().setLoyaltyCards(cards: myCards);
+      walletProvider.setLoyaltyCards(cards: myCards);
       // return myCards;
     } else {
       throw Exception('failed to fatch loyalty cards');
@@ -34,6 +34,7 @@ class MIHMzansiWalletApis {
   }
 
   static Future<void> getFavouriteLoyaltyCards(
+    MzansiWalletProvider walletProvider,
     String app_id,
     BuildContext context,
   ) async {
@@ -44,7 +45,7 @@ class MIHMzansiWalletApis {
       Iterable l = jsonDecode(response.body);
       List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
-      context.read<MzansiWalletProvider>().setFavouriteCards(cards: myCards);
+      walletProvider.setFavouriteCards(cards: myCards);
     }
     // else {
     //   throw Exception('failed to fatch loyalty cards');
@@ -60,6 +61,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
   static Future<int> deleteLoyaltyCardAPICall(
+    MzansiWalletProvider walletProvider,
     AppUser signedInUser,
     int idloyalty_cards,
     BuildContext context,
@@ -77,9 +79,7 @@ class MIHMzansiWalletApis {
     //print(response.statusCode);
     context.pop();
     if (response.statusCode == 200) {
-      context
-          .read<MzansiWalletProvider>()
-          .deleteLoyaltyCard(cardId: idloyalty_cards);
+      walletProvider.deleteLoyaltyCard(cardId: idloyalty_cards);
     }
     return response.statusCode;
     // if (response.statusCode == 200) {
@@ -111,6 +111,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS SUCCESS pop up)
   static Future<int> addLoyaltyCardAPICall(
+    MzansiWalletProvider walletProvider,
     AppUser signedInUser,
     String app_id,
     String shop_name,
@@ -137,6 +138,10 @@ class MIHMzansiWalletApis {
       }),
     );
     context.pop();
+    KenLogger.success("Response: $response");
+    if (response.statusCode == 201) {
+      await getLoyaltyCards(walletProvider, app_id, context);
+    }
     return response.statusCode;
     // if (response.statusCode == 201) {
     //   // Navigator.pop(context);
@@ -164,6 +169,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
   static Future<int> updateLoyaltyCardAPICall(
+    MzansiWalletProvider walletProvider,
     AppUser signedInUser,
     int idloyalty_cards,
     String shopName,
@@ -190,17 +196,17 @@ class MIHMzansiWalletApis {
     );
     context.pop();
     if (response.statusCode == 200) {
-      context.read<MzansiWalletProvider>().editLoyaltyCard(
-            updatedCard: MIHLoyaltyCard(
-              idloyalty_cards: idloyalty_cards,
-              app_id: signedInUser.app_id,
-              shop_name: shopName,
-              card_number: card_number,
-              favourite: favourite,
-              priority_index: priority_index,
-              nickname: nickname,
-            ),
-          );
+      walletProvider.editLoyaltyCard(
+        updatedCard: MIHLoyaltyCard(
+          idloyalty_cards: idloyalty_cards,
+          app_id: signedInUser.app_id,
+          shop_name: shopName,
+          card_number: card_number,
+          favourite: favourite,
+          priority_index: priority_index,
+          nickname: nickname,
+        ),
+      );
     }
     return response.statusCode;
   }
