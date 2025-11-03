@@ -34,6 +34,8 @@ class _MihCardsState extends State<MihCards> {
     detectionSpeed: DetectionSpeed.unrestricted,
   );
   final boxFit = BoxFit.contain;
+  late MzansiWalletProvider _walletProvider;
+  late VoidCallback _searchListener;
 
   void searchShop(List<MIHLoyaltyCard> allCards) {
     if (cardSearchController.text.isEmpty) {
@@ -129,10 +131,7 @@ class _MihCardsState extends State<MihCards> {
 
   @override
   void dispose() {
-    final walletProvider = context.read<MzansiWalletProvider>();
-    cardSearchController.removeListener(() {
-      searchShop(walletProvider.loyaltyCards);
-    });
+    cardSearchController.removeListener(_searchListener);
     cardSearchController.dispose();
     searchShopName.dispose();
     searchFocusNode.dispose();
@@ -141,11 +140,12 @@ class _MihCardsState extends State<MihCards> {
 
   @override
   void initState() {
-    final walletProvider = context.read<MzansiWalletProvider>();
-    searchShopName.value = walletProvider.loyaltyCards;
-    cardSearchController.addListener(() {
-      searchShop(walletProvider.loyaltyCards);
-    });
+    _walletProvider = context.read<MzansiWalletProvider>();
+    _searchListener = () {
+      searchShop(_walletProvider.loyaltyCards);
+    };
+    searchShopName.value = _walletProvider.loyaltyCards;
+    cardSearchController.addListener(_searchListener);
     super.initState();
   }
 

@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -522,7 +521,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           ),
         ],
         onWindowTapClose: () {
-          context.read<MihBannerAdProvider>().loadBannerAd();
           resetScreenBrightness();
           context.pop();
         },
@@ -584,9 +582,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ),
             SizedBox(height: 10),
-            Consumer(builder: (context, bannerAdDisplay, child) {
-              return MihBannerAd();
-            }),
+            MihBannerAd()
             // MihBannerAd(),
           ],
         ),

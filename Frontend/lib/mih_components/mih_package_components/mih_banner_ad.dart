@@ -13,9 +13,27 @@ class MihBannerAd extends StatefulWidget {
 
 class _MihBannerAdState extends State<MihBannerAd> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    MihBannerAdProvider adProvider = context.read<MihBannerAdProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      adProvider.reset();
+      adProvider.loadBannerAd();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<MihBannerAdProvider>(
       builder: (context, bannerAdProvider, child) {
+        if (!bannerAdProvider.isBannerAdLoaded) {
+          return SizedBox();
+        }
         return Column(
           children: [
             bannerAdProvider.bannerAd != null &&

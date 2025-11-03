@@ -28,6 +28,11 @@ class MihBannerAdProvider extends ChangeNotifier {
   }
 
   void loadBannerAd() {
+    if (bannerAd != null) {
+      bannerAd!.dispose();
+      bannerAd = null;
+      isBannerAdLoaded = false;
+    }
     bannerAd = BannerAd(
       adUnitId: adUnitId,
       request: const AdRequest(),

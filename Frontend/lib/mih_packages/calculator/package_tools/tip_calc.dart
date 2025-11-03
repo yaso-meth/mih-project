@@ -1,6 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -99,7 +98,6 @@ class _TipCalcState extends State<TipCalc> {
         fullscreen: false,
         windowTitle: "Calculation Results",
         onWindowTapClose: () {
-          context.read<MihBannerAdProvider>().loadBannerAd();
           Navigator.pop(context);
         },
         windowBody: Column(

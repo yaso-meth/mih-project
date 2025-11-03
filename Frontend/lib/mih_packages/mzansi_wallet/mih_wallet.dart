@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +49,6 @@ class _MihWalletState extends State<MihWallet> {
           context.read<MzansiWalletProvider>();
       await setLoyaltyCards(mzansiProfileProvider, walletProvider);
       await setFavouritesCards(mzansiProfileProvider, walletProvider);
-      context.read<MihBannerAdProvider>().loadBannerAd();
       setState(() {
         isLoading = false;
       });
