@@ -14,163 +14,821 @@ class MineSweeperQuickStartGuide extends StatefulWidget {
 
 class _MineSweeperQuickStartGuideState
     extends State<MineSweeperQuickStartGuide> {
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
-        color: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      ),
-    );
-  }
+  double titleSize = 22.0;
+  double subtitleSize = 20.0;
+  double pointsSize = 18.0;
 
-  Widget _buildSubSectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        color: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+  Widget sectionOne() {
+    return Container(
+      decoration: BoxDecoration(
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        borderRadius: BorderRadius.circular(15),
       ),
-    );
-  }
-
-  Widget _buildRulePoint({
-    required String title,
-    required List<String> points,
-    required Color color,
-  }) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: color,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            // Title
+            Text(
+              "1. Two Main Actions\n(Your Controls)",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: titleSize,
+                fontWeight: FontWeight.bold,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
             ),
-          ),
-          ...points
-              .map((point) => Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      '• $point',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                    ),
-                  ))
-              .toList(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNumberClue(String clue, String explanation) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text('• ',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          Expanded(
-            child: RichText(
+            const SizedBox(height: 8),
+            //Part One
+            RichText(
               text: TextSpan(
-                style: TextStyle(
-                    fontSize: 16,
-                    color: MihColors.getOrangeColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 children: <TextSpan>[
                   TextSpan(
-                      text: 'If you see a $clue: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: explanation),
+                    text: 'Quick Tap (or Click): This is the Dig action.',
+                    style: TextStyle(
+                      color: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode !=
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStrategyPoint(String title, String explanation,
-      {bool isAction = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RichText(
-            text: TextSpan(
-              style: TextStyle(
-                  fontSize: 16,
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
-              children: <TextSpan>[
-                TextSpan(
-                  text: title,
-                  style: TextStyle(
-                    fontWeight: isAction ? FontWeight.bold : FontWeight.normal,
-                    color: isAction
-                        ? MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode !=
-                                "Dark")
-                        : MihColors.getPurpleColor(
-                            MzansiInnovationHub.of(context)!.theme.mode !=
-                                "Dark"),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Goal:',
+                        style: TextStyle(
+                          color: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' To uncover a square and see a number clue.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                TextSpan(text: isAction ? ' $explanation' : ': $explanation'),
-              ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Risk:',
+                        style: TextStyle(
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' If you click a mine, the game ends!',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            //Part Two
+            RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text:
+                        'Tap and Hold (or Long Press): This is the Flag action (🚩).',
+                    style: TextStyle(
+                      color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode !=
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Goal:',
+                        style: TextStyle(
+                          color: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' To safely mark a square that you are',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' certain',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' is a mine.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Risk:',
+                        style: TextStyle(
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' Accidental placement of flags will cause confusion.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Benefit:',
+                        style: TextStyle(
+                          color: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' You cannot accidentally click a square that is flagged.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildTipPoint(String title, String explanation) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('• ',
+  Widget sectionTwo() {
+    return Container(
+      decoration: BoxDecoration(
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            // Title
+            Text(
+              "2. The Golden Rule\n(Reading the Numbers)",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 18,
-                  color: MihColors.getBronze(
-                      MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
-                  fontWeight: FontWeight.bold)),
-          Expanded(
-            child: RichText(
+                fontSize: titleSize,
+                fontWeight: FontWeight.bold,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+            ),
+            const SizedBox(height: 8),
+            //Part One
+            RichText(
               text: TextSpan(
-                style: TextStyle(
-                    fontSize: 16,
-                    color: MihColors.getBronze(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
                 children: <TextSpan>[
                   TextSpan(
-                      text: title,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: explanation),
+                    text:
+                        'The number tells you exactly how many mines are touching that square (including sides and corners).',
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontWeight: FontWeight.normal,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "• If you see a Blank Space (a '0'):",
+                        style: TextStyle(
+                          color: MihColors.getOrangeColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " Zero (0) ",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' mines are touching it. All surrounding squares are safe, and the game will open them for you automatically.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "• If you see a '1':",
+                        style: TextStyle(
+                          color: MihColors.getOrangeColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Only ',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'one',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' mine is touching this square. You must find and flag that single mine.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "• If you see a '3':",
+                        style: TextStyle(
+                          color: MihColors.getOrangeColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " Three ",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'mines are touching this square. You must find and flag all three.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget sectionThree() {
+    return Container(
+      decoration: BoxDecoration(
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            // Title
+            Text(
+              "3. The Winning Strategy\n(The Deduction Loop)",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: titleSize,
+                fontWeight: FontWeight.bold,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+            ),
+            const SizedBox(height: 8),
+            //Part One
+            RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text:
+                        'The game is won by uncovering every single safe square and correctly flagging all the mines. Use this two-step loop to clear the board:',
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontWeight: FontWeight.normal,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'A. Find the Mines (Where to Flag 🚩)',
+                    style: TextStyle(
+                      color: MihColors.getPurpleColor(
+                          MzansiInnovationHub.of(context)!.theme.mode !=
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Goal:',
+                        style: TextStyle(
+                          color: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' Look for a number that only has one choice for a mine. e.g. If a \'1\' is touching only one hidden square, that hidden square',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' must ',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'be the mine.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Action:',
+                        style: TextStyle(
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Tap and Hold to place a',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' Flag ',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'on the square you are sure is a mine.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            //Part Two
+            RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'B. Find the Safe Squares (Where to Dig)',
+                    style: TextStyle(
+                      color: MihColors.getPurpleColor(
+                          MzansiInnovationHub.of(context)!.theme.mode !=
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                      fontSize: subtitleSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Goal:',
+                        style: TextStyle(
+                          color: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' Look for a number that has been \'satisfied\' by your flags. e.g. You see a \'2\' and you have already placed two 🚩 flags touching it. The \'2\' is satisfied.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '• Action:',
+                        style: TextStyle(
+                          color: MihColors.getRedColor(
+                              MzansiInnovationHub.of(context)!.theme.mode !=
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' Quick Tap any of the remaining hidden squares touching that \'satisfied\' number. They',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' must be safe ',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'because the mine requirement has already been met.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget sectionFour() {
+    return Container(
+      decoration: BoxDecoration(
+        color: MihColors.getSecondaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            // Title
+            Text(
+              "✨ Key Beginner Tips",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: titleSize,
+                fontWeight: FontWeight.bold,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "• Start on the Edges and Corners: ",
+                        style: TextStyle(
+                          color: MihColors.getBronze(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'Numbers on the edge or corner of the board are easier to solve because they have fewer surrounding squares to check.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "• Don't Guess: ",
+                        style: TextStyle(
+                          color: MihColors.getBronze(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'If you are down to two squares and either one could be the mine, look somewhere else on the board for a guaranteed, safe move.',
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontWeight: FontWeight.normal,
+                          fontSize: pointsSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -202,146 +860,18 @@ class _MineSweeperQuickStartGuideState
             const SizedBox(height: 8),
             const Text(
               'Minesweeper is a puzzle game where you use numbers to figure out where the hidden bombs (mines) are located.',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 18),
             ),
             // const Divider(height: 30),
             const SizedBox(height: 15),
-            // --- 1. Two Main Actions ---
-            Container(
-              decoration: BoxDecoration(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 8),
-                  _buildSectionTitle('1. Two Main Actions (Your Controls)'),
-                  const SizedBox(height: 8),
-                  _buildRulePoint(
-                    title: 'Quick Tap (or Click): This is the Dig action.',
-                    points: [
-                      'Goal: To uncover a square and see a number clue.',
-                      'Risk: If you click a mine, the game ends!',
-                    ],
-                    color: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
-                  ),
-                  _buildRulePoint(
-                    title:
-                        'Tap and Hold (or Long Press): This is the Flag action (🚩).',
-                    points: [
-                      'Goal: To safely mark a square that you are **certain** is a mine.',
-                      'Benefit: You cannot accidentally click a square that is flagged.',
-                    ],
-                    color: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
-                  ),
-                  const SizedBox(height: 4),
-                ],
-              ),
-            ),
+            sectionOne(),
             const SizedBox(height: 15),
-            // --- 2. The Golden Rule: Reading the Numbers ---
-            Container(
-              decoration: BoxDecoration(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 8),
-                  _buildSectionTitle('2. The Golden Rule: Reading the Numbers'),
-                  const SizedBox(height: 8),
-                  Text(
-                    'The number tells you exactly how many mines are touching that square (including sides and corners).',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontStyle: FontStyle.italic,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode !=
-                              "Darl"),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildNumberClue('Blank Space (a \'0\')',
-                      'Zero (0) mines are touching it. All surrounding squares are safe, and the game will open them for you automatically.'),
-                  _buildNumberClue('\'1\'',
-                      'Only **one** mine is touching this square. You must find and flag that single mine.'),
-                  _buildNumberClue('\'3\'',
-                      'Three mines are touching this square. You must find and flag all three.'),
-                  const SizedBox(height: 4),
-                ],
-              ),
-            ),
+            sectionTwo(),
             const SizedBox(height: 15),
-            // --- 3. The Winning Strategy ---
-            Container(
-              decoration: BoxDecoration(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 8),
-                  _buildSectionTitle(
-                      '3. The Winning Strategy (The Deduction Loop)'),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      'The game is won by uncovering every single safe square and correctly flagging all the mines. Use this two-step loop to clear the board:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode !=
-                                "Darl"),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildSubSectionTitle('A. Find the Mines (Where to Flag 🚩)'),
-                  _buildStrategyPoint(
-                      'Look for a number that only has one choice for a mine.',
-                      'Example: If a \'1\' is touching only one hidden square, that hidden square **must** be the mine.'),
-                  _buildStrategyPoint('Action:',
-                      'Tap and Hold to place a **Flag** on the square you are sure is a mine.',
-                      isAction: true),
-                  const SizedBox(height: 12),
-                  _buildSubSectionTitle(
-                      'B. Find the Safe Squares (Where to Dig)'),
-                  _buildStrategyPoint(
-                      'Look for a number that has been \'satisfied\' by your flags.',
-                      'Example: You see a \'2\'. You have already placed two 🚩 flags touching it. The \'2\' is satisfied.'),
-                  _buildStrategyPoint('Action:',
-                      'Quick Tap any of the remaining hidden squares touching that \'satisfied\' number. They **must be safe** because the mine requirement has already been met.',
-                      isAction: true),
-                ],
-              ),
-            ),
+            sectionThree(),
             const SizedBox(height: 15),
-            // --- Key Beginner Tip ---
-            Container(
-              decoration: BoxDecoration(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 8),
-                  _buildSectionTitle('✨ Key Beginner Tips'),
-                  const SizedBox(height: 8),
-                  _buildTipPoint('Start on the Edges and Corners:',
-                      'Numbers on the edge or corner of the board are easier to solve because they have fewer surrounding squares to check.'),
-                  _buildTipPoint('Don\'t Guess:',
-                      'If you are down to two squares and either one could be the mine, look somewhere else on the board for a guaranteed, safe move.'),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            ),
+            sectionFour(),
+            const SizedBox(height: 15),
           ],
         ),
       ),
