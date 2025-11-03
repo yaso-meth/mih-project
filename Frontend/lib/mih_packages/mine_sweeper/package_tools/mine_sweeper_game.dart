@@ -753,7 +753,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
                             onTap: () {
-                              mihMineSweeperProvider.setToolIndex(2);
+                              mihMineSweeperProvider.setToolIndex(3);
                             },
                           ),
                           SpeedDialChild(
