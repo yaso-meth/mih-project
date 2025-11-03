@@ -763,9 +763,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
                             ),
-                            label: board.isEmpty && squaresLeft < 0
-                                ? "Start Game"
-                                : "Reset Game",
+                            label: "Start New Game",
                             labelBackgroundColor: MihColors.getGreenColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
