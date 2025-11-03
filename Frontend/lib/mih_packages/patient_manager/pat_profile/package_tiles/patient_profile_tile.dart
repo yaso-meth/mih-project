@@ -31,9 +31,13 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
         PatientManagerProvider patientManagerProvider =
             context.read<PatientManagerProvider>();
         patientManagerProvider.setPersonalMode(true);
-        context.goNamed(
-          'patientProfile',
-        );
+        if (patientManagerProvider.selectedPatient != null) {
+          context.goNamed(
+            'patientProfile',
+          );
+        } else {
+          context.goNamed("patientProfileSetup");
+        }
         // Navigator.of(context).pushNamed(
         //   '/patient-profile',
         //   arguments: widget.arguments,

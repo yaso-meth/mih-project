@@ -39,10 +39,7 @@ class _PatientProfileState extends State<PatientProfile> {
       await MihPatientServices()
           .getPatientDetails(app_id, patientManagerProvider);
     }
-    if (patientManagerProvider.selectedPatient == null) {
-      // go to set up patient package
-      context.goNamed("patientProfileSetup");
-    } else {
+    if (patientManagerProvider.selectedPatient != null) {
       await MihPatientServices()
           .getPatientConsultationNotes(patientManagerProvider);
       await MihPatientServices().getPatientDocuments(patientManagerProvider);
