@@ -52,6 +52,8 @@
 		<string>Why is my app authenticating using face id?</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app needs access to location when open.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs access to your location at all times to provide [Explain your specific, complete reason here, e.g., real-time tracking, background updates, etc.].</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app needs to access your photo library to select images.</string>
 		<key>NSDownloadsFolderUsageDescription</key>

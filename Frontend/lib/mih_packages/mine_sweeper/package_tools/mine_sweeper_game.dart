@@ -129,12 +129,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
     // easy - 10 * 10 & 15 bombs
     // Intermediate - 10 * 15 & 23 bombs
     // Hard - 10 * 20 & 30 bombs
-    addProvider.loadBannerAd();
     showDialog(
         context: context,
         builder: (context) {
           return MihMineSweeperStartGameWindow(
             onPressed: () {
+              addProvider.loadBannerAd();
               resetTimer();
               mihMineSweeperProvider
                   .setDifficulty(mihMineSweeperProvider.difficulty);
@@ -803,7 +803,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 ],
               ),
             ),
-            MihBannerAd(),
+            _timer != null ? MihBannerAd() : SizedBox(),
             SizedBox(height: 15),
           ],
         );
