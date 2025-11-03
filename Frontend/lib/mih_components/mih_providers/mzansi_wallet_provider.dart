@@ -33,11 +33,6 @@ class MzansiWalletProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addLoyaltyCard({required MIHLoyaltyCard newCard}) {
-    loyaltyCards.add(newCard);
-    notifyListeners();
-  }
-
   void deleteLoyaltyCard({required int cardId}) {
     loyaltyCards.removeWhere((card) => card.idloyalty_cards == cardId);
     notifyListeners();

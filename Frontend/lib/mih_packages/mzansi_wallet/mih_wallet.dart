@@ -25,24 +25,31 @@ class _MihWalletState extends State<MihWallet> {
   bool isLoading = true;
 
   Future<void> setLoyaltyCards(
-      MzansiProfileProvider mzansiProfileProvider) async {
+    MzansiProfileProvider mzansiProfileProvider,
+    MzansiWalletProvider walletProvider,
+  ) async {
     await MIHMzansiWalletApis.getLoyaltyCards(
-        mzansiProfileProvider.user!.app_id, context);
+        walletProvider, mzansiProfileProvider.user!.app_id, context);
   }
 
   Future<void> setFavouritesCards(
-      MzansiProfileProvider mzansiProfileProvider) async {
+    MzansiProfileProvider mzansiProfileProvider,
+    MzansiWalletProvider walletProvider,
+  ) async {
     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-        mzansiProfileProvider.user!.app_id, context);
+        walletProvider, mzansiProfileProvider.user!.app_id, context);
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var mzansiProfileProvider = context.read<MzansiProfileProvider>();
-      await setLoyaltyCards(mzansiProfileProvider);
-      await setFavouritesCards(mzansiProfileProvider);
+      MzansiProfileProvider mzansiProfileProvider =
+          context.read<MzansiProfileProvider>();
+      MzansiWalletProvider walletProvider =
+          context.read<MzansiWalletProvider>();
+      await setLoyaltyCards(mzansiProfileProvider, walletProvider);
+      await setFavouritesCards(mzansiProfileProvider, walletProvider);
       context.read<MihBannerAdProvider>().loadBannerAd();
       setState(() {
         isLoading = false;

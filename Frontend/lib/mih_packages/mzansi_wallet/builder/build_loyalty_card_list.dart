@@ -58,8 +58,12 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void editCardWindow(MzansiProfileProvider mzansiProfileProvider,
-      BuildContext ctxt, int index, double width) {
+  void editCardWindow(
+      MzansiProfileProvider mzansiProfileProvider,
+      MzansiWalletProvider walletProvider,
+      BuildContext ctxt,
+      int index,
+      double width) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -144,6 +148,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                         if (_formKey.currentState!.validate()) {
                           int statusCode = await MIHMzansiWalletApis
                               .updateLoyaltyCardAPICall(
+                            walletProvider,
                             mzansiProfileProvider.user!,
                             widget.cardList[index].idloyalty_cards,
                             widget.cardList[index].shop_name,
@@ -211,7 +216,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   void deleteCardWindow(MzansiProfileProvider mzansiProfileProvider,
-      BuildContext ctxt, int index) {
+      MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -221,6 +226,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             onTap: () async {
               int statusCode =
                   await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
+                walletProvider,
                 mzansiProfileProvider.user!,
                 widget.cardList[index].idloyalty_cards,
                 context,
@@ -238,7 +244,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   void addToFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
-      BuildContext ctxt, int index) {
+      MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -270,6 +276,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 onPressed: () async {
                   int statusCode =
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                    walletProvider,
                     mzansiProfileProvider.user!,
                     widget.cardList[index].idloyalty_cards,
                     widget.cardList[index].shop_name,
@@ -283,6 +290,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     context.pop();
                     context.pop();
                     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                      walletProvider,
                       mzansiProfileProvider.user!.app_id,
                       context,
                     );
@@ -323,7 +331,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   void removeFromFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
-      BuildContext ctxt, int index) {
+      MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -355,6 +363,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                 onPressed: () async {
                   int statusCode =
                       await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+                    walletProvider,
                     mzansiProfileProvider.user!,
                     widget.cardList[index].idloyalty_cards,
                     widget.cardList[index].shop_name,
@@ -368,6 +377,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     context.pop();
                     context.pop();
                     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                      walletProvider,
                       mzansiProfileProvider.user!.app_id,
                       context,
                     );
@@ -396,8 +406,8 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
-  void viewCardWindow(
-      MzansiProfileProvider mzansiProfileProvider, int index, double width) {
+  void viewCardWindow(MzansiProfileProvider mzansiProfileProvider,
+      MzansiWalletProvider walletProvider, int index, double width) {
     //print(widget.cardList[index].card_number);
     String formattedCardNumber = "";
     for (int i = 0; i <= widget.cardList[index].card_number.length - 1; i++) {
@@ -441,12 +451,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               if (widget.cardList[index].favourite == "") {
                 addToFavCardWindow(
                   mzansiProfileProvider,
+                  walletProvider,
                   context,
                   index,
                 );
               } else {
                 removeFromFavCardWindow(
                   mzansiProfileProvider,
+                  walletProvider,
                   context,
                   index,
                 );
@@ -476,6 +488,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               });
               editCardWindow(
                 mzansiProfileProvider,
+                walletProvider,
                 context,
                 index,
                 width,
@@ -501,6 +514,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             onTap: () {
               deleteCardWindow(
                 mzansiProfileProvider,
+                walletProvider,
                 context,
                 index,
               );
@@ -705,9 +719,11 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     // final double width = size.width;
     //final double height = size.height;
     if (widget.cardList.isNotEmpty) {
-      return Consumer<MzansiProfileProvider>(
+      return Consumer2<MzansiProfileProvider, MzansiWalletProvider>(
         builder: (BuildContext context,
-            MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+            MzansiProfileProvider mzansiProfileProvider,
+            MzansiWalletProvider walletProvider,
+            Widget? child) {
           return GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -732,6 +748,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   setScreenBrightness(1.0);
                   viewCardWindow(
                     mzansiProfileProvider,
+                    walletProvider,
                     index,
                     size.width,
                   );
