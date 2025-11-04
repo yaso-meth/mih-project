@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_employee_list.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
 import 'package:provider/provider.dart';
 
 class MihMyBusinessTeam extends StatefulWidget {
@@ -23,32 +22,11 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   String errorCode = "";
   String errorBody = "";
 
-  void getEmployeeData(MzansiProfileProvider mzansiProfileProvider) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await MihBusinessEmployeeServices()
-          .fetchEmployees(mzansiProfileProvider, context);
-    });
-  }
-  // Future<void> fetchEmployees(
-  //     MzansiProfileProvider mzansiProfileProvider) async {
-  //   //print("Patien manager page: $endpoint");
-  //   final response = await http.get(Uri.parse(
-  //       "${AppEnviroment.baseApiUrl}/business-user/employees/${mzansiProfileProvider.businessUser!.business_id}"));
-  //   errorCode = response.statusCode.toString();
-  //   errorBody = response.body;
-  //   if (response.statusCode == 200) {
-  //     //print("Here1");
-  //     Iterable l = jsonDecode(response.body);
-  //     //print("Here2");
-  //     List<BusinessEmployee> employeeList = List<BusinessEmployee>.from(
-  //         l.map((model) => BusinessEmployee.fromJson(model)));
-  //     mzansiProfileProvider.setEmployeeList(employeeList: employeeList);
-  //     //print("Here3");
-  //     //print(patientQueue);
-  //     // return patientQueue;
-  //   } else {
-  //     throw Exception('failed to load employees');
-  //   }
+  // void getEmployeeData(MzansiProfileProvider mzansiProfileProvider) {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //     await MihBusinessEmployeeServices()
+  //         .fetchEmployees(mzansiProfileProvider, context);
+  //   });
   // }
 
   Widget displayEmployeeList(List<BusinessEmployee> employeeList) {
@@ -89,7 +67,6 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
         if (mzansiProfileProvider.employeeList == null) {
-          getEmployeeData(mzansiProfileProvider);
           return Center(
             child: Mihloadingcircle(),
           );

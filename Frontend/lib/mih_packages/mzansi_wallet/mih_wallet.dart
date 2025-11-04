@@ -94,7 +94,6 @@ class _MihWalletState extends State<MihWallet> {
     temp[const Icon(Icons.favorite)] = () {
       context.read<MzansiWalletProvider>().setToolIndex(1);
     };
-
     return MihPackageTools(
       tools: temp,
       selcetedIndex: context.watch<MzansiWalletProvider>().toolIndex,
