@@ -41,8 +41,6 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
   @override
   void initState() {
     super.initState();
-    futureImageUrl =
-        MihFileApi.getMinioFileUrl(widget.business.logo_path, context);
   }
 
   @override
@@ -54,7 +52,8 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
         return Row(
           children: [
             FutureBuilder(
-                future: futureImageUrl,
+                future: MihFileApi.getMinioFileUrl(
+                    widget.business.logo_path, context),
                 builder: (context, asyncSnapshot) {
                   if (asyncSnapshot.connectionState == ConnectionState.done &&
                       asyncSnapshot.hasData) {

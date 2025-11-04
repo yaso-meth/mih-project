@@ -166,7 +166,8 @@ class MihMzansiDirectoryServices {
       List<BookmarkedBusiness> favouriteBusinesses =
           List<BookmarkedBusiness>.from(
               l.map((model) => BookmarkedBusiness.fromJson(model)));
-      directoryProvider.setFavouriteBusinesses(businesses: favouriteBusinesses);
+      directoryProvider.setBookmarkedeBusinesses(
+          businesses: favouriteBusinesses);
       return favouriteBusinesses;
     } else if (response.statusCode == 404) {
       return [];
