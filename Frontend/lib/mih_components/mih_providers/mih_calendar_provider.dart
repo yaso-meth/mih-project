@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
 
 class MihCalendarProvider extends ChangeNotifier {
@@ -57,6 +58,7 @@ class MihCalendarProvider extends ChangeNotifier {
     int index = personalAppointments?.indexWhere((appointment) =>
             appointment.idappointments == updatedAppointment.idappointments) ??
         -1;
+    KenLogger.success("Edit Patient Index: $index");
     if (index != -1) {
       personalAppointments?[index] = updatedAppointment;
       notifyListeners();

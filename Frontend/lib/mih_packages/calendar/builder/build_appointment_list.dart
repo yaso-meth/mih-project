@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
@@ -59,6 +58,13 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
   late double width;
   late double height;
 
+  void clearControllers() {
+    widget.titleController.clear();
+    widget.descriptionIDController.clear();
+    widget.dateController.clear();
+    widget.timeController.clear();
+  }
+
   double getPaddingSize() {
     if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       return (width / 10);
@@ -72,37 +78,41 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     List<Appointment> appointmentList = mzansiProfileProvider.personalHome
         ? mihCalendarProvider.personalAppointments!
         : mihCalendarProvider.businessAppointments!;
-    String heading = "";
-    String description = "";
-    DateTime now;
-    int hourNow = 0;
-    String date = "";
-    int appointHour = 0;
-    String appointDate = "";
-    if (appointmentList[index].date_time.contains("T")) {
-      heading =
-          "${appointmentList[index].date_time.split('T')[1].substring(0, 5)} - ${appointmentList[index].title.toUpperCase()}";
-      description = appointmentList[index].description;
-      now = DateTime.now();
-      hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
-      date = DateTime(now.year, now.month, now.day).toString().split(' ')[0];
-      appointDate = appointmentList[index].date_time.split('T')[0];
-      appointHour = int.parse(
-          appointmentList[index].date_time.split('T')[1].substring(0, 2));
+
+    // SAFELY EXTRACT DATE AND TIME
+    String dateTimeString = appointmentList[index].date_time;
+    String timePart = "";
+    String datePart = "";
+
+    if (dateTimeString.contains("T")) {
+      List<String> parts = dateTimeString.split('T');
+      datePart = parts[0];
+      timePart = parts[1].substring(0, 5);
+    } else if (dateTimeString.contains(" ")) {
+      List<String> parts = dateTimeString.split(' ');
+      datePart = parts[0];
+      timePart = parts[1].substring(0, 5);
     } else {
-      heading =
-          "${appointmentList[index].date_time.split(' ')[1].substring(0, 5)} - ${appointmentList[index].title.toUpperCase()}";
-      description = appointmentList[index].description;
-      now = DateTime.now();
-      hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
-      date = DateTime(now.year, now.month, now.day).toString().split(' ')[0];
-      appointDate = appointmentList[index].date_time.split(' ')[0];
-      appointHour = int.parse(
-          appointmentList[index].date_time.split(' ')[1].substring(0, 2));
+      // Fallback if format is unexpected
+      datePart = dateTimeString;
+      timePart = "00:00";
     }
+
+    String heading =
+        "$timePart - ${appointmentList[index].title.toUpperCase()}";
+    String description = appointmentList[index].description;
+
+    DateTime now = DateTime.now();
+    int hourNow = int.parse(now.toString().split(' ')[1].substring(0, 2));
+    String currentDate =
+        DateTime(now.year, now.month, now.day).toString().split(' ')[0];
+
+    int appointHour = int.parse(timePart.split(':')[0]);
+
     Color appointmentColor = MihColors.getSecondaryColor(
         MzansiInnovationHub.of(context)!.theme.mode == "Dark");
-    if (date == appointDate) {
+
+    if (currentDate == datePart) {
       if (appointHour < hourNow) {
         appointmentColor = MihColors.getGreyColor(
             MzansiInnovationHub.of(context)!.theme.mode == "Dark");
@@ -110,7 +120,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         appointmentColor = MihColors.getGreenColor(
             MzansiInnovationHub.of(context)!.theme.mode == "Dark");
       }
-    } else if (DateTime.parse(appointDate).isBefore(DateTime.parse(date))) {
+    } else if (DateTime.parse(datePart).isBefore(DateTime.parse(currentDate))) {
       appointmentColor = MihColors.getGreyColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
@@ -138,15 +148,15 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           ),
         ),
         onTap: () {
+          // SAFELY SET CONTROLLER VALUES
           setState(() {
             widget.titleController.text = appointmentList[index].title;
             widget.descriptionIDController.text =
                 appointmentList[index].description;
-            widget.dateController.text =
-                appointmentList[index].date_time.split('T')[0];
-            widget.timeController.text =
-                appointmentList[index].date_time.split('T')[1].substring(0, 5);
+            widget.dateController.text = datePart;
+            widget.timeController.text = timePart;
           });
+
           if (widget.inWaitingRoom == false) {
             appointmentDetailsWindow(
                 mzansiProfileProvider, mihCalendarProvider, index, bodyWidth);
@@ -214,10 +224,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           ],
           onWindowTapClose: () {
             context.pop();
-            widget.dateController.clear();
-            widget.timeController.clear();
-            widget.titleController.clear();
-            widget.descriptionIDController.clear();
+            clearControllers();
           },
           windowBody: Padding(
             padding:
@@ -342,10 +349,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           ],
           onWindowTapClose: () {
             context.pop();
-            widget.dateController.clear();
-            widget.timeController.clear();
-            widget.titleController.clear();
-            widget.descriptionIDController.clear();
+            clearControllers();
           },
           windowBody: Padding(
             padding:
@@ -591,6 +595,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       List<Appointment> appointmentList = mzansiProfileProvider.personalHome
           ? mihCalendarProvider.personalAppointments!
           : mihCalendarProvider.businessAppointments!;
+      KenLogger.success("ersonalHome: ${mzansiProfileProvider.personalHome}");
       if (mzansiProfileProvider.personalHome == true) {
         statusCode = await MihMzansiCalendarApis.updatePersonalAppointment(
           mzansiProfileProvider.user!,
@@ -634,28 +639,30 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       if (statusCode == 200) {
         context.pop();
         context.pop();
-        if (!widget.inWaitingRoom) {
-          KenLogger.warning("calendar route");
-          context.goNamed(
-            "mihCalendar",
-          );
-        } else {
-          KenLogger.warning("waiting room route");
-          // GoRouter.of(context).refresh();
-          context.goNamed(
-            'mihHome',
-          );
-          context.goNamed(
-            'patientManager',
-            extra: PatManagerArguments(
-              mzansiProfileProvider.user!,
-              false,
-              mzansiProfileProvider.business,
-              mzansiProfileProvider.businessUser,
-            ),
-          );
-          // context.pop();
-        }
+        successPopUp("Successfully Updated Appointment",
+            "You appointment has been successfully updated.");
+        // if (!widget.inWaitingRoom) {
+        //   KenLogger.warning("calendar route");
+        //   context.goNamed(
+        //     "mihCalendar",
+        //   );
+        // } else {
+        //   KenLogger.warning("waiting room route");
+        //   // GoRouter.of(context).refresh();
+        //   context.goNamed(
+        //     'mihHome',
+        //   );
+        //   context.goNamed(
+        //     'patientManager',
+        //     extra: PatManagerArguments(
+        //       mzansiProfileProvider.user!,
+        //       false,
+        //       mzansiProfileProvider.business,
+        //       mzansiProfileProvider.businessUser,
+        //     ),
+        //   );
+        //   // context.pop();
+        // }
       } else {
         internetConnectionPopUp();
       }
@@ -724,6 +731,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 child: MihButton(
                   onPressed: () {
                     context.pop();
+                    clearControllers();
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -805,15 +813,17 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           MzansiProfileProvider mzansiProfileProvider,
           MihCalendarProvider mihCalendarProvider,
           Widget? child) {
-        List<Appointment> appointmentList = mzansiProfileProvider.personalHome
-            ? mihCalendarProvider.personalAppointments!
-            : mihCalendarProvider.businessAppointments!;
+        // List<Appointment> appointmentList = mzansiProfileProvider.personalHome
+        //     ? mihCalendarProvider.personalAppointments!
+        //     : mihCalendarProvider.businessAppointments!;
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: getPaddingSize()),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: appointmentList.length,
+            itemCount: mzansiProfileProvider.personalHome
+                ? mihCalendarProvider.personalAppointments!.length
+                : mihCalendarProvider.businessAppointments!.length,
             itemBuilder: (context, index) {
               return displayAppointment(
                   mzansiProfileProvider, mihCalendarProvider, index, width);
