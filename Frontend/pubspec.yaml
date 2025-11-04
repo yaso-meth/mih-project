@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.2+101
+version: 1.2.2+102
 # version: 1.1.1+97 #--- Updated version for upgrader package testing
 
 environment:
