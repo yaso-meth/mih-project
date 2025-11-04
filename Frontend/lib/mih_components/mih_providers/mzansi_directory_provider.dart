@@ -10,7 +10,7 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   String userLocation;
   bool personalSearch;
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
-  List<Business> favouriteBusinessesList = [];
+  List<Business>? favouriteBusinessesList;
   List<Business>? searchedBusinesses;
   Business? selectedBusiness;
   List<AppUser>? searchedUsers;
