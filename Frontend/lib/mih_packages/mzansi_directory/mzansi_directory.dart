@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
 class MzansiDirectory extends StatefulWidget {
@@ -31,11 +36,33 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     });
   }
 
+  Future<void> getFavouriteBusinesses() async {
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
+      profileProvider.user!.app_id,
+      directoryProvider,
+    );
+    List<Business> favBus = [];
+    for (var bus in directoryProvider.bookmarkedBusinesses) {
+      await MihBusinessDetailsServices()
+          .getBusinessDetailsByBusinessId(bus.business_id)
+          .then((business) {
+        favBus.add(business!);
+      });
+    }
+    KenLogger.success(favBus);
+    directoryProvider.setFavouriteBusinesses(businesses: favBus);
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       initialiseGPSLocation();
+      getFavouriteBusinesses();
     });
   }
 

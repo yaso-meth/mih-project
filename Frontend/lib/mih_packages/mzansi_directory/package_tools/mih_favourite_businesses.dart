@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
@@ -7,11 +8,8 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_favourite_businesses_list.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
 class MihFavouriteBusinesses extends StatefulWidget {
@@ -31,39 +29,12 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
       ValueNotifier([]);
   Timer? _debounce;
 
-  Future<void> getAndMapAllBusinessDetailsForBookmarkedBusinesses(
-    MzansiProfileProvider mzansiProfileProvider,
-    MzansiDirectoryProvider directoryProvider,
-  ) async {
-    await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
-      mzansiProfileProvider.user!.app_id,
-      directoryProvider,
-    );
-    Map<String, Business?> businessMap = {};
-    List<Future<Business?>> detailFutures = [];
-    for (var item in directoryProvider.bookmarkedBusinesses) {
-      detailFutures.add(MihBusinessDetailsServices()
-          .getBusinessDetailsByBusinessId(item.business_id));
-    }
-    List<Business?> details = await Future.wait(detailFutures);
-    for (int i = 0; i < directoryProvider.bookmarkedBusinesses.length; i++) {
-      businessMap[directoryProvider.bookmarkedBusinesses[i].business_id] =
-          details[i];
-    }
-    directoryProvider.setBusinessDetailsMap(detailsMap: businessMap);
-    _filterAndSetBusinesses(directoryProvider);
-  }
-
   void _filterAndSetBusinesses(MzansiDirectoryProvider directoryProvider) {
     List<Business?> businessesToDisplay = [];
     String query = businessSearchController.text.toLowerCase();
-    for (var bookmarked in directoryProvider.bookmarkedBusinesses) {
-      if (bookmarked.business_name.toLowerCase().contains(query)) {
-        if (directoryProvider.businessDetailsMap
-            .containsKey(bookmarked.business_id)) {
-          businessesToDisplay.add(
-              directoryProvider.businessDetailsMap[bookmarked.business_id]);
-        }
+    for (var bus in directoryProvider.favouriteBusinessesList) {
+      if (bus.Name.toLowerCase().contains(query)) {
+        businessesToDisplay.add(bus);
       }
     }
     searchBookmarkedBusinesses.value = businessesToDisplay;
@@ -82,13 +53,11 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    MzansiProfileProvider mzansiProfileProvider =
-        context.read<MzansiProfileProvider>();
-
-    getAndMapAllBusinessDetailsForBookmarkedBusinesses(
-      mzansiProfileProvider,
-      directoryProvider,
-    );
+    // getAndMapAllBusinessDetailsForBookmarkedBusinesses(
+    //   mzansiProfileProvider,
+    //   directoryProvider,
+    // );
+    _filterAndSetBusinesses(directoryProvider);
     businessSearchController.addListener(() {
       if (_debounce?.isActive ?? false) {
         _debounce!.cancel();
@@ -214,6 +183,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                     ),
                   );
                 }
+                KenLogger.success(filteredBusinesses);
                 return BuildFavouriteBusinessesList(
                   favouriteBusinesses: filteredBusinesses,
                 );
