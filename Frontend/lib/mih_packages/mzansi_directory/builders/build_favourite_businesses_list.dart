@@ -47,7 +47,7 @@ class _BuildFavouriteBusinessesListState
                   directoryProvider.setSelectedBusiness(
                     business: widget.favouriteBusinesses[index]!,
                   );
-                  context.goNamed(
+                  context.pushNamed(
                     'businessProfileView',
                   );
                 },
