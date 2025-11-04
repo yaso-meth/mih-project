@@ -5,12 +5,14 @@ import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
+import 'package:provider/provider.dart';
 
 class MihBusinessReviews extends StatefulWidget {
-  final Business business;
+  final Business? business;
   const MihBusinessReviews({
     super.key,
     required this.business,
@@ -21,15 +23,19 @@ class MihBusinessReviews extends StatefulWidget {
 }
 
 class _MihBusinessReviewsState extends State<MihBusinessReviews> {
-  // late Future<List<BusinessReview>> _reviews;
+  late Business business;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _reviews = MihMzansiDirectoryServices().getAllReviewsofBusiness(
-  //     widget.businessId,
-  //   );
-  // }
+  @override
+  void initState() {
+    super.initState();
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    if (widget.business != null) {
+      business = widget.business!;
+    } else {
+      business = profileProvider.business!;
+    }
+  }
 
   void onReviewTap(BusinessReview? businessReview, double width) {
     // showDialog(context: context, builder: (context)=> )
@@ -37,7 +43,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
       context: context,
       builder: (context) {
         return MihReviewBusinessWindow(
-          business: widget.business,
+          business: business,
           businessReview: businessReview,
           screenWidth: width,
           readOnly: true,
@@ -52,7 +58,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
     double screenWidth = MediaQuery.of(context).size.width;
     return FutureBuilder(
         future: MihMzansiDirectoryServices().getAllReviewsofBusiness(
-          widget.business.business_id,
+          business.business_id,
         ),
         builder: (context, asyncSnapshot) {
           if (asyncSnapshot.connectionState == ConnectionState.waiting) {
@@ -93,7 +99,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "No reviews yet, be the first the review ${widget.business.Name}",
+                      "No reviews yet, be the first the review ${business.Name}",
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.visible,
                       style: TextStyle(

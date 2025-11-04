@@ -14,22 +14,22 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihBusinessQrCode extends StatefulWidget {
-  final Business business;
-  // final String? startUpSearch;
+  final Business? business;
   const MihBusinessQrCode({
     super.key,
     required this.business,
-    // required this.startUpSearch,
   });
 
   @override
@@ -38,6 +38,7 @@ class MihBusinessQrCode extends StatefulWidget {
 
 class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   late Future<String> futureImageUrl;
+  late Business business;
   PlatformFile? file;
   late String qrCodedata;
   int qrSize = 500;
@@ -66,14 +67,14 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
         .substring(2, 8);
     // KenLogger.warning(bgColor);
     String encodedData =
-        Uri.encodeComponent("$qrCodedata${widget.business.business_id}");
+        Uri.encodeComponent("$qrCodedata${business.business_id}");
 
     return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x${qrSize}&bgcolor=$bgColor&color=$color";
   }
 
   Future<void> saveImage(Uint8List imageBytes) async {
     final String filename =
-        "${widget.business.Name}_QR_Code_${DateTime.now().millisecondsSinceEpoch}.png";
+        "${business.Name}_QR_Code_${DateTime.now().millisecondsSinceEpoch}.png";
     if (kIsWeb) {
       await FileSaver.instance.saveFile(
         name: filename,
@@ -241,7 +242,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   ),
                   FittedBox(
                     child: Text(
-                      widget.business.Name,
+                      business.Name,
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -253,7 +254,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   ),
                   FittedBox(
                     child: Text(
-                      widget.business.type,
+                      business.type,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -335,9 +336,15 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   @override
   void initState() {
     super.initState();
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    if (widget.business != null) {
+      business = widget.business!;
+    } else {
+      business = profileProvider.business!;
+    }
     _checkUserSession();
-    futureImageUrl =
-        MihFileApi.getMinioFileUrl(widget.business.logo_path, context);
+    futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path, context);
     qrCodedata =
         "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
   }
@@ -418,8 +425,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   onTap: () {
                     shareMIHLink(
                       context,
-                      "Check out ${widget.business.Name} on the MIH app",
-                      "$qrCodedata${widget.business.business_id}",
+                      "Check out ${business.Name} on the MIH app",
+                      "$qrCodedata${business.business_id}",
                     );
                   },
                 ),

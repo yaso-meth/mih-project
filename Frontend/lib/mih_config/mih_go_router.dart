@@ -17,7 +17,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/mih_route_error.dart
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/mih_mine_sweeper.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/mzansi_ai.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/busines_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_business_profile_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/mzansi_set_up_business_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/mzansi_profile.dart';
@@ -190,9 +190,10 @@ class MihGoRouter {
             });
             return const SizedBox.shrink();
           }
-          return MzansiBusinessProfile(
-            key: UniqueKey(),
-          );
+          return BusinesProfile();
+          // return MzansiBusinessProfile(
+          //   key: UniqueKey(),
+          // );
         },
       ),
       GoRoute(
