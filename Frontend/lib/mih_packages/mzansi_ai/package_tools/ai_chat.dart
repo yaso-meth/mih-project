@@ -92,6 +92,8 @@ class _AiChatState extends State<AiChat> {
     temp +=
         "- Calculator: Simple calculator with tip and forex calculation functionality.\n";
     temp += "- MIH Access: Manage and view profile access security.\n";
+    temp +=
+        "- MIH Minesweeper: The first game from MIH! It's the classic brain-teaser ready to entertain you no matter where you are.\n";
     temp += "**Core Rules and Guidelines:**\n";
     temp +=
         "- **Accuracy First:** Always prioritize providing correct information.\n";
