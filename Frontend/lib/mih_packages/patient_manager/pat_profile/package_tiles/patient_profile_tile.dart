@@ -4,8 +4,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
 class PatientProfileTile extends StatefulWidget {
@@ -27,9 +29,16 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       authenticateUser: true,
-      onTap: () {
+      onTap: () async {
         PatientManagerProvider patientManagerProvider =
             context.read<PatientManagerProvider>();
+        MzansiProfileProvider profileProvider =
+            context.read<MzansiProfileProvider>();
+        String? app_id = profileProvider.user!.app_id;
+        if (patientManagerProvider.selectedPatient == null) {
+          await MihPatientServices()
+              .getPatientDetails(app_id, patientManagerProvider);
+        }
         patientManagerProvider.setPersonalMode(true);
         if (patientManagerProvider.selectedPatient != null) {
           context.goNamed(
