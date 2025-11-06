@@ -1,34 +1,45 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
-import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
 import 'package:provider/provider.dart';
 
-class MzansiBusinessProfile extends StatefulWidget {
-  const MzansiBusinessProfile({
-    super.key,
-  });
+class BusinesProfile extends StatefulWidget {
+  const BusinesProfile({super.key});
 
   @override
-  State<MzansiBusinessProfile> createState() => _MzansiBusinessProfileState();
+  State<BusinesProfile> createState() => _BusinesProfileState();
 }
 
-class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
+class _BusinesProfileState extends State<BusinesProfile> {
+  Future<void> initialiseBusinessData() async {
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    await MihBusinessEmployeeServices()
+        .fetchEmployees(profileProvider, context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialiseBusinessData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
       selectedbodyIndex: context.watch<MzansiProfileProvider>().businessIndex,
       onIndexChange: (newIndex) {
         context.read<MzansiProfileProvider>().setBusinessIndex(newIndex);
@@ -45,7 +56,6 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
           'mihHome',
         );
         FocusScope.of(context).unfocus();
-        context.read<MzansiProfileProvider>().setBusinessIndex(0);
       },
     );
   }
@@ -79,22 +89,6 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
     );
   }
 
-  List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihBusinessDetails(),
-      MihMyBusinessUser(),
-      MihMyBusinessTeam(),
-      MihBusinessUserSearch(),
-      MihBusinessReviews(
-          business: context.watch<MzansiProfileProvider>().business!),
-      MihBusinessQrCode(
-        business: context.watch<MzansiProfileProvider>().business!,
-        // startUpSearch: "",
-      ),
-    ];
-    return toolBodies;
-  }
-
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Profile",
@@ -105,5 +99,17 @@ class _MzansiBusinessProfileState extends State<MzansiBusinessProfile> {
       "Share",
     ];
     return toolTitles;
+  }
+
+  List<Widget> getToolBody() {
+    List<Widget> toolBodies = [
+      MihBusinessDetails(),
+      MihMyBusinessUser(),
+      MihMyBusinessTeam(),
+      MihBusinessUserSearch(),
+      MihBusinessReviews(business: null),
+      MihBusinessQrCode(business: null),
+    ];
+    return toolBodies;
   }
 }

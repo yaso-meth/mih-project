@@ -36,11 +36,9 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
 
   void submitUserForm(MzansiProfileProvider profileProvider) {
     if (searchController.text != "") {
-      setState(() {
-        userSearch = searchController.text;
-        hasSearchedBefore = true;
-        userSearchResults = fetchUsers(profileProvider, userSearch);
-      });
+      userSearch = searchController.text;
+      hasSearchedBefore = true;
+      userSearchResults = fetchUsers(profileProvider, userSearch);
     }
   }
 
@@ -192,6 +190,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                       searchController.clear();
                       userSearch = "";
                     });
+                    profileProvider.setUserearchResults(userSearchResults: []);
                   },
                   searchFocusNode: _searchFocusNode,
                 ),

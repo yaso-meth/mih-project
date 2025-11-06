@@ -55,7 +55,7 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
               ],
             ),
             Visibility(
-              visible: patientManagerProvider.personalMode,
+              visible: !patientManagerProvider.personalMode,
               child: Positioned(
                 right: 10,
                 bottom: 10,

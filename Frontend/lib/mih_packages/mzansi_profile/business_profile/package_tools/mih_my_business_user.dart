@@ -218,19 +218,17 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
   void setControllers() {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    setState(() {
-      fileNameController.text =
-          mzansiProfileProvider.user!.pro_pic_path.split("/").last;
-      signtureController.text =
-          mzansiProfileProvider.businessUser!.sig_path.split("/").last;
-      KenLogger.success("title: ${mzansiProfileProvider.businessUser!.title}");
-      KenLogger.success(
-          "sig url: ${mzansiProfileProvider.businessUser!.sig_path}");
-      titleTextController.text = mzansiProfileProvider.businessUser!.title;
-      fnameController.text = mzansiProfileProvider.user!.fname;
-      lnameController.text = mzansiProfileProvider.user!.lname;
-      accessController.text = mzansiProfileProvider.businessUser!.access;
-    });
+    fileNameController.text =
+        mzansiProfileProvider.user!.pro_pic_path.split("/").last;
+    signtureController.text =
+        mzansiProfileProvider.businessUser!.sig_path.split("/").last;
+    KenLogger.success("title: ${mzansiProfileProvider.businessUser!.title}");
+    KenLogger.success(
+        "sig url: ${mzansiProfileProvider.businessUser!.sig_path}");
+    titleTextController.text = mzansiProfileProvider.businessUser!.title;
+    fnameController.text = mzansiProfileProvider.user!.fname;
+    lnameController.text = mzansiProfileProvider.user!.lname;
+    accessController.text = mzansiProfileProvider.businessUser!.access;
     if (AppEnviroment.getEnv() == "Prod") {
       env = "Prod";
     } else {

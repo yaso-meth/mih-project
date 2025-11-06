@@ -13,7 +13,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -124,8 +123,9 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
     return '$hoursStr:$minutesStr:$secondsStr:$centiStr';
   }
 
-  void showStartGameWindow(MihMineSweeperProvider mihMineSweeperProvider,
-      MihBannerAdProvider addProvider) {
+  void showStartGameWindow(
+    MihMineSweeperProvider mihMineSweeperProvider,
+  ) {
     // easy - 10 * 10 & 15 bombs
     // Intermediate - 10 * 15 & 23 bombs
     // Hard - 10 * 20 & 30 bombs
@@ -134,7 +134,6 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
         builder: (context) {
           return MihMineSweeperStartGameWindow(
             onPressed: () {
-              addProvider.loadBannerAd();
               resetTimer();
               mihMineSweeperProvider
                   .setDifficulty(mihMineSweeperProvider.difficulty);
@@ -241,12 +240,8 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
     }
   }
 
-  Future<void> handleTap(
-      MzansiProfileProvider profileProvider,
-      MihMineSweeperProvider mihMineSweeperProvider,
-      MihBannerAdProvider adProvider,
-      int r,
-      int c) async {
+  Future<void> handleTap(MzansiProfileProvider profileProvider,
+      MihMineSweeperProvider mihMineSweeperProvider, int r, int c) async {
     if (isGameOver || board[r][c].isOpened || board[r][c].isFlagged) {
       return;
     }
@@ -304,8 +299,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       MihButton(
                         onPressed: () {
                           context.pop();
-                          showStartGameWindow(
-                              mihMineSweeperProvider, adProvider);
+                          showStartGameWindow(mihMineSweeperProvider);
                         },
                         buttonColor: MihColors.getGreenColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
@@ -364,7 +358,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
       squaresLeft--;
     }
     // 3. Check for win
-    _checkWinCondition(profileProvider, mihMineSweeperProvider, adProvider);
+    _checkWinCondition(profileProvider, mihMineSweeperProvider);
     // Update the UI
     setState(() {});
   }
@@ -383,7 +377,6 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   Future<void> _checkWinCondition(
     MzansiProfileProvider profileProvider,
     MihMineSweeperProvider mihMineSweeperProvider,
-    MihBannerAdProvider adProvider,
   ) async {
     // Game is won if all non-mine squares are opened.
     if (squaresLeft <= mihMineSweeperProvider.totalMines) {
@@ -450,7 +443,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                     MihButton(
                       onPressed: () {
                         context.pop();
-                        showStartGameWindow(mihMineSweeperProvider, adProvider);
+                        showStartGameWindow(mihMineSweeperProvider);
                       },
                       buttonColor: MihColors.getGreenColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
@@ -558,13 +551,9 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   }
 
   Widget getBody() {
-    return Consumer3<MzansiProfileProvider, MihMineSweeperProvider,
-        MihBannerAdProvider>(
-      builder: (BuildContext context,
-          MzansiProfileProvider profileProvider,
-          MihMineSweeperProvider mihMineSweeperProvider,
-          MihBannerAdProvider adProvider,
-          Widget? child) {
+    return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MihMineSweeperProvider mihMineSweeperProvider, Widget? child) {
         return Column(
           children: [
             Expanded(
@@ -725,12 +714,8 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
 
                                     return MineTile(
                                       square: board[r][c],
-                                      onTap: () => handleTap(
-                                          profileProvider,
-                                          mihMineSweeperProvider,
-                                          adProvider,
-                                          r,
-                                          c),
+                                      onTap: () => handleTap(profileProvider,
+                                          mihMineSweeperProvider, r, c),
                                       onLongPress: () => handleLongPress(r, c),
                                     );
                                   },
@@ -768,7 +753,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
                             onTap: () {
-                              mihMineSweeperProvider.setToolIndex(2);
+                              mihMineSweeperProvider.setToolIndex(3);
                             },
                           ),
                           SpeedDialChild(
@@ -778,9 +763,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
                             ),
-                            label: board.isEmpty && squaresLeft < 0
-                                ? "Start Game"
-                                : "Reset Game",
+                            label: "Start New Game",
                             labelBackgroundColor: MihColors.getGreenColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
@@ -794,8 +777,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
                             onTap: () {
-                              showStartGameWindow(
-                                  mihMineSweeperProvider, adProvider);
+                              showStartGameWindow(mihMineSweeperProvider);
                             },
                           ),
                         ]),

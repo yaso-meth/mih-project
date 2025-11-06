@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,25 +24,31 @@ class _MihWalletState extends State<MihWallet> {
   bool isLoading = true;
 
   Future<void> setLoyaltyCards(
-      MzansiProfileProvider mzansiProfileProvider) async {
+    MzansiProfileProvider mzansiProfileProvider,
+    MzansiWalletProvider walletProvider,
+  ) async {
     await MIHMzansiWalletApis.getLoyaltyCards(
-        mzansiProfileProvider.user!.app_id, context);
+        walletProvider, mzansiProfileProvider.user!.app_id, context);
   }
 
   Future<void> setFavouritesCards(
-      MzansiProfileProvider mzansiProfileProvider) async {
+    MzansiProfileProvider mzansiProfileProvider,
+    MzansiWalletProvider walletProvider,
+  ) async {
     await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-        mzansiProfileProvider.user!.app_id, context);
+        walletProvider, mzansiProfileProvider.user!.app_id, context);
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var mzansiProfileProvider = context.read<MzansiProfileProvider>();
-      await setLoyaltyCards(mzansiProfileProvider);
-      await setFavouritesCards(mzansiProfileProvider);
-      context.read<MihBannerAdProvider>().loadBannerAd();
+      MzansiProfileProvider mzansiProfileProvider =
+          context.read<MzansiProfileProvider>();
+      MzansiWalletProvider walletProvider =
+          context.read<MzansiWalletProvider>();
+      await setLoyaltyCards(mzansiProfileProvider, walletProvider);
+      await setFavouritesCards(mzansiProfileProvider, walletProvider);
       setState(() {
         isLoading = false;
       });
@@ -89,7 +94,6 @@ class _MihWalletState extends State<MihWallet> {
     temp[const Icon(Icons.favorite)] = () {
       context.read<MzansiWalletProvider>().setToolIndex(1);
     };
-
     return MihPackageTools(
       tools: temp,
       selcetedIndex: context.watch<MzansiWalletProvider>().toolIndex,

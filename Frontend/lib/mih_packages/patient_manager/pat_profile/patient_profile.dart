@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_consultation.dart';
@@ -30,19 +29,9 @@ class _PatientProfileState extends State<PatientProfile> {
     setState(() {
       isLoading = true;
     });
-    MzansiProfileProvider profileProvider =
-        context.read<MzansiProfileProvider>();
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
-    String? app_id = profileProvider.user!.app_id;
-    if (patientManagerProvider.selectedPatient == null) {
-      await MihPatientServices()
-          .getPatientDetails(app_id, patientManagerProvider);
-    }
-    if (patientManagerProvider.selectedPatient == null) {
-      // go to set up patient package
-      context.goNamed("patientProfileSetup");
-    } else {
+    if (patientManagerProvider.selectedPatient != null) {
       await MihPatientServices()
           .getPatientConsultationNotes(patientManagerProvider);
       await MihPatientServices().getPatientDocuments(patientManagerProvider);

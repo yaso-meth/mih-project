@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -72,9 +73,6 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                 child: MihButton(
                   onPressed: () {
                     context.pop();
-                    context.goNamed(
-                      'mzansiWallet',
-                    );
                   },
                   buttonColor: MihColors.getGreenColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -141,9 +139,11 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
         padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
             ? EdgeInsets.symmetric(horizontal: width * 0.05)
             : EdgeInsets.symmetric(horizontal: width * 0),
-        child: Consumer<MzansiProfileProvider>(
+        child: Consumer2<MzansiProfileProvider, MzansiWalletProvider>(
           builder: (BuildContext context,
-              MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+              MzansiProfileProvider mzansiProfileProvider,
+              MzansiWalletProvider walletProvider,
+              Widget? child) {
             return Column(
               children: [
                 MihForm(
@@ -158,9 +158,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                         return MihValidationServices().isEmpty(value);
                       },
                       requiredText: true,
-                      dropdownOptions: const [
-                        "+More",
-                        "Apple Tree",
+                      dropdownOptions: const <String>[
                         "+More",
                         "Apple Tree",
                         "Auchan",
@@ -206,7 +204,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                         "Total Energies",
                         "Toys R Us",
                         "Woermann Brock",
-                        "Woolworths"
+                        "Woolworths",
                       ],
                     ),
                     ValueListenableBuilder(
@@ -306,6 +304,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                             } else {
                               int statusCode = await MIHMzansiWalletApis
                                   .addLoyaltyCardAPICall(
+                                walletProvider,
                                 mzansiProfileProvider.user!,
                                 mzansiProfileProvider.user!.app_id,
                                 _shopController.text,
@@ -317,7 +316,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                               );
                               if (statusCode == 201) {
                                 context.pop();
-                                KenLogger.error("Card Added Successfully");
+                                KenLogger.success("Card Added Successfully");
                                 successPopUp(
                                   "Successfully Added Card",
                                   "The loyalty card has been added to your favourites.",

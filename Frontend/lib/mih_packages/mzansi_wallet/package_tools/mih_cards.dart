@@ -29,19 +29,20 @@ class MihCards extends StatefulWidget {
 class _MihCardsState extends State<MihCards> {
   final TextEditingController cardSearchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  List<MIHLoyaltyCard> listOfCards = [];
   final ValueNotifier<List<MIHLoyaltyCard>> searchShopName = ValueNotifier([]);
   final MobileScannerController scannerController = MobileScannerController(
     detectionSpeed: DetectionSpeed.unrestricted,
   );
   final boxFit = BoxFit.contain;
+  late MzansiWalletProvider _walletProvider;
+  late VoidCallback _searchListener;
 
-  void searchShop() {
+  void searchShop(List<MIHLoyaltyCard> allCards) {
     if (cardSearchController.text.isEmpty) {
-      searchShopName.value = listOfCards;
+      searchShopName.value = allCards;
     } else {
       List<MIHLoyaltyCard> temp = [];
-      for (var item in listOfCards) {
+      for (var item in allCards) {
         if (item.shop_name
                 .toLowerCase()
                 .contains(cardSearchController.text.toLowerCase()) ||
@@ -130,24 +131,21 @@ class _MihCardsState extends State<MihCards> {
 
   @override
   void dispose() {
-    cardSearchController.removeListener(searchShop);
+    cardSearchController.removeListener(_searchListener);
     cardSearchController.dispose();
     searchShopName.dispose();
     searchFocusNode.dispose();
     super.dispose();
   }
 
-  void getLoyaltyCards(BuildContext context) async {
-    setState(() {
-      listOfCards = context.read<MzansiWalletProvider>().loyaltyCards;
-    });
-    searchShop();
-  }
-
   @override
   void initState() {
-    getLoyaltyCards(context);
-    cardSearchController.addListener(searchShop);
+    _walletProvider = context.read<MzansiWalletProvider>();
+    _searchListener = () {
+      searchShop(_walletProvider.loyaltyCards);
+    };
+    searchShopName.value = _walletProvider.loyaltyCards;
+    cardSearchController.addListener(_searchListener);
     super.initState();
   }
 
@@ -162,76 +160,89 @@ class _MihCardsState extends State<MihCards> {
   }
 
   Widget getBody(double width) {
-    return Stack(
-      children: [
-        MihSingleChildScroll(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: MihSearchBar(
-                  controller: cardSearchController,
-                  hintText: "Search Cards",
-                  // prefixIcon: Icons.search,
-                  prefixIcon: Icons.search,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onPrefixIconTap: () {
-                    // print("Search Icon Pressed: ${cardSearchController.text}");
-                  },
-                  searchFocusNode: searchFocusNode,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Consumer<MzansiWalletProvider>(
-                builder: (context, mzansiWalletProvider, child) {
-                  listOfCards = mzansiWalletProvider.loyaltyCards;
-                  return ValueListenableBuilder<List<MIHLoyaltyCard>>(
-                      valueListenable: searchShopName,
-                      builder: (context, filteredCards, child) {
-                        return BuildLoyaltyCardList(
-                          cardList: filteredCards, //listOfCards,
-                          navIndex: 0,
-                          favouritesMode: false,
-                          searchText: cardSearchController,
-                        );
-                      });
-                },
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          right: 10,
-          bottom: 10,
-          child: MihFloatingMenu(
-              animatedIcon: AnimatedIcons.menu_close,
-              children: [
-                SpeedDialChild(
-                  child: Icon(
-                    Icons.add,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    return Consumer<MzansiWalletProvider>(
+      builder: (BuildContext context, MzansiWalletProvider walletProvider,
+          Widget? child) {
+        if (cardSearchController.text.isEmpty) {
+          searchShopName.value = walletProvider.loyaltyCards;
+        } else {
+          // Re-run search with updated card list
+          searchShop(walletProvider.loyaltyCards);
+        }
+        return Stack(
+          children: [
+            MihSingleChildScroll(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width / 20),
+                    child: MihSearchBar(
+                      controller: cardSearchController,
+                      hintText: "Search Cards",
+                      // prefixIcon: Icons.search,
+                      prefixIcon: Icons.search,
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      hintColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      onPrefixIconTap: () {
+                        // print("Search Icon Pressed: ${cardSearchController.text}");
+                      },
+                      searchFocusNode: searchFocusNode,
+                    ),
                   ),
-                  label: "Add Loyalty Card",
-                  labelBackgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  labelStyle: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10),
+                  ValueListenableBuilder<List<MIHLoyaltyCard>>(
+                    valueListenable: searchShopName,
+                    builder: (context, filteredCards, child) {
+                      return BuildLoyaltyCardList(
+                        cardList: filteredCards, //listOfCards,
+                        navIndex: 0,
+                        favouritesMode: false,
+                        searchText: cardSearchController,
+                      );
+                    },
                   ),
-                  backgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onTap: () {
-                    addCardWindow(context, width);
-                  },
-                )
-              ]),
-        )
-      ],
+                ],
+              ),
+            ),
+            Positioned(
+              right: 10,
+              bottom: 10,
+              child: MihFloatingMenu(
+                  animatedIcon: AnimatedIcons.menu_close,
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(
+                        Icons.add,
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      label: "Add Loyalty Card",
+                      labelBackgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      labelStyle: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      backgroundColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      onTap: () {
+                        addCardWindow(context, width);
+                      },
+                    )
+                  ]),
+            )
+          ],
+        );
+      },
     );
   }
 }

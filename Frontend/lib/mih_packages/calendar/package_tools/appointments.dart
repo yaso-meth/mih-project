@@ -139,7 +139,7 @@ class _PatientAccessRequestState extends State<Appointments> {
           fullscreen: false,
           windowTitle: "Add Appointment",
           onWindowTapClose: () {
-            Navigator.of(context).pop();
+            context.pop();
             _appointmentDateController.clear();
             _appointmentTimeController.clear();
             _appointmentTitleController.clear();
