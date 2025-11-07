@@ -598,9 +598,6 @@ class _AiChatState extends State<AiChat> {
             _voicesString =
                 _voices.map((_voice) => _voice["name"] as String).toList();
             _voicesString.sort();
-            // print(
-            //     "=================== Voices ===================\n$_voicesString");
-
             setTtsVoice(_voicesString.first);
           });
         } catch (e) {

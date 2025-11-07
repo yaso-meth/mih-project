@@ -4,11 +4,15 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_saver
+  file_selector_windows
+  firebase_auth
+  firebase_core
   fl_downloader
   flutter_tts
   geolocator_windows
   local_auth_windows
   printing
+  record_windows
   screen_brightness_windows
   share_plus
   syncfusion_pdfviewer_windows

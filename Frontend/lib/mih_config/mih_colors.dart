@@ -17,6 +17,14 @@ class MihColors {
     }
   }
 
+  static Color getSecondaryInvertedColor(bool darkMode) {
+    if (darkMode == true) {
+      return const Color(0XFF412301);
+    } else {
+      return const Color(0XFFc5bbab);
+    }
+  }
+
   static Color getHighlightColor(bool darkMode) {
     if (darkMode == true) {
       return const Color(0XFF9bc7fa);
