@@ -227,7 +227,7 @@ class _MihAiChatState extends State<MihAiChat> {
               //     "Mzansi AI is here to help. Send us a messahe and we'll try our best to assist you.",
               autofocus: false,
               enableAttachments: false,
-              enableVoiceNotes: true,
+              enableVoiceNotes: false,
               style: mzansiAiProvider.getChatStyle(context),
               // suggestions: [
               //   "What is mih all about?",

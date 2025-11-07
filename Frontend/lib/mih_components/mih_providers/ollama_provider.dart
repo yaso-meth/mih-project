@@ -51,6 +51,7 @@ class OllamaProvider extends LlmProvider with ChangeNotifier {
     final stream = _generateStream(messages);
     yield* stream.map((chunk) {
       llmMessage.append(chunk);
+      notifyListeners();
       return chunk;
     });
     KenLogger.success("Stream completed for: $prompt");
