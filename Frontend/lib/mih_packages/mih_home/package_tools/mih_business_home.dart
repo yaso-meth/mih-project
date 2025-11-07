@@ -227,11 +227,11 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                     hintColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onPrefixIconTap: () {
-                      mzansiAiProvider
-                          .setStartUpQuestion(searchController.text);
-                      context.goNamed(
-                        "mzansiAi",
-                      );
+                      if (searchController.text.isNotEmpty) {
+                        mzansiAiProvider
+                            .setStartUpQuestion(searchController.text);
+                      }
+                      context.goNamed("mzansiAi");
                       searchController.clear();
                     },
                     searchFocusNode: _searchFocusNode,
