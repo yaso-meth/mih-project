@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
 class OllamaProvider extends LlmProvider with ChangeNotifier {
@@ -40,16 +41,19 @@ class OllamaProvider extends LlmProvider with ChangeNotifier {
     String prompt, {
     Iterable<Attachment> attachments = const [],
   }) async* {
+    KenLogger.success("sendMessageStream called with: $prompt");
     final userMessage = ChatMessage.user(prompt, attachments);
     final llmMessage = ChatMessage.llm();
     _history.addAll([userMessage, llmMessage]);
     notifyListeners();
+    KenLogger.success("History after adding messages: ${_history.length}");
     final messages = _mapToOllamaMessages(_history);
     final stream = _generateStream(messages);
     yield* stream.map((chunk) {
       llmMessage.append(chunk);
       return chunk;
     });
+    KenLogger.success("Stream completed for: $prompt");
     notifyListeners();
   }
 

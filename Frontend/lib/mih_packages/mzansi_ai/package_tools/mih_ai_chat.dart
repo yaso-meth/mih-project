@@ -124,54 +124,68 @@ class _MihAiChatState extends State<MihAiChat> {
   }
 
   Future<void> initTts() async {
-    List<Map> _voices = [];
-    List<String> _voicesString = [];
-    // await _flutterTts.setLanguage("en-US");
-    await _flutterTts.setSpeechRate(1);
-    _flutterTts.getVoices.then(
-      (data) {
-        try {
-          _voices = List<Map>.from(data);
+    try {
+      await _flutterTts.setSpeechRate(1);
+      // await _flutterTts.setLanguage("en-US");
 
-          setState(() {
-            _voices = _voices
-                .where(
-                    (_voice) => _voice["name"].toLowerCase().contains("en-us"))
-                .toList();
-            _voicesString =
-                _voices.map((_voice) => _voice["name"] as String).toList();
-            _voicesString.sort();
-            _flutterTts.setVoice(
-              {
-                "name": _voicesString.first,
-                "locale": _voices
-                    .where((_voice) =>
-                        _voice["name"].contains(_voicesString.first))
-                    .first["locale"]
-              },
-            );
-          });
+      // Safer voice selection with error handling
+      _flutterTts.getVoices.then((data) {
+        try {
+          final voices = List<Map>.from(data);
+          final englishVoices = voices.where((voice) {
+            final name = voice["name"]?.toString().toLowerCase() ?? '';
+            final locale = voice["locale"]?.toString().toLowerCase() ?? '';
+            return name.contains("en-us") || locale.contains("en_us");
+          }).toList();
+
+          if (englishVoices.isNotEmpty) {
+            // Use the first available English voice
+            _flutterTts.setVoice({"name": englishVoices.first["name"]});
+          }
+          // If no voices found, use default
         } catch (e) {
-          print(e);
+          KenLogger.error("Error setting TTS voice: $e");
         }
-      },
-    );
-    _flutterTts.setStartHandler(() {
-      setState(() {
-        ttsOn = true;
       });
+    } catch (e) {
+      KenLogger.error("Error initializing TTS: $e");
+    }
+
+    _flutterTts.setStartHandler(() {
+      if (mounted) {
+        setState(() {
+          ttsOn = true;
+        });
+      }
     });
 
     _flutterTts.setCompletionHandler(() {
-      setState(() {
-        ttsOn = false;
-      });
+      if (mounted) {
+        setState(() {
+          ttsOn = false;
+        });
+      }
     });
 
     _flutterTts.setErrorHandler((message) {
-      setState(() {
-        ttsOn = false;
-      });
+      if (mounted) {
+        setState(() {
+          ttsOn = false;
+        });
+      }
+    });
+  }
+
+  void initStartQuestion() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final mzansiAiProvider = context.read<MzansiAiProvider>();
+      final startQuestion = mzansiAiProvider.startUpQuestion;
+      if (startQuestion != null && startQuestion.isNotEmpty) {
+        final stream =
+            mzansiAiProvider.ollamaProvider.sendMessageStream(startQuestion);
+        stream.listen((chunk) {});
+        mzansiAiProvider.clearStartUpQuestion();
+      }
     });
   }
 
@@ -179,6 +193,7 @@ class _MihAiChatState extends State<MihAiChat> {
   void initState() {
     super.initState();
     initTts();
+    initStartQuestion();
   }
 
   @override
@@ -192,6 +207,13 @@ class _MihAiChatState extends State<MihAiChat> {
     return Consumer<MzansiAiProvider>(
       builder: (BuildContext context, MzansiAiProvider mzansiAiProvider,
           Widget? child) {
+        // final startupQuestion = mzansiAiProvider.startUpQuestion;
+        // if (startupQuestion != null) {
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     mzansiAiProvider.ollamaProvider.sendMessageStream(startupQuestion);
+        //     mzansiAiProvider.setStartUpQuestion(null);
+        //   });
+        // }
         bool hasHistory = mzansiAiProvider.ollamaProvider.history.isNotEmpty;
         KenLogger.success("has history: $hasHistory");
         KenLogger.success(
@@ -200,8 +222,10 @@ class _MihAiChatState extends State<MihAiChat> {
           children: [
             LlmChatView(
               provider: mzansiAiProvider.ollamaProvider,
+              messageSender: mzansiAiProvider.ollamaProvider.sendMessageStream,
               // welcomeMessage:
               //     "Mzansi AI is here to help. Send us a messahe and we'll try our best to assist you.",
+              autofocus: false,
               enableAttachments: false,
               enableVoiceNotes: true,
               style: mzansiAiProvider.getChatStyle(context),

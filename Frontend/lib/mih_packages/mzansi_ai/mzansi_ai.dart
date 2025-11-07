@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tools/ai_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tools/mih_ai_chat.dart';
 import 'package:provider/provider.dart';
@@ -37,9 +36,9 @@ class _MzansiAiState extends State<MzansiAi> {
     temp[const Icon(Icons.chat)] = () {
       context.read<MzansiAiProvider>().setToolIndex(0);
     };
-    temp[const Icon(Icons.chat)] = () {
-      context.read<MzansiAiProvider>().setToolIndex(1);
-    };
+    // temp[const Icon(Icons.chat)] = () {
+    //   context.read<MzansiAiProvider>().setToolIndex(1);
+    // };
 
     return MihPackageTools(
       tools: temp,
@@ -49,7 +48,7 @@ class _MzansiAiState extends State<MzansiAi> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      AiChat(),
+      // AiChat(),
       MihAiChat(),
     ];
     return toolBodies;
@@ -58,7 +57,7 @@ class _MzansiAiState extends State<MzansiAi> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Ask Mzansi",
-      "New Chat",
+      // "New Chat",
     ];
     return toolTitles;
   }

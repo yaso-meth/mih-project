@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/ollama_provider.dart';
@@ -61,6 +62,75 @@ class MzansiAiProvider extends ChangeNotifier {
   void setStartUpQuestion(String? question) {
     startUpQuestion = question;
     notifyListeners();
+  }
+
+  void clearStartUpQuestion() {
+    startUpQuestion = null;
+  }
+
+  MarkdownStyleSheet getLlmChatMarkdownStyle(BuildContext context) {
+    TextStyle body = TextStyle(
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    );
+    TextStyle heading1 = TextStyle(
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+    );
+    TextStyle heading2 = TextStyle(
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+    );
+    TextStyle code = TextStyle(
+      color: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    );
+    BoxDecoration codeBlock = BoxDecoration(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+        bottomLeft: Radius.circular(10),
+        bottomRight: Radius.circular(10),
+      ),
+      color: MihColors.getHighlightColor(
+          MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withAlpha(76),
+          blurRadius: 8,
+          offset: Offset(2, 2),
+        ),
+      ],
+    );
+    return MarkdownStyleSheet(
+      a: body,
+      blockquote: body,
+      checkbox: body,
+      del: body,
+      em: body.copyWith(fontStyle: FontStyle.italic),
+      h1: heading1,
+      h2: heading2,
+      h3: body.copyWith(fontWeight: FontWeight.bold),
+      h4: body,
+      h5: body,
+      h6: body,
+      listBullet: body,
+      img: body,
+      strong: body.copyWith(fontWeight: FontWeight.bold),
+      p: body,
+      tableBody: body,
+      tableHead: body,
+      code: code,
+      codeblockDecoration: codeBlock,
+    );
   }
 
   LlmChatViewStyle? getChatStyle(BuildContext context) {
@@ -153,6 +223,7 @@ class MzansiAiProvider extends ChangeNotifier {
             ),
           ],
         ),
+        markdownStyle: getLlmChatMarkdownStyle(context),
       ),
       // User Chat Style
       userMessageStyle: UserMessageStyle(
@@ -231,17 +302,18 @@ class MzansiAiProvider extends ChangeNotifier {
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       ),
       cancelButtonStyle: ActionButtonStyle(
-          iconDecoration: BoxDecoration(
-            color: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          iconColor: MihColors.getSecondaryInvertedColor(
+        iconDecoration: BoxDecoration(
+          color: MihColors.getRedColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          textStyle: TextStyle(
-            color: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          )),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        iconColor: MihColors.getSecondaryInvertedColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        textStyle: TextStyle(
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        ),
+      ),
     );
   }
 }

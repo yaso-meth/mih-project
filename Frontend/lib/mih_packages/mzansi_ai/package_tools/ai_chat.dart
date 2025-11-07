@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
@@ -221,8 +220,21 @@ class _AiChatState extends State<AiChat> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  // SelectionArea(
+                  //   child: GptMarkdown(
+                  //     snapshot.requireData,
+                  //     textAlign: TextAlign.left,
+                  //     style: TextStyle(
+                  //       color: MihColors.getSecondaryColor(
+                  //           MzansiInnovationHub.of(context)!.theme.mode ==
+                  //               "Dark"),
+                  //       fontSize: _chatFrontSize,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  // ),
                   SelectionArea(
-                    child: GptMarkdown(
+                    child: Text(
                       snapshot.requireData,
                       textAlign: TextAlign.left,
                       style: TextStyle(
