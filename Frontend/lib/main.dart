@@ -12,7 +12,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_direct
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 import 'mih_config/mih_env.dart';
@@ -36,40 +35,10 @@ class MzansiInnovationHub extends StatefulWidget {
 class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   late MihTheme theme;
 
-  Color getPrimany() {
-    return MihColors.getPrimaryColor(theme.mode == "Dark");
-  }
-
-  String getTitle() {
-    if (AppEnviroment.getEnv() == "Dev") {
-      return "Dev | MIH App: Mzansi Innovation Hub";
-    } else {
-      return "MIH App: Mzansi Innovation Hub";
-    }
-  }
-
-  void changeTheme(ThemeMode themeMode) {
-    setState(() {
-      if (themeMode == ThemeMode.light) {
-        setState(() {
-          theme.mode = "Light";
-        });
-      } else if (themeMode == ThemeMode.dark) {
-        setState(() {
-          theme.mode = "Dark";
-        });
-      } else {
-        setState(() {
-          theme.mode = "Dark";
-        });
-      }
-    });
-  }
-
   @override
   void initState() {
-    theme = MihTheme();
     super.initState();
+    theme = MihTheme();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
   }
@@ -119,7 +88,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
       ],
       child: MaterialApp.router(
-        title: getTitle(),
+        title: AppEnviroment.getEnv() == "Dev"
+            ? "Dev | MIH App: Mzansi Innovation Hub"
+            : "MIH App: Mzansi Innovation Hub",
         themeMode: ThemeMode.dark,
         theme: theme.getThemeData(),
         darkTheme: theme.getThemeData(),
