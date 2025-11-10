@@ -1,32 +1,46 @@
 # flutter pub run flutter_launcher_icons
 flutter_launcher_icons:
-  image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
+  # Original
+  # image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app.png"
+
+  # Women For Change
+  image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app_w4c.png"
 
   android: "launcher_icon"
-  # image_path_android: "assets/icon/icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
-  adaptive_icon_background: "#3A4454"
-  adaptive_icon_foreground: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
-  # adaptive_icon_monochrome: "assets/icon/monochrome.png"
+  # Original
+  # adaptive_icon_background: "#3A4454"
+  # adaptive_icon_foreground: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app.png"
+
+  # Women For Change
+  adaptive_icon_background: "#6641b2"
+  adaptive_icon_foreground: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app_w4c.png"
 
   ios: true
-  image_path_ios: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_app_icon.png"
+  # Original
+  # image_path_ios: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app.png"
+
+  # Women For Change
+  image_path_ios: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_app_w4c.png"
   remove_alpha_channel_ios: true
-  # image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
-  # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
-  # desaturate_tinted_to_grayscale_ios: true
 
   web:
     generate: true
-    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
-    background_color: "#3A4454"
-    theme_color: "#3A4454"
+  # Original
+    # image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web.png"
+    # background_color: "#3A4454"
+    # theme_color: "#3A4454"
+
+  # Women For Change
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web.png"
+    background_color: "#6641b2"
+    theme_color: "#6641b2"
 
   windows:
     generate: true
-    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web.png"
     icon_size: 48 # min:48, max:256, default: 48
 
   macos:
     generate: true
-    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/circle_logo.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web.png"

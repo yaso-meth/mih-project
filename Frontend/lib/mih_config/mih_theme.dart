@@ -233,65 +233,65 @@ class MihTheme {
   //   }
   // }
 
-  AssetImage loadingImage() {
-    if (mode == "Dark") {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
-      );
-    } else {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
-      );
-    }
-    return loading;
-  }
+  // AssetImage loadingImage() {
+  //   if (mode == "Dark") {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
+  //     );
+  //   } else {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
+  //     );
+  //   }
+  //   return loading;
+  // }
 
-  AssetImage altLoadingImage() {
-    if (mode == "Dark") {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
-      );
-    } else {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
-      );
-    }
-    return loading;
-  }
+  // AssetImage altLoadingImage() {
+  //   if (mode == "Dark") {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
+  //     );
+  //   } else {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
+  //     );
+  //   }
+  //   return loading;
+  // }
 
-  String loadingImageLocation() {
-    if (mode == "Dark") {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
-    } else {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
-    }
-    return loadingAssetText;
-  }
+  // String loadingImageLocation() {
+  //   if (mode == "Dark") {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
+  //   } else {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
+  //   }
+  //   return loadingAssetText;
+  // }
 
-  String altLoadingImageLocation() {
-    if (mode == "Dark") {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
-    } else {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
-    }
-    return loadingAssetText;
-  }
+  // String altLoadingImageLocation() {
+  //   if (mode == "Dark") {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
+  //   } else {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
+  //   }
+  //   return loadingAssetText;
+  // }
 
-  AssetImage aiLogoImage() {
-    if (mode == "Dark") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-light.png',
-      );
-    }
-  }
+  // AssetImage aiLogoImage() {
+  //   if (mode == "Dark") {
+  //     return const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/mzansi_ai-dark.png',
+  //     );
+  //   } else {
+  //     return const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/mzansi_ai-light.png',
+  //     );
+  //   }
+  // }
 
   void setScreenType(double width) {
     if (width <= 800) {
