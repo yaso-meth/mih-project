@@ -12,6 +12,8 @@
 		<string>This app needs access to your microphone to enable voice input for the chat.</string>
 		<key>NSSpeechRecognitionUsageDescription</key>
 		<string>This app uses speech recognition to convert your voice messages into text.</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 		<key>SKAdNetworkItems</key>
 		<array>
 			<dict>
