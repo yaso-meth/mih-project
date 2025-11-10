@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -126,7 +127,7 @@ class _MihAiChatState extends State<MihAiChat> {
 
   Future<void> initTts(MzansiAiProvider aiProvider) async {
     try {
-      await _flutterTts.setSpeechRate(0.55);
+      await _flutterTts.setSpeechRate(!kIsWeb ? 0.55 : 1);
       // await _flutterTts.setLanguage("en-US");
 
       // Safer voice selection with error handling
