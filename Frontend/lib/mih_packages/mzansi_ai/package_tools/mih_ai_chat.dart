@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
@@ -18,7 +19,6 @@ class MihAiChat extends StatefulWidget {
 }
 
 class _MihAiChatState extends State<MihAiChat> {
-  bool ttsOn = false;
   final FlutterTts _flutterTts = FlutterTts();
 
   Widget noMessagescDisplay() {
@@ -123,9 +123,9 @@ class _MihAiChatState extends State<MihAiChat> {
     _flutterTts.stop();
   }
 
-  Future<void> initTts() async {
+  Future<void> initTts(MzansiAiProvider aiProvider) async {
     try {
-      await _flutterTts.setSpeechRate(1);
+      await _flutterTts.setSpeechRate(0.55);
       // await _flutterTts.setLanguage("en-US");
 
       // Safer voice selection with error handling
@@ -153,25 +153,19 @@ class _MihAiChatState extends State<MihAiChat> {
 
     _flutterTts.setStartHandler(() {
       if (mounted) {
-        setState(() {
-          ttsOn = true;
-        });
+        aiProvider.setTTSstate(true);
       }
     });
 
     _flutterTts.setCompletionHandler(() {
       if (mounted) {
-        setState(() {
-          ttsOn = false;
-        });
+        aiProvider.setTTSstate(false);
       }
     });
 
     _flutterTts.setErrorHandler((message) {
       if (mounted) {
-        setState(() {
-          ttsOn = false;
-        });
+        aiProvider.setTTSstate(false);
       }
     });
   }
@@ -192,7 +186,8 @@ class _MihAiChatState extends State<MihAiChat> {
   @override
   void initState() {
     super.initState();
-    initTts();
+    MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
+    initTts(aiProvider);
     initStartQuestion();
   }
 
@@ -205,102 +200,84 @@ class _MihAiChatState extends State<MihAiChat> {
   @override
   Widget build(BuildContext context) {
     return Consumer<MzansiAiProvider>(
-      builder: (BuildContext context, MzansiAiProvider mzansiAiProvider,
-          Widget? child) {
-        // final startupQuestion = mzansiAiProvider.startUpQuestion;
-        // if (startupQuestion != null) {
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //     mzansiAiProvider.ollamaProvider.sendMessageStream(startupQuestion);
-        //     mzansiAiProvider.setStartUpQuestion(null);
-        //   });
-        // }
-        bool hasHistory = mzansiAiProvider.ollamaProvider.history.isNotEmpty;
-        KenLogger.success("has history: $hasHistory");
-        KenLogger.success(
-            "length: ${mzansiAiProvider.ollamaProvider.history.length}");
+      builder:
+          (BuildContext context, MzansiAiProvider aiProvider, Widget? child) {
+        bool hasHistory = aiProvider.ollamaProvider.history.isNotEmpty;
+
         return Stack(
           children: [
             LlmChatView(
-              provider: mzansiAiProvider.ollamaProvider,
-              messageSender: mzansiAiProvider.ollamaProvider.sendMessageStream,
+              provider: aiProvider.ollamaProvider,
+              messageSender: aiProvider.ollamaProvider.sendMessageStream,
               // welcomeMessage:
               //     "Mzansi AI is here to help. Send us a messahe and we'll try our best to assist you.",
               autofocus: false,
               enableAttachments: false,
               enableVoiceNotes: false,
-              style: mzansiAiProvider.getChatStyle(context),
-              // suggestions: [
-              //   "What is mih all about?",
-              //   "What are the features of MIH?"
-              // ],
+              style: aiProvider.getChatStyle(context),
+              suggestions: [
+                "What is mih all about?",
+                "What are the features of MIH?"
+              ],
             ),
             if (hasHistory)
               Positioned(
-                right: 10,
                 bottom: 80,
-                child: MihFloatingMenu(
-                  animatedIcon: AnimatedIcons.menu_close,
-                  children: [
-                    SpeedDialChild(
-                      child: Icon(
-                        Icons.refresh,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                      label: "New Chat",
-                      labelBackgroundColor: MihColors.getGreenColor(
+                left: 10,
+                child: MihButton(
+                  width: 35,
+                  height: 35,
+                  onPressed: () {
+                    if (!aiProvider.ttsOn) {
+                      speakLastMessage(aiProvider);
+                    } else {
+                      stopTTS();
+                    }
+                  },
+                  buttonColor: !aiProvider.ttsOn
+                      ? MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode == "Dark")
+                      : MihColors.getRedColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
                               "Dark"),
-                      labelStyle: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onTap: () {
-                        resetChat(mzansiAiProvider);
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(
-                        !ttsOn ? Icons.volume_up : Icons.volume_off,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                      label: !ttsOn ? "Read last Message" : "Stop Reading",
-                      labelBackgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      labelStyle: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: !ttsOn
-                          ? MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark")
-                          : MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                      onTap: () {
-                        KenLogger.success("Button pressed: TtsOn - $ttsOn");
-                        if (!ttsOn) {
-                          speakLastMessage(mzansiAiProvider);
-                        } else {
-                          stopTTS();
-                        }
-                      },
-                    ),
-                  ],
+                  child: Icon(
+                    !aiProvider.ttsOn ? Icons.volume_up : Icons.volume_off,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
                 ),
               ),
+            Positioned(
+              right: 10,
+              bottom: 80,
+              child: MihFloatingMenu(
+                animatedIcon: AnimatedIcons.menu_close,
+                children: [
+                  SpeedDialChild(
+                    child: Icon(
+                      Icons.refresh,
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    label: "New Chat",
+                    labelBackgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    labelStyle: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    onTap: () {
+                      resetChat(aiProvider);
+                    },
+                  ),
+                ],
+              ),
+            ),
             if (!hasHistory) noMessagescDisplay(),
           ],
         );

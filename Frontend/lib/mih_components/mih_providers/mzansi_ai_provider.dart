@@ -8,12 +8,14 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 
 class MzansiAiProvider extends ChangeNotifier {
+  bool ttsOn;
   int toolIndex;
   String? startUpQuestion;
   late OllamaProvider ollamaProvider;
 
   MzansiAiProvider({
     this.toolIndex = 0,
+    this.ttsOn = false,
   }) {
     ollamaProvider = OllamaProvider(
       baseUrl: "${AppEnviroment.baseAiUrl}/api",
@@ -35,6 +37,7 @@ class MzansiAiProvider extends ChangeNotifier {
           "- Mzansi Directory: A place to search and find out more about the people and businesses across Mzansi.\n" +
           "- Calendar: Integrated calendar for managing personal and business appointments.\n" +
           "- Calculator: Simple calculator with tip and forex calculation functionality.\n" +
+          "- MIH Minesweeper: The first game from MIH! It's the classic brain-teaser ready to entertain you no matter where you are.\n" +
           "- MIH Access: Manage and view profile access security.\n" +
           "**Core Rules and Guidelines:**\n" +
           "- **Accuracy First:** Always prioritize providing correct information.\n" +
@@ -56,6 +59,11 @@ class MzansiAiProvider extends ChangeNotifier {
 
   void setToolIndex(int index) {
     toolIndex = index;
+    notifyListeners();
+  }
+
+  void setTTSstate(bool ttsOn) {
+    this.ttsOn = ttsOn;
     notifyListeners();
   }
 
@@ -244,6 +252,7 @@ class MzansiAiProvider extends ChangeNotifier {
           ],
         ),
         textStyle: TextStyle(
+          fontSize: 16,
           color: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
