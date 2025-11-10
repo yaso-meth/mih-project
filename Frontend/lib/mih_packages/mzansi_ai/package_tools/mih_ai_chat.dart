@@ -119,8 +119,9 @@ class _MihAiChatState extends State<MihAiChat> {
     }
   }
 
-  void stopTTS() {
+  void stopTTS(MzansiAiProvider aiProvider) {
     _flutterTts.stop();
+    aiProvider.setTTSstate(false);
   }
 
   Future<void> initTts(MzansiAiProvider aiProvider) async {
@@ -203,6 +204,11 @@ class _MihAiChatState extends State<MihAiChat> {
       builder:
           (BuildContext context, MzansiAiProvider aiProvider, Widget? child) {
         bool hasHistory = aiProvider.ollamaProvider.history.isNotEmpty;
+        String? lastMessage;
+        if (hasHistory) {
+          final histroyList = aiProvider.ollamaProvider.history.toList();
+          lastMessage = histroyList[histroyList.length - 1].text;
+        }
 
         return Stack(
           children: [
@@ -220,7 +226,7 @@ class _MihAiChatState extends State<MihAiChat> {
                 "What are the features of MIH?"
               ],
             ),
-            if (hasHistory)
+            if (hasHistory && lastMessage != null)
               Positioned(
                 bottom: 80,
                 left: 10,
@@ -231,7 +237,7 @@ class _MihAiChatState extends State<MihAiChat> {
                     if (!aiProvider.ttsOn) {
                       speakLastMessage(aiProvider);
                     } else {
-                      stopTTS();
+                      stopTTS(aiProvider);
                     }
                   },
                   buttonColor: !aiProvider.ttsOn
