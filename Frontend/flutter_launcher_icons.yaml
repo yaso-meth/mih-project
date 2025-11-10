@@ -32,7 +32,7 @@ flutter_launcher_icons:
     # theme_color: "#3A4454"
 
   # Women For Change
-    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web.png"
+    image_path: "lib/mih_components/mih_package_components/assets/images/app_icon/mih_logo_web_w4c.png"
     background_color: "#6641b2"
     theme_color: "#6641b2"
 
