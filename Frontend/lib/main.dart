@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
@@ -13,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profil
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:upgrader/upgrader.dart';
 import 'mih_config/mih_env.dart';
 import 'mih_config/mih_theme.dart';
@@ -34,10 +36,61 @@ class MzansiInnovationHub extends StatefulWidget {
 
 class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   late MihTheme theme;
+  final QuickActions quickActions = QuickActions();
+  String shortcut = 'no action set';
+
+  void _initializeQuickActions() {
+    quickActions.initialize((String shortcutType) {
+      setState(() {
+        shortcut = shortcutType;
+      });
+      if (shortcutType == 'mihHome') {
+        KenLogger.success("ShortCut: mihHome");
+        widget.router.goNamed("mihHome");
+      }
+      if (shortcutType == 'mzansiWallet') {
+        KenLogger.success("ShortCut: mzansiWallet");
+        widget.router.goNamed("mzansiWallet");
+      }
+      if (shortcutType == 'mzansiAi') {
+        KenLogger.success("ShortCut: mzansiAi");
+        widget.router.goNamed("mzansiAi");
+      }
+      if (shortcutType == 'mihCalculator') {
+        KenLogger.success("ShortCut: mihCalculator");
+        widget.router.goNamed("mihCalculator");
+      }
+    });
+    // Set the quick actions
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(
+        type: 'mzansiWallet',
+        localizedTitle: 'Mzansi Wallet',
+        icon: 'mzansi_wallet_sc',
+      ),
+      const ShortcutItem(
+        type: 'mzansiAi',
+        localizedTitle: 'Mzansi AI',
+        icon: 'mzansi_ai_sc',
+      ),
+      const ShortcutItem(
+        type: 'mihCalculator',
+        localizedTitle: 'MIH Calc',
+        icon: 'mih_calculator_sc',
+      ),
+    ]).then((void _) {
+      setState(() {
+        if (shortcut == 'no action set') {
+          shortcut = 'mih_home_sc';
+        }
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _initializeQuickActions();
     theme = MihTheme();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
@@ -47,7 +100,6 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
     theme.setScreenType(width);
-    precacheImage(theme.loadingImage(), context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

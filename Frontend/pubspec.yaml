@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.3+105
+version: 1.2.3+110
 # version: 1.1.1+97 #--- Updated version for upgrader package testing
 
 environment:
@@ -22,7 +22,6 @@ dependencies:
   supertokens_flutter: ^0.6.3
   http: ^1.2.1
   args: ^2.7.0
-  gif_view: ^1.0.3
   intl: ^0.20.2
   flutter_native_splash: ^2.4.6
   printing: ^5.13.3

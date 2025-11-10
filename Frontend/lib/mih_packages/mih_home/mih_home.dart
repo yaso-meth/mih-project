@@ -28,7 +28,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services
 import 'package:mzansi_innovation_hub/mih_services/mih_user_consent_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 class MihHome extends StatefulWidget {
   const MihHome({
@@ -43,35 +42,6 @@ class _MihHomeState extends State<MihHome> {
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
   bool _isLoadingInitialData = true;
-  final QuickActions quickActions = QuickActions();
-  String shortcut = 'no action set';
-
-  void _initializeQuickActions() {
-    quickActions.initialize((String shortcutType) {
-      setState(() {
-        shortcut = shortcutType;
-      });
-      if (shortcutType == 'mihHome') {
-        context.goNamed("mihHome");
-      }
-      if (shortcutType == 'mzansiWallet') {
-        context.goNamed("mzansiWallet");
-      }
-    });
-    // Set the quick actions
-    quickActions.setShortcutItems(<ShortcutItem>[
-      const ShortcutItem(
-          type: 'mzansiWallet',
-          localizedTitle: 'Mzansi Wallet',
-          icon: 'mzansi_wallet_sc'),
-    ]).then((void _) {
-      setState(() {
-        if (shortcut == 'no action set') {
-          shortcut = 'mihHome';
-        }
-      });
-    });
-  }
 
   Future<void> _loadInitialData() async {
     if (mounted) {
@@ -235,7 +205,6 @@ class _MihHomeState extends State<MihHome> {
   void initState() {
     super.initState();
     _loadInitialData();
-    _initializeQuickActions();
   }
 
   List<String> getToolTitle() {

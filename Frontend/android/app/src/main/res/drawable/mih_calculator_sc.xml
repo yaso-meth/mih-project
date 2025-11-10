@@ -7,7 +7,7 @@
         </shape>
     </item>
     <item
-        android:drawable="@drawable/mih_logo"
+        android:drawable="@drawable/calculator"
         android:width="48dp"
         android:height="48dp"
         android:gravity="center" />

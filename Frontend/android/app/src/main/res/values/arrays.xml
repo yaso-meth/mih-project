@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="mih_shortcut_icons">
+        <item>@drawable/mih_home_sc</item>
+        <item>@drawable/mzansi_wallet_sc</item>
+        <item>@drawable/mzansi_ai_sc</item>
+        <item>@drawable/mih_calculator_sc</item>
+    </array>
+</resources>

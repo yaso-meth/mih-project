@@ -53,6 +53,10 @@
                 android:name="flutter-deeplink"
                 android:value="true"
                 />
+            <!-- Shortcut Icons -->
+            <meta-data
+                android:name="mih_shortcut_icons"
+                android:resource="@array/mih_shortcut_icons" />
             <!-- New Deep Linking -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
