@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/mih_icon_background" />
+            <!-- <size android:width="48dp" android:height="48dp"/> -->
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/mzansi_wallet"
+        android:width="48dp"
+        android:height="48dp"
+        android:gravity="center" />
+</layer-list>

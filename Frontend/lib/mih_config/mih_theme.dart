@@ -14,7 +14,7 @@ class MihTheme {
   late String loadingAssetText;
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
-  String latestVersion = "1.2.2";
+  String latestVersion = "1.2.3";
   // Options:-
   // f3f9d2 = Cream
   // f0f0c9 = cream2
@@ -35,48 +35,116 @@ class MihTheme {
 
   ThemeData getData(bool bool) {
     return ThemeData(
-        fontFamily: 'Segoe UI',
-        scaffoldBackgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-        // pageTransitionsTheme: PageTransitionsTheme(
-        //   builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-        //     TargetPlatform.values,
-        //     value: (dynamic _) => const FadeUpwardsPageTransitionsBuilder(),
-        //   ),
-        // ),
-        colorScheme: ColorScheme(
-          brightness: getBritness(),
-          primary: MihColors.getSecondaryColor(mode == "Dark"),
-          onPrimary: MihColors.getPrimaryColor(mode == "Dark"),
-          secondary: MihColors.getPrimaryColor(mode == "Dark"),
-          onSecondary: MihColors.getSecondaryColor(mode == "Dark"),
-          error: MihColors.getRedColor(mode == "Dark"),
-          onError: MihColors.getPrimaryColor(mode == "Dark"),
-          surface: MihColors.getPrimaryColor(mode == "Dark"),
-          onSurface: MihColors.getSecondaryColor(mode == "Dark"),
+      fontFamily: 'Segoe UI',
+      scaffoldBackgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+      // pageTransitionsTheme: PageTransitionsTheme(
+      //   builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+      //     TargetPlatform.values,
+      //     value: (dynamic _) => const FadeUpwardsPageTransitionsBuilder(),
+      //   ),
+      // ),
+      colorScheme: ColorScheme(
+        brightness: getBritness(),
+        primary: MihColors.getSecondaryColor(mode == "Dark"),
+        onPrimary: MihColors.getPrimaryColor(mode == "Dark"),
+        secondary: MihColors.getPrimaryColor(mode == "Dark"),
+        onSecondary: MihColors.getSecondaryColor(mode == "Dark"),
+        error: MihColors.getRedColor(mode == "Dark"),
+        onError: MihColors.getPrimaryColor(mode == "Dark"),
+        surface: MihColors.getPrimaryColor(mode == "Dark"),
+        onSurface: MihColors.getSecondaryColor(mode == "Dark"),
+      ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        headerBackgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
+        headerForegroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+      ),
+      appBarTheme: AppBarTheme(
+        color: MihColors.getSecondaryColor(mode == "Dark"),
+        foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        titleTextStyle: TextStyle(
+          color: MihColors.getPrimaryColor(mode == "Dark"),
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
-        datePickerTheme: DatePickerThemeData(
-          backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-          headerBackgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
-          headerForegroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-        ),
-        appBarTheme: AppBarTheme(
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
+        foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        extendedTextStyle:
+            TextStyle(color: MihColors.getPrimaryColor(mode == "Dark")),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+      ),
+      // Text selection / cursor color
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: MihColors.getPrimaryColor(mode == "Dark"),
+        selectionColor:
+            MihColors.getPrimaryColor(mode == "Dark").withOpacity(0.25),
+        selectionHandleColor: MihColors.getPrimaryColor(mode == "Dark"),
+      ),
+      tooltipTheme: TooltipThemeData(
+        decoration: BoxDecoration(
           color: MihColors.getSecondaryColor(mode == "Dark"),
-          foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-          titleTextStyle: TextStyle(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            width: 1.0,
             color: MihColors.getPrimaryColor(mode == "Dark"),
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
           ),
+          boxShadow: [
+            BoxShadow(
+              color:
+                  MihColors.getPrimaryColor(mode == "Dark").withOpacity(0.18),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
-          foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-          extendedTextStyle:
-              TextStyle(color: MihColors.getPrimaryColor(mode == "Dark")),
+        textStyle: TextStyle(
+          color: MihColors.getPrimaryColor(mode == "Dark"),
+          fontSize: 13,
+          height: 1.2,
         ),
-        drawerTheme: DrawerThemeData(
-          backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-        ));
+        waitDuration: const Duration(milliseconds: 500),
+        showDuration: const Duration(seconds: 3),
+        preferBelow: true,
+        verticalOffset: 24,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        triggerMode: TooltipTriggerMode.longPress,
+      ),
+      // // Input decoration (text fields) theme
+      // inputDecorationTheme: InputDecorationTheme(
+      //   filled: true,
+      //   fillColor: mode == "Dark"
+      //       ? MihColors.getPrimaryColor(true).withOpacity(0.06)
+      //       : MihColors.getPrimaryColor(false).withOpacity(0.03),
+      //   contentPadding:
+      //       const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      //   border: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(8),
+      //     borderSide:
+      //         BorderSide(color: MihColors.getSecondaryColor(mode == "Dark")),
+      //   ),
+      //   enabledBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(8),
+      //     borderSide: BorderSide(
+      //         color:
+      //             MihColors.getSecondaryColor(mode == "Dark").withOpacity(0.6)),
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(8),
+      //     borderSide: BorderSide(
+      //         color: MihColors.getSecondaryColor(mode == "Dark"), width: 2),
+      //   ),
+      //   hintStyle: TextStyle(
+      //       color:
+      //           MihColors.getSecondaryColor(mode == "Dark").withOpacity(0.7)),
+      //   labelStyle:
+      //       TextStyle(color: MihColors.getSecondaryColor(mode == "Dark")),
+      //   errorStyle: TextStyle(color: MihColors.getRedColor(mode == "Dark")),
+      // ),
+    );
   }
 
   String getPlatform() {
@@ -165,65 +233,65 @@ class MihTheme {
   //   }
   // }
 
-  AssetImage loadingImage() {
-    if (mode == "Dark") {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
-      );
-    } else {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
-      );
-    }
-    return loading;
-  }
+  // AssetImage loadingImage() {
+  //   if (mode == "Dark") {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
+  //     );
+  //   } else {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
+  //     );
+  //   }
+  //   return loading;
+  // }
 
-  AssetImage altLoadingImage() {
-    if (mode == "Dark") {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
-      );
-    } else {
-      loading = const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
-      );
-    }
-    return loading;
-  }
+  // AssetImage altLoadingImage() {
+  //   if (mode == "Dark") {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_dark.gif',
+  //     );
+  //   } else {
+  //     loading = const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/loading_light.gif',
+  //     );
+  //   }
+  //   return loading;
+  // }
 
-  String loadingImageLocation() {
-    if (mode == "Dark") {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
-    } else {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
-    }
-    return loadingAssetText;
-  }
+  // String loadingImageLocation() {
+  //   if (mode == "Dark") {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
+  //   } else {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
+  //   }
+  //   return loadingAssetText;
+  // }
 
-  String altLoadingImageLocation() {
-    if (mode == "Dark") {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
-    } else {
-      loadingAssetText =
-          'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
-    }
-    return loadingAssetText;
-  }
+  // String altLoadingImageLocation() {
+  //   if (mode == "Dark") {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_dark.gif';
+  //   } else {
+  //     loadingAssetText =
+  //         'lib/mih_components/mih_package_components/assets/images/loading_light.gif';
+  //   }
+  //   return loadingAssetText;
+  // }
 
-  AssetImage aiLogoImage() {
-    if (mode == "Dark") {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-dark.png',
-      );
-    } else {
-      return const AssetImage(
-        'lib/mih_components/mih_package_components/assets/images/mzansi_ai-light.png',
-      );
-    }
-  }
+  // AssetImage aiLogoImage() {
+  //   if (mode == "Dark") {
+  //     return const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/mzansi_ai-dark.png',
+  //     );
+  //   } else {
+  //     return const AssetImage(
+  //       'lib/mih_components/mih_package_components/assets/images/mzansi_ai-light.png',
+  //     );
+  //   }
+  // }
 
   void setScreenType(double width) {
     if (width <= 800) {

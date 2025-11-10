@@ -161,7 +161,6 @@ class _MihInfoState extends State<MihInfo> {
     String heading = "Our Mission";
     String mission =
         "Bridge the digital divide in Mzansi, ensuring that everyone can benefit from the power of technology. We empower lives by providing simple, elegant solutions that elevate daily experiences. With our user-friendly approach, we're making the digital world accessible to all, ensuring no one is left behind in the digital revolution.";
-
     return SizedBox(
       width: 500,
       child: Column(
@@ -174,6 +173,118 @@ class _MihInfoState extends State<MihInfo> {
               fontWeight: FontWeight.bold,
               fontSize: 25,
             ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            mission,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              //fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget womenForChange() {
+    String heading = "MIH Stands with Women For Change SA";
+    String mission =
+        "South Africa is facing a devastating crisis of Gender-Based Violence and Femicide (GBVF), with at least 15 women murdered and 117 women reporting rape daily, often at the hands of known individuals, as highlighted by a shocking 33.8% rise in femicide in the last year, despite the existence of the National Strategic Plan on GBVF (NSP GBVF). Due to the government's lack of urgent action and funding for the NSP GBVF's implementation, organizations like Women For Change are urgently calling for the immediate declaration of GBVF as a National Disaster to mobilize resources and political will for decisive action, which must include judicial reforms (like opposing bail and implementing harsher sentences), immediate funding of the NSP GBVF and the new National Council, making the National Sex Offenders Register publicly accessible, and mandating comprehensive GBVF education and continuous public awareness campaigns.";
+    return SizedBox(
+      width: 500,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            heading,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              MihButton(
+                onPressed: () {
+                  launchSocialUrl(
+                    Uri.parse(
+                      "https://www.tiktok.com/@womenforchange.sa",
+                    ),
+                  );
+                },
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.tiktok,
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "@womenforchange.sa",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              MihButton(
+                onPressed: () {
+                  launchSocialUrl(
+                    Uri.parse(
+                      "https://www.change.org/p/declare-gbvf-a-national-disaster-in-south-africa",
+                    ),
+                  );
+                },
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      Icons.edit,
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Sign Petition",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 10,
@@ -736,6 +847,7 @@ class _MihInfoState extends State<MihInfo> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
+                    womenForChange(),
                     ourVision(),
                     ourMission(),
                   ],

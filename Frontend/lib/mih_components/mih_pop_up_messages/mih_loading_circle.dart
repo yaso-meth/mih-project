@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import '../../main.dart';
-import 'package:gif_view/gif_view.dart';
 
 class Mihloadingcircle extends StatefulWidget {
   final String? message;
@@ -11,8 +11,11 @@ class Mihloadingcircle extends StatefulWidget {
   State<Mihloadingcircle> createState() => _MihloadingcircleState();
 }
 
-class _MihloadingcircleState extends State<Mihloadingcircle> {
-  // final GifController _controller = GifController();
+class _MihloadingcircleState extends State<Mihloadingcircle>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   late double popUpPaddingSize;
   late double popUpWidth;
   late double? popUpheight;
@@ -38,14 +41,26 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
 
   @override
   void initState() {
-    //_controller.animateTo(26);
     super.initState();
     checkScreenSize();
+    _controller = AnimationController(
+      duration: const Duration(
+          milliseconds: 500), // Duration for one pulse (grow and shrink)
+      vsync: this,
+    );
+    _animation = Tween<double>(
+      begin: 200,
+      end: 200 * 0.5, // Pulse to 50% of the initial size
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut, // Smooth start and end of the pulse
+    ));
+    _controller.repeat(reverse: true);
   }
 
   @override
   void dispose() {
-    // _controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -70,13 +85,22 @@ class _MihloadingcircleState extends State<Mihloadingcircle> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  GifView.asset(
-                    MzansiInnovationHub.of(context)!
-                        .theme
-                        .loadingImageLocation(),
-                    height: 200,
+                  SizedBox(
                     width: 200,
-                    frameRate: 30,
+                    height: 200,
+                    child: AnimatedBuilder(
+                      animation: _animation,
+                      builder: (context, child) {
+                        return Icon(
+                          MihIcons.mihLogo,
+                          size: _animation
+                              .value, // The size changes based on the animation value
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        );
+                      },
+                    ),
                   ),
                   widget.message != null
                       ? Text(

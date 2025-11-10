@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#3A4454</color>
+    <color name="ic_launcher_background">#6641b2</color>
+    <!-- Women For Change -->
+    <color name="mih_icon_background">#6641b2</color> 
+    <color name="mih_icon_foreground">#E0D1FF</color> 
+    <!-- Original -->
+    <!--  <color name="mih_icon_background">#3A4454</color>  
+    <color name="mih_icon_foreground">#bedcfe</color> -->
 </resources>
