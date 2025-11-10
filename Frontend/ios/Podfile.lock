@@ -1,6 +1,15 @@
 PODS:
   - app_settings (5.1.1):
     - Flutter
+  - AppCheckCore (11.2.0):
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - PromisesObjC (~> 2.4)
+  - camera_avfoundation (0.0.1):
+    - Flutter
+  - CwlCatchException (2.2.1):
+    - CwlCatchExceptionSupport (~> 2.2.1)
+  - CwlCatchExceptionSupport (2.2.1)
   - device_info_plus (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.9):
@@ -40,6 +49,50 @@ PODS:
     - Flutter
   - file_saver (0.0.1):
     - Flutter
+  - file_selector_ios (0.0.1):
+    - Flutter
+  - Firebase/Auth (12.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 12.4.0)
+  - Firebase/CoreOnly (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+  - firebase_app_check (0.4.1-2):
+    - Firebase/CoreOnly (~> 12.4.0)
+    - firebase_core
+    - FirebaseAppCheck (~> 12.4.0)
+    - Flutter
+  - firebase_auth (6.1.2):
+    - Firebase/Auth (= 12.4.0)
+    - firebase_core
+    - Flutter
+  - firebase_core (4.2.1):
+    - Firebase/CoreOnly (= 12.4.0)
+    - Flutter
+  - FirebaseAppCheck (12.4.0):
+    - AppCheckCore (~> 11.0)
+    - FirebaseAppCheckInterop (~> 12.4.0)
+    - FirebaseCore (~> 12.4.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+  - FirebaseAppCheckInterop (12.4.0)
+  - FirebaseAuth (12.4.0):
+    - FirebaseAppCheckInterop (~> 12.4.0)
+    - FirebaseAuthInterop (~> 12.4.0)
+    - FirebaseCore (~> 12.4.0)
+    - FirebaseCoreExtension (~> 12.4.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GTMSessionFetcher/Core (< 6.0, >= 3.4)
+    - RecaptchaInterop (~> 101.0)
+  - FirebaseAuthInterop (12.4.0)
+  - FirebaseCore (12.4.0):
+    - FirebaseCoreInternal (~> 12.4.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreExtension (12.4.0):
+    - FirebaseCore (~> 12.4.0)
+  - FirebaseCoreInternal (12.4.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
   - fl_downloader (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -63,6 +116,33 @@ PODS:
     - FBAudienceNetwork (= 6.20.1)
     - Google-Mobile-Ads-SDK (~> 12.0)
   - GoogleUserMessagingPlatform (3.0.0)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (8.1.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (8.1.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/Reachability (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GTMSessionFetcher/Core (5.0.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - local_auth_darwin (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -76,6 +156,12 @@ PODS:
     - FlutterMacOS
   - printing (1.0.0):
     - Flutter
+  - PromisesObjC (2.4.0)
+  - quick_actions_ios (0.0.1):
+    - Flutter
+  - RecaptchaInterop (101.0.0)
+  - record_ios (1.1.0):
+    - Flutter
   - screen_brightness_ios (0.1.0):
     - Flutter
   - SDWebImage (5.20.0):
@@ -84,6 +170,10 @@ PODS:
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - speech_to_text (7.2.0):
+    - CwlCatchException
     - Flutter
     - FlutterMacOS
   - sqflite_darwin (0.0.4):
@@ -100,9 +190,14 @@ PODS:
 
 DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
+  - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - file_saver (from `.symlinks/plugins/file_saver/ios`)
+  - file_selector_ios (from `.symlinks/plugins/file_selector_ios/ios`)
+  - firebase_app_check (from `.symlinks/plugins/firebase_app_check/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - fl_downloader (from `.symlinks/plugins/fl_downloader/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
@@ -110,14 +205,18 @@ DEPENDENCIES:
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - gma_mediation_meta (from `.symlinks/plugins/gma_mediation_meta/ios`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - printing (from `.symlinks/plugins/printing/ios`)
+  - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
+  - record_ios (from `.symlinks/plugins/record_ios/ios`)
   - screen_brightness_ios (from `.symlinks/plugins/screen_brightness_ios/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - speech_to_text (from `.symlinks/plugins/speech_to_text/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -125,24 +224,49 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppCheckCore
+    - CwlCatchException
+    - CwlCatchExceptionSupport
     - DKImagePickerController
     - DKPhotoGallery
     - FBAudienceNetwork
+    - Firebase
+    - FirebaseAppCheck
+    - FirebaseAppCheckInterop
+    - FirebaseAuth
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseCoreExtension
+    - FirebaseCoreInternal
     - Google-Mobile-Ads-SDK
     - GoogleMobileAdsMediationFacebook
     - GoogleUserMessagingPlatform
+    - GoogleUtilities
+    - GTMSessionFetcher
+    - PromisesObjC
+    - RecaptchaInterop
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
   app_settings:
     :path: ".symlinks/plugins/app_settings/ios"
+  camera_avfoundation:
+    :path: ".symlinks/plugins/camera_avfoundation/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   file_saver:
     :path: ".symlinks/plugins/file_saver/ios"
+  file_selector_ios:
+    :path: ".symlinks/plugins/file_selector_ios/ios"
+  firebase_app_check:
+    :path: ".symlinks/plugins/firebase_app_check/ios"
+  firebase_auth:
+    :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
   fl_downloader:
     :path: ".symlinks/plugins/fl_downloader/ios"
   Flutter:
@@ -157,6 +281,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/gma_mediation_meta/ios"
   google_mobile_ads:
     :path: ".symlinks/plugins/google_mobile_ads/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   local_auth_darwin:
     :path: ".symlinks/plugins/local_auth_darwin/darwin"
   mobile_scanner:
@@ -167,12 +293,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   printing:
     :path: ".symlinks/plugins/printing/ios"
+  quick_actions_ios:
+    :path: ".symlinks/plugins/quick_actions_ios/ios"
+  record_ios:
+    :path: ".symlinks/plugins/record_ios/ios"
   screen_brightness_ios:
     :path: ".symlinks/plugins/screen_brightness_ios/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  speech_to_text:
+    :path: ".symlinks/plugins/speech_to_text/darwin"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   syncfusion_flutter_pdfviewer:
@@ -184,12 +316,28 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_settings: 5127ae0678de1dcc19f2293271c51d37c89428b2
+  AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
+  camera_avfoundation: be3be85408cd4126f250386828e9b1dfa40ab436
+  CwlCatchException: 7acc161b299a6de7f0a46a6ed741eae2c8b4d75a
+  CwlCatchExceptionSupport: 54ccab8d8c78907b57f99717fb19d4cc3bce02dc
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   FBAudienceNetwork: 08e86d63a05b3a5a59414af12e4af8d756943c80
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   file_saver: 6cdbcddd690cb02b0c1a0c225b37cd805c2bf8b6
+  file_selector_ios: f92e583d43608aebc2e4a18daac30b8902845502
+  Firebase: f07b15ae5a6ec0f93713e30b923d9970d144af3e
+  firebase_app_check: 61fb3578a0761c806533482aca240a2d5cc5b5ef
+  firebase_auth: 9225db04db5d8e3b46dc8940e04bc6aec6833e27
+  firebase_core: f1aafb21c14f497e5498f7ffc4dc63cbb52b2594
+  FirebaseAppCheck: 73721d98fa29cf199da6004e57715cbaddd49651
+  FirebaseAppCheckInterop: f734c802f21fe1da0837708f0f9a27218c8a4ed0
+  FirebaseAuth: 4a2aed737c84114a9d9b33d11ae1b147d6b94889
+  FirebaseAuthInterop: 858e6b754966e70740a4370dd1503dfffe6dbb49
+  FirebaseCore: bb595f3114953664e3c1dc032f008a244147cfd3
+  FirebaseCoreExtension: 7e1f7118ee970e001a8013719fb90950ee5e0018
+  FirebaseCoreInternal: d7f5a043c2cd01a08103ab586587c1468047bca6
   fl_downloader: dc99aa8dd303f862cccb830087f37acc9b0156ee
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
@@ -200,15 +348,23 @@ SPEC CHECKSUMS:
   google_mobile_ads: 535223588a6791b7a3cc3513a1bc7b89d12f3e62
   GoogleMobileAdsMediationFacebook: b11a92ae3bfdae19853b882252b7e62791c18162
   GoogleUserMessagingPlatform: f8d0cdad3ca835406755d0a69aa634f00e76d576
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+  GTMSessionFetcher: 02d6e866e90bc236f48a703a041dfe43e6221a29
+  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   local_auth_darwin: 553ce4f9b16d3fdfeafce9cf042e7c9f77c1c391
   mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   printing: 54ff03f28fe9ba3aa93358afb80a8595a071dd07
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  quick_actions_ios: 4b07fb49d8d8f3518d7565fbb7a91014067a7d82
+  RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
+  record_ios: f75fa1d57f840012775c0e93a38a7f3ceea1a374
   screen_brightness_ios: 9953fd7da5bd480f1a93990daeec2eb42d4f3b52
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  speech_to_text: 3b313d98516d3d0406cea424782ec25470c59d19
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   syncfusion_flutter_pdfviewer: 90dc48305d2e33d4aa20681d1e98ddeda891bc14
