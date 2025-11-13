@@ -195,7 +195,7 @@ class _PatientInfoState extends State<PatientInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${patientManagerProvider.selectedPatient!.medical_aid_name} - ${patientManagerProvider.selectedPatient!.medical_aid_scheme}",
+                      "${patientManagerProvider.selectedPatient!.medical_aid} - ${patientManagerProvider.selectedPatient!.medical_aid_scheme}",
                       style: titleStyle,
                     ),
                     RichText(
@@ -322,7 +322,9 @@ class _PatientInfoState extends State<PatientInfo> {
                 const SizedBox(height: 10),
                 buildPatientInfoCard(patientManagerProvider),
                 const SizedBox(height: 10),
-                buildMedAidInfoCard(patientManagerProvider),
+                if (patientManagerProvider.selectedPatient!.medical_aid ==
+                    "Yes")
+                  buildMedAidInfoCard(patientManagerProvider),
               ],
             ),
             Positioned(

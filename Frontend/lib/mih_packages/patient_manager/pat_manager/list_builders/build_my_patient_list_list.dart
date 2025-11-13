@@ -5,8 +5,10 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profil
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
@@ -524,6 +526,15 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   patientManagerProvider.myPaitentList![index].app_id,
                   patientManagerProvider)
               .then((result) {});
+          await MihUserServices()
+              .getMIHUserDetails(
+                  patientManagerProvider.myPaitentList![index].app_id, context)
+              .then((user) async {
+            user;
+            String url =
+                await MihFileApi.getMinioFileUrl(user!.pro_pic_path, context);
+            patientManagerProvider.setSelectedPatientProfilePicUrl(url);
+          });
           patientProfileChoicePopUp(
               profileProvider, patientManagerProvider, index, width);
         } else {
@@ -536,6 +547,11 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
