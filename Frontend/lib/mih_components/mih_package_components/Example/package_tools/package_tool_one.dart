@@ -96,6 +96,11 @@ class _PackageToolOneState extends State<PackageToolOne> {
       builder: (context) {
         return MihPackageWindow(
           fullscreen: false,
+          borderOn: true,
+          foregroundColor: MihColors.getOrangeColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          backgroundColor: MihColors.getBluishPurpleColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           windowTitle: "Test No Full",
           menuOptions: [
             SpeedDialChild(

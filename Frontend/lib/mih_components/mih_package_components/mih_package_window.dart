@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -10,6 +11,9 @@ class MihPackageWindow extends StatefulWidget {
   final Widget windowBody;
   final List<SpeedDialChild>? menuOptions;
   final void Function() onWindowTapClose;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final bool? borderOn;
   final bool fullscreen;
   const MihPackageWindow({
     super.key,
@@ -18,6 +22,9 @@ class MihPackageWindow extends StatefulWidget {
     this.menuOptions,
     required this.onWindowTapClose,
     required this.windowBody,
+    this.borderOn,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 
   @override
@@ -60,45 +67,22 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          // color: Colors.white,
-          decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(25), // Optional: rounds the corners
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(
-                    60, 0, 0, 0), // 0.2 opacity = 51 in alpha (255 * 0.2)
-                spreadRadius: -2,
-                blurRadius: 10,
-                offset: Offset(0, 5),
-              ),
-            ],
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 5.0,
+            left: 5.0,
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 2.0,
-              left: 5.0,
-            ),
-            child: SizedBox(
-              width: 40,
-              child: IconButton.filled(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                      MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
-                ),
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                iconSize: 20,
-                onPressed: () {
-                  widget.onWindowTapClose();
-                },
-                icon: const Icon(
-                  Icons.close,
-                ),
-              ),
+          child: MihButton(
+            width: 40,
+            height: 40,
+            elevation: 10,
+            onPressed: widget.onWindowTapClose,
+            buttonColor: MihColors.getRedColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            child: Icon(
+              Icons.close,
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
         ),
@@ -112,8 +96,9 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               style: TextStyle(
                 fontSize: windowTitleSize,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: widget.foregroundColor ??
+                    MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
           ),
@@ -122,7 +107,7 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
           visible: (widget.menuOptions?.isNotEmpty ?? false),
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 2.0,
+              top: 5.0,
               right: 5.0,
             ),
             child: SizedBox(
@@ -170,13 +155,18 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       insetAnimationDuration: Durations.short1,
       child: Container(
         decoration: BoxDecoration(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          borderRadius: BorderRadius.circular(25.0),
-          border: Border.all(
-              color: MihColors.getSecondaryColor(
+          color: widget.backgroundColor ??
+              MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              width: 5.0),
+          borderRadius: BorderRadius.circular(25.0),
+          border: widget.borderOn == null || !widget.borderOn!
+              ? null
+              : Border.all(
+                  color: widget.foregroundColor ??
+                      MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                  width: 5.0),
         ),
         child: widget.fullscreen
             ? Column(
