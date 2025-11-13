@@ -10,7 +10,7 @@ class MihPackageWindow extends StatefulWidget {
   final String windowTitle;
   final Widget windowBody;
   final List<SpeedDialChild>? menuOptions;
-  final void Function() onWindowTapClose;
+  final void Function()? onWindowTapClose;
   final Color? backgroundColor;
   final Color? foregroundColor;
   final bool? borderOn;
@@ -67,25 +67,26 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 5.0,
-            left: 5.0,
-          ),
-          child: MihButton(
-            width: 40,
-            height: 40,
-            elevation: 10,
-            onPressed: widget.onWindowTapClose,
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            child: Icon(
-              Icons.close,
-              color: MihColors.getPrimaryColor(
+        if (widget.onWindowTapClose != null)
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 5.0,
+              left: 5.0,
+            ),
+            child: MihButton(
+              width: 40,
+              height: 40,
+              elevation: 10,
+              onPressed: widget.onWindowTapClose,
+              buttonColor: MihColors.getRedColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              child: Icon(
+                Icons.close,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
             ),
           ),
-        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -103,9 +104,8 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
             ),
           ),
         ),
-        Visibility(
-          visible: (widget.menuOptions?.isNotEmpty ?? false),
-          child: Padding(
+        if (widget.menuOptions != null)
+          Padding(
             padding: const EdgeInsets.only(
               top: 5.0,
               right: 5.0,
@@ -120,10 +120,6 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               ),
             ),
           ),
-        ),
-        // If no menu, add a SizedBox to keep alignment
-        if (!(widget.menuOptions?.isNotEmpty ?? false))
-          const SizedBox(width: 40),
       ],
     );
   }
@@ -153,54 +149,59 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
       ),
       insetAnimationCurve: Easing.emphasizedDecelerate,
       insetAnimationDuration: Durations.short1,
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.backgroundColor ??
-              MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          borderRadius: BorderRadius.circular(25.0),
-          border: widget.borderOn == null || !widget.borderOn!
-              ? null
-              : Border.all(
-                  color: widget.foregroundColor ??
-                      MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                  width: 5.0),
-        ),
-        child: widget.fullscreen
-            ? Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  getHeader(),
-                  const SizedBox(height: 5),
-                  Expanded(
-                      child: SingleChildScrollView(child: widget.windowBody)),
-                ],
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  getHeader(),
-                  const SizedBox(height: 5),
-                  Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 25,
-                        right: 25,
-                        bottom: vertticalWindowPadding,
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: windowHeight * 0.85,
-                          maxWidth: windowWidth * 0.85,
+      child: Material(
+        elevation: 10,
+        shadowColor: Colors.black,
+        color: widget.backgroundColor ??
+            MihColors.getPrimaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        borderRadius: BorderRadius.circular(25.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            border: widget.borderOn == null || !widget.borderOn!
+                ? null
+                : Border.all(
+                    color: widget.foregroundColor ??
+                        MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                    width: 5.0),
+          ),
+          child: widget.fullscreen
+              ? Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    getHeader(),
+                    const SizedBox(height: 5),
+                    Expanded(
+                        child: SingleChildScrollView(child: widget.windowBody)),
+                  ],
+                )
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    getHeader(),
+                    const SizedBox(height: 5),
+                    Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 25,
+                          right: 25,
+                          bottom: vertticalWindowPadding,
                         ),
-                        child: MihSingleChildScroll(child: widget.windowBody),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: windowHeight * 0.85,
+                            maxWidth: windowWidth * 0.85,
+                          ),
+                          child: MihSingleChildScroll(child: widget.windowBody),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+        ),
       ),
     );
   }

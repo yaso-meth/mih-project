@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manag
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_service_calls.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
@@ -47,7 +46,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
   Future<bool> hasAccessToProfile(MzansiProfileProvider profileProvider,
       PatientManagerProvider patientManagerProvider, int index) async {
     var hasAccess = false;
-    await MIHApiCalls.checkBusinessAccessToPatient(
+    await MihAccessControlsServices.checkBusinessAccessToPatient(
             profileProvider.business!.business_id,
             patientManagerProvider.patientSearchResults[index].app_id)
         .then((results) {
@@ -71,7 +70,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
   Future<String> getAccessStatusOfProfile(MzansiProfileProvider profileProvider,
       PatientManagerProvider patientManagerProvider, int index) async {
     var accessStatus = "";
-    await MIHApiCalls.checkBusinessAccessToPatient(
+    await MihAccessControlsServices.checkBusinessAccessToPatient(
             profileProvider.business!.business_id,
             patientManagerProvider.patientSearchResults[index].app_id)
         .then((results) {
@@ -373,7 +372,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                     child: Center(
                       child: MihButton(
                         onPressed: () async {
-                          await MIHApiCalls.reapplyPatientAccessAPICall(
+                          await MihAccessControlsServices
+                              .reapplyPatientAccessAPICall(
                             profileProvider.business!.business_id,
                             patientManagerProvider
                                 .patientSearchResults[index].app_id,

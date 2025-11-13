@@ -180,7 +180,7 @@ class _MihHomeState extends State<MihHome> {
   Future<void> getUserData() async {
     if (!mounted) return;
     String url;
-    await MihUserServices().getUserDetails(
+    await MihUserServices().getMyUserDetails(
       context,
     );
     if (!mounted) return;

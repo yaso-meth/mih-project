@@ -35,6 +35,29 @@ class MihAccessControlsServices {
     }
   }
 
+  /// This function is used to check if a business has access to a specific patients profile.
+  ///
+  /// Patameters: String business_id & app_id (app_id of patient).
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<List<PatientAccess>> checkBusinessAccessToPatient(
+    String business_id,
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/patient/check/$business_id?app_id=$app_id"));
+    // var errorCode = response.statusCode.toString();
+    //print(response.body);
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access for business');
+    }
+  }
+
   /// This function is used to create patient access and trigger notification to patient
   ///
   /// Patameters:-

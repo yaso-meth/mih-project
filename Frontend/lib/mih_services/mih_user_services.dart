@@ -99,7 +99,26 @@ class MihUserServices {
     }
   }
 
-  Future<AppUser?> getUserDetails(
+  Future<AppUser?> getMIHUserDetails(
+    String app_id,
+    BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
+  Future<AppUser?> getMyUserDetails(
     BuildContext context,
   ) async {
     String app_id = await SuperTokens.getUserId();
@@ -109,7 +128,6 @@ class MihUserServices {
         "Content-Type": "application/json; charset=UTF-8"
       },
     );
-
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);

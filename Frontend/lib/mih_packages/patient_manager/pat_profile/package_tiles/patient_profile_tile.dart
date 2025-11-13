@@ -39,6 +39,8 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
           await MihPatientServices()
               .getPatientDetails(app_id, patientManagerProvider);
         }
+        patientManagerProvider.setSelectedPatientProfilePicUrl(
+            profileProvider.userProfilePicUrl!);
         patientManagerProvider.setPersonalMode(true);
         if (patientManagerProvider.selectedPatient != null) {
           context.goNamed(

@@ -12,6 +12,9 @@ class PatientManagerProvider extends ChangeNotifier {
   bool personalMode;
   List<PatientAccess>? myPaitentList;
   Patient? selectedPatient;
+  String? selectedPatientProfilePictureUrl;
+  ImageProvider<Object>? selectedPatientProfilePicture;
+  bool hidePatientDetails;
   List<Note>? consultationNotes;
   List<PFile>? patientDocuments;
   List<ClaimStatementFile>? patientClaimsDocuments;
@@ -22,6 +25,7 @@ class PatientManagerProvider extends ChangeNotifier {
     this.patientManagerIndex = 0,
     this.fileViewerIndex = 0,
     this.personalMode = true,
+    this.hidePatientDetails = true,
   });
 
   void reset() {
@@ -53,6 +57,17 @@ class PatientManagerProvider extends ChangeNotifier {
 
   void setSelectedPatient({required Patient? selectedPatient}) {
     this.selectedPatient = selectedPatient;
+    notifyListeners();
+  }
+
+  void setSelectedPatientProfilePicUrl(String url) {
+    selectedPatientProfilePictureUrl = url;
+    selectedPatientProfilePicture = url.isNotEmpty ? NetworkImage(url) : null;
+    notifyListeners();
+  }
+
+  void setHidePatientDetails(bool hidePatientDetails) {
+    this.hidePatientDetails = hidePatientDetails;
     notifyListeners();
   }
 
