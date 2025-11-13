@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
@@ -324,6 +326,46 @@ class _BuildFilesListState extends State<BuildFilesList> {
     );
   }
 
+  Widget getFileIcon(String extension) {
+    switch (extension) {
+      case ("pdf"):
+        return Icon(
+          Icons.picture_as_pdf,
+          size: 50,
+          color: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("jpg"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("png"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("gif"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getOrangeColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      default:
+        return Icon(
+          Icons.image_not_supported,
+          size: 50,
+          color: MihColors.getSilverColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -367,7 +409,13 @@ class _BuildFilesListState extends State<BuildFilesList> {
             },
             itemCount: patientManagerProvider.patientDocuments!.length,
             itemBuilder: (context, index) {
+              String fileExtension = patientManagerProvider
+                  .patientDocuments![index].file_name
+                  .split(".")[1]
+                  .toLowerCase();
+              KenLogger.success(fileExtension);
               return ListTile(
+                leading: getFileIcon(fileExtension),
                 title: Text(
                   patientManagerProvider.patientDocuments![index].file_name,
                   style: TextStyle(

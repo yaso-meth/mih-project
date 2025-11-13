@@ -282,6 +282,12 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 notePreview = "${notePreview.substring(0, 30)} ...";
               }
               return ListTile(
+                leading: Icon(
+                  Icons.note,
+                  size: 50,
+                  color: MihColors.getGoldColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
                 title: Text(
                   "${patientManagerProvider.consultationNotes![index].note_name}\n${patientManagerProvider.consultationNotes![index].doc_office} - ${patientManagerProvider.consultationNotes![index].doctor}",
                   style: TextStyle(

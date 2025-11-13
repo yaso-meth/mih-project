@@ -331,6 +331,12 @@ class _BuildClaimStatementFileListState
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
             itemBuilder: (context, index) {
               return ListTile(
+                leading: Icon(
+                  Icons.picture_as_pdf,
+                  size: 50,
+                  color: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
                 title: Text(
                   patientManagerProvider
                       .patientClaimsDocuments![index].file_name,
