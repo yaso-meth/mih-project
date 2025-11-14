@@ -21,9 +21,10 @@
 
   <!-- test stuff for speed -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="prefetch" href="flutter_bootstrap.js">
+  <link rel="preload" href="flutter_bootstrap.js" as="script">
+  <link rel="preload" href="main.dart.js" as="script">
 
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
   <!-- Splash screen -->
 
@@ -104,61 +105,6 @@
   }
   </script>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <style id="splash-screen-style">
     html {
       height: 100%
@@ -238,61 +184,6 @@
       <img class="center" aria-hidden="true" src="splash/img/light-1x.gif" alt="">
   </picture>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <div id="seo-content" style="display:none;">
       <h1>Mzansi Innovation Hub (MIH) - Your All-in-One Super App for South Africa</h1>
       <p>Tired of juggling multiple apps? Mzansi Innovation Hub (MIH) presents the first super app designed specifically for the people and businesses of Mzansi. MIH is your unified online information technology system to streamline both your personal and professional life, bridging the socio-economic divide during the digital revolution.</p>
@@ -326,32 +217,7 @@
       // You might need to adjust this script to ensure it hides *after* the Flutter app's visual elements are fully rendered.
       // A more robust solution might involve listening for a Flutter-specific event when the app is ready.
   </script>
-  
-  
-
-
-
-  <!-- Versioning -->
-  <!-- <script src="flutter.js" defer></script> -->
-
-  <!-- <script defer>
-    //var serviceWorkerVersion = '{{flutter_service_worker_version}}';
-
-    window.addEventListener('load', function (env) {
-      {{flutter_js}}
-      {{flutter_build_config}}
-      _flutter.loader.load({
-        serviceWorker: {
-          serviceWorkerVersion: {{flutter_service_worker_version}},
-        },
-      onEntrypointLoaded: function (engineInitializer) {
-        engineInitializer.initializeEngine().then(function (appRunner) {
-          appRunner.runApp();
-        });
-      }
-      });
-    });
-  </script> -->
+ 
   <script>
     window.addEventListener("load", function (e) {
       document.addEventListener("focusin", function (event) {
@@ -361,9 +227,11 @@
       });
     });
   </script>
+
   <script defer="">
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
+    var swFallbackTimeout;
 
     function loadMainDartJs() {
       console.log('Loading app...');
@@ -372,8 +240,8 @@
       }
       scriptLoaded = true;
       // Cancel Timeut
-      if (window.swFallbackTimeout) {
-        clearTimeout(window.swFallbackTimeout);
+      if (swFallbackTimeout) {
+        clearTimeout(swFallbackTimeout);
         console.log('Service worker loaded successfully - fallback timeout cancelled.');
       }
       {{flutter_js}}
@@ -388,6 +256,9 @@
           });
         }
       });
+      var finishLoad = new Date();
+      var loadTime = (finishLoad.getTime() - startLoad.getTime());
+      console.log("Load Time: " + loadTime);
     }
 
     // Helper function to strip quotes from the version placeholder
@@ -404,12 +275,12 @@
 
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
+
             function waitForActivation(serviceWorker, isFirstTimeInstall) {
               serviceWorker.addEventListener('statechange', () => {
                 if (serviceWorker.state == 'activated') {
                   console.log('Installed new service worker.');
                   loadMainDartJs();
-                  
                   // Only prompt if this is NOT the first time installing (i.e., returning user)
                   if (!isFirstTimeInstall && navigator.serviceWorker.controller) {
                     console.log('New app version activated. Prompting for reload.');
@@ -454,17 +325,14 @@
 
         // If service worker doesn't succeed in a reasonable amount of time,
         // fallback to plain <script> tag.
-        setTimeout(() => {
+        swFallbackTimeout = setTimeout(() => {
           if (!scriptLoaded) {
             console.warn(
               'Failed to load app from a service worker. Falling back to plain <script> tag.',
             );
             loadMainDartJs();
           }
-        }, 4000);
-        var finishLoad = new Date();
-        var loadTime = (finishLoad.getTime() - startLoad.getTime());
-        console.log("Load Time: " + loadTime);
+        }, 1500);
       });
     }
     else {
