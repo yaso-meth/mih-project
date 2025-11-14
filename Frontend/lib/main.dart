@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -90,7 +91,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   @override
   void initState() {
     super.initState();
-    _initializeQuickActions();
+    if (!kIsWeb) {
+      _initializeQuickActions();
+    }
     theme = MihTheme();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
