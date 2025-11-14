@@ -365,7 +365,7 @@
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
 
-    function loadMainDartJs() {
+    function loadMainDartJs(isUpdate) {
       console.log('Loading app...');
       if (scriptLoaded) {
         return;
@@ -380,6 +380,17 @@
         onEntrypointLoaded: function (engineInitializer) {
           engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
+            
+              // --- NEW PROMPT LOCATION ---
+              if (isUpdate) {
+                  // Only show prompt AFTER the old app (the one currently running) has loaded
+                  console.log('New app version installed. Prompting for reload.');
+                  if (confirm('A new version of the app is available. Refresh now to update?')) {
+                      window.location.reload();
+                  }
+              }
+              // ---------------------------
+              
           });
         }
       });
@@ -389,7 +400,7 @@
     function getCleanVersion(version) {
       return version.replace(/"/g, '');
     }
-    
+    
     if ('serviceWorker' in navigator) {
       var startLoad = new Date();
       // Service workers are supported. Use them.
@@ -399,22 +410,16 @@
 
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
+
+              // Flag to track if this registration resulted in an update
+              let isUpdateInstallation = false;
+
             function waitForActivation(serviceWorker) {
               serviceWorker.addEventListener('statechange', () => {
                 if (serviceWorker.state == 'activated') {
                   console.log('Installed new service worker.');
-                  loadMainDartJs();
-                  // Optional: Prompt user to reload for the new version to take effect
-                  // The user is currently running the OLD cached version of the app.
-                  // This prompt is generally preferred over the previous logic.
-                  if (navigator.serviceWorker.controller) {
-                    // Only prompt if this isn't the first time loading.
-                    console.log('New app version activated. Prompting for reload.');
-                    // You can replace this confirm with a better UI notification.
-                    if (confirm('A new version of the app is available. Refresh now to update?')) {
-                      window.location.reload();
-                    }
-                  }
+                  // Pass the update flag to loadMainDartJs
+                  loadMainDartJs(isUpdateInstallation);
                 }
               });
             }
@@ -425,26 +430,27 @@
             console.log('Active Service Worker Version: ' + (currentSWVersion || 'None'));
             const isMatch = currentSWVersion === cleanServiceWorkerVersion;
             console.log('Latest Service Worker Installed: ' + isMatch);
-            
+            
             if (!reg.active && (reg.installing || reg.waiting)) {
               // First time load: wait for activation.
               console.log('No Service Worker Available - Installing New Service Worker.');
               waitForActivation(reg.installing || reg.waiting);
             } else if (!isMatch) {
               // New version available: force update.
+                isUpdateInstallation = true; // Set flag when update is initiated
               console.log('New service worker available. Updating and waiting for activation.');
               reg.update();
               waitForActivation(reg.installing);
             } else {
               // Existing service worker is still good.
               console.log('Service Worker up-to-date, Loading app.');
-              loadMainDartJs();
+              loadMainDartJs(false); // No update, pass false
             }
           })
-          .catch((error) => {
-              console.error('Service Worker registration failed:', error);
-              loadMainDartJs(); // Fallback if registration fails completely
-          });
+          .catch((error) => {
+              console.error('Service Worker registration failed:', error);
+              loadMainDartJs(false); // Fallback if registration fails completely
+          });
 
 
         // If service worker doesn't succeed in a reasonable amount of time,
@@ -454,7 +460,7 @@
             console.warn(
               'Failed to load app from a service worker. Falling back to plain <script> tag.',
             );
-            loadMainDartJs();
+            loadMainDartJs(false);
           }
         }, 500);
         var finishLoad = new Date();
@@ -465,11 +471,10 @@
     else {
       // Service workers not supported. Just drop the <script> tag.
       console.log('Service Workers Not Supported. Loading app directly.');
-      loadMainDartJs();
+      loadMainDartJs(false);
     }
 
   </script>
-
 
 
   <script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer=""></script>
