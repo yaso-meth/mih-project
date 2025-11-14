@@ -53,7 +53,7 @@ class _MihHomeState extends State<MihHome> {
         context.read<MzansiProfileProvider>();
     // Note: getUserData sets user and userProfilePicUrl in the provider
     if (mzansiProfileProvider.user == null) {
-      await getUserData();
+      await getUserData(mzansiProfileProvider);
     }
     // Note: getUserConsentStatus sets userConsent in the provider
     if (mzansiProfileProvider.userConsent == null) {
@@ -177,12 +177,10 @@ class _MihHomeState extends State<MihHome> {
           });
   }
 
-  Future<void> getUserData() async {
+  Future<void> getUserData(MzansiProfileProvider profileProvider) async {
     if (!mounted) return;
     String url;
-    await MihUserServices().getMyUserDetails(
-      context,
-    );
+    await MihUserServices().getMyUserDetails(profileProvider);
     if (!mounted) return;
     url = await MihFileApi.getMinioFileUrl(
       context.read<MzansiProfileProvider>().user!.pro_pic_path,

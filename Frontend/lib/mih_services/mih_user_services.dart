@@ -119,7 +119,7 @@ class MihUserServices {
   }
 
   Future<AppUser?> getMyUserDetails(
-    BuildContext context,
+    MzansiProfileProvider profileProvider,
   ) async {
     String app_id = await SuperTokens.getUserId();
     var response = await http.get(
@@ -131,9 +131,9 @@ class MihUserServices {
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
-      context.read<MzansiProfileProvider>().setUser(
-            newUser: AppUser.fromJson(jsonBody),
-          );
+      profileProvider.setUser(
+        newUser: AppUser.fromJson(jsonBody),
+      );
       return AppUser.fromJson(jsonBody);
     } else {
       return null;
