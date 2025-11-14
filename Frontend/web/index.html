@@ -371,6 +371,11 @@
         return;
       }
       scriptLoaded = true;
+      // Cancel Timeut
+      if (window.swFallbackTimeout) {
+        clearTimeout(window.swFallbackTimeout);
+        console.log('Service worker loaded successfully - fallback timeout cancelled.');
+      }
       {{flutter_js}}
       {{flutter_build_config}}
       _flutter.loader.load({
@@ -456,7 +461,7 @@
             );
             loadMainDartJs();
           }
-        }, 3000);
+        }, 4000);
         var finishLoad = new Date();
         var loadTime = (finishLoad.getTime() - startLoad.getTime());
         console.log("Load Time: " + loadTime);
