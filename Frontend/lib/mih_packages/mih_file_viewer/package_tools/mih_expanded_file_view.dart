@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
@@ -66,8 +65,6 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
     return Consumer<MihFileViewerProvider>(
       builder: (BuildContext context, MihFileViewerProvider fileViewerProvider,
           Widget? child) {
-        KenLogger.success(
-            "file Path: ${fileViewerProvider.filePath.split(".").last.toLowerCase()}");
         bool isPDF =
             fileViewerProvider.filePath.split(".").last.toLowerCase() == "pdf";
         return Stack(
