@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_file_viewer_provider.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/package_tools/mih_expandedFileView.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/package_tools/mih_expanded_file_view.dart';
 import 'package:provider/provider.dart';
 
 class MihFleViewer extends StatefulWidget {
@@ -65,7 +65,7 @@ class _MihFleViewerState extends State<MihFleViewer> {
 
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [
-      MihExpandedfileview(),
+      MihExpandedFileView(),
     ];
     return toolBodies;
   }

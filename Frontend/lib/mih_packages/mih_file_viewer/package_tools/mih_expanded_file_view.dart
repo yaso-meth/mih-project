@@ -14,14 +14,14 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import "package:universal_html/html.dart" as html;
 import 'package:fl_downloader/fl_downloader.dart';
 
-class MihExpandedfileview extends StatefulWidget {
-  const MihExpandedfileview({super.key});
+class MihExpandedFileView extends StatefulWidget {
+  const MihExpandedFileView({super.key});
 
   @override
-  State<MihExpandedfileview> createState() => _MihExpandedfileviewState();
+  State<MihExpandedFileView> createState() => _MihExpandedFileViewState();
 }
 
-class _MihExpandedfileviewState extends State<MihExpandedfileview> {
+class _MihExpandedFileViewState extends State<MihExpandedFileView> {
   late PdfViewerController pdfViewerController = PdfViewerController();
   int currentPageCount = 0;
   int currentPage = 0;
