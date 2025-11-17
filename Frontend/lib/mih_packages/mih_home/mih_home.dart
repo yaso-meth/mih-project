@@ -22,11 +22,8 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_d
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_consent_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
 class MihHome extends StatefulWidget {
@@ -44,69 +41,17 @@ class _MihHomeState extends State<MihHome> {
   bool _isLoadingInitialData = true;
 
   Future<void> _loadInitialData() async {
-    if (mounted) {
-      setState(() {
-        _isLoadingInitialData = true;
-      });
-    }
+    setState(() {
+      _isLoadingInitialData = true;
+    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    // Note: getUserData sets user and userProfilePicUrl in the provider
-    if (mzansiProfileProvider.user == null) {
-      await getUserData(mzansiProfileProvider);
-    }
-    // Note: getUserConsentStatus sets userConsent in the provider
-    if (mzansiProfileProvider.userConsent == null) {
-      await getUserConsentStatus();
-    }
-    // 1. Get Business Data
-    if (mzansiProfileProvider.user != null &&
-        mzansiProfileProvider.user!.type == "business" &&
-        mzansiProfileProvider.business == null) {
-      KenLogger.success(mzansiProfileProvider.business == null
-          ? "Business is null, fetching business data..."
-          : "Business data already loaded.");
-      await getBusinessData();
-    }
-    // 2. Set state after all data is loaded
-    if (mounted) {
-      setState(() {
-        _isLoadingInitialData = false;
-      });
-    }
-  }
-
-  Future<void> getBusinessData() async {
-    AppUser? user = context.read<MzansiProfileProvider>().user;
-    String logoUrl;
-    String signatureUrl;
-    Business? responseBusiness =
-        await MihBusinessDetailsServices().getBusinessDetailsByUser(context);
-    // if (responseBusiness == null && user!.type == "business") {
-    //   if (mounted) {
-    //     context.goNamed(
-    //       'businessProfileSetup',
-    //       extra: user,
-    //     );
-    //   }
-    // }
-
-    if (responseBusiness != null && user!.type == "business") {
-      // Get Business
-      // Business Profile Set Up aleary
-      logoUrl = await MihFileApi.getMinioFileUrl(
-        context.read<MzansiProfileProvider>().business!.logo_path,
-      );
-      context.read<MzansiProfileProvider>().setBusinessProfilePicUrl(logoUrl);
-      // Get Business User
-      await MihMyBusinessUserServices().getBusinessUser(context);
-      signatureUrl = await MihFileApi.getMinioFileUrl(
-        context.read<MzansiProfileProvider>().businessUser!.sig_path,
-      );
-      context
-          .read<MzansiProfileProvider>()
-          .setBusinessUserSignatureUrl(signatureUrl);
-    }
+    await MihDataHelperServices().loadUserDataWithBusinessesData(
+      mzansiProfileProvider,
+    );
+    setState(() {
+      _isLoadingInitialData = false;
+    });
   }
 
   bool showPolicyWindow(UserConsent? userConsent) {
@@ -175,20 +120,169 @@ class _MihHomeState extends State<MihHome> {
           });
   }
 
-  Future<void> getUserData(MzansiProfileProvider profileProvider) async {
-    if (!mounted) return;
-    String url;
-    await MihUserServices().getMyUserDetails(profileProvider);
-    if (!mounted) return;
-    url = await MihFileApi.getMinioFileUrl(
-      context.read<MzansiProfileProvider>().user!.pro_pic_path,
+  Widget displayConsentWindow(MzansiProfileProvider mzansiProfileProvider) {
+    return Container(
+      color: Colors.black.withValues(alpha: 0.5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          MihPackageWindow(
+            fullscreen: false,
+            windowTitle: "Privacy Policy & Terms Of Service Alert!",
+            onWindowTapClose: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return MihPackageAlert(
+                      alertIcon: Icon(
+                        Icons.warning_amber_rounded,
+                        size: 100,
+                        color: MihColors.getRedColor(
+                          MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                        ),
+                      ),
+                      alertTitle: "Oops, Looks like you missed a step!",
+                      alertBody: Text(
+                        "We're excited for you to keep using the MIH app! Before you do, please take a moment to accept our Privacy Policy and Terms of Service. Thanks for helping us keep your experience great!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark",
+                          ),
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      alertColour: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                      ),
+                    );
+                  });
+            },
+            windowBody: Column(
+              children: [
+                Icon(
+                  Icons.policy,
+                  size: 150,
+                  color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Welcome to the MIH App",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                    ),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "To keep using the MIH app, please take a moment to review and accept our Policies. Our agreements helps us keep things running smoothly and securely.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                    ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      MihButton(
+                        onPressed: () {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((_) async {
+                            context.read<AboutMihProvider>().setToolIndex(1);
+                          });
+                          context.goNamed("aboutMih",
+                              extra: mzansiProfileProvider.personalHome);
+                        },
+                        buttonColor: MihColors.getOrangeColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        elevation: 10,
+                        width: 300,
+                        child: Text(
+                          "Privacy Policy",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      MihButton(
+                        onPressed: () {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((_) async {
+                            context.read<AboutMihProvider>().setToolIndex(2);
+                          });
+                          context.goNamed("aboutMih",
+                              extra: mzansiProfileProvider.personalHome);
+                        },
+                        buttonColor: MihColors.getYellowColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        elevation: 10,
+                        width: 300,
+                        child: Text(
+                          "Terms of Service",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      MihButton(
+                        onPressed: () {
+                          DateTime now = DateTime.now();
+                          KenLogger.success("Date Time Now: $now");
+                          createOrUpdateAccpetance(mzansiProfileProvider);
+                        },
+                        buttonColor: MihColors.getGreenColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        elevation: 10,
+                        width: 300,
+                        child: Text(
+                          "Accept",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
-    context.read<MzansiProfileProvider>().setUserProfilePicUrl(url);
-  }
-
-  Future<void> getUserConsentStatus() async {
-    if (!mounted) return;
-    await MihUserConsentServices().getUserConsentStatus(context);
   }
 
   @override
@@ -250,200 +344,8 @@ class _MihHomeState extends State<MihHome> {
                 ),
               ),
             ),
-            Visibility(
-              visible: showPolicyWindow(mzansiProfileProvider.userConsent),
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    MihPackageWindow(
-                      fullscreen: false,
-                      windowTitle: "Privacy Policy & Terms Of Service Alert!",
-                      onWindowTapClose: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return MihPackageAlert(
-                                alertIcon: Icon(
-                                  Icons.warning_amber_rounded,
-                                  size: 100,
-                                  color: MihColors.getRedColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark",
-                                  ),
-                                ),
-                                alertTitle:
-                                    "Oops, Looks like you missed a step!",
-                                alertBody: Text(
-                                  "We're excited for you to keep using the MIH app! Before you do, please take a moment to accept our Privacy Policy and Terms of Service. Thanks for helping us keep your experience great!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark",
-                                    ),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                alertColour: MihColors.getRedColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark",
-                                ),
-                              );
-                            });
-                      },
-                      windowBody: Column(
-                        children: [
-                          Icon(
-                            Icons.policy,
-                            size: 150,
-                            color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark",
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Welcome to the MIH App",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark",
-                              ),
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "To keep using the MIH app, please take a moment to review and accept our Policies. Our agreements helps us keep things running smoothly and securely.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark",
-                              ),
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Center(
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: [
-                                MihButton(
-                                  onPressed: () {
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) async {
-                                      context
-                                          .read<AboutMihProvider>()
-                                          .setToolIndex(1);
-                                    });
-                                    context.goNamed("aboutMih",
-                                        extra:
-                                            mzansiProfileProvider.personalHome);
-                                  },
-                                  buttonColor: MihColors.getOrangeColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                  elevation: 10,
-                                  width: 300,
-                                  child: Text(
-                                    "Privacy Policy",
-                                    style: TextStyle(
-                                      color: MihColors.getPrimaryColor(
-                                          MzansiInnovationHub.of(context)!
-                                                  .theme
-                                                  .mode ==
-                                              "Dark"),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                MihButton(
-                                  onPressed: () {
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) async {
-                                      context
-                                          .read<AboutMihProvider>()
-                                          .setToolIndex(2);
-                                    });
-                                    context.goNamed("aboutMih",
-                                        extra:
-                                            mzansiProfileProvider.personalHome);
-                                  },
-                                  buttonColor: MihColors.getYellowColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                  elevation: 10,
-                                  width: 300,
-                                  child: Text(
-                                    "Terms of Service",
-                                    style: TextStyle(
-                                      color: MihColors.getPrimaryColor(
-                                          MzansiInnovationHub.of(context)!
-                                                  .theme
-                                                  .mode ==
-                                              "Dark"),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                MihButton(
-                                  onPressed: () {
-                                    DateTime now = DateTime.now();
-                                    KenLogger.success("Date Time Now: $now");
-                                    createOrUpdateAccpetance(
-                                        mzansiProfileProvider);
-                                  },
-                                  buttonColor: MihColors.getGreenColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                  elevation: 10,
-                                  width: 300,
-                                  child: Text(
-                                    "Accept",
-                                    style: TextStyle(
-                                      color: MihColors.getPrimaryColor(
-                                          MzansiInnovationHub.of(context)!
-                                                  .theme
-                                                  .mode ==
-                                              "Dark"),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            if (showPolicyWindow(mzansiProfileProvider.userConsent))
+              displayConsentWindow(mzansiProfileProvider),
           ],
         );
       },
