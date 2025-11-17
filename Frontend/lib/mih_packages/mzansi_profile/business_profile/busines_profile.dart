@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -11,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:provider/provider.dart';
 
 class BusinesProfile extends StatefulWidget {
@@ -21,28 +23,51 @@ class BusinesProfile extends StatefulWidget {
 }
 
 class _BusinesProfileState extends State<BusinesProfile> {
-  Future<void> initialiseBusinessData() async {
-    MzansiProfileProvider profileProvider =
+  bool _isLoadingInitialData = true;
+
+  Future<void> _loadInitialData() async {
+    setState(() {
+      _isLoadingInitialData = true;
+    });
+    MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    await MihDataHelperServices().loadUserDataWithBusinessesData(
+      mzansiProfileProvider,
+    );
     await MihBusinessEmployeeServices()
-        .fetchEmployees(profileProvider, context);
+        .fetchEmployees(mzansiProfileProvider, context);
+    setState(() {
+      _isLoadingInitialData = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    initialiseBusinessData();
+    _loadInitialData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      selectedbodyIndex: context.watch<MzansiProfileProvider>().businessIndex,
-      onIndexChange: (newIndex) {
-        context.read<MzansiProfileProvider>().setBusinessIndex(newIndex);
+    return Consumer<MzansiProfileProvider>(
+      builder: (BuildContext context,
+          MzansiProfileProvider mzansiProfileProvider, Widget? child) {
+        if (_isLoadingInitialData) {
+          return Scaffold(
+            body: Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        }
+        return MihPackage(
+          appActionButton: getAction(),
+          appTools: getTools(),
+          appBody: getToolBody(),
+          selectedbodyIndex: mzansiProfileProvider.businessIndex,
+          onIndexChange: (newIndex) {
+            mzansiProfileProvider.setBusinessIndex(newIndex);
+          },
+        );
       },
     );
   }
