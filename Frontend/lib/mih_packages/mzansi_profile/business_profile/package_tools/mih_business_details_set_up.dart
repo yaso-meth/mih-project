@@ -98,7 +98,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
           await uploadFile(mzansiProfileProvider, newSelectedLogoPic);
       if (successUpload) {
         String logoUrl = await MihFileApi.getMinioFileUrl(
-            mzansiProfileProvider.business!.logo_path, context);
+            mzansiProfileProvider.business!.logo_path);
         mzansiProfileProvider.setBusinessProfilePicUrl(logoUrl);
       }
       await createBusinessUserAPICall(mzansiProfileProvider);
@@ -123,7 +123,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
           await uploadFile(mzansiProfileProvider, newSelectedSignaturePic);
       if (successUpload) {
         String sigUrl = await MihFileApi.getMinioFileUrl(
-            mzansiProfileProvider.businessUser!.sig_path, context);
+            mzansiProfileProvider.businessUser!.sig_path);
         mzansiProfileProvider.setBusinessUserSignatureUrl(sigUrl);
         String message =
             "Your business profile is now live! You can now start connecting with customers and growing your business.";

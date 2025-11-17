@@ -34,7 +34,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     List<ImageProvider<Object>?> userPictures = [];
     String userPicUrl = "";
     for (final ranking in mineSweeperProvider.leaderboard!) {
-      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl, context);
+      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl);
       userPictures.add(NetworkImage(userPicUrl));
     }
     mineSweeperProvider.setLeaderboardUserPictures(

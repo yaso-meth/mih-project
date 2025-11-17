@@ -96,14 +96,12 @@ class _MihHomeState extends State<MihHome> {
       // Business Profile Set Up aleary
       logoUrl = await MihFileApi.getMinioFileUrl(
         context.read<MzansiProfileProvider>().business!.logo_path,
-        context,
       );
       context.read<MzansiProfileProvider>().setBusinessProfilePicUrl(logoUrl);
       // Get Business User
       await MihMyBusinessUserServices().getBusinessUser(context);
       signatureUrl = await MihFileApi.getMinioFileUrl(
         context.read<MzansiProfileProvider>().businessUser!.sig_path,
-        context,
       );
       context
           .read<MzansiProfileProvider>()
@@ -184,7 +182,6 @@ class _MihHomeState extends State<MihHome> {
     if (!mounted) return;
     url = await MihFileApi.getMinioFileUrl(
       context.read<MzansiProfileProvider>().user!.pro_pic_path,
-      context,
     );
     context.read<MzansiProfileProvider>().setUserProfilePicUrl(url);
   }

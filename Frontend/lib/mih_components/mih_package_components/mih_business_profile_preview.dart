@@ -52,8 +52,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
         return Row(
           children: [
             FutureBuilder(
-                future: MihFileApi.getMinioFileUrl(
-                    widget.business.logo_path, context),
+                future: MihFileApi.getMinioFileUrl(widget.business.logo_path),
                 builder: (context, asyncSnapshot) {
                   if (asyncSnapshot.connectionState == ConnectionState.done &&
                       asyncSnapshot.hasData) {

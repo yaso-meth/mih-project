@@ -27,8 +27,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
   @override
   void initState() {
     super.initState();
-    futureImageUrl =
-        MihFileApi.getMinioFileUrl(widget.user.pro_pic_path, context);
+    futureImageUrl = MihFileApi.getMinioFileUrl(widget.user.pro_pic_path);
   }
 
   @override

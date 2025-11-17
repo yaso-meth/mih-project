@@ -189,7 +189,7 @@ class MihUserServices {
               purpose,
             ),
           );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
       context.read<MzansiProfileProvider>().setUserProfilePicUrl(newProPicUrl);
       return response.statusCode;
     } else {

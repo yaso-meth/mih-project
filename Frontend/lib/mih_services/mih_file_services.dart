@@ -17,7 +17,6 @@ class MihFileApi {
 
   static Future<String> getMinioFileUrl(
     String filePath,
-    BuildContext context,
   ) async {
     // loadingPopUp(context);
     // print("here");

@@ -531,8 +531,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   patientManagerProvider.myPaitentList![index].app_id, context)
               .then((user) async {
             user;
-            String url =
-                await MihFileApi.getMinioFileUrl(user!.pro_pic_path, context);
+            String url = await MihFileApi.getMinioFileUrl(user!.pro_pic_path);
             patientManagerProvider.setSelectedPatientProfilePicUrl(url);
           });
           patientProfileChoicePopUp(

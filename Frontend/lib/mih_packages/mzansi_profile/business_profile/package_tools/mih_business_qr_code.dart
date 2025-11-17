@@ -344,7 +344,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
       business = profileProvider.business!;
     }
     _checkUserSession();
-    futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path, context);
+    futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path);
     qrCodedata =
         "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
   }

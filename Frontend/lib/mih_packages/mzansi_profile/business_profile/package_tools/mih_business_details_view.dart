@@ -36,7 +36,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
     futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedBusiness!.logo_path, context);
+        directoryProvider.selectedBusiness!.logo_path);
   }
 
   @override

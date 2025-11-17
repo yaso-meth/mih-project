@@ -34,7 +34,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
     futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedUser!.pro_pic_path, context);
+        directoryProvider.selectedUser!.pro_pic_path);
   }
 
   @override

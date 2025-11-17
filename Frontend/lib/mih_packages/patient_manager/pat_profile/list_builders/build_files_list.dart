@@ -45,7 +45,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
     String teporaryFileUrl = "";
     await MihFileApi.getMinioFileUrl(
       filePath,
-      context,
     ).then((value) {
       teporaryFileUrl = value;
     });

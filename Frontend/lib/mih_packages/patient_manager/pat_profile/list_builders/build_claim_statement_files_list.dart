@@ -45,7 +45,6 @@ class _BuildClaimStatementFileListState
     String teporaryFileUrl = "";
     await MihFileApi.getMinioFileUrl(
       filePath,
-      context,
     ).then((value) {
       teporaryFileUrl = value;
     });
