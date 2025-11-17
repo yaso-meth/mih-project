@@ -7,7 +7,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihPackageWindow extends StatefulWidget {
-  final String windowTitle;
+  final String? windowTitle;
   final Widget windowBody;
   final List<SpeedDialChild>? menuOptions;
   final void Function()? onWindowTapClose;
@@ -87,23 +87,25 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
               ),
             ),
           ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              widget.windowTitle,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: windowTitleSize,
-                fontWeight: FontWeight.bold,
-                color: widget.foregroundColor ??
-                    MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        if (widget.windowTitle != null)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                widget.windowTitle!,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: windowTitleSize,
+                  fontWeight: FontWeight.bold,
+                  color: widget.foregroundColor ??
+                      MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                ),
               ),
             ),
           ),
-        ),
         if (widget.menuOptions != null)
           Padding(
             padding: const EdgeInsets.only(

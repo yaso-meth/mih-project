@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
@@ -36,7 +36,7 @@ class _MihSignInState extends State<MihSignIn> {
   bool successfulSignIn = false;
   bool showProfiles = false;
   final baseAPI = AppEnviroment.baseApiUrl;
-  late List<MIHTile> sandboxProfileList = [];
+  late List<MihPackageTile> sandboxProfileList = [];
 
   //sign user in
   Future<void> signUserIn() async {
@@ -68,8 +68,8 @@ class _MihSignInState extends State<MihSignIn> {
     }
   }
 
-  void setSandboxProfiles(List<MIHTile> tileList) {
-    tileList.add(MIHTile(
+  void setSandboxProfiles(List<MihPackageTile> tileList) {
+    tileList.add(MihPackageTile(
       onTap: () {
         setState(() {
           emailController.text = "testpatient@mzansi-innovation-hub.co.za";
@@ -81,16 +81,18 @@ class _MihSignInState extends State<MihSignIn> {
           MihAlertServices().formNotFilledCompletely(context);
         }
       },
-      tileName: "Patient",
-      tileIcon: Icon(
+      appName: "Patient",
+      appIcon: Icon(
         Icons.perm_identity_rounded,
-        color: getSec(),
+        color: getPrim(),
         size: 200,
       ),
-      p: getPrim(),
-      s: getSec(),
+      iconSize: 200,
+      primaryColor: getPrim(),
+      secondaryColor: getSec(),
+      authenticateUser: false,
     ));
-    tileList.add(MIHTile(
+    tileList.add(MihPackageTile(
       onTap: () {
         setState(() {
           emailController.text = "testdoctor@mzansi-innovation-hub.co.za";
@@ -102,17 +104,19 @@ class _MihSignInState extends State<MihSignIn> {
           MihAlertServices().formNotFilledCompletely(context);
         }
       },
-      tileName: "Doctor",
-      tileIcon: Icon(
+      appName: "Doctor",
+      appIcon: Icon(
         Icons.medical_services,
-        color: getSec(),
+        color: getPrim(),
         size: 200,
       ),
-      p: getPrim(),
-      s: getSec(),
+      iconSize: 200,
+      primaryColor: getPrim(),
+      secondaryColor: getSec(),
+      authenticateUser: false,
     ));
     //if (AppEnviroment.getEnv() == "Dev") {
-    tileList.add(MIHTile(
+    tileList.add(MihPackageTile(
       onTap: () {
         setState(() {
           emailController.text = "test-business@mzansi-innovation-hub.co.za";
@@ -124,16 +128,18 @@ class _MihSignInState extends State<MihSignIn> {
           MihAlertServices().formNotFilledCompletely(context);
         }
       },
-      tileName: "Business",
-      tileIcon: Icon(
+      appName: "Business",
+      appIcon: Icon(
         Icons.business,
-        color: getSec(),
+        color: getPrim(),
         size: 200,
       ),
-      p: getPrim(),
-      s: getSec(),
+      iconSize: 200,
+      primaryColor: getPrim(),
+      secondaryColor: getSec(),
+      authenticateUser: false,
     ));
-    tileList.add(MIHTile(
+    tileList.add(MihPackageTile(
       onTap: () {
         setState(() {
           emailController.text = "test@mzansi-innovation-hub.co.za";
@@ -145,14 +151,16 @@ class _MihSignInState extends State<MihSignIn> {
           MihAlertServices().formNotFilledCompletely(context);
         }
       },
-      tileName: "Test",
-      tileIcon: Icon(
+      appName: "Test",
+      appIcon: Icon(
         Icons.warning_amber_rounded,
-        color: getSec(),
+        color: getPrim(),
         size: 200,
       ),
-      p: getPrim(),
-      s: getSec(),
+      iconSize: 200,
+      primaryColor: getPrim(),
+      secondaryColor: getSec(),
+      authenticateUser: false,
     ));
     //}
   }

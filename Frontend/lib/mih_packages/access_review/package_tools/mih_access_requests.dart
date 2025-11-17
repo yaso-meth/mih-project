@@ -1,7 +1,4 @@
-import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
@@ -73,38 +70,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
         selectedDropdown = filterController.text;
       });
     }
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
-  }
-
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        context.goNamed(
-          'mihHome',
-          extra: false,
-        );
-        FocusScope.of(context).unfocus();
-      },
-    );
-  }
-
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Forever Access List",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
   }
 
   Widget getBody() {

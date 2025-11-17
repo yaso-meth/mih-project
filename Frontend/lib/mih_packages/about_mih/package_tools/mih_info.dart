@@ -1,10 +1,10 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/foundation.dart';
@@ -343,31 +343,32 @@ class _MihInfoState extends State<MihInfo> {
 
   List<Widget> getSocialsList() {
     List<Widget> socials = [];
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_youtubeUrl);
       },
-      tileName: "YouTube",
-      tileIcon: Center(
+      appName: "YouTube",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.youtube,
           color: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 175,
+          size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_tiktokUrl);
       },
-      tileName: "TikTok",
-      tileIcon: Center(
+      appName: "TikTok",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
           color: MihColors.getPrimaryColor(
@@ -375,18 +376,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_twitch);
       },
-      tileName: "Twitch",
-      tileIcon: Center(
+      appName: "Twitch",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.twitch,
           color: MihColors.getPrimaryColor(
@@ -394,18 +396,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_threadsUrl);
       },
-      tileName: "Threads",
-      tileIcon: Center(
+      appName: "Threads",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.threads,
           color: MihColors.getPrimaryColor(
@@ -413,18 +416,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_whatsappUrl);
       },
-      tileName: "Whatsapp",
-      tileIcon: Center(
+      appName: "Whatsapp",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.whatsapp,
           color: MihColors.getPrimaryColor(
@@ -432,18 +436,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_instagramUrl);
       },
-      tileName: "Instagram",
-      tileIcon: Center(
+      appName: "Instagram",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.instagram,
           color: MihColors.getPrimaryColor(
@@ -451,19 +456,20 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
 
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_xUrl);
       },
-      tileName: "X",
-      tileIcon: Center(
+      appName: "X",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.xTwitter,
           color: MihColors.getPrimaryColor(
@@ -471,18 +477,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_linkedinUrl);
       },
-      tileName: "LinkedIn",
-      tileIcon: Center(
+      appName: "LinkedIn",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.linkedin,
           color: MihColors.getPrimaryColor(
@@ -490,18 +497,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_facebookUrl);
       },
-      tileName: "FaceBook",
-      tileIcon: Center(
+      appName: "FaceBook",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
           color: MihColors.getPrimaryColor(
@@ -509,18 +517,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_redditUrl);
       },
-      tileName: "Reddit",
-      tileIcon: Center(
+      appName: "Reddit",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.reddit,
           color: MihColors.getPrimaryColor(
@@ -528,18 +537,19 @@ class _MihInfoState extends State<MihInfo> {
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_kick);
       },
-      tileName: "Kick",
-      tileIcon: Center(
+      appName: "Kick",
+      appIcon: Center(
         child: Text(
           "KICK",
           style: TextStyle(
@@ -555,9 +565,10 @@ class _MihInfoState extends State<MihInfo> {
         //   size: 200,
         // ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
