@@ -6,19 +6,16 @@ import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/Example/package_tools/package_tool_two.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
+import 'package:provider/provider.dart';
 
 class PackageTest extends StatefulWidget {
-  // final AppUser user;
-  // final Business business;
-  final TestArguments arguments;
   const PackageTest({
     super.key,
-    required this.arguments,
-    // required this.user,
-    // required this.business,
   });
 
   @override
@@ -27,6 +24,21 @@ class PackageTest extends StatefulWidget {
 
 class _PackageTestState extends State<PackageTest> {
   int _selcetedIndex = 0;
+  bool _isLoadingInitialData = true;
+
+  Future<void> _loadInitialData() async {
+    setState(() {
+      _isLoadingInitialData = true;
+    });
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
+    await MihDataHelperServices().loadUserDataWithBusinessesData(
+      mzansiProfileProvider,
+    );
+    setState(() {
+      _isLoadingInitialData = false;
+    });
+  }
 
   MihPackageAction getAction() {
     return MihPackageAction(
@@ -127,10 +139,12 @@ class _PackageTestState extends State<PackageTest> {
   }
 
   List<Widget> getToolBody() {
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
     List<Widget> toolBodies = [
       PackageToolOne(
-        user: widget.arguments.user,
-        business: widget.arguments.business,
+        user: profileProvider.user!,
+        business: profileProvider.business,
       ),
       const PackageToolTwo(),
     ];
@@ -146,18 +160,36 @@ class _PackageTestState extends State<PackageTest> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadInitialData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
-      onIndexChange: (newValue) {
-        setState(() {
-          _selcetedIndex = newValue;
-        });
-        print("Index: $_selcetedIndex");
+    return Consumer<MzansiProfileProvider>(
+      builder:
+          (BuildContext context, MzansiProfileProvider value, Widget? child) {
+        if (_isLoadingInitialData) {
+          return Scaffold(
+            body: Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        }
+        return MihPackage(
+          appActionButton: getAction(),
+          appTools: getTools(),
+          appBody: getToolBody(),
+          appToolTitles: getToolTitle(),
+          selectedbodyIndex: _selcetedIndex,
+          onIndexChange: (newValue) {
+            setState(() {
+              _selcetedIndex = newValue;
+            });
+            print("Index: $_selcetedIndex");
+          },
+        );
       },
     );
   }
