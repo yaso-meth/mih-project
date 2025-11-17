@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
@@ -9,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/p
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/my_patient_list.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
@@ -23,53 +25,68 @@ class PatManager extends StatefulWidget {
 }
 
 class _PatManagerState extends State<PatManager> {
-  bool isLoading = true;
+  bool _isLoadingInitialData = true;
 
-  Future<void> initialisePatientData() async {
+  Future<void> _loadInitialData() async {
     setState(() {
-      isLoading = true;
+      _isLoadingInitialData = true;
     });
-    MzansiProfileProvider profileProvider =
+    MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
     MihCalendarProvider mihCalendarProvider =
         context.read<MihCalendarProvider>();
+    await MihDataHelperServices().loadUserDataWithBusinessesData(
+      mzansiProfileProvider,
+    );
     patientManagerProvider.setPersonalMode(false);
-    if (profileProvider.business != null) {
+    if (mzansiProfileProvider.business != null) {
       await MihMzansiCalendarApis.getBusinessAppointments(
-        profileProvider.business!.business_id,
+        mzansiProfileProvider.business!.business_id,
         false,
         mihCalendarProvider.selectedDay,
         mihCalendarProvider,
       );
       await MihPatientServices().getPatientAccessListOfBusiness(
-          patientManagerProvider, profileProvider.business!.business_id);
+          patientManagerProvider, mzansiProfileProvider.business!.business_id);
     }
     setState(() {
-      isLoading = false;
+      _isLoadingInitialData = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      initialisePatientData();
-    });
+    _loadInitialData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MihPackage(
-      appActionButton: getActionButton(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex:
-          context.watch<PatientManagerProvider>().patientManagerIndex,
-      onIndexChange: (newValue) {
-        context.read<PatientManagerProvider>().setPatientManagerIndex(newValue);
+    return Consumer<PatientManagerProvider>(
+      builder:
+          (BuildContext context, PatientManagerProvider value, Widget? child) {
+        if (_isLoadingInitialData) {
+          return Scaffold(
+            body: Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        }
+        return MihPackage(
+          appActionButton: getActionButton(),
+          appTools: getTools(),
+          appBody: getToolBody(),
+          appToolTitles: getToolTitle(),
+          selectedbodyIndex:
+              context.watch<PatientManagerProvider>().patientManagerIndex,
+          onIndexChange: (newValue) {
+            context
+                .read<PatientManagerProvider>()
+                .setPatientManagerIndex(newValue);
+          },
+        );
       },
     );
   }
