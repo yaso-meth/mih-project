@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -264,10 +265,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
           context.pop();
           context.pushNamed(
             'fileViewer',
-            extra: FileViewArguments(
-              url,
-              filePath,
-            ),
           );
         },
       ),
@@ -434,13 +431,15 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 // ),
                 onTap: () async {
+                  MihFileViewerProvider fileViewerProvider =
+                      context.read<MihFileViewerProvider>();
                   await getFileUrlApiCall(patientManagerProvider
                           .patientDocuments![index].file_path)
                       .then((urlHere) {
                     //print(url);
-                    setState(() {
-                      fileUrl = urlHere;
-                    });
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(urlHere);
                   });
 
                   viewFilePopUp(
@@ -449,7 +448,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                       patientManagerProvider.patientDocuments![index].file_path,
                       patientManagerProvider
                           .patientDocuments![index].idpatient_files,
-                      fileUrl);
+                      fileViewerProvider.fileLink);
                 },
               );
             },

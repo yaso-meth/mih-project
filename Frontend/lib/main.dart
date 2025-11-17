@@ -8,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentic
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
@@ -140,6 +141,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => PatientManagerProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MihFileViewerProvider(),
         ),
       ],
       child: MaterialApp.router(

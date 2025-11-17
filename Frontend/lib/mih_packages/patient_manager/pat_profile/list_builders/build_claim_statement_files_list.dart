@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -216,10 +217,6 @@ class _BuildClaimStatementFileListState
           context.pop();
           context.pushNamed(
             'fileViewer',
-            extra: FileViewArguments(
-              url,
-              filePath,
-            ),
           );
           // printDocument(url, filePath);
         },
@@ -357,13 +354,15 @@ class _BuildClaimStatementFileListState
                 //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 // ),
                 onTap: () async {
+                  MihFileViewerProvider fileViewerProvider =
+                      context.read<MihFileViewerProvider>();
                   await getFileUrlApiCall(patientManagerProvider
                           .patientClaimsDocuments![index].file_path)
                       .then((urlHere) {
                     //print(url);
-                    setState(() {
-                      fileUrl = urlHere;
-                    });
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientClaimsDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(urlHere);
                   });
 
                   viewFilePopUp(
@@ -374,7 +373,7 @@ class _BuildClaimStatementFileListState
                           .patientClaimsDocuments![index].file_path,
                       patientManagerProvider.patientClaimsDocuments![index]
                           .idclaim_statement_file,
-                      fileUrl);
+                      fileViewerProvider.fileLink);
                 },
               );
             },
