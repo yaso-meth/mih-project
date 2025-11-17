@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMyBusinessUserServices {
   Future<BusinessUser?> getBusinessUser(
-    BuildContext context,
+    MzansiProfileProvider profileProvider,
   ) async {
     String app_id = await SuperTokens.getUserId();
     var response = await http.get(
@@ -26,9 +25,7 @@ class MihMyBusinessUserServices {
       // KenLogger.success(response.body);
       BusinessUser? businessUser =
           BusinessUser.fromJson(jsonDecode(response.body));
-      context
-          .read<MzansiProfileProvider>()
-          .setBusinessUser(newBusinessUser: businessUser);
+      profileProvider.setBusinessUser(newBusinessUser: businessUser);
       return businessUser;
     } else {
       return null;

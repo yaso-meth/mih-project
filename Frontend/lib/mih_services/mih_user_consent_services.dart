@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:supertokens_flutter/supertokens.dart';
 
 class MihUserConsentServices {
   Future<void> getUserConsentStatus(
-    BuildContext context,
+    MzansiProfileProvider profileProvider,
   ) async {
     var app_id = await SuperTokens.getUserId();
     final response = await http.get(
@@ -18,12 +17,8 @@ class MihUserConsentServices {
     if (response.statusCode == 200) {
       Map<String, dynamic> userMap = jsonDecode(response.body);
       UserConsent userConsent = UserConsent.fromJson(userMap);
-      context.read<MzansiProfileProvider>().setUserConsent(userConsent);
-      // return userConsent;
+      profileProvider.setUserConsent(userConsent);
     }
-    // else {
-    //   return null;
-    // }
   }
 
   Future<int> insertUserConsentStatus(
