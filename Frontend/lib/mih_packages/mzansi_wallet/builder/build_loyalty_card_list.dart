@@ -3,22 +3,20 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
@@ -160,33 +158,11 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           if (statusCode == 200) {
                             context.pop();
                             context.pop();
-                            // context
-                            //     .read<MzansiWalletProvider>()
-                            //     .editLoyaltyCard(
-                            //       updatedCard: MIHLoyaltyCard(
-                            //         idloyalty_cards:
-                            //             widget.cardList[index].idloyalty_cards,
-                            //         app_id: widget.signedInUser.app_id,
-                            //         shop_name: widget.cardList[index].shop_name,
-                            //         card_number: _cardNumberController.text,
-                            //         favourite: widget.cardList[index].favourite,
-                            //         priority_index:
-                            //             widget.cardList[index].priority_index,
-                            //         nickname: _nicknameController.text,
-                            //       ),
-                            //     );
-                            // context.goNamed(
-                            //   "mzansiWallet",
-                            //   extra: WalletArguments(
-                            //     widget.signedInUser,
-                            //     0,
-                            //   ),
-                            // );
                           } else {
-                            internetConnectionPopUp();
+                            MihAlertServices().internetConnectionLost(context);
                           }
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorMessage(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -216,29 +192,24 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
 
   void deleteCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return MIHDeleteMessage(
-            deleteType: "Loyalty Card",
-            onTap: () async {
-              int statusCode =
-                  await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
-                walletProvider,
-                mzansiProfileProvider.user!,
-                widget.cardList[index].idloyalty_cards,
-                context,
-              );
-              if (statusCode == 200) {
-                context.pop();
-                context.pop();
-              } else {
-                context.pop();
-                internetConnectionPopUp();
-              }
-            });
+    MihAlertServices().deleteConfirmationMessage(
+      "This Card will be deleted permanently from your Mzansi Wallet. Are you certain you want to delete it?",
+      () async {
+        int statusCode = await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
+          walletProvider,
+          mzansiProfileProvider.user!,
+          widget.cardList[index].idloyalty_cards,
+          context,
+        );
+        if (statusCode == 200) {
+          context.pop();
+          context.pop();
+        } else {
+          context.pop();
+          MihAlertServices().internetConnectionLost(context);
+        }
       },
+      context,
     );
   }
 
@@ -295,7 +266,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     );
                     context.read<MzansiWalletProvider>().setToolIndex(1);
                   } else {
-                    internetConnectionPopUp();
+                    MihAlertServices().internetConnectionLost(context);
                   }
                 },
                 buttonColor: MihColors.getGreenColor(
@@ -313,17 +284,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
         );
       },
     );
@@ -382,7 +342,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     );
                     context.read<MzansiWalletProvider>().setToolIndex(0);
                   } else {
-                    internetConnectionPopUp();
+                    MihAlertServices().internetConnectionLost(context);
                   }
                 },
                 buttonColor: MihColors.getRedColor(

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/files.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patients.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/files.dart';
+import 'package:mzansi_innovation_hub/mih_objects/notes.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

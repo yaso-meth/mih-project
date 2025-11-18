@@ -1,7 +1,7 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/icd10_code.dart.dart';
+import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:flutter/material.dart';
 
 class BuildICD10CodeList extends StatefulWidget {

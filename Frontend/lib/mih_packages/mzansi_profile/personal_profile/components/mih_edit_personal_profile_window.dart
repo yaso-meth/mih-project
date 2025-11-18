@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -106,7 +105,7 @@ class _MihEditPersonalProfileWindowState
         message,
       );
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -122,7 +121,7 @@ class _MihEditPersonalProfileWindowState
     if (response == 200) {
       deleteFileApiCall(mzansiProfileProvider, oldProPicName);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -138,7 +137,7 @@ class _MihEditPersonalProfileWindowState
     if (response == 200) {
       //SQL delete
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -220,10 +219,6 @@ class _MihEditPersonalProfileWindowState
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
       },
     );
   }
@@ -315,19 +310,6 @@ class _MihEditPersonalProfileWindowState
           alertColour: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -546,7 +528,7 @@ class _MihEditPersonalProfileWindowState
                           if (_formKey.currentState!.validate()) {
                             submitForm(mzansiProfileProvider);
                           } else {
-                            MihAlertServices().formNotFilledCompletely(context);
+                            MihAlertServices().inputErrorMessage(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

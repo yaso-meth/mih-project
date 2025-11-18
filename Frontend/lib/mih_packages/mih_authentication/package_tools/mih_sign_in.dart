@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -48,12 +47,12 @@ class _MihSignInState extends State<MihSignIn> {
         context,
       );
       if (!successfulSignIn) {
-        loginError();
+        MihAlertServices().loginErrorMessage(context);
         passwordController.clear();
       }
     } on Exception {
       Navigator.of(context).pop();
-      loginError();
+      MihAlertServices().internetConnectionLost(context);
       passwordController.clear();
     }
   }
@@ -78,7 +77,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().formNotFilledCompletely(context);
+          MihAlertServices().inputErrorMessage(context);
         }
       },
       appName: "Patient",
@@ -101,7 +100,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().formNotFilledCompletely(context);
+          MihAlertServices().inputErrorMessage(context);
         }
       },
       appName: "Doctor",
@@ -125,7 +124,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().formNotFilledCompletely(context);
+          MihAlertServices().inputErrorMessage(context);
         }
       },
       appName: "Business",
@@ -148,7 +147,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().formNotFilledCompletely(context);
+          MihAlertServices().inputErrorMessage(context);
         }
       },
       appName: "Test",
@@ -173,15 +172,6 @@ class _MihSignInState extends State<MihSignIn> {
   Color getSec() {
     return MihColors.getPrimaryColor(
         MzansiInnovationHub.of(context)!.theme.mode == "Dark");
-  }
-
-  void loginError() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Invalid Credentials");
-      },
-    );
   }
 
   @override
@@ -211,7 +201,7 @@ class _MihSignInState extends State<MihSignIn> {
           if (_formKey.currentState!.validate()) {
             submitSignInForm();
           } else {
-            MihAlertServices().formNotFilledCompletely(context);
+            MihAlertServices().inputErrorMessage(context);
           }
         }
       },
@@ -369,8 +359,7 @@ class _MihSignInState extends State<MihSignIn> {
                               if (_formKey.currentState!.validate()) {
                                 submitSignInForm();
                               } else {
-                                MihAlertServices()
-                                    .formNotFilledCompletely(context);
+                                MihAlertServices().inputErrorMessage(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(

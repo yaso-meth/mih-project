@@ -1,19 +1,20 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_notes_list.dart';
 import 'package:flutter/material.dart';
@@ -38,11 +39,38 @@ class _PatientConsultationState extends State<PatientConsultation> {
   String endpoint = "${AppEnviroment.baseApiUrl}/notes/patients/";
   final _formKey = GlobalKey<FormState>();
 
-  void addNotePopUp(MzansiProfileProvider profileProvider, double width) {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
+  Future<void> addPatientNoteAPICall(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patManProvider,
+  ) async {
+    int statuscode = await MihPatientServices().addPatientNoteAPICall(
+      titleController.text,
+      noteTextController.text,
+      profileProvider,
+      patManProvider,
+    );
+    if (statuscode == 201) {
+      context.pop();
+      successPopUp("Note added successfully.");
+      titleController.clear();
+      noteTextController.clear();
+      officeController.clear();
+      dateController.clear();
+      doctorController.clear();
+    } else {
+      MihAlertServices().internetConnectionLost(context);
+    }
+  }
+
+  void addNotePopUp(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patManProvider,
+    double width,
+  ) {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
     var title = "";
-    print("Business User: ${profileProvider.businessUser}");
+    KenLogger.success("Business User: ${profileProvider.businessUser}");
     if (profileProvider.businessUser?.title == "Doctor") {
       title = "Dr.";
     }
@@ -59,7 +87,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
         fullscreen: false,
         windowTitle: "Add Note",
         onWindowTapClose: () {
-          Navigator.pop(context);
+          context.pop(context);
           titleController.clear();
           noteTextController.clear();
         },
@@ -172,10 +200,10 @@ class _PatientConsultationState extends State<PatientConsultation> {
                     child: MihButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // addPatientNoteAPICall();
-                          Navigator.pop(context);
+                          addPatientNoteAPICall(
+                              profileProvider, patManProvider);
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorMessage(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -227,19 +255,64 @@ class _PatientConsultationState extends State<PatientConsultation> {
     showDialog(
       context: context,
       builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: Column(
+            children: [
+              Icon(
+                Icons.check_circle_outline_rounded,
+                size: 100,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              Text(
+                "Success!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              MihButton(
+                onPressed: () {
+                  context.pop();
+                },
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                elevation: 10,
+                child: Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -314,7 +387,8 @@ class _PatientConsultationState extends State<PatientConsultation> {
                               "Dark"),
                       onTap: () {
                         // addConsultationNotePopUp();
-                        addNotePopUp(profileProvider, width);
+                        addNotePopUp(
+                            profileProvider, patientManagerProvider, width);
                       },
                     )
                   ],

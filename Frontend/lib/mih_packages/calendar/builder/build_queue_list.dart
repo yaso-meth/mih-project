@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_queue.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_queue.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 
@@ -69,42 +68,6 @@ class _BuildQueueListState extends State<BuildQueueList> {
     } else {
       return false;
     }
-  }
-
-  void noAccessWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "No Access");
-      },
-    );
-  }
-
-  void accessDeclinedWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Access Declined");
-      },
-    );
-  }
-
-  void appointmentCancelledWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Appointment Canelled");
-      },
-    );
-  }
-
-  void expiredAccessWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Expired Access");
-      },
-    );
   }
 
   @override

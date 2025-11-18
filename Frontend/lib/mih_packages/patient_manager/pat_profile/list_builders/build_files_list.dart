@@ -6,18 +6,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_file_viewer_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,106 +51,71 @@ class _BuildFilesListState extends State<BuildFilesList> {
     return teporaryFileUrl;
   }
 
-  // Future<void> deleteFileApiCall(PatientManagerProvider patientManagerProvider,
-  //     String filePath, int fileID) async {
-  //   var response = await MihFileApi.deleteFile(
-  //     patientManagerProvider.selectedPatient!.app_id,
-  //     widget.env,
-  //     "patient_files",
-  //     filePath.split("/").last,
-  //     context,
-  //   );
-  //   if (response == 200) {
-  //     // delete file from database
-  //     await deletePatientFileLocationToDB(fileID);
-  //   } else {
-  //     String message =
-  //         "The File has not been deleted successfully. Please try again.";
-  //     successPopUp(message);
-  //   }
-  // }
-
-  // Future<void> deletePatientFileLocationToDB(int fileID) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const Mihloadingcircle();
-  //     },
-  //   );
-  //   var response2 = await http.delete(
-  //     Uri.parse("$baseAPI/patient_files/delete/"),
-  //     headers: <String, String>{
-  //       "Content-Type": "application/json; charset=UTF-8"
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       "idpatient_files": fileID,
-  //       "env": widget.env,
-  //     }),
-  //   );
-  //   if (response2.statusCode == 200) {
-  //     context.pop(); //Remove Loading Dialog
-  //     context.pop(); //Remove Delete Dialog
-  //     context.pop(); //Remove File View Dialog
-  //     context.pop(); //Remove File List Dialog
-  //     //print(widget.business);
-  //     if (widget.business == null) {
-  //       context.pushNamed('patientManagerPatient',
-  //           extra: PatientViewArguments(
-  //               widget.signedInUser,
-  //               widget.selectedPatient,
-  //               widget.businessUser,
-  //               widget.business,
-  //               "personal"));
-  //     } else {
-  //       context.pushNamed('patientManagerPatient',
-  //           extra: PatientViewArguments(
-  //               widget.signedInUser,
-  //               widget.selectedPatient,
-  //               widget.businessUser,
-  //               widget.business,
-  //               "business"));
-  //     }
-  //     String message =
-  //         "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
-  //     successPopUp(message);
-  //   } else {
-  //     internetConnectionPopUp();
-  //   }
-  // }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
   void successPopUp(String message) {
     showDialog(
       context: context,
       builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: Column(
+            children: [
+              Icon(
+                Icons.check_circle_outline_rounded,
+                size: 100,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              Text(
+                "Success!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              MihButton(
+                onPressed: () {
+                  context.pop();
+                },
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                elevation: 10,
+                child: Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
   }
-
-  // void deleteFilePopUp(String filePath, int fileID) {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) => MIHDeleteMessage(
-  //       deleteType: "File",
-  //       onTap: () async {
-  //         await deleteFileApiCall(filePath, fileID);
-  //       },
-  //     ),
-  //   );
-  // }
 
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);

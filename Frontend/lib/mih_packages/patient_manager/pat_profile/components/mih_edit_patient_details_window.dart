@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
@@ -136,10 +136,6 @@ class _MihEditPatientDetailsWindowState
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
       },
     );
   }
@@ -426,7 +422,7 @@ class _MihEditPatientDetailsWindowState
                       if (_formKey.currentState!.validate()) {
                         updatePatientApiCall(patientManagerProvider);
                       } else {
-                        MihAlertServices().formNotFilledCompletely(context);
+                        MihAlertServices().inputErrorMessage(context);
                       }
                     },
                     buttonColor: MihColors.getGreenColor(
@@ -547,7 +543,7 @@ class _MihEditPatientDetailsWindowState
               if (_formKey.currentState!.validate()) {
                 updatePatientApiCall(patientManagerProvider);
               } else {
-                MihAlertServices().formNotFilledCompletely(context);
+                MihAlertServices().inputErrorMessage(context);
               }
             }
           },

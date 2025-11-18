@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:provider/provider.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
@@ -41,24 +40,6 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
   late double popUpPaddingSize;
   late double width;
   late double height;
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void accessCancelledWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Access Cancelled");
-      },
-    );
-  }
 
   Widget displayQueue(
       MzansiProfileProvider mzansiProfileProvider,
@@ -369,7 +350,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Declined access request");
                         } else {
-                          internetConnectionPopUp();
+                          MihAlertServices().internetConnectionLost(context);
                         }
                       },
                       buttonColor: MihColors.getRedColor(
@@ -410,7 +391,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Accepted access request");
                         } else {
-                          internetConnectionPopUp();
+                          MihAlertServices().internetConnectionLost(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(

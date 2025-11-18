@@ -5,16 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_image_display.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -65,12 +64,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
     if (isFieldsFilled()) {
       createBusinessProfileAPICall(mzansiProfileProvider);
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
+      MihAlertServices().inputErrorMessage(context);
     }
   }
 
@@ -103,7 +97,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
       }
       await createBusinessUserAPICall(mzansiProfileProvider);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -129,10 +123,10 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
             "Your business profile is now live! You can now start connecting with customers and growing your business.";
         successPopUp(message, false);
       } else {
-        internetConnectionPopUp();
+        MihAlertServices().internetConnectionLost(context);
       }
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -250,19 +244,6 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -343,7 +324,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
               if (_formKey.currentState!.validate()) {
                 submitForm(mzansiProfileProvider);
               } else {
-                MihAlertServices().formNotFilledCompletely(context);
+                MihAlertServices().inputErrorMessage(context);
               }
             }
           },
@@ -803,8 +784,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                             if (_formKey.currentState!.validate()) {
                               submitForm(mzansiProfileProvider);
                             } else {
-                              MihAlertServices()
-                                  .formNotFilledCompletely(context);
+                              MihAlertServices().inputErrorMessage(context);
                             }
                           },
                           buttonColor: MihColors.getGreenColor(

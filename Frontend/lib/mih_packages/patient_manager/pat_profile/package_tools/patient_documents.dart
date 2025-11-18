@@ -1,24 +1,23 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/prescip_input.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_files_list.dart';
@@ -57,12 +56,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     if (isFileFieldsFilled()) {
       await uploadSelectedFile(patientManagerProvider, selected);
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
+      MihAlertServices().inputErrorMessage(context);
     }
   }
 
@@ -87,7 +81,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           "The file $fname has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
       successPopUp("Successfully Uplouded File", message);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -103,7 +97,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     if (response == 200) {
       await addPatientFileLocationToDB(patientManagerProvider, file);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -134,7 +128,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           "The medical certificate $fileName has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
       successPopUp("Successfully Generated Certificate", message);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -222,9 +216,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                         if (_formKey.currentState!.validate()) {
                           submitDocUploadForm(patientManagerProvider);
                           // uploadSelectedFile(selected);
-                          Navigator.pop(context);
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorMessage(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -310,7 +303,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                             profileProvider, patientManagerProvider);
                         //Navigator.pop(context);
                       } else {
-                        MihAlertServices().formNotFilledCompletely(context);
+                        MihAlertServices().inputErrorMessage(context);
                       }
                     },
                     buttonColor: MihColors.getGreenColor(
@@ -553,15 +546,6 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }

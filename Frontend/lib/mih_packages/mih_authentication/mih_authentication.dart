@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_register.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_sign_in.dart';
 import 'package:provider/provider.dart';

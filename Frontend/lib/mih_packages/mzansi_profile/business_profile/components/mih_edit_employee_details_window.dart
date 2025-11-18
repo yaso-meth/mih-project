@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
@@ -50,11 +48,11 @@ class _MihEditEmployeeDetailsWindowState
       String message = "Your employees details have been updated.";
       successPopUp(message, false);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
-  Future<void> deleteNoteApiCall() async {
+  Future<void> deleteEmployeeApiCall() async {
     int statusCode = await MihBusinessEmployeeServices().deleteEmployee(
       context.read<MzansiProfileProvider>(),
       widget.employee,
@@ -65,19 +63,18 @@ class _MihEditEmployeeDetailsWindowState
           "The employee has been deleted successfully. This means they will no longer have access to your business profile";
       successPopUp(message, false);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
   void showDeleteWarning() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => MIHDeleteMessage(
-            deleteType: "Employee",
-            onTap: () {
-              deleteNoteApiCall();
-            }));
+    MihAlertServices().deleteConfirmationMessage(
+      "This team member will be deleted permanently from the business profile. Are you certain you want to delete it?",
+      () {
+        deleteEmployeeApiCall();
+      },
+      context,
+    );
   }
 
   void successPopUp(String message, bool stayOnPersonalSide) {
@@ -131,19 +128,6 @@ class _MihEditEmployeeDetailsWindowState
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
@@ -279,16 +263,10 @@ class _MihEditEmployeeDetailsWindowState
                             if (isRequiredFieldsCaptured()) {
                               updateEmployeeAPICall(mzansiProfileProvider);
                             } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MIHErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
+                              MihAlertServices().inputErrorMessage(context);
                             }
                           } else {
-                            MihAlertServices().formNotFilledCompletely(context);
+                            MihAlertServices().inputErrorMessage(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

@@ -1,19 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/access_request.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/access_request.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../../../main.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_warning_message.dart';
-import '../../../mih_config/mih_env.dart';
 
 class BuildAccessRequestList extends StatefulWidget {
   final List<AccessRequest> accessRequests;
@@ -73,36 +70,72 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       }
       successPopUp(message);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
   }
 
   void successPopUp(String message) {
     showDialog(
       context: context,
       builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: Column(
+            children: [
+              Icon(
+                Icons.check_circle_outline_rounded,
+                size: popUpIconSize,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              Text(
+                "Success!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: popUpTitleSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: popUpBodySize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              MihButton(
+                onPressed: () {
+                  context.pop();
+                },
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                elevation: 10,
+                child: Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
-      },
-    );
-  }
-
-  void accessCancelledWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Access Cancelled");
       },
     );
   }
@@ -177,7 +210,11 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       // ),
       onTap: () {
         if (access == "CANCELLED") {
-          accessCancelledWarning();
+          MihAlertServices().warningMessage(
+            "Access Cancelled",
+            "This appointment has been canceled. As a result, access has been cancelled and the doctor no longer have access to the patient's profile. If you would like them to view the patient's profile again, please book a new appointment through them.",
+            context,
+          );
         } else {
           viewApprovalPopUp(index);
         }

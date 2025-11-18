@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/medicine.dart';
+import 'package:mzansi_innovation_hub/mih_objects/medicine.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_med_list.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -38,18 +38,9 @@ class _MedicineSearchState extends State<MedicineSearch> {
       // medicines.forEach((element) => meds.add(element.name));
       return medicines;
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
       throw Exception('failed to load medicine');
     }
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
   }
 
   @override

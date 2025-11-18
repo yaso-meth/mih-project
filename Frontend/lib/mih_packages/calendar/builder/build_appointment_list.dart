@@ -2,22 +2,20 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -525,8 +523,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                                 updateAppointmentCall(mzansiProfileProvider,
                                     mihCalendarProvider, index);
                               } else {
-                                MihAlertServices()
-                                    .formNotFilledCompletely(context);
+                                MihAlertServices().inputErrorMessage(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(
@@ -572,17 +569,13 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       MzansiProfileProvider mzansiProfileProvider,
       MihCalendarProvider mihCalendarProvider,
       int index) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return MIHDeleteMessage(
-            deleteType: "Appointment",
-            onTap: () {
-              deleteAppointmentCall(
-                  mzansiProfileProvider, mihCalendarProvider, index);
-            });
+    MihAlertServices().deleteConfirmationMessage(
+      "This appointment will be deleted permanently from your calendar. Are you certain you want to delete it?",
+      () {
+        deleteAppointmentCall(
+            mzansiProfileProvider, mihCalendarProvider, index);
       },
+      context,
     );
   }
 
@@ -641,38 +634,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         context.pop();
         successPopUp("Successfully Updated Appointment",
             "You appointment has been successfully updated.");
-        // if (!widget.inWaitingRoom) {
-        //   KenLogger.warning("calendar route");
-        //   context.goNamed(
-        //     "mihCalendar",
-        //   );
-        // } else {
-        //   KenLogger.warning("waiting room route");
-        //   // GoRouter.of(context).refresh();
-        //   context.goNamed(
-        //     'mihHome',
-        //   );
-        //   context.goNamed(
-        //     'patientManager',
-        //     extra: PatManagerArguments(
-        //       mzansiProfileProvider.user!,
-        //       false,
-        //       mzansiProfileProvider.business,
-        //       mzansiProfileProvider.businessUser,
-        //     ),
-        //   );
-        //   // context.pop();
-        // }
       } else {
-        internetConnectionPopUp();
+        MihAlertServices().internetConnectionLost(context);
       }
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHErrorMessage(errorType: "Input Error");
-        },
-      );
+      MihAlertServices().inputErrorMessage(context);
     }
   }
 
@@ -699,7 +665,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       successPopUp("Successfully Deleted Appointment",
           "You appointment has been successfully deleted from your calendar.");
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionLost(context);
     }
   }
 
@@ -753,17 +719,6 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
           ),
           alertColour: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
         );
       },
     );

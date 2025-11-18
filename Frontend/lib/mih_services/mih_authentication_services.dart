@@ -2,81 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-// import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-// import 'package:supertokens_flutter/supertokens.dart';
 
 class MihAuthenticationServices {
   final baseAPI = AppEnviroment.baseApiUrl;
-
-  // Future<void> signUserUp(
-  //   TextEditingController emailController,
-  //   TextEditingController passwordController,
-  //   TextEditingController confirmPasswordController,
-  //   BuildContext context,
-  // ) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const Mihloadingcircle();
-  //     },
-  //   );
-  //   try {
-  //     Uri uri = Uri.parse(
-  //         "$baseAPI/auth/emailpassword/email/exists?email=${emailController.text}");
-  //     var response = await http.get(uri);
-  //     if (response.statusCode == 200) {
-  //       var userExists = jsonDecode(response.body);
-  //       if (userExists["exists"]) {
-  //         Navigator.of(context).pop();
-  //         signUpError(context);
-  //       } else {
-  //         var response2 = await http.post(
-  //           Uri.parse("$baseAPI/auth/signup"),
-  //           body:
-  //               '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
-  //           headers: {
-  //             'Content-type': 'application/json',
-  //             'Accept': 'application/json',
-  //             "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
-  //           },
-  //         );
-  //         //print("response 2: ${response2.statusCode}");
-  //         if (response2.statusCode == 200) {
-  //           //print("response 2: ${response2.body}");
-  //           var userCreated = jsonDecode(response2.body);
-  //           //print("Created user $userCreated");
-  //           if (userCreated["status"] == "OK") {
-  //             //print("Here1");
-  //             //Creat user in db
-  //             String uid = await SuperTokens.getUserId();
-  //             //print("uid: $uid");
-  //             await MihUserServices()
-  //                 .createUser(emailController.text, uid, context);
-  //             // addUserAPICall(emailController.text, uid);
-  //             Navigator.of(context).pop();
-  //             //print("Here1");
-  //           } else if (userCreated["status"] == "FIELD_ERROR") {
-  //             Navigator.of(context).pop();
-  //             passwordReqError(context);
-  //           } else {
-  //             Navigator.of(context).pop();
-  //             internetConnectionPopUp(context);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } on Exception catch (error) {
-  //     Navigator.of(context).pop();
-  //     loginError(error.toString(), context);
-  //     emailController.clear();
-  //     passwordController.clear();
-  //     confirmPasswordController.clear();
-  //   }
-  // }
 
   Future<bool> signUserIn(
     String email,
@@ -162,15 +97,6 @@ class MihAuthenticationServices {
     }
   }
 
-  void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
   void loginError(String error, BuildContext context) {
     showDialog(
       context: context,
@@ -182,20 +108,79 @@ class MihAuthenticationServices {
     );
   }
 
-  void passwordReqError(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Password Requirements");
-      },
-    );
-  }
-
   void signUpError(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        return const MIHErrorMessage(errorType: "User Exists");
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: Column(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                size: 100,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              Center(
+                child: Text(
+                  "Email Already Exists",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Here are some things to keep in mind:",
+                style: TextStyle(
+                  color: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "1) Are you sure you're using the correct email address associated with your account?\n2) Is your caps lock key on? Passwords are case-sensitive.\n3) If you've forgotten your password, no worries! Click on \"Forgot Password?\" to reset it.",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              MihButton(
+                onPressed: () {
+                  context.pop();
+                },
+                buttonColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                width: 300,
+                elevation: 10,
+                child: Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

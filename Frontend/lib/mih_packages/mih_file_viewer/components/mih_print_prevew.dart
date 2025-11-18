@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import '../../../mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import '../../../mih_package_components/mih_loading_circle.dart';
 
 class MIHPrintPreview extends StatefulWidget {
   final PrintPreviewArguments arguments;
