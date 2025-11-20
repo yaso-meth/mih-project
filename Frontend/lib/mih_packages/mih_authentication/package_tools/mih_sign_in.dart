@@ -47,12 +47,12 @@ class _MihSignInState extends State<MihSignIn> {
         context,
       );
       if (!successfulSignIn) {
-        MihAlertServices().loginErrorMessage(context);
+        MihAlertServices().loginErrorAlert(context);
         passwordController.clear();
       }
     } on Exception {
       Navigator.of(context).pop();
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
       passwordController.clear();
     }
   }
@@ -77,7 +77,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().inputErrorMessage(context);
+          MihAlertServices().inputErrorAlert(context);
         }
       },
       appName: "Patient",
@@ -100,7 +100,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().inputErrorMessage(context);
+          MihAlertServices().inputErrorAlert(context);
         }
       },
       appName: "Doctor",
@@ -124,7 +124,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().inputErrorMessage(context);
+          MihAlertServices().inputErrorAlert(context);
         }
       },
       appName: "Business",
@@ -147,7 +147,7 @@ class _MihSignInState extends State<MihSignIn> {
         if (_formKey.currentState!.validate()) {
           submitSignInForm();
         } else {
-          MihAlertServices().inputErrorMessage(context);
+          MihAlertServices().inputErrorAlert(context);
         }
       },
       appName: "Test",
@@ -201,7 +201,7 @@ class _MihSignInState extends State<MihSignIn> {
           if (_formKey.currentState!.validate()) {
             submitSignInForm();
           } else {
-            MihAlertServices().inputErrorMessage(context);
+            MihAlertServices().inputErrorAlert(context);
           }
         }
       },
@@ -359,7 +359,7 @@ class _MihSignInState extends State<MihSignIn> {
                               if (_formKey.currentState!.validate()) {
                                 submitSignInForm();
                               } else {
-                                MihAlertServices().inputErrorMessage(context);
+                                MihAlertServices().inputErrorAlert(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(

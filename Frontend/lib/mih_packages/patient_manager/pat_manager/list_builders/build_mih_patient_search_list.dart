@@ -78,6 +78,12 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
     return accessStatus;
   }
 
+  Future<void> refreshMyPatientList(MzansiProfileProvider mzansiProfileProvider,
+      PatientManagerProvider patientManagerProvider) async {
+    await MihPatientServices().getPatientAccessListOfBusiness(
+        patientManagerProvider, mzansiProfileProvider.business!.business_id);
+  }
+
   void patientProfileChoicePopUp(
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patientManagerProvider,
@@ -300,7 +306,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             //           "business",
                             //         ));
                           } else {
-                            MihAlertServices().warningMessage(
+                            MihAlertServices().warningAlert(
                               "Access Pending",
                               "Your access request is currently being reviewed.\nOnce approved, you'll be able to view patient data.\nPlease follow up with the patient to approve your access request.",
                               context,
@@ -344,6 +350,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             ),
                             context,
                           );
+                          refreshMyPatientList(
+                              profileProvider, patientManagerProvider);
                         },
                         buttonColor: MihColors.getGreenColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
@@ -380,6 +388,8 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                             ),
                             context,
                           );
+                          refreshMyPatientList(
+                              profileProvider, patientManagerProvider);
                         },
                         buttonColor: MihColors.getGreenColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==

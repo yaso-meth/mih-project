@@ -9,7 +9,6 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
@@ -64,7 +63,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
     if (isFieldsFilled()) {
       createBusinessProfileAPICall(mzansiProfileProvider);
     } else {
-      MihAlertServices().inputErrorMessage(context);
+      MihAlertServices().inputErrorAlert(context);
     }
   }
 
@@ -97,7 +96,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
       }
       await createBusinessUserAPICall(mzansiProfileProvider);
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -123,10 +122,10 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
             "Your business profile is now live! You can now start connecting with customers and growing your business.";
         successPopUp(message, false);
       } else {
-        MihAlertServices().internetConnectionLost(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -192,59 +191,33 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
   }
 
   void successPopUp(String message, bool stayOnPersonalSide) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Successfully Updated Profile",
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.goNamed(
-                      'mihHome',
-                      extra: stayOnPersonalSide,
-                    );
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      "Successfully Updated Profile",
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.goNamed(
+              'mihHome',
+              extra: stayOnPersonalSide,
+            );
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -324,7 +297,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
               if (_formKey.currentState!.validate()) {
                 submitForm(mzansiProfileProvider);
               } else {
-                MihAlertServices().inputErrorMessage(context);
+                MihAlertServices().inputErrorAlert(context);
               }
             }
           },
@@ -784,7 +757,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                             if (_formKey.currentState!.validate()) {
                               submitForm(mzansiProfileProvider);
                             } else {
-                              MihAlertServices().inputErrorMessage(context);
+                              MihAlertServices().inputErrorAlert(context);
                             }
                           },
                           buttonColor: MihColors.getGreenColor(

@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_yt_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 
 class MihPackageTile extends StatefulWidget {
   final String appName;
@@ -40,6 +40,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
   void displayHint() {
     if (widget.ytVideoID != null) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return MihPackageWindow(
@@ -89,82 +90,67 @@ class _MihPackageTileState extends State<MihPackageTile> {
   }
 
   void authErrorPopUp() {
-    Widget alertpopUp = MihPackageAlert(
-      alertIcon: Icon(
-        Icons.fingerprint,
-        color: MihColors.getRedColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        size: 100,
-      ),
-      alertTitle: "Biometric Authentication Required",
-      alertBody: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Hi there! To jump into the ${widget.appName} Package, you'll need to authenticate yourself with your devices biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
+    MihAlertServices().errorAdvancedAlert(
+      "Biometric Authentication Required",
+      "Hi there! To jump into the ${widget.appName} Package, you'll need to authenticate yourself with your devices biometrics, please set up biometric authentication (like fingerprint, face ID, pattern or pin) on your device first.\n\nIf you have already set up biometric authentication, press \"Authenticate now\" to try again or press \"Set Up Authentication\" to go to your device settings.",
+      [
+        MihButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          buttonColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 300,
+          child: Text(
+            "Dismiss",
             style: TextStyle(
-              fontSize: 15,
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
-          Wrap(
-            runAlignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              MihButton(
-                onPressed: () {
-                  AppSettings.openAppSettings(
-                    type: AppSettingsType.security,
-                  );
-                  Navigator.of(context).pop();
-                },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Text(
-                  "Set Up Authentication",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              MihButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  authenticateUser();
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Text(
-                  "Authenticate Now",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+        ),
+        MihButton(
+          onPressed: () {
+            AppSettings.openAppSettings(
+              type: AppSettingsType.security,
+            );
+            Navigator.of(context).pop();
+          },
+          buttonColor: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 300,
+          child: Text(
+            "Set Up Authentication",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ],
-      ),
-      alertColour: MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    );
-    showDialog(
-      context: context,
-      builder: (context) {
-        return alertpopUp;
-      },
+        ),
+        MihButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            authenticateUser();
+          },
+          buttonColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 300,
+          child: Text(
+            "Authenticate Now",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 

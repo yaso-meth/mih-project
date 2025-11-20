@@ -100,6 +100,7 @@ class MihAuthenticationServices {
   void loginError(String error, BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: Text(error),
@@ -111,6 +112,7 @@ class MihAuthenticationServices {
   void signUpError(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return MihPackageWindow(
           fullscreen: false,

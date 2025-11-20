@@ -6,12 +6,14 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
@@ -58,34 +60,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              alertTitle: "Error Making Call",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "We couldn't open your phone app to call ${widget.business.contact_no}. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          });
+      MihAlertServices().errorBasicAlert(
+        "Error Making Call",
+        "We couldn't open your phone app to call $formattedNumber. To fix this, make sure you have a phone application installed and it's set as your default dialer.",
+        context,
+      );
     }
   }
 
@@ -110,34 +89,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     if (await canLaunchUrl(emailLaunchUri)) {
       await launchUrl(emailLaunchUri);
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              alertTitle: "Error Creating Email",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "We couldn't launch your email app to send a message to ${widget.business.bus_email}. To fix this, please confirm that you have an email application installed and that it's set as your default.",
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          });
+      MihAlertServices().errorBasicAlert(
+        "Error Creating Email",
+        "We couldn't launch your email app to send a message to $recipient. To fix this, please confirm that you have an email application installed and that it's set as your default.",
+        context,
+      );
     }
   }
 
@@ -153,64 +109,18 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       if (await canLaunchUrl(googleMapsUrl)) {
         await launchUrl(googleMapsUrl);
       } else {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return MihPackageAlert(
-                alertIcon: Icon(
-                  Icons.warning_rounded,
-                  size: 100,
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-                alertTitle: "Error Creating Maps",
-                alertBody: Column(
-                  children: [
-                    Text(
-                      "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
-                      style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                alertColour: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              );
-            });
+        MihAlertServices().errorBasicAlert(
+          "Error Opening Maps",
+          "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+          context,
+        );
       }
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              alertTitle: "Error Creating Maps",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          });
+      MihAlertServices().errorBasicAlert(
+        "Error Opening Maps",
+        "There was an issue opening maps for ${widget.business.Name}. This usually happens if you don't have a maps app installed or it's not set as your default. Please install one to proceed.",
+        context,
+      );
     }
   }
 
@@ -224,65 +134,18 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       if (await canLaunchUrl(url)) {
         await launchUrl(url);
       } else {
-        print('Could not launch $urlString');
-        showDialog(
-            context: context,
-            builder: (context) {
-              return MihPackageAlert(
-                alertIcon: Icon(
-                  Icons.warning_rounded,
-                  size: 100,
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-                alertTitle: "Error Opening Website",
-                alertBody: Column(
-                  children: [
-                    Text(
-                      "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
-                      style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                alertColour: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              );
-            });
+        MihAlertServices().errorBasicAlert(
+          "Error Opening Website",
+          "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
+          context,
+        );
       }
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              alertTitle: "Error Opening Website",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          });
+      MihAlertServices().errorBasicAlert(
+        "Error Opening Website",
+        "We couldn't open the link to $newUrl. To view this website, please ensure you have a web browser installed and set as your default.",
+        context,
+      );
     }
   }
 
@@ -410,9 +273,9 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   @override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
-    return Consumer<MzansiDirectoryProvider>(
-      builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
-          Widget? child) {
+    return Consumer2<MzansiProfileProvider, MzansiDirectoryProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MzansiDirectoryProvider directoryProvider, Widget? child) {
         return Material(
           color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark")
@@ -698,6 +561,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       double width) async {
     if (_isUserSignedIn) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => MihReviewBusinessWindow(
           business: widget.business,
@@ -725,13 +589,12 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   void showAddBookmarkAlert() {
     if (_isUserSignedIn) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => MihAddBookmarkAlert(
           business: widget.business,
-          onSuccessDismissPressed: () {
-            setState(() {
-              _bookmarkedBusinessFuture = getUserBookmark();
-            });
+          onSuccessDismissPressed: () async {
+            _bookmarkedBusinessFuture = getUserBookmark();
           },
         ),
       );
@@ -743,14 +606,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   void showDeleteBookmarkAlert(BookmarkedBusiness? bookmarkBusiness) {
     if (_isUserSignedIn) {
       showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => MihDeleteBookmarkAlert(
                 business: widget.business,
                 bookmarkBusiness: bookmarkBusiness,
                 onSuccessDismissPressed: () {
-                  setState(() {
-                    _bookmarkedBusinessFuture = getUserBookmark();
-                  });
+                  _bookmarkedBusinessFuture = getUserBookmark();
                 },
                 // startUpSearch: widget.startUpSearch,
               ));
@@ -761,59 +623,72 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
 
   void showSignInRequiredAlert() {
     showDialog(
+      barrierDismissible: false,
       context: context,
-      builder: (context) => MihPackageAlert(
-        alertIcon: Column(
-          children: [
-            Icon(
-              MihIcons.mihLogo,
-              size: 125,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
-        alertTitle: "Let's Get Started",
-        alertBody: Column(
-          children: [
-            Text(
-              "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
-              style: TextStyle(
+      builder: (context) {
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: () {
+            context.pop();
+          },
+          windowBody: Column(
+            children: [
+              Icon(
+                MihIcons.mihLogo,
+                size: 125,
                 color: MihColors.getSecondaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                fontSize: 15,
               ),
-            ),
-            const SizedBox(height: 25),
-            Center(
-              child: MihButton(
-                onPressed: () {
-                  context.goNamed(
-                    'mihHome',
-                    extra: true,
-                  );
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                elevation: 10,
-                width: 300,
-                child: Text(
-                  "Sign In/ Create Account",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              const SizedBox(height: 10),
+              Text(
+                "Let's Get Started",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: MihButton(
+                  onPressed: () {
+                    context.goNamed(
+                      'mihHome',
+                      extra: true,
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  elevation: 10,
+                  width: 300,
+                  child: Text(
+                    "Sign In/ Create Account",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            )
-          ],
-        ),
-        alertColour: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

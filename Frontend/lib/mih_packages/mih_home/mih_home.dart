@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -129,38 +128,8 @@ class _MihHomeState extends State<MihHome> {
         children: [
           MihPackageWindow(
             fullscreen: false,
-            windowTitle: "Privacy Policy & Terms Of Service Alert!",
-            onWindowTapClose: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return MihPackageAlert(
-                      alertIcon: Icon(
-                        Icons.warning_amber_rounded,
-                        size: 100,
-                        color: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-                        ),
-                      ),
-                      alertTitle: "Oops, Looks like you missed a step!",
-                      alertBody: Text(
-                        "We're excited for you to keep using the MIH app! Before you do, please take a moment to accept our Privacy Policy and Terms of Service. Thanks for helping us keep your experience great!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark",
-                          ),
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      alertColour: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-                      ),
-                    );
-                  });
-            },
+            windowTitle: null,
+            onWindowTapClose: null,
             windowBody: Column(
               children: [
                 Icon(
@@ -190,7 +159,7 @@ class _MihHomeState extends State<MihHome> {
                     color: MihColors.getSecondaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark",
                     ),
-                    fontSize: 15,
+                    fontSize: 18,
                     fontWeight: FontWeight.normal,
                   ),
                 ),

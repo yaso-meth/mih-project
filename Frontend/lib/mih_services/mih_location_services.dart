@@ -19,10 +19,10 @@ class MIHLocationAPI {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        MihAlertServices().locationPermissionError(context);
+        MihAlertServices().locationPermissionAlert(context);
         return null;
       } else if (permission == LocationPermission.deniedForever) {
-        MihAlertServices().locationPermissionError(context);
+        MihAlertServices().locationPermissionAlert(context);
         return null;
       } else {
         Position location = await Geolocator.getCurrentPosition(
@@ -30,7 +30,7 @@ class MIHLocationAPI {
         return location;
       }
     } else if (permission == LocationPermission.deniedForever) {
-      MihAlertServices().locationPermissionError(context);
+      MihAlertServices().locationPermissionAlert(context);
       return null;
     } else {
       Position location = await Geolocator.getCurrentPosition(

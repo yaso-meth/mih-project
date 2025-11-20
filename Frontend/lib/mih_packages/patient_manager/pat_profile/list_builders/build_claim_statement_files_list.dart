@@ -4,7 +4,6 @@ import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -49,70 +48,6 @@ class _BuildClaimStatementFileListState
       teporaryFileUrl = value;
     });
     return teporaryFileUrl;
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: false,
-          windowTitle: null,
-          onWindowTapClose: null,
-          windowBody: Column(
-            children: [
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: 100,
-                color: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              Text(
-                "Success!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              MihButton(
-                onPressed: () {
-                  context.pop();
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                elevation: 10,
-                child: Text(
-                  "Dismiss",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   String getFileName(String path) {

@@ -169,6 +169,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
     final String companyName = 'Mzansi Innovation Hub';
 
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => MihPackageWindow(
         fullscreen: false,
@@ -383,7 +384,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
                               } else {
-                                MihAlertServices().inputErrorMessage(context);
+                                MihAlertServices().inputErrorAlert(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(

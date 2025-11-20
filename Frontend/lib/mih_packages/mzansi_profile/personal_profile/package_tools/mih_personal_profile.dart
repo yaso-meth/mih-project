@@ -1,6 +1,5 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -26,17 +25,10 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   void editProfileWindow(double width) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => Consumer<MzansiProfileProvider>(
         builder: (BuildContext context,
             MzansiProfileProvider mzansiProfileProvider, Widget? child) {
-          // usernameController.text = mzansiProfileProvider.user!.username;
-          // fnameController.text = mzansiProfileProvider.user!.fname;
-          // lnameController.text = mzansiProfileProvider.user!.lname;
-          // purposeController.text = mzansiProfileProvider.user!.purpose;
-          // proPicController.text =
-          //     mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
-          //         ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
-          //         : "";
           return MihEditPersonalProfileWindow();
         },
       ),
@@ -62,13 +54,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
           return Center(
             child: Mihloadingcircle(),
           );
-        }
-        // else if (mzansiProfileProvider.user!.username.isEmpty) {
-        //   editProfileWindow(width);
-        // }
-        else {
-          KenLogger.success(
-              mzansiProfileProvider.userProfilePicture.toString());
+        } else {
           return MihSingleChildScroll(
             child: Padding(
               padding:

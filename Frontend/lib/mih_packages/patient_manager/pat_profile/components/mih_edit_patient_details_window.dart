@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
@@ -67,7 +66,7 @@ class _MihEditPatientDetailsWindowState
         "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.",
       );
     } else {
-      MihAlertServices().errorAlert(
+      MihAlertServices().errorBasicAlert(
         "Error Updating Profile",
         "There was an error updating your profile. Please try again later.",
         context,
@@ -76,67 +75,31 @@ class _MihEditPatientDetailsWindowState
   }
 
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    // context.goNamed(
-                    //   "patientProfile",
-                    //   extra: PatientViewArguments(
-                    //     widget.signedInUser,
-                    //     widget.selectedPatient,
-                    //     null,
-                    //     null,
-                    //     "personal",
-                    //   ),
-                    // );
-                    context.pop();
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.pop();
+            context.pop();
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -422,7 +385,7 @@ class _MihEditPatientDetailsWindowState
                       if (_formKey.currentState!.validate()) {
                         updatePatientApiCall(patientManagerProvider);
                       } else {
-                        MihAlertServices().inputErrorMessage(context);
+                        MihAlertServices().inputErrorAlert(context);
                       }
                     },
                     buttonColor: MihColors.getGreenColor(
@@ -543,7 +506,7 @@ class _MihEditPatientDetailsWindowState
               if (_formKey.currentState!.validate()) {
                 updatePatientApiCall(patientManagerProvider);
               } else {
-                MihAlertServices().inputErrorMessage(context);
+                MihAlertServices().inputErrorAlert(context);
               }
             }
           },

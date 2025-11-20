@@ -9,8 +9,8 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart'
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
@@ -130,6 +130,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
     // Intermediate - 10 * 15 & 23 bombs
     // Hard - 10 * 20 & 30 bombs
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return MihMineSweeperStartGameWindow(
@@ -252,99 +253,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
         board[r][c].isOpened = true;
         isGameOver = true;
         // lose alert
-        showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  FontAwesomeIcons.bomb,
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  size: 100,
-                ),
-              ),
-              alertTitle: "Better Luck Next Time",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "Your lost this game of MIH Minesweeper!!!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Please feel free to start a New Game or check out the Leader Board to find out who's the best in Mzansi.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Wrap(
-                    runAlignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      MihButton(
-                        onPressed: () {
-                          context.pop();
-                          showStartGameWindow(mihMineSweeperProvider);
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          "New Game",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      MihButton(
-                        onPressed: () {
-                          context.pop();
-                          mihMineSweeperProvider.setToolIndex(1);
-                        },
-                        buttonColor: MihColors.getOrangeColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          "Leader Board",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          },
-        );
+        loseAlert(mihMineSweeperProvider);
       });
       return;
     }
@@ -384,111 +293,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
       isGameWon = true;
       isGameOver = true;
       // win alert
-      showDialog(
-        context: context,
-        builder: (context) {
-          return MihPackageAlert(
-            alertIcon: Icon(
-              Icons.celebration,
-              color: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              size: 100,
-            ),
-            alertTitle: "Congratulations",
-            alertBody: Column(
-              children: [
-                Text(
-                  "Your won this game of MIH Minesweeper!!!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                // Text(
-                //   "You took ${_formatTime()} to complete the game on ${mihMineSweeperProvider.difficulty} mode.",
-                //   style: TextStyle(
-                //     fontSize: 15,
-                //     color: MihColors.getSecondaryColor(
-                //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
-                Text(
-                  "Time Taken: ${_formatTime().replaceAll("00:", "")}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Score: ${calculateGameScore(mihMineSweeperProvider)}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Wrap(
-                  runAlignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    MihButton(
-                      onPressed: () {
-                        context.pop();
-                        showStartGameWindow(mihMineSweeperProvider);
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Text(
-                        "New Game",
-                        style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    MihButton(
-                      onPressed: () {
-                        context.pop();
-                        mihMineSweeperProvider.setToolIndex(1);
-                      },
-                      buttonColor: MihColors.getOrangeColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Text(
-                        "Leader Board",
-                        style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            alertColour: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          );
-        },
-      );
+      winAlert(mihMineSweeperProvider);
       showDialog(
           context: context,
           builder: (context) {
@@ -528,6 +333,264 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
       default:
         return null;
     }
+  }
+
+  void loseAlert(MihMineSweeperProvider mihMineSweeperProvider) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+          windowBody: Column(
+            children: [
+              const SizedBox(height: 10),
+              Icon(
+                FontAwesomeIcons.bomb,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                size: 125,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Better Luck Next Time",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  "Your lost this game of MIH Minesweeper!!!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Please feel free to start a New Game or check out the Leader Board to find out who's the best in Mzansi.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                      mihMineSweeperProvider.setToolIndex(1);
+                    },
+                    buttonColor: MihColors.getGoldColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "Leader Board",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    buttonColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "View Board",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                      showStartGameWindow(mihMineSweeperProvider);
+                    },
+                    buttonColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "New Game",
+                      style: TextStyle(
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void winAlert(MihMineSweeperProvider mihMineSweeperProvider) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: Column(
+            children: [
+              const SizedBox(height: 10),
+              Icon(
+                Icons.celebration,
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                size: 150,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Congratulations",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Your won this game of MIH Minesweeper!!!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Time Taken: ${_formatTime().replaceAll("00:", "")}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Score: ${calculateGameScore(mihMineSweeperProvider)}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  MihButton(
+                    onPressed: () {
+                      mihMineSweeperProvider.setLeaderboard(leaderboard: null);
+                      context.pop();
+                      mihMineSweeperProvider.setToolIndex(1);
+                    },
+                    buttonColor: MihColors.getGoldColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "Leader Board",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    buttonColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "View Board",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                      showStartGameWindow(mihMineSweeperProvider);
+                    },
+                    buttonColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Text(
+                      "New Game",
+                      style: TextStyle(
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override

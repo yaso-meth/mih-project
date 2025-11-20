@@ -103,7 +103,6 @@ class _PatientProfileState extends State<PatientProfile> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        patientManagerProvider.setPatientProfileIndex(0);
         if (!patientManagerProvider.personalMode) {
           context.pop();
         } else {
@@ -111,6 +110,8 @@ class _PatientProfileState extends State<PatientProfile> {
             'mihHome',
           );
         }
+        patientManagerProvider.setPatientProfileIndex(0);
+        patientManagerProvider.setHidePatientDetails(true);
         FocusScope.of(context).unfocus();
       },
     );

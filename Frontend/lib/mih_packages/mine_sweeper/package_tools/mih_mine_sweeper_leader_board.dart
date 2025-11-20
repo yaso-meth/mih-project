@@ -24,7 +24,7 @@ class MihMineSweeperLeaderBoard extends StatefulWidget {
 
 class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
   TextEditingController filterController = TextEditingController();
-
+  bool isLoading = true;
   Future<void> initialiseLeaderboard() async {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
@@ -39,10 +39,16 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     }
     mineSweeperProvider.setLeaderboardUserPictures(
         leaderboardUserPictures: userPictures);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void refreshLeaderBoard(
       MihMineSweeperProvider mineSweeperProvider, String difficulty) {
+    setState(() {
+      isLoading = true;
+    });
     mineSweeperProvider.setDifficulty(difficulty);
     mineSweeperProvider.setLeaderboard(leaderboard: null);
     mineSweeperProvider.setMyScoreboard(myScoreboard: null);
@@ -80,7 +86,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     return Consumer<MihMineSweeperProvider>(
       builder: (BuildContext context,
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
-        if (mineSweeperProvider.leaderboard == null) {
+        if (isLoading) {
           return Center(
             child: Mihloadingcircle(),
           );
@@ -121,7 +127,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                mineSweeperProvider.leaderboard!.isEmpty
+                !isLoading && mineSweeperProvider.leaderboard!.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Column(

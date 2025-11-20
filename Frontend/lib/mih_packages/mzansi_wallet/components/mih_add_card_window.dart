@@ -5,7 +5,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -34,56 +33,10 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
   final ValueNotifier<String> _shopName = ValueNotifier("");
 
   void successPopUp(String title, String message, int packageIndex) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+    MihAlertServices().successBasicAlert(
+      title,
+      message,
+      context,
     );
   }
 
@@ -282,7 +235,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (_shopController.text == "") {
-                              MihAlertServices().inputErrorMessage(context);
+                              MihAlertServices().inputErrorAlert(context);
                             } else {
                               int statusCode = await MIHMzansiWalletApis
                                   .addLoyaltyCardAPICall(
@@ -306,11 +259,11 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                                 );
                               } else {
                                 MihAlertServices()
-                                    .internetConnectionLost(context);
+                                    .internetConnectionAlert(context);
                               }
                             }
                           } else {
-                            MihAlertServices().inputErrorMessage(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

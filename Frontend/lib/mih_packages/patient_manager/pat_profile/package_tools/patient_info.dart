@@ -271,6 +271,7 @@ class _PatientInfoState extends State<PatientInfo> {
   void showEditPatientWindow() {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return MihEditPatientDetailsWindow();
         });

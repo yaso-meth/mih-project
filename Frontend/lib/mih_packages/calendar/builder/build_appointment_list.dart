@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -523,7 +522,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                                 updateAppointmentCall(mzansiProfileProvider,
                                     mihCalendarProvider, index);
                               } else {
-                                MihAlertServices().inputErrorMessage(context);
+                                MihAlertServices().inputErrorAlert(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(
@@ -569,7 +568,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       MzansiProfileProvider mzansiProfileProvider,
       MihCalendarProvider mihCalendarProvider,
       int index) {
-    MihAlertServices().deleteConfirmationMessage(
+    MihAlertServices().deleteConfirmationAlert(
       "This appointment will be deleted permanently from your calendar. Are you certain you want to delete it?",
       () {
         deleteAppointmentCall(
@@ -635,10 +634,10 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         successPopUp("Successfully Updated Appointment",
             "You appointment has been successfully updated.");
       } else {
-        MihAlertServices().internetConnectionLost(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     } else {
-      MihAlertServices().inputErrorMessage(context);
+      MihAlertServices().inputErrorAlert(context);
     }
   }
 
@@ -662,65 +661,40 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     if (statucCode == 200) {
       context.pop();
       context.pop();
-      successPopUp("Successfully Deleted Appointment",
-          "You appointment has been successfully deleted from your calendar.");
+      clearControllers();
+      // successPopUp("Successfully Deleted Appointment",
+      //     "You appointment has been successfully deleted from your calendar.");
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                    clearControllers();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            clearControllers();
+            Navigator.of(context).pop();
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 

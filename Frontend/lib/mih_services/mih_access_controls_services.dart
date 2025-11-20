@@ -97,7 +97,7 @@ class MihAccessControlsServices {
       await MihNotificationApis.addAccessRequestNotificationAPICall(
           app_id, requested_by, personalSelected, args, context);
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -135,7 +135,7 @@ class MihAccessControlsServices {
           app_id, personalSelected, args, context);
       //notification here
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 

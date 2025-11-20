@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
@@ -32,7 +31,7 @@ class _MihResetPasswordState extends State<MihResetPassword> {
 
   void submitFormInput() async {
     if (passwordController.text != confirmPasswordController.text) {
-      MihAlertServices().passwordMatchError(context);
+      MihAlertServices().passwordMatchAlert(context);
     } else {
       showDialog(
         context: context,
@@ -46,65 +45,39 @@ class _MihResetPasswordState extends State<MihResetPassword> {
       if (successfulResetPassword) {
         resetSuccessfully();
       } else {
-        MihAlertServices().internetConnectionLost(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     }
   }
 
   void resetSuccessfully() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Successfully Reset Password",
-          alertBody: Column(
-            children: [
-              Text(
-                "Great news! Your password reset is complete. You can now log in to Mzansi Innovation Hub using your new password.",
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.goNamed(
-                      'mihHome',
-                      extra: true,
-                    );
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      "Successfully Reset Password",
+      "Great news! Your password reset is complete. You can now log in to Mzansi Innovation Hub using your new password.",
+      [
+        MihButton(
+          onPressed: () {
+            context.goNamed(
+              'mihHome',
+              extra: true,
+            );
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -127,7 +100,7 @@ class _MihResetPasswordState extends State<MihResetPassword> {
           if (_formKey.currentState!.validate()) {
             submitFormInput();
           } else {
-            MihAlertServices().inputErrorMessage(context);
+            MihAlertServices().inputErrorAlert(context);
           }
         }
       },
@@ -212,7 +185,7 @@ class _MihResetPasswordState extends State<MihResetPassword> {
                           if (_formKey.currentState!.validate()) {
                             submitFormInput();
                           } else {
-                            MihAlertServices().inputErrorMessage(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

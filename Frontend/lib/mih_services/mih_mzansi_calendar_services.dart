@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
@@ -11,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -538,72 +534,6 @@ class MihMzansiCalendarApis {
   }
 
   //================== POP UPS ==========================================================================
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: false,
-          windowTitle: null,
-          onWindowTapClose: null,
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          windowBody: Column(
-            children: [
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: 100,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              Text(
-                "Success!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              MihButton(
-                onPressed: () {
-                  context.pop();
-                },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                elevation: 10,
-                child: Text(
-                  "Dismiss",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   static void loadingPopUp(BuildContext context) {
     showDialog(

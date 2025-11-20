@@ -41,6 +41,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
     // showDialog(context: context, builder: (context)=> )
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return MihReviewBusinessWindow(
           business: business,

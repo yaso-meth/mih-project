@@ -43,7 +43,7 @@ class _MIHNotificationDrawerState extends State<MIHNotificationDrawer> {
         arguments: widget.signedInUser,
       );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 

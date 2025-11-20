@@ -388,10 +388,10 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                                     AppEnviroment.getEnv(),
                                     context);
                           } else {
-                            MihAlertServices().inputErrorMessage(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         } else {
-                          MihAlertServices().inputErrorMessage(context);
+                          MihAlertServices().inputErrorAlert(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(

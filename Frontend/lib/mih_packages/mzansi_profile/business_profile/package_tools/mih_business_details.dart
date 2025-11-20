@@ -27,6 +27,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   void editBizProfileWindow(
       MzansiProfileProvider mzansiProfileProvider, double width) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => MihUpdateBusinessDetailsWindow(width: width),
     );

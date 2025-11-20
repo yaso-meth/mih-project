@@ -240,7 +240,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                                   searchPressed(
                                       profileProvider, directoryProvider);
                                 } else {
-                                  MihAlertServices().errorAlert(
+                                  MihAlertServices().errorBasicAlert(
                                     "Business Type Not Selected",
                                     "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
                                     context,

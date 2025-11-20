@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
@@ -17,6 +17,8 @@ import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_objects/perscription.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class PrescripInput extends StatefulWidget {
@@ -94,7 +96,9 @@ class _PrescripInputState extends State<PrescripInput> {
     "30"
   ];
 
-  Future<void> generatePerscription() async {
+  Future<void> generatePerscription(
+    PatientManagerProvider patManProvider,
+  ) async {
     //start loading circle
     showDialog(
       context: context,
@@ -161,84 +165,25 @@ class _PrescripInputState extends State<PrescripInput> {
         context.pop();
         String message =
             "The perscription $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-        successPopUp(message);
+
+        await MihPatientServices().getPatientDocuments(patManProvider);
+        MihAlertServices().successBasicAlert(
+          "Success!",
+          message,
+          context,
+        );
       } else {
-        MihAlertServices().internetConnectionLost(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: false,
-          windowTitle: null,
-          onWindowTapClose: null,
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          windowBody: Column(
-            children: [
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: 100,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              Text(
-                "Success!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              MihButton(
-                onPressed: () {
-                  context.pop();
-                },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                elevation: 10,
-                child: Text(
-                  "Dismiss",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   void getMedsPopUp(TextEditingController medSearch) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return MedicineSearch(
           searchVlaue: medSearch,
@@ -485,10 +430,10 @@ class _PrescripInputState extends State<PrescripInput> {
                         widget.noRepeatsController.text = "0";
                       });
                     } else {
-                      MihAlertServices().inputErrorMessage(context);
+                      MihAlertServices().inputErrorAlert(context);
                     }
                   } else {
-                    MihAlertServices().inputErrorMessage(context);
+                    MihAlertServices().inputErrorAlert(context);
                   }
                 },
                 buttonColor: MihColors.getSecondaryColor(
@@ -511,7 +456,7 @@ class _PrescripInputState extends State<PrescripInput> {
     );
   }
 
-  Widget displayPerscList() {
+  Widget displayPerscList(PatientManagerProvider patManProvider) {
     return Column(
       children: [
         Container(
@@ -573,9 +518,9 @@ class _PrescripInputState extends State<PrescripInput> {
           onPressed: () async {
             if (perscriptionObjOutput.isNotEmpty) {
               //print(jsonEncode(perscriptionObjOutput));
-              await generatePerscription();
+              await generatePerscription(patManProvider);
             } else {
-              MihAlertServices().inputErrorMessage(context);
+              MihAlertServices().inputErrorAlert(context);
             }
           },
           buttonColor: MihColors.getGreenColor(
@@ -613,18 +558,23 @@ class _PrescripInputState extends State<PrescripInput> {
     var size = MediaQuery.of(context).size;
     width = size.width;
     height = size.height;
-    return Wrap(
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.center,
-      spacing: 10,
-      runSpacing: 10,
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // mainAxisSize: MainAxisSize.max,
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(width: 500, child: displayMedInput()),
-        displayPerscList(),
-      ],
+    return Consumer<PatientManagerProvider>(
+      builder: (BuildContext context, PatientManagerProvider patManProvider,
+          Widget? child) {
+        return Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(width: 500, child: displayMedInput()),
+            displayPerscList(patManProvider),
+          ],
+        );
+      },
     );
   }
 }

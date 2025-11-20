@@ -392,7 +392,7 @@ class _TipCalcState extends State<TipCalc> {
                           if (_formKey.currentState!.validate()) {
                             validateInput();
                           } else {
-                            MihAlertServices().inputErrorMessage(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

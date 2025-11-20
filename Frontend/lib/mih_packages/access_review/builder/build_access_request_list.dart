@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
@@ -68,76 +67,14 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
         message =
             "You've declined the access request. ${widget.accessRequests[index].Name} will not have access to your profile.";
       }
-      successPopUp(message);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: false,
-          windowTitle: null,
-          onWindowTapClose: null,
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          windowBody: Column(
-            children: [
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: popUpIconSize,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              Text(
-                "Success!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: popUpTitleSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: popUpBodySize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              MihButton(
-                onPressed: () {
-                  context.pop();
-                },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                elevation: 10,
-                child: Text(
-                  "Dismiss",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   Widget displayQueue(int index) {
@@ -210,7 +147,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       // ),
       onTap: () {
         if (access == "CANCELLED") {
-          MihAlertServices().warningMessage(
+          MihAlertServices().warningAlert(
             "Access Cancelled",
             "This appointment has been canceled. As a result, access has been cancelled and the doctor no longer have access to the patient's profile. If you would like them to view the patient's profile again, please book a new appointment through them.",
             context,

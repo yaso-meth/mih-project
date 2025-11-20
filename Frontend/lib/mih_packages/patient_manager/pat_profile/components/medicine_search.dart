@@ -38,7 +38,7 @@ class _MedicineSearchState extends State<MedicineSearch> {
       // medicines.forEach((element) => meds.add(element.name));
       return medicines;
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
       throw Exception('failed to load medicine');
     }
   }

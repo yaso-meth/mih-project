@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
@@ -53,104 +52,75 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
 
   void showDeleteReviewAlert(MzansiDirectoryProvider directoryProvider) {
-    showDialog(
-      context: context,
-      builder: (context) => MihPackageAlert(
-        alertColour: MihColors.getRedColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        alertIcon: Icon(
-          Icons.warning_rounded,
-          size: 100,
-          color: MihColors.getRedColor(
+    MihAlertServices().errorAdvancedAlert(
+      "Delete Review",
+      "Are you sure you want to delete this review? This action cannot be undone.",
+      [
+        MihButton(
+          width: 300,
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const Mihloadingcircle();
+              },
+            );
+            await MihMzansiDirectoryServices()
+                .deleteBusinessReview(
+              widget.businessReview!.idbusiness_ratings,
+              widget.businessReview!.business_id,
+              widget.businessReview!.rating_score,
+              widget.business.rating,
+            )
+                .then((statusCode) async {
+              context.pop(); //Remove loading dialog
+              context.pop(); //Remove delete dialog
+              if (statusCode == 200) {
+                await refreshBusiness(directoryProvider);
+                successPopUp(
+                  "Successfully Deleted Review!",
+                  "Your review has successfully been delete and will no longer appear under the business.",
+                );
+              } else {
+                MihAlertServices().errorBasicAlert(
+                  "Error Deleting Review",
+                  "There was an error deleting your review. Please try again later.",
+                  context,
+                );
+              }
+            });
+          },
+          buttonColor: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        ),
-        alertTitle: "Delete Review",
-        alertBody: Column(
-          children: [
-            Text(
-              "Are you sure you want to delete this review? This action cannot be undone.",
-              style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                fontSize: 15,
-              ),
+          child: Text(
+            "Delete",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 25),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                MihButton(
-                  width: 300,
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const Mihloadingcircle();
-                      },
-                    );
-                    await MihMzansiDirectoryServices()
-                        .deleteBusinessReview(
-                      widget.businessReview!.idbusiness_ratings,
-                      widget.businessReview!.business_id,
-                      widget.businessReview!.rating_score,
-                      widget.business.rating,
-                    )
-                        .then((statusCode) async {
-                      context.pop(); //Remove loading dialog
-                      context.pop(); //Remove delete dialog
-                      if (statusCode == 200) {
-                        await refreshBusiness(directoryProvider);
-                        context.pop(); //Remove window
-                        successPopUp(
-                          "Successfully Deleted Review!",
-                          "Your review has successfully been delete and will no longer appear under the business.",
-                        );
-                      } else {
-                        MihAlertServices().errorAlert(
-                          "Error Deleting Review",
-                          "There was an error deleting your review. Please try again later.",
-                          context,
-                        );
-                      }
-                    });
-                  },
-                  buttonColor: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  child: Text(
-                    "Delete",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                MihButton(
-                  width: 300,
-                  onPressed: () {
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+        MihButton(
+          width: 300,
+          onPressed: () {
+            context.pop();
+          },
+          buttonColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          child: Text(
+            "Cancel",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -198,13 +168,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         context.pop(); //Remove loading dialog
         if (statusCode == 200) {
           await refreshBusiness(directoryProvider);
-          context.pop();
           successPopUp(
             "Successfully Updated Review!",
             "Your review has successfully been updated and will now appear under the business.",
           );
         } else {
-          MihAlertServices().errorAlert(
+          MihAlertServices().errorBasicAlert(
             "Error Updating Review",
             "There was an error updating your review. Please try again later.",
             context,
@@ -225,13 +194,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
         context.pop(); //Remove loading dialog
         if (statusCode == 201) {
           await refreshBusiness(directoryProvider);
-          context.pop();
           successPopUp(
             "Successfully Added Review!",
             "Your review has successfully been added and will now appear under the business.",
           );
         } else {
-          MihAlertServices().errorAlert(
+          MihAlertServices().errorBasicAlert(
             "Error Adding Review",
             "There was an error adding your review. Please try again later.",
             context,
@@ -242,64 +210,32 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
   }
 
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    // context.goNamed(
-                    //   "mzansiDirectory",
-                    //   extra: MzansiDirectoryArguments(
-                    //     personalSearch: false,
-                    //     startSearchText: widget.business.Name,
-                    //   ),
-                    // );
-                    widget.onSuccessDismissPressed!.call();
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.pop();
+            context.pop();
+            widget.onSuccessDismissPressed!.call();
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -577,7 +513,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                                   directoryProvider,
                                 );
                               } else {
-                                MihAlertServices().inputErrorMessage(context);
+                                MihAlertServices().inputErrorAlert(context);
                               }
                             },
                             buttonColor: MihColors.getGreenColor(

@@ -645,7 +645,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                               const SnackBar(content: Text("Input Valid")),
                             );
                           } else {
-                            MihAlertServices().inputErrorMessage(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getSecondaryColor(

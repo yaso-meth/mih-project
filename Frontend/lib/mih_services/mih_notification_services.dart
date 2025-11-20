@@ -1,12 +1,8 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/notification.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -74,9 +70,13 @@ class MihNotificationApis {
           args.businessUser,
         ),
       );
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -130,9 +130,13 @@ class MihNotificationApis {
       //     args.businessUser,
       //   ),
       // );
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -186,9 +190,13 @@ class MihNotificationApis {
       );
       String message = "The appointment has been successfully rescheduled.";
 
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -239,9 +247,13 @@ class MihNotificationApis {
       );
       String message =
           "The appointment has been cancelled successfully. This means it will no longer be visible in your waiting room and calender.";
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -294,76 +306,14 @@ class MihNotificationApis {
       );
       String message =
           "The appointment was been created successfully. This means it will now be visible in your waiting room and calender.";
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
-//================== POP UPS ==========================================================================
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: false,
-          windowTitle: null,
-          onWindowTapClose: null,
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          windowBody: Column(
-            children: [
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: 100,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              Text(
-                "Success!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              MihButton(
-                onPressed: () {
-                  context.pop();
-                },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                elevation: 10,
-                child: Text(
-                  "Dismiss",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }
+//================== POP UPS ==========================================================================

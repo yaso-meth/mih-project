@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_alert.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
@@ -77,9 +76,9 @@ class _MihRegisterState extends State<MihRegister> {
   Future<void> signUserUp() async {
     context.read<MzansiProfileProvider>().reset();
     if (!validEmail()) {
-      MihAlertServices().invalidEmailError(context);
+      MihAlertServices().invalidEmailAlert(context);
     } else if (passwordController.text != confirmPasswordController.text) {
-      MihAlertServices().passwordMatchError(context);
+      MihAlertServices().passwordMatchAlert(context);
     } else {
       //var _backgroundColor = Colors.transparent;
       showDialog(
@@ -99,7 +98,7 @@ class _MihRegisterState extends State<MihRegister> {
           var userExists = jsonDecode(response.body);
           if (userExists["exists"]) {
             Navigator.of(context).pop();
-            MihAlertServices().emailExistsError(context);
+            MihAlertServices().emailExistsAlert(context);
           } else {
             var response2 = await http.post(
               Uri.parse("$baseAPI/auth/signup"),
@@ -126,10 +125,10 @@ class _MihRegisterState extends State<MihRegister> {
                 //print("Here1");
               } else if (userCreated["status"] == "FIELD_ERROR") {
                 Navigator.of(context).pop();
-                MihAlertServices().passwordRequiredError(context);
+                MihAlertServices().passwordRequirementAlert(context);
               } else {
                 Navigator.of(context).pop();
-                MihAlertServices().internetConnectionLost(context);
+                MihAlertServices().internetConnectionAlert(context);
               }
             }
           }
@@ -155,29 +154,29 @@ class _MihRegisterState extends State<MihRegister> {
   }
 
   void loginError(error) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.warning_amber_rounded,
-            color: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            size: 100,
-          ),
-          alertTitle: "Error While Signing Up",
-          alertBody: Text(
-            "An error occurred while signing up. Please try again later.",
+    MihAlertServices().errorAdvancedAlert(
+      "Sign Up Error",
+      "An error occurred while signing up: $error Please try again later.",
+      [
+        MihButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          buttonColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 200,
+          child: Text(
+            "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          alertColour: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+        ),
+      ],
+      context,
     );
   }
 
@@ -200,7 +199,7 @@ class _MihRegisterState extends State<MihRegister> {
           if (_formKey.currentState!.validate()) {
             submitFormInput();
           } else {
-            MihAlertServices().inputErrorMessage(context);
+            MihAlertServices().inputErrorAlert(context);
           }
         }
       },
@@ -302,7 +301,7 @@ class _MihRegisterState extends State<MihRegister> {
                             if (_formKey.currentState!.validate()) {
                               submitFormInput();
                             } else {
-                              MihAlertServices().inputErrorMessage(context);
+                              MihAlertServices().inputErrorAlert(context);
                             }
                           },
                           buttonColor: MihColors.getGreenColor(

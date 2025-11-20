@@ -70,7 +70,7 @@ class MihMyBusinessUserServices {
       );
       return 201;
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
       return 500;
     }
   }
@@ -123,7 +123,7 @@ class MihMyBusinessUserServices {
       provider.setBusinessUserSignatureUrl(newProPicUrl);
       return 200;
     } else {
-      MihAlertServices().internetConnectionLost(context);
+      MihAlertServices().internetConnectionAlert(context);
       return 500;
     }
   }
