@@ -77,9 +77,13 @@ class _BusinesProfileState extends State<BusinesProfile> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
+        MzansiProfileProvider mzansiProfileProvider =
+            context.read<MzansiProfileProvider>();
         context.goNamed(
           'mihHome',
         );
+        mzansiProfileProvider.setHideBusinessUserDetails(true);
+        mzansiProfileProvider.setBusinessIndex(0);
         FocusScope.of(context).unfocus();
       },
     );

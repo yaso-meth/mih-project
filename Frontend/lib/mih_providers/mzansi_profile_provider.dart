@@ -21,11 +21,13 @@ class MzansiProfileProvider extends ChangeNotifier {
   UserConsent? userConsent;
   List<BusinessEmployee>? employeeList;
   List<AppUser> userSearchResults = [];
+  bool hideBusinessUserDetails;
 
   MzansiProfileProvider({
     this.personalHome = true,
     this.personalIndex = 0,
     this.businessIndex = 0,
+    this.hideBusinessUserDetails = true,
   });
 
   void reset() {
@@ -64,6 +66,11 @@ class MzansiProfileProvider extends ChangeNotifier {
     required AppUser newUser,
   }) {
     user = newUser;
+    notifyListeners();
+  }
+
+  void setHideBusinessUserDetails(bool hideBusinessUserDetails) {
+    this.hideBusinessUserDetails = hideBusinessUserDetails;
     notifyListeners();
   }
 

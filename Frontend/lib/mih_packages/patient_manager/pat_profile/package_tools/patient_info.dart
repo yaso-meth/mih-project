@@ -28,7 +28,7 @@ class _PatientInfoState extends State<PatientInfo> {
 
   String getDisplayText(
       PatientManagerProvider patientManagerProvider, String originalText) {
-    int textLength = originalText.length >= 13 ? 13 : originalText.length;
+    int textLength = originalText.length >= 13 ? 13 : 6;
     String displayText = "";
     if (patientManagerProvider.hidePatientDetails) {
       for (int i = 0; i < textLength; i++) {
@@ -42,7 +42,7 @@ class _PatientInfoState extends State<PatientInfo> {
 
   Widget buildPatientInfoCard(PatientManagerProvider patientManagerProvider) {
     TextStyle titleStyle = TextStyle(
-      fontSize: 25,
+      fontSize: 30,
       fontWeight: FontWeight.bold,
       color: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
@@ -157,7 +157,7 @@ class _PatientInfoState extends State<PatientInfo> {
 
   Widget buildMedAidInfoCard(PatientManagerProvider patientManagerProvider) {
     TextStyle titleStyle = TextStyle(
-      fontSize: 25,
+      fontSize: 30,
       fontWeight: FontWeight.bold,
       color: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),

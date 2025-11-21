@@ -1,21 +1,17 @@
+import 'dart:ui';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_update_my_business_user_details.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:provider/provider.dart';
 
 class MihMyBusinessUser extends StatefulWidget {
@@ -28,105 +24,113 @@ class MihMyBusinessUser extends StatefulWidget {
 }
 
 class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
+  final fileNameController = TextEditingController();
+  final signtureController = TextEditingController();
   PlatformFile? userPicFile;
   PlatformFile? newSelectedSignaturePic;
-  final fileNameController = TextEditingController();
-  final titleTextController = TextEditingController();
-  final fnameController = TextEditingController();
-  final lnameController = TextEditingController();
-  final accessController = TextEditingController();
-  final signtureController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  late String env;
 
-  bool isFormFilled() {
-    if (titleTextController.text.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
+  void editBizUserProfileWindow(
+      MzansiProfileProvider mzansiProfileProvider, double width) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => MihUpdateMyBusinessUserDetails(),
+    );
   }
 
-  Future<bool> uploadFile(MzansiProfileProvider mzansiProfileProvider) async {
-    if (newSelectedSignaturePic != null) {
-      int uploadStatusCode = 0;
-      uploadStatusCode = await MihFileApi.uploadFile(
-        mzansiProfileProvider.user!.app_id,
-        env,
-        "business_files",
-        newSelectedSignaturePic!,
-        context,
-      );
-      if (uploadStatusCode == 200) {
-        signtureController.text = newSelectedSignaturePic!.name;
-        int deleteStatusCode = 0;
-        deleteStatusCode = await MihFileApi.deleteFile(
-          mzansiProfileProvider.user!.app_id,
-          env,
-          "business_files",
-          mzansiProfileProvider.businessUser!.sig_path.split("/").last,
-          context,
-        );
-        if (deleteStatusCode == 200) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
+  String getDisplayText(
+      MzansiProfileProvider profileProvider, String originalText) {
+    int textLength = originalText.length >= 13 ? 13 : 6;
+    String displayText = "";
+    if (profileProvider.hideBusinessUserDetails) {
+      for (int i = 0; i < textLength; i++) {
+        displayText += "●";
       }
     } else {
-      return true; // No file selected, so no upload needed
+      displayText = originalText;
     }
+    return displayText;
   }
 
-  Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
-    KenLogger.success("Start Submit Form");
-    if (isFormFilled()) {
-      KenLogger.success("Form Filled");
-      KenLogger.success("Start File Upload");
-      bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
-      KenLogger.success(
-          "File Upload Complete: outcome $successfullyUploadedFile");
-      if (!mounted) return;
-      KenLogger.success("is mounted");
-      if (successfullyUploadedFile) {
-        int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
-          mzansiProfileProvider.user!.app_id,
-          mzansiProfileProvider.businessUser!.business_id,
-          titleTextController.text,
-          accessController.text,
-          signtureController.text,
-          mzansiProfileProvider,
-          context,
-        );
-        KenLogger.success("Details Update Complete: status code $statusCode");
-        if (!mounted) return;
-        KenLogger.success("is mounted");
-        if (statusCode == 200) {
-          KenLogger.success("Start Success Message");
-          String message = "Business details updated successfully";
-          successPopUp(message, false);
-        } else {
-          MihAlertServices().errorBasicAlert(
-            "Error Updating Business User Details",
-            "An error occurred while updating the business User details. Please check internet connection and try again.",
-            context,
-          );
-        }
-      } else {
-        MihAlertServices().internetConnectionAlert(context);
-      }
-    } else {
-      MihAlertServices().inputErrorAlert(context);
-    }
-  }
-
-  void successPopUp(String message, bool stayOnPersonalSide) {
-    MihAlertServices().successBasicAlert(
-      "Success!",
-      message,
-      context,
+  Widget buildEmployeeInfoCard(MzansiProfileProvider profileProvider) {
+    TextStyle titleStyle = TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    TextStyle subtitleStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    TextStyle subtitleHeadingStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    return MihPackageWindow(
+      fullscreen: false,
+      windowTitle: "Employee Info Card",
+      onWindowTapClose: null,
+      backgroundColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      foregroundColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      windowBody: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${profileProvider.user!.fname} ${profileProvider.user!.lname}",
+                      style: titleStyle,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Title: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: profileProvider.businessUser!.title,
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Access: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(profileProvider,
+                                profileProvider.businessUser!.access),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -137,28 +141,12 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
         mzansiProfileProvider.user!.pro_pic_path.split("/").last;
     signtureController.text =
         mzansiProfileProvider.businessUser!.sig_path.split("/").last;
-    KenLogger.success("title: ${mzansiProfileProvider.businessUser!.title}");
-    KenLogger.success(
-        "sig url: ${mzansiProfileProvider.businessUser!.sig_path}");
-    titleTextController.text = mzansiProfileProvider.businessUser!.title;
-    fnameController.text = mzansiProfileProvider.user!.fname;
-    lnameController.text = mzansiProfileProvider.user!.lname;
-    accessController.text = mzansiProfileProvider.businessUser!.access;
-    if (AppEnviroment.getEnv() == "Prod") {
-      env = "Prod";
-    } else {
-      env = "Dev";
-    }
   }
 
   @override
   void dispose() {
     super.dispose();
     fileNameController.dispose();
-    titleTextController.dispose();
-    fnameController.dispose();
-    lnameController.dispose();
-    accessController.dispose();
     signtureController.dispose();
     userPicFile = null;
     newSelectedSignaturePic = null;
@@ -184,17 +172,16 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
-        return MihSingleChildScroll(
-          child: Padding(
-            padding:
-                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+        return Stack(
+          children: [
+            MihSingleChildScroll(
+              child: Padding(
+                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
+                        "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
                     : EdgeInsets.symmetric(horizontal: width * 0.075),
-            child: Column(
-              children: [
-                MihForm(
-                  formKey: _formKey,
-                  formFields: [
+                child: Column(
+                  children: [
                     Center(
                       child: MihCircleAvatar(
                         imageFile: mzansiProfileProvider.userProfilePicture,
@@ -211,90 +198,8 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                         onChange: (_) {},
                       ),
                     ),
-                    Visibility(
-                      visible: false,
-                      child: MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: fileNameController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        readOnly: true,
-                        hintText: "Selected File Name",
-                      ),
-                    ),
                     const SizedBox(height: 20),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: titleTextController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: false,
-                      hintText: "Title",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: fnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: true,
-                      hintText: "First Name",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: lnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      readOnly: true,
-                      hintText: "Surname",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: accessController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Access Level",
-                      readOnly: true,
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
+                    buildEmployeeInfoCard(mzansiProfileProvider),
                     const SizedBox(height: 10),
                     Container(
                       width: 300,
@@ -308,55 +213,50 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                       ),
                     ),
                     Center(
-                      child: MihImageDisplay(
-                        imageFile: newSelectedSignaturePic != null
-                            ? MemoryImage(newSelectedSignaturePic!.bytes!)
-                            : mzansiProfileProvider.businessUserSignature,
-                        width: 300,
-                        height: 200,
-                        editable: true,
-                        fileNameController: signtureController,
-                        userSelectedfile: newSelectedSignaturePic,
-                        onChange: (selectedFile) {
-                          setState(() {
-                            newSelectedSignaturePic = selectedFile;
-                          });
-                        },
-                      ),
+                      child: mzansiProfileProvider.hideBusinessUserDetails
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(300 * 0.1),
+                              child: ImageFiltered(
+                                imageFilter: ImageFilter.blur(
+                                    sigmaX: 15.0, sigmaY: 15.0),
+                                child: MihImageDisplay(
+                                  key: UniqueKey(),
+                                  imageFile: mzansiProfileProvider
+                                      .businessUserSignature,
+                                  width: 300,
+                                  height: 200,
+                                  editable: false,
+                                  fileNameController: signtureController,
+                                  userSelectedfile: newSelectedSignaturePic,
+                                  onChange: (selectedFile) {},
+                                ),
+                              ),
+                            )
+                          : MihImageDisplay(
+                              key: UniqueKey(),
+                              imageFile:
+                                  mzansiProfileProvider.businessUserSignature,
+                              width: 300,
+                              height: 200,
+                              editable: false,
+                              fileNameController: signtureController,
+                              userSelectedfile: newSelectedSignaturePic,
+                              onChange: (selectedFile) {},
+                            ),
                     ),
-                    const SizedBox(height: 10),
-                    Visibility(
-                      visible: false,
-                      child: MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: fileNameController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        readOnly: true,
-                        hintText: "Selected Signature File",
-                      ),
-                    ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                     Center(
                       child: MihButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            submitForm(mzansiProfileProvider);
-                          } else {
-                            MihAlertServices().inputErrorAlert(context);
-                          }
+                          editBizUserProfileWindow(
+                              mzansiProfileProvider, width);
                         },
                         buttonColor: MihColors.getGreenColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         width: 300,
                         child: Text(
-                          "Update",
+                          "Edit Profile",
                           style: TextStyle(
                             color: MihColors.getPrimaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
@@ -367,12 +267,35 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              right: 5,
+              top: 5,
+              child: MihButton(
+                width: 40,
+                height: 40,
+                onPressed: () {
+                  mzansiProfileProvider.setHideBusinessUserDetails(
+                      !mzansiProfileProvider.hideBusinessUserDetails);
+                },
+                buttonColor: mzansiProfileProvider.hideBusinessUserDetails
+                    ? MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")
+                    : MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                child: Icon(
+                  mzansiProfileProvider.hideBusinessUserDetails
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
