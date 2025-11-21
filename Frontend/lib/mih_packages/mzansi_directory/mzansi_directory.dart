@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
@@ -37,15 +36,11 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    MzansiDirectoryProvider directoryProvider =
-        context.read<MzansiDirectoryProvider>();
     await MihDataHelperServices().loadUserDataOnly(
       mzansiProfileProvider,
     );
-    MIHLocationAPI().getGPSPosition(context).then((position) {
-      directoryProvider.setUserPosition(position);
-    });
     await getFavouriteBusinesses();
+    initialiseGPSLocation();
     setState(() {
       _isLoadingInitialData = false;
     });
@@ -54,9 +49,8 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   Future<void> initialiseGPSLocation() async {
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    MIHLocationAPI().getGPSPosition(context).then((position) {
-      directoryProvider.setUserPosition(position);
-    });
+    Position? userPos = await MIHLocationAPI().getGPSPosition(context);
+    directoryProvider.setUserPosition(userPos);
   }
 
   Future<void> getFavouriteBusinesses() async {
@@ -76,7 +70,6 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
         favBus.add(business!);
       });
     }
-    KenLogger.success(favBus);
     directoryProvider.setFavouriteBusinesses(businesses: favBus);
   }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
@@ -196,7 +195,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                         ),
                       );
                     }
-                    KenLogger.success(filteredBusinesses);
+                    // KenLogger.success(filteredBusinesses);
                     return BuildFavouriteBusinessesList(
                       favouriteBusinesses: filteredBusinesses,
                     );
