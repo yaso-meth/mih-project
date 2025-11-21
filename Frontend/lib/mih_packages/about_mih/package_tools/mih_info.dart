@@ -794,29 +794,9 @@ class _MihInfoState extends State<MihInfo> {
                   fontSize: 15,
                 ),
               ),
-              // ===================== Divider
-              // Padding(
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: 10.0,
-              //     horizontal: 25,
-              //   ),
-              //   child: Divider(
-              //     thickness: 1,
-              //     color: MihColors.getGreyColor(
-              //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              //   ),
-              // ),
               const SizedBox(
                 height: 10,
               ),
-              // Text(
-              //   "The MIH Community",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //     fontSize: 22,
-              //   ),
-              // ),
               Wrap(
                 alignment: WrapAlignment.spaceAround,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -835,7 +815,98 @@ class _MihInfoState extends State<MihInfo> {
                   fontSize: 22,
                 ),
               ),
-              // ===================== Divider
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  MihButton(
+                    onPressed: () {
+                      MihInstallServices().installMihTrigger(context);
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: getInstallButtonText(),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      launchSocialUrl(
+                        Uri.parse(
+                          "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                        ),
+                      );
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.youtube,
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "MIH Beginners Guide",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      launchSocialUrl(
+                        Uri.parse(
+                          "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+                        ),
+                      );
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.patreon,
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "Support Our Journey",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              // // ===================== Divider
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 10.0,
@@ -847,9 +918,6 @@ class _MihInfoState extends State<MihInfo> {
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Wrap(
@@ -867,93 +935,6 @@ class _MihInfoState extends State<MihInfo> {
               const SizedBox(
                 height: 25,
               ),
-              Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    MihButton(
-                      onPressed: () {
-                        MihInstallServices().installMihTrigger(context);
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: getInstallButtonText(),
-                    ),
-                    MihButton(
-                      onPressed: () {
-                        launchSocialUrl(
-                          Uri.parse(
-                            "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                          ),
-                        );
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.youtube,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "MIH Beginners Guide",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MihButton(
-                      onPressed: () {
-                        launchSocialUrl(
-                          Uri.parse(
-                            "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
-                          ),
-                        );
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.patreon,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "Support Our Journey",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
               const SizedBox(
                 height: 10,
               ),
