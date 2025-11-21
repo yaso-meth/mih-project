@@ -736,6 +736,71 @@ class MihAlertServices {
     );
   }
 
+  void warningAdvancedAlert(
+    String title,
+    String message,
+    List<Widget> actions,
+    BuildContext context,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          backgroundColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          windowBody: MihSingleChildScroll(
+            child: Column(
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 150,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+                Center(
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Center(
+                  child: Wrap(
+                    spacing: 10.0,
+                    runSpacing: 10.0,
+                    alignment: WrapAlignment.center,
+                    children: actions,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void deleteConfirmationAlert(
     String message,
     void Function()? onpressed,
@@ -968,7 +1033,7 @@ class MihAlertServices {
                     alignment: WrapAlignment.center,
                     children: actions,
                   ),
-                )
+                ),
               ],
             ),
           ),
