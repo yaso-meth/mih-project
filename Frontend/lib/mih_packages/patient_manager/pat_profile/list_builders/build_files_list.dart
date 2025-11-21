@@ -228,6 +228,13 @@ class _BuildFilesListState extends State<BuildFilesList> {
           color: MihColors.getRedColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
+      case ("jpeg"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
       case ("jpg"):
         return Icon(
           FontAwesomeIcons.image,
