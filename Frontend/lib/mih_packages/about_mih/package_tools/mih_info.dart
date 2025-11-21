@@ -351,9 +351,8 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.youtube,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
         ),
       ),
       iconSize: 200,
@@ -371,7 +370,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -391,7 +390,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.twitch,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -411,7 +410,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.threads,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -431,7 +430,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.whatsapp,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -451,7 +450,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.instagram,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -472,7 +471,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.xTwitter,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -492,7 +491,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.linkedin,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -512,7 +511,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -532,7 +531,7 @@ class _MihInfoState extends State<MihInfo> {
       appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.reddit,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
@@ -553,7 +552,7 @@ class _MihInfoState extends State<MihInfo> {
         child: Text(
           "KICK",
           style: TextStyle(
-            color: MihColors.getPrimaryColor(
+            color: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             fontWeight: FontWeight.bold,
             fontSize: 100,
@@ -565,7 +564,7 @@ class _MihInfoState extends State<MihInfo> {
         //   size: 200,
         // ),
       ),
-      iconSize: 200,
+      iconSize: 100,
       primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       secondaryColor: MihColors.getPrimaryColor(
