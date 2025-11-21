@@ -19,8 +19,9 @@ class MihAiChat extends StatefulWidget {
   State<MihAiChat> createState() => _MihAiChatState();
 }
 
-class _MihAiChatState extends State<MihAiChat> {
+class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   final FlutterTts _flutterTts = FlutterTts();
+  bool _isKeyboardVisible = false;
 
   Widget noMessagescDisplay() {
     return Center(
@@ -191,12 +192,23 @@ class _MihAiChatState extends State<MihAiChat> {
     MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
     initTts(aiProvider);
     initStartQuestion();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     _flutterTts.stop();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding
+        .instance.platformDispatcher.views.first.viewInsets.bottom;
+    setState(() {
+      _isKeyboardVisible = bottomInset > 0;
+    });
   }
 
   @override
@@ -285,7 +297,7 @@ class _MihAiChatState extends State<MihAiChat> {
                 ],
               ),
             ),
-            if (!hasHistory) noMessagescDisplay(),
+            if (!hasHistory && !_isKeyboardVisible) noMessagescDisplay(),
           ],
         );
       },
