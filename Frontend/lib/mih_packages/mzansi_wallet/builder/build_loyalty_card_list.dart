@@ -224,7 +224,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
 
   void addToFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    MihAlertServices().successAdvancedAlert(
+    MihAlertServices().warningAdvancedAlert(
       // "Card Added to Favourites",
       "Add Card to Favourites?",
       "Would you like to add this card to your favourites for quick access?",
@@ -278,13 +278,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               MihAlertServices().internetConnectionAlert(context);
             }
           },
-          buttonColor: MihColors.getPrimaryColor(
+          buttonColor: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           width: 300,
           child: Text(
             "Add",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -298,7 +298,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
 
   void removeFromFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    MihAlertServices().errorAdvancedAlert(
+    MihAlertServices().warningAdvancedAlert(
       "Remove From Favourites?",
       "Are you sure you want to remove this card from your favourites?",
       [
@@ -333,13 +333,13 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               MihAlertServices().internetConnectionAlert(context);
             }
           },
-          buttonColor: MihColors.getPrimaryColor(
+          buttonColor: MihColors.getRedColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           width: 300,
           child: Text(
             "Remove",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -350,7 +350,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
           onPressed: () async {
             context.pop();
           },
-          buttonColor: MihColors.getSecondaryColor(
+          buttonColor: MihColors.getGreenColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           width: 300,
           child: Text(

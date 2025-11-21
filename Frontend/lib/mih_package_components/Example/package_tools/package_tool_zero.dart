@@ -145,6 +145,68 @@ class _PackageToolZeroState extends State<PackageToolZero> {
           MihButton(
             width: 300,
             onPressed: () {
+              MihAlertServices().warningAdvancedAlert(
+                "warning!",
+                "This is the advanced alert message",
+                [
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    buttonColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    elevation: 10,
+                    child: Text(
+                      "Okay",
+                      style: TextStyle(
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    buttonColor: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    elevation: 10,
+                    child: Text(
+                      "Dismiss",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+                context,
+              );
+            },
+            buttonColor: MihColors.getSecondaryColor(
+                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            child: Text(
+              "Advanced Warning Alert",
+              style: TextStyle(
+                color: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          MihButton(
+            width: 300,
+            onPressed: () {
               MihAlertServices().errorBasicAlert(
                 "Error!",
                 "Thisis the basic error alert message",
