@@ -399,15 +399,15 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   MihButton(
                     onPressed: () {
                       context.pop();
-                      mihMineSweeperProvider.setToolIndex(1);
+                      showStartGameWindow(mihMineSweeperProvider);
                     },
-                    buttonColor: MihColors.getGoldColor(
+                    buttonColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
-                      "Leader Board",
+                      "New Game",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
+                        color: MihColors.getSecondaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         fontSize: 20,
@@ -436,15 +436,15 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   MihButton(
                     onPressed: () {
                       context.pop();
-                      showStartGameWindow(mihMineSweeperProvider);
+                      mihMineSweeperProvider.setToolIndex(1);
                     },
-                    buttonColor: MihColors.getPrimaryColor(
+                    buttonColor: MihColors.getGoldColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
-                      "New Game",
+                      "Leader Board",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
+                        color: MihColors.getPrimaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         fontSize: 20,
@@ -529,17 +529,16 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 children: [
                   MihButton(
                     onPressed: () {
-                      mihMineSweeperProvider.setLeaderboard(leaderboard: null);
                       context.pop();
-                      mihMineSweeperProvider.setToolIndex(1);
+                      showStartGameWindow(mihMineSweeperProvider);
                     },
-                    buttonColor: MihColors.getGoldColor(
+                    buttonColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
-                      "Leader Board",
+                      "New Game",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
+                        color: MihColors.getSecondaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         fontSize: 20,
@@ -567,16 +566,17 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   ),
                   MihButton(
                     onPressed: () {
+                      mihMineSweeperProvider.setLeaderboard(leaderboard: null);
                       context.pop();
-                      showStartGameWindow(mihMineSweeperProvider);
+                      mihMineSweeperProvider.setToolIndex(1);
                     },
-                    buttonColor: MihColors.getPrimaryColor(
+                    buttonColor: MihColors.getGoldColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     width: 300,
                     child: Text(
-                      "New Game",
+                      "Leader Board",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
+                        color: MihColors.getPrimaryColor(
                             MzansiInnovationHub.of(context)!.theme.mode ==
                                 "Dark"),
                         fontSize: 20,
