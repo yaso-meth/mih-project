@@ -426,7 +426,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   onTap: () {
                     shareMIHLink(
                       context,
-                      "Check out ${business.Name} on the MIH app",
+                      "Check out ${business.Name} on the MIH app's Mzansi Directory",
                       "$qrCodedata${business.business_id}",
                     );
                   },
