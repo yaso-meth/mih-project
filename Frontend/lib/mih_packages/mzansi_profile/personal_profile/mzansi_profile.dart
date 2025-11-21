@@ -28,7 +28,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    await MihDataHelperServices().loadUserDataOnly(
+    await MihDataHelperServices().loadUserDataWithBusinessesData(
       mzansiProfileProvider,
     );
     setState(() {
