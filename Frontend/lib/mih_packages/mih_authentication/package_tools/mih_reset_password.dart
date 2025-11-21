@@ -115,7 +115,7 @@ class _MihResetPasswordState extends State<MihResetPassword> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Token: ${widget.token}"), // For testing purposes only
+                // Text("Token: ${widget.token}"), // For testing purposes only
                 //logo
                 Icon(
                   Icons.lock,
