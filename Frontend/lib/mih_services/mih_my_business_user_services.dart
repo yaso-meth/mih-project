@@ -56,8 +56,8 @@ class MihMyBusinessUserServices {
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
         "app_id": app_id,
-        "signature": signatureFilename,
-        "sig_path": sigPath,
+        "signature": signatureFilename.replaceAll(RegExp(r' '), '-'),
+        "sig_path": sigPath.replaceAll(RegExp(r' '), '-'),
         "title": title,
         "access": access,
       }),
@@ -100,8 +100,8 @@ class MihMyBusinessUserServices {
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
         "app_id": app_id,
-        "signature": signatureFileName,
-        "sig_path": filePath,
+        "signature": signatureFileName.replaceAll(RegExp(r' '), '-'),
+        "sig_path": filePath.replaceAll(RegExp(r' '), '-'),
         "title": bUserTitle,
         "access": bUserAccess,
       }),

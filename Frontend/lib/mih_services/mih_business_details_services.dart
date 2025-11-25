@@ -148,7 +148,7 @@ class MihBusinessDetailsServices {
         "Name": busineName,
         "type": businessType,
         "registration_no": businessRegistrationNo,
-        "logo_name": businessLogoFilename,
+        "logo_name": businessLogoFilename.replaceAll(RegExp(r' '), '-'),
         "logo_path": "",
         "contact_no": businessPhoneNumber,
         "bus_email": businessEmail,
@@ -230,7 +230,8 @@ class MihBusinessDetailsServices {
         return const Mihloadingcircle();
       },
     );
-    var filePath = "$business_id/business_files/$business_logo_name";
+    var filePath =
+        "$business_id/business_files/${business_logo_name.replaceAll(RegExp(r' '), '-')}";
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/update/v2/"),
       headers: <String, String>{
@@ -241,7 +242,7 @@ class MihBusinessDetailsServices {
         "Name": business_name,
         "type": business_type,
         "registration_no": business_registration_no,
-        "logo_name": business_logo_name,
+        "logo_name": business_logo_name.replaceAll(RegExp(r' '), '-'),
         "logo_path": filePath,
         "contact_no": business_phone_number,
         "bus_email": business_email,
@@ -311,8 +312,9 @@ class MihBusinessDetailsServices {
         "Name": business_name,
         "type": business_type,
         "registration_no": business_registration_no,
-        "logo_name": business_logo_name,
-        "logo_path": "$business_id/business_files/$business_logo_name",
+        "logo_name": business_logo_name.replaceAll(RegExp(r' '), '-'),
+        "logo_path":
+            "$business_id/business_files/${business_logo_name.replaceAll(RegExp(r' '), '-')}",
         "contact_no": business_phone_number,
         "bus_email": business_email,
         "gps_location": business_location,
