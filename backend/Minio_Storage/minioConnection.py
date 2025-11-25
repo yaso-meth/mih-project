@@ -21,5 +21,5 @@ def minioConnect(env):
         # endpoint="minio.mzansi-innovation-hub.co.za",
         access_key=minioAccess,
         secret_key=minioSecret,
-        secure=True
+        secure=False
         )
