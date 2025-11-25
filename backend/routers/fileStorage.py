@@ -117,9 +117,9 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         # uploudFile(app_id, file.filename, extension[1], content)
         
         client = Minio_Storage.minioConnection.minioConnect(env)
-        buckets = client.list_buckets()
-        print("Connected to MinIO successfully!")
-        print("Available buckets:", [bucket.name for bucket in buckets]) 
+        # buckets = client.list_buckets()
+        # print("Connected to MinIO successfully!")
+        # print("Available buckets:", [bucket.name for bucket in buckets]) 
         miniourl = client.presigned_get_object(
             bucket_name="mih",
             object_name=path,
@@ -170,7 +170,10 @@ async def delete_File_of_user(requestItem: minioDeleteRequest, session: SessionC
         # uploudFile(app_id, file.filename, extension[1], content)
         client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     
-        minioError = client.remove_object("mih", path)
+        minioError = client.remove_object(
+            bucket_name="mih", 
+            object_name=path
+            )
     except Exception as error:
         raise HTTPException(status_code=404, detail=minioError)
         # return {"message": error}
@@ -202,7 +205,7 @@ def uploudFile(app_id, env, folder, fileName, extension, content):
     client = Minio_Storage.minioConnection.minioConnect(env)
     found = client.bucket_exists(bucket_name="mih")
     if not found:
-        client.make_bucket("mih")
+        client.make_bucket(bucket_name="mih")
     else:
         print("Bucket already exists")
     fname = app_id + "/" + folder + "/" + fileName
@@ -220,7 +223,7 @@ def uploudMedCert(requestItem: medCertUploud):
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists(bucket_name="mih")
     if not found:
-        client.make_bucket("mih")
+        client.make_bucket(bucket_name="mih")
     else:
         print("Bucket already exists")
     fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
@@ -297,7 +300,7 @@ def uploudPerscription(requestItem: perscriptionList):
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists(bucket_name="mih")
     if not found:
-        client.make_bucket("mih")
+        client.make_bucket(bucket_name="mih")
     else:
         print("Bucket already exists")
     fileName = f"{requestItem.app_id}/patient_files/{requestItem.fileName}"
@@ -403,7 +406,7 @@ def uploudClaimStatement(requestItem: claimStatementUploud):
     today = datetime.today().strftime('%Y-%m-%d')
     found = client.bucket_exists(bucket_name="mih")
     if not found:
-        client.make_bucket("mih")
+        client.make_bucket(bucket_name="mih")
     else:
         print("Bucket already exists")
     fileName = f"{requestItem.patient_app_id}/claims-statements/{requestItem.fileName}"
