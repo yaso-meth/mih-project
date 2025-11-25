@@ -63,7 +63,17 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
           imagePreview != null
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(widget.width * 0.1),
-                  child: Image(image: imagePreview!),
+                  child: Container(
+                    // width: widget.width,
+                    height: widget.height,
+                    decoration: BoxDecoration(
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      borderRadius: BorderRadius.circular(widget.width * 0.1),
+                    ),
+                    child: Image(image: imagePreview!),
+                  ),
                 )
               : Container(
                   width: widget.width,
