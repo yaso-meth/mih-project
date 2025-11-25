@@ -22,6 +22,7 @@ from supertokens_python.recipe.session import SessionContainer
 from fastapi import Depends
 
 import Minio_Storage.minioConnection
+from datetime import timedelta
 
 
 router = APIRouter()
@@ -119,7 +120,7 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         buckets = client.list_buckets()
         print("Connected to MinIO successfully!")
         print("Available buckets:", [bucket.name for bucket in buckets]) 
-        miniourl = client.presigned_get_object("mih", path)
+        miniourl = client.presigned_get_object("mih", path,expires=timedelta(minutes=60))
         print("Generated presigned URL:", miniourl)
         # if(env == "Dev"):
         #     miniourl.replace("minio", "localhost")
