@@ -115,7 +115,9 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         # uploudFile(app_id, file.filename, extension[1], content)
         
         client = Minio_Storage.minioConnection.minioConnect(env)
-    
+        buckets = client.list_buckets()
+        print("Connected to MinIO successfully!")
+        print("Available buckets:", [bucket.name for bucket in buckets]) 
         miniourl = client.presigned_get_object("mih", path)
         # if(env == "Dev"):
         #     miniourl.replace("minio", "localhost")
