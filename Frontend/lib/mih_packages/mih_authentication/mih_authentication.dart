@@ -23,6 +23,7 @@ class _MihAuthenticationState extends State<MihAuthentication> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: getToolTitle(),
       selectedbodyIndex: context.watch<MihAuthenticationProvider>().toolIndex,
       onIndexChange: (newIndex) {
         context.read<MihAuthenticationProvider>().setToolIndex(newIndex);
@@ -33,6 +34,14 @@ class _MihAuthenticationState extends State<MihAuthentication> {
   List<Widget> getToolBody() {
     List<Widget> toolBodies = [MihSignIn(), MihRegister()];
     return toolBodies;
+  }
+
+  List<String> getToolTitle() {
+    List<String> toolTitles = [
+      "Sign In",
+      "Create an Account",
+    ];
+    return toolTitles;
   }
 
   MihPackageTools getTools() {

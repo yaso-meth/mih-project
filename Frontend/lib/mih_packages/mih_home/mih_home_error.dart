@@ -27,6 +27,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
     return MihPackage(
       appActionButton: getErrorAction(),
       appTools: getErrorTools(),
+      appToolTitles: ["Connection Error"],
       appBody: getErrorToolBody(widget.errorMessage),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {

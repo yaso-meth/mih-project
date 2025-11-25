@@ -20,6 +20,7 @@ class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
+      appToolTitles: ["Forgot Password"],
       appBody: getToolBody(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {

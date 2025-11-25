@@ -12,7 +12,7 @@ class MihPackage extends StatefulWidget {
   final Widget appActionButton;
   final MihPackageTools appTools;
   final List<Widget> appBody;
-  final List<String>? appToolTitles;
+  final List<String> appToolTitles;
   final MIHAppDrawer? actionDrawer;
   int selectedbodyIndex;
   final Function(int) onIndexChange;
@@ -21,7 +21,7 @@ class MihPackage extends StatefulWidget {
     required this.appActionButton,
     required this.appTools,
     required this.appBody,
-    this.appToolTitles,
+    required this.appToolTitles,
     this.actionDrawer,
     required this.selectedbodyIndex,
     required this.onIndexChange,
@@ -173,10 +173,7 @@ class _MihPackageState extends State<MihPackage>
                           // color: Colors.black,
                           child: FittedBox(
                             child: Text(
-                              widget.appToolTitles != null
-                                  ? widget
-                                      .appToolTitles![widget.selectedbodyIndex]
-                                  : "",
+                              widget.appToolTitles[widget.selectedbodyIndex],
                               style: const TextStyle(
                                 fontSize: 23,
                                 fontWeight: FontWeight.w600,

@@ -26,6 +26,7 @@ class _MihAuthPasswordResetState extends State<MihAuthPasswordReset> {
       appActionButton: getAction(),
       appTools: getTools(),
       appBody: getToolBody(),
+      appToolTitles: ["Reset Password"],
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {
         setState(() {

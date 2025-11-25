@@ -26,6 +26,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
     return MihPackage(
       appActionButton: getErrorAction(),
       appTools: getErrorTools(),
+      appToolTitles: ["Invalid Path"],
       appBody: getErrorToolBody(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {

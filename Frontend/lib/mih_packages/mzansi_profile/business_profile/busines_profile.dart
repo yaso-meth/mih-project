@@ -62,6 +62,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
         return MihPackage(
           appActionButton: getAction(),
           appTools: getTools(),
+          appToolTitles: getToolTitle(),
           appBody: getToolBody(),
           selectedbodyIndex: mzansiProfileProvider.businessIndex,
           onIndexChange: (newIndex) {
