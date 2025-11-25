@@ -153,7 +153,7 @@ async def upload_File_to_user(file: UploadFile = File(...), app_id: str= Form(..
     try:
         uploudFile(app_id, env, folder, file.filename.replace(" ", "-"), extension[1], content)
     except Exception as error:
-        raise HTTPException(status_code=404, detail=error)
+        raise HTTPException(status_code=404, detail=str(error))
     return {"message": f"Successfully Uploaded {file.filename}"}
     
     # return {
