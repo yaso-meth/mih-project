@@ -217,7 +217,7 @@ def uploudMedCert(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
-    found = client.bucket_exists("mih")
+    found = client.bucket_exists(bucket_name="mih")
     if not found:
         client.make_bucket("mih")
     else:
