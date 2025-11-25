@@ -17,8 +17,8 @@ def minioConnect(env):
         )
     else:
         return Minio(
-        endpoint="minio:9000",
-        # endpoint="minio.mzansi-innovation-hub.co.za",
+        # endpoint="minio:9000",
+        endpoint="minio.mzansi-innovation-hub.co.za",
         access_key=minioAccess,
         secret_key=minioSecret,
         secure=False
