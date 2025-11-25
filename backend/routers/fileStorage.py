@@ -200,7 +200,7 @@ async def upload_perscription_to_user(requestItem: claimStatementUploud, session
 
 def uploudFile(app_id, env, folder, fileName, extension, content):
     client = Minio_Storage.minioConnection.minioConnect(env)
-    found = client.bucket_exists("mih")
+    found = client.bucket_exists(bucket_name="mih")
     if not found:
         client.make_bucket("mih")
     else:
@@ -217,7 +217,7 @@ def uploudMedCert(requestItem: medCertUploud):
     client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     generateMedCertPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
-    found = client.bucket_exists("mih")
+    found = client.bucket_exists(bucket_name="mih")
     if not found:
         client.make_bucket("mih")
     else:
@@ -294,7 +294,7 @@ def uploudPerscription(requestItem: perscriptionList):
     client = Minio_Storage.minioConnection.minioConnect(requestItem.env)
     generatePerscriptionPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
-    found = client.bucket_exists("mih")
+    found = client.bucket_exists(bucket_name="mih")
     if not found:
         client.make_bucket("mih")
     else:
@@ -400,7 +400,7 @@ def uploudClaimStatement(requestItem: claimStatementUploud):
     
     generateClaimStatementPDF(requestItem)
     today = datetime.today().strftime('%Y-%m-%d')
-    found = client.bucket_exists("mih")
+    found = client.bucket_exists(bucket_name="mih")
     if not found:
         client.make_bucket("mih")
     else:
