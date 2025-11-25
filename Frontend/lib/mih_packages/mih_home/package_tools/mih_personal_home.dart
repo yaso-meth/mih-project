@@ -286,6 +286,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                     hintColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onPrefixIconTap: () {
+                      mzansiAiProvider.ollamaProvider.resetChat();
                       if (searchController.text.isNotEmpty) {
                         mzansiAiProvider
                             .setStartUpQuestion(searchController.text);

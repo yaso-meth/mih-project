@@ -227,6 +227,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                     hintColor: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                     onPrefixIconTap: () {
+                      mzansiAiProvider.ollamaProvider.resetChat();
                       if (searchController.text.isNotEmpty) {
                         mzansiAiProvider
                             .setStartUpQuestion(searchController.text);
