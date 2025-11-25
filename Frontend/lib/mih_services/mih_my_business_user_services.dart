@@ -47,6 +47,7 @@ class MihMyBusinessUserServices {
         return const Mihloadingcircle();
       },
     );
+    String filename = signatureFilename.replaceAll(RegExp(r' '), '-');
     String sigPath = "$business_id/business_files/$signatureFilename";
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/insert/"),
@@ -56,7 +57,7 @@ class MihMyBusinessUserServices {
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
         "app_id": app_id,
-        "signature": signatureFilename.replaceAll(RegExp(r' '), '-'),
+        "signature": filename,
         "sig_path": sigPath.replaceAll(RegExp(r' '), '-'),
         "title": title,
         "access": access,
@@ -66,7 +67,7 @@ class MihMyBusinessUserServices {
     if (response.statusCode == 201) {
       provider.setBusinessUser(
         newBusinessUser: BusinessUser(
-            0, business_id, app_id, signatureFilename, sigPath, title, access),
+            0, business_id, app_id, filename, sigPath, title, access),
       );
       return 201;
     } else {
@@ -91,6 +92,7 @@ class MihMyBusinessUserServices {
         return const Mihloadingcircle();
       },
     );
+    var filename = signatureFileName.replaceAll(RegExp(r' '), '-');
     var filePath = "$app_id/business_files/$signatureFileName";
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
@@ -100,7 +102,7 @@ class MihMyBusinessUserServices {
       body: jsonEncode(<String, dynamic>{
         "business_id": business_id,
         "app_id": app_id,
-        "signature": signatureFileName.replaceAll(RegExp(r' '), '-'),
+        "signature": filename,
         "sig_path": filePath.replaceAll(RegExp(r' '), '-'),
         "title": bUserTitle,
         "access": bUserAccess,
@@ -113,7 +115,7 @@ class MihMyBusinessUserServices {
           provider.businessUser!.idbusiness_users,
           business_id,
           app_id,
-          signatureFileName,
+          filename,
           filePath,
           bUserTitle,
           bUserAccess,

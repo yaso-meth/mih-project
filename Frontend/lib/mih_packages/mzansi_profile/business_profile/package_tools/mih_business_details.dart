@@ -69,6 +69,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                   children: [
                     Center(
                       child: MihCircleAvatar(
+                        key: UniqueKey(),
                         imageFile: mzansiProfileProvider.businessProfilePicture,
                         width: 150,
                         editable: false,
