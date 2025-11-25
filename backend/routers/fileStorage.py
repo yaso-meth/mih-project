@@ -125,7 +125,7 @@ async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str
         # temp = temp.decode('utf-8')
         #print(miniourl)
     except Exception as error:
-        raise HTTPException(status_code=404, detail=miniourl)
+        raise HTTPException(status_code=404, detail=f"MinIO connection failed: {str(error)}")
         # return {"message": error}
     if(env == "Dev"):
         return {
