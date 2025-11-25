@@ -206,9 +206,10 @@ def uploudFile(app_id, env, folder, fileName, extension, content):
     else:
         print("Bucket already exists")
     fname = app_id + "/" + folder + "/" + fileName
-    client.put_object("mih", 
-                    fname, 
-                    content, 
+    client.put_object(
+                    bucket_name="mih", 
+                    object_name=fname, 
+                    data=content, 
                     length=-1,
                     part_size=10*1024*1024,
                     content_type=f"application/{extension}")
