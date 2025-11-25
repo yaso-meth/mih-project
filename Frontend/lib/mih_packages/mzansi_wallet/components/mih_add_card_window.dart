@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -34,68 +32,11 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
   final TextEditingController _nicknameController = TextEditingController();
   final ValueNotifier<String> _shopName = ValueNotifier("");
 
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
   void successPopUp(String title, String message, int packageIndex) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+    MihAlertServices().successBasicAlert(
+      title,
+      message,
+      context,
     );
   }
 
@@ -294,13 +235,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (_shopController.text == "") {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const MIHErrorMessage(
-                                      errorType: "Input Error");
-                                },
-                              );
+                              MihAlertServices().inputErrorAlert(context);
                             } else {
                               int statusCode = await MIHMzansiWalletApis
                                   .addLoyaltyCardAPICall(
@@ -323,11 +258,12 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                                   0,
                                 );
                               } else {
-                                internetConnectionPopUp();
+                                MihAlertServices()
+                                    .internetConnectionAlert(context);
                               }
                             }
                           } else {
-                            MihAlertServices().formNotFilledCompletely(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

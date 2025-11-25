@@ -1,7 +1,7 @@
 name: mzansi_innovation_hub
 description: ""
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.3+112
+version: 1.2.4+117
 # version: 1.1.1+97 #--- Updated version for upgrader package testing
 
 environment:
@@ -74,27 +74,27 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/mih_components/mih_package_components/assets/images/
-    - lib/mih_components/mih_package_components/assets/fonts/
-    - lib/mih_components/mih_package_components/assets/images/loyalty_cards/
-    - lib/mih_components/mih_package_components/assets/images/loyalty_cards/mini/
-    - lib/mih_components/mih_package_components/assets/images/app_icon/
-    - lib/mih_components/mih_package_components/assets/images/splash_screen/
+    - lib/mih_package_components/assets/images/
+    - lib/mih_package_components/assets/fonts/
+    - lib/mih_package_components/assets/images/loyalty_cards/
+    - lib/mih_package_components/assets/images/loyalty_cards/mini/
+    - lib/mih_package_components/assets/images/app_icon/
+    - lib/mih_package_components/assets/images/splash_screen/
 
   fonts:
     - family: MihIcons
       fonts:
-        - asset: lib/mih_components/mih_package_components/assets/fonts/Mih_Icons.ttf
+        - asset: lib/mih_package_components/assets/fonts/Mih_Icons.ttf
         
 flutter_native_splash:
   color: "#3A4454"
-  image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash.png
-  branding: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
-  image_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash_temp.gif
-  branding_web: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash_temp.gif
+  image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash.png
+  branding: lib/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
+  image_web: lib/mih_package_components/assets/images/splash_screen/mih_image_splash_temp.gif
+  branding_web: lib/mih_package_components/assets/images/splash_screen/mih_branding_splash_temp.gif
   branding_mode: bottom
   branding_bottom_padding: 24
   android_12:
     color: "#3A4454"
-    image: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_image_splash_android.png
-    branding: lib/mih_components/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
+    image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash_android.png
+    branding: lib/mih_package_components/assets/images/splash_screen/mih_branding_splash.png

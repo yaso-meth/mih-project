@@ -1,10 +1,10 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_employee_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

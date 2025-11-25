@@ -3,16 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -78,9 +76,9 @@ class _MihRegisterState extends State<MihRegister> {
   Future<void> signUserUp() async {
     context.read<MzansiProfileProvider>().reset();
     if (!validEmail()) {
-      emailError();
+      MihAlertServices().invalidEmailAlert(context);
     } else if (passwordController.text != confirmPasswordController.text) {
-      passwordError();
+      MihAlertServices().passwordMatchAlert(context);
     } else {
       //var _backgroundColor = Colors.transparent;
       showDialog(
@@ -100,7 +98,7 @@ class _MihRegisterState extends State<MihRegister> {
           var userExists = jsonDecode(response.body);
           if (userExists["exists"]) {
             Navigator.of(context).pop();
-            signUpError();
+            MihAlertServices().emailExistsAlert(context);
           } else {
             var response2 = await http.post(
               Uri.parse("$baseAPI/auth/signup"),
@@ -127,10 +125,10 @@ class _MihRegisterState extends State<MihRegister> {
                 //print("Here1");
               } else if (userCreated["status"] == "FIELD_ERROR") {
                 Navigator.of(context).pop();
-                passwordReqError();
+                MihAlertServices().passwordRequirementAlert(context);
               } else {
                 Navigator.of(context).pop();
-                internetConnectionPopUp();
+                MihAlertServices().internetConnectionAlert(context);
               }
             }
           }
@@ -156,74 +154,29 @@ class _MihRegisterState extends State<MihRegister> {
   }
 
   void loginError(error) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.warning_amber_rounded,
-            color: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            size: 100,
-          ),
-          alertTitle: "Error While Signing Up",
-          alertBody: Text(
-            "An error occurred while signing up. Please try again later.",
+    MihAlertServices().errorAdvancedAlert(
+      "Sign Up Error",
+      "An error occurred while signing up: $error Please try again later.",
+      [
+        MihButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          buttonColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 200,
+          child: Text(
+            "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          alertColour: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
-    );
-  }
-
-  void emailError() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Invalid Email");
-      },
-    );
-  }
-
-  void signUpError() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "User Exists");
-      },
-    );
-  }
-
-  void passwordError() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Password Match");
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void passwordReqError() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Password Requirements");
-      },
+        ),
+      ],
+      context,
     );
   }
 
@@ -246,7 +199,7 @@ class _MihRegisterState extends State<MihRegister> {
           if (_formKey.currentState!.validate()) {
             submitFormInput();
           } else {
-            MihAlertServices().formNotFilledCompletely(context);
+            MihAlertServices().inputErrorAlert(context);
           }
         }
       },
@@ -348,8 +301,7 @@ class _MihRegisterState extends State<MihRegister> {
                             if (_formKey.currentState!.validate()) {
                               submitFormInput();
                             } else {
-                              MihAlertServices()
-                                  .formNotFilledCompletely(context);
+                              MihAlertServices().inputErrorAlert(context);
                             }
                           },
                           buttonColor: MihColors.getGreenColor(

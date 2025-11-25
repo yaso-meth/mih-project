@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/currency.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/currency.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calculator_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

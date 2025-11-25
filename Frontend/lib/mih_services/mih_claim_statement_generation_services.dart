@@ -1,17 +1,15 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/claim_statement_file.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-
-import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../mih_config/mih_env.dart';
 
 class MIHClaimStatementGenerationApi {
   final baseAPI = AppEnviroment.baseApiUrl;
@@ -96,12 +94,16 @@ class MIHClaimStatementGenerationApi {
         getClaimStatementFilesByPatient(patientManagerProvider);
         String message =
             "The ${data.document_type}: $fileName has been successfully generated and added to ${data.patient_full_name}'s record. You can now access and download it for their use.";
-        successPopUp(message, context);
+        MihAlertServices().successBasicAlert(
+          "Success!",
+          message,
+          context,
+        );
       } else {
-        internetConnectionPopUp(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -228,37 +230,17 @@ class MIHClaimStatementGenerationApi {
         // setState(() {});
         String message =
             "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
-        successPopUp(message, context);
+        MihAlertServices().successBasicAlert(
+          "Success!",
+          message,
+          context,
+        );
       } else {
-        internetConnectionPopUp(context);
+        MihAlertServices().internetConnectionAlert(context);
       }
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
-
-  //================== POP UPS ==========================================================================
-
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
 }
+//================== POP UPS ==========================================================================

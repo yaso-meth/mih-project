@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_forgot_password.dart';
 
 class MihAuthForgotPassword extends StatefulWidget {
@@ -20,6 +20,7 @@ class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
     return MihPackage(
       appActionButton: getAction(),
       appTools: getTools(),
+      appToolTitles: ["Forgot Password"],
       appBody: getToolBody(),
       selectedbodyIndex: _selcetedIndex,
       onIndexChange: (newValue) {

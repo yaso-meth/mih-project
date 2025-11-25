@@ -1,22 +1,21 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_icd10_code_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_radio_options.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/icd10_code.dart.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_radio_options.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/icd10_search_window.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -389,16 +388,10 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                                     AppEnviroment.getEnv(),
                                     context);
                           } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MIHErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorAlert(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(

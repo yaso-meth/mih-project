@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:redacted/redacted.dart';
 

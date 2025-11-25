@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/minesweeper_player_score.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/minesweeper_player_score.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

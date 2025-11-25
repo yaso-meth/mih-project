@@ -1,15 +1,17 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_consultation.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_documents.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_info.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
@@ -23,14 +25,30 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  bool isLoading = true;
+  bool _isLoadingInitialData = true;
 
-  Future<void> initialisePatientData() async {
+  Future<void> _loadInitialData() async {
     setState(() {
-      isLoading = true;
+      _isLoadingInitialData = true;
     });
+    MzansiProfileProvider mzansiProfileProvider =
+        context.read<MzansiProfileProvider>();
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
+    await MihDataHelperServices().loadUserDataOnly(
+      mzansiProfileProvider,
+    );
+    if (patientManagerProvider.selectedPatient == null) {
+      await MihPatientServices().getPatientDetails(
+          mzansiProfileProvider.user!.app_id, patientManagerProvider);
+    }
+    if (patientManagerProvider.selectedPatient == null) {
+      context.goNamed("patientProfileSetup");
+      return;
+    }
+    patientManagerProvider.setSelectedPatientProfilePicUrl(
+        mzansiProfileProvider.userProfilePicUrl!);
+    patientManagerProvider.setPersonalMode(mzansiProfileProvider.personalHome);
     if (patientManagerProvider.selectedPatient != null) {
       await MihPatientServices()
           .getPatientConsultationNotes(patientManagerProvider);
@@ -39,29 +57,41 @@ class _PatientProfileState extends State<PatientProfile> {
           patientManagerProvider);
     }
     setState(() {
-      isLoading = false;
+      _isLoadingInitialData = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      initialisePatientData();
-    });
+    _loadInitialData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex:
-          context.watch<PatientManagerProvider>().patientProfileIndex,
-      onIndexChange: (newValue) {
-        context.read<PatientManagerProvider>().setPatientProfileIndex(newValue);
+    return Consumer<PatientManagerProvider>(
+      builder: (BuildContext context,
+          PatientManagerProvider patientManagerProvider, Widget? child) {
+        if (_isLoadingInitialData) {
+          return Scaffold(
+            body: Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        }
+        return MihPackage(
+          appActionButton: getAction(),
+          appTools: getTools(),
+          appBody: getToolBody(),
+          appToolTitles: getToolTitle(),
+          selectedbodyIndex:
+              context.watch<PatientManagerProvider>().patientProfileIndex,
+          onIndexChange: (newValue) {
+            context
+                .read<PatientManagerProvider>()
+                .setPatientProfileIndex(newValue);
+          },
+        );
       },
     );
   }
@@ -73,7 +103,6 @@ class _PatientProfileState extends State<PatientProfile> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        patientManagerProvider.setPatientProfileIndex(0);
         if (!patientManagerProvider.personalMode) {
           context.pop();
         } else {
@@ -81,6 +110,8 @@ class _PatientProfileState extends State<PatientProfile> {
             'mihHome',
           );
         }
+        patientManagerProvider.setPatientProfileIndex(0);
+        patientManagerProvider.setHidePatientDetails(true);
         FocusScope.of(context).unfocus();
       },
     );
@@ -109,20 +140,6 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   List<Widget> getToolBody() {
-    if (isLoading) {
-      return [
-        Center(
-          child: Mihloadingcircle(),
-        ),
-      ];
-    }
-    PatientManagerProvider patientManagerProvider =
-        context.read<PatientManagerProvider>();
-    if (patientManagerProvider.selectedPatient == null) {
-      return [
-        const SizedBox(),
-      ];
-    }
     List<Widget> toolBodies = [
       PatientInfo(),
       PatientConsultation(),

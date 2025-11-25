@@ -1,18 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/about_mih_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_authentication_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_banner_ad_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calculator_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calculator_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:upgrader/upgrader.dart';
@@ -90,7 +92,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   @override
   void initState() {
     super.initState();
-    _initializeQuickActions();
+    if (!kIsWeb) {
+      _initializeQuickActions();
+    }
     theme = MihTheme();
     theme.mode = "Dark";
     theme.platform = Theme.of(context).platform;
@@ -137,6 +141,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         ),
         ChangeNotifierProvider(
           create: (context) => PatientManagerProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MihFileViewerProvider(),
         ),
       ],
       child: MaterialApp.router(

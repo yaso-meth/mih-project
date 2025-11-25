@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_business_search_resultsList.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
@@ -240,7 +240,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                                   searchPressed(
                                       profileProvider, directoryProvider);
                                 } else {
-                                  MihAlertServices().errorAlert(
+                                  MihAlertServices().errorBasicAlert(
                                     "Business Type Not Selected",
                                     "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
                                     context,

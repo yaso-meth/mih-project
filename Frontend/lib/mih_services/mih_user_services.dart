@@ -1,17 +1,15 @@
 import 'dart:convert';
-
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -73,7 +71,7 @@ class MihUserServices {
         extra: true,
       );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -99,8 +97,27 @@ class MihUserServices {
     }
   }
 
-  Future<AppUser?> getUserDetails(
+  Future<AppUser?> getMIHUserDetails(
+    String app_id,
     BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
+  Future<AppUser?> getMyUserDetails(
+    MzansiProfileProvider profileProvider,
   ) async {
     String app_id = await SuperTokens.getUserId();
     var response = await http.get(
@@ -109,13 +126,12 @@ class MihUserServices {
         "Content-Type": "application/json; charset=UTF-8"
       },
     );
-
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
-      context.read<MzansiProfileProvider>().setUser(
-            newUser: AppUser.fromJson(jsonBody),
-          );
+      profileProvider.setUser(
+        newUser: AppUser.fromJson(jsonBody),
+      );
       return AppUser.fromJson(jsonBody);
     } else {
       return null;
@@ -171,7 +187,7 @@ class MihUserServices {
               purpose,
             ),
           );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
       context.read<MzansiProfileProvider>().setUserProfilePicUrl(newProPicUrl);
       return response.statusCode;
     } else {
@@ -247,81 +263,40 @@ class MihUserServices {
       }
     } else {
       Navigator.of(context).pop(); // Pop loading dialog
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
 //================== POP UPS ==========================================================================
 
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
   static void successPopUp(String title, String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.goNamed(
-                      'mihHome',
-                      extra: true,
-                    );
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.goNamed(
+              'mihHome',
+              extra: true,
+            );
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 

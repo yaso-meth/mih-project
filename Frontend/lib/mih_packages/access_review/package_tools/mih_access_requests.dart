@@ -1,18 +1,15 @@
-import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_action.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_header.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/builder/build_business_access_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,38 +70,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
         selectedDropdown = filterController.text;
       });
     }
-    // setState(() {
-    //   accessRequestResults = fetchAccessRequests();
-    // });
-  }
-
-  MIHAction getActionButton() {
-    return MIHAction(
-      icon: const Icon(Icons.arrow_back),
-      iconSize: 35,
-      onTap: () {
-        context.goNamed(
-          'mihHome',
-          extra: false,
-        );
-        FocusScope.of(context).unfocus();
-      },
-    );
-  }
-
-  MIHHeader getHeader() {
-    return const MIHHeader(
-      headerAlignment: MainAxisAlignment.center,
-      headerItems: [
-        Text(
-          "Forever Access List",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ],
-    );
   }
 
   Widget getBody() {

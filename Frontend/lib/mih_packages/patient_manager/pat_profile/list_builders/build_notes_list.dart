@@ -1,19 +1,17 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/notes.dart';
+import 'package:mzansi_innovation_hub/mih_objects/notes.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
@@ -46,89 +44,47 @@ class _BuildNotesListState extends State<BuildNotesList> {
           "The note has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
       successPopUp("Successfuly Deleted", message);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                    context.pop();
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.pop();
+            context.pop();
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
   void deletePatientPopUp(
       PatientManagerProvider patientManagerProvider, int NoteId) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => MIHDeleteMessage(
-        deleteType: "Note",
-        onTap: () {
-          deleteNoteApiCall(patientManagerProvider, NoteId);
-        },
-      ),
+    MihAlertServices().deleteConfirmationAlert(
+      "This note will be deleted permanently. Are you certain you want to delete it?",
+      () {
+        deleteNoteApiCall(patientManagerProvider, NoteId);
+      },
+      context,
     );
   }
 
@@ -282,6 +238,12 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 notePreview = "${notePreview.substring(0, 30)} ...";
               }
               return ListTile(
+                leading: Icon(
+                  Icons.note,
+                  size: 50,
+                  color: MihColors.getGoldColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
                 title: Text(
                   "${patientManagerProvider.consultationNotes![index].note_name}\n${patientManagerProvider.consultationNotes![index].doc_office} - ${patientManagerProvider.consultationNotes![index].doctor}",
                   style: TextStyle(

@@ -1,14 +1,13 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/mih_edit_patient_details_window.dart';
 import 'package:provider/provider.dart';
@@ -23,121 +22,132 @@ class PatientInfo extends StatefulWidget {
 }
 
 class _PatientInfoState extends State<PatientInfo> {
-  final idController = TextEditingController();
-  final fnameController = TextEditingController();
-  final lnameController = TextEditingController();
-  final cellController = TextEditingController();
-  final emailController = TextEditingController();
-  final medNoController = TextEditingController();
-  final medNameController = TextEditingController();
-  final medSchemeController = TextEditingController();
-  final addressController = TextEditingController();
-  final medAidController = TextEditingController();
-  final medMainMemController = TextEditingController();
-  final medAidCodeController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   double textFieldWidth = 300;
   late String medAid;
   late bool medAidPosition;
 
-  Widget getPatientDetailsField() {
-    return Center(
-      child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
+  String getDisplayText(
+      PatientManagerProvider patientManagerProvider, String originalText) {
+    int textLength = originalText.length >= 13 ? 13 : 6;
+    String displayText = "";
+    if (patientManagerProvider.hidePatientDetails) {
+      for (int i = 0; i < textLength; i++) {
+        displayText += "●";
+      }
+    } else {
+      displayText = originalText;
+    }
+    return displayText;
+  }
+
+  Widget buildPatientInfoCard(PatientManagerProvider patientManagerProvider) {
+    TextStyle titleStyle = TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    TextStyle subtitleStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    TextStyle subtitleHeadingStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    return MihPackageWindow(
+      fullscreen: false,
+      windowTitle: "Patient Details Card",
+      onWindowTapClose: null,
+      backgroundColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      foregroundColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      windowBody: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: idController,
-              multiLineInput: false,
-              requiredText: true,
-              readOnly: true,
-              hintText: "ID No.",
-              // validator: (value) {
-              //   return MihValidationServices().isEmpty(value);
-              // },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}",
+                      style: titleStyle,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "ID No: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(patientManagerProvider,
+                                patientManagerProvider.selectedPatient!.id_no),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Cell No: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(
+                                patientManagerProvider,
+                                patientManagerProvider
+                                    .selectedPatient!.cell_no),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Email: ",
+                  style: subtitleHeadingStyle,
+                ),
+                TextSpan(
+                  text: getDisplayText(patientManagerProvider,
+                      patientManagerProvider.selectedPatient!.email),
+                  style: subtitleStyle,
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: fnameController,
-              multiLineInput: false,
-              requiredText: true,
-              readOnly: true,
-              hintText: "First Name",
-            ),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: lnameController,
-              multiLineInput: false,
-              requiredText: true,
-              hintText: "Surname",
-              readOnly: true,
-            ),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: cellController,
-              multiLineInput: false,
-              requiredText: true,
-              readOnly: true,
-              hintText: "Cell No.",
-            ),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: emailController,
-              multiLineInput: false,
-              requiredText: true,
-              readOnly: true,
-              hintText: "Email",
-            ),
-          ),
-          SizedBox(
-            width: textFieldWidth,
-            child: MihTextFormField(
-              // width: textFieldWidth,
-              height: 100,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              inputColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              controller: addressController,
-              multiLineInput: true,
-              requiredText: true,
-              readOnly: true,
-              hintText: "Address",
+          RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Address: ",
+                  style: subtitleHeadingStyle,
+                ),
+                TextSpan(
+                  text: getDisplayText(patientManagerProvider,
+                      patientManagerProvider.selectedPatient!.address),
+                  style: subtitleStyle,
+                ),
+              ],
             ),
           ),
         ],
@@ -145,170 +155,111 @@ class _PatientInfoState extends State<PatientInfo> {
     );
   }
 
-  Widget getMedAidDetailsFields() {
-    List<Widget> medAidDet = [];
-    medAidDet.add(
-      SizedBox(
-        width: textFieldWidth,
-        child: MihToggle(
-          hintText: "Medical Aid",
-          initialPostion: medAidPosition,
-          fillColor: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          secondaryFillColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          readOnly: true,
-          onChange: (value) {
-            if (value) {
-              setState(() {
-                medAidController.text = "Yes";
-                medAidPosition = value;
-              });
-            } else {
-              setState(() {
-                medAidController.text = "No";
-                medAidPosition = value;
-              });
-            }
-          },
-        ),
-        // MihTextFormField(
-        //   // width: textFieldWidth,
-        //   fillColor: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //   inputColor: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //   controller: medAidController,
-        //   multiLineInput: false,
-        //   requiredText: true,
-        //   readOnly: true,
-        //   hintText: "Medical Aid",
-        // ),
-      ),
+  Widget buildMedAidInfoCard(PatientManagerProvider patientManagerProvider) {
+    TextStyle titleStyle = TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     );
-    bool req;
-    if (medAid == "Yes") {
-      req = true;
-    } else {
-      req = false;
-    }
-    medAidDet.addAll([
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MihTextFormField(
-            // width: textFieldWidth,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            inputColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            controller: medMainMemController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Main Member",
+    TextStyle subtitleStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    TextStyle subtitleHeadingStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    );
+    return MihPackageWindow(
+      fullscreen: false,
+      windowTitle: "Medical Aid Card",
+      onWindowTapClose: null,
+      backgroundColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      foregroundColor: MihColors.getPrimaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      windowBody: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${patientManagerProvider.selectedPatient!.medical_aid_name} - ${patientManagerProvider.selectedPatient!.medical_aid_scheme}",
+                      style: titleStyle,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Main Member: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(
+                                patientManagerProvider,
+                                patientManagerProvider
+                                    .selectedPatient!.medical_aid_main_member),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "No: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(
+                                patientManagerProvider,
+                                patientManagerProvider
+                                    .selectedPatient!.medical_aid_no),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Code: ",
+                            style: subtitleHeadingStyle,
+                          ),
+                          TextSpan(
+                            text: getDisplayText(
+                                patientManagerProvider,
+                                patientManagerProvider
+                                    .selectedPatient!.medical_aid_code),
+                            style: subtitleStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MihTextFormField(
-            // width: textFieldWidth,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            inputColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            controller: medNoController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "No.",
-          ),
-        ),
-      ),
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MihTextFormField(
-            // width: textFieldWidth,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            inputColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            controller: medAidCodeController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Code",
-          ),
-        ),
-      ),
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MihTextFormField(
-            // width: textFieldWidth,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            inputColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            controller: medNameController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Name",
-          ),
-        ),
-      ),
-      Visibility(
-        visible: req,
-        child: SizedBox(
-          width: textFieldWidth,
-          child: MihTextFormField(
-            // width: textFieldWidth,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            inputColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            controller: medSchemeController,
-            multiLineInput: false,
-            requiredText: true,
-            readOnly: true,
-            hintText: "Plan",
-          ),
-        ),
-      ),
-    ]);
-    return Center(
-      child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        children: medAidDet,
+        ],
       ),
     );
   }
 
   void initialiseControllers(PatientManagerProvider patientManagerProvider) {
-    idController.text = patientManagerProvider.selectedPatient!.id_no;
-    fnameController.text = patientManagerProvider.selectedPatient!.first_name;
-    lnameController.text = patientManagerProvider.selectedPatient!.last_name;
-    cellController.text = patientManagerProvider.selectedPatient!.cell_no;
-    emailController.text = patientManagerProvider.selectedPatient!.email;
-    medNameController.text =
-        patientManagerProvider.selectedPatient!.medical_aid_name;
-    medNoController.text =
-        patientManagerProvider.selectedPatient!.medical_aid_no;
-    medSchemeController.text =
-        patientManagerProvider.selectedPatient!.medical_aid_scheme;
-    addressController.text = patientManagerProvider.selectedPatient!.address;
-    medAidController.text = patientManagerProvider.selectedPatient!.medical_aid;
-    medMainMemController.text =
-        patientManagerProvider.selectedPatient!.medical_aid_main_member;
-    medAidCodeController.text =
-        patientManagerProvider.selectedPatient!.medical_aid_code;
     medAid = patientManagerProvider.selectedPatient!.medical_aid;
     if (medAid == "Yes") {
       medAidPosition = true;
@@ -320,6 +271,7 @@ class _PatientInfoState extends State<PatientInfo> {
   void showEditPatientWindow() {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return MihEditPatientDetailsWindow();
         });
@@ -327,18 +279,6 @@ class _PatientInfoState extends State<PatientInfo> {
 
   @override
   void dispose() {
-    idController.dispose();
-    fnameController.dispose();
-    lnameController.dispose();
-    cellController.dispose();
-    emailController.dispose();
-    medNameController.dispose();
-    medNoController.dispose();
-    medSchemeController.dispose();
-    addressController.dispose();
-    medAidController.dispose();
-    medMainMemController.dispose();
-    medAidCodeController.dispose();
     super.dispose();
   }
 
@@ -364,60 +304,52 @@ class _PatientInfoState extends State<PatientInfo> {
         initialiseControllers(patientManagerProvider);
         return Stack(
           children: [
-            MihSingleChildScroll(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MihForm(
-                    formKey: _formKey,
-                    formFields: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          //crossAxisAlignment: ,
-                          children: [
-                            Text(
-                              "Personal",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                              ),
-                            ),
-                          ]),
-                      Divider(
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark")),
-                      const SizedBox(height: 10),
-                      getPatientDetailsField(),
-                      const SizedBox(height: 10),
-                      Center(
-                        child: Text(
-                          "Medical Aid",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                        ),
-                      ),
-                      Divider(
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark")),
-                      const SizedBox(height: 10),
-                      getMedAidDetailsFields(),
-                    ],
-                  ),
-                ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                MihCircleAvatar(
+                  imageFile:
+                      patientManagerProvider.selectedPatientProfilePicture,
+                  width: 160,
+                  editable: false,
+                  fileNameController: null,
+                  userSelectedfile: null,
+                  frameColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onChange: () {},
+                ),
+                const SizedBox(height: 10),
+                buildPatientInfoCard(patientManagerProvider),
+                const SizedBox(height: 10),
+                if (patientManagerProvider.selectedPatient!.medical_aid ==
+                    "Yes")
+                  buildMedAidInfoCard(patientManagerProvider),
+              ],
+            ),
+            Positioned(
+              right: 5,
+              top: 5,
+              child: MihButton(
+                width: 40,
+                height: 40,
+                onPressed: () {
+                  patientManagerProvider.setHidePatientDetails(
+                      !patientManagerProvider.hidePatientDetails);
+                },
+                buttonColor: patientManagerProvider.hidePatientDetails
+                    ? MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")
+                    : MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                child: Icon(
+                  patientManagerProvider.hidePatientDetails
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
               ),
             ),
             Visibility(
@@ -450,13 +382,6 @@ class _PatientInfoState extends State<PatientInfo> {
                           MzansiInnovationHub.of(context)!.theme.mode ==
                               "Dark"),
                       onTap: () {
-                        // context.goNamed(
-                        //   'patientProfileEdit',
-                        //   extra: PatientEditArguments(
-                        //     profileProvider.user!,
-                        //     patientManagerProvider.selectedPatient!,
-                        //   ),
-                        // );
                         showEditPatientWindow();
                       },
                     )

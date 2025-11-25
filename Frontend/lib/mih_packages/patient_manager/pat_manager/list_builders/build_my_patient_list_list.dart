@@ -1,21 +1,20 @@
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_time_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_time_field.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,80 +63,43 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       successPopUp("Successfully Added Appointment",
           "You appointment has been successfully added to your calendar.");
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                    context.pop();
-                    setState(() {
-                      dateController.clear();
-                      timeController.clear();
-                      idController.clear();
-                      fnameController.clear();
-                      lnameController.clear();
-                    });
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.pop();
+            context.pop();
+            setState(() {
+              dateController.clear();
+              timeController.clear();
+              idController.clear();
+              fnameController.clear();
+              lnameController.clear();
+            });
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -253,16 +215,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                             submitApointment(
                                 profileProvider, patientManagerProvider, index);
                           } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const MIHErrorMessage(
-                                    errorType: "Input Error");
-                              },
-                            );
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorAlert(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -293,18 +249,16 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
   void noAccessWarning(
       PatientManagerProvider patientManagerProvider, int index) {
     if (patientManagerProvider.myPaitentList![index].status == "pending") {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHWarningMessage(warningType: "No Access");
-        },
+      MihAlertServices().warningAlert(
+        "Access Pending",
+        "Your access request is currently being reviewed.\nOnce approved, you'll be able to view patient data.\nPlease follow up with the patient to approve your access request.",
+        context,
       );
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const MIHWarningMessage(warningType: "Access Declined");
-        },
+      MihAlertServices().errorBasicAlert(
+        "Access Declined",
+        "Your request to access the patient's profile has been denied. Please contact the patient directly to inquire about the reason for this restriction.",
+        context,
       );
     }
   }
@@ -524,6 +478,14 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   patientManagerProvider.myPaitentList![index].app_id,
                   patientManagerProvider)
               .then((result) {});
+          await MihUserServices()
+              .getMIHUserDetails(
+                  patientManagerProvider.myPaitentList![index].app_id, context)
+              .then((user) async {
+            user;
+            String url = await MihFileApi.getMinioFileUrl(user!.pro_pic_path);
+            patientManagerProvider.setSelectedPatientProfilePicUrl(url);
+          });
           patientProfileChoicePopUp(
               profileProvider, patientManagerProvider, index, width);
         } else {
@@ -536,6 +498,11 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

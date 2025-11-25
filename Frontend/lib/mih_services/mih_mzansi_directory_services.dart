@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/bookmarked_business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_review.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 

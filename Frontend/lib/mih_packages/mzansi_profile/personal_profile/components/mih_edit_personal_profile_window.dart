@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_toggle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -106,7 +104,7 @@ class _MihEditPersonalProfileWindowState
         message,
       );
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -122,7 +120,7 @@ class _MihEditPersonalProfileWindowState
     if (response == 200) {
       deleteFileApiCall(mzansiProfileProvider, oldProPicName);
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -138,7 +136,7 @@ class _MihEditPersonalProfileWindowState
     if (response == 200) {
       //SQL delete
     } else {
-      internetConnectionPopUp();
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -164,67 +162,36 @@ class _MihEditPersonalProfileWindowState
     MzansiProfileProvider profileProvider,
     String message,
   ) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Successfully Updated Profile",
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    if (profileProvider.user!.type.toLowerCase() ==
-                            "business" &&
-                        profileProvider.business == null) {
-                      setupBusinessPopUp(profileProvider);
-                    } else {
-                      context.pop();
-                      context.pop();
-                    }
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      "Successfully Updated Profile",
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            if (profileProvider.user!.type.toLowerCase() == "business" &&
+                profileProvider.business == null) {
+              setupBusinessPopUp(profileProvider);
+            } else {
+              context.pop();
+              context.pop();
+            }
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 
@@ -233,17 +200,31 @@ class _MihEditPersonalProfileWindowState
   ) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            MihIcons.businessSetup,
-            size: 150,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Setup Business Profile?",
-          alertBody: Column(
+        return MihPackageWindow(
+          fullscreen: false,
+          windowTitle: null,
+          onWindowTapClose: null,
+          windowBody: Column(
             children: [
+              Icon(
+                MihIcons.businessSetup,
+                size: 150,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              Text(
+                "Setup Business Profile?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
               Text(
                 "It looks like this is the first time activating your business account. Would you like to set up your business now or would you like to do it later?",
                 style: TextStyle(
@@ -312,48 +293,16 @@ class _MihEditPersonalProfileWindowState
               )
             ],
           ),
-          alertColour: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
-        // return MIHSuccessMessage(
-        //   successType: "Success",
-        //   successMessage: message,
-        // );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
       },
     );
   }
 
   void notUniqueAlert() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.warning_amber_rounded,
-            size: 100,
-            color: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: "Too Slow, That Username is Taken",
-          alertBody: const Text(
-            "The username you have entered is already taken by another member of Mzansi. Please choose a different username and try again.",
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
-          alertColour: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+    MihAlertServices().errorBasicAlert(
+      "Too Slow, That Username is Taken",
+      "The username you have entered is already taken by another member of Mzansi. Please choose a different username and try again.",
+      context,
     );
   }
 
@@ -546,7 +495,7 @@ class _MihEditPersonalProfileWindowState
                           if (_formKey.currentState!.validate()) {
                             submitForm(mzansiProfileProvider);
                           } else {
-                            MihAlertServices().formNotFilledCompletely(context);
+                            MihAlertServices().inputErrorAlert(context);
                           }
                         },
                         buttonColor: MihColors.getGreenColor(

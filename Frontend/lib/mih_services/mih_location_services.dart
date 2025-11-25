@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 
 class MIHLocationAPI {
   final LocationSettings locationSettings = const LocationSettings(
@@ -19,10 +19,10 @@ class MIHLocationAPI {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        showPermissionError(context);
+        MihAlertServices().locationPermissionAlert(context);
         return null;
       } else if (permission == LocationPermission.deniedForever) {
-        showPermissionError(context);
+        MihAlertServices().locationPermissionAlert(context);
         return null;
       } else {
         Position location = await Geolocator.getCurrentPosition(
@@ -30,7 +30,7 @@ class MIHLocationAPI {
         return location;
       }
     } else if (permission == LocationPermission.deniedForever) {
-      showPermissionError(context);
+      MihAlertServices().locationPermissionAlert(context);
       return null;
     } else {
       Position location = await Geolocator.getCurrentPosition(
@@ -46,14 +46,5 @@ class MIHLocationAPI {
     double endLogitude = double.parse(endPosition.split(", ")[1]);
     return Geolocator.distanceBetween(
         startLatitude, startLogitude, endLatitude, endLogitude);
-  }
-
-  void showPermissionError(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Location Denied");
-      },
-    );
   }
 }

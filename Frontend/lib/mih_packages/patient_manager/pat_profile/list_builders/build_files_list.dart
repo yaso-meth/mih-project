@@ -2,19 +2,20 @@ import 'dart:async';
 
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,113 +44,11 @@ class _BuildFilesListState extends State<BuildFilesList> {
     String teporaryFileUrl = "";
     await MihFileApi.getMinioFileUrl(
       filePath,
-      context,
     ).then((value) {
       teporaryFileUrl = value;
     });
     return teporaryFileUrl;
   }
-
-  // Future<void> deleteFileApiCall(PatientManagerProvider patientManagerProvider,
-  //     String filePath, int fileID) async {
-  //   var response = await MihFileApi.deleteFile(
-  //     patientManagerProvider.selectedPatient!.app_id,
-  //     widget.env,
-  //     "patient_files",
-  //     filePath.split("/").last,
-  //     context,
-  //   );
-  //   if (response == 200) {
-  //     // delete file from database
-  //     await deletePatientFileLocationToDB(fileID);
-  //   } else {
-  //     String message =
-  //         "The File has not been deleted successfully. Please try again.";
-  //     successPopUp(message);
-  //   }
-  // }
-
-  // Future<void> deletePatientFileLocationToDB(int fileID) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const Mihloadingcircle();
-  //     },
-  //   );
-  //   var response2 = await http.delete(
-  //     Uri.parse("$baseAPI/patient_files/delete/"),
-  //     headers: <String, String>{
-  //       "Content-Type": "application/json; charset=UTF-8"
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       "idpatient_files": fileID,
-  //       "env": widget.env,
-  //     }),
-  //   );
-  //   if (response2.statusCode == 200) {
-  //     context.pop(); //Remove Loading Dialog
-  //     context.pop(); //Remove Delete Dialog
-  //     context.pop(); //Remove File View Dialog
-  //     context.pop(); //Remove File List Dialog
-  //     //print(widget.business);
-  //     if (widget.business == null) {
-  //       context.pushNamed('patientManagerPatient',
-  //           extra: PatientViewArguments(
-  //               widget.signedInUser,
-  //               widget.selectedPatient,
-  //               widget.businessUser,
-  //               widget.business,
-  //               "personal"));
-  //     } else {
-  //       context.pushNamed('patientManagerPatient',
-  //           extra: PatientViewArguments(
-  //               widget.signedInUser,
-  //               widget.selectedPatient,
-  //               widget.businessUser,
-  //               widget.business,
-  //               "business"));
-  //     }
-  //     String message =
-  //         "The File has been deleted successfully. This means it will no longer be visible on your and cannot be used for future appointments.";
-  //     successPopUp(message);
-  //   } else {
-  //     internetConnectionPopUp();
-  //   }
-  // }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
-  // void deleteFilePopUp(String filePath, int fileID) {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) => MIHDeleteMessage(
-  //       deleteType: "File",
-  //       onTap: () async {
-  //         await deleteFileApiCall(filePath, fileID);
-  //       },
-  //     ),
-  //   );
-  // }
 
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
@@ -263,10 +162,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
           context.pop();
           context.pushNamed(
             'fileViewer',
-            extra: FileViewArguments(
-              url,
-              filePath,
-            ),
           );
         },
       ),
@@ -324,6 +219,53 @@ class _BuildFilesListState extends State<BuildFilesList> {
     );
   }
 
+  Widget getFileIcon(String extension) {
+    switch (extension) {
+      case ("pdf"):
+        return Icon(
+          Icons.picture_as_pdf,
+          size: 50,
+          color: MihColors.getRedColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("jpeg"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("jpg"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("png"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      case ("gif"):
+        return Icon(
+          FontAwesomeIcons.image,
+          size: 50,
+          color: MihColors.getOrangeColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+      default:
+        return Icon(
+          Icons.image_not_supported,
+          size: 50,
+          color: MihColors.getSilverColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        );
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -367,7 +309,13 @@ class _BuildFilesListState extends State<BuildFilesList> {
             },
             itemCount: patientManagerProvider.patientDocuments!.length,
             itemBuilder: (context, index) {
+              String fileExtension = patientManagerProvider
+                  .patientDocuments![index].file_name
+                  .split(".")[1]
+                  .toLowerCase();
+              KenLogger.success(fileExtension);
               return ListTile(
+                leading: getFileIcon(fileExtension),
                 title: Text(
                   patientManagerProvider.patientDocuments![index].file_name,
                   style: TextStyle(
@@ -387,13 +335,15 @@ class _BuildFilesListState extends State<BuildFilesList> {
                 //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 // ),
                 onTap: () async {
+                  MihFileViewerProvider fileViewerProvider =
+                      context.read<MihFileViewerProvider>();
                   await getFileUrlApiCall(patientManagerProvider
                           .patientDocuments![index].file_path)
                       .then((urlHere) {
                     //print(url);
-                    setState(() {
-                      fileUrl = urlHere;
-                    });
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(urlHere);
                   });
 
                   viewFilePopUp(
@@ -402,7 +352,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                       patientManagerProvider.patientDocuments![index].file_path,
                       patientManagerProvider
                           .patientDocuments![index].idpatient_files,
-                      fileUrl);
+                      fileViewerProvider.fileLink);
                 },
               );
             },

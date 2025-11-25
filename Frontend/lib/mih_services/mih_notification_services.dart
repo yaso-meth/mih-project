@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/notification.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/notification.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihNotificationApis {
@@ -71,9 +70,13 @@ class MihNotificationApis {
           args.businessUser,
         ),
       );
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -127,9 +130,13 @@ class MihNotificationApis {
       //     args.businessUser,
       //   ),
       // );
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -183,9 +190,13 @@ class MihNotificationApis {
       );
       String message = "The appointment has been successfully rescheduled.";
 
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -236,9 +247,13 @@ class MihNotificationApis {
       );
       String message =
           "The appointment has been cancelled successfully. This means it will no longer be visible in your waiting room and calender.";
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -291,33 +306,14 @@ class MihNotificationApis {
       );
       String message =
           "The appointment was been created successfully. This means it will now be visible in your waiting room and calender.";
-      successPopUp(message, context);
+      MihAlertServices().successBasicAlert(
+        "Success!",
+        message,
+        context,
+      );
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
-//================== POP UPS ==========================================================================
-
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
 }
+//================== POP UPS ==========================================================================

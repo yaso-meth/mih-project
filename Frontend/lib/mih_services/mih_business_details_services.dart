@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihBusinessDetailsServices {
@@ -80,7 +78,7 @@ class MihBusinessDetailsServices {
   }
 
   Future<Business?> getBusinessDetailsByUser(
-    BuildContext context,
+    MzansiProfileProvider profileProvider,
   ) async {
     String app_id = await SuperTokens.getUserId();
     var response = await http.get(
@@ -93,7 +91,7 @@ class MihBusinessDetailsServices {
       String body = response.body;
       var jsonBody = jsonDecode(body);
       Business? business = Business.fromJson(jsonBody);
-      context.read<MzansiProfileProvider>().setBusiness(newBusiness: business);
+      profileProvider.setBusiness(newBusiness: business);
       return business;
     } else {
       return null;
@@ -276,7 +274,7 @@ class MihBusinessDetailsServices {
           businessMissionVision,
         ),
       );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
       provider.setBusinessProfilePicUrl(newProPicUrl);
       return 200;
     } else {
@@ -328,14 +326,5 @@ class MihBusinessDetailsServices {
     } else {
       return 500;
     }
-  }
-
-  void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
   }
 }

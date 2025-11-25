@@ -4,17 +4,16 @@ import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,60 +44,11 @@ class _BuildClaimStatementFileListState
     String teporaryFileUrl = "";
     await MihFileApi.getMinioFileUrl(
       filePath,
-      context,
     ).then((value) {
       teporaryFileUrl = value;
     });
     return teporaryFileUrl;
   }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void successPopUp(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
-
-  // void deleteFilePopUp(String filePath, int fileID) {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) => MIHDeleteMessage(
-  //       deleteType: "File",
-  //       onTap: () async {
-  //         //API Call here
-  //         await MIHClaimStatementGenerationApi
-  //             .deleteClaimStatementFilesByFileID(
-  //           PatientViewArguments(
-  //             widget.signedInUser,
-  //             widget.selectedPatient,
-  //             widget.businessUser,
-  //             widget.business,
-  //             "business",
-  //           ),
-  //           widget.env,
-  //           filePath,
-  //           fileID,
-  //           context,
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
@@ -217,10 +167,6 @@ class _BuildClaimStatementFileListState
           context.pop();
           context.pushNamed(
             'fileViewer',
-            extra: FileViewArguments(
-              url,
-              filePath,
-            ),
           );
           // printDocument(url, filePath);
         },
@@ -331,6 +277,12 @@ class _BuildClaimStatementFileListState
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
             itemBuilder: (context, index) {
               return ListTile(
+                leading: Icon(
+                  Icons.picture_as_pdf,
+                  size: 50,
+                  color: MihColors.getRedColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
                 title: Text(
                   patientManagerProvider
                       .patientClaimsDocuments![index].file_name,
@@ -352,13 +304,15 @@ class _BuildClaimStatementFileListState
                 //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 // ),
                 onTap: () async {
+                  MihFileViewerProvider fileViewerProvider =
+                      context.read<MihFileViewerProvider>();
                   await getFileUrlApiCall(patientManagerProvider
                           .patientClaimsDocuments![index].file_path)
                       .then((urlHere) {
                     //print(url);
-                    setState(() {
-                      fileUrl = urlHere;
-                    });
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientClaimsDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(urlHere);
                   });
 
                   viewFilePopUp(
@@ -369,7 +323,7 @@ class _BuildClaimStatementFileListState
                           .patientClaimsDocuments![index].file_path,
                       patientManagerProvider.patientClaimsDocuments![index]
                           .idclaim_statement_file,
-                      fileUrl);
+                      fileViewerProvider.fileLink);
                 },
               );
             },

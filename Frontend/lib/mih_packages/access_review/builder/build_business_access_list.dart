@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_warning_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:provider/provider.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
@@ -41,24 +39,6 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
   late double popUpPaddingSize;
   late double width;
   late double height;
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
-  }
-
-  void accessCancelledWarning() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHWarningMessage(warningType: "Access Cancelled");
-      },
-    );
-  }
 
   Widget displayQueue(
       MzansiProfileProvider mzansiProfileProvider,
@@ -369,7 +349,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Declined access request");
                         } else {
-                          internetConnectionPopUp();
+                          MihAlertServices().internetConnectionAlert(context);
                         }
                       },
                       buttonColor: MihColors.getRedColor(
@@ -410,7 +390,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           successPopUp("Successfully Actioned Request",
                               "You have successfully Accepted access request");
                         } else {
-                          internetConnectionPopUp();
+                          MihAlertServices().internetConnectionAlert(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -443,60 +423,34 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
   }
 
   void successPopUp(String title, String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageAlert(
-          alertIcon: Icon(
-            Icons.check_circle_outline_rounded,
-            size: 150,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          alertTitle: title,
-          alertBody: Column(
-            children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: MihButton(
-                  onPressed: () {
-                    context.pop();
-                    KenLogger.warning("dismissing pop up and refreshing list");
-                    if (widget.onSuccessUpate != null) {
-                      widget.onSuccessUpate!();
-                    }
-                  },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  elevation: 10,
-                  width: 300,
-                  child: Text(
-                    "Dismiss",
-                    style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().successAdvancedAlert(
+      title,
+      message,
+      [
+        MihButton(
+          onPressed: () {
+            context.pop();
+            KenLogger.warning("dismissing pop up and refreshing list");
+            if (widget.onSuccessUpate != null) {
+              widget.onSuccessUpate!();
+            }
+          },
+          buttonColor: MihColors.getPrimaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        );
-      },
+          elevation: 10,
+          width: 300,
+          child: Text(
+            "Dismiss",
+            style: TextStyle(
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+      context,
     );
   }
 

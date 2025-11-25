@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_mine_sweeper_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/builders/build_minesweeper_leaderboard_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -24,7 +24,7 @@ class MihMineSweeperLeaderBoard extends StatefulWidget {
 
 class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
   TextEditingController filterController = TextEditingController();
-
+  bool isLoading = true;
   Future<void> initialiseLeaderboard() async {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
@@ -34,15 +34,21 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     List<ImageProvider<Object>?> userPictures = [];
     String userPicUrl = "";
     for (final ranking in mineSweeperProvider.leaderboard!) {
-      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl, context);
+      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl);
       userPictures.add(NetworkImage(userPicUrl));
     }
     mineSweeperProvider.setLeaderboardUserPictures(
         leaderboardUserPictures: userPictures);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void refreshLeaderBoard(
       MihMineSweeperProvider mineSweeperProvider, String difficulty) {
+    setState(() {
+      isLoading = true;
+    });
     mineSweeperProvider.setDifficulty(difficulty);
     mineSweeperProvider.setLeaderboard(leaderboard: null);
     mineSweeperProvider.setMyScoreboard(myScoreboard: null);
@@ -80,7 +86,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     return Consumer<MihMineSweeperProvider>(
       builder: (BuildContext context,
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
-        if (mineSweeperProvider.leaderboard == null) {
+        if (isLoading) {
           return Center(
             child: Mihloadingcircle(),
           );
@@ -121,7 +127,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                mineSweeperProvider.leaderboard!.isEmpty
+                !isLoading && mineSweeperProvider.leaderboard!.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Column(

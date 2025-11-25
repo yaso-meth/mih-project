@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_success_message.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:supertokens_flutter/http.dart' as http;
@@ -17,7 +14,6 @@ class MihFileApi {
 
   static Future<String> getMinioFileUrl(
     String filePath,
-    BuildContext context,
   ) async {
     // loadingPopUp(context);
     // print("here");
@@ -45,9 +41,9 @@ class MihFileApi {
         fileUrl = decodedData['minioURL'];
       } else {
         // internetConnectionPopUp(context);
-        KenLogger.error("Get File Error: $url");
-        KenLogger.error("Get File Error: ${response.statusCode}");
-        KenLogger.error("Get File Error: ${response.body}");
+        // KenLogger.error("Get File Error: $url");
+        // KenLogger.error("Get File Error: ${response.statusCode}");
+        // KenLogger.error("Get File Error: ${response.body}");
       }
     } catch (e) {
       // internetConnectionPopUp(context);
@@ -106,43 +102,7 @@ class MihFileApi {
     return response.statusCode;
   }
 
-  // Future<void> signOut() async {
-  //   await SuperTokens.signOut(completionHandler: (error) {
-  //     print(error);
-  //   });
-  //   if (await SuperTokens.doesSessionExist() == false) {
-  //     Navigator.of(context).pop();
-  //     Navigator.of(context).popAndPushNamed(
-  //       '/',
-  //       arguments: AuthArguments(true, false),
-  //     );
-  //   }
-  // }
-
 //================== POP UPS ==========================================================================
-
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
 
   static void loadingPopUp(BuildContext context) {
     showDialog(

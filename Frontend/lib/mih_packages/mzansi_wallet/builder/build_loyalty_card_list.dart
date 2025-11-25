@@ -3,22 +3,19 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_alert.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_delete_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
@@ -160,33 +157,16 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                           if (statusCode == 200) {
                             context.pop();
                             context.pop();
-                            // context
-                            //     .read<MzansiWalletProvider>()
-                            //     .editLoyaltyCard(
-                            //       updatedCard: MIHLoyaltyCard(
-                            //         idloyalty_cards:
-                            //             widget.cardList[index].idloyalty_cards,
-                            //         app_id: widget.signedInUser.app_id,
-                            //         shop_name: widget.cardList[index].shop_name,
-                            //         card_number: _cardNumberController.text,
-                            //         favourite: widget.cardList[index].favourite,
-                            //         priority_index:
-                            //             widget.cardList[index].priority_index,
-                            //         nickname: _nicknameController.text,
-                            //       ),
-                            //     );
-                            // context.goNamed(
-                            //   "mzansiWallet",
-                            //   extra: WalletArguments(
-                            //     widget.signedInUser,
-                            //     0,
-                            //   ),
-                            // );
+                            MihAlertServices().successBasicAlert(
+                              "Success!",
+                              "You have successfully updated the loyalty card details.",
+                              context,
+                            );
                           } else {
-                            internetConnectionPopUp();
+                            MihAlertServices().internetConnectionAlert(context);
                           }
                         } else {
-                          MihAlertServices().formNotFilledCompletely(context);
+                          MihAlertServices().inputErrorAlert(context);
                         }
                       },
                       buttonColor: MihColors.getGreenColor(
@@ -216,192 +196,175 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
 
   void deleteCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return MIHDeleteMessage(
-            deleteType: "Loyalty Card",
-            onTap: () async {
-              int statusCode =
-                  await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
-                walletProvider,
-                mzansiProfileProvider.user!,
-                widget.cardList[index].idloyalty_cards,
-                context,
-              );
-              if (statusCode == 200) {
-                context.pop();
-                context.pop();
-              } else {
-                context.pop();
-                internetConnectionPopUp();
-              }
-            });
+    MihAlertServices().deleteConfirmationAlert(
+      "This Card will be deleted permanently from your Mzansi Wallet. Are you certain you want to delete it?",
+      () async {
+        int statusCode = await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
+          walletProvider,
+          mzansiProfileProvider.user!,
+          widget.cardList[index].idloyalty_cards,
+          context,
+        );
+        if (statusCode == 200) {
+          context.pop();
+          context.pop();
+          MihAlertServices().successBasicAlert(
+            "Success!",
+            "You have successfully deleted the loyalty card from your Mzansi Wallet.",
+            context,
+          );
+        } else {
+          context.pop();
+          MihAlertServices().internetConnectionAlert(context);
+        }
       },
+      context,
     );
   }
 
   void addToFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return MihPackageAlert(
-          alertColour: MihColors.getGreenColor(
+    MihAlertServices().warningAdvancedAlert(
+      // "Card Added to Favourites",
+      "Add Card to Favourites?",
+      "Would you like to add this card to your favourites for quick access?",
+      // "You have successfully added the loyalty card to your favourites.",
+      [
+        MihButton(
+          onPressed: () async {
+            context.pop();
+          },
+          buttonColor: MihColors.getRedColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          alertIcon: Icon(
-            Icons.favorite,
-            color: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            size: 100,
+          width: 300,
+          child: Text(
+            "Cancel",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          alertTitle: "Add to Favourites",
-          alertBody: Column(
-            children: [
-              Text(
-                "Are you sure you want to add this card to your favourites?",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              MihButton(
-                onPressed: () async {
-                  int statusCode =
-                      await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                    walletProvider,
-                    mzansiProfileProvider.user!,
-                    widget.cardList[index].idloyalty_cards,
-                    widget.cardList[index].shop_name,
-                    "Yes",
-                    _noFavourites,
-                    widget.cardList[index].nickname,
-                    widget.cardList[index].card_number,
-                    ctxt,
-                  );
-                  if (statusCode == 200) {
-                    context.pop();
-                    context.pop();
-                    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                      walletProvider,
-                      mzansiProfileProvider.user!.app_id,
-                      context,
-                    );
-                    context.read<MzansiWalletProvider>().setToolIndex(1);
-                  } else {
-                    internetConnectionPopUp();
-                  }
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Text(
-                  "Add",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+        ),
+        MihButton(
+          onPressed: () async {
+            int statusCode = await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+              walletProvider,
+              mzansiProfileProvider.user!,
+              widget.cardList[index].idloyalty_cards,
+              widget.cardList[index].shop_name,
+              "Yes",
+              _noFavourites,
+              widget.cardList[index].nickname,
+              widget.cardList[index].card_number,
+              ctxt,
+            );
+            if (statusCode == 200) {
+              context.pop();
+              context.pop();
+              await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                walletProvider,
+                mzansiProfileProvider.user!.app_id,
+                context,
+              );
+              context.read<MzansiWalletProvider>().setToolIndex(1);
+              MihAlertServices().successBasicAlert(
+                "Success!",
+                "You have successfully added the loyalty card to your favourites.",
+                context,
+              );
+            } else {
+              MihAlertServices().internetConnectionAlert(context);
+            }
+          },
+          buttonColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 300,
+          child: Text(
+            "Add",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        );
-      },
-    );
-  }
-
-  void internetConnectionPopUp() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
+        ),
+      ],
+      context,
     );
   }
 
   void removeFromFavCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, BuildContext ctxt, int index) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return MihPackageAlert(
-          alertColour: MihColors.getRedColor(
+    MihAlertServices().warningAdvancedAlert(
+      "Remove From Favourites?",
+      "Are you sure you want to remove this card from your favourites?",
+      [
+        MihButton(
+          onPressed: () async {
+            int statusCode = await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
+              walletProvider,
+              mzansiProfileProvider.user!,
+              widget.cardList[index].idloyalty_cards,
+              widget.cardList[index].shop_name,
+              "",
+              0,
+              widget.cardList[index].nickname,
+              widget.cardList[index].card_number,
+              ctxt,
+            );
+            if (statusCode == 200) {
+              context.pop();
+              context.pop();
+              await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
+                walletProvider,
+                mzansiProfileProvider.user!.app_id,
+                context,
+              );
+              context.read<MzansiWalletProvider>().setToolIndex(0);
+              MihAlertServices().successBasicAlert(
+                "Success!",
+                "You have successfully removed the loyalty card to your favourites.",
+                context,
+              );
+            } else {
+              MihAlertServices().internetConnectionAlert(context);
+            }
+          },
+          buttonColor: MihColors.getRedColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          alertIcon: Icon(
-            Icons.favorite_border,
-            color: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            size: 100,
+          width: 300,
+          child: Text(
+            "Remove",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          alertTitle: "Remove From Favourites",
-          alertBody: Column(
-            children: [
-              Text(
-                "Are you sure you want to remove this card from your favourites?",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              MihButton(
-                onPressed: () async {
-                  int statusCode =
-                      await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-                    walletProvider,
-                    mzansiProfileProvider.user!,
-                    widget.cardList[index].idloyalty_cards,
-                    widget.cardList[index].shop_name,
-                    "",
-                    0,
-                    widget.cardList[index].nickname,
-                    widget.cardList[index].card_number,
-                    ctxt,
-                  );
-                  if (statusCode == 200) {
-                    context.pop();
-                    context.pop();
-                    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                      walletProvider,
-                      mzansiProfileProvider.user!.app_id,
-                      context,
-                    );
-                    context.read<MzansiWalletProvider>().setToolIndex(0);
-                  } else {
-                    internetConnectionPopUp();
-                  }
-                },
-                buttonColor: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Text(
-                  "Remove",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+        ),
+        MihButton(
+          onPressed: () async {
+            context.pop();
+          },
+          buttonColor: MihColors.getGreenColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          width: 300,
+          child: Text(
+            "Cancel",
+            style: TextStyle(
+              color: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        );
-      },
+        ),
+      ],
+      ctxt,
     );
   }
 
@@ -627,56 +590,31 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         KenLogger.success("Brightness set to: $newBrightness");
       } else {
         context.pop();
-        showDialog(
-          context: context,
-          builder: (context) {
-            return MihPackageAlert(
-              alertIcon: Icon(
-                Icons.brightness_7_rounded,
-                size: 150,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-              alertTitle: "Permission Required",
-              alertBody: Column(
-                children: [
-                  Text(
-                    "Sometimes it can be tough to scan your loyalty card if your phone screen is dim. To make sure your scan is successful every time, we need your permission to temporarily increase your screen brightness.\n\nWould you mind enabling this in your device settings?",
-                    style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  MihButton(
-                    onPressed: () async {
-                      context.pop();
-                      await ScreenBrightness.instance
-                          .setSystemScreenBrightness(newBrightness);
-                    },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 300,
-                    child: Text(
-                      "Grant Permission",
-                      style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              alertColour: MihColors.getSecondaryColor(
+        MihAlertServices().errorAdvancedAlert(
+          "Permission Required",
+          "Sometimes it can be tough to scan your loyalty card if your phone screen is dim. To make sure your scan is successful every time, we need your permission to temporarily increase your screen brightness.\n\nWould you mind enabling this in your device settings?",
+          [
+            MihButton(
+              onPressed: () async {
+                context.pop();
+                await ScreenBrightness.instance
+                    .setSystemScreenBrightness(newBrightness);
+              },
+              buttonColor: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            );
-          },
+              width: 300,
+              child: Text(
+                "Grant Permission",
+                style: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+          context,
         );
       }
     } else {

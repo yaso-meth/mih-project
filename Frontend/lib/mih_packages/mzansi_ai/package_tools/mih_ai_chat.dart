@@ -5,10 +5,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_ai_provider.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +19,9 @@ class MihAiChat extends StatefulWidget {
   State<MihAiChat> createState() => _MihAiChatState();
 }
 
-class _MihAiChatState extends State<MihAiChat> {
+class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   final FlutterTts _flutterTts = FlutterTts();
+  bool _isKeyboardVisible = false;
 
   Widget noMessagescDisplay() {
     return Center(
@@ -191,12 +192,23 @@ class _MihAiChatState extends State<MihAiChat> {
     MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
     initTts(aiProvider);
     initStartQuestion();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     _flutterTts.stop();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding
+        .instance.platformDispatcher.views.first.viewInsets.bottom;
+    setState(() {
+      _isKeyboardVisible = bottomInset > 0;
+    });
   }
 
   @override
@@ -285,7 +297,7 @@ class _MihAiChatState extends State<MihAiChat> {
                 ],
               ),
             ),
-            if (!hasHistory) noMessagescDisplay(),
+            if (!hasHistory && !_isKeyboardVisible) noMessagescDisplay(),
           ],
         );
       },

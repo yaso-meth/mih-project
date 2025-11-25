@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
 class MihMyBusinessUserServices {
   Future<BusinessUser?> getBusinessUser(
-    BuildContext context,
+    MzansiProfileProvider profileProvider,
   ) async {
     String app_id = await SuperTokens.getUserId();
     var response = await http.get(
@@ -26,9 +25,7 @@ class MihMyBusinessUserServices {
       // KenLogger.success(response.body);
       BusinessUser? businessUser =
           BusinessUser.fromJson(jsonDecode(response.body));
-      context
-          .read<MzansiProfileProvider>()
-          .setBusinessUser(newBusinessUser: businessUser);
+      profileProvider.setBusinessUser(newBusinessUser: businessUser);
       return businessUser;
     } else {
       return null;
@@ -73,7 +70,7 @@ class MihMyBusinessUserServices {
       );
       return 201;
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
       return 500;
     }
   }
@@ -122,21 +119,12 @@ class MihMyBusinessUserServices {
           bUserAccess,
         ),
       );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath, context);
+      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
       provider.setBusinessUserSignatureUrl(newProPicUrl);
       return 200;
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
       return 500;
     }
-  }
-
-  void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(errorType: "Internet Connection");
-      },
-    );
   }
 }

@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/patient_access.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_error_message.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_access_controlls_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_notification_services.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -32,6 +32,29 @@ class MihAccessControlsServices {
       return response.statusCode;
     } else {
       throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  /// This function is used to check if a business has access to a specific patients profile.
+  ///
+  /// Patameters: String business_id & app_id (app_id of patient).
+  ///
+  /// Returns List<PatientAccess> (List of access that match the above parameters).
+  static Future<List<PatientAccess>> checkBusinessAccessToPatient(
+    String business_id,
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/patient/check/$business_id?app_id=$app_id"));
+    // var errorCode = response.statusCode.toString();
+    //print(response.body);
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access for business');
     }
   }
 
@@ -74,7 +97,7 @@ class MihAccessControlsServices {
       await MihNotificationApis.addAccessRequestNotificationAPICall(
           app_id, requested_by, personalSelected, args, context);
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -112,19 +135,8 @@ class MihAccessControlsServices {
           app_id, personalSelected, args, context);
       //notification here
     } else {
-      internetConnectionPopUp(context);
+      MihAlertServices().internetConnectionAlert(context);
     }
-  }
-
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
   }
 
   /// This function is used to UPDATE access the business has.

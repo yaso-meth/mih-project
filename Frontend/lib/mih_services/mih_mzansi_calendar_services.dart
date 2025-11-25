@@ -1,17 +1,15 @@
 import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_pop_up_messages/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/appointment.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
-import '../mih_components/mih_pop_up_messages/mih_error_message.dart';
-import '../mih_components/mih_pop_up_messages/mih_success_message.dart';
-import '../mih_config/mih_env.dart';
 
 class MihMzansiCalendarApis {
   final baseAPI = AppEnviroment.baseApiUrl;
@@ -536,29 +534,6 @@ class MihMzansiCalendarApis {
   }
 
   //================== POP UPS ==========================================================================
-
-  static void internetConnectionPopUp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const MIHErrorMessage(
-          errorType: "Internet Connection",
-        );
-      },
-    );
-  }
-
-  static void successPopUp(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MIHSuccessMessage(
-          successType: "Success",
-          successMessage: message,
-        );
-      },
-    );
-  }
 
   static void loadingPopUp(BuildContext context) {
     showDialog(

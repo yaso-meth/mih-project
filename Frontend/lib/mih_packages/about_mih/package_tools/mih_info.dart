@@ -1,17 +1,17 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_layout/mih_tile.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_components/mih_package_components/mih_icons.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:redacted/redacted.dart';
@@ -71,7 +71,7 @@ class _MihInfoState extends State<MihInfo> {
                   backgroundColor: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   backgroundImage: const AssetImage(
-                      "lib/mih_components/mih_package_components/assets/images/founder.jpg"),
+                      "lib/mih_package_components/assets/images/founder.jpg"),
                   //'https://media.licdn.com/dms/image/D4D03AQGd1-QhjtWWpA/profile-displayphoto-shrink_400_400/0/1671698053061?e=2147483647&v=beta&t=a3dJI5yxs5-KeXjj10LcNCFuC9IOfa8nNn3k_Qyr0CA'),
                   radius: 75,
                 ),
@@ -343,207 +343,216 @@ class _MihInfoState extends State<MihInfo> {
 
   List<Widget> getSocialsList() {
     List<Widget> socials = [];
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_youtubeUrl);
       },
-      tileName: "YouTube",
-      tileIcon: Center(
+      appName: "YouTube",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.youtube,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 175,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_tiktokUrl);
       },
-      tileName: "TikTok",
-      tileIcon: Center(
+      appName: "TikTok",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.tiktok,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_twitch);
       },
-      tileName: "Twitch",
-      tileIcon: Center(
+      appName: "Twitch",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.twitch,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_threadsUrl);
       },
-      tileName: "Threads",
-      tileIcon: Center(
+      appName: "Threads",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.threads,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_whatsappUrl);
       },
-      tileName: "Whatsapp",
-      tileIcon: Center(
+      appName: "Whatsapp",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.whatsapp,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_instagramUrl);
       },
-      tileName: "Instagram",
-      tileIcon: Center(
+      appName: "Instagram",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.instagram,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
 
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_xUrl);
       },
-      tileName: "X",
-      tileIcon: Center(
+      appName: "X",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.xTwitter,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_linkedinUrl);
       },
-      tileName: "LinkedIn",
-      tileIcon: Center(
+      appName: "LinkedIn",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.linkedin,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_facebookUrl);
       },
-      tileName: "FaceBook",
-      tileIcon: Center(
+      appName: "FaceBook",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.facebook,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_redditUrl);
       },
-      tileName: "Reddit",
-      tileIcon: Center(
+      appName: "Reddit",
+      appIcon: Center(
         child: FaIcon(
           FontAwesomeIcons.reddit,
-          color: MihColors.getPrimaryColor(
+          color: MihColors.getSecondaryColor(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           size: 200,
         ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 200,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
-    socials.add(MIHTile(
+    socials.add(MihPackageTile(
       onTap: () {
         launchSocialUrl(_kick);
       },
-      tileName: "Kick",
-      tileIcon: Center(
+      appName: "Kick",
+      appIcon: Center(
         child: Text(
           "KICK",
           style: TextStyle(
-            color: MihColors.getPrimaryColor(
+            color: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             fontWeight: FontWeight.bold,
             fontSize: 100,
@@ -555,9 +564,10 @@ class _MihInfoState extends State<MihInfo> {
         //   size: 200,
         // ),
       ),
-      p: MihColors.getSecondaryColor(
+      iconSize: 100,
+      primaryColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      s: MihColors.getPrimaryColor(
+      secondaryColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -783,29 +793,9 @@ class _MihInfoState extends State<MihInfo> {
                   fontSize: 15,
                 ),
               ),
-              // ===================== Divider
-              // Padding(
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: 10.0,
-              //     horizontal: 25,
-              //   ),
-              //   child: Divider(
-              //     thickness: 1,
-              //     color: MihColors.getGreyColor(
-              //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              //   ),
-              // ),
               const SizedBox(
                 height: 10,
               ),
-              // Text(
-              //   "The MIH Community",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //     fontSize: 22,
-              //   ),
-              // ),
               Wrap(
                 alignment: WrapAlignment.spaceAround,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -824,7 +814,98 @@ class _MihInfoState extends State<MihInfo> {
                   fontSize: 22,
                 ),
               ),
-              // ===================== Divider
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  MihButton(
+                    onPressed: () {
+                      MihInstallServices().installMihTrigger(context);
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: getInstallButtonText(),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      launchSocialUrl(
+                        Uri.parse(
+                          "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                        ),
+                      );
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.youtube,
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "MIH Beginners Guide",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  MihButton(
+                    onPressed: () {
+                      launchSocialUrl(
+                        Uri.parse(
+                          "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+                        ),
+                      );
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 300,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.patreon,
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "Support Our Journey",
+                          style: TextStyle(
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              // // ===================== Divider
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 10.0,
@@ -836,9 +917,6 @@ class _MihInfoState extends State<MihInfo> {
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
               ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Wrap(
@@ -856,93 +934,6 @@ class _MihInfoState extends State<MihInfo> {
               const SizedBox(
                 height: 25,
               ),
-              Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    MihButton(
-                      onPressed: () {
-                        MihInstallServices().installMihTrigger(context);
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: getInstallButtonText(),
-                    ),
-                    MihButton(
-                      onPressed: () {
-                        launchSocialUrl(
-                          Uri.parse(
-                            "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                          ),
-                        );
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.youtube,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "MIH Beginners Guide",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MihButton(
-                      onPressed: () {
-                        launchSocialUrl(
-                          Uri.parse(
-                            "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
-                          ),
-                        );
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.patreon,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "Support Our Journey",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
               const SizedBox(
                 height: 10,
               ),
