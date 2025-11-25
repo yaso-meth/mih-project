@@ -93,7 +93,8 @@ class MihMyBusinessUserServices {
       },
     );
     var filename = signatureFileName.replaceAll(RegExp(r' '), '-');
-    var filePath = "$app_id/business_files/$signatureFileName";
+    var filePath =
+        "$app_id/business_files/${signatureFileName.replaceAll(RegExp(r' '), '-')}";
     var response = await http.put(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
       headers: <String, String>{
@@ -103,7 +104,7 @@ class MihMyBusinessUserServices {
         "business_id": business_id,
         "app_id": app_id,
         "signature": filename,
-        "sig_path": filePath.replaceAll(RegExp(r' '), '-'),
+        "sig_path": filePath,
         "title": bUserTitle,
         "access": bUserAccess,
       }),
