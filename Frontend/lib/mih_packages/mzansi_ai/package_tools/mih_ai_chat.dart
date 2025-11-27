@@ -228,10 +228,11 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
             LlmChatView(
               provider: aiProvider.ollamaProvider,
               messageSender: aiProvider.ollamaProvider.sendMessageStream,
+              speechToText: aiProvider.ollamaProvider.speechToText,
               // welcomeMessage:
               //     "Mzansi AI is here to help. Send us a messahe and we'll try our best to assist you.",
               autofocus: false,
-              enableAttachments: false,
+              enableAttachments: true,
               enableVoiceNotes: false,
               style: aiProvider.getChatStyle(context),
               suggestions: [

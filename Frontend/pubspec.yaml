@@ -59,7 +59,7 @@ dependencies:
   provider: ^6.1.5+1
   flutter_ai_toolkit: ^0.10.0
   flutter_markdown_plus: ^1.0.5
-  speech_to_text: ^7.3.0
+  cross_file: ^0.3.5+1
   quick_actions: ^1.1.0
 
 dev_dependencies:

@@ -19,7 +19,10 @@ class MzansiAiProvider extends ChangeNotifier {
   }) {
     ollamaProvider = OllamaProvider(
       baseUrl: "${AppEnviroment.baseAiUrl}/api",
-      model: AppEnviroment.getEnv() == "Prod" ? 'gemma3n:e4b' : "gemma3:1b",
+      model: AppEnviroment.getEnv() == "Prod"
+          ? 'gemma3n:e4b'
+          : "qwen3-vl:2b-instruct",
+      think: false,
       systemPrompt: "You are Mzansi AI, a helpful and friendly AI assistant running on the 'MIH App'.\n" +
           "The MIH App was created by 'Mzansi Innovation Hub', a South African-based startup company." +
           "Your primary purpose is to assist users by answering general questions and helping with creative writing tasks or any other task a user might have for you.\n" +
@@ -147,9 +150,6 @@ class MzansiAiProvider extends ChangeNotifier {
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       progressIndicatorColor: MihColors.getPrimaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      menuColor: Colors.black,
-      // MihColors.getGreenColor(
-      //     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       disabledButtonStyle: ActionButtonStyle(
         icon: MihIcons.mzansiAi,
         iconColor: MihColors.getSecondaryColor(
@@ -323,6 +323,21 @@ class MzansiAiProvider extends ChangeNotifier {
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         ),
       ),
+      addButtonStyle: ActionButtonStyle(
+        iconDecoration: BoxDecoration(
+          color: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        iconColor: MihColors.getPrimaryColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        textStyle: TextStyle(
+          color: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        ),
+      ),
+      menuColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     );
   }
 }
