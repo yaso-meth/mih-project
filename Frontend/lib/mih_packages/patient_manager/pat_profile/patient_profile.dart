@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
@@ -12,7 +13,9 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/p
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
 class PatientProfile extends StatefulWidget {
@@ -46,8 +49,16 @@ class _PatientProfileState extends State<PatientProfile> {
       context.goNamed("patientProfileSetup");
       return;
     }
-    patientManagerProvider.setSelectedPatientProfilePicUrl(
-        mzansiProfileProvider.userProfilePicUrl!);
+    if (patientManagerProvider.personalMode) {
+      patientManagerProvider.setSelectedPatientProfilePicUrl(
+          mzansiProfileProvider.userProfilePicUrl!);
+    } else {
+      AppUser? patientUserDetails = await MihUserServices().getMIHUserDetails(
+          patientManagerProvider.selectedPatient!.app_id, context);
+      String patientProPicUrl =
+          await MihFileApi.getMinioFileUrl(patientUserDetails!.pro_pic_path);
+      patientManagerProvider.setSelectedPatientProfilePicUrl(patientProPicUrl);
+    }
     patientManagerProvider.setPersonalMode(mzansiProfileProvider.personalHome);
     if (patientManagerProvider.selectedPatient != null) {
       await MihPatientServices()
