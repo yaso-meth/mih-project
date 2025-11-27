@@ -17,6 +17,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/bui
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   late Future<List<String>> availableBusinessTypes;
   bool filterOn = false;
   bool loadingSearchResults = false;
-
   Future<void> swapPressed(MzansiProfileProvider profileProvider,
       MzansiDirectoryProvider directoryProvider) async {
     directoryProvider.setPersonalSearch(!directoryProvider.personalSearch);
@@ -58,7 +58,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   }
 
   void clearAll(MzansiDirectoryProvider directoryProvider) {
-    directoryProvider.setSearchedBusinesses(searchedBusinesses: []);
+    directoryProvider
+        .setSearchedBusinesses(searchedBusinesses: [], businessesImages: {});
     directoryProvider.setSearchedUsers(searchedUsers: []);
     directoryProvider.setSearchTerm(searchTerm: "");
     setState(() {
@@ -91,8 +92,19 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             .searchBusinesses(directoryProvider.searchTerm,
                 directoryProvider.businessTypeFilter, context);
       }
+      Map<String, ImageProvider<Object>?> busImages = {};
+      String businessLogoUrl = "";
+      for (var bus in businessSearchResults) {
+        KenLogger.success("Business Logo Path: ${bus.logo_path}");
+        businessLogoUrl = await MihFileApi.getMinioFileUrl(bus.logo_path);
+        KenLogger.success("Business Logo Path: ${bus.logo_path}");
+        busImages[bus.business_id] =
+            businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+      }
       directoryProvider.setSearchedBusinesses(
-          searchedBusinesses: businessSearchResults);
+        searchedBusinesses: businessSearchResults,
+        businessesImages: busImages,
+      );
     }
     setState(() {
       loadingSearchResults = false;
@@ -280,8 +292,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
 
   Widget displayBusinessSearchResults(
       MzansiDirectoryProvider directoryProvider) {
-    KenLogger.success(
-        "Searched Businesses: ${directoryProvider.searchedBusinesses}");
     if (directoryProvider.searchedBusinesses == null || loadingSearchResults) {
       return Center(
         child: const Mihloadingcircle(),

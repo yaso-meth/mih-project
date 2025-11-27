@@ -8,7 +8,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_personal_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -393,16 +392,16 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           child: Center(child: Text("Location unavailable")),
                         );
                       } else {
-                        final myLocation = asyncSnapshot.data
-                            .toString()
-                            .replaceAll("Latitude: ", "")
-                            .replaceAll("Longitude: ", "");
-                        print("My Location is this: $myLocation");
-                        return widget.business != null
-                            ? MihBusinessProfilePreview(
-                                business: widget.business!,
-                              )
-                            : Text("NoBusiness Data");
+                        // final myLocation = asyncSnapshot.data
+                        //     .toString()
+                        //     .replaceAll("Latitude: ", "")
+                        //     .replaceAll("Longitude: ", "");
+                        // print("My Location is this: $myLocation");
+                        // return widget.business != null
+                        //     ? MihBusinessProfilePreview(
+                        //         business: widget.business!,
+                        //       )
+                        return Text("NoBusiness Data");
                       }
                     }),
                 // const SizedBox(height: 10),

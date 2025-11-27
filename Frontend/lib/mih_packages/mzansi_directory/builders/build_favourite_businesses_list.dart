@@ -61,6 +61,8 @@ class _BuildFavouriteBusinessesListState
                   ),
                   child: MihBusinessProfilePreview(
                     business: widget.favouriteBusinesses[index]!,
+                    imageFile: directoryProvider.favBusImages![
+                        widget.favouriteBusinesses[index]!.business_id],
                   ),
                 ),
               ),

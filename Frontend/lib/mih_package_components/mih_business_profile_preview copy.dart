@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -5,16 +6,15 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.d
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:provider/provider.dart';
 
 class MihBusinessProfilePreview extends StatefulWidget {
   final Business business;
-  final ImageProvider<Object>? imageFile;
   const MihBusinessProfilePreview({
     super.key,
     required this.business,
-    required this.imageFile,
   });
 
   @override
@@ -23,6 +23,9 @@ class MihBusinessProfilePreview extends StatefulWidget {
 }
 
 class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
+  late Future<String> futureImageUrl;
+  PlatformFile? file;
+
   String calculateDistance(MzansiDirectoryProvider directoryProvider) {
     try {
       double distanceInKm = MIHLocationAPI().getDistanceInMeaters(
@@ -48,23 +51,45 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
           Widget? child) {
         return Row(
           children: [
-            widget.imageFile == null
-                ? Icon(
-                    MihIcons.iDontKnow,
-                    size: profilePictureWidth,
-                  )
-                : MihCircleAvatar(
-                    imageFile: widget.imageFile,
-                    width: profilePictureWidth,
-                    editable: false,
-                    fileNameController: TextEditingController(),
-                    userSelectedfile: null,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onChange: () {},
-                  ),
+            FutureBuilder(
+                future: MihFileApi.getMinioFileUrl(widget.business.logo_path),
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.connectionState == ConnectionState.done &&
+                      asyncSnapshot.hasData) {
+                    if (asyncSnapshot.requireData != "") {
+                      return MihCircleAvatar(
+                        imageFile: NetworkImage(asyncSnapshot.requireData),
+                        width: profilePictureWidth,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        backgroundColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        onChange: () {},
+                      );
+                    } else {
+                      return Icon(
+                        MihIcons.iDontKnow,
+                        size: profilePictureWidth,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      );
+                    }
+                  } else {
+                    return Icon(
+                      MihIcons.mihRing,
+                      size: profilePictureWidth,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    );
+                  }
+                }),
             const SizedBox(width: 15),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -60,6 +60,8 @@ class _BuildBusinessSearchResultsListState
                   ),
                   child: MihBusinessProfilePreview(
                     business: widget.businessList[index],
+                    imageFile: directoryProvider.busSearchImages![
+                        widget.businessList[index].business_id],
                   ),
                 ),
               ),

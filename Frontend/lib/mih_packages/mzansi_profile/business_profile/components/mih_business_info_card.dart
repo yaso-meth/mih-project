@@ -15,6 +15,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
@@ -573,8 +574,17 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             businessSearchResults = await MihBusinessDetailsServices()
                 .searchBusinesses(directoryProvider.searchTerm,
                     directoryProvider.businessTypeFilter, context);
+            Map<String, ImageProvider<Object>?> busImages = {};
+            String businessLogoUrl = "";
+            for (var bus in businessSearchResults) {
+              businessLogoUrl = await MihFileApi.getMinioFileUrl(bus.logo_path);
+              busImages[bus.business_id] =
+                  businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+            }
             directoryProvider.setSearchedBusinesses(
-                searchedBusinesses: businessSearchResults);
+              searchedBusinesses: businessSearchResults,
+              businessesImages: busImages,
+            );
             setState(() {
               _businessReviewFuture = getUserReview();
             });

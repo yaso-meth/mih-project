@@ -11,7 +11,9 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   bool personalSearch;
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
+  Map<String, ImageProvider<Object>?>? favBusImages;
   List<Business>? searchedBusinesses;
+  Map<String, ImageProvider<Object>?>? busSearchImages;
   Business? selectedBusiness;
   List<AppUser>? searchedUsers;
   AppUser? selectedUser;
@@ -67,13 +69,21 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setFavouriteBusinesses({required List<Business> businesses}) {
+  void setFavouriteBusinesses({
+    required List<Business> businesses,
+    required Map<String, ImageProvider<Object>?> businessesImages,
+  }) {
     favouriteBusinessesList = businesses;
+    favBusImages = businessesImages;
     notifyListeners();
   }
 
-  void setSearchedBusinesses({required List<Business> searchedBusinesses}) {
+  void setSearchedBusinesses({
+    required List<Business> searchedBusinesses,
+    required Map<String, ImageProvider<Object>?> businessesImages,
+  }) {
     this.searchedBusinesses = searchedBusinesses;
+    busSearchImages = businessesImages;
     notifyListeners();
   }
 

@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tool
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
@@ -40,10 +41,10 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       mzansiProfileProvider,
     );
     await getFavouriteBusinesses();
-    initialiseGPSLocation();
     setState(() {
       _isLoadingInitialData = false;
     });
+    initialiseGPSLocation();
   }
 
   Future<void> initialiseGPSLocation() async {
@@ -63,14 +64,22 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       directoryProvider,
     );
     List<Business> favBus = [];
+    Map<String, ImageProvider<Object>?> favBusImages = {};
+    String businessLogoUrl = "";
     for (var bus in directoryProvider.bookmarkedBusinesses) {
       await MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(bus.business_id)
-          .then((business) {
+          .then((business) async {
         favBus.add(business!);
+        businessLogoUrl = await MihFileApi.getMinioFileUrl(business.logo_path);
+        favBusImages[business.business_id] =
+            businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
       });
     }
-    directoryProvider.setFavouriteBusinesses(businesses: favBus);
+    directoryProvider.setFavouriteBusinesses(
+      businesses: favBus,
+      businessesImages: favBusImages,
+    );
   }
 
   @override
