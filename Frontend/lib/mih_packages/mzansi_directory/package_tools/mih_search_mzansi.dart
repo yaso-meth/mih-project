@@ -60,7 +60,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   void clearAll(MzansiDirectoryProvider directoryProvider) {
     directoryProvider
         .setSearchedBusinesses(searchedBusinesses: [], businessesImages: {});
-    directoryProvider.setSearchedUsers(searchedUsers: []);
+    directoryProvider.setSearchedUsers(searchedUsers: [], userImages: {});
     directoryProvider.setSearchTerm(searchTerm: "");
     setState(() {
       mzansiSearchController.clear();
@@ -80,7 +80,20 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         directoryProvider.searchTerm.isNotEmpty) {
       final userResults = await MihUserServices()
           .searchUsers(profileProvider, directoryProvider.searchTerm, context);
-      directoryProvider.setSearchedUsers(searchedUsers: userResults);
+      Map<String, ImageProvider<Object>?> userImages = {};
+      String usernProPicUrl = "";
+      for (var user in userResults) {
+        KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
+        usernProPicUrl = await MihFileApi.getMinioFileUrl(user.pro_pic_path);
+        KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
+        userImages[user.app_id] =
+            usernProPicUrl != "" ? NetworkImage(usernProPicUrl) : null;
+      }
+
+      directoryProvider.setSearchedUsers(
+        searchedUsers: userResults,
+        userImages: userImages,
+      );
     } else {
       List<Business>? businessSearchResults = [];
       if (directoryProvider.businessTypeFilter.isNotEmpty) {
@@ -127,7 +140,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         MihBusinessDetailsServices().fetchAllBusinessTypes();
     mzansiSearchController.text = "";
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      directoryProvider.setSearchedUsers(searchedUsers: []);
+      directoryProvider.setSearchedUsers(searchedUsers: [], userImages: {});
     });
   }
 

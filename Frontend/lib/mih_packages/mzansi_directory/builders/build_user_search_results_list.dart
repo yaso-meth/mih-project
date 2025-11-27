@@ -57,8 +57,11 @@ class _BuildUserSearchResultsListState
                     // vertical: 5,
                     horizontal: 25,
                   ),
-                  child:
-                      MihPersonalProfilePreview(user: widget.userList[index]),
+                  child: MihPersonalProfilePreview(
+                    user: widget.userList[index],
+                    imageFile: directoryProvider
+                        .userSearchImages![widget.userList[index].app_id],
+                  ),
                 ),
               ),
             );

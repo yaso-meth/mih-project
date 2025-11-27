@@ -16,6 +16,7 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   Map<String, ImageProvider<Object>?>? busSearchImages;
   Business? selectedBusiness;
   List<AppUser>? searchedUsers;
+  Map<String, ImageProvider<Object>?>? userSearchImages;
   AppUser? selectedUser;
   String searchTerm;
   String businessTypeFilter;
@@ -92,8 +93,12 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSearchedUsers({required List<AppUser> searchedUsers}) {
+  void setSearchedUsers({
+    required List<AppUser> searchedUsers,
+    required Map<String, ImageProvider<Object>?> userImages,
+  }) {
     this.searchedUsers = searchedUsers;
+    this.userSearchImages = userImages;
     notifyListeners();
   }
 
