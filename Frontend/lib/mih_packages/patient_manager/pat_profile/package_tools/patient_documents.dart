@@ -8,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
@@ -565,11 +564,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         return Stack(
           children: [
-            MihSingleChildScroll(
-              child: Column(children: [
-                BuildFilesList(),
-              ]),
-            ),
+            BuildFilesList(),
             getMenu(profileProvider, patientManagerProvider, width),
           ],
         );

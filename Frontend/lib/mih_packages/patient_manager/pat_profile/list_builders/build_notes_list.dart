@@ -222,8 +222,6 @@ class _BuildNotesListState extends State<BuildNotesList> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         if (patientManagerProvider.consultationNotes!.isNotEmpty) {
           return ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
                 color: MihColors.getSecondaryColor(

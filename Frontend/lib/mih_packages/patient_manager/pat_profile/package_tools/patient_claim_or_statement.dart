@@ -48,12 +48,7 @@ class _PatientClaimOrStatementState extends State<PatientClaimOrStatement> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         return Stack(
           children: [
-            Column(
-              children: [
-                //const Placeholder(),
-                BuildClaimStatementFileList(),
-              ],
-            ),
+            BuildClaimStatementFileList(),
             Visibility(
               visible: !patientManagerProvider.personalMode,
               child: Positioned(

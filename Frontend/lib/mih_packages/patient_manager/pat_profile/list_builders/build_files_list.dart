@@ -299,8 +299,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         if (patientManagerProvider.patientDocuments!.isNotEmpty) {
           return ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
                 color: MihColors.getSecondaryColor(

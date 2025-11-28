@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -33,46 +32,44 @@ class _MyPatientListState extends State<MyPatientList> {
 
   Widget myPatientListTool(MzansiProfileProvider profileProvider,
       PatientManagerProvider patientManagerProvider, double width) {
-    return MihSingleChildScroll(
-      child: Column(mainAxisSize: MainAxisSize.max, children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 20),
-          child: MihSearchBar(
-            controller: _myPatientSearchController,
-            hintText: "Search Patient ID",
-            prefixIcon: Icons.search,
-            fillColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            hintColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            onPrefixIconTap: () {
-              setState(() async {
-                _myPatientIdSearchString = _myPatientSearchController.text;
-                await MihPatientServices().getPatientAccessListOfBusiness(
-                    patientManagerProvider,
-                    profileProvider.business!.business_id);
-              });
-            },
-            onClearIconTap: () {
-              setState(() {
-                _myPatientSearchController.clear();
-                _myPatientIdSearchString = "";
-              });
-              getMyPatientList(profileProvider, patientManagerProvider);
-            },
-            searchFocusNode: _searchFocusNode,
-          ),
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: width / 20),
+        child: MihSearchBar(
+          controller: _myPatientSearchController,
+          hintText: "Search Patient ID",
+          prefixIcon: Icons.search,
+          fillColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          hintColor: MihColors.getPrimaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          onPrefixIconTap: () {
+            setState(() async {
+              _myPatientIdSearchString = _myPatientSearchController.text;
+              await MihPatientServices().getPatientAccessListOfBusiness(
+                  patientManagerProvider,
+                  profileProvider.business!.business_id);
+            });
+          },
+          onClearIconTap: () {
+            setState(() {
+              _myPatientSearchController.clear();
+              _myPatientIdSearchString = "";
+            });
+            getMyPatientList(profileProvider, patientManagerProvider);
+          },
+          searchFocusNode: _searchFocusNode,
         ),
-        //spacer
-        const SizedBox(height: 10),
-        displayMyPatientList(patientManagerProvider),
-      ]),
-    );
+      ),
+      //spacer
+      const SizedBox(height: 10),
+      displayMyPatientList(patientManagerProvider),
+    ]);
   }
 
   Widget displayMyPatientList(PatientManagerProvider patientManagerProvider) {
     if (patientManagerProvider.myPaitentList!.isNotEmpty) {
-      return BuildMyPatientListList();
+      return Expanded(child: BuildMyPatientListList());
     }
     if (hasSearchedBefore && _myPatientIdSearchString.isNotEmpty) {
       return Column(
@@ -199,7 +196,6 @@ class _MyPatientListState extends State<MyPatientList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _myPatientSearchController.dispose();
     _searchFocusNode.dispose();

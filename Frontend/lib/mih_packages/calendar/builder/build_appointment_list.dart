@@ -748,8 +748,6 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: getPaddingSize()),
           child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
             itemCount: mzansiProfileProvider.personalHome
                 ? mihCalendarProvider.personalAppointments!.length
                 : mihCalendarProvider.businessAppointments!.length,

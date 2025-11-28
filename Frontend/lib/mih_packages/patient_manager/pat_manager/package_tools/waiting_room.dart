@@ -10,7 +10,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_calendar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
@@ -71,29 +70,22 @@ class _WaitingRoomState extends State<WaitingRoom> {
         }
         return Stack(
           children: [
-            MihSingleChildScroll(
-              child: Column(
-                children: [
-                  MIHCalendar(
-                      calendarWidth: 500,
-                      rowHeight: 35,
-                      setDate: (value) {
-                        mihCalendarProvider.setSelectedDay(value);
-                        setState(() {
-                          selectedAppointmentDateController.text = value;
-                        });
-                      }),
-                  // Divider(
-                  //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  // ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      displayAppointmentList(mihCalendarProvider),
-                    ],
-                  )
-                ],
-              ),
+            Column(
+              children: [
+                MIHCalendar(
+                    calendarWidth: 500,
+                    rowHeight: 35,
+                    setDate: (value) {
+                      mihCalendarProvider.setSelectedDay(value);
+                      setState(() {
+                        selectedAppointmentDateController.text = value;
+                      });
+                    }),
+                // Divider(
+                //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                // ),
+                displayAppointmentList(mihCalendarProvider)
+              ],
             ),
             Positioned(
               right: 10,

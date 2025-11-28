@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -34,38 +33,36 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
     return Consumer<PatientManagerProvider>(
       builder: (BuildContext context,
           PatientManagerProvider patientManagerProvider, Widget? child) {
-        return MihSingleChildScroll(
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width / 20),
-              child: MihSearchBar(
-                controller: _mihPatientSearchController,
-                hintText: "Search Patient ID/ Aid No.",
-                prefixIcon: Icons.search,
-                fillColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                hintColor: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                onPrefixIconTap: () {
-                  submitPatientSearch(patientManagerProvider);
-                },
-                onClearIconTap: () {
-                  setState(() {
-                    _mihPatientSearchController.clear();
-                    _mihPatientSearchString = "";
-                  });
-                  patientManagerProvider
-                      .setPatientSearchResults(patientSearchResults: []);
-                },
-                searchFocusNode: _searchFocusNode,
-              ),
+        return Column(mainAxisSize: MainAxisSize.max, children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
+            child: MihSearchBar(
+              controller: _mihPatientSearchController,
+              hintText: "Search Patient ID/ Aid No.",
+              prefixIcon: Icons.search,
+              fillColor: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              hintColor: MihColors.getPrimaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              onPrefixIconTap: () {
+                submitPatientSearch(patientManagerProvider);
+              },
+              onClearIconTap: () {
+                setState(() {
+                  _mihPatientSearchController.clear();
+                  _mihPatientSearchString = "";
+                });
+                patientManagerProvider
+                    .setPatientSearchResults(patientSearchResults: []);
+              },
+              searchFocusNode: _searchFocusNode,
             ),
-            //spacer
-            const SizedBox(height: 10),
+          ),
+          //spacer
+          const SizedBox(height: 10),
 
-            displayPatientList(patientManagerProvider, _mihPatientSearchString),
-          ]),
-        );
+          displayPatientList(patientManagerProvider, _mihPatientSearchString),
+        ]);
       },
     );
   }
@@ -86,7 +83,9 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
   Widget displayPatientList(
       PatientManagerProvider patientManagerProvider, String searchString) {
     if (patientManagerProvider.patientSearchResults.isNotEmpty) {
-      return BuildMihPatientSearchList();
+      return Expanded(
+        child: BuildMihPatientSearchList(),
+      );
     } else if (patientManagerProvider.patientSearchResults.isEmpty &&
         searchString != "") {
       return Column(

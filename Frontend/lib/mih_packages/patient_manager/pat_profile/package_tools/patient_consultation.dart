@@ -8,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
@@ -290,10 +289,7 @@ class _PatientConsultationState extends State<PatientConsultation> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         return Stack(
           children: [
-            MihSingleChildScroll(
-                child: Column(children: [
-              BuildNotesList(),
-            ])),
+            BuildNotesList(),
             Visibility(
               visible: !patientManagerProvider.personalMode,
               child: Positioned(
