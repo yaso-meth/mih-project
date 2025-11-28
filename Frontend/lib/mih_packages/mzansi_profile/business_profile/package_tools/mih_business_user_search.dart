@@ -1,6 +1,5 @@
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -44,7 +43,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
 
   Widget displayUserList(MzansiProfileProvider profileProvider) {
     if (profileProvider.userSearchResults.isNotEmpty) {
-      return BuildUserList();
+      return Expanded(child: BuildUserList());
     }
     if (hasSearchedBefore && userSearch.isNotEmpty) {
       return Column(
@@ -168,37 +167,35 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
-        return MihSingleChildScroll(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: MihSearchBar(
-                  controller: searchController,
-                  hintText: "Search Users",
-                  prefixIcon: Icons.search,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onPrefixIconTap: () {
-                    submitUserForm(profileProvider);
-                  },
-                  onClearIconTap: () {
-                    setState(() {
-                      searchController.clear();
-                      userSearch = "";
-                    });
-                    profileProvider.setUserearchResults(userSearchResults: []);
-                  },
-                  searchFocusNode: _searchFocusNode,
-                ),
+        return Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: MihSearchBar(
+                controller: searchController,
+                hintText: "Search Users",
+                prefixIcon: Icons.search,
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                hintColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                onPrefixIconTap: () {
+                  submitUserForm(profileProvider);
+                },
+                onClearIconTap: () {
+                  setState(() {
+                    searchController.clear();
+                    userSearch = "";
+                  });
+                  profileProvider.setUserearchResults(userSearchResults: []);
+                },
+                searchFocusNode: _searchFocusNode,
               ),
-              const SizedBox(height: 10),
-              displayUserList(profileProvider),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            displayUserList(profileProvider),
+          ],
         );
       },
     );

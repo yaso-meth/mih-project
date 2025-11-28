@@ -1,5 +1,4 @@
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -31,7 +30,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
 
   Widget displayEmployeeList(List<BusinessEmployee> employeeList) {
     if (employeeList.isNotEmpty) {
-      return BuildEmployeeList();
+      return Expanded(child: BuildEmployeeList());
     }
     return Center(
       child: Text(
@@ -71,11 +70,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
             child: Mihloadingcircle(),
           );
         }
-        return MihSingleChildScroll(
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            displayEmployeeList(mzansiProfileProvider.employeeList!),
-          ]),
-        );
+        return displayEmployeeList(mzansiProfileProvider.employeeList!);
       },
     );
   }

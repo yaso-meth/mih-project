@@ -42,8 +42,6 @@ class _BuildUserListState extends State<BuildUserList> {
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
         return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (BuildContext context, index) {
             return Divider(
               color: MihColors.getSecondaryColor(

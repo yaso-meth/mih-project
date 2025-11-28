@@ -35,8 +35,6 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
         return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (BuildContext context, index) {
             return Divider(
               color: MihColors.getSecondaryColor(
