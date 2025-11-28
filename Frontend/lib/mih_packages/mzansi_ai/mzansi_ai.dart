@@ -21,6 +21,7 @@ class MzansiAi extends StatefulWidget {
 
 class _MzansiAiState extends State<MzansiAi> {
   bool _isLoadingInitialData = true;
+  late final MihAiChat _aiChat;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -39,6 +40,7 @@ class _MzansiAiState extends State<MzansiAi> {
   @override
   void initState() {
     super.initState();
+    _aiChat = MihAiChat();
     _loadInitialData();
   }
 
@@ -93,10 +95,9 @@ class _MzansiAiState extends State<MzansiAi> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihAiChat(),
+    return [
+      _aiChat,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
