@@ -20,8 +20,17 @@ class AboutMih extends StatefulWidget {
 }
 
 class _AboutMihState extends State<AboutMih> {
+  late final MihInfo _info;
+  late final MihPrivacyPolicy _privacyPolicy;
+  late final MIHTermsOfService _termsOfService;
+  late final MihAttributes _attributes;
+
   @override
   void initState() {
+    _info = MihInfo();
+    _privacyPolicy = MihPrivacyPolicy();
+    _termsOfService = MIHTermsOfService();
+    _attributes = MihAttributes();
     super.initState();
   }
 
@@ -73,13 +82,12 @@ class _AboutMihState extends State<AboutMih> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      const MihInfo(),
-      const MihPrivacyPolicy(),
-      const MIHTermsOfService(),
-      const MihAttributes(),
+    return [
+      _info,
+      _privacyPolicy,
+      _termsOfService,
+      _attributes,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
