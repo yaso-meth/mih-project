@@ -23,6 +23,8 @@ class MihWallet extends StatefulWidget {
 
 class _MihWalletState extends State<MihWallet> {
   bool _isLoadingInitialData = true;
+  late final MihCards _cards;
+  late final MihCardFavourites _cardFavourites;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -60,6 +62,8 @@ class _MihWalletState extends State<MihWallet> {
   @override
   void initState() {
     super.initState();
+    _cards = MihCards();
+    _cardFavourites = MihCardFavourites();
     _loadInitialData();
   }
 
@@ -117,11 +121,10 @@ class _MihWalletState extends State<MihWallet> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihCards(),
-      MihCardFavourites(),
+    return [
+      _cards,
+      _cardFavourites,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
