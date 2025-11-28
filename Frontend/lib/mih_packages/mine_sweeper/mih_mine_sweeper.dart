@@ -24,6 +24,10 @@ class MihMineSweeper extends StatefulWidget {
 
 class _MihMineSweeperState extends State<MihMineSweeper> {
   bool _isLoadingInitialData = true;
+  late final MineSweeperGame _mineSweeperGame;
+  late final MihMineSweeperLeaderBoard _mineSweeperLeaderBoard;
+  late final MyScoreBoard _myScoreBoard;
+  late final MineSweeperQuickStartGuide _mineSweeperQuickStartGuide;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -44,6 +48,10 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
   @override
   void initState() {
     super.initState();
+    _mineSweeperGame = MineSweeperGame();
+    _mineSweeperLeaderBoard = MihMineSweeperLeaderBoard();
+    _myScoreBoard = MyScoreBoard();
+    _mineSweeperQuickStartGuide = MineSweeperQuickStartGuide();
     _loadInitialData();
   }
 
@@ -121,12 +129,11 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      const MineSweeperGame(),
-      const MihMineSweeperLeaderBoard(),
-      const MyScoreBoard(),
-      const MineSweeperQuickStartGuide(),
+    return [
+      _mineSweeperGame,
+      _mineSweeperLeaderBoard,
+      _myScoreBoard,
+      _mineSweeperQuickStartGuide,
     ];
-    return toolBodies;
   }
 }
