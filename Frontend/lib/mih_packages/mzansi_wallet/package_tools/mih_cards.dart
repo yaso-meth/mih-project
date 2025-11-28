@@ -3,7 +3,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
@@ -111,30 +110,28 @@ class _MihCardsState extends State<MihCards> {
         }
         return Stack(
           children: [
-            MihSingleChildScroll(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width / 20),
-                    child: MihSearchBar(
-                      controller: cardSearchController,
-                      hintText: "Search Cards",
-                      // prefixIcon: Icons.search,
-                      prefixIcon: Icons.search,
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      hintColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onPrefixIconTap: () {
-                        // print("Search Icon Pressed: ${cardSearchController.text}");
-                      },
-                      searchFocusNode: searchFocusNode,
-                    ),
+            Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width / 20),
+                  child: MihSearchBar(
+                    controller: cardSearchController,
+                    hintText: "Search Cards",
+                    // prefixIcon: Icons.search,
+                    prefixIcon: Icons.search,
+                    fillColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    hintColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    onPrefixIconTap: () {
+                      // print("Search Icon Pressed: ${cardSearchController.text}");
+                    },
+                    searchFocusNode: searchFocusNode,
                   ),
-                  const SizedBox(height: 10),
-                  ValueListenableBuilder<List<MIHLoyaltyCard>>(
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ValueListenableBuilder<List<MIHLoyaltyCard>>(
                     valueListenable: searchShopName,
                     builder: (context, filteredCards, child) {
                       return BuildLoyaltyCardList(
@@ -145,8 +142,8 @@ class _MihCardsState extends State<MihCards> {
                       );
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Positioned(
               right: 10,

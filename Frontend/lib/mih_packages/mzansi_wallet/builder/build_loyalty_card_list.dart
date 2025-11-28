@@ -659,8 +659,6 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             MzansiWalletProvider walletProvider,
             Widget? child) {
           return GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
             padding: EdgeInsets.only(
               left: getHorizontalPaddingSize(size),
               right: getHorizontalPaddingSize(size),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
@@ -40,21 +39,11 @@ class _MihCardFavouritesState extends State<MihCardFavourites> {
   }
 
   Widget getBody() {
-    return Stack(
-      children: [
-        MihSingleChildScroll(
-          child: Column(
-            children: [
-              BuildLoyaltyCardList(
-                cardList: listOfCards,
-                navIndex: 0,
-                favouritesMode: true,
-                searchText: TextEditingController(),
-              ),
-            ],
-          ),
-        ),
-      ],
+    return BuildLoyaltyCardList(
+      cardList: listOfCards,
+      navIndex: 0,
+      favouritesMode: true,
+      searchText: TextEditingController(),
     );
   }
 }
