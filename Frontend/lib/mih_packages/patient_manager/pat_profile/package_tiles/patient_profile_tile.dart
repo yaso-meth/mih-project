@@ -2,17 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class PatientProfileTile extends StatefulWidget {
-  final PatientViewArguments arguments;
   final double packageSize;
 
   const PatientProfileTile({
     super.key,
-    required this.arguments,
     required this.packageSize,
   });
 

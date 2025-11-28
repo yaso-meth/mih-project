@@ -1,14 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tiles/test_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
@@ -23,26 +19,12 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profi
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tiles/mih_wallet_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tiles/patient_profile_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class MihPersonalHome extends StatefulWidget {
-  final AppUser signedInUser;
-  final bool personalSelected;
-  final Business? business;
-  final BusinessUser? businessUser;
-  final ImageProvider<Object>? propicFile;
-  final bool isUserNew;
-  final bool isDevActive;
-
   const MihPersonalHome({
     super.key,
-    required this.signedInUser,
-    required this.personalSelected,
-    required this.business,
-    required this.businessUser,
-    required this.propicFile,
-    required this.isUserNew,
-    required this.isDevActive,
   });
 
   @override
@@ -104,13 +86,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Patient Profile ===============
     temp.add({
       "Patient Profile": PatientProfileTile(
-        arguments: PatientViewArguments(
-          widget.signedInUser,
-          null,
-          null,
-          null,
-          "personal",
-        ),
         packageSize: packageSize,
       )
     });
@@ -141,7 +116,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== Mine Sweeper ===============
     temp.add({
       "Mine Sweeper": MihMineSweeperTile(
-        personalSelected: widget.personalSelected,
         packageSize: packageSize,
       )
     });
@@ -158,11 +132,9 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       )
     });
     //=============== Dev ===============
-    if (widget.isDevActive) {
+    if (AppEnviroment.getEnv() == "Dev") {
       temp.add({
         "test": TestPackageTile(
-          signedInUser: widget.signedInUser,
-          business: widget.business,
           packageSize: packageSize,
         )
       });
@@ -205,10 +177,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.goNamed(
         'mzansiProfileManage',
-        extra: AppProfileUpdateArguments(
-          widget.signedInUser,
-          widget.propicFile,
-        ),
       );
     });
   }
@@ -227,7 +195,9 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   void initState() {
     super.initState();
     searchController.addListener(searchPackage);
-    if (widget.isUserNew) {
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    if (profileProvider.user!.username == "") {
       personalPackagesMap = setNerUserPersonalPackage();
       autoNavToProfile();
     } else {
@@ -249,57 +219,40 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   }
 
   Widget getBody(double width, double height) {
-    return Consumer<MzansiAiProvider>(
-      builder: (BuildContext context, MzansiAiProvider mzansiAiProvider,
-          Widget? child) {
-        return MihSingleChildScroll(
-          child: Column(
-            children: [
-              // Icon(
-              //   MihIcons.mihLogo,
-              //   size: 200,
-              //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              // ),
-              // const SizedBox(height: 10),
-              // Text(
-              //   // "Welcome, ${widget.signedInUser.fname}!",
-              //   "Mzansi Innovation Hub",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     fontSize: 30,
-              //     fontWeight: FontWeight.bold,
-              //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              Visibility(
-                visible: !widget.isUserNew,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width / 20),
-                  child: MihSearchBar(
-                    controller: searchController,
-                    hintText: "Ask Mzansi",
-                    prefixIcon: Icons.search,
-                    prefixAltIcon: MihIcons.mzansiAi,
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    hintColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onPrefixIconTap: () {
-                      mzansiAiProvider.ollamaProvider.resetChat();
-                      if (searchController.text.isNotEmpty) {
-                        mzansiAiProvider
-                            .setStartUpQuestion(searchController.text);
-                      }
-                      context.goNamed("mzansiAi");
-                      searchController.clear();
-                    },
-                    searchFocusNode: _searchFocusNode,
-                  ),
+    return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MzansiAiProvider mzansiAiProvider, Widget? child) {
+        return Column(
+          children: [
+            Visibility(
+              visible: profileProvider.user!.username != "",
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: MihSearchBar(
+                  controller: searchController,
+                  hintText: "Ask Mzansi",
+                  prefixIcon: Icons.search,
+                  prefixAltIcon: MihIcons.mzansiAi,
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onPrefixIconTap: () {
+                    mzansiAiProvider.ollamaProvider.resetChat();
+                    if (searchController.text.isNotEmpty) {
+                      mzansiAiProvider
+                          .setStartUpQuestion(searchController.text);
+                    }
+                    context.goNamed("mzansiAi");
+                    searchController.clear();
+                  },
+                  searchFocusNode: _searchFocusNode,
                 ),
               ),
-              const SizedBox(height: 20),
-              ValueListenableBuilder(
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ValueListenableBuilder(
                 valueListenable: searchPackageName,
                 builder: (context, value, child) {
                   List<Widget> filteredPackages = value
@@ -310,8 +263,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                       .toList();
                   if (filteredPackages.isNotEmpty) {
                     return GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
+                      // physics: const NeverScrollableScrollPhysics(),
+                      // shrinkWrap: true,
                       padding: getPadding(width, height),
                       // shrinkWrap: true,
                       itemCount: filteredPackages.length,
@@ -355,8 +308,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                   }
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

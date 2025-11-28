@@ -1,22 +1,18 @@
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_scack_bar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
@@ -38,6 +34,8 @@ class _MihHomeState extends State<MihHome> {
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
   bool _isLoadingInitialData = true;
+  late final MihPersonalHome _personalHome;
+  late final MihBusinessHome _businessHome;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -48,9 +46,11 @@ class _MihHomeState extends State<MihHome> {
     await MihDataHelperServices().loadUserDataWithBusinessesData(
       mzansiProfileProvider,
     );
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoadingInitialData = false;
+      });
+    }
   }
 
   bool showPolicyWindow(UserConsent? userConsent) {
@@ -79,6 +79,7 @@ class _MihHomeState extends State<MihHome> {
             context,
           )
             .then((value) {
+            if (!mounted) return;
             if (value == 200) {
               context.goNamed("mihHome");
               ScaffoldMessenger.of(context).showSnackBar(
@@ -262,6 +263,8 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
+    _personalHome = const MihPersonalHome();
+    _businessHome = MihBusinessHome(isLoading: _isLoadingInitialData);
     _loadInitialData();
   }
 
@@ -375,15 +378,11 @@ class _MihHomeState extends State<MihHome> {
       MzansiProfileProvider mzansiProfileProvider, bool isBusinessUser) {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
-      setState(() {
-        mzansiProfileProvider.setPersonalHome(true);
-      });
+      mzansiProfileProvider.setPersonalHome(true);
     };
     if (isBusinessUser) {
       temp[const Icon(Icons.business_center)] = () {
-        setState(() {
-          mzansiProfileProvider.setPersonalHome(false);
-        });
+        mzansiProfileProvider.setPersonalHome(false);
       };
     }
     return MihPackageTools(
@@ -393,32 +392,9 @@ class _MihHomeState extends State<MihHome> {
   }
 
   List<Widget> getToolBody(MzansiProfileProvider mzansiProfileProvider) {
-    List<Widget> toolBodies = [];
-    AppUser? user = mzansiProfileProvider.user;
-    Business? business = mzansiProfileProvider.business;
-    BusinessUser? businessUser = mzansiProfileProvider.businessUser;
-    String userProfilePictureUrl =
-        mzansiProfileProvider.userProfilePicUrl ?? "";
-    toolBodies.add(
-      MihPersonalHome(
-        signedInUser: user!,
-        personalSelected: mzansiProfileProvider.personalHome,
-        business: business,
-        businessUser: businessUser,
-        propicFile: userProfilePictureUrl != ""
-            ? NetworkImage(userProfilePictureUrl)
-            : null,
-        isDevActive: AppEnviroment.getEnv() == "Dev",
-        isUserNew: user.username == "",
-      ),
-    );
-    if (user.type != "personal") {
-      toolBodies.add(
-        MihBusinessHome(
-          isLoading: _isLoadingInitialData,
-        ),
-      );
-    }
-    return toolBodies;
+    return [
+      _personalHome,
+      _businessHome,
+    ];
   }
 }

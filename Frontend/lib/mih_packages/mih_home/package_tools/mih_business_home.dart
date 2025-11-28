@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
@@ -203,44 +202,37 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
           MzansiProfileProvider mzansiProfileProvider,
           MzansiAiProvider mzansiAiProvider,
           Widget? child) {
-        // if (mzansiProfileProvider.user == null ||
-        //     mzansiProfileProvider.business == null ||
-        //     mzansiProfileProvider.businessUser == null) {
-        //   return Center(
-        //     child: Mihloadingcircle(),
-        //   );
-        // }
-        return MihSingleChildScroll(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: Visibility(
-                  visible: mzansiProfileProvider.business != null,
-                  child: MihSearchBar(
-                    controller: searchController,
-                    hintText: "Ask Mzansi",
-                    prefixIcon: Icons.search,
-                    prefixAltIcon: MihIcons.mzansiAi,
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    hintColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onPrefixIconTap: () {
-                      mzansiAiProvider.ollamaProvider.resetChat();
-                      if (searchController.text.isNotEmpty) {
-                        mzansiAiProvider
-                            .setStartUpQuestion(searchController.text);
-                      }
-                      context.goNamed("mzansiAi");
-                      searchController.clear();
-                    },
-                    searchFocusNode: _searchFocusNode,
-                  ),
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: Visibility(
+                visible: mzansiProfileProvider.business != null,
+                child: MihSearchBar(
+                  controller: searchController,
+                  hintText: "Ask Mzansi",
+                  prefixIcon: Icons.search,
+                  prefixAltIcon: MihIcons.mzansiAi,
+                  fillColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  hintColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onPrefixIconTap: () {
+                    mzansiAiProvider.ollamaProvider.resetChat();
+                    if (searchController.text.isNotEmpty) {
+                      mzansiAiProvider
+                          .setStartUpQuestion(searchController.text);
+                    }
+                    context.goNamed("mzansiAi");
+                    searchController.clear();
+                  },
+                  searchFocusNode: _searchFocusNode,
                 ),
               ),
-              const SizedBox(height: 20),
-              ValueListenableBuilder(
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ValueListenableBuilder(
                 valueListenable: searchPackageName,
                 builder: (context, value, child) {
                   List<Widget> filteredPackages = value
@@ -295,8 +287,8 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                   }
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

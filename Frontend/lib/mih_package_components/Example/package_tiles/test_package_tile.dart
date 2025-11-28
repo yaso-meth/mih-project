@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class TestPackageTile extends StatefulWidget {
-  final AppUser signedInUser;
-  final Business? business;
   final double packageSize;
   const TestPackageTile({
     super.key,
-    required this.signedInUser,
-    required this.business,
     required this.packageSize,
   });
 
@@ -29,10 +22,6 @@ class _TestPackageTileState extends State<TestPackageTile> {
       onTap: () {
         context.goNamed(
           'testPackage',
-          extra: TestArguments(
-            widget.signedInUser,
-            widget.business,
-          ),
         );
         // Navigator.of(context).pushNamed(
         //   '/package-dev',

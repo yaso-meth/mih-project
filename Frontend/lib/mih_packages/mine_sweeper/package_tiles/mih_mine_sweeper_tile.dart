@@ -6,11 +6,9 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.da
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihMineSweeperTile extends StatefulWidget {
-  final bool personalSelected;
   final double packageSize;
   const MihMineSweeperTile({
     super.key,
-    required this.personalSelected,
     required this.packageSize,
   });
 
