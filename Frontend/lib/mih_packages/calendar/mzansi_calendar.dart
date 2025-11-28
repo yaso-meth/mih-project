@@ -21,6 +21,7 @@ class MzansiCalendar extends StatefulWidget {
 
 class _MzansiCalendarState extends State<MzansiCalendar> {
   bool _isLoadingInitialData = true;
+  late final Appointments _appointments;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -39,6 +40,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   @override
   void initState() {
     super.initState();
+    _appointments = Appointments();
     _loadInitialData();
   }
 
@@ -95,11 +97,9 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      //appointment here
-      Appointments(),
+    return [
+      _appointments,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
