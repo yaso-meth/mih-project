@@ -20,6 +20,10 @@ class MIHCalculator extends StatefulWidget {
 }
 
 class _MIHCalculatorState extends State<MIHCalculator> {
+  late final SimpleCalc _simpleCalc;
+  late final TipCalc _tipCalc;
+  late final CurrencyExchangeRate _currencyExchangeRate;
+
   Future<void> getCurrencyCodeList() async {
     await MihCurrencyExchangeRateServices.getCurrencyCodeList(context);
   }
@@ -27,6 +31,9 @@ class _MIHCalculatorState extends State<MIHCalculator> {
   @override
   void initState() {
     super.initState();
+    _simpleCalc = SimpleCalc();
+    _tipCalc = TipCalc();
+    _currencyExchangeRate = CurrencyExchangeRate();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getCurrencyCodeList();
     });
@@ -77,12 +84,11 @@ class _MIHCalculatorState extends State<MIHCalculator> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      const SimpleCalc(),
-      const TipCalc(),
-      const CurrencyExchangeRate(),
+    return [
+      _simpleCalc,
+      _tipCalc,
+      _currencyExchangeRate,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
