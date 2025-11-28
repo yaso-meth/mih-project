@@ -16,6 +16,7 @@ class MzansiProfileView extends StatefulWidget {
 
 class _MzansiProfileViewState extends State<MzansiProfileView> {
   int _selcetedIndex = 0;
+  late final MihPersonalProfileView _personalProfileView;
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +59,9 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [];
-    toolBodies.add(
-      MihPersonalProfileView(),
-    );
-    return toolBodies;
+    return [
+      _personalProfileView,
+    ];
   }
 
   List<String> getToolTitle() {

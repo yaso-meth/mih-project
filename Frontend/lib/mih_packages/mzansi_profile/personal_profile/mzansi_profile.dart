@@ -21,6 +21,8 @@ class MzansiProfile extends StatefulWidget {
 
 class _MzansiProfileState extends State<MzansiProfile> {
   bool _isLoadingInitialData = true;
+  late final MihPersonalProfile _personalProfile;
+  late final MihPersonalSettings _personalSettings;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -39,6 +41,8 @@ class _MzansiProfileState extends State<MzansiProfile> {
   @override
   void initState() {
     super.initState();
+    _personalProfile = const MihPersonalProfile();
+    _personalSettings = const MihPersonalSettings();
     _loadInitialData();
   }
 
@@ -100,11 +104,10 @@ class _MzansiProfileState extends State<MzansiProfile> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [];
-    toolBodies.add(MihPersonalProfile());
-    // toolBodies.add(MihPersonalProfile());
-    toolBodies.add(MihPersonalSettings());
-    return toolBodies;
+    return [
+      _personalProfile,
+      _personalSettings,
+    ];
   }
 
   List<String> getToolTitle() {

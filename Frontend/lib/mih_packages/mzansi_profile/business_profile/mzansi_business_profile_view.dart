@@ -27,6 +27,9 @@ class MzansiBusinessProfileView extends StatefulWidget {
 
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   int _selcetedIndex = 0;
+  late final MihBusinessDetailsView _businessDetailsView;
+  late final MihBusinessReviews _businessReviews;
+  late final MihBusinessQrCode _businessQrCode;
 
   Future<void> _fetchBusinessDetails(
       MzansiDirectoryProvider directoryProvider) async {
@@ -50,6 +53,12 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
+    _businessDetailsView = MihBusinessDetailsView();
+    _businessReviews =
+        MihBusinessReviews(business: directoryProvider.selectedBusiness!);
+    _businessQrCode = MihBusinessQrCode(
+      business: directoryProvider.selectedBusiness!,
+    );
     _fetchBusinessDetails(directoryProvider);
   }
 
@@ -129,14 +138,11 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   }
 
   List<Widget> getToolBody(MzansiDirectoryProvider directoryProvider) {
-    List<Widget> toolBodies = [
-      MihBusinessDetailsView(),
-      MihBusinessReviews(business: directoryProvider.selectedBusiness!),
-      MihBusinessQrCode(
-        business: directoryProvider.selectedBusiness!,
-      )
+    return [
+      _businessDetailsView,
+      _businessReviews,
+      _businessQrCode,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {

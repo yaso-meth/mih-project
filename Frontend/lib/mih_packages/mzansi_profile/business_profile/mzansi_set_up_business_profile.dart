@@ -17,6 +17,14 @@ class MzansiSetUpBusinessProfile extends StatefulWidget {
 
 class _MzansiSetUpBusinessProfileState
     extends State<MzansiSetUpBusinessProfile> {
+  late final MihBusinessDetailsSetUp _businessDetailsSetUp;
+
+  @override
+  void initState() {
+    _businessDetailsSetUp = MihBusinessDetailsSetUp();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -64,9 +72,8 @@ class _MzansiSetUpBusinessProfileState
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihBusinessDetailsSetUp(),
+    return [
+      _businessDetailsSetUp,
     ];
-    return toolBodies;
   }
 }

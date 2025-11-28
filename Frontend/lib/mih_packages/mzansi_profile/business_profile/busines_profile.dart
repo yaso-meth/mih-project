@@ -24,6 +24,12 @@ class BusinesProfile extends StatefulWidget {
 
 class _BusinesProfileState extends State<BusinesProfile> {
   bool _isLoadingInitialData = true;
+  late final MihBusinessDetails _businessDetails;
+  late final MihMyBusinessUser _businessUser;
+  late final MihMyBusinessTeam _businessTeam;
+  late final MihBusinessUserSearch _businessUserSearch;
+  late final MihBusinessReviews _businessReviews;
+  late final MihBusinessQrCode _businessQrCode;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -44,6 +50,12 @@ class _BusinesProfileState extends State<BusinesProfile> {
   @override
   void initState() {
     super.initState();
+    _businessDetails = MihBusinessDetails();
+    _businessUser = MihMyBusinessUser();
+    _businessTeam = MihMyBusinessTeam();
+    _businessUserSearch = MihBusinessUserSearch();
+    _businessReviews = MihBusinessReviews(business: null);
+    _businessQrCode = MihBusinessQrCode(business: null);
     _loadInitialData();
   }
 
@@ -132,14 +144,13 @@ class _BusinesProfileState extends State<BusinesProfile> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihBusinessDetails(),
-      MihMyBusinessUser(),
-      MihMyBusinessTeam(),
-      MihBusinessUserSearch(),
-      MihBusinessReviews(business: null),
-      MihBusinessQrCode(business: null),
+    return [
+      _businessDetails,
+      _businessUser,
+      _businessTeam,
+      _businessUserSearch,
+      _businessReviews,
+      _businessQrCode,
     ];
-    return toolBodies;
   }
 }
