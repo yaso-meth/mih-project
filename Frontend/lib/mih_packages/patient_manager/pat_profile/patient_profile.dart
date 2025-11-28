@@ -29,6 +29,10 @@ class PatientProfile extends StatefulWidget {
 
 class _PatientProfileState extends State<PatientProfile> {
   bool _isLoadingInitialData = true;
+  late final PatientInfo _patientInfo;
+  late final PatientConsultation _patienConsultation;
+  late final PatientDocuments _patientDocuments;
+  late final PatientClaimOrStatement _patientClaimOrStatement;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -75,6 +79,10 @@ class _PatientProfileState extends State<PatientProfile> {
   @override
   void initState() {
     super.initState();
+    _patientInfo = PatientInfo();
+    _patienConsultation = PatientConsultation();
+    _patientDocuments = PatientDocuments();
+    _patientClaimOrStatement = PatientClaimOrStatement();
     _loadInitialData();
   }
 
@@ -151,13 +159,12 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      PatientInfo(),
-      PatientConsultation(),
-      PatientDocuments(),
-      PatientClaimOrStatement(),
+    return [
+      _patientInfo,
+      _patienConsultation,
+      _patientDocuments,
+      _patientClaimOrStatement,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {

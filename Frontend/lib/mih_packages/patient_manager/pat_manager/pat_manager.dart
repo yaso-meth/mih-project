@@ -26,6 +26,9 @@ class PatManager extends StatefulWidget {
 
 class _PatManagerState extends State<PatManager> {
   bool _isLoadingInitialData = true;
+  late final WaitingRoom _waitingRoom;
+  late final MyPatientList _myPatientList;
+  late final MihPatientSearch _mihPatientSearch;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -59,6 +62,9 @@ class _PatManagerState extends State<PatManager> {
   @override
   void initState() {
     super.initState();
+    _waitingRoom = WaitingRoom();
+    _myPatientList = MyPatientList();
+    _mihPatientSearch = MihPatientSearch();
     _loadInitialData();
   }
 
@@ -131,12 +137,11 @@ class _PatManagerState extends State<PatManager> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      WaitingRoom(),
-      MyPatientList(),
-      MihPatientSearch(),
+    return [
+      _waitingRoom,
+      _myPatientList,
+      _mihPatientSearch,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {

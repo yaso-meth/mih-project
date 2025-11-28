@@ -15,6 +15,14 @@ class PatientSetUp extends StatefulWidget {
 }
 
 class _PatientSetUpState extends State<PatientSetUp> {
+  late final PatientSetupForm _patientSetupForm;
+
+  @override
+  void initState() {
+    super.initState();
+    _patientSetupForm = PatientSetupForm();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -57,10 +65,9 @@ class _PatientSetUpState extends State<PatientSetUp> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      PatientSetupForm(),
+    return [
+      _patientSetupForm,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
