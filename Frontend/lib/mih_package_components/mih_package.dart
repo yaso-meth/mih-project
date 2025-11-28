@@ -7,16 +7,15 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_d
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class MihPackage extends StatefulWidget {
   final Widget appActionButton;
   final MihPackageTools appTools;
   final List<Widget> appBody;
   final List<String> appToolTitles;
   final MIHAppDrawer? actionDrawer;
-  int selectedbodyIndex;
+  final int selectedbodyIndex;
   final Function(int) onIndexChange;
-  MihPackage({
+  const MihPackage({
     super.key,
     required this.appActionButton,
     required this.appTools,
@@ -33,6 +32,7 @@ class MihPackage extends StatefulWidget {
 
 class _MihPackageState extends State<MihPackage>
     with SingleTickerProviderStateMixin {
+  late int _currentIndex;
   late PageController _pageController;
   late AnimationController _animationController;
   DateTime? lastPressedAt;
@@ -42,7 +42,7 @@ class _MihPackageState extends State<MihPackage>
   }
 
   Future<void> _peakAnimation() async {
-    int currentPage = widget.selectedbodyIndex;
+    int currentPage = _currentIndex;
     double peakOffset = _pageController.position.viewportDimension * 0.075;
     double currentOffset =
         _pageController.page! * _pageController.position.viewportDimension;
@@ -66,15 +66,17 @@ class _MihPackageState extends State<MihPackage>
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant MihPackage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedbodyIndex != widget.selectedbodyIndex) {
+    if (oldWidget.selectedbodyIndex != widget.selectedbodyIndex &&
+        _currentIndex != widget.selectedbodyIndex) {
+      _currentIndex = widget.selectedbodyIndex;
       _pageController.animateToPage(
         widget.selectedbodyIndex,
         duration: const Duration(milliseconds: 300),
@@ -86,6 +88,7 @@ class _MihPackageState extends State<MihPackage>
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.selectedbodyIndex;
     _pageController = PageController(initialPage: widget.selectedbodyIndex);
     _animationController = AnimationController(
       vsync: this,
@@ -197,9 +200,9 @@ class _MihPackageState extends State<MihPackage>
                       },
                       onPageChanged: (index) {
                         setState(() {
-                          widget.selectedbodyIndex = index;
-                          widget.onIndexChange(widget.selectedbodyIndex);
+                          _currentIndex = index;
                         });
+                        widget.onIndexChange(widget.selectedbodyIndex);
                       },
                     ),
                   ),
