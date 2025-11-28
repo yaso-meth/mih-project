@@ -91,111 +91,106 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
             child: Mihloadingcircle(),
           );
         } else {
-          return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width / 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(
-                        child: MihDropdownField(
-                          controller: filterController,
-                          hintText: "Leaderboards",
-                          dropdownOptions: const [
-                            "Very Easy",
-                            "Easy",
-                            "Intermediate",
-                            "Hard",
-                          ],
-                          requiredText: true,
-                          editable: true,
-                          enableSearch: false,
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                          onSelected: (selection) {
-                            refreshLeaderBoard(mineSweeperProvider, selection!);
-                          },
-                        ),
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                      child: MihDropdownField(
+                        controller: filterController,
+                        hintText: "Leaderboards",
+                        dropdownOptions: const [
+                          "Very Easy",
+                          "Easy",
+                          "Intermediate",
+                          "Hard",
+                        ],
+                        requiredText: true,
+                        editable: true,
+                        enableSearch: false,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        onSelected: (selection) {
+                          refreshLeaderBoard(mineSweeperProvider, selection!);
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                !isLoading && mineSweeperProvider.leaderboard!.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 50),
-                            Icon(
-                              MihIcons.mineSweeper,
-                              size: 165,
+              ),
+              const SizedBox(height: 10),
+              !isLoading && mineSweeperProvider.leaderboard!.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 50),
+                          Icon(
+                            MihIcons.mineSweeper,
+                            size: 165,
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Be the first on the leaderboard.",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                               color: MihColors.getSecondaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "Be the first on the leaderboard.",
+                          ),
+                          const SizedBox(height: 25),
+                          Center(
+                            child: RichText(
                               textAlign: TextAlign.center,
-                              overflow: TextOverflow.visible,
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                              ),
-                            ),
-                            const SizedBox(height: 25),
-                            Center(
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    color: MihColors.getSecondaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                  ),
-                                  children: [
-                                    TextSpan(text: "Press "),
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        FontAwesomeIcons.bomb,
-                                        size: 20,
-                                        color: MihColors.getSecondaryColor(
-                                            MzansiInnovationHub.of(context)!
-                                                    .theme
-                                                    .mode ==
-                                                "Dark"),
-                                      ),
-                                    ),
-                                    TextSpan(text: " and start a new game"),
-                                  ],
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
+                                children: [
+                                  TextSpan(text: "Press "),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      FontAwesomeIcons.bomb,
+                                      size: 20,
+                                      color: MihColors.getSecondaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
+                                  ),
+                                  TextSpan(text: " and start a new game"),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      )
-                    : BuildMinesweeperLeaderboardList(),
-              ],
-            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(child: BuildMinesweeperLeaderboardList()),
+            ],
           );
         }
       },

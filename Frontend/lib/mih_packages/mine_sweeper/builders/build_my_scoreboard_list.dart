@@ -39,8 +39,6 @@ class _BuildMinesweeperLeaderboardListState
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
         return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (BuildContext context, index) {
             return Divider(
               color: MihColors.getSecondaryColor(

@@ -81,126 +81,121 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
             child: Mihloadingcircle(),
           );
         } else {
-          return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Center(
-                  child: MihCircleAvatar(
-                    imageFile: profileProvider.userProfilePicture,
-                    width: 150,
-                    editable: false,
-                    fileNameController: null,
-                    userSelectedfile: null,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onChange: (selectedImage) {},
-                    key: ValueKey(profileProvider.userProfilePicUrl),
-                  ),
+          return Column(
+            children: [
+              Center(
+                child: MihCircleAvatar(
+                  imageFile: profileProvider.userProfilePicture,
+                  width: 150,
+                  editable: false,
+                  fileNameController: null,
+                  userSelectedfile: null,
+                  frameColor: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  onChange: (selectedImage) {},
+                  key: ValueKey(profileProvider.userProfilePicUrl),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width / 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(
-                        child: MihDropdownField(
-                          controller: filterController,
-                          hintText: "Scoreboards",
-                          dropdownOptions: const [
-                            "Very Easy",
-                            "Easy",
-                            "Intermediate",
-                            "Hard",
-                          ],
-                          requiredText: true,
-                          editable: true,
-                          enableSearch: false,
-                          validator: (value) {
-                            return MihValidationServices().isEmpty(value);
-                          },
-                          onSelected: (selection) {
-                            refreshLeaderBoard(mineSweeperProvider, selection!);
-                          },
-                        ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                      child: MihDropdownField(
+                        controller: filterController,
+                        hintText: "Scoreboards",
+                        dropdownOptions: const [
+                          "Very Easy",
+                          "Easy",
+                          "Intermediate",
+                          "Hard",
+                        ],
+                        requiredText: true,
+                        editable: true,
+                        enableSearch: false,
+                        validator: (value) {
+                          return MihValidationServices().isEmpty(value);
+                        },
+                        onSelected: (selection) {
+                          refreshLeaderBoard(mineSweeperProvider, selection!);
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                mineSweeperProvider.myScoreboard!.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 50),
-                            Icon(
-                              MihIcons.mineSweeper,
-                              size: 165,
+              ),
+              const SizedBox(height: 10),
+              mineSweeperProvider.myScoreboard!.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 50),
+                          Icon(
+                            MihIcons.mineSweeper,
+                            size: 165,
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "You have played and ${mineSweeperProvider.difficulty} yet.",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                               color: MihColors.getSecondaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "You have played and ${mineSweeperProvider.difficulty} yet.",
+                          ),
+                          const SizedBox(height: 25),
+                          Center(
+                            child: RichText(
                               textAlign: TextAlign.center,
-                              overflow: TextOverflow.visible,
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                              ),
-                            ),
-                            const SizedBox(height: 25),
-                            Center(
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    color: MihColors.getSecondaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
-                                  ),
-                                  children: [
-                                    TextSpan(text: "Press "),
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                        FontAwesomeIcons.bomb,
-                                        size: 20,
-                                        color: MihColors.getSecondaryColor(
-                                            MzansiInnovationHub.of(context)!
-                                                    .theme
-                                                    .mode ==
-                                                "Dark"),
-                                      ),
-                                    ),
-                                    TextSpan(text: " and start a new game"),
-                                  ],
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
                                 ),
+                                children: [
+                                  TextSpan(text: "Press "),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                      FontAwesomeIcons.bomb,
+                                      size: 20,
+                                      color: MihColors.getSecondaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                    ),
+                                  ),
+                                  TextSpan(text: " and start a new game"),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      )
-                    : BuildMyScoreBoardList(),
-              ],
-            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(child: BuildMyScoreBoardList()),
+            ],
           );
         }
       },
