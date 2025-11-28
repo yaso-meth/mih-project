@@ -176,7 +176,7 @@ class _MihPackageState extends State<MihPackage>
                           // color: Colors.black,
                           child: FittedBox(
                             child: Text(
-                              widget.appToolTitles[widget.selectedbodyIndex],
+                              widget.appToolTitles[_currentIndex],
                               style: const TextStyle(
                                 fontSize: 23,
                                 fontWeight: FontWeight.w600,
@@ -202,7 +202,7 @@ class _MihPackageState extends State<MihPackage>
                         setState(() {
                           _currentIndex = index;
                         });
-                        widget.onIndexChange(widget.selectedbodyIndex);
+                        widget.onIndexChange(index);
                       },
                     ),
                   ),
