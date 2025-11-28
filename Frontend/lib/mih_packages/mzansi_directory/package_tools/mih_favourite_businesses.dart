@@ -5,7 +5,6 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -89,25 +88,25 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
             child: Mihloadingcircle(),
           );
         }
-        return MihSingleChildScroll(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: MihSearchBar(
-                  controller: businessSearchController,
-                  hintText: "Search Businesses",
-                  prefixIcon: Icons.search,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onPrefixIconTap: () {},
-                  searchFocusNode: searchFocusNode,
-                ),
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: MihSearchBar(
+                controller: businessSearchController,
+                hintText: "Search Businesses",
+                prefixIcon: Icons.search,
+                fillColor: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                hintColor: MihColors.getPrimaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                onPrefixIconTap: () {},
+                searchFocusNode: searchFocusNode,
               ),
-              const SizedBox(height: 10),
-              ValueListenableBuilder<List<Business?>>(
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ValueListenableBuilder<List<Business?>>(
                   valueListenable: searchBookmarkedBusinesses,
                   builder: (context, filteredBusinesses, child) {
                     if (filteredBusinesses.isEmpty &&
@@ -200,8 +199,8 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                       favouriteBusinesses: filteredBusinesses,
                     );
                   }),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
