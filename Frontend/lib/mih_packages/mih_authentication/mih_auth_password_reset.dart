@@ -19,6 +19,13 @@ class MihAuthPasswordReset extends StatefulWidget {
 
 class _MihAuthPasswordResetState extends State<MihAuthPasswordReset> {
   int _selcetedIndex = 0;
+  late final MihResetPassword _resetPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetPassword = MihResetPassword(token: widget.token);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +74,8 @@ class _MihAuthPasswordResetState extends State<MihAuthPasswordReset> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihResetPassword(
-        token: widget.token,
-      ),
+    return [
+      _resetPassword,
     ];
-    return toolBodies;
   }
 }

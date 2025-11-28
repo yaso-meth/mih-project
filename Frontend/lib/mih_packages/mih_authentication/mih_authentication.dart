@@ -17,6 +17,16 @@ class MihAuthentication extends StatefulWidget {
 }
 
 class _MihAuthenticationState extends State<MihAuthentication> {
+  late final MihSignIn _signIn;
+  late final MihRegister _register;
+
+  @override
+  void initState() {
+    super.initState();
+    _signIn = MihSignIn();
+    _register = MihRegister();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MihPackage(
@@ -32,8 +42,10 @@ class _MihAuthenticationState extends State<MihAuthentication> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [MihSignIn(), MihRegister()];
-    return toolBodies;
+    return [
+      _signIn,
+      _register,
+    ];
   }
 
   List<String> getToolTitle() {

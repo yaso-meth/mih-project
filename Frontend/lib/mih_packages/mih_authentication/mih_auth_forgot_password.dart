@@ -14,6 +14,13 @@ class MihAuthForgotPassword extends StatefulWidget {
 
 class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
   int _selcetedIndex = 0;
+  late final MihForgotPassword _forgotPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    _forgotPassword = MihForgotPassword();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +66,8 @@ class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihForgotPassword(),
+    return [
+      _forgotPassword,
     ];
-    return toolBodies;
   }
 }
