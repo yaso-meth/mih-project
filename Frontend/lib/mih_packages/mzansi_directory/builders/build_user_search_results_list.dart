@@ -27,8 +27,8 @@ class _BuildUserSearchResultsListState
       builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
           Widget? child) {
         return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          // shrinkWrap: true,
+          // physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.userList.length,
           separatorBuilder: (BuildContext context, index) {
             return Divider(

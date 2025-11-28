@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -86,8 +87,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
         usernProPicUrl = await MihFileApi.getMinioFileUrl(user.pro_pic_path);
         KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
-        userImages[user.app_id] =
-            usernProPicUrl != "" ? NetworkImage(usernProPicUrl) : null;
+        userImages[user.app_id] = usernProPicUrl != ""
+            ? CachedNetworkImageProvider(usernProPicUrl)
+            : null;
       }
 
       directoryProvider.setSearchedUsers(
@@ -111,8 +113,9 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         KenLogger.success("Business Logo Path: ${bus.logo_path}");
         businessLogoUrl = await MihFileApi.getMinioFileUrl(bus.logo_path);
         KenLogger.success("Business Logo Path: ${bus.logo_path}");
-        busImages[bus.business_id] =
-            businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+        busImages[bus.business_id] = businessLogoUrl != ""
+            ? CachedNetworkImageProvider(businessLogoUrl)
+            : null;
       }
       directoryProvider.setSearchedBusinesses(
         searchedBusinesses: businessSearchResults,
@@ -158,146 +161,155 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     return Consumer2<MzansiProfileProvider, MzansiDirectoryProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MzansiDirectoryProvider directoryProvider, Widget? child) {
-        return MihSingleChildScroll(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: MihSearchBar(
-                        controller: mzansiSearchController,
-                        hintText: "Search Mzansi",
-                        prefixIcon: Icons.search,
-                        prefixAltIcon: directoryProvider.personalSearch
-                            ? Icons.person
-                            : Icons.business,
-                        suffixTools: [
-                          IconButton(
+        return Column(
+          children: [
+            Text(
+              directoryProvider.personalSearch
+                  ? "People Search"
+                  : "Businesses Search",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: MihSearchBar(
+                      controller: mzansiSearchController,
+                      hintText: "Search Mzansi",
+                      prefixIcon: Icons.search,
+                      prefixAltIcon: directoryProvider.personalSearch
+                          ? Icons.person
+                          : Icons.business,
+                      suffixTools: [
+                        IconButton(
+                          onPressed: () {
+                            swapPressed(profileProvider, directoryProvider);
+                          },
+                          icon: Icon(
+                            Icons.swap_horiz_rounded,
+                            size: 35,
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                        ),
+                      ],
+                      fillColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      hintColor: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      onPrefixIconTap: () {
+                        searchPressed(profileProvider, directoryProvider);
+                      },
+                      onClearIconTap: () {
+                        clearAll(directoryProvider);
+                      },
+                      searchFocusNode: searchFocusNode,
+                    ),
+                  ),
+                  Visibility(
+                    visible: !directoryProvider.personalSearch,
+                    child: const SizedBox(width: 10),
+                  ),
+                  Visibility(
+                    visible: !directoryProvider.personalSearch,
+                    child: IconButton(
+                      onPressed: () {
+                        if (filterOn) {
+                          clearAll(directoryProvider);
+                        }
+                        setState(() {
+                          filterOn = !filterOn;
+                        });
+                      },
+                      icon: Icon(
+                        !filterOn
+                            ? Icons.filter_list_rounded
+                            : Icons.filter_list_off_rounded,
+                        size: 35,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            FutureBuilder(
+                future: availableBusinessTypes,
+                builder: (context, asyncSnapshot) {
+                  List<String> options = [];
+                  if (asyncSnapshot.connectionState == ConnectionState.done) {
+                    options.addAll(asyncSnapshot.data!);
+                  }
+                  return Visibility(
+                    visible: filterOn,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width / 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: MihDropdownField(
+                              controller: businessTypeController,
+                              hintText: "Business Type",
+                              dropdownOptions: options,
+                              requiredText: true,
+                              editable: true,
+                              enableSearch: true,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          MihButton(
                             onPressed: () {
-                              swapPressed(profileProvider, directoryProvider);
+                              if (businessTypeController.text.isNotEmpty) {
+                                searchPressed(
+                                    profileProvider, directoryProvider);
+                              } else {
+                                MihAlertServices().errorBasicAlert(
+                                  "Business Type Not Selected",
+                                  "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
+                                  context,
+                                );
+                              }
                             },
-                            icon: Icon(
-                              Icons.swap_horiz_rounded,
-                              size: 35,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            elevation: 10,
+                            child: Text(
+                              "Search",
+                              style: TextStyle(
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        hintColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        onPrefixIconTap: () {
-                          searchPressed(profileProvider, directoryProvider);
-                        },
-                        onClearIconTap: () {
-                          clearAll(directoryProvider);
-                        },
-                        searchFocusNode: searchFocusNode,
                       ),
                     ),
-                    Visibility(
-                      visible: !directoryProvider.personalSearch,
-                      child: const SizedBox(width: 10),
-                    ),
-                    Visibility(
-                      visible: !directoryProvider.personalSearch,
-                      child: IconButton(
-                        onPressed: () {
-                          if (filterOn) {
-                            clearAll(directoryProvider);
-                          }
-                          setState(() {
-                            filterOn = !filterOn;
-                          });
-                        },
-                        icon: Icon(
-                          !filterOn
-                              ? Icons.filter_list_rounded
-                              : Icons.filter_list_off_rounded,
-                          size: 35,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              FutureBuilder(
-                  future: availableBusinessTypes,
-                  builder: (context, asyncSnapshot) {
-                    List<String> options = [];
-                    if (asyncSnapshot.connectionState == ConnectionState.done) {
-                      options.addAll(asyncSnapshot.data!);
-                    }
-                    return Visibility(
-                      visible: filterOn,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width / 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: MihDropdownField(
-                                controller: businessTypeController,
-                                hintText: "Business Type",
-                                dropdownOptions: options,
-                                requiredText: true,
-                                editable: true,
-                                enableSearch: true,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            MihButton(
-                              onPressed: () {
-                                if (businessTypeController.text.isNotEmpty) {
-                                  searchPressed(
-                                      profileProvider, directoryProvider);
-                                } else {
-                                  MihAlertServices().errorBasicAlert(
-                                    "Business Type Not Selected",
-                                    "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
-                                    context,
-                                  );
-                                }
-                              },
-                              buttonColor: MihColors.getGreenColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              elevation: 10,
-                              child: Text(
-                                "Search",
-                                style: TextStyle(
-                                  color: MihColors.getPrimaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-              const SizedBox(height: 10),
-              displaySearchResults(directoryProvider),
-            ],
-          ),
+                  );
+                }),
+            const SizedBox(height: 10),
+            Expanded(
+              child: directoryProvider.personalSearch
+                  ? displayPersonalSearchResults(directoryProvider)
+                  : displayBusinessSearchResults(directoryProvider),
+            ),
+          ],
         );
       },
     );
@@ -313,62 +325,24 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
       // return Text("Pulled Data successfully");
       directoryProvider.searchedBusinesses!
           .sort((a, b) => a.Name.compareTo(b.Name));
-      return Column(
-        children: [
-          Text(
-            "Businesses of Mzansi",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          BuildBusinessSearchResultsList(
-            businessList: directoryProvider.searchedBusinesses!,
-          ),
-        ],
+      return BuildBusinessSearchResultsList(
+        businessList: directoryProvider.searchedBusinesses!,
       );
     } else if (directoryProvider.searchedBusinesses!.isEmpty &&
         directoryProvider.searchTerm.isNotEmpty) {
-      // return Text("Pulled Data successfully");
-      return Column(
-        children: [
-          const SizedBox(height: 50),
-          Icon(
-            MihIcons.iDontKnow,
-            size: 165,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          const SizedBox(height: 25),
-          Text(
-            "Let's try refining your search",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-          ),
-        ],
-      );
-    } else if (directoryProvider.searchedBusinesses!.isEmpty &&
-        directoryProvider.searchTerm.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      return MihSingleChildScroll(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
             Icon(
-              MihIcons.businessProfile,
+              MihIcons.iDontKnow,
               size: 165,
               color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             Text(
-              "Search for businesses of Mzansi!",
+              "Let's try refining your search",
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               style: TextStyle(
@@ -378,63 +352,97 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
-            const SizedBox(height: 25),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.swap_horiz_rounded,
-                        size: 20,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                    ),
-                    TextSpan(text: " to search for people of Mzansi"),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.filter_list_rounded,
-                        size: 20,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                    ),
-                    TextSpan(text: " to filter business types"),
-                  ],
-                ),
-              ),
-            ),
           ],
+        ),
+      );
+    } else if (directoryProvider.searchedBusinesses!.isEmpty &&
+        directoryProvider.searchTerm.isEmpty) {
+      return MihSingleChildScroll(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Icon(
+                MihIcons.businessProfile,
+                size: 165,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Search for businesses of Mzansi!",
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    children: [
+                      TextSpan(text: "Press "),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.swap_horiz_rounded,
+                          size: 20,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                      ),
+                      TextSpan(text: " to search for people of Mzansi"),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    children: [
+                      TextSpan(text: "Press "),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.filter_list_rounded,
+                          size: 20,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                      ),
+                      TextSpan(text: " to filter business types"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     } else {
@@ -458,38 +466,86 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         child: const Mihloadingcircle(),
       );
     } else if (directoryProvider.searchedUsers!.isNotEmpty) {
-      // return Text("Pulled Data successfully");
       directoryProvider.searchedUsers!
           .sort((a, b) => a.username.compareTo(b.username));
-      return Column(
-        children: [
-          Text(
-            "People of Mzansi",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          BuildUserSearchResultsList(
-              userList: directoryProvider.searchedUsers!),
-        ],
-      );
+      return BuildUserSearchResultsList(
+          userList: directoryProvider.searchedUsers!);
     } else if (directoryProvider.searchedUsers!.isEmpty &&
         directoryProvider.searchTerm.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      return MihSingleChildScroll(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Icon(
+                MihIcons.personalProfile,
+                size: 165,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Search for people of Mzansi!",
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: MihColors.getSecondaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+              ),
+              const SizedBox(height: 25),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                    children: [
+                      TextSpan(text: "Press "),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.swap_horiz_rounded,
+                          size: 20,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                      ),
+                      TextSpan(text: " to search for businesses of Mzansi"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (directoryProvider.searchedUsers!.isEmpty &&
+        directoryProvider.searchTerm.isNotEmpty) {
+      return MihSingleChildScroll(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
             Icon(
-              MihIcons.personalProfile,
+              MihIcons.iDontKnow,
               size: 165,
               color: MihColors.getSecondaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
             const SizedBox(height: 10),
             Text(
-              "Search for people of Mzansi!",
+              "Let's try refining your search",
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
               style: TextStyle(
@@ -499,61 +555,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
             ),
-            const SizedBox(height: 25),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.swap_horiz_rounded,
-                        size: 20,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                      ),
-                    ),
-                    TextSpan(text: " to search for businesses of Mzansi"),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
-      );
-    } else if (directoryProvider.searchedUsers!.isEmpty &&
-        directoryProvider.searchTerm.isNotEmpty) {
-      return Column(
-        children: [
-          const SizedBox(height: 50),
-          Icon(
-            MihIcons.iDontKnow,
-            size: 165,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            "Let's try refining your search",
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            ),
-          ),
-        ],
       );
     } else {
       return Center(
@@ -566,14 +569,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           textAlign: TextAlign.center,
         ),
       );
-    }
-  }
-
-  Widget displaySearchResults(MzansiDirectoryProvider directoryProvider) {
-    if (directoryProvider.personalSearch) {
-      return displayPersonalSearchResults(directoryProvider);
-    } else {
-      return displayBusinessSearchResults(directoryProvider);
     }
   }
 }

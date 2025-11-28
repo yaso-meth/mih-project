@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -30,6 +31,8 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   bool _isLoadingInitialData = true;
   late Future<Position?> futurePosition =
       MIHLocationAPI().getGPSPosition(context);
+  late final MihSearchMzansi _searchTool;
+  late final MihFavouriteBusinesses _favouritesTool;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -72,8 +75,9 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
           .then((business) async {
         favBus.add(business!);
         businessLogoUrl = await MihFileApi.getMinioFileUrl(business.logo_path);
-        favBusImages[business.business_id] =
-            businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+        favBusImages[business.business_id] = businessLogoUrl != ""
+            ? CachedNetworkImageProvider(businessLogoUrl)
+            : null;
       });
     }
     directoryProvider.setFavouriteBusinesses(
@@ -133,6 +137,8 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   @override
   void initState() {
     super.initState();
+    _searchTool = const MihSearchMzansi();
+    _favouritesTool = const MihFavouriteBusinesses();
     _loadInitialData();
   }
 
@@ -163,12 +169,10 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [];
-    toolBodies.addAll([
-      MihSearchMzansi(),
-      MihFavouriteBusinesses(),
-    ]);
-    return toolBodies;
+    return [
+      _searchTool,
+      _favouritesTool,
+    ];
   }
 
   MihPackageAction getAction() {
