@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/builder/build_business_access_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
@@ -83,50 +82,50 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
             child: Mihloadingcircle(),
           );
         }
-        return MihSingleChildScroll(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Flexible(
-                    child: MihDropdownField(
-                      controller: filterController,
-                      hintText: "Access Type",
-                      dropdownOptions: const [
-                        "All",
-                        "Approved",
-                        "Pending",
-                        "Declined",
-                        "Cancelled",
-                      ],
-                      requiredText: true,
-                      editable: true,
-                      enableSearch: true,
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                  ),
-                  IconButton(
-                    iconSize: 35,
-                    onPressed: () {
-                      setState(() {
-                        forceRefresh = true;
-                      });
-                      KenLogger.warning("Refreshing Access List");
-                      refreshList();
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Flexible(
+                  child: MihDropdownField(
+                    controller: filterController,
+                    hintText: "Access Type",
+                    dropdownOptions: const [
+                      "All",
+                      "Approved",
+                      "Pending",
+                      "Declined",
+                      "Cancelled",
+                    ],
+                    requiredText: true,
+                    editable: true,
+                    enableSearch: true,
+                    validator: (value) {
+                      return MihValidationServices().isEmpty(value);
                     },
-                    icon: const Icon(
-                      Icons.refresh,
-                    ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              BuildBusinessAccessList(
+                ),
+                IconButton(
+                  iconSize: 35,
+                  onPressed: () {
+                    setState(() {
+                      forceRefresh = true;
+                    });
+                    KenLogger.warning("Refreshing Access List");
+                    refreshList();
+                  },
+                  icon: const Icon(
+                    Icons.refresh,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: BuildBusinessAccessList(
                 filterText: filterController.text,
                 onSuccessUpate: () {
                   setState(() {
@@ -135,8 +134,8 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                   refreshList();
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

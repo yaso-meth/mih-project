@@ -483,8 +483,6 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
           MihAccessControllsProvider accessProvider,
           Widget? child) {
         return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (BuildContext context, index) {
             return Divider(
               color: MihColors.getSecondaryColor(
