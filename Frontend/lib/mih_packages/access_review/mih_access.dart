@@ -21,6 +21,7 @@ class MihAccess extends StatefulWidget {
 
 class _MihAccessState extends State<MihAccess> {
   bool _isLoadingInitialData = true;
+  late final MihAccessRequest _accessRequest;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -39,6 +40,7 @@ class _MihAccessState extends State<MihAccess> {
   @override
   void initState() {
     super.initState();
+    _accessRequest = MihAccessRequest();
     _loadInitialData();
   }
 
@@ -93,10 +95,9 @@ class _MihAccessState extends State<MihAccess> {
   }
 
   List<Widget> getToolBody() {
-    List<Widget> toolBodies = [
-      MihAccessRequest(),
+    return [
+      _accessRequest,
     ];
-    return toolBodies;
   }
 
   List<String> getToolTitle() {
