@@ -309,7 +309,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
             itemBuilder: (context, index) {
               String fileExtension = patientManagerProvider
                   .patientDocuments![index].file_name
-                  .split(".")[1]
+                  .split(".")
+                  .last
                   .toLowerCase();
               KenLogger.success(fileExtension);
               return ListTile(
