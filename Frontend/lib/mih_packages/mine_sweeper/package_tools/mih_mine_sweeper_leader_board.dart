@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -35,7 +36,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     String userPicUrl = "";
     for (final ranking in mineSweeperProvider.leaderboard!) {
       userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl);
-      userPictures.add(NetworkImage(userPicUrl));
+      userPictures.add(CachedNetworkImageProvider(userPicUrl));
     }
     mineSweeperProvider.setLeaderboardUserPictures(
         leaderboardUserPictures: userPictures);
