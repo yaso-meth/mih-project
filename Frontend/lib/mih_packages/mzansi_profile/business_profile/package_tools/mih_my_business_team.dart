@@ -70,7 +70,11 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
             child: Mihloadingcircle(),
           );
         }
-        return displayEmployeeList(mzansiProfileProvider.employeeList!);
+        return Column(
+          children: [
+            displayEmployeeList(mzansiProfileProvider.employeeList!),
+          ],
+        );
       },
     );
   }
