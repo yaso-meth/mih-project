@@ -52,78 +52,80 @@ class _PatientAccessRequestState extends State<Appointments> {
     List<Appointment> appointmentList = mzansiProfileProvider.personalHome
         ? mihCalendarProvider.personalAppointments!
         : mihCalendarProvider.businessAppointments!;
-    if (appointmentList.isNotEmpty) {
-      return Expanded(
-        child: BuildAppointmentList(
-          inWaitingRoom: false,
-          titleController: _appointmentTitleController,
-          descriptionIDController: _appointmentDescriptionIDController,
-          patientIdController: null,
-          dateController: _appointmentDateController,
-          timeController: _appointmentTimeController,
-        ),
-      );
-    }
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 50),
-            Icon(
-              MihIcons.calendar,
-              size: 165,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+
+    return appointmentList.isNotEmpty
+        ? Expanded(
+            child: BuildAppointmentList(
+              inWaitingRoom: false,
+              titleController: _appointmentTitleController,
+              descriptionIDController: _appointmentDescriptionIDController,
+              patientIdController: null,
+              dateController: _appointmentDateController,
+              timeController: _appointmentTimeController,
             ),
-            const SizedBox(height: 10),
-            Text(
-              "No appointments for ${mihCalendarProvider.selectedDay}",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              ),
-            ),
-            const SizedBox(height: 25),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
+          )
+        : Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  Icon(
+                    MihIcons.calendar,
+                    size: 165,
                     color: MihColors.getSecondaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.menu,
-                        size: 20,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                  const SizedBox(height: 10),
+                  Text(
+                    "No appointments for ${mihCalendarProvider.selectedDay}",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                        ),
+                        children: [
+                          TextSpan(text: "Press "),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(
+                              Icons.menu,
+                              size: 20,
+                              color: MihColors.getSecondaryColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                            ),
+                          ),
+                          TextSpan(
+                              text:
+                                  " to add an appointment or select a different date"),
+                        ],
                       ),
                     ),
-                    TextSpan(
-                        text:
-                            " to add an appointment or select a different date"),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   void addAppointmentWindow(MzansiProfileProvider mzansiProfileProvider,
