@@ -250,7 +250,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: searchPackageName,
@@ -263,10 +263,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                       .toList();
                   if (filteredPackages.isNotEmpty) {
                     return GridView.builder(
-                      // physics: const NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
                       padding: getPadding(width, height),
-                      // shrinkWrap: true,
                       itemCount: filteredPackages.length,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: packageSize,
@@ -274,7 +271,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                       ),
                       itemBuilder: (context, index) {
                         return filteredPackages[index];
-                        // return personalPackages[index];
                       },
                     );
                   } else {

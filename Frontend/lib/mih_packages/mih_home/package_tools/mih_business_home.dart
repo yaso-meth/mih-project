@@ -230,7 +230,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: searchPackageName,
@@ -243,10 +243,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                       .toList();
                   if (filteredPackages.isNotEmpty) {
                     return GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
                       padding: getPadding(width, height),
-                      // shrinkWrap: true,
                       itemCount: filteredPackages.length,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: packageSize,
