@@ -19,6 +19,12 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
   late final MihPersonalProfileView _personalProfileView;
 
   @override
+  void initState() {
+    super.initState();
+    _personalProfileView = MihPersonalProfileView();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MihPackage(
       appActionButton: getAction(),
