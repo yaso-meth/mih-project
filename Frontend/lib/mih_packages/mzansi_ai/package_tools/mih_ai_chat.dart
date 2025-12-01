@@ -236,7 +236,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
               enableVoiceNotes: false,
               style: aiProvider.getChatStyle(context),
               suggestions: [
-                "What is mih all about?",
+                "What is MIH all about?",
                 "What are the features of MIH?"
               ],
             ),
