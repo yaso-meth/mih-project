@@ -6,6 +6,7 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -304,29 +305,31 @@ class _PatientInfoState extends State<PatientInfo> {
         initialiseControllers(patientManagerProvider);
         return Stack(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                MihCircleAvatar(
-                  imageFile:
-                      patientManagerProvider.selectedPatientProfilePicture,
-                  width: 160,
-                  editable: false,
-                  fileNameController: null,
-                  userSelectedfile: null,
-                  frameColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  backgroundColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  onChange: () {},
-                ),
-                const SizedBox(height: 10),
-                buildPatientInfoCard(patientManagerProvider),
-                const SizedBox(height: 10),
-                if (patientManagerProvider.selectedPatient!.medical_aid ==
-                    "Yes")
-                  buildMedAidInfoCard(patientManagerProvider),
-              ],
+            MihSingleChildScroll(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  MihCircleAvatar(
+                    imageFile:
+                        patientManagerProvider.selectedPatientProfilePicture,
+                    width: 160,
+                    editable: false,
+                    fileNameController: null,
+                    userSelectedfile: null,
+                    frameColor: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    backgroundColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    onChange: () {},
+                  ),
+                  const SizedBox(height: 10),
+                  buildPatientInfoCard(patientManagerProvider),
+                  const SizedBox(height: 10),
+                  if (patientManagerProvider.selectedPatient!.medical_aid ==
+                      "Yes")
+                    buildMedAidInfoCard(patientManagerProvider),
+                ],
+              ),
             ),
             Positioned(
               right: 5,
