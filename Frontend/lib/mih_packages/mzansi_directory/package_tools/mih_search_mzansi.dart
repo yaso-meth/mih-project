@@ -41,6 +41,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   late Future<List<String>> availableBusinessTypes;
   bool filterOn = false;
   bool loadingSearchResults = false;
+
   Future<void> swapPressed(MzansiProfileProvider profileProvider,
       MzansiDirectoryProvider directoryProvider) async {
     directoryProvider.setPersonalSearch(!directoryProvider.personalSearch);
@@ -142,13 +143,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         context.read<MzansiDirectoryProvider>();
     availableBusinessTypes =
         MihBusinessDetailsServices().fetchAllBusinessTypes();
-    mzansiSearchController.text = "";
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      directoryProvider.setSearchedUsers(
-        searchedUsers: [],
-        userImagesUrl: {},
-      );
-    });
+    mzansiSearchController.text = directoryProvider.searchTerm;
   }
 
   @override
@@ -321,18 +316,18 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
 
   Widget displayBusinessSearchResults(
       MzansiDirectoryProvider directoryProvider) {
-    if (directoryProvider.searchedBusinesses == null || loadingSearchResults) {
+    if (loadingSearchResults) {
       return Center(
         child: const Mihloadingcircle(),
       );
-    } else if (directoryProvider.searchedBusinesses!.isNotEmpty) {
+    } else if (directoryProvider.searchedBusinesses.isNotEmpty) {
       // return Text("Pulled Data successfully");
-      directoryProvider.searchedBusinesses!
+      directoryProvider.searchedBusinesses
           .sort((a, b) => a.Name.compareTo(b.Name));
       return BuildBusinessSearchResultsList(
-        businessList: directoryProvider.searchedBusinesses!,
+        businessList: directoryProvider.searchedBusinesses,
       );
-    } else if (directoryProvider.searchedBusinesses!.isEmpty &&
+    } else if (directoryProvider.searchedBusinesses.isEmpty &&
         directoryProvider.searchTerm.isNotEmpty) {
       return MihSingleChildScroll(
         child: Column(
@@ -359,7 +354,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           ],
         ),
       );
-    } else if (directoryProvider.searchedBusinesses!.isEmpty &&
+    } else if (directoryProvider.searchedBusinesses.isEmpty &&
         directoryProvider.searchTerm.isEmpty) {
       return MihSingleChildScroll(
         child: Padding(
@@ -465,16 +460,16 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
 
   Widget displayPersonalSearchResults(
       MzansiDirectoryProvider directoryProvider) {
-    if (directoryProvider.searchedUsers == null || loadingSearchResults) {
+    if (loadingSearchResults) {
       return Center(
         child: const Mihloadingcircle(),
       );
-    } else if (directoryProvider.searchedUsers!.isNotEmpty) {
-      directoryProvider.searchedUsers!
+    } else if (directoryProvider.searchedUsers.isNotEmpty) {
+      directoryProvider.searchedUsers
           .sort((a, b) => a.username.compareTo(b.username));
       return BuildUserSearchResultsList(
-          userList: directoryProvider.searchedUsers!);
-    } else if (directoryProvider.searchedUsers!.isEmpty &&
+          userList: directoryProvider.searchedUsers);
+    } else if (directoryProvider.searchedUsers.isEmpty &&
         directoryProvider.searchTerm.isEmpty) {
       return MihSingleChildScroll(
         child: Padding(
@@ -535,7 +530,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           ),
         ),
       );
-    } else if (directoryProvider.searchedUsers!.isEmpty &&
+    } else if (directoryProvider.searchedUsers.isEmpty &&
         directoryProvider.searchTerm.isNotEmpty) {
       return MihSingleChildScroll(
         child: Column(

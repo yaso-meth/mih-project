@@ -12,10 +12,10 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
   Map<String, Future<String>>? favBusImagesUrl;
-  List<Business>? searchedBusinesses;
+  List<Business> searchedBusinesses = [];
   Map<String, Future<String>>? busSearchImagesUrl;
   Business? selectedBusiness;
-  List<AppUser>? searchedUsers;
+  List<AppUser> searchedUsers = [];
   Map<String, Future<String>>? userSearchImagesUrl;
   AppUser? selectedUser;
   String searchTerm;
@@ -35,9 +35,9 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     userLocation = "Unknown Location";
     personalSearch = true;
     bookmarkedBusinesses = [];
-    searchedBusinesses = null;
+    searchedBusinesses = [];
     selectedBusiness = null;
-    searchedUsers = null;
+    searchedUsers = [];
     selectedUser = null;
     searchTerm = "";
     businessTypeFilter = "";
