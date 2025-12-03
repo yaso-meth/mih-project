@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -32,14 +31,14 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     filterController.text = mineSweeperProvider.difficulty;
     KenLogger.success("getting data");
     await MihMinesweeperServices().getTop20Leaderboard(mineSweeperProvider);
-    List<ImageProvider<Object>?> userPictures = [];
-    String userPicUrl = "";
+    List<Future<String>> userPicturesUrl = [];
+    Future<String> userPicUrl;
     for (final ranking in mineSweeperProvider.leaderboard!) {
-      userPicUrl = await MihFileApi.getMinioFileUrl(ranking.proPicUrl);
-      userPictures.add(CachedNetworkImageProvider(userPicUrl));
+      userPicUrl = MihFileApi.getMinioFileUrl(ranking.proPicUrl);
+      userPicturesUrl.add(userPicUrl);
     }
     mineSweeperProvider.setLeaderboardUserPictures(
-        leaderboardUserPictures: userPictures);
+        leaderboardUserPicturesUrl: userPicturesUrl);
     setState(() {
       isLoading = false;
     });
@@ -190,7 +189,9 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
                         ],
                       ),
                     )
-                  : Expanded(child: BuildMinesweeperLeaderboardList()),
+                  : Expanded(
+                      child: BuildMinesweeperLeaderboardList(),
+                    ),
             ],
           );
         }
