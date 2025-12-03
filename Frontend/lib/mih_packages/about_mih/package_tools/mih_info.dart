@@ -984,11 +984,11 @@ class _MihInfoState extends State<MihInfo> {
             children: [
               SpeedDialChild(
                 child: Icon(
-                  Icons.vpn_lock,
+                  Icons.android,
                   color: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
-                label: "MIH - Web",
+                label: "Android",
                 labelBackgroundColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
@@ -1001,8 +1001,8 @@ class _MihInfoState extends State<MihInfo> {
                 onTap: () {
                   shareMIHLink(
                     context,
-                    "Check out the MIH app on the Web",
-                    "https://app.mzansi-innovation-hub.co.za/",
+                    "Check out the MIH app on the Play Store",
+                    "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
                   );
                 },
               ),
@@ -1012,7 +1012,7 @@ class _MihInfoState extends State<MihInfo> {
                   color: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
-                label: "MIH - iOS",
+                label: "iOS",
                 labelBackgroundColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
@@ -1032,11 +1032,11 @@ class _MihInfoState extends State<MihInfo> {
               ),
               SpeedDialChild(
                 child: Icon(
-                  Icons.android,
+                  Icons.store,
                   color: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
-                label: "MIH - Android",
+                label: "Huawei",
                 labelBackgroundColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 labelStyle: TextStyle(
@@ -1049,8 +1049,32 @@ class _MihInfoState extends State<MihInfo> {
                 onTap: () {
                   shareMIHLink(
                     context,
-                    "Check out the MIH app on the Play Store",
-                    "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+                    "Check out the MIH app on the App Gallery",
+                    "https://appgallery.huawei.com/app/C113315335?pkgName=za.co.mzansiinnovationhub.mih",
+                  );
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(
+                  Icons.vpn_lock,
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                ),
+                label: "Web",
+                labelBackgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                labelStyle: TextStyle(
+                  color: MihColors.getPrimaryColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fontWeight: FontWeight.bold,
+                ),
+                backgroundColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                onTap: () {
+                  shareMIHLink(
+                    context,
+                    "Check out the MIH app on the Web",
+                    "https://app.mzansi-innovation-hub.co.za/",
                   );
                 },
               ),
