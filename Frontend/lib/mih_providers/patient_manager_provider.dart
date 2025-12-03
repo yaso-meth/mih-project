@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_objects/files.dart';
@@ -62,7 +63,8 @@ class PatientManagerProvider extends ChangeNotifier {
 
   void setSelectedPatientProfilePicUrl(String url) {
     selectedPatientProfilePictureUrl = url;
-    selectedPatientProfilePicture = url.isNotEmpty ? NetworkImage(url) : null;
+    selectedPatientProfilePicture =
+        url.isNotEmpty ? CachedNetworkImageProvider(url) : null;
     notifyListeners();
   }
 

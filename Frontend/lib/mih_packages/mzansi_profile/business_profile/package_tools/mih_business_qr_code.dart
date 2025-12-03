@@ -208,7 +208,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                         if (asyncSnapshot.requireData != "" ||
                             asyncSnapshot.requireData.isNotEmpty) {
                           return MihCircleAvatar(
-                            imageFile: NetworkImage(asyncSnapshot.requireData),
+                            imageFile: CachedNetworkImageProvider(
+                                asyncSnapshot.requireData),
                             width: profilePictureWidth,
                             editable: false,
                             fileNameController: TextEditingController(),

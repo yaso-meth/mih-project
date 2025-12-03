@@ -574,14 +574,11 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             businessSearchResults = await MihBusinessDetailsServices()
                 .searchBusinesses(directoryProvider.searchTerm,
                     directoryProvider.businessTypeFilter, context);
-            // Map<String, ImageProvider<Object>?> busImages = {};
             Map<String, Future<String>> busImagesUrl = {};
-            // String businessLogoUrl = "";
             Future<String> businessLogoUrl;
             for (var bus in businessSearchResults) {
               businessLogoUrl = MihFileApi.getMinioFileUrl(bus.logo_path);
               busImagesUrl[bus.business_id] = businessLogoUrl;
-              //  != "" ? NetworkImage(businessLogoUrl) : null;
             }
             directoryProvider.setSearchedBusinesses(
               searchedBusinesses: businessSearchResults,

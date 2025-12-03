@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -76,7 +77,8 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void setUserProfilePicUrl(String url) {
     userProfilePicUrl = url;
-    userProfilePicture = url.isNotEmpty ? NetworkImage(url) : null;
+    userProfilePicture =
+        url.isNotEmpty ? CachedNetworkImageProvider(url) : null;
     notifyListeners();
   }
 
@@ -89,7 +91,8 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void setBusinessProfilePicUrl(String url) {
     businessProfilePicUrl = url;
-    businessProfilePicture = url.isNotEmpty ? NetworkImage(url) : null;
+    businessProfilePicture =
+        url.isNotEmpty ? CachedNetworkImageProvider(url) : null;
     notifyListeners();
   }
 
@@ -100,7 +103,8 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void setBusinessUserSignatureUrl(String url) {
     businessUserSignatureUrl = url;
-    businessUserSignature = url.isNotEmpty ? NetworkImage(url) : null;
+    businessUserSignature =
+        url.isNotEmpty ? CachedNetworkImageProvider(url) : null;
     notifyListeners();
   }
 

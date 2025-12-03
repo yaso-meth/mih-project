@@ -43,9 +43,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
       directoryProvider,
     );
     List<Business> favBus = [];
-    // Map<String, ImageProvider<Object>?> favBusImages = {};
     Map<String, Future<String>> favBusImages = {};
-    // String businessLogoUrl = "";
     Future<String> businessLogoUrl;
     for (var bus in directoryProvider.bookmarkedBusinesses) {
       await MihBusinessDetailsServices()
@@ -54,7 +52,6 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
         favBus.add(business!);
         businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
         favBusImages[business.business_id] = businessLogoUrl;
-        // businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
       });
     }
     directoryProvider.setFavouriteBusinesses(

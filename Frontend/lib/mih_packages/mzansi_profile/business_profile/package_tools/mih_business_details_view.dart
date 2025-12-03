@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -72,8 +73,8 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                               asyncSnapshot.hasData) {
                             if (asyncSnapshot.requireData != "") {
                               return MihCircleAvatar(
-                                imageFile:
-                                    NetworkImage(asyncSnapshot.requireData),
+                                imageFile: CachedNetworkImageProvider(
+                                    asyncSnapshot.requireData),
                                 width: profilePictureWidth,
                                 editable: false,
                                 fileNameController: TextEditingController(),

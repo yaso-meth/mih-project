@@ -154,11 +154,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
     super.initState();
     setState(() {
       imagePreview = null;
-      // const NetworkImage(
-      //     "https://lh3.googleusercontent.com/nW4ZZ89Q1ATz7Ht3nsAVWXL_cwNi4gNusqQZiL60UuuI3FG-VM7bTYDoJ-sUr2kDTdorfQYjxo5PjDM-0MO5rA=s512");
     });
-
-    // myCoordinates = MIHLocationAPI().getGPSPosition(context);
   }
 
   Widget getBody(double width) {

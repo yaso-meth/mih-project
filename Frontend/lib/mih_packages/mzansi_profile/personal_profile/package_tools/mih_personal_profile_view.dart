@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
@@ -69,7 +70,8 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                           asyncSnapshot.hasData) {
                         if (asyncSnapshot.requireData != "") {
                           return MihCircleAvatar(
-                            imageFile: NetworkImage(asyncSnapshot.requireData),
+                            imageFile: CachedNetworkImageProvider(
+                                asyncSnapshot.requireData),
                             width: profilePictureWidth,
                             editable: false,
                             fileNameController: TextEditingController(),
