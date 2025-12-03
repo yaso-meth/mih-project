@@ -41,26 +41,26 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
         profileProvider.user!.app_id,
         directoryProvider,
       );
+      List<Business> favBus = [];
+      // Map<String, ImageProvider<Object>?> favBusImages = {};
+      Map<String, Future<String>> favBusImages = {};
+      // String businessLogoUrl = "";
+      Future<String> businessLogoUrl;
+      for (var bus in directoryProvider.bookmarkedBusinesses) {
+        await MihBusinessDetailsServices()
+            .getBusinessDetailsByBusinessId(bus.business_id)
+            .then((business) async {
+          favBus.add(business!);
+          businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
+          favBusImages[business.business_id] = businessLogoUrl;
+          // businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+        });
+      }
+      directoryProvider.setFavouriteBusinesses(
+        businesses: favBus,
+        businessesImagesUrl: favBusImages,
+      );
     }
-    List<Business> favBus = [];
-    // Map<String, ImageProvider<Object>?> favBusImages = {};
-    Map<String, Future<String>> favBusImages = {};
-    // String businessLogoUrl = "";
-    Future<String> businessLogoUrl;
-    for (var bus in directoryProvider.bookmarkedBusinesses) {
-      await MihBusinessDetailsServices()
-          .getBusinessDetailsByBusinessId(bus.business_id)
-          .then((business) async {
-        favBus.add(business!);
-        businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
-        favBusImages[business.business_id] = businessLogoUrl;
-        // businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
-      });
-    }
-    directoryProvider.setFavouriteBusinesses(
-      businesses: favBus,
-      businessesImagesUrl: favBusImages,
-    );
   }
 
   void _filterAndSetBusinesses(MzansiDirectoryProvider directoryProvider) {

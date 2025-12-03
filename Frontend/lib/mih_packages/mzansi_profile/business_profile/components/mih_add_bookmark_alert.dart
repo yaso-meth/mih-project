@@ -125,19 +125,21 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
           fullscreen: false,
           windowTitle: null,
           onWindowTapClose: null,
+          backgroundColor: MihColors.getSecondaryColor(
+              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           windowBody: Column(
             children: [
               Icon(
                 Icons.warning_rounded,
                 size: 150,
-                color: MihColors.getSecondaryColor(
+                color: MihColors.getPrimaryColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               ),
               Text(
                 "Bookmark Business",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
+                  color: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -147,7 +149,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
               Text(
                 "Are you sure you want to save ${widget.business.Name} to your Mzansi Directory?",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
+                  color: MihColors.getPrimaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   fontSize: 18,
                 ),

@@ -126,19 +126,21 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
       fullscreen: false,
       windowTitle: null,
       onWindowTapClose: null,
+      backgroundColor: MihColors.getSecondaryColor(
+          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       windowBody: Column(
         children: [
           Icon(
             Icons.warning_rounded,
             size: 150,
-            color: MihColors.getSecondaryColor(
+            color: MihColors.getPrimaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
           Text(
             "Remove Bookmark",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 25,
               fontWeight: FontWeight.bold,
@@ -148,7 +150,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
           Text(
             "Are you sure you want to remove ${widget.business.Name} from your Mzansi Directory?",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.getPrimaryColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
               fontSize: 18,
             ),
