@@ -4,6 +4,8 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.da
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
+import 'package:provider/provider.dart';
 
 class PatientProfileTile extends StatefulWidget {
   final double packageSize;
@@ -23,6 +25,9 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
     return MihPackageTile(
       authenticateUser: true,
       onTap: () async {
+        PatientManagerProvider patManProvider =
+            context.read<PatientManagerProvider>();
+        patManProvider.setPersonalMode(true);
         context.goNamed("patientProfile");
       },
       appName: "Patient Profile",
