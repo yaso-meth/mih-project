@@ -99,10 +99,11 @@ class MzansiAiProvider extends ChangeNotifier {
       fontWeight: FontWeight.w400,
     );
     TextStyle code = TextStyle(
-      color: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      color: Colors.black,
+      // MihColors.getBluishPurpleColor(
+      //     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
       fontSize: 16,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w700,
     );
     BoxDecoration codeBlock = BoxDecoration(
       borderRadius: BorderRadius.only(
@@ -111,7 +112,7 @@ class MzansiAiProvider extends ChangeNotifier {
         bottomLeft: Radius.circular(10),
         bottomRight: Radius.circular(10),
       ),
-      color: MihColors.getHighlightColor(
+      color: MihColors.getSilverColor(
           MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
       boxShadow: [
         BoxShadow(
