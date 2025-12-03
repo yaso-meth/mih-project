@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +42,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     await MihDataHelperServices().loadUserDataOnly(
       mzansiProfileProvider,
     );
-    await getFavouriteBusinesses();
+    // await getFavouriteBusinesses();
     setState(() {
       _isLoadingInitialData = false;
     });
@@ -67,22 +66,25 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
       directoryProvider,
     );
     List<Business> favBus = [];
-    Map<String, ImageProvider<Object>?> favBusImages = {};
-    String businessLogoUrl = "";
+    // Map<String, ImageProvider<Object>?> favBusImages = {};
+    Map<String, Future<String>> favBusImages = {};
+    // String businessLogoUrl = "";
+    Future<String> businessLogoUrl;
     for (var bus in directoryProvider.bookmarkedBusinesses) {
       await MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(bus.business_id)
           .then((business) async {
         favBus.add(business!);
-        businessLogoUrl = await MihFileApi.getMinioFileUrl(business.logo_path);
-        favBusImages[business.business_id] = businessLogoUrl != ""
-            ? CachedNetworkImageProvider(businessLogoUrl)
-            : null;
+        businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
+        favBusImages[business.business_id] = businessLogoUrl;
+        // != ""
+        //     ? CachedNetworkImageProvider(businessLogoUrl)
+        //     : null;
       });
     }
     directoryProvider.setFavouriteBusinesses(
       businesses: favBus,
-      businessesImages: favBusImages,
+      businessesImagesUrl: favBusImages,
     );
   }
 // // --- REVISED FUNCTION FOR PARALLEL FETCHING ---

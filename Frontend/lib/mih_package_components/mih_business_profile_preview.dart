@@ -11,10 +11,12 @@ import 'package:provider/provider.dart';
 class MihBusinessProfilePreview extends StatefulWidget {
   final Business business;
   final ImageProvider<Object>? imageFile;
+  final bool loading;
   const MihBusinessProfilePreview({
     super.key,
     required this.business,
     required this.imageFile,
+    required this.loading,
   });
 
   @override
@@ -48,23 +50,35 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
           Widget? child) {
         return Row(
           children: [
-            widget.imageFile == null
+            widget.loading
                 ? Icon(
-                    MihIcons.iDontKnow,
+                    MihIcons.mihRing,
                     size: profilePictureWidth,
+                    color: MihColors.getSecondaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                   )
-                : MihCircleAvatar(
-                    imageFile: widget.imageFile,
-                    width: profilePictureWidth,
-                    editable: false,
-                    fileNameController: TextEditingController(),
-                    userSelectedfile: null,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    onChange: () {},
-                  ),
+                : widget.imageFile == null
+                    ? Icon(
+                        MihIcons.iDontKnow,
+                        size: profilePictureWidth,
+                        color: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      )
+                    : MihCircleAvatar(
+                        imageFile: widget.imageFile,
+                        width: profilePictureWidth,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: null,
+                        frameColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        backgroundColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        onChange: () {},
+                      ),
             const SizedBox(width: 15),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

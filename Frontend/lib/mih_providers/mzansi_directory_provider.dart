@@ -12,6 +12,7 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
   Map<String, ImageProvider<Object>?>? favBusImages;
+  Map<String, Future<String>>? favBusImagesUrl;
   List<Business>? searchedBusinesses;
   Map<String, ImageProvider<Object>?>? busSearchImages;
   Business? selectedBusiness;
@@ -72,10 +73,12 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setFavouriteBusinesses({
     required List<Business> businesses,
-    required Map<String, ImageProvider<Object>?> businessesImages,
+    required Map<String, Future<String>> businessesImagesUrl,
+    // required Map<String, ImageProvider<Object>?> businessesImages,
   }) {
     favouriteBusinessesList = businesses;
-    favBusImages = businessesImages;
+    // favBusImages = businessesImages;
+    favBusImagesUrl = businessesImagesUrl;
     notifyListeners();
   }
 

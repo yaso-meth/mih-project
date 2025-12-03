@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -21,6 +22,11 @@ class BuildFavouriteBusinessesList extends StatefulWidget {
 
 class _BuildFavouriteBusinessesListState
     extends State<BuildFavouriteBusinessesList> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MzansiDirectoryProvider>(
@@ -57,11 +63,32 @@ class _BuildFavouriteBusinessesListState
                   padding: EdgeInsets.symmetric(
                     horizontal: 25,
                   ),
-                  child: MihBusinessProfilePreview(
-                    business: widget.favouriteBusinesses[index]!,
-                    imageFile: directoryProvider.favBusImages![
-                        widget.favouriteBusinesses[index]!.business_id],
-                  ),
+                  child: FutureBuilder(
+                      future: directoryProvider.favBusImagesUrl![
+                          widget.favouriteBusinesses[index]!.business_id],
+                      builder: (context, asyncSnapshot) {
+                        ImageProvider<Object>? imageFile;
+                        bool loading = true;
+                        if (asyncSnapshot.connectionState ==
+                            ConnectionState.done) {
+                          loading = false;
+                          if (asyncSnapshot.hasData) {
+                            imageFile = asyncSnapshot.requireData != ""
+                                ? CachedNetworkImageProvider(
+                                    asyncSnapshot.requireData)
+                                : null;
+                          } else {
+                            imageFile = null;
+                          }
+                        } else {
+                          imageFile = null;
+                        }
+                        return MihBusinessProfilePreview(
+                          business: widget.favouriteBusinesses[index]!,
+                          imageFile: imageFile,
+                          loading: loading,
+                        );
+                      }),
                 ),
               ),
             );

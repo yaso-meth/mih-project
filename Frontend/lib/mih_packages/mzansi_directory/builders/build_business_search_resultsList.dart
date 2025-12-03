@@ -62,6 +62,8 @@ class _BuildBusinessSearchResultsListState
                     business: widget.businessList[index],
                     imageFile: directoryProvider.busSearchImages![
                         widget.businessList[index].business_id],
+                    loading: false,
+                    //To Do
                   ),
                 ),
               ),

@@ -38,21 +38,23 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
       directoryProvider,
     );
     List<Business> favBus = [];
-    Map<String, ImageProvider<Object>?> favBusImages = {};
-    String businessLogoUrl = "";
+    // Map<String, ImageProvider<Object>?> favBusImages = {};
+    Map<String, Future<String>> favBusImages = {};
+    // String businessLogoUrl = "";
+    Future<String> businessLogoUrl;
     for (var bus in directoryProvider.bookmarkedBusinesses) {
       await MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(bus.business_id)
           .then((business) async {
         favBus.add(business!);
-        businessLogoUrl = await MihFileApi.getMinioFileUrl(business.logo_path);
-        favBusImages[business.business_id] =
-            businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+        businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
+        favBusImages[business.business_id] = businessLogoUrl;
+        // businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
       });
     }
     directoryProvider.setFavouriteBusinesses(
       businesses: favBus,
-      businessesImages: favBusImages,
+      businessesImagesUrl: favBusImages,
     );
   }
 

@@ -9,6 +9,10 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_favourite_businesses_list.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
 class MihFavouriteBusinesses extends StatefulWidget {
@@ -27,6 +31,37 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
   final ValueNotifier<List<Business?>> searchBookmarkedBusinesses =
       ValueNotifier([]);
   Timer? _debounce;
+
+  Future<void> getFavouriteBusinesses(
+      MzansiDirectoryProvider directoryProvider) async {
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    if (directoryProvider.bookmarkedBusinesses.isEmpty) {
+      await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
+        profileProvider.user!.app_id,
+        directoryProvider,
+      );
+    }
+    List<Business> favBus = [];
+    // Map<String, ImageProvider<Object>?> favBusImages = {};
+    Map<String, Future<String>> favBusImages = {};
+    // String businessLogoUrl = "";
+    Future<String> businessLogoUrl;
+    for (var bus in directoryProvider.bookmarkedBusinesses) {
+      await MihBusinessDetailsServices()
+          .getBusinessDetailsByBusinessId(bus.business_id)
+          .then((business) async {
+        favBus.add(business!);
+        businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
+        favBusImages[business.business_id] = businessLogoUrl;
+        // businessLogoUrl != "" ? NetworkImage(businessLogoUrl) : null;
+      });
+    }
+    directoryProvider.setFavouriteBusinesses(
+      businesses: favBus,
+      businessesImagesUrl: favBusImages,
+    );
+  }
 
   void _filterAndSetBusinesses(MzansiDirectoryProvider directoryProvider) {
     List<Business?> businessesToDisplay = [];
@@ -58,6 +93,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
     //   mzansiProfileProvider,
     //   directoryProvider,
     // );
+    getFavouriteBusinesses(directoryProvider);
     _filterAndSetBusinesses(directoryProvider);
     businessSearchController.addListener(() {
       if (_debounce?.isActive ?? false) {
@@ -141,7 +177,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const SizedBox(height: 50),
