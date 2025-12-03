@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -60,8 +59,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
 
   void clearAll(MzansiDirectoryProvider directoryProvider) {
     directoryProvider
-        .setSearchedBusinesses(searchedBusinesses: [], businessesImages: {});
-    directoryProvider.setSearchedUsers(searchedUsers: [], userImages: {});
+        .setSearchedBusinesses(searchedBusinesses: [], businessesImagesUrl: {});
+    directoryProvider.setSearchedUsers(searchedUsers: [], userImagesUrl: {});
     directoryProvider.setSearchTerm(searchTerm: "");
     setState(() {
       mzansiSearchController.clear();
@@ -81,20 +80,21 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         directoryProvider.searchTerm.isNotEmpty) {
       final userResults = await MihUserServices()
           .searchUsers(profileProvider, directoryProvider.searchTerm, context);
-      Map<String, ImageProvider<Object>?> userImages = {};
-      String usernProPicUrl = "";
+      Map<String, Future<String>> userImages = {};
+      Future<String> usernProPicUrl;
       for (var user in userResults) {
         KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
-        usernProPicUrl = await MihFileApi.getMinioFileUrl(user.pro_pic_path);
+        usernProPicUrl = MihFileApi.getMinioFileUrl(user.pro_pic_path);
         KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
-        userImages[user.app_id] = usernProPicUrl != ""
-            ? CachedNetworkImageProvider(usernProPicUrl)
-            : null;
+        userImages[user.app_id] = usernProPicUrl;
+        // != ""
+        //     ? CachedNetworkImageProvider(usernProPicUrl)
+        //     : null;
       }
 
       directoryProvider.setSearchedUsers(
         searchedUsers: userResults,
-        userImages: userImages,
+        userImagesUrl: userImages,
       );
     } else {
       List<Business>? businessSearchResults = [];
@@ -107,19 +107,20 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             .searchBusinesses(directoryProvider.searchTerm,
                 directoryProvider.businessTypeFilter, context);
       }
-      Map<String, ImageProvider<Object>?> busImages = {};
-      String businessLogoUrl = "";
+      Map<String, Future<String>> busImagesUrl = {};
+      Future<String> businessLogoUrl;
       for (var bus in businessSearchResults) {
         KenLogger.success("Business Logo Path: ${bus.logo_path}");
-        businessLogoUrl = await MihFileApi.getMinioFileUrl(bus.logo_path);
+        businessLogoUrl = MihFileApi.getMinioFileUrl(bus.logo_path);
         KenLogger.success("Business Logo Path: ${bus.logo_path}");
-        busImages[bus.business_id] = businessLogoUrl != ""
-            ? CachedNetworkImageProvider(businessLogoUrl)
-            : null;
+        busImagesUrl[bus.business_id] = businessLogoUrl;
+        // != ""
+        //     ? CachedNetworkImageProvider(businessLogoUrl)
+        //     : null;
       }
       directoryProvider.setSearchedBusinesses(
         searchedBusinesses: businessSearchResults,
-        businessesImages: busImages,
+        businessesImagesUrl: busImagesUrl,
       );
     }
     setState(() {
@@ -143,7 +144,10 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         MihBusinessDetailsServices().fetchAllBusinessTypes();
     mzansiSearchController.text = "";
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      directoryProvider.setSearchedUsers(searchedUsers: [], userImages: {});
+      directoryProvider.setSearchedUsers(
+        searchedUsers: [],
+        userImagesUrl: {},
+      );
     });
   }
 

@@ -11,13 +11,12 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   bool personalSearch;
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
-  Map<String, ImageProvider<Object>?>? favBusImages;
   Map<String, Future<String>>? favBusImagesUrl;
   List<Business>? searchedBusinesses;
-  Map<String, ImageProvider<Object>?>? busSearchImages;
+  Map<String, Future<String>>? busSearchImagesUrl;
   Business? selectedBusiness;
   List<AppUser>? searchedUsers;
-  Map<String, ImageProvider<Object>?>? userSearchImages;
+  Map<String, Future<String>>? userSearchImagesUrl;
   AppUser? selectedUser;
   String searchTerm;
   String businessTypeFilter;
@@ -74,20 +73,18 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   void setFavouriteBusinesses({
     required List<Business> businesses,
     required Map<String, Future<String>> businessesImagesUrl,
-    // required Map<String, ImageProvider<Object>?> businessesImages,
   }) {
     favouriteBusinessesList = businesses;
-    // favBusImages = businessesImages;
     favBusImagesUrl = businessesImagesUrl;
     notifyListeners();
   }
 
   void setSearchedBusinesses({
     required List<Business> searchedBusinesses,
-    required Map<String, ImageProvider<Object>?> businessesImages,
+    required Map<String, Future<String>> businessesImagesUrl,
   }) {
     this.searchedBusinesses = searchedBusinesses;
-    busSearchImages = businessesImages;
+    busSearchImagesUrl = businessesImagesUrl;
     notifyListeners();
   }
 
@@ -98,10 +95,10 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setSearchedUsers({
     required List<AppUser> searchedUsers,
-    required Map<String, ImageProvider<Object>?> userImages,
+    required Map<String, Future<String>> userImagesUrl,
   }) {
     this.searchedUsers = searchedUsers;
-    this.userSearchImages = userImages;
+    this.userSearchImagesUrl = userImagesUrl;
     notifyListeners();
   }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -58,13 +59,32 @@ class _BuildBusinessSearchResultsListState
                     // vertical: 5,
                     horizontal: 25,
                   ),
-                  child: MihBusinessProfilePreview(
-                    business: widget.businessList[index],
-                    imageFile: directoryProvider.busSearchImages![
-                        widget.businessList[index].business_id],
-                    loading: false,
-                    //To Do
-                  ),
+                  child: FutureBuilder(
+                      future: directoryProvider.busSearchImagesUrl![
+                          widget.businessList[index].business_id],
+                      builder: (context, asyncSnapshot) {
+                        ImageProvider<Object>? imageFile;
+                        bool loading = true;
+                        if (asyncSnapshot.connectionState ==
+                            ConnectionState.done) {
+                          loading = false;
+                          if (asyncSnapshot.hasData) {
+                            imageFile = asyncSnapshot.requireData != ""
+                                ? CachedNetworkImageProvider(
+                                    asyncSnapshot.requireData)
+                                : null;
+                          } else {
+                            imageFile = null;
+                          }
+                        } else {
+                          imageFile = null;
+                        }
+                        return MihBusinessProfilePreview(
+                          business: widget.businessList[index],
+                          imageFile: imageFile,
+                          loading: loading,
+                        );
+                      }),
                 ),
               ),
             );
