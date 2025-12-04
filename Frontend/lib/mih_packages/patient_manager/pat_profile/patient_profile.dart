@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
@@ -51,10 +50,6 @@ class _PatientProfileState extends State<PatientProfile> {
       await MihPatientServices().getPatientDetails(
           mzansiProfileProvider.user!.app_id, patientManagerProvider);
     }
-    KenLogger.success(
-        "Selected Patient: ${patientManagerProvider.selectedPatient!.app_id}");
-    KenLogger.success("My User: ${mzansiProfileProvider.user!.app_id}");
-    KenLogger.success("Personal Mode: ${patientManagerProvider.personalMode}");
     if (patientManagerProvider.selectedPatient!.app_id !=
             mzansiProfileProvider.user!.app_id &&
         patientManagerProvider.personalMode) {
