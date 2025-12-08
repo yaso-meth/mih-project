@@ -153,6 +153,9 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
               ),
               const SizedBox(height: 25),
               Wrap(
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 spacing: 10,
                 runSpacing: 10,
                 children: [

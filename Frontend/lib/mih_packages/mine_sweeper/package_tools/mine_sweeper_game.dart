@@ -393,6 +393,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
               Wrap(
                 runAlignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 spacing: 10,
                 runSpacing: 10,
                 children: [
@@ -524,6 +525,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
               Wrap(
                 runAlignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 spacing: 10,
                 runSpacing: 10,
                 children: [

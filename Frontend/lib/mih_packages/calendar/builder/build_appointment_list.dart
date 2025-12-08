@@ -512,6 +512,8 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                     const SizedBox(height: 20),
                     Center(
                       child: Wrap(
+                        runAlignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         spacing: 10,

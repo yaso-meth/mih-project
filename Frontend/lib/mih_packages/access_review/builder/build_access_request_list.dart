@@ -221,6 +221,9 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                 ),
               ),
               Wrap(
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 runSpacing: 10,
                 spacing: 10,
                 children: [

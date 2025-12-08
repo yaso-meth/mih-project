@@ -167,6 +167,8 @@ class _MihHomeState extends State<MihHome> {
                 const SizedBox(height: 20),
                 Center(
                   child: Wrap(
+                    runAlignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
                     spacing: 10,
                     runSpacing: 10,

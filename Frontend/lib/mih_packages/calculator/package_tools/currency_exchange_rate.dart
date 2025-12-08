@@ -374,6 +374,9 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                     const SizedBox(height: 25),
                     Center(
                       child: Wrap(
+                        runAlignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.center,
                         spacing: 10,
                         runSpacing: 10,
                         children: [

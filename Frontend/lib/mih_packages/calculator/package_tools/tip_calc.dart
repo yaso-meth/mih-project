@@ -384,6 +384,9 @@ class _TipCalcState extends State<TipCalc> {
                 const SizedBox(height: 10),
                 Center(
                   child: Wrap(
+                    runAlignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    alignment: WrapAlignment.center,
                     spacing: 10,
                     runSpacing: 10,
                     children: [

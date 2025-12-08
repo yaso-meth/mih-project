@@ -351,6 +351,9 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
               const SizedBox(height: 30.0),
               Center(
                 child: Wrap(
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
                   runSpacing: 10,
                   spacing: 10,
                   children: [

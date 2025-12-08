@@ -154,6 +154,9 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
           ),
           const SizedBox(height: 25),
           Wrap(
+            runAlignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
             spacing: 10,
             runSpacing: 10,
             children: [

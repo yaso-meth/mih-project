@@ -323,6 +323,9 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
               Visibility(
                 visible: accessProvider.accessList![index].status == 'pending',
                 child: Wrap(
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
                   runSpacing: 10,
                   spacing: 10,
                   children: [
