@@ -31,9 +31,11 @@ class _PackageTestState extends State<PackageTest> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    await MihDataHelperServices().loadUserDataWithBusinessesData(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
+        mzansiProfileProvider,
+      );
+    }
     setState(() {
       _isLoadingInitialData = false;
     });

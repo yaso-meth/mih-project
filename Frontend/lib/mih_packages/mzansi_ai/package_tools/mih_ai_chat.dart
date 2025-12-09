@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
@@ -121,6 +123,26 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     }
   }
 
+  void saveHistory(MzansiAiProvider aiProvider) {
+    final history = aiProvider.ollamaProvider.history.toList();
+    String jsonHistory = '{"conversation_id":"1234-asdf-5678-qwert",\n';
+    // jsonHistory += '"app_id":"${}"\n';
+    jsonHistory += '"messages":[\n';
+    KenLogger.success("History Length: ${history.length}");
+    for (int i = 0; i != history.length; i++) {
+      final map = history[i].toJson();
+      final json = JsonEncoder.withIndent(' ').convert(map);
+      jsonHistory += json;
+      if (i != history.length - 1) {
+        KenLogger.success("i: $i");
+        jsonHistory += ",";
+      }
+      jsonHistory += "\n";
+    }
+    jsonHistory += ']}';
+    debugPrint("History: $jsonHistory");
+  }
+
   void stopTTS(MzansiAiProvider aiProvider) {
     _flutterTts.stop();
     aiProvider.setTTSstate(false);
@@ -239,6 +261,26 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                 "What is MIH all about?",
                 "What are the features of MIH?"
               ],
+            ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: MihButton(
+                width: 200,
+                height: 30,
+                onPressed: () {
+                  saveHistory(aiProvider);
+                },
+                buttonColor: MihColors.getGreenColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                child: Text(
+                  "View History as json",
+                  style: TextStyle(
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                ),
+              ),
             ),
             if (hasHistory && lastMessage != null)
               Positioned(

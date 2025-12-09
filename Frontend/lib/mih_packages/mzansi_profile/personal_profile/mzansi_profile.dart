@@ -30,9 +30,11 @@ class _MzansiProfileState extends State<MzansiProfile> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    await MihDataHelperServices().loadUserDataWithBusinessesData(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
+        mzansiProfileProvider,
+      );
+    }
     setState(() {
       _isLoadingInitialData = false;
     });

@@ -33,9 +33,11 @@ class _MihWalletState extends State<MihWallet> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
-    await MihDataHelperServices().loadUserDataOnly(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataOnly(
+        mzansiProfileProvider,
+      );
+    }
     await setLoyaltyCards(mzansiProfileProvider, walletProvider);
     await setFavouritesCards(mzansiProfileProvider, walletProvider);
     setState(() {

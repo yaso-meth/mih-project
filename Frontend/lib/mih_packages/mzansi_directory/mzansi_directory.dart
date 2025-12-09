@@ -35,9 +35,11 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    await MihDataHelperServices().loadUserDataOnly(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataOnly(
+        mzansiProfileProvider,
+      );
+    }
     setState(() {
       _isLoadingInitialData = false;
     });

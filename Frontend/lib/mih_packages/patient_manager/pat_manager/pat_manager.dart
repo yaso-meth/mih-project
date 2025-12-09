@@ -40,9 +40,11 @@ class _PatManagerState extends State<PatManager> {
         context.read<PatientManagerProvider>();
     MihCalendarProvider mihCalendarProvider =
         context.read<MihCalendarProvider>();
-    await MihDataHelperServices().loadUserDataWithBusinessesData(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
+        mzansiProfileProvider,
+      );
+    }
     patientManagerProvider.setPersonalMode(false);
     if (mzansiProfileProvider.business != null) {
       await MihMzansiCalendarApis.getBusinessAppointments(

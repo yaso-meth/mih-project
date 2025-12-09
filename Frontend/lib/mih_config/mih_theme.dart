@@ -3,11 +3,6 @@ import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import "package:universal_html/html.dart" as html;
 
 class MihTheme {
-  // late int _mainColor;
-  // late int _secondColor;
-  //late int _errColor;
-  //late int _succColor;
-  // late int _mesColor;
   late String mode;
   late String screenType;
   late AssetImage loading;
@@ -15,34 +10,14 @@ class MihTheme {
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
   String latestVersion = "1.2.5";
-  // Options:-
-  // f3f9d2 = Cream
-  // f0f0c9 = cream2
-  // caffd0 = light green
-  // B0F2B4 = light grean 2 *
-  // 85bda6 = light green 3
-  // 70f8ba = green
-  // F7F3EA = white
-  // a63446 = red
-  //747474
-
   MihTheme() {
     mode = "Dark";
-    //_errColor = 0xffD87E8B;
-    //_succColor = 0xffB0F2B4;
-    //_mesColor = 0xffc8c8c8d9;
   }
 
   ThemeData getData(bool bool) {
     return ThemeData(
       fontFamily: 'Segoe UI',
       scaffoldBackgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-      // pageTransitionsTheme: PageTransitionsTheme(
-      //   builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-      //     TargetPlatform.values,
-      //     value: (dynamic _) => const FadeUpwardsPageTransitionsBuilder(),
-      //   ),
-      // ),
       colorScheme: ColorScheme(
         brightness: getBritness(),
         primary: MihColors.getSecondaryColor(mode == "Dark"),
@@ -77,7 +52,6 @@ class MihTheme {
       drawerTheme: DrawerThemeData(
         backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
       ),
-      // Text selection / cursor color
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: MihColors.getPrimaryColor(mode == "Dark"),
         selectionColor:
@@ -113,48 +87,10 @@ class MihTheme {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         triggerMode: TooltipTriggerMode.longPress,
       ),
-      // // Input decoration (text fields) theme
-      // inputDecorationTheme: InputDecorationTheme(
-      //   filled: true,
-      //   fillColor: mode == "Dark"
-      //       ? MihColors.getPrimaryColor(true).withOpacity(0.06)
-      //       : MihColors.getPrimaryColor(false).withOpacity(0.03),
-      //   contentPadding:
-      //       const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      //   border: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(8),
-      //     borderSide:
-      //         BorderSide(color: MihColors.getSecondaryColor(mode == "Dark")),
-      //   ),
-      //   enabledBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(8),
-      //     borderSide: BorderSide(
-      //         color:
-      //             MihColors.getSecondaryColor(mode == "Dark").withOpacity(0.6)),
-      //   ),
-      //   focusedBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(8),
-      //     borderSide: BorderSide(
-      //         color: MihColors.getSecondaryColor(mode == "Dark"), width: 2),
-      //   ),
-      //   hintStyle: TextStyle(
-      //       color:
-      //           MihColors.getSecondaryColor(mode == "Dark").withOpacity(0.7)),
-      //   labelStyle:
-      //       TextStyle(color: MihColors.getSecondaryColor(mode == "Dark")),
-      //   errorStyle: TextStyle(color: MihColors.getRedColor(mode == "Dark")),
-      // ),
     );
   }
 
   String getPlatform() {
-    // if (isPwa()) {
-    //   if (platform == TargetPlatform.android) {
-    //     return "Android";
-    //   } else if (platform == TargetPlatform.iOS) {
-    //     return "iOS";
-    //   }
-    // } else
     if (kIsWeb) {
       return "Web";
     } else if (!kIsWeb) {
@@ -199,100 +135,6 @@ class MihTheme {
     }
   }
 
-  // Color messageTextColor() {
-  //   if (mode == "Dark") {
-  //     _mesColor = 0XFFc8c8c8;
-  //   } else {
-  //     _mesColor = 0XFF747474;
-  //   }
-  //   return Color(_mesColor);
-  // }
-
-  // Color errorColor() {
-  //   if (mode == "Dark") {
-  //     return const Color(0xffD87E8B);
-  //   } else {
-  //     return const Color(0xffbb3d4f);
-  //   }
-  //   //return Color(_errColor);
-  // }
-
-  // Color highlightColor() {
-  //   if (mode == "Dark") {
-  //     return const Color(0XFF9bc7fa);
-  //   } else {
-  //     return const Color(0XFF354866);
-  //   }
-  // }
-
-  // Color successColor() {
-  //   if (mode == "Dark") {
-  //     return const Color(0xffB0F2B4);
-  //   } else {
-  //     return const Color(0xff56a95b);
-  //   }
-  // }
-
-  // AssetImage loadingImage() {
-  //   if (mode == "Dark") {
-  //     loading = const AssetImage(
-  //       'lib/mih_package_components/assets/images/loading_light.gif',
-  //     );
-  //   } else {
-  //     loading = const AssetImage(
-  //       'lib/mih_package_components/assets/images/loading_dark.gif',
-  //     );
-  //   }
-  //   return loading;
-  // }
-
-  // AssetImage altLoadingImage() {
-  //   if (mode == "Dark") {
-  //     loading = const AssetImage(
-  //       'lib/mih_package_components/assets/images/loading_dark.gif',
-  //     );
-  //   } else {
-  //     loading = const AssetImage(
-  //       'lib/mih_package_components/assets/images/loading_light.gif',
-  //     );
-  //   }
-  //   return loading;
-  // }
-
-  // String loadingImageLocation() {
-  //   if (mode == "Dark") {
-  //     loadingAssetText =
-  //         'lib/mih_package_components/assets/images/loading_light.gif';
-  //   } else {
-  //     loadingAssetText =
-  //         'lib/mih_package_components/assets/images/loading_dark.gif';
-  //   }
-  //   return loadingAssetText;
-  // }
-
-  // String altLoadingImageLocation() {
-  //   if (mode == "Dark") {
-  //     loadingAssetText =
-  //         'lib/mih_package_components/assets/images/loading_dark.gif';
-  //   } else {
-  //     loadingAssetText =
-  //         'lib/mih_package_components/assets/images/loading_light.gif';
-  //   }
-  //   return loadingAssetText;
-  // }
-
-  // AssetImage aiLogoImage() {
-  //   if (mode == "Dark") {
-  //     return const AssetImage(
-  //       'lib/mih_package_components/assets/images/mzansi_ai-dark.png',
-  //     );
-  //   } else {
-  //     return const AssetImage(
-  //       'lib/mih_package_components/assets/images/mzansi_ai-light.png',
-  //     );
-  //   }
-  // }
-
   void setScreenType(double width) {
     if (width <= 800) {
       screenType = "mobile";
@@ -300,22 +142,4 @@ class MihTheme {
       screenType = "desktop";
     }
   }
-
-  // Color MihColors.getPrimaryColor(mode == "Dark") {
-  //   if (mode == "Dark") {
-  //     _mainColor = 0XFF3A4454;
-  //   } else {
-  //     _mainColor = 0XFFbedcfe;
-  //   }
-  //   return Color(_mainColor);
-  // }
-
-//   Color MihColors.getSecondaryColor(mode == "Dark") {
-//     if (mode == "Dark") {
-//       _secondColor = 0XFFbedcfe;
-//     } else {
-//       _secondColor = 0XFF3A4454;
-//     }
-//     return Color(_secondColor);
-//   }
 }

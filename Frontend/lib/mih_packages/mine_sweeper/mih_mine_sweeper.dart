@@ -36,9 +36,11 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     MihBannerAdProvider bannerAdProvider = context.read<MihBannerAdProvider>();
-    await MihDataHelperServices().loadUserDataOnly(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataOnly(
+        mzansiProfileProvider,
+      );
+    }
     bannerAdProvider.loadBannerAd();
     setState(() {
       _isLoadingInitialData = false;

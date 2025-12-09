@@ -37,9 +37,11 @@ class _BusinesProfileState extends State<BusinesProfile> {
     });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
-    await MihDataHelperServices().loadUserDataWithBusinessesData(
-      mzansiProfileProvider,
-    );
+    if (mzansiProfileProvider.user == null) {
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
+        mzansiProfileProvider,
+      );
+    }
     await MihBusinessEmployeeServices()
         .fetchEmployees(mzansiProfileProvider, context);
     setState(() {
