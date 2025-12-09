@@ -15,8 +15,7 @@ class MihPackageTile extends StatefulWidget {
   final Widget appIcon;
   final void Function() onTap;
   final double iconSize;
-  final Color primaryColor;
-  final Color secondaryColor;
+  final Color textColor;
   final bool? authenticateUser;
   const MihPackageTile({
     super.key,
@@ -25,8 +24,7 @@ class MihPackageTile extends StatefulWidget {
     this.ytVideoID,
     required this.appIcon,
     required this.iconSize,
-    required this.primaryColor,
-    required this.secondaryColor,
+    required this.textColor,
     this.authenticateUser,
   });
 
@@ -204,8 +202,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
                   // softWrap: true,
                   // overflow: TextOverflow.visible,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: widget.textColor,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),

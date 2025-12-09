@@ -356,9 +356,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -376,9 +374,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -396,9 +392,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -416,9 +410,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -436,9 +428,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -456,9 +446,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -477,9 +465,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -497,9 +483,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -517,9 +501,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -537,9 +519,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
       ),
       iconSize: 200,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================
@@ -565,9 +545,7 @@ class _MihInfoState extends State<MihInfo> {
         // ),
       ),
       iconSize: 100,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     ));
     //==================================================================

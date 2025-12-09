@@ -87,8 +87,7 @@ class _MihSignInState extends State<MihSignIn> {
         size: 200,
       ),
       iconSize: 200,
-      primaryColor: getPrim(),
-      secondaryColor: getSec(),
+      textColor: getPrim(),
       authenticateUser: false,
     ));
     tileList.add(MihPackageTile(
@@ -110,8 +109,7 @@ class _MihSignInState extends State<MihSignIn> {
         size: 200,
       ),
       iconSize: 200,
-      primaryColor: getPrim(),
-      secondaryColor: getSec(),
+      textColor: getPrim(),
       authenticateUser: false,
     ));
     //if (AppEnviroment.getEnv() == "Dev") {
@@ -134,8 +132,7 @@ class _MihSignInState extends State<MihSignIn> {
         size: 200,
       ),
       iconSize: 200,
-      primaryColor: getPrim(),
-      secondaryColor: getSec(),
+      textColor: getPrim(),
       authenticateUser: false,
     ));
     tileList.add(MihPackageTile(
@@ -157,8 +154,7 @@ class _MihSignInState extends State<MihSignIn> {
         size: 200,
       ),
       iconSize: 200,
-      primaryColor: getPrim(),
-      secondaryColor: getSec(),
+      textColor: getPrim(),
       authenticateUser: false,
     ));
     //}

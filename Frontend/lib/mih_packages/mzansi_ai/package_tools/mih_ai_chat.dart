@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:intl/intl.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
@@ -12,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.d
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class MihAiChat extends StatefulWidget {
@@ -123,25 +125,62 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     }
   }
 
-  void saveHistory(MzansiAiProvider aiProvider) {
+  void saveHistory(
+      MzansiProfileProvider profileProvider, MzansiAiProvider aiProvider) {
     final history = aiProvider.ollamaProvider.history.toList();
-    String jsonHistory = '{"conversation_id":"1234-asdf-5678-qwert",\n';
-    // jsonHistory += '"app_id":"${}"\n';
-    jsonHistory += '"messages":[\n';
-    KenLogger.success("History Length: ${history.length}");
-    for (int i = 0; i != history.length; i++) {
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    String formattedDateTimeNow = formatter.format(now);
+
+    // 1. Build the list of message Maps
+    List<Map<String, dynamic>> messages = [];
+    for (int i = 0; i < history.length; i++) {
       final map = history[i].toJson();
-      final json = JsonEncoder.withIndent(' ').convert(map);
-      jsonHistory += json;
-      if (i != history.length - 1) {
-        KenLogger.success("i: $i");
-        jsonHistory += ",";
-      }
-      jsonHistory += "\n";
+      map["order"] = i; // Add the order field
+      messages.add(map);
     }
-    jsonHistory += ']}';
+
+    // 2. Build the main history Map (the root JSON object)
+    final historyMap = <String, dynamic>{
+      "conversation_id": "1234-asdf-5678-qwert",
+      "app_id": profileProvider.user!.app_id,
+      "modified_date": formattedDateTimeNow,
+      "messages": messages, // The list of messages is included here
+    };
+
+    // 3. Use JsonEncoder to convert the entire Map to a formatted JSON string
+    const encoder = JsonEncoder.withIndent(' ');
+    String jsonHistory = encoder.convert(historyMap);
+
+    // The output string will now be a correctly formatted and escaped JSON object.
     debugPrint("History: $jsonHistory");
   }
+
+  // void saveHistory(
+  //     MzansiProfileProvider profileProvider, MzansiAiProvider aiProvider) {
+  //   final history = aiProvider.ollamaProvider.history.toList();
+  //   DateTime now = DateTime.now();
+  //   DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+  //   String formattedDateTimeNow = formatter.format(now);
+  //   String jsonHistory = '{"conversation_id":"1234-asdf-5678-qwert",\n';
+  //   jsonHistory += '"app_id":"${profileProvider.user!.app_id}",\n';
+  //   jsonHistory += '"modified_date":"$formattedDateTimeNow",\n';
+  //   jsonHistory += '"messages":[\n';
+  //   KenLogger.success("History Length: ${history.length}");
+  //   for (int i = 0; i != history.length; i++) {
+  //     final map = history[i].toJson();
+  //     map["order"] = i;
+  //     final json = JsonEncoder.withIndent(' ').convert(map);
+  //     jsonHistory += json;
+  //     if (i != history.length - 1) {
+  //       KenLogger.success("i: $i");
+  //       jsonHistory += ",";
+  //     }
+  //     jsonHistory += "\n";
+  //   }
+  //   jsonHistory += ']}';
+  //   debugPrint("History: $jsonHistory");
+  // }
 
   void stopTTS(MzansiAiProvider aiProvider) {
     _flutterTts.stop();
@@ -235,9 +274,9 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MzansiAiProvider>(
-      builder:
-          (BuildContext context, MzansiAiProvider aiProvider, Widget? child) {
+    return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
+      builder: (BuildContext context, MzansiProfileProvider profileProvider,
+          MzansiAiProvider aiProvider, Widget? child) {
         bool hasHistory = aiProvider.ollamaProvider.history.isNotEmpty;
         String? lastMessage;
         if (hasHistory) {
@@ -269,7 +308,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                 width: 200,
                 height: 30,
                 onPressed: () {
-                  saveHistory(aiProvider);
+                  saveHistory(profileProvider, aiProvider);
                 },
                 buttonColor: MihColors.getGreenColor(
                     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),

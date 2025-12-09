@@ -39,9 +39,7 @@ class _MihAccessTileState extends State<MihAccessTile> {
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      primaryColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      secondaryColor: MihColors.getPrimaryColor(
+      textColor: MihColors.getSecondaryColor(
           MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
     );
   }

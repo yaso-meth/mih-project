@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_three.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_zero.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
@@ -62,19 +63,24 @@ class _PackageTestState extends State<PackageTest> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = Map();
-    temp[const Icon(Icons.warning)] = () {
+    temp[const Icon(Icons.link)] = () {
       setState(() {
         _selcetedIndex = 0;
       });
     };
-    temp[const Icon(Icons.inbox)] = () {
+    temp[const Icon(Icons.warning)] = () {
       setState(() {
         _selcetedIndex = 1;
       });
     };
-    temp[const Icon(Icons.outbond)] = () {
+    temp[const Icon(Icons.inbox)] = () {
       setState(() {
         _selcetedIndex = 2;
+      });
+    };
+    temp[const Icon(Icons.outbond)] = () {
+      setState(() {
+        _selcetedIndex = 3;
       });
     };
     return MihPackageTools(
@@ -91,6 +97,7 @@ class _PackageTestState extends State<PackageTest> {
     MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
     List<Widget> toolBodies = [
+      const PackageToolThree(),
       const PackageToolZero(),
       PackageToolOne(
         user: profileProvider.user!,
