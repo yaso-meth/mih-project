@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.d
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_reviews.dart';
@@ -15,9 +14,11 @@ import 'package:provider/provider.dart';
 
 class MzansiBusinessProfileView extends StatefulWidget {
   final String? businessId;
+  final bool fromMzansiDirectory;
   const MzansiBusinessProfileView({
     super.key,
     required this.businessId,
+    required this.fromMzansiDirectory,
   });
 
   @override
@@ -46,6 +47,12 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
         directoryProvider.setSelectedBusiness(business: biz);
       }
     }
+    _businessDetailsView = MihBusinessDetailsView();
+    _businessReviews =
+        MihBusinessReviews(business: directoryProvider.selectedBusiness!);
+    _businessQrCode = MihBusinessQrCode(
+      business: directoryProvider.selectedBusiness!,
+    );
   }
 
   @override
@@ -53,12 +60,6 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    _businessDetailsView = MihBusinessDetailsView();
-    _businessReviews =
-        MihBusinessReviews(business: directoryProvider.selectedBusiness!);
-    _businessQrCode = MihBusinessQrCode(
-      business: directoryProvider.selectedBusiness!,
-    );
     _fetchBusinessDetails(directoryProvider);
   }
 
@@ -97,9 +98,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {
-        MzansiProfileProvider profileProvider =
-            context.read<MzansiProfileProvider>();
-        if (profileProvider.user == null) {
+        if (!widget.fromMzansiDirectory) {
           context.goNamed(
             'mihHome',
           );
