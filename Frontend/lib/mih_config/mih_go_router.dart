@@ -198,6 +198,7 @@ class MihGoRouter {
           }
           return MzansiBusinessProfileView(
             businessId: businessId,
+            fromMzansiDirectory: businessId == null,
           );
         },
       ),
