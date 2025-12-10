@@ -35,7 +35,7 @@ class _MihHomeState extends State<MihHome> {
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
   bool _isLoadingInitialData = true;
   late final MihPersonalHome _personalHome;
-  late final MihBusinessHome _businessHome;
+  late final MihBusinessHome? _businessHome;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -49,6 +49,10 @@ class _MihHomeState extends State<MihHome> {
         mzansiProfileProvider,
       );
     }
+    _personalHome = const MihPersonalHome();
+    _businessHome = mzansiProfileProvider.business != null
+        ? MihBusinessHome(isLoading: _isLoadingInitialData)
+        : null;
     if (mounted) {
       setState(() {
         _isLoadingInitialData = false;
@@ -268,8 +272,6 @@ class _MihHomeState extends State<MihHome> {
   @override
   void initState() {
     super.initState();
-    _personalHome = const MihPersonalHome();
-    _businessHome = MihBusinessHome(isLoading: _isLoadingInitialData);
     _loadInitialData();
   }
 
@@ -397,9 +399,15 @@ class _MihHomeState extends State<MihHome> {
   }
 
   List<Widget> getToolBody(MzansiProfileProvider mzansiProfileProvider) {
-    return [
-      _personalHome,
-      _businessHome,
-    ];
+    if (mzansiProfileProvider.business == null) {
+      return [
+        _personalHome,
+      ];
+    } else {
+      return [
+        _personalHome,
+        _businessHome!,
+      ];
+    }
   }
 }
