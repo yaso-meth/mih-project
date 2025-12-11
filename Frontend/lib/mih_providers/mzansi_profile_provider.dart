@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 
 class MzansiProfileProvider extends ChangeNotifier {
@@ -23,6 +24,7 @@ class MzansiProfileProvider extends ChangeNotifier {
   List<BusinessEmployee>? employeeList;
   List<AppUser> userSearchResults = [];
   bool hideBusinessUserDetails;
+  List<ProfileLink> personalLinks = [];
 
   MzansiProfileProvider({
     this.personalHome = true,
@@ -147,6 +149,11 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void setUserearchResults({required List<AppUser> userSearchResults}) {
     this.userSearchResults = userSearchResults;
+    notifyListeners();
+  }
+
+  void setPersonalLinks({required List<ProfileLink> personalLinks}) {
+    this.personalLinks = personalLinks;
     notifyListeners();
   }
 }

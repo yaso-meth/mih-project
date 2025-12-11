@@ -1,7 +1,8 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
@@ -27,25 +28,6 @@ class MihInfo extends StatefulWidget {
 class _MihInfoState extends State<MihInfo> {
   late Future<int> _futureUserCount;
   late Future<int> _futureBusinessCount;
-  final Uri _tiktokUrl =
-      Uri.parse('https://www.tiktok.com/@mzansi.innovation.hub');
-  final Uri _whatsappUrl =
-      Uri.parse('https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F');
-  final Uri _twitch = Uri.parse('https://www.twitch.tv/mzansi_innovation_hub');
-  final Uri _kick = Uri.parse('https://kick.com/mzansi-innovation-hub');
-  final Uri _threadsUrl =
-      Uri.parse('https://www.threads.net/@mzansi.innovation.hub');
-  final Uri _instagramUrl =
-      Uri.parse('https://www.instagram.com/mzansi.innovation.hub');
-  final Uri _youtubeUrl =
-      Uri.parse('https://www.youtube.com/@mzansiinnovationhub');
-  final Uri _xUrl = Uri.parse('https://x.com/mzansi_inno_hub');
-  final Uri _linkedinUrl =
-      Uri.parse('https://www.linkedin.com/company/mzansi-innovation-hub/');
-  final Uri _facebookUrl =
-      Uri.parse('https://www.facebook.com/profile.php?id=61565345762136');
-  final Uri _redditUrl =
-      Uri.parse('https://www.reddit.com/r/Mzani_Innovation_Hub/');
 
   Widget founderBio() {
     String bio = "";
@@ -188,368 +170,6 @@ class _MihInfoState extends State<MihInfo> {
         ],
       ),
     );
-  }
-
-  Widget womenForChange() {
-    String heading = "MIH Stands with Women For Change SA";
-    String mission =
-        "South Africa is facing a devastating crisis of Gender-Based Violence and Femicide (GBVF), with at least 15 women murdered and 117 women reporting rape daily, often at the hands of known individuals, as highlighted by a shocking 33.8% rise in femicide in the last year, despite the existence of the National Strategic Plan on GBVF (NSP GBVF). Due to the government's lack of urgent action and funding for the NSP GBVF's implementation, organizations like Women For Change are urgently calling for the immediate declaration of GBVF as a National Disaster to mobilize resources and political will for decisive action, which must include judicial reforms (like opposing bail and implementing harsher sentences), immediate funding of the NSP GBVF and the new National Council, making the National Sex Offenders Register publicly accessible, and mandating comprehensive GBVF education and continuous public awareness campaigns.";
-    return SizedBox(
-      width: 500,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            heading,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Wrap(
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              MihButton(
-                onPressed: () {
-                  launchSocialUrl(
-                    Uri.parse(
-                      "https://www.tiktok.com/@womenforchange.sa",
-                    ),
-                  );
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.tiktok,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "@womenforchange.sa",
-                      style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              MihButton(
-                onPressed: () {
-                  launchSocialUrl(
-                    Uri.parse(
-                      "https://www.change.org/p/declare-gbvf-a-national-disaster-in-south-africa",
-                    ),
-                  );
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                width: 300,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FaIcon(
-                      Icons.edit,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Sign Petition",
-                      style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            mission,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              //fontWeight: FontWeight.bold,
-              fontSize: 17,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget mihSocials() {
-    String heading = "Follow Our Journey";
-    return Column(
-      children: [
-        Text(
-          heading,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          width: 500,
-          height: 600,
-          child: GridView.builder(
-            padding: const EdgeInsets.only(
-                // left: width / 10,
-                // right: width / 10,
-                // //bottom: height / 5,
-                // top: 20,
-                ),
-            physics: const NeverScrollableScrollPhysics(),
-            // shrinkWrap: true,
-            itemCount: getSocialsList().length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 15, maxCrossAxisExtent: 150),
-            itemBuilder: (context, index) {
-              return getSocialsList()[index];
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  List<Widget> getSocialsList() {
-    List<Widget> socials = [];
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_youtubeUrl);
-      },
-      appName: "YouTube",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.youtube,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_tiktokUrl);
-      },
-      appName: "TikTok",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.tiktok,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_twitch);
-      },
-      appName: "Twitch",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.twitch,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_threadsUrl);
-      },
-      appName: "Threads",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.threads,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_whatsappUrl);
-      },
-      appName: "Whatsapp",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.whatsapp,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_instagramUrl);
-      },
-      appName: "Instagram",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.instagram,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_xUrl);
-      },
-      appName: "X",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.xTwitter,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_linkedinUrl);
-      },
-      appName: "LinkedIn",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.linkedin,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_facebookUrl);
-      },
-      appName: "FaceBook",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.facebook,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_redditUrl);
-      },
-      appName: "Reddit",
-      appIcon: Center(
-        child: FaIcon(
-          FontAwesomeIcons.reddit,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          size: 200,
-        ),
-      ),
-      iconSize: 200,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    socials.add(MihPackageTile(
-      onTap: () {
-        launchSocialUrl(_kick);
-      },
-      appName: "Kick",
-      appIcon: Center(
-        child: Text(
-          "KICK",
-          style: TextStyle(
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            fontWeight: FontWeight.bold,
-            fontSize: 100,
-          ),
-        ),
-        // FaIcon(
-        //   FontAwesomeIcons.tv,
-        //   color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-        //   size: 200,
-        // ),
-      ),
-      iconSize: 100,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-    ));
-    //==================================================================
-    return socials;
   }
 
   Future<void> launchSocialUrl(Uri linkUrl) async {
@@ -720,6 +340,424 @@ class _MihInfoState extends State<MihInfo> {
     );
   }
 
+  Widget mihDivider() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 10.0,
+        horizontal: 25,
+      ),
+      child: Divider(
+        thickness: 1,
+        color: MihColors.getGreyColor(
+            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      ),
+    );
+  }
+
+  Widget aboutHeadings() {
+    return Column(
+      children: [
+        SizedBox(
+          width: 165,
+          child: FittedBox(
+            child: Icon(
+              MihIcons.mihLogo,
+              color: MihColors.getSecondaryColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          "Mzansi Innovation Hub",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        Text(
+          "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 15,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget communityCounter() {
+    return Column(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.spaceAround,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 25,
+          runSpacing: 10,
+          children: [
+            displayUserCount(),
+            displayBusinessCount(),
+          ],
+        ),
+        Text(
+          "The MIH Community",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget callToActionsButtons() {
+    return Column(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            MihButton(
+              onPressed: () {
+                MihInstallServices().installMihTrigger(context);
+              },
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              width: 300,
+              child: getInstallButtonText(),
+            ),
+            MihButton(
+              onPressed: () {
+                launchSocialUrl(
+                  Uri.parse(
+                    "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
+                  ),
+                );
+              },
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              width: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.youtube,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "MIH Beginners Guide",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            MihButton(
+              onPressed: () {
+                launchSocialUrl(
+                  Uri.parse(
+                    "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
+                  ),
+                );
+              },
+              buttonColor: MihColors.getGreenColor(
+                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              width: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.patreon,
+                    color: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Support Our Journey",
+                    style: TextStyle(
+                      color: MihColors.getPrimaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget womenForChange() {
+    String heading = "MIH Stands with Women For Change SA";
+    String mission =
+        "South Africa is facing a devastating crisis of Gender-Based Violence and Femicide (GBVF), with at least 15 women murdered and 117 women reporting rape daily, often at the hands of known individuals, as highlighted by a shocking 33.8% rise in femicide in the last year, despite the existence of the National Strategic Plan on GBVF (NSP GBVF). Due to the government's lack of urgent action and funding for the NSP GBVF's implementation, organizations like Women For Change are urgently calling for the immediate declaration of GBVF as a National Disaster to mobilize resources and political will for decisive action, which must include judicial reforms (like opposing bail and implementing harsher sentences), immediate funding of the NSP GBVF and the new National Council, making the National Sex Offenders Register publicly accessible, and mandating comprehensive GBVF education and continuous public awareness campaigns.";
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: SizedBox(
+        width: 500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              heading,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                MihButton(
+                  onPressed: () {
+                    launchSocialUrl(
+                      Uri.parse(
+                        "https://www.tiktok.com/@womenforchange.sa",
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.tiktok,
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "@womenforchange.sa",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                MihButton(
+                  onPressed: () {
+                    launchSocialUrl(
+                      Uri.parse(
+                        "https://www.change.org/p/declare-gbvf-a-national-disaster-in-south-africa",
+                      ),
+                    );
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(
+                        Icons.edit,
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Sign Petition",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              mission,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                //fontWeight: FontWeight.bold,
+                fontSize: 17,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget missionAndVission() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ourVision(),
+              ourMission(),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget founderDetails() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        founderTitle(),
+        founderBio(),
+      ],
+    );
+  }
+
+  Widget mihSocials() {
+    List<ProfileLink> links = [
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Youtube",
+        web_link: "https://www.youtube.com/@MzansiInnovationHub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "TikTok",
+        web_link: "https://www.tiktok.com/@mzansiinnovationhub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Twitch",
+        web_link: "https://www.twitch.tv/mzansiinnovationhub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Threads",
+        web_link: "https://www.threads.com/@mzansi.innovation.hub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "WhatsApp",
+        web_link: "https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Instagram",
+        web_link: "https://www.instagram.com/mzansi.innovation.hub/",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "X",
+        web_link: "https://x.com/mzansi_inno_hub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "LinkedIn",
+        web_link: "https://www.linkedin.com/company/mzansi-innovation-hub/",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Facebook",
+        web_link: "https://www.facebook.com/profile.php?id=61565345762136",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Reddit",
+        web_link: "https://www.reddit.com/r/Mzani_Innovation_Hub/",
+      ),
+    ];
+    return Column(
+      children: [
+        Text(
+          "Follow Our Journey",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        MihProfileLinks(links: links),
+        const SizedBox(
+          height: 25,
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -731,7 +769,6 @@ class _MihInfoState extends State<MihInfo> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
-      innerHorizontalPadding: 10,
       bodyItem: getBody(),
     );
   }
@@ -742,214 +779,16 @@ class _MihInfoState extends State<MihInfo> {
         MihSingleChildScroll(
           child: Column(
             children: [
-              SizedBox(
-                width: 165,
-                child: FittedBox(
-                  child: Icon(
-                    MihIcons.mihLogo,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Mzansi Innovation Hub",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
-              ),
-              Text(
-                "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 15,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Wrap(
-                alignment: WrapAlignment.spaceAround,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 25,
-                runSpacing: 10,
-                children: [
-                  displayUserCount(),
-                  displayBusinessCount(),
-                ],
-              ),
-              Text(
-                "The MIH Community",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Wrap(
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  MihButton(
-                    onPressed: () {
-                      MihInstallServices().installMihTrigger(context);
-                    },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 300,
-                    child: getInstallButtonText(),
-                  ),
-                  MihButton(
-                    onPressed: () {
-                      launchSocialUrl(
-                        Uri.parse(
-                          "https://www.youtube.com/playlist?list=PLuT35kJIui0H5kXjxNOZlHoOPZbQLr4qh",
-                        ),
-                      );
-                    },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 300,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.youtube,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          "MIH Beginners Guide",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  MihButton(
-                    onPressed: () {
-                      launchSocialUrl(
-                        Uri.parse(
-                          "https://patreon.com/MzansiInnovationHub?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink",
-                        ),
-                      );
-                    },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    width: 300,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.patreon,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          "Support Our Journey",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // // ===================== Divider
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 25,
-                ),
-                child: Divider(
-                  thickness: 1,
-                  color: MihColors.getGreyColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    womenForChange(),
-                    ourVision(),
-                    ourMission(),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // ===================== Divider
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 25,
-                ),
-                child: Divider(
-                  thickness: 1,
-                  color: MihColors.getGreyColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                // spacing: 10,
-                // runSpacing: 10,
-                children: [
-                  founderTitle(),
-                  founderBio(),
-                ],
-              ),
-              // ===================== Divider
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 25,
-                ),
-                child: Divider(
-                  thickness: 1,
-                  color: MihColors.getGreyColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                ),
-              ),
+              aboutHeadings(),
+              communityCounter(),
+              callToActionsButtons(),
+              mihDivider(),
+              womenForChange(),
+              mihDivider(),
+              missionAndVission(),
+              mihDivider(),
+              founderDetails(),
+              mihDivider(),
               mihSocials(),
             ],
           ),

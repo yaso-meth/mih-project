@@ -1,9 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -35,12 +37,100 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
     );
   }
 
+  List<ProfileLink> getTempLinks() {
+    return [
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Youtube",
+        web_link: "https://www.youtube.com/@MzansiInnovationHub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Threads",
+        web_link: "https://www.threads.com/@mzansi.innovation.hub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "TikTok",
+        web_link: "https://www.tiktok.com/@mzansiinnovationhub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "WhatsApp",
+        web_link: "https://whatsapp.com/channel/0029Vax3INCIyPtMn8KgeM2F",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Twitch",
+        web_link: "https://www.twitch.tv/mzansiinnovationhub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Instagram",
+        web_link: "https://www.instagram.com/mzansi.innovation.hub/",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "X",
+        web_link: "https://x.com/mzansi_inno_hub",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "LinkedIn",
+        web_link: "https://www.linkedin.com/in/yasien-meth-172352108/",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Facebook",
+        web_link: "https://www.facebook.com/profile.php?id=61565345762136",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Reddit",
+        web_link: "https://www.reddit.com/r/Mzani_Innovation_Hub/",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Discord",
+        web_link: "https://discord.gg/ZtTZYd5d",
+      ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "My App",
+        web_link: "https://app.mzansi-innovation-hub.co.za/about",
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
       borderOn: false,
-      innerHorizontalPadding: 10,
       bodyItem: getBody(screenWidth),
     );
   }
@@ -64,27 +154,50 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center(
-                    child: MihCircleAvatar(
-                      imageFile: mzansiProfileProvider.userProfilePicture,
-                      width: 150,
-                      editable: false,
-                      fileNameController: proPicController,
-                      userSelectedfile: newSelectedProPic,
-                      frameColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      backgroundColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onChange: (selectedImage) {
-                        setState(() {
-                          newSelectedProPic = selectedImage;
-                        });
-                      },
-                      key: ValueKey(mzansiProfileProvider.userProfilePicUrl),
-                    ),
+                  Stack(
+                    children: [
+                      MihCircleAvatar(
+                        imageFile: mzansiProfileProvider.userProfilePicture,
+                        width: 150,
+                        editable: false,
+                        fileNameController: proPicController,
+                        userSelectedfile: newSelectedProPic,
+                        frameColor: MihColors.getSecondaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        backgroundColor: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        onChange: (selectedImage) {
+                          setState(() {
+                            newSelectedProPic = selectedImage;
+                          });
+                        },
+                        key: ValueKey(mzansiProfileProvider.userProfilePicUrl),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: MihButton(
+                          onPressed: () {
+                            editProfileWindow(width);
+                          },
+                          buttonColor: MihColors.getGreenColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          width: 35,
+                          height: 35,
+                          child: Icon(
+                            Icons.edit,
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 10.0),
                   FittedBox(
                     child: Text(
                       mzansiProfileProvider.user!.username.isNotEmpty
@@ -134,7 +247,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       child: Text(
                         mzansiProfileProvider.user!.purpose.isNotEmpty
                             ? mzansiProfileProvider.user!.purpose
-                            : "No Personal Mission added yet",
+                            : "",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
@@ -146,30 +259,36 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30.0),
-                  Center(
-                    child: MihButton(
-                      onPressed: () {
-                        // Connect with the user
-                        editProfileWindow(width);
-                      },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      width: 300,
-                      child: Text(
-                        mzansiProfileProvider.user!.username.isEmpty
-                            ? "Set Up Profile"
-                            : "Edit Profile",
-                        style: TextStyle(
-                          color: MihColors.getPrimaryColor(
+                  const SizedBox(height: 15.0),
+                  Stack(
+                    children: [
+                      MihProfileLinks(
+                        // links: mzansiProfileProvider.personalLinks,
+                        links: getTempLinks(),
+                        buttonSize: 80,
+                        paddingOn: false,
+                      ),
+                      Positioned(
+                        top: 5,
+                        left: 5,
+                        child: MihButton(
+                          onPressed: () {
+                            editProfileWindow(width);
+                          },
+                          buttonColor: MihColors.getGreenColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          width: 35,
+                          height: 35,
+                          child: Icon(
+                            Icons.link,
+                            color: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

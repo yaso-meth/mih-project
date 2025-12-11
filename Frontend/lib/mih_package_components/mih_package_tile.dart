@@ -167,40 +167,34 @@ class _MihPackageTileState extends State<MihPackageTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // alignment: Alignment.topCenter,
+      alignment: Alignment.topCenter,
       // color: Colors.black,
-      // width: widget.iconSize,
-      // height: widget.iconSize + widget.iconSize / 3,
+      width: widget.iconSize,
+      height: widget.iconSize,
       child: GestureDetector(
         onTap: () async {
           authenticateUser();
         },
         onLongPress: null, // Do this later
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(
-              flex: 3,
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  double iconHeight = constraints.maxWidth;
-                  return Container(
-                    width: iconHeight,
-                    height: iconHeight,
-                    child:
-                        FittedBox(fit: BoxFit.fitHeight, child: widget.appIcon),
-                  );
-                },
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                child: widget.appIcon,
               ),
             ),
             const SizedBox(height: 10),
-            Flexible(
-              flex: 1,
+            Padding(
+              // Add a little padding for better visual spacing
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: FittedBox(
                 child: Text(
                   widget.appName,
-                  textAlign: TextAlign.center,
-                  // softWrap: true,
-                  // overflow: TextOverflow.visible,
+                  textAlign: TextAlign.center, // This centers the text content
+                  maxLines: 1, // Allow up to 2 lines to prevent clipping
                   style: TextStyle(
                     color: widget.textColor,
                     fontSize: 20.0,
@@ -208,7 +202,7 @@ class _MihPackageTileState extends State<MihPackageTile> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -161,7 +161,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                   }
                 },
                 icon: Icon(
-                  Icons.edit,
+                  Icons.camera_alt,
                 ),
               ),
             ),
