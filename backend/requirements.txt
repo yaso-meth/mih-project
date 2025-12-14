@@ -9,4 +9,5 @@ watchfiles
 python-multipart
 python-dotenv
 xlrd
-supertokens-python==0.29.2
+supertokens-python
+sniffio
