@@ -344,7 +344,6 @@ class _BuildFilesListState extends State<BuildFilesList> {
                         .patientDocuments![index].file_path);
                     fileViewerProvider.setFileLink(urlHere);
                   });
-
                   viewFilePopUp(
                       patientManagerProvider,
                       patientManagerProvider.patientDocuments![index].file_name,

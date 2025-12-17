@@ -26,6 +26,7 @@ class _MihFloatingMenuState extends State<MihFloatingMenu> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
+      key: GlobalKey(),
       icon: widget.icon,
       buttonSize: Size(widget.iconSize ?? 56.0, widget.iconSize ?? 56.0),
       animatedIcon: widget.animatedIcon,
