@@ -67,7 +67,9 @@ class _PatManagerState extends State<PatManager> {
     _waitingRoom = WaitingRoom();
     _myPatientList = MyPatientList();
     _mihPatientSearch = MihPatientSearch();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
   }
 
   @override
