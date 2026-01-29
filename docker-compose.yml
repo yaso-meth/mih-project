@@ -172,14 +172,58 @@ services:
     networks:
       - MIH-network
 # === Added section for NVIDIA GPU acceleration ===
-    runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all # or specify a number of GPUs
-              capabilities: [ gpu ]
+    # runtime: nvidia
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all # or specify a number of GPUs
+    #           capabilities: [ gpu ]
+#============== GITEA ====================================================================   
+  MIH-GITEA:
+    image: gitea/gitea:latest
+    container_name: MIH-GITEA
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST=MIH-GITEA-DB:3306
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=gitea_password
+    restart: always
+    networks:
+      - MIH-network
+    volumes:
+      - ./mih_git/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+    depends_on:
+      MIH-GITEA-DB:
+        condition: service_healthy
+
+  MIH-GITEA-DB:
+    image: mysql:8.0
+    container_name: MIH-GITEA-DB
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=gitea_root_password
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=gitea_password
+      - MYSQL_DATABASE=gitea
+    networks:
+      - MIH-network
+    volumes:
+      - ./mih_git/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 #============== Firebaase ====================================================================   
 # firebase:
 #   container_name: MIH-firebase-emulator
@@ -203,7 +247,8 @@ services:
 volumes:
   certbotConf:
   certbotChall:
-  data: #============== MIH Network ====================================================================
+  data: 
+#============== MIH Network ====================================================================
 networks:
   MIH-network:
     driver: bridge
