@@ -1,7 +1,8 @@
 #============== MIH Network ====================================================================
 networks:
-  MIH_Network:
+  mih-network:
     driver: bridge
+#============== MIH Containers ====================================================================
 services:
   #============== Nginx Proxy Server Old ====================================================================
   # nginx:
@@ -16,9 +17,9 @@ services:
   #     - certbotConf:/etc/letsencrypt
   #     - certbotChall:/var/www/certbot
   #   depends_on:
-  #     - MIH_UX
+  #     - mih-ux
   #   networks:
-  #     - MIH_Network
+  #     - mih-network
   #   profiles: [ 'prod' ]
   #============== Cert Bot Old ==================================================================== 
   # certbot:
@@ -30,13 +31,13 @@ services:
   #   #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
   #   command: certonly --webroot -w /var/www/certbot --force-renewal --email ${CERTBOT_EMAIL} -d ${CERTBOT_APP_DOMAIN} -d ${CERTBOT_API_DOMAIN} -d ${CERTBOT_STORAGE_DOMAIN} -d ${CERTBOT_MONITOR_DOMAIN} -d ${CERTBOT_AI_DOMAIN} --agree-tos
   #   networks:
-  #     - MIH_Network
+  #     - mih-network
   #   depends_on:
   #     - nginx
   #   profiles: [ 'withCert' ]
   #============== Nginx Proxy Manager ====================================================================  
-  MIH_NGINX:
-    container_name: MIH_NGINX
+  mih-nginx:
+    container_name: mih-nginx
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
@@ -47,22 +48,22 @@ services:
       - ./mih_nginx/data:/data
       - ./mih_nginx/letsencrypt:/etc/letsencrypt
     networks:
-      - MIH_Network
+      - mih-network
 #============== GITEA ====================================================================   
-  MIH_GITEA:
+  mih-gitea:
     image: gitea/gitea:latest
-    container_name: MIH_GITEA
+    container_name: mih-gitea
     environment:
       - USER_UID=1000
       - USER_GID=1000
       - GITEA__database__DB_TYPE=mysql
-      - GITEA__database__HOST=MIH-GITEA-DB:3306
-      - GITEA__database__NAME=gitea
-      - GITEA__database__USER=gitea
-      - GITEA__database__PASSWD=gitea_password
+      - GITEA__database__HOST=mih-gitea-db:3306
+      - GITEA__database__NAME=${GITEA_SQL_DB}
+      - GITEA__database__USER=${GITEA_SQL_USER}
+      - GITEA__database__PASSWD=${GITEA_SQL_PW}
     restart: always
     networks:
-      - MIH_Network
+      - mih-network
     volumes:
       - ./mih_git/gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -71,19 +72,19 @@ services:
       - "3000:3000"
       - "222:22"
     depends_on:
-      MIH-GITEA-DB:
+      mih-gitea-db:
         condition: service_healthy
-  MIH_GITEA_DB:
+  mih-gitea-db:
     image: mysql:8.0
-    container_name: MIH_GITEA_DB
+    container_name: mih-gitea-db
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=gitea_root_password
-      - MYSQL_USER=gitea
-      - MYSQL_PASSWORD=gitea_password
-      - MYSQL_DATABASE=gitea
+      - MYSQL_ROOT_PASSWORD=${GITEA_SQL_ROOT_PW}
+      - MYSQL_USER=${GITEA_SQL_USER}
+      - MYSQL_PASSWORD=${GITEA_SQL_PW}
+      - MYSQL_DATABASE=${GITEA_SQL_DB}
     networks:
-      - MIH_Network
+      - mih-network
     volumes:
       - ./mih_git/mysql:/var/lib/mysql
     healthcheck:
@@ -92,12 +93,11 @@ services:
       timeout: 5s
       retries: 5
   #============== Super Token Auth ====================================================================
-  MIH_SuperTokens:
-    container_name: MIH_SuperTokens
+  mih-supertokens:
+    container_name: mih-supertokens
     image: supertokens/supertokens-mysql:latest
-    # image: registry.supertokens.io/supertokens/supertokens-mysql
     depends_on:
-      - MIH_DB
+      - mih-db
     ports:
       - 3567:3567
     environment:
@@ -106,12 +106,12 @@ services:
       PASSWORD_RESET_TOKEN_LIFETIME: '7200000'
       MYSQL_USER: ${SQL_USER}
       MYSQL_PASSWORD: ${SQL_USER_PW}
-      MYSQL_HOST: MIH_DB
+      MYSQL_HOST: mih-db
       MYSQL_PORT: 3306
       MYSQL_DATABASE_NAME: ${SUPERTOKENS_DB}
       API_KEYS: ${SUPERTOKENS_API_KEY}
     networks:
-      - MIH_Network
+      - mih-network
     restart: unless-stopped
     healthcheck:
       test: >
@@ -119,36 +119,65 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  #============== MIH WordPress ====================================================================
+  mih-wordpress:
+    container_name: mih-wordpress
+    image: wordpress
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: mih-wp-db
+      WORDPRESS_DB_USER: ${WP_SQL_USER}
+      WORDPRESS_DB_PASSWORD: ${WP_SQL_USER_PW}
+      WORDPRESS_DB_NAME: ${WP_SQL_DB}
+    volumes:
+      - ./mih_wp/ui:/var/www/html
+    networks:
+      - mih-network
+  mih-wp-db:
+    container_name: mih-wp-db
+    image: mariadb:10.11
+    restart: always
+    environment:
+      MARIADB_DATABASE: ${WP_SQL_DB}
+      MARIADB_USER: ${WP_SQL_USER}
+      MARIADB_PASSWORD: ${WP_SQL_USER_PW}
+      MARIADB_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./mih_wp/database:/var/lib/mysql
+    networks:
+      - mih-network
   #============== MIH-UX Flutter ====================================================================
-  MIH_UX:
-    container_name: MIH_UX
+  mih-ux:
+    container_name: mih-ux
     build:
       context: ./mih_ui
     ports:
       - "83:83"
     networks:
-      - MIH_Network
+      - mih-network
     depends_on:
-      - MIH_API_Hub
+      - mih-api-hub
   #============== API Hub ====================================================================
-  MIH_API_Hub:
+  mih-api-hub:
     build:
       context: ./mih_api_hub
       target: builder
-    container_name: MIH_API_Hub
+    container_name: mih-api-hub
     ports:
       - 8080:80
     volumes:
       - ./mih_api_hub:/app
     networks:
-      - MIH_Network
+      - mih-network
     depends_on:
-      - MIH_DB
+      - mih-db
   #============== My SQL DB ==================================================================== 
-  MIH_DB:
+  mih-db:
     platform: linux/amd64
     image: mysql:5.7
-    container_name: MIH_DB
+    container_name: mih-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${SQL_ROOT_PW}
@@ -156,7 +185,7 @@ services:
       MYSQL_PASSWORD: ${SQL_USER_PW}
       MYSQL_DATABASE: ${SUPERTOKENS_DB}
     networks:
-      - MIH_Network
+      - mih-network
     ports:
       - '3306:3306'
     volumes:
@@ -167,21 +196,21 @@ services:
   #   image: phpmyadmin/phpmyadmin
   #   container_name: MIH-phpmyadmin
   #   environment:
-  #     PMA_HOST: MIH_DB
+  #     PMA_HOST: mih-db
   #     PMA_PORT: 3306
   #     PMA_ARBITRARY:
   #   networks:
-  #     - MIH_Network
+  #     - mih-network
   #   restart: always
   #   ports:
   #     - 8081:80
   #   depends_on:
-  #     - MIH_DB
+  #     - mih-db
   #============== Minio File Storage ====================================================================  
-  MIH_Minio:
+  mih-minio:
     platform: linux/amd64
-    container_name: MIH_Minio
-    hostname: MIH_Minio
+    container_name: mih-minio
+    hostname: mih-minio
     image: minio/minio
     ports:
       - '9000:9000'
@@ -192,11 +221,11 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PW}
     networks:
-      - MIH_Network
+      - mih-network
     command: ["server", "/data", "--console-address", ":9001"]
   #============== MIH-Monitor Portainer ==================================================================== 
-  MIH_Monitor:
-    container_name: MIH_Monitor
+  mih-monitor:
+    container_name: mih-monitor
     image: portainer/portainer-ce:2.20.3
     ports:
       - 9444:9443
@@ -205,10 +234,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
-      - MIH_Network
+      - mih-network
   #============== MIH-AI Ollama ==================================================================== 
-  MIH_AI:
-    container_name: MIH_AI
+  mih-ai:
+    container_name: mih-ai
     image: ollama/ollama:latest
     ports:
       - 11434:11434
@@ -222,7 +251,7 @@ services:
       - OLLAMA_KEEP_ALIVE=24h
       - OLLAMA_HOST=0.0.0.0
     networks:
-      - MIH_Network
+      - mih-network
 # === Added section for NVIDIA GPU acceleration ===
     # runtime: nvidia
     # deploy:
