@@ -3,6 +3,7 @@
 # *database/mysql.sock
 File_Storage
 database/
+mih_db/
 certbot/
 Firebase-emulator/
 Mzansi_Mail/
