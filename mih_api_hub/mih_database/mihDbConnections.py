@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 dbUser = os.getenv("DB_USER")
 dbPass = os.getenv("DB_PASSWD")
-dbHost = "mysqldb"
+dbHost = "mih-db"
 dbPort = 3306
 encoded_dbPass = quote_plus(dbPass)
 base_connect_url = f"mysql+mysqlconnector://{dbUser}:{encoded_dbPass}@{dbHost}:{dbPort}/"
@@ -15,7 +15,7 @@ base_connect_url = f"mysql+mysqlconnector://{dbUser}:{encoded_dbPass}@{dbHost}:{
 def dbPatientManagerConnect():
     return create_engine(base_connect_url+"patient_manager", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="patient_manager"
@@ -24,7 +24,7 @@ def dbPatientManagerConnect():
 def dbAppDataConnect():
     return create_engine(base_connect_url+"app_data", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="app_data"
@@ -33,7 +33,7 @@ def dbAppDataConnect():
 def dbDataAccessConnect():
     return create_engine(base_connect_url+"data_access", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="data_access"
@@ -42,7 +42,7 @@ def dbDataAccessConnect():
 def dbMzansiWalletConnect():
     return create_engine(base_connect_url+"mzansi_wallet", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="mzansi_wallet"
@@ -51,7 +51,7 @@ def dbMzansiWalletConnect():
 def dbMzansiDirectoryConnect():
     return create_engine(base_connect_url+"mzansi_directory", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="mzansi_directory"
@@ -60,7 +60,7 @@ def dbMzansiDirectoryConnect():
 def dbMzansiCalendarConnect():
     return create_engine(base_connect_url+"mzansi_calendar", echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     #     database="mzansi_calendar"
@@ -69,7 +69,7 @@ def dbMzansiCalendarConnect():
 def dbAllConnect():
     return create_engine(base_connect_url, echo=False, pool_recycle=3600)
     # return mysql.connector.connect(
-    #     host="mysqldb",
+    #     host="mih-db",
     #     user=dbUser,
     #     passwd=dbPass,
     # )

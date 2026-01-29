@@ -8,7 +8,7 @@ dbPass = os.getenv("DB_PASSWD")
 
 def dbPatientManagerConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="patient_manager"
@@ -16,7 +16,7 @@ def dbPatientManagerConnect():
 
 def dbAppDataConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="app_data"
@@ -24,7 +24,7 @@ def dbAppDataConnect():
 
 def dbDataAccessConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="data_access"
@@ -32,7 +32,7 @@ def dbDataAccessConnect():
 
 def dbMzansiWalletConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="mzansi_wallet"
@@ -40,7 +40,7 @@ def dbMzansiWalletConnect():
 
 def dbMzansiDirectoryConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="mzansi_directory"
@@ -48,7 +48,7 @@ def dbMzansiDirectoryConnect():
 
 def dbMzansiCalendarConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
         database="mzansi_calendar"
@@ -56,7 +56,7 @@ def dbMzansiCalendarConnect():
 
 def dbAllConnect():
     return mysql.connector.connect(
-        host="mysqldb",
+        host="mih-db",
         user=dbUser,
         passwd=dbPass,
     )

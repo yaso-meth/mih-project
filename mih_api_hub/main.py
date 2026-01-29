@@ -54,7 +54,7 @@ init(
     ),
     supertokens_config=SupertokensConfig(
         # https://try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
-        connection_uri="http://MIH-SuperTokens:3567/",
+        connection_uri="http://mih-supertokens:3567/",
         api_key="leatucczyixqwkqqdrhayiwzeofkltds"
     ),
     framework='fastapi',
