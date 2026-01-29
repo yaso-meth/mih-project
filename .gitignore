@@ -2,6 +2,7 @@
 # *database/binlog.index
 # *database/mysql.sock
 File_Storage
+mih_minio/
 mih_db/
 certbot/
 Firebase-emulator/
