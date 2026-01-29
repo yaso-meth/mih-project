@@ -1,16 +1,12 @@
-# *database/auto.cnf
-# *database/binlog.index
-# *database/mysql.sock
-File_Storage
 mih_minio/
 mih_db/
+mih_git/
+mih_nginx/
+mih_monitor/
+mih_wp/
 certbot/
 Firebase-emulator/
 Mzansi_Mail/
-# database/ibdata1
-# database/mysql.ibd
-# database/undo*
-# database/#innodb_redo/#ib_redo*
 .venv
 google-chrome-stable_current_amd64.deb
 .env
