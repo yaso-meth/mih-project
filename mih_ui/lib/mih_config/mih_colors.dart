@@ -4,41 +4,41 @@ class MihColors {
   bool women4Change = true;
   static Color getPrimaryColor(bool darkMode) {
     if (darkMode == true) {
-      // return const Color(0XFF3A4454); // Original
-      return const Color(0XFF6641b2); // Women4change
+      return const Color(0XFF3A4454); // Original
+      // return const Color(0XFF6641b2); // Women4change
     } else {
-      // return const Color(0XFFbedcfe); // Original
-      return const Color(0xFFE0D1FF); // Women4change
+      return const Color(0XFFbedcfe); // Original
+      // return const Color(0xFFE0D1FF); // Women4change
     }
   }
 
   static Color getSecondaryColor(bool darkMode) {
     if (darkMode == true) {
-      // return const Color(0XFFbedcfe); // Original
-      return const Color(0xFFE0D1FF); // Women4change
+      return const Color(0XFFbedcfe); // Original
+      // return const Color(0xFFE0D1FF); // Women4change
     } else {
-      // return const Color(0XFF3A4454); // Original
-      return const Color(0XFF6641b2); // Women4change
+      return const Color(0XFF3A4454); // Original
+      // return const Color(0XFF6641b2); // Women4change
     }
   }
 
   static Color getSecondaryInvertedColor(bool darkMode) {
     if (darkMode == true) {
-      // return const Color(0XFF412301); // Original
-      return const Color(0XFF1f2e00); // Women4change
+      return const Color(0XFF412301); // Original
+      // return const Color(0XFF1f2e00); // Women4change
     } else {
-      // return const Color(0XFFc5bbab); // Original
-      return const Color(0XFF99be4d); // Women4change
+      return const Color(0XFFc5bbab); // Original
+      // return const Color(0XFF99be4d); // Women4change
     }
   }
 
   static Color getHighlightColor(bool darkMode) {
     if (darkMode == true) {
-      // return const Color(0XFF9bc7fa);
-      return const Color(0xFFC8AFFB); // Women4change
+      return const Color(0XFF9bc7fa);
+      // return const Color(0xFFC8AFFB); // Women4change
     } else {
-      // return const Color(0XFF354866);
-      return const Color(0XFF6641b2); // Women4change
+      return const Color(0XFF354866);
+      // return const Color(0XFF6641b2); // Women4change
     }
   }
 
