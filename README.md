@@ -45,11 +45,7 @@ WP_SQL_USER_PW=*WP_SQL_USER_PW*
     <li>If your server hardware does not use an Nvidia GPU, continue with the next step.</li>
   </ol>
   <li>Start MIH Server.</li>
-  <ol>
-    <li>Non-Prod: <pre><code>sudo docker compose up -d --build</code></pre></li>
-    <li>Prod: <pre><code>sudo docker compose --profile prod up -d --build</code></pre></li>
-    <li>Prod with Letsincrypt certificate Generation: <pre><code>sudo docker compose --profile prod --profile withCert up -d --build</code></pre></li>
-  </ol>
+  <pre><code>sudo docker compose up -d --build</code></pre>
   <li>Check the status of the new MIH server using Portainer. <code>https://localhost:9443/</code> (Change Local Host to IP if necessary).</li>
   <ol>
     <li>If all containers are running without errors, proceed to step 5<br>(<b>NOTE:</b> certbot container will stop after running successfully).</li>
@@ -67,11 +63,7 @@ WP_SQL_USER_PW=*WP_SQL_USER_PW*
 </ol>
 
 <h2>How to Stop MIH Server:-</h2>
-<ol>
-   <li>Non-Prod: disables Nginx & CertBot container creation.<pre><code>sudo docker compose down</code></pre></li>
-    <li>Prod: <pre><code>sudo docker compose --profile prod down</code></pre></li>
-    <li>Prod with Letsincrypt certificate Generation: <pre><code>sudo docker compose --profile prod --profile withCert down</code></pre></li>
-</ol>
+<pre><code>sudo docker compose down</code></pre>
 
 <h2>How to enable MIH-AI GPU:-</h2>
 <ol>
