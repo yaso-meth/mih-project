@@ -1,0 +1,775 @@
+flutter build ipa -t ./lib/main_prod.dart
+Changing current working directory to: /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui
+Archiving za.co.mzansiinnovationhub.mih...
+Automatically signing iOS for device deployment using specified development team in Xcode project: B88N73P46W
+Running Xcode build...                                                  
+Xcode archive done.                                         32,5s
+Failed to build iOS app
+Error output from Xcode build:
+↳
+    ** ARCHIVE FAILED **
+
+    Error saving invocation record to resultBundlePath:Error Domain=NSCocoaErrorDomain Code=640 "You can’t save the file
+    “temporary_xcresult_bundle” because the volume “Macintosh HD” is out of space."
+    UserInfo={NSFilePath=/var/folders/2m/swywvgx56d3605sg4w8sngww0000gn/T/flutter_tools.aH1LfW/flutter_ios_build_temp_dirJdwxh4/temporar
+    y_xcresult_bundle,
+    NSURL=file:///var/folders/2m/swywvgx56d3605sg4w8sngww0000gn/T/flutter_tools.aH1LfW/flutter_ios_build_temp_dirJdwxh4/temporary_xcresu
+    lt_bundle, NSUnderlyingError=0xae2511410 {Error Domain=NSPOSIXErrorDomain Code=28 "No space left on device"}}
+    2026-02-03 13:36:07.006 xcodebuild[21814:255686] Error saving log: Error Domain=NSPOSIXErrorDomain Code=28 "No space left on device"
+    UserInfo={NSFilePath=/Users/yaso_meth/Library/Developer/Xcode/DerivedData/Runner-arhyuyobdpeynoewowlninbnlucj/Logs/Build/CC2A62F6-2D
+    74-4874-8228-5C76EF29C20A.xcactivitylog, NSLocalizedDescription=No space left on device} | User info: {
+        NSFilePath =
+        "/Users/yaso_meth/Library/Developer/Xcode/DerivedData/Runner-arhyuyobdpeynoewowlninbnlucj/Logs/Build/CC2A62F6-2D74-4874-8228-5C7
+        6EF29C20A.xcactivitylog";
+        NSLocalizedDescription = "No space left on device";
+    }
+
+Xcode's output:
+↳
+    Writing result bundle at path:
+        /var/folders/2m/swywvgx56d3605sg4w8sngww0000gn/T/flutter_tools.aH1LfW/flutter_ios_build_temp_dirJdwxh4/temporary_xcresult_bundle
+
+    /* com.apple.ibtool.document.warnings */
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/NativeTemplates/GoogleAdsMobileIosNativeTemplates/GAD
+    TFullScreenTemplateView.xib:Zvt-Hz-Es8: warning: Automatically Adjusts Font requires using a Dynamic Type text style [9]
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/NativeTemplates/GoogleAdsMobileIosNativeTemplates/GAD
+    TFullScreenTemplateView.xib:3p6-ul-eji: warning: Automatically Adjusts Font requires using a Dynamic Type text style [9]
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/printing-5.14.2/ios/Classes/PrintJob.swift:269:70: warning: 'keyWindow' was deprecated in
+    iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes
+                let controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
+                                                                         ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/printing-5.14.2/ios/Classes/PrintJob.swift:273:30: warning: 'keyWindow' was deprecated in
+    iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes
+            UIApplication.shared.keyWindow?.rootViewController?.present(activityViewController, animated: true)
+                                 ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/printing-5.14.2/ios/Classes/PrintJob.swift:356:74: warning: 'keyWindow' was deprecated in
+    iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes
+                let viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
+                                                                             ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/flutter_tts-4.2.3/ios/Classes/AudioCategoryOptions.swift:25:15: warning: 'allowBluetooth'
+    was deprecated in iOS 8.0: renamed to 'AVAudioSession.CategoryOptions.allowBluetoothHFP'
+          return .allowBluetooth
+                  ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/flutter_tts-4.2.3/ios/Classes/AudioCategoryOptions.swift:25:15: note: use
+    'AVAudioSession.CategoryOptions.allowBluetoothHFP' instead
+          return .allowBluetooth
+                  ^~~~~~~~~~~~~~
+                  AVAudioSession.CategoryOptions.allowBluetoothHFP
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/flutter_tts-4.2.3/ios/Classes/SwiftFlutterTtsPlugin.swift:10:7: warning: stored property
+    'synthesizer' of 'Sendable'-conforming class 'SwiftFlutterTtsPlugin' has non-Sendable type 'AVSpeechSynthesizer'
+      let synthesizer = AVSpeechSynthesizer()
+          ^
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/AVF
+    Audio.framework/Headers/AVSpeechSynthesis.h:227:12: note: class 'AVSpeechSynthesizer' does not conform to the 'Sendable' protocol
+    @interface AVSpeechSynthesizer : NSObject
+               ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/device_info_plus-11.4.0/ios/device_info_plus/Sources/device_info_plus/FPPDeviceInfoPlusPl
+    ugin.m:85:45: warning: implicit conversion loses integer precision: 'vm_size_t' (aka 'unsigned long') to 'natural_t' (aka 'unsigned
+    int') [-Wshorten-64-to-32]
+       85 |     natural_t mem_free = vm_stat.free_count * page_size;
+          |               ~~~~~~~~   ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+    1 warning generated.
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdfviewer-29.2.10/ios/syncfusion_flutter_pdfviewer/Sources/syncfusion_
+    flutter_pdfviewer/SyncfusionFlutterPdfViewerPlugin.swift:151:13: warning: initialization of immutable value 'imageRect' was never
+    used; consider replacing with assignment to '_' or removing it
+            let imageRect = CGRect(x: 0,y: 0,width: width,height: height)
+            ~~~~^~~~~~~~~
+            _
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/record_ios-1.1.4/ios/record_ios/Sources/record_ios/InputHelper.swift:15:70: warning:
+    'allowBluetooth' was deprecated in iOS 8.0: renamed to 'AVAudioSession.CategoryOptions.allowBluetoothHFP'
+      let options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+                                                                         ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/record_ios-1.1.4/ios/record_ios/Sources/record_ios/InputHelper.swift:15:70: note: use
+    'AVAudioSession.CategoryOptions.allowBluetoothHFP' instead
+      let options: AVAudioSession.CategoryOptions = [.defaultToSpeaker, .allowBluetooth]
+                                                                         ^~~~~~~~~~~~~~
+                                                                         AVAudioSession.CategoryOptions.allowBluetoothHFP
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/record_ios-1.1.4/ios/record_ios/Sources/record_ios/RecordIosPlugin.swift:289:47: warning:
+    'allowBluetooth' was deprecated in iOS 8.0: renamed to 'AVAudioSession.CategoryOptions.allowBluetoothHFP'
+            case "allowBluetooth": result.insert(.allowBluetooth)
+                                                  ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/record_ios-1.1.4/ios/record_ios/Sources/record_ios/RecordIosPlugin.swift:289:47: note:
+    use 'AVAudioSession.CategoryOptions.allowBluetoothHFP' instead
+            case "allowBluetooth": result.insert(.allowBluetooth)
+                                                  ^~~~~~~~~~~~~~
+                                                  AVAudioSession.CategoryOptions.allowBluetoothHFP
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/mobile_scanner-7.0.1/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerPlugin.swi
+    ft:866:20: warning: immutable value 'device' was never used; consider replacing with '_' or removing it
+                   let device = object as? AVCaptureDevice {
+                   ~~~~^~~~~~
+                   _
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.22.0/darwin/webview_flutter_wkwebview/Sources/webview_flutter
+    _wkwebview/HTTPCookieProxyAPIDelegate.swift:17:42: warning: cannot explicitly specialize instance method 'map'
+        let keyValueTuples = try! properties.map<[(HTTPCookiePropertyKey, Any)], PigeonError> {
+                                             ^
+    Swift.Collection.map:2:24: note: 'map' declared here
+    @inlinable public func map<T, E>(_ transform: (Self.Element) throws(E) -> T) throws(E) -> [T] where E : Error}
+                           ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/file_saver-0.3.1/ios/Classes/Dialog.swift:26:55: warning: 'keyWindow' was deprecated in
+    iOS 13.0: Should not be used for applications that support multiple scenes as it returns a key window across all connected scenes
+                let viewController = UIApplication.shared.keyWindow?
+                                                          ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Permiss
+    ionHandler.m:40:31: warning: 'authorizationStatus' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]
+       40 |     return [CLLocationManager authorizationStatus];
+          |                               ^~~~~~~~~~~~~~~~~~~
+          |                               authorizationStatus
+    In module 'CoreLocation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/../incl
+    ude/geolocator_apple/Handlers/PermissionHandler.h:11:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Cor
+    eLocation.framework/Headers/CLLocationManager.h:224:1: note: 'authorizationStatus' has been explicitly marked deprecated here
+      224 | + (CLAuthorizationStatus)authorizationStatus API_DEPRECATED_WITH_REPLACEMENT("-authorizationStatus", ios(4.2, 14.0),
+      macos(10.7, 11.0), watchos(1.0, 7.0), tvos(9.0, 14.0));
+          | ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Permiss
+    ionHandler.m:47:65: warning: 'authorizationStatus' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]
+       47 |   CLAuthorizationStatus authorizationStatus = CLLocationManager.authorizationStatus;
+          |                                                                 ^~~~~~~~~~~~~~~~~~~
+          |                                                                 authorizationStatus
+    In module 'CoreLocation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/../incl
+    ude/geolocator_apple/Handlers/PermissionHandler.h:11:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Cor
+    eLocation.framework/Headers/CLLocationManager.h:224:1: note: 'authorizationStatus' has been explicitly marked deprecated here
+      224 | + (CLAuthorizationStatus)authorizationStatus API_DEPRECATED_WITH_REPLACEMENT("-authorizationStatus", ios(4.2, 14.0),
+      macos(10.7, 11.0), watchos(1.0, 7.0), tvos(9.0, 14.0));
+          | ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Permiss
+    ionHandler.m:47:65: warning: 'authorizationStatus' is deprecated: first deprecated in iOS 14.0 [-Wdeprecated-declarations]
+       47 |   CLAuthorizationStatus authorizationStatus = CLLocationManager.authorizationStatus;
+          |                                                                 ^~~~~~~~~~~~~~~~~~~
+          |                                                                 authorizationStatus
+    In module 'CoreLocation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/../incl
+    ude/geolocator_apple/Handlers/PermissionHandler.h:11:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Cor
+    eLocation.framework/Headers/CLLocationManager.h:224:1: note: 'authorizationStatus' has been explicitly marked deprecated here
+      224 | + (CLAuthorizationStatus)authorizationStatus API_DEPRECATED_WITH_REPLACEMENT("-authorizationStatus", ios(4.2, 14.0),
+      macos(10.7, 11.0), watchos(1.0, 7.0), tvos(9.0, 14.0));
+          | ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Permiss
+    ionHandler.m:107:1: warning: implementing deprecated method [-Wdeprecated-implementations]
+      107 | - (void) locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+          | ^
+    In module 'CoreLocation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/../incl
+    ude/geolocator_apple/Handlers/PermissionHandler.h:11:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Cor
+    eLocation.framework/Headers/CLLocationManagerDelegate.h:164:1: note: method 'locationManager:didChangeAuthorizationStatus:' declared
+    here
+      164 | - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+      API_DEPRECATED_WITH_REPLACEMENT("-locationManagerDidChangeAuthorization:", ios(4.2, 14.0), macos(10.7, 11.0), watchos(1.0, 7.0),
+      tvos(9.0, 14.0)) API_UNAVAILABLE(visionos);
+          | ^
+    4 warnings generated.
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Locatio
+    nServiceStreamHandler.m:36:1: warning: implementing deprecated method [-Wdeprecated-implementations]
+       36 | - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+          | ^
+    In module 'CoreLocation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13/darwin/geolocator_apple/Sources/geolocator_apple/Handlers/Locatio
+    nServiceStreamHandler.m:9:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Cor
+    eLocation.framework/Headers/CLLocationManagerDelegate.h:164:1: note: method 'locationManager:didChangeAuthorizationStatus:' declared
+    here
+      164 | - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+      API_DEPRECATED_WITH_REPLACEMENT("-locationManagerDidChangeAuthorization:", ios(4.2, 14.0), macos(10.7, 11.0), watchos(1.0, 7.0),
+      tvos(9.0, 14.0)) API_UNAVAILABLE(visionos);
+          | ^
+    1 warning generated.
+    <module-includes>:1:9: note: in file included from <module-includes>:1:
+    1 | #import "Headers/camera_avfoundation-umbrella.h"
+      |         `- note: in file included from <module-includes>:1:
+    2 | 
+
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Target Support
+    Files/camera_avfoundation/camera_avfoundation-umbrella.h:14:9: note: in file included from
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Target Support
+    Files/camera_avfoundation/camera_avfoundation-umbrella.h:14:
+    12 | 
+    13 | #import "CameraProperties.h"
+    14 | #import "camera_avfoundation.h"
+       |         `- note: in file included from /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Target Support
+       Files/camera_avfoundation/camera_avfoundation-umbrella.h:14:
+    15 | #import "FLTAssetWriter.h"
+    16 | #import "FLTCam.h"
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/camera_avfoundation.h:5:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/camera_avfoundation.h:5:
+     3 | // found in the LICENSE file.
+     4 | 
+     5 | #import "FLTCam.h"
+       |         `- note: in file included from
+       /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/
+       include/camera_avfoundation/camera_avfoundation.h:5:
+     6 | #import "FLTCamConfiguration.h"
+     7 | #import "FLTCameraDeviceDiscovering.h"
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCam.h:11:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCam.h:11:
+     9 | 
+    10 | #import "CameraProperties.h"
+    11 | #import "FLTCamConfiguration.h"
+       |         `- note: in file included from
+       /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/
+       include/camera_avfoundation/FLTCam.h:11:
+    12 | #import "FLTCamMediaSettingsAVWrapper.h"
+    13 | #import "FLTCaptureDevice.h"
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCamConfiguration.h:11:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCamConfiguration.h:11:
+     9 | #import "CameraProperties.h"
+    10 | #import "FLTAssetWriter.h"
+    11 | #import "FLTCamMediaSettingsAVWrapper.h"
+       |         `- note: in file included from
+       /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/
+       include/camera_avfoundation/FLTCamConfiguration.h:11:
+    12 | #import "FLTCaptureDevice.h"
+    13 | #import "FLTCaptureSession.h"
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCamMediaSettingsAVWrapper.h:11:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCamMediaSettingsAVWrapper.h:11:
+      9 | #import "FLTCaptureDevice.h"
+     10 | #import "FLTCaptureSession.h"
+     11 | #import "FLTCaptureVideoDataOutput.h"
+        |         `- note: in file included from
+        /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc
+        /include/camera_avfoundation/FLTCamMediaSettingsAVWrapper.h:11:
+     12 | 
+     13 | NS_ASSUME_NONNULL_BEGIN
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCaptureVideoDataOutput.h:8:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCaptureVideoDataOutput.h:8:
+     6 | @import AVFoundation;
+     7 | 
+     8 | #import "FLTCaptureOutput.h"
+       |         `- note: in file included from
+       /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/
+       include/camera_avfoundation/FLTCaptureVideoDataOutput.h:8:
+     9 | 
+    10 | NS_ASSUME_NONNULL_BEGIN
+
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCaptureOutput.h:8:9: note: in file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCaptureOutput.h:8:
+     6 | @import AVFoundation;
+     7 | 
+     8 | #import "FLTCaptureConnection.h"
+       |         `- note: in file included from
+       /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/
+       include/camera_avfoundation/FLTCaptureOutput.h:8:
+     9 | 
+    10 | NS_ASSUME_NONNULL_BEGIN
+
+    1 warning generated.
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2/ios/camera_avfoundation/Sources/camera_avfoundation_objc/inc
+    lude/camera_avfoundation/FLTCaptureConnection.h:17:22: warning: 'AVCaptureVideoOrientation' is deprecated: first deprecated in iOS
+    17.0 - Use AVCaptureDeviceRotationCoordinator instead
+    15 | 
+    16 | /// Corresponds to the `videoOrientation` property of `AVCaptureConnection`
+    17 | @property(nonatomic) AVCaptureVideoOrientation videoOrientation;
+       |                      `- warning: 'AVCaptureVideoOrientation' is deprecated: first deprecated in iOS 17.0 - Use
+       AVCaptureDeviceRotationCoordinator instead
+    18 | 
+    19 | /// Corresponds to the `inputPorts` property of `AVCaptureConnection`
+
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/AVF
+    oundation.framework/Headers/AVCaptureSession.h:132:28: note: 'AVCaptureVideoOrientation' has been explicitly marked deprecated here
+     130 |     Indicates that video should be oriented horizontally, home button on the left.
+     131 |  */
+     132 | typedef NS_ENUM(NSInteger, AVCaptureVideoOrientation) {
+         |                            `- note: 'AVCaptureVideoOrientation' has been explicitly marked deprecated here
+     133 |     AVCaptureVideoOrientationPortrait           = 1,
+     134 |     AVCaptureVideoOrientationPortraitUpsideDown = 2,
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:6:43:
+    warning: conformance of 'AppSettingsPlugin' to protocol 'FlutterPlugin' crosses into main actor-isolated code and can cause data
+    races; this is an error in the Swift 6 language mode
+    public class AppSettingsPlugin: NSObject, FlutterPlugin, UIWindowSceneDelegate {
+                                              ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:6:43:
+    note: isolate this conformance to the main actor with '@MainActor'
+    public class AppSettingsPlugin: NSObject, FlutterPlugin, UIWindowSceneDelegate {
+                                              ^
+                                              @MainActor 
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:6:14:
+    note: mark all declarations used in the conformance 'nonisolated'
+    public class AppSettingsPlugin: NSObject, FlutterPlugin, UIWindowSceneDelegate {
+                 ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:6:43:
+    note: turn data races into runtime errors with '@preconcurrency'
+    public class AppSettingsPlugin: NSObject, FlutterPlugin, UIWindowSceneDelegate {
+                                              ^
+                                              @preconcurrency 
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:7:24:
+    note: main actor-isolated static method 'register(with:)' cannot satisfy nonisolated requirement
+        public static func register(with registrar: FlutterPluginRegistrar) {
+                           ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/AppSettingsPlugin.swift:13:17:
+    note: main actor-isolated instance method 'handle(_:result:)' cannot satisfy nonisolated requirement
+        public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+                    ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:24:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       24 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:16:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:33:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       33 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:16:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:117:13:
+    warning: 'mediationExtrasIdentifier' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      117 |     request.mediationExtrasIdentifier = [self readValueOfType:[self readByte]];
+          |             ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:91:5: note:
+    'mediationExtrasIdentifier' has been explicitly marked deprecated here
+       91 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:118:13:
+    warning: 'mediationNetworkExtrasProvider' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      118 |     request.mediationNetworkExtrasProvider = _mediationNetworkExtrasProvider;
+          |             ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:94:5: note:
+    'mediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       94 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:209:13:
+    warning: 'mediationExtrasIdentifier' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      209 |     request.mediationExtrasIdentifier = [self readValueOfType:[self readByte]];
+          |             ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:91:5: note:
+    'mediationExtrasIdentifier' has been explicitly marked deprecated here
+       91 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:210:13:
+    warning: 'mediationNetworkExtrasProvider' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      210 |     request.mediationNetworkExtrasProvider = _mediationNetworkExtrasProvider;
+          |             ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:94:5: note:
+    'mediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       94 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:389:30:
+    warning: 'mediationExtrasIdentifier' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      389 |     [self writeValue:request.mediationExtrasIdentifier];
+          |                              ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:91:5: note:
+    'mediationExtrasIdentifier' has been explicitly marked deprecated here
+       91 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:399:30:
+    warning: 'mediationExtrasIdentifier' is deprecated: Use mediationExtras instead. [-Wdeprecated-declarations]
+      399 |     [self writeValue:request.mediationExtrasIdentifier];
+          |                              ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:15:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:91:5: note:
+    'mediationExtrasIdentifier' has been explicitly marked deprecated here
+       91 |     DEPRECATED_MSG_ATTRIBUTE("Use mediationExtras instead.");
+          |     ^
+    In module 'Foundation' imported from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:17:
+    In module 'CoreFoundation' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundat
+    ion.framework/Headers/Foundation.h:6:
+    In module '_DarwinFoundation1' imported from
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFou
+    ndation.framework/Headers/CoreFoundation.h:14:
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/AvailabilityMacros.h:
+    152:64: note: expanded from macro 'DEPRECATED_MSG_ATTRIBUTE'
+      152 |             #define DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+          |                                                                ^
+    8 warnings generated.
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:19:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:24:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       24 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:19:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:18:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:19:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:33:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       33 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:19:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:18:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:70:6: warning:
+    'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       70 |   id<FLTMediationNetworkExtrasProvider> _mediationNetworkExtrasProvider;
+          |      ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:19:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:18:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    3 warnings generated.
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:24:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       24 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:16:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:33:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       33 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:16:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    2 warnings generated.
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:24:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       24 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:16:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:33:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       33 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.m:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:16:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsCollection_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    2 warnings generated.
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:24:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       24 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:17:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsReaderWriter_Internal.h:33:5:
+    warning: 'FLTMediationNetworkExtrasProvider' is deprecated [-Wdeprecated-declarations]
+       33 |     FLTMediationNetworkExtrasProvider> _Nullable mediationNetworkExtrasProvider;
+          |     ^
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.m:15:
+    In file included from
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAdInstanceManager_Internal.h:15:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTAd_Internal.h:16:
+    In file included from /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTGoogleMobileAdsPlugin.h:21:
+    /Users/yaso_meth/.pub-cache/hosted/pub.dev/google_mobile_ads-6.0.0/ios/Classes/FLTMediationNetworkExtrasProvider.h:24:16: note:
+    'FLTMediationNetworkExtrasProvider' has been explicitly marked deprecated here
+       24 | __attribute__((deprecated))
+          |                ^
+    2 warnings generated.
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoGalleryContentVC.swift:39:5
+    2: warning: using 'class' keyword to define a class-constrained protocol is deprecated; use 'AnyObject' instead
+    internal protocol DKPhotoGalleryContentDataSource: class {
+                                                       ^~~~~
+                                                       AnyObject
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoGalleryContentVC.swift:55:5
+    0: warning: using 'class' keyword to define a class-constrained protocol is deprecated; use 'AnyObject' instead
+    internal protocol DKPhotoGalleryContentDelegate: class {
+                                                     ^~~~~
+                                                     AnyObject
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoIncrementalIndicator.swift:
+    161:124: warning: forming 'UnsafeMutableRawPointer' to an inout variable of type String exposes the internal representation rather
+    than the string contents.
+            scrollView.addObserver(self, forKeyPath: DKPhotoIncrementalIndicator.contentSizeKeyPath, options: [.new], context:
+            &DKPhotoIncrementalIndicator.context)
+                                                                                                                              ^
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoIncrementalIndicator.swift:
+    162:126: warning: forming 'UnsafeMutableRawPointer' to an inout variable of type String exposes the internal representation rather
+    than the string contents.
+            scrollView.addObserver(self, forKeyPath: DKPhotoIncrementalIndicator.contentOffsetKeyPath, options: [.new], context:
+            &DKPhotoIncrementalIndicator.context)
+                                                                                                                              ^
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoIncrementalIndicator.swift:
+    171:23: warning: forming 'UnsafeMutableRawPointer' to an inout variable of type String exposes the internal representation rather
+    than the string contents.
+            if context == &DKPhotoIncrementalIndicator.context {
+                          ^
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImageA
+    ssetExporter.swift:557:38: warning: capture of 'fileManager' with non-Sendable type 'FileManager' in an isolated local function;
+    this is an error in the Swift 6 language mode
+                                    try? fileManager.removeItem(at: auxiliaryDirectory)
+                                         ^
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.1.sdk/System/Library/Frameworks/Fou
+    ndation.framework/Headers/NSFileManager.h:96:12: note: class 'FileManager' does not conform to the 'Sendable' protocol
+    @interface NSFileManager : NSObject
+               ^
+    ld: write() failed, errno=28
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on
+    dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
+    note: Run script build phase 'Thin Binary' will be run during every build because the option to run the script phase "Based on
+    dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'screen_brightness_ios-screen_brightness_ios_privacy' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 11.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'geolocator_apple-geolocator_apple_privacy' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'flutter_native_splash-flutter_native_splash_privacy' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'fl_downloader-fl_downloader_privacy' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 11.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'app_settings-app_settings_privacy' from project 'Pods')
+    warning: no rule to process file
+    '/Users/yaso_meth/.pub-cache/hosted/pub.dev/app_settings-6.1.1/ios/app_settings/Sources/app_settings/PrivacyInfo.xcprivacy' of type
+    'text.xml' for architecture 'arm64' (in target 'app_settings' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'SwiftyGif-SwiftyGif' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'SwiftyGif' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'SDWebImage-SDWebImage' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'SDWebImage' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 11.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'RecaptchaInterop' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'PromisesObjC-FBLPromises_Privacy' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'PromisesObjC' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'DKPhotoGallery-DKPhotoGallery' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'DKPhotoGallery' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'DKImagePickerController-DKImagePickerController' from project 'Pods')
+    /Users/yaso_meth/Git/mih_main/Mzanzi-Innovation-Hub/mih_ui/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target
+    'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 26.1.99. (in target
+    'DKImagePickerController' from project 'Pods')
+
+Encountered error while archiving for device.
