@@ -301,26 +301,26 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                 "What are the features of MIH?"
               ],
             ),
-            Positioned(
-              top: 10,
-              left: 10,
-              child: MihButton(
-                width: 200,
-                height: 30,
-                onPressed: () {
-                  saveHistory(profileProvider, aiProvider);
-                },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                child: Text(
-                  "View History as json",
-                  style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   top: 10,
+            //   left: 10,
+            //   child: MihButton(
+            //     width: 200,
+            //     height: 30,
+            //     onPressed: () {
+            //       saveHistory(profileProvider, aiProvider);
+            //     },
+            //     buttonColor: MihColors.getGreenColor(
+            //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            //     child: Text(
+            //       "View History as json",
+            //       style: TextStyle(
+            //         color: MihColors.getPrimaryColor(
+            //             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             if (hasHistory && lastMessage != null)
               Positioned(
                 bottom: 80,
