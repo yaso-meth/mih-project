@@ -10,7 +10,7 @@ learn how to create your own flavour of the MIH Server.
 <h2>Get Started:-</h2>
 <ol>
   <li>Clone Git Repo.</li>
-  <li>Navigate to mih-project directory. <pre><code>cd Mzansi-Innovation-Hub</code></pre></li>
+  <li>Navigate to mih-project directory. <pre><code>cd mih-project</code></pre></li>
   <li>Create .env file in the same location as docker-compose.yml<pre><code>
 SQL_ROOT_PW=*PASSWORD*
 SQL_USER=*USER*
