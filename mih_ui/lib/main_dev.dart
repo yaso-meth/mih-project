@@ -1,4 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_web_plugins/url_strategy.dart'
     if (dart.library.html) 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:mzansi_innovation_hub/firebase_options.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:pwa_install/pwa_install.dart';
@@ -21,10 +21,13 @@ void main() async {
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  if (!kIsWeb) {
+  // await Firebase.initializeApp(
+  //   // options: DefaultFirebaseOptions.currentPlatform,
+  //   options: (Platform.isLinux)
+  //       ? DefaultFirebaseOptions.web // Forces Linux to use the Web config
+  //       : DefaultFirebaseOptions.currentPlatform,
+  // );
+  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
     const List<String> testDeviceIds = ['733d4c68-9b54-453a-9622-2df407310f40'];
     MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(

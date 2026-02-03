@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -128,7 +130,10 @@ class _MihSearchBarState extends State<MihSearchBar> {
             controller: widget.controller, // Assign the controller
             focusNode: widget.searchFocusNode,
             autocorrect: true,
-            spellCheckConfiguration: kIsWeb ? null : SpellCheckConfiguration(),
+            spellCheckConfiguration:
+                !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+                    ? SpellCheckConfiguration()
+                    : null,
             onSubmitted: (value) {
               widget.onPrefixIconTap
                   ?.call(); // Call the prefix icon tap handler
