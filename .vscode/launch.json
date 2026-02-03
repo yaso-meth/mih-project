@@ -6,14 +6,14 @@
     "configurations": [
         {
             "name": "Debug",
-            "cwd": "Frontend",
+            "cwd": "mih_ui",
             "request": "launch",
             "type": "dart",
             "program": "lib/main_dev.dart"
         },
         {
             "name": "Profile",
-            "cwd": "Frontend",
+            "cwd": "mih_ui",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
@@ -21,7 +21,7 @@
         },
         {
             "name": "Release",
-            "cwd": "Frontend",
+            "cwd": "mih_ui",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",

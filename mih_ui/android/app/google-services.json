@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "33677883408",
+    "project_id": "mzansi-innovation-hub",
+    "storage_bucket": "mzansi-innovation-hub.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33677883408:android:ebd8565991c56257223295",
+        "android_client_info": {
+          "package_name": "za.co.mzansiinnovationhub.mih"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUkjWdu9YcgiF-e9TC5hoiEoCjPyjA5hU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
