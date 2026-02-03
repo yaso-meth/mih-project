@@ -116,6 +116,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
     return Consumer<MzansiDirectoryProvider>(
       builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
           Widget? child) {
+        _filterAndSetBusinesses(directoryProvider);
         if (directoryProvider.favouriteBusinessesList == null) {
           return Center(
             child: Mihloadingcircle(),
