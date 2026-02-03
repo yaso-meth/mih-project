@@ -5,7 +5,7 @@ import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
+// import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -260,36 +260,36 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  Stack(
-                    children: [
-                      MihProfileLinks(
-                        // links: mzansiProfileProvider.personalLinks,
-                        links: getTempLinks(),
-                        buttonSize: 80,
-                        paddingOn: false,
-                      ),
-                      Positioned(
-                        top: 5,
-                        left: 5,
-                        child: MihButton(
-                          onPressed: () {
-                            editProfileWindow(width);
-                          },
-                          buttonColor: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          width: 35,
-                          height: 35,
-                          child: Icon(
-                            Icons.link,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Stack(
+                  //   children: [
+                  //     MihProfileLinks(
+                  //       // links: mzansiProfileProvider.personalLinks,
+                  //       links: getTempLinks(),
+                  //       buttonSize: 80,
+                  //       paddingOn: false,
+                  //     ),
+                  //     Positioned(
+                  //       top: 5,
+                  //       left: 5,
+                  //       child: MihButton(
+                  //         onPressed: () {
+                  //           editProfileWindow(width);
+                  //         },
+                  //         buttonColor: MihColors.getGreenColor(
+                  //             MzansiInnovationHub.of(context)!.theme.mode ==
+                  //                 "Dark"),
+                  //         width: 35,
+                  //         height: 35,
+                  //         child: Icon(
+                  //           Icons.link,
+                  //           color: MihColors.getPrimaryColor(
+                  //               MzansiInnovationHub.of(context)!.theme.mode ==
+                  //                   "Dark"),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
