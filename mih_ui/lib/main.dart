@@ -52,6 +52,10 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
         KenLogger.success("ShortCut: mihHome");
         widget.router.goNamed("mihHome");
       }
+      if (shortcutType == 'mzansiDirectory') {
+        KenLogger.success("ShortCut: mzansiDirectory");
+        widget.router.goNamed("mzansiDirectory");
+      }
       if (shortcutType == 'mzansiWallet') {
         KenLogger.success("ShortCut: mzansiWallet");
         widget.router.goNamed("mzansiWallet");
@@ -67,6 +71,11 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
     });
     // Set the quick actions
     quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(
+        type: 'mzansiDirectory',
+        localizedTitle: 'Mzansi Directory',
+        icon: 'mzansi_directory_sc',
+      ),
       const ShortcutItem(
         type: 'mzansiWallet',
         localizedTitle: 'Mzansi Wallet',
