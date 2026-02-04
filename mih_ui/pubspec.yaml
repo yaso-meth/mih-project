@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  flutter_dotenv: ^6.0.0
 
   cupertino_icons: ^1.0.8
   font_awesome_flutter: ^10.7.0
@@ -76,6 +77,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - .env
     - lib/mih_package_components/assets/images/
     - lib/mih_package_components/assets/fonts/
     - lib/mih_package_components/assets/images/loyalty_cards/

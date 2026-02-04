@@ -34,6 +34,11 @@ from supertokens_python.recipe.session.framework.fastapi import verify_session
 from supertokens_python.recipe.emailverification import EmailVerificationClaim
 from supertokens_python.recipe.session import SessionContainer
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+st_api_key = os.getenv("SUPERTOKENS_API_KEY")
 origins = [
     "http://localhost",
     "http://localhost:80",
@@ -55,7 +60,7 @@ init(
     supertokens_config=SupertokensConfig(
         # https://try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
         connection_uri="http://mih-supertokens:3567/",
-        api_key="leatucczyixqwkqqdrhayiwzeofkltds"
+        api_key=st_api_key
     ),
     framework='fastapi',
     recipe_list=[

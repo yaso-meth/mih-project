@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_web_plugins/url_strategy.dart'
     if (dart.library.html) 'package:flutter_web_plugins/url_strategy.dart';
@@ -42,6 +43,7 @@ void main() async {
     debugPrint('APP INSTALLED!');
   });
   final GoRouter appRouter = MihGoRouter().mihRouter;
+  await dotenv.load(fileName: ".env");
   FlutterNativeSplash.remove();
   runApp(MzansiInnovationHub(
     router: appRouter,

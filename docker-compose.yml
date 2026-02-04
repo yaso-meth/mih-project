@@ -4,37 +4,6 @@ networks:
     driver: bridge
 #============== MIH Containers ====================================================================
 services:
-  #============== Nginx Proxy Server Old ====================================================================
-  # nginx:
-  #   container_name: nginx
-  #   restart: unless-stopped
-  #   image: nginx
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  #     - certbotConf:/etc/letsencrypt
-  #     - certbotChall:/var/www/certbot
-  #   depends_on:
-  #     - mih-ux
-  #   networks:
-  #     - mih-network
-  #   profiles: [ 'prod' ]
-  #============== Cert Bot Old ==================================================================== 
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: certbot
-  #   volumes:
-  #     - certbotConf:/etc/letsencrypt
-  #     - certbotChall:/var/www/certbot
-  #   #command: certonly --test-cert --webroot -w /var/www/certbot --force-renewal --email yasienmeth@gmail.com -d mzansi-innovation-hub.co.za -d www.mzansi-innovation-hub.co.za --agree-tos
-  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email ${CERTBOT_EMAIL} -d ${CERTBOT_APP_DOMAIN} -d ${CERTBOT_API_DOMAIN} -d ${CERTBOT_STORAGE_DOMAIN} -d ${CERTBOT_MONITOR_DOMAIN} -d ${CERTBOT_AI_DOMAIN} --agree-tos
-  #   networks:
-  #     - mih-network
-  #   depends_on:
-  #     - nginx
-  #   profiles: [ 'withCert' ]
   #============== Nginx Proxy Manager ====================================================================  
   mih-nginx:
     container_name: mih-nginx
