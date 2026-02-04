@@ -46,7 +46,7 @@ origins = [
     "http://MIH-API-Hub:80",
     "http://MIH-API-Hub",
     "http://api.mzansi-innovation-hub.co.za",
-    "*",
+    "http://app.mzansi-innovation-hub.co.za",
 ]
 
 init(
