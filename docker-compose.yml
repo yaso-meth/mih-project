@@ -12,7 +12,7 @@ services:
     ports:
       - '80:80'   # Public HTTP
       - '443:443' # Public HTTPS
-      - '81:81'   # Admin Web Port
+      - '127.0.0.1:81:81'   # Admin Web Port
     volumes:
       - ./mih_nginx/data:/data
       - ./mih_nginx/letsencrypt:/etc/letsencrypt
@@ -38,8 +38,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000:3000"
-      - "222:22"
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:222:22"
     depends_on:
       mih-gitea-db:
         condition: service_healthy
@@ -68,7 +68,7 @@ services:
     depends_on:
       - mih-db
     ports:
-      - 3567:3567
+      - '127.0.0.1:3567:3567'
     environment:
       REFRESH_TOKEN_VALIDITY: '604800'
       ACCESS_TOKEN_VALIDITY: '86400'
@@ -94,7 +94,7 @@ services:
     image: wordpress
     restart: always
     ports:
-      - 8081:80
+      - '127.0.0.1:8081:80'
     environment:
       WORDPRESS_DB_HOST: mih-wp-db
       WORDPRESS_DB_USER: ${WP_SQL_USER}
@@ -123,7 +123,7 @@ services:
     build:
       context: ./mih_ui
     ports:
-      - "83:83"
+      - "127.0.0.1:83:83"
     networks:
       - mih-network
     depends_on:
@@ -135,7 +135,7 @@ services:
       target: builder
     container_name: mih-api-hub
     ports:
-      - 8080:80
+      - "127.0.0.1:8080:80"
     volumes:
       - ./mih_api_hub:/app
     networks:
@@ -156,7 +156,7 @@ services:
     networks:
       - mih-network
     ports:
-      - '3306:3306'
+      - '127.0.0.1:3306:3306'
     volumes:
       - ./mih_db:/var/lib/mysql
   #============== PHP My Admin ====================================================================        
@@ -182,8 +182,8 @@ services:
     hostname: mih-minio
     image: minio/minio
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:9001:9001'
     volumes:
       - './mih_minio:/data'
     environment:
@@ -197,7 +197,7 @@ services:
     container_name: mih-monitor
     image: portainer/portainer-ce:2.20.3
     ports:
-      - 9444:9443
+      - '127.0.0.1:9444:9443'
     volumes:
       - ./mih_monitor/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -209,7 +209,7 @@ services:
     container_name: mih-ai
     image: ollama/ollama:latest
     ports:
-      - 11434:11434
+      - '127.0.0.1:11434:11434'
     volumes:
       - ./mih_ai/ollama/ollama:/root/.ollama
     pull_policy: always
