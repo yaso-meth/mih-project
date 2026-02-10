@@ -19,7 +19,6 @@ class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
-      innerHorizontalPadding: 10,
       bodyItem: getBody(context),
     );
   }
@@ -55,8 +54,12 @@ class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
     children
         .addAll(PolicyAndTermsText().getTermsOfServiceText(context, englishOn));
     return MihSingleChildScroll(
-      child: Column(
-        children: children,
+      scrollbarOn: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          children: children,
+        ),
       ),
     );
   }

@@ -777,6 +777,7 @@ class _MihInfoState extends State<MihInfo> {
     return Stack(
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Column(
             children: [
               aboutHeadings(),
