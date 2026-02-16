@@ -12,6 +12,17 @@
             "program": "lib/main_dev.dart"
         },
         {
+            "name": "Debug (web)",
+            "cwd": "mih_ui",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_dev.dart",
+            "args": [
+                "--web-port",
+                "1995"
+            ]
+        },
+        {
             "name": "Profile",
             "cwd": "mih_ui",
             "request": "launch",
