@@ -850,6 +850,14 @@ class _MihInfoState extends State<MihInfo> {
         destination: "Reddit",
         web_link: "https://www.reddit.com/r/Mzani_Innovation_Hub/",
       ),
+      ProfileLink(
+        idprofile_links: 1,
+        app_id: "1234",
+        business_id: "",
+        destination: "Git",
+        web_link:
+            "https://git.mzansi-innovation-hub.co.za/yaso_meth/mih-project",
+      ),
     ];
     return Column(
       children: [
