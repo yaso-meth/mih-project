@@ -874,7 +874,7 @@ class _MihInfoState extends State<MihInfo> {
         ),
         MihProfileLinks(links: links),
         const SizedBox(
-          height: 25,
+          height: 75,
         ),
       ],
     );

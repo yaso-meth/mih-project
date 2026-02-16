@@ -125,7 +125,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
           padding: widget.paddingOn == null || widget.paddingOn!
               ? MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                   ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                  : EdgeInsets.symmetric(horizontal: width * 0.075)
+                  : EdgeInsets.symmetric(horizontal: width * 0)
               : EdgeInsetsGeometry.all(0),
           child: widget.links.isEmpty
               ? SizedBox(
@@ -144,8 +144,8 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
                 )
               : Wrap(
                   alignment: WrapAlignment.center,
-                  runSpacing: 15,
-                  spacing: 15,
+                  runSpacing: 10,
+                  spacing: 10,
                   children: widget.links.map(
                     (link) {
                       return SizedBox(
