@@ -1,7 +1,9 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
@@ -432,7 +434,119 @@ class _MihInfoState extends State<MihInfo> {
           children: [
             MihButton(
               onPressed: () {
-                MihInstallServices().installMihTrigger(context);
+                if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
+                    "Android") {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return MihPackageWindow(
+                        fullscreen: false,
+                        windowTitle: "Select Option",
+                        onWindowTapClose: () {
+                          context.pop();
+                        },
+                        windowBody: Column(
+                          children: [
+                            Text(
+                              "Please select the platform you want to install/ Update MIH from",
+                              style: TextStyle(
+                                color: MihColors.getSecondaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 25),
+                            MihButton(
+                              onPressed: () {
+                                launchSocialUrl(
+                                  Uri.parse(
+                                    "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
+                                  ),
+                                );
+                              },
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.googlePlay,
+                                    color: MihColors.getPrimaryColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    "Play Store",
+                                    style: TextStyle(
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            MihButton(
+                              onPressed: () {
+                                launchSocialUrl(
+                                  Uri.parse(
+                                    "https://appgallery.huawei.com/app/C113315335?pkgName=za.co.mzansiinnovationhub.mih",
+                                  ),
+                                );
+                              },
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    Icons.store,
+                                    color: MihColors.getPrimaryColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    "App Gallery",
+                                    style: TextStyle(
+                                      color: MihColors.getPrimaryColor(
+                                          MzansiInnovationHub.of(context)!
+                                                  .theme
+                                                  .mode ==
+                                              "Dark"),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  MihInstallServices().installMihTrigger(context);
+                }
               },
               buttonColor: MihColors.getGreenColor(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
