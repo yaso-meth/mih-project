@@ -9,7 +9,7 @@ class MihTheme {
   late String loadingAssetText;
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
-  String latestVersion = "1.2.5";
+  String latestVersion = "1.2.6";
   MihTheme() {
     mode = "Dark";
   }
