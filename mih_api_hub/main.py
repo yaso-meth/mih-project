@@ -42,6 +42,7 @@ st_api_key = os.getenv("SUPERTOKENS_API_KEY")
 origins = [
     "http://localhost",
     "http://localhost:80",
+    "http://localhost:1995",
     "http://localhost:8080",
     "http://MIH-API-Hub:80",
     "http://MIH-API-Hub",
