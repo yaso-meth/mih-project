@@ -146,6 +146,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
           );
         } else {
           return MihSingleChildScroll(
+            scrollbarOn: true,
             child: Padding(
               padding:
                   MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

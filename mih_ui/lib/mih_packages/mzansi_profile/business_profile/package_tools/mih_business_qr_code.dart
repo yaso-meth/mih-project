@@ -367,6 +367,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
       alignment: Alignment.topCenter,
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Padding(

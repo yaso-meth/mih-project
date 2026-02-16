@@ -290,6 +290,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
     return Consumer<MihCalculatorProvider>(
       builder: (context, calculatorProvider, child) {
         return MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

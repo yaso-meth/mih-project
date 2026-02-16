@@ -81,6 +81,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
 
   Widget getBody(MzansiProfileProvider mzansiProfileProvider) {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Column(
         children: [
           Center(

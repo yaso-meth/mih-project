@@ -175,6 +175,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Padding(
                 padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                         "desktop"

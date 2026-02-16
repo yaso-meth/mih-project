@@ -845,6 +845,7 @@ class _MineSweeperQuickStartGuideState
 
   Widget getBody(double width) {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 20),
         child: Column(

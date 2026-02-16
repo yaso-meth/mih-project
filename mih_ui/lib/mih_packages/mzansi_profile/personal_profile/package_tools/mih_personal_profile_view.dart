@@ -54,6 +54,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
       builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
           Widget? child) {
         return MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

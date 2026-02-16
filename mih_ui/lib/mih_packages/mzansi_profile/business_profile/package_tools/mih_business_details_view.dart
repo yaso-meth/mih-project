@@ -58,6 +58,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Padding(
                 padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                         "desktop"

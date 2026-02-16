@@ -197,7 +197,10 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
                             maxHeight: windowHeight * 0.85,
                             maxWidth: windowWidth * 0.85,
                           ),
-                          child: MihSingleChildScroll(child: widget.windowBody),
+                          child: MihSingleChildScroll(
+                            scrollbarOn: true,
+                            child: widget.windowBody,
+                          ),
                         ),
                       ),
                     ),

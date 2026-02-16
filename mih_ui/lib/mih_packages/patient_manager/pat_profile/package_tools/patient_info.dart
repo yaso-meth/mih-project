@@ -306,6 +306,7 @@ class _PatientInfoState extends State<PatientInfo> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

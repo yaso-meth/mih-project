@@ -127,6 +127,7 @@ class _MihUpdateMyBusinessUserDetailsState
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
         return MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

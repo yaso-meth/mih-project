@@ -32,6 +32,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -109,6 +110,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -186,6 +188,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -298,6 +301,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -416,6 +420,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -493,6 +498,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -594,6 +600,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -671,6 +678,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -748,6 +756,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -830,6 +839,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -900,6 +910,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1007,6 +1018,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1089,6 +1101,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1159,6 +1172,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1244,6 +1258,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(

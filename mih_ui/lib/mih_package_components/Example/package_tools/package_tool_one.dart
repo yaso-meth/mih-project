@@ -161,6 +161,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
     return Stack(
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

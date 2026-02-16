@@ -202,6 +202,7 @@ class _MihSignInState extends State<MihSignIn> {
         }
       },
       child: MihSingleChildScroll(
+        scrollbarOn: true,
         child: Padding(
           padding:
               MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

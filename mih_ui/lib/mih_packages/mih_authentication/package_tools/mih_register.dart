@@ -205,6 +205,7 @@ class _MihRegisterState extends State<MihRegister> {
         }
       },
       child: MihSingleChildScroll(
+        scrollbarOn: true,
         child: Padding(
           padding:
               MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

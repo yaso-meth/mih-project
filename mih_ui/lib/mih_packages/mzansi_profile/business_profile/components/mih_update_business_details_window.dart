@@ -251,6 +251,7 @@ class _MihUpdateBusinessDetailsWindowState
             context.pop();
           },
           windowBody: MihSingleChildScroll(
+            scrollbarOn: true,
             child: Padding(
               padding:
                   MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

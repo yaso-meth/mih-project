@@ -626,6 +626,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 alignment: Alignment.topCenter,
                 children: [
                   MihSingleChildScroll(
+                    scrollbarOn: true,
                     child: board.isEmpty && squaresLeft < 0
                         // Start Up Message before setting up game
                         ? Padding(
