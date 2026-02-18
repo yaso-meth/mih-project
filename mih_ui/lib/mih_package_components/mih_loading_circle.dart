@@ -19,9 +19,6 @@ class _MihloadingcircleState extends State<Mihloadingcircle>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  late double width;
-  late double height;
-
   @override
   void initState() {
     super.initState();
@@ -82,16 +79,15 @@ class _MihloadingcircleState extends State<Mihloadingcircle>
                       },
                     ),
                   ),
-                  widget.message != null
-                      ? Text(
-                          widget.message!,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : SizedBox(),
+                  if (widget.message != null)
+                    Text(
+                      widget.message!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                 ],
               )),
         ),

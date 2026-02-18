@@ -298,7 +298,9 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     height: 300,
                     child: CachedNetworkImage(
                       imageUrl: getQrCodeData(qrSize.toInt()),
-                      placeholder: (context, url) => const Mihloadingcircle(),
+                      placeholder: (context, url) => FittedBox(
+                        child: const Mihloadingcircle(),
+                      ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),

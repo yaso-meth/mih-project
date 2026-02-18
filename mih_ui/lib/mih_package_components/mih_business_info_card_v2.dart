@@ -368,8 +368,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                                     "Dark"),
                             fontSize: 20,
                           ),
-                        ),
-                      ).redacted(context: context, redact: true),
+                        ).redacted(context: context, redact: true),
+                      ),
                     ],
                   );
                 } else {
@@ -450,8 +450,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                                     "Dark"),
                             fontSize: 20,
                           ),
-                        ),
-                      ).redacted(context: context, redact: true),
+                        ).redacted(context: context, redact: true),
+                      ),
                     ],
                   );
                 } else {
