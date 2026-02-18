@@ -77,6 +77,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                                 imageFile: CachedNetworkImageProvider(
                                     asyncSnapshot.requireData),
                                 width: profilePictureWidth,
+                                expandable: true,
                                 editable: false,
                                 fileNameController: TextEditingController(),
                                 userSelectedfile: file,

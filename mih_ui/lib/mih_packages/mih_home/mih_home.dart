@@ -353,6 +353,7 @@ class _MihHomeState extends State<MihHome> {
                 key: Key(imageKey),
                 imageFile: currentImage,
                 width: 50,
+                expandable: false,
                 editable: false,
                 fileNameController: null,
                 userSelectedfile: null,

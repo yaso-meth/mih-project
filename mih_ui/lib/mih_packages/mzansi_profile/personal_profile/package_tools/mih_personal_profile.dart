@@ -160,6 +160,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       MihCircleAvatar(
                         imageFile: mzansiProfileProvider.userProfilePicture,
                         width: 150,
+                        expandable: true,
                         editable: false,
                         fileNameController: proPicController,
                         userSelectedfile: newSelectedProPic,

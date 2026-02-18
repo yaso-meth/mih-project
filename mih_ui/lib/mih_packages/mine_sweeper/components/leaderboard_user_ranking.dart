@@ -50,6 +50,7 @@ class LeaderboardUserRanking extends StatelessWidget {
                     .toString()), // Use ValueKey for stable identity
                 imageFile: asyncSnapshot.data,
                 width: 60,
+                expandable: true,
                 editable: false,
                 fileNameController: null,
                 userSelectedfile: null,

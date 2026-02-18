@@ -77,6 +77,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             imageFile:
                                 mzansiProfileProvider.businessProfilePicture,
                             width: 150,
+                            expandable: true,
                             editable: false,
                             fileNameController: fileNameController,
                             userSelectedfile: newSelectedLogoPic,

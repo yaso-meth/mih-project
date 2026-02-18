@@ -330,6 +330,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                               ? MemoryImage(newSelectedLogoPic!.bytes!)
                               : mzansiProfileProvider.businessProfilePicture,
                           width: 150,
+                          expandable: false,
                           editable: true,
                           fileNameController: logoFileNameController,
                           userSelectedfile: newSelectedLogoPic,

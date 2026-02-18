@@ -343,6 +343,7 @@ class _MihEditPersonalProfileWindowState
                                 ? MemoryImage(newSelectedProPic!.bytes!)
                                 : mzansiProfileProvider.userProfilePicture,
                             width: 150,
+                            expandable: false,
                             editable: true,
                             fileNameController: proPicController,
                             userSelectedfile: newSelectedProPic,

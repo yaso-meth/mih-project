@@ -774,6 +774,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 MihCircleAvatar(
                   imageFile: imagePreview,
                   width: 50,
+                  expandable: true,
                   editable: false,
                   fileNameController: _fileNameController,
                   userSelectedfile: file,

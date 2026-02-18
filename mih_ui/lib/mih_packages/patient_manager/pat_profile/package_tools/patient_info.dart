@@ -314,6 +314,7 @@ class _PatientInfoState extends State<PatientInfo> {
                     imageFile:
                         patientManagerProvider.selectedPatientProfilePicture,
                     width: 160,
+                    expandable: true,
                     editable: false,
                     fileNameController: null,
                     userSelectedfile: null,

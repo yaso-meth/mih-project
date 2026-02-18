@@ -271,6 +271,7 @@ class _MihUpdateBusinessDetailsWindowState
                                   : mzansiProfileProvider
                                       .businessProfilePicture,
                               width: 150,
+                              expandable: false,
                               editable: true,
                               fileNameController: fileNameController,
                               userSelectedfile: newSelectedLogoPic,

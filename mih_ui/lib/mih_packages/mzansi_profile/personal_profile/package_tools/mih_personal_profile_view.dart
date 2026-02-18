@@ -74,6 +74,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                             imageFile: CachedNetworkImageProvider(
                                 asyncSnapshot.requireData),
                             width: profilePictureWidth,
+                            expandable: true,
                             editable: false,
                             fileNameController: TextEditingController(),
                             userSelectedfile: file,

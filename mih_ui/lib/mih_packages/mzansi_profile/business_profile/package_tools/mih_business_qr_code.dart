@@ -211,6 +211,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             imageFile: CachedNetworkImageProvider(
                                 asyncSnapshot.requireData),
                             width: profilePictureWidth,
+                            expandable: true,
                             editable: false,
                             fileNameController: TextEditingController(),
                             userSelectedfile: file,

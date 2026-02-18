@@ -189,6 +189,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                           MihCircleAvatar(
                             imageFile: mzansiProfileProvider.userProfilePicture,
                             width: 150,
+                            expandable: true,
                             editable: false,
                             fileNameController: fileNameController,
                             userSelectedfile: userPicFile,
