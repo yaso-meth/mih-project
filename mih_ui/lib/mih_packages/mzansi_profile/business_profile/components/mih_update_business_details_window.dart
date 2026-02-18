@@ -257,273 +257,38 @@ class _MihUpdateBusinessDetailsWindowState
                   MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                       ? EdgeInsets.symmetric(horizontal: widget.width * 0.05)
                       : EdgeInsets.symmetric(horizontal: widget.width * 0),
-              child: Column(
+              child: Stack(
                 children: [
-                  MihForm(
-                    formKey: _formKey,
-                    formFields: [
-                      Center(
-                        child: MihCircleAvatar(
-                          imageFile: newSelectedLogoPic != null
-                              ? MemoryImage(newSelectedLogoPic!.bytes!)
-                              : mzansiProfileProvider.businessProfilePicture,
-                          width: 150,
-                          editable: true,
-                          fileNameController: fileNameController,
-                          userSelectedfile: newSelectedLogoPic,
-                          frameColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          backgroundColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          onChange: (selectedfile) {
-                            setState(() {
-                              newSelectedLogoPic = selectedfile;
-                            });
-                          },
-                        ),
-                      ),
-                      Visibility(
-                        visible: false,
-                        child: MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          controller: fileNameController,
-                          multiLineInput: false,
-                          requiredText: true,
-                          readOnly: true,
-                          hintText: "Selected File Name",
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: nameController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Business Name",
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: typeController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Business Type",
-                        validator: (value) {
-                          return MihValidationServices()
-                              .validateNoSpecialChars(value);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: emailController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        hintText: "Business Email",
-                        validator: (value) {
-                          return MihValidationServices().validateEmail(value);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        width: 300,
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          "Contact Number:",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CountryCodePicker(
-                            padding: EdgeInsetsGeometry.all(0),
-                            onChanged: (selectedCode) {
-                              setState(() {
-                                countryCodeController.text =
-                                    selectedCode.toString();
-                              });
-                              debugPrint(
-                                  "Selected Country Code: ${countryCodeController.text}");
-                            },
-                            initialSelection: countryCodeController.text,
-                            showDropDownButton: false,
-                            pickerStyle: PickerStyle.bottomSheet,
-                            dialogBackgroundColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            barrierColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                          Expanded(
-                            child: MihTextFormField(
-                              fillColor: MihColors.getSecondaryColor(
+                  Column(
+                    children: [
+                      MihForm(
+                        formKey: _formKey,
+                        formFields: [
+                          Center(
+                            child: MihCircleAvatar(
+                              imageFile: newSelectedLogoPic != null
+                                  ? MemoryImage(newSelectedLogoPic!.bytes!)
+                                  : mzansiProfileProvider
+                                      .businessProfilePicture,
+                              width: 150,
+                              editable: true,
+                              fileNameController: fileNameController,
+                              userSelectedfile: newSelectedLogoPic,
+                              frameColor: MihColors.getSecondaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
-                              inputColor: MihColors.getPrimaryColor(
+                              backgroundColor: MihColors.getPrimaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
-                              controller: contactController,
-                              numberMode: true,
-                              multiLineInput: false,
-                              requiredText: true,
-                              hintText: null,
-                              validator: (value) {
-                                return MihValidationServices().isEmpty(value);
+                              onChange: (selectedfile) {
+                                setState(() {
+                                  newSelectedLogoPic = selectedfile;
+                                });
                               },
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        height: 250,
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: missionVisionController,
-                        multiLineInput: true,
-                        requiredText: true,
-                        hintText: "Business Mission & Vision",
-                        validator: (value) {
-                          return MihValidationServices().validateLength(
-                              missionVisionController.text, 256);
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                        child: ValueListenableBuilder(
-                          valueListenable: _counter,
-                          builder:
-                              (BuildContext context, int value, Widget? child) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "$value",
-                                  style: TextStyle(
-                                    color: getMissionVisionLimitColor(256),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  "/256",
-                                  style: TextStyle(
-                                    color: getMissionVisionLimitColor(256),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: websiteController,
-                        multiLineInput: false,
-                        requiredText: false,
-                        hintText: "Business Website",
-                        validator: (value) {
-                          return MihValidationServices()
-                              .validateWebsite(value, false);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: regController,
-                        multiLineInput: false,
-                        requiredText: false,
-                        hintText: "Registration No.",
-                        validator: (value) {
-                          // return MihValidationServices().isEmpty(value);
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: practiceNoController,
-                        multiLineInput: false,
-                        requiredText: false,
-                        hintText: "Practice Number",
-                        validator: (validateValue) {
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: vatNoController,
-                        multiLineInput: false,
-                        requiredText: false,
-                        hintText: "VAT Number",
-                        validator: (value) {
-                          // return MihValidationServices().isEmpty(value);
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(
+                          Visibility(
+                            visible: false,
                             child: MihTextFormField(
                               fillColor: MihColors.getSecondaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
@@ -531,84 +296,374 @@ class _MihUpdateBusinessDetailsWindowState
                               inputColor: MihColors.getPrimaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
                                       "Dark"),
-                              controller: locationController,
+                              controller: fileNameController,
                               multiLineInput: false,
                               requiredText: true,
                               readOnly: true,
-                              hintText: "GPS Location",
+                              hintText: "Selected File Name",
                             ),
                           ),
-                          const SizedBox(width: 10.0),
-                          MihButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const Mihloadingcircle(
-                                    message: "Getting your location",
-                                  );
-                                },
-                              );
-                              MIHLocationAPI()
-                                  .getGPSPosition(context)
-                                  .then((position) {
-                                if (position != null) {
-                                  setState(() {
-                                    locationController.text =
-                                        "${position.latitude}, ${position.longitude}";
-                                  });
-                                }
-                                //Dismiss loading indicator
-                                context.pop();
-                              });
-                            },
-                            buttonColor: MihColors.getSecondaryColor(
+                          const SizedBox(height: 20),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
-                            width: 100,
-                            child: Text(
-                              "Set",
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: nameController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Business Name",
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: typeController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Business Type",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateNoSpecialChars(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: emailController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            hintText: "Business Email",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateEmail(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            width: 300,
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              "Contact Number:",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 25),
-                      Center(
-                        child: MihButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              submitForm(mzansiProfileProvider);
-                            } else {
-                              MihAlertServices().inputErrorAlert(context);
-                            }
-                          },
-                          buttonColor: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          width: 300,
-                          child: Text(
-                            "Update",
-                            style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CountryCodePicker(
+                                padding: EdgeInsetsGeometry.all(0),
+                                onChanged: (selectedCode) {
+                                  setState(() {
+                                    countryCodeController.text =
+                                        selectedCode.toString();
+                                  });
+                                  debugPrint(
+                                      "Selected Country Code: ${countryCodeController.text}");
+                                },
+                                initialSelection: countryCodeController.text,
+                                showDropDownButton: false,
+                                pickerStyle: PickerStyle.bottomSheet,
+                                dialogBackgroundColor:
+                                    MihColors.getPrimaryColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
+                                barrierColor: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                              ),
+                              Expanded(
+                                child: MihTextFormField(
+                                  fillColor: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
+                                  inputColor: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
+                                  controller: contactController,
+                                  numberMode: true,
+                                  multiLineInput: false,
+                                  requiredText: true,
+                                  hintText: null,
+                                  validator: (value) {
+                                    return MihValidationServices()
+                                        .isEmpty(value);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            height: 250,
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: missionVisionController,
+                            multiLineInput: true,
+                            requiredText: true,
+                            hintText: "Business Mission & Vision",
+                            validator: (value) {
+                              return MihValidationServices().validateLength(
+                                  missionVisionController.text, 256);
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                            child: ValueListenableBuilder(
+                              valueListenable: _counter,
+                              builder: (BuildContext context, int value,
+                                  Widget? child) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "$value",
+                                      style: TextStyle(
+                                        color: getMissionVisionLimitColor(256),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "/256",
+                                      style: TextStyle(
+                                        color: getMissionVisionLimitColor(256),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ),
+                          const SizedBox(height: 10.0),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: websiteController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "Business Website",
+                            validator: (value) {
+                              return MihValidationServices()
+                                  .validateWebsite(value, false);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: regController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "Registration No.",
+                            validator: (value) {
+                              // return MihValidationServices().isEmpty(value);
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: practiceNoController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "Practice Number",
+                            validator: (validateValue) {
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: vatNoController,
+                            multiLineInput: false,
+                            requiredText: false,
+                            hintText: "VAT Number",
+                            validator: (value) {
+                              // return MihValidationServices().isEmpty(value);
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Flexible(
+                                child: MihTextFormField(
+                                  fillColor: MihColors.getSecondaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
+                                  inputColor: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
+                                  controller: locationController,
+                                  multiLineInput: false,
+                                  requiredText: true,
+                                  readOnly: true,
+                                  hintText: "GPS Location",
+                                ),
+                              ),
+                              const SizedBox(width: 10.0),
+                              MihButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Mihloadingcircle(
+                                        message: "Getting your location",
+                                      );
+                                    },
+                                  );
+                                  MIHLocationAPI()
+                                      .getGPSPosition(context)
+                                      .then((position) {
+                                    if (position != null) {
+                                      setState(() {
+                                        locationController.text =
+                                            "${position.latitude}, ${position.longitude}";
+                                      });
+                                    }
+                                    //Dismiss loading indicator
+                                    context.pop();
+                                  });
+                                },
+                                buttonColor: MihColors.getSecondaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                                width: 100,
+                                child: Text(
+                                  "Set",
+                                  style: TextStyle(
+                                    color: MihColors.getPrimaryColor(
+                                        MzansiInnovationHub.of(context)!
+                                                .theme
+                                                .mode ==
+                                            "Dark"),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 25),
+                          Center(
+                            child: MihButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  submitForm(mzansiProfileProvider);
+                                } else {
+                                  MihAlertServices().inputErrorAlert(context);
+                                }
+                              },
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              width: 300,
+                              child: Text(
+                                "Update",
+                                style: TextStyle(
+                                  color: MihColors.getPrimaryColor(
+                                      MzansiInnovationHub.of(context)!
+                                              .theme
+                                              .mode ==
+                                          "Dark"),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: MihButton(
+                      onPressed: () {
+                        //Add validation here
+                        if (_formKey.currentState!.validate()) {
+                          submitForm(mzansiProfileProvider);
+                        } else {
+                          MihAlertServices().inputErrorAlert(context);
+                        }
+                      },
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      width: 100,
+                      height: 25,
+                      child: Text(
+                        mzansiProfileProvider.user!.username.isEmpty
+                            ? "Setup Profile"
+                            : "Update",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    ),
                   ),
                 ],
               ),

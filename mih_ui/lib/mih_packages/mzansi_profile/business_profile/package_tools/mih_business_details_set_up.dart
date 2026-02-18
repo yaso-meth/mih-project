@@ -765,7 +765,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                                   "Dark"),
                           width: 300,
                           child: Text(
-                            "Add",
+                            "Set Up Buasiness",
                             style: TextStyle(
                               color: MihColors.getPrimaryColor(
                                   MzansiInnovationHub.of(context)!.theme.mode ==
