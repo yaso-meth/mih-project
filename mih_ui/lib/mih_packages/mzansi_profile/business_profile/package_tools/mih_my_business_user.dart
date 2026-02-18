@@ -184,19 +184,46 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                 child: Column(
                   children: [
                     Center(
-                      child: MihCircleAvatar(
-                        imageFile: mzansiProfileProvider.userProfilePicture,
-                        width: 150,
-                        editable: false,
-                        fileNameController: fileNameController,
-                        userSelectedfile: userPicFile,
-                        frameColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        onChange: (_) {},
+                      child: Stack(
+                        children: [
+                          MihCircleAvatar(
+                            imageFile: mzansiProfileProvider.userProfilePicture,
+                            width: 150,
+                            editable: false,
+                            fileNameController: fileNameController,
+                            userSelectedfile: userPicFile,
+                            frameColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            backgroundColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            onChange: (_) {},
+                          ),
+                          Positioned(
+                            bottom: 5,
+                            right: 5,
+                            child: MihButton(
+                              onPressed: () {
+                                editBizUserProfileWindow(
+                                    mzansiProfileProvider, width);
+                              },
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              width: 35,
+                              height: 35,
+                              child: Icon(
+                                Icons.edit,
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -246,28 +273,6 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                             ),
                     ),
                     const SizedBox(height: 20),
-                    Center(
-                      child: MihButton(
-                        onPressed: () {
-                          editBizUserProfileWindow(
-                              mzansiProfileProvider, width);
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
