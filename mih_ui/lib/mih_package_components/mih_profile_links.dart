@@ -10,12 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MihProfileLinks extends StatefulWidget {
   final List<ProfileLink> links;
-  final double? buttonSize;
   final bool? paddingOn;
   const MihProfileLinks({
     super.key,
     required this.links,
-    this.buttonSize,
     this.paddingOn,
   });
 
@@ -83,6 +81,8 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
             MzansiInnovationHub.of(context)!.theme.mode == "Dark");
     }
     return MihButton(
+      width: 80,
+      height: 80,
       onPressed: () {
         launchSocialUrl(Uri.parse(link.web_link));
       },
@@ -90,7 +90,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
       child: FaIcon(
         iconData,
         color: iconColor,
-        size: 33,
+        size: 40,
       ),
     );
     // return MihPackageTile(
@@ -148,11 +148,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
                   spacing: 10,
                   children: widget.links.map(
                     (link) {
-                      return SizedBox(
-                        width: widget.buttonSize ?? 80,
-                        height: widget.buttonSize ?? 80,
-                        child: displayLinkButton(link),
-                      );
+                      return displayLinkButton(link);
                     },
                   ).toList(),
                 ),

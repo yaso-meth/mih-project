@@ -186,7 +186,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
     return Consumer2<MzansiProfileProvider, MzansiDirectoryProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MzansiDirectoryProvider directoryProvider, Widget? child) {
-        double iconSize = 33.0;
+        double iconSize = 50.0;
         return Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 10,
@@ -194,22 +194,19 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
           children: [
             Column(
               children: [
-                SizedBox(
+                MihButton(
                   width: 80,
                   height: 80,
-                  child: MihButton(
-                    onPressed: () {
-                      _makePhoneCall(widget.business.contact_no);
-                    },
-                    buttonColor: MihColors.getGreenColor(
+                  onPressed: () {
+                    _makePhoneCall(widget.business.contact_no);
+                  },
+                  buttonColor: MihColors.getGreenColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  child: Icon(
+                    Icons.phone,
+                    color: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    child: Icon(
-                      Icons.phone,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      size: iconSize,
-                    ),
+                    size: iconSize,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -229,26 +226,23 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
             ),
             Column(
               children: [
-                SizedBox(
+                MihButton(
                   width: 80,
                   height: 80,
-                  child: MihButton(
-                    onPressed: () {
-                      _launchEmail(
-                        widget.business.bus_email,
-                        "Inquiery about ${widget.business.Name}",
-                        "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
-                      );
-                    },
-                    buttonColor: MihColors.getPinkColor(
+                  onPressed: () {
+                    _launchEmail(
+                      widget.business.bus_email,
+                      "Inquiery about ${widget.business.Name}",
+                      "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
+                    );
+                  },
+                  buttonColor: MihColors.getPinkColor(
+                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  child: Icon(
+                    Icons.email,
+                    color: MihColors.getPrimaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    child: Icon(
-                      Icons.email,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      size: iconSize,
-                    ),
+                    size: iconSize,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -269,30 +263,27 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
             if (isValidGps(widget.business.gps_location))
               Column(
                 children: [
-                  SizedBox(
+                  MihButton(
                     width: 80,
                     height: 80,
-                    child: MihButton(
-                      onPressed: () {
-                        final latitude = double.parse(
-                            widget.business.gps_location.split(',')[0]);
-                        final longitude = double.parse(
-                            widget.business.gps_location.split(',')[1]);
-                        _launchGoogleMapsWithUrl(
-                          latitude: latitude,
-                          longitude: longitude,
-                        );
-                      },
-                      buttonColor: MihColors.getOrangeColor(
+                    onPressed: () {
+                      final latitude = double.parse(
+                          widget.business.gps_location.split(',')[0]);
+                      final longitude = double.parse(
+                          widget.business.gps_location.split(',')[1]);
+                      _launchGoogleMapsWithUrl(
+                        latitude: latitude,
+                        longitude: longitude,
+                      );
+                    },
+                    buttonColor: MihColors.getOrangeColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    child: Icon(
+                      Icons.location_on,
+                      color: MihColors.getPrimaryColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
                               "Dark"),
-                      child: Icon(
-                        Icons.location_on,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        size: iconSize,
-                      ),
+                      size: iconSize,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -314,23 +305,20 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                 widget.business.website != "")
               Column(
                 children: [
-                  SizedBox(
+                  MihButton(
                     width: 80,
                     height: 80,
-                    child: MihButton(
-                      onPressed: () {
-                        _launchWebsite(widget.business.website);
-                      },
-                      buttonColor: MihColors.getRedColor(
+                    onPressed: () {
+                      _launchWebsite(widget.business.website);
+                    },
+                    buttonColor: MihColors.getRedColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    child: Icon(
+                      Icons.language,
+                      color: MihColors.getPrimaryColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
                               "Dark"),
-                      child: Icon(
-                        Icons.language,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        size: iconSize,
-                      ),
+                      size: iconSize,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -354,21 +342,19 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
                   return Column(
                     children: [
-                      SizedBox(
+                      MihButton(
                         width: 80,
                         height: 80,
-                        child: MihButton(
-                          onPressed: () {},
-                          buttonColor: MihColors.getGreyColor(
+                        onPressed: () {},
+                        buttonColor: MihColors.getGreyColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        child: Icon(
+                          Icons.star_rate_rounded,
+                          color: MihColors.getPrimaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          child: Icon(
-                            Icons.star_rate_rounded,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            size: iconSize,
-                          ),
+                          size: iconSize,
                         ),
                       ).redacted(context: context, redact: true),
                       const SizedBox(height: 2),
@@ -396,24 +382,22 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   }
                   return Column(
                     children: [
-                      SizedBox(
+                      MihButton(
                         width: 80,
                         height: 80,
-                        child: MihButton(
-                          onPressed: () {
-                            businessReviewRatingWindow(directoryProvider,
-                                businessReview, true, widget.width);
-                          },
-                          buttonColor: MihColors.getYellowColor(
+                        onPressed: () {
+                          businessReviewRatingWindow(directoryProvider,
+                              businessReview, true, widget.width);
+                        },
+                        buttonColor: MihColors.getYellowColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        child: Icon(
+                          Icons.star_rate_rounded,
+                          color: MihColors.getPrimaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          child: Icon(
-                            Icons.star_rate_rounded,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            size: iconSize,
-                          ),
+                          size: iconSize,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -440,21 +424,19 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                 if (asyncSnapshot.connectionState == ConnectionState.waiting) {
                   return Column(
                     children: [
-                      SizedBox(
+                      MihButton(
                         width: 80,
                         height: 80,
-                        child: MihButton(
-                          onPressed: () {},
-                          buttonColor: MihColors.getGreyColor(
+                        onPressed: () {},
+                        buttonColor: MihColors.getGreyColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        child: Icon(
+                          Icons.bookmark_add_rounded,
+                          color: MihColors.getPrimaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          child: Icon(
-                            Icons.bookmark_add_rounded,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            size: iconSize,
-                          ),
+                          size: iconSize,
                         ),
                       ).redacted(context: context, redact: true),
                       const SizedBox(height: 2),
@@ -482,29 +464,27 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   }
                   return Column(
                     children: [
-                      SizedBox(
+                      MihButton(
                         width: 80,
                         height: 80,
-                        child: MihButton(
-                          onPressed: () {
-                            if (bookmarkBusiness == null) {
-                              showAddBookmarkAlert();
-                            } else {
-                              showDeleteBookmarkAlert(bookmarkBusiness);
-                            }
-                          },
-                          buttonColor: MihColors.getBluishPurpleColor(
+                        onPressed: () {
+                          if (bookmarkBusiness == null) {
+                            showAddBookmarkAlert();
+                          } else {
+                            showDeleteBookmarkAlert(bookmarkBusiness);
+                          }
+                        },
+                        buttonColor: MihColors.getBluishPurpleColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        child: Icon(
+                          bookmarkBusiness == null
+                              ? Icons.bookmark_add_rounded
+                              : Icons.bookmark_remove_rounded,
+                          color: MihColors.getPrimaryColor(
                               MzansiInnovationHub.of(context)!.theme.mode ==
                                   "Dark"),
-                          child: Icon(
-                            bookmarkBusiness == null
-                                ? Icons.bookmark_add_rounded
-                                : Icons.bookmark_remove_rounded,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            size: iconSize,
-                          ),
+                          size: iconSize,
                         ),
                       ),
                       const SizedBox(height: 2),
