@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
@@ -545,7 +547,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ),
             SizedBox(height: 10),
-            MihBannerAd()
+            if (Platform.isAndroid || Platform.isIOS) MihBannerAd()
             // MihBannerAd(),
           ],
         ),
@@ -572,7 +574,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   Future<void> setScreenBrightness(double newBrightness) async {
-    if (!kIsWeb) {
+    if (!kIsWeb && !Platform.isLinux) {
       bool canChange =
           await ScreenBrightness.instance.canChangeSystemBrightness;
 

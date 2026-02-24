@@ -29,6 +29,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   printing: ^5.13.3
   geolocator: ^14.0.1
+  geolocator_linux: ^0.2.4
   table_calendar: ^3.1.2
   youtube_player_iframe: ^5.2.0
   mobile_scanner: ^7.0.1

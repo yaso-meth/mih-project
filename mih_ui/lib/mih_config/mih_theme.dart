@@ -98,6 +98,12 @@ class MihTheme {
         return "Android";
       } else if (platform == TargetPlatform.iOS) {
         return "iOS";
+      } else if (platform == TargetPlatform.linux) {
+        return "Linux";
+      } else if (platform == TargetPlatform.macOS) {
+        return "macOS";
+      } else if (platform == TargetPlatform.windows) {
+        return "Windows";
       }
     }
     return "Other";

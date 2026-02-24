@@ -55,9 +55,11 @@ class MihFileApi {
       // Navigator.of(context).pop(); // Always pop loading dialog
     }
     KenLogger.success("File URL: $fileUrl");
-    if (AppEnviroment.getEnv() == "Dev" && isSkiaWeb) {
+    if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
       fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
     } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
       fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
     }
     KenLogger.success("File URL: $fileUrl");
