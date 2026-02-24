@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -451,7 +453,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                   ],
                 ),
-                MihBannerAd(),
+                if (Platform.isAndroid || Platform.isIOS) MihBannerAd(),
                 const SizedBox(height: 10),
                 Divider(
                   color: MihColors.getSecondaryColor(

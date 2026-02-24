@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
@@ -155,7 +157,8 @@ class _MihPackageTileState extends State<MihPackageTile> {
   Future<void> authenticateUser() async {
     if (widget.authenticateUser != null &&
         widget.authenticateUser! &&
-        !kIsWeb) {
+        !kIsWeb &&
+        !Platform.isLinux) {
       if (await isUserAuthenticated()) {
         widget.onTap();
       }
