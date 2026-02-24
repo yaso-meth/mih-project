@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +54,13 @@ class MihFileApi {
     } finally {
       // Navigator.of(context).pop(); // Always pop loading dialog
     }
+    KenLogger.success("File URL: $fileUrl");
+    if (AppEnviroment.getEnv() == "Dev" && isSkiaWeb) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    }
+    KenLogger.success("File URL: $fileUrl");
     return fileUrl;
   }
 
