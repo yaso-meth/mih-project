@@ -52,13 +52,16 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
         context: context,
         builder: (context) {
           return MihPackageWindow(
-            fullscreen: false,
+            fullscreen: true,
             windowTitle: "",
+            scrollbarOn: false,
             onWindowTapClose: () {
               context.pop();
             },
-            windowBody: InteractiveViewer(
-              child: Image(image: imagePreview!),
+            windowBody: SizedBox.expand(
+              child: InteractiveViewer(
+                child: Image(image: imagePreview!),
+              ),
             ),
           );
         });
