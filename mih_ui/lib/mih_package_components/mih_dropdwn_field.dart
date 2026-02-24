@@ -103,6 +103,18 @@ class _MihDropdownFieldState extends State<MihDropdownField> {
                     Expanded(
                       child: Theme(
                         data: Theme.of(context).copyWith(
+                          scrollbarTheme: ScrollbarThemeData(
+                            thumbColor: WidgetStatePropertyAll(
+                                MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark")),
+                            thickness: const WidgetStatePropertyAll(6),
+                            radius: const Radius.circular(10),
+                            thumbVisibility: const WidgetStatePropertyAll(
+                                true), // Always show when scrolling
+                          ),
                           textSelectionTheme: TextSelectionThemeData(
                             cursorColor: MihColors.getPrimaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
