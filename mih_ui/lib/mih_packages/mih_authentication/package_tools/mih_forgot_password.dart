@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -139,89 +140,85 @@ class _MihForgotPasswordState extends State<MihForgotPassword> {
           validateInput();
         }
       },
-      child: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: MzansiInnovationHub.of(context)!.theme.screenType ==
-                    "desktop"
-                ? EdgeInsets.symmetric(vertical: 25, horizontal: width * 0.2)
-                : EdgeInsets.symmetric(vertical: 25, horizontal: width * 0.075),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                //logo
-                Icon(
-                  Icons.lock,
-                  size: 100,
+      child: MihSingleChildScroll(
+        scrollbarOn: true,
+        child: Padding(
+          padding: MzansiInnovationHub.of(context)!.theme.screenType ==
+                  "desktop"
+              ? EdgeInsets.symmetric(vertical: 25, horizontal: width * 0.2)
+              : EdgeInsets.symmetric(vertical: 25, horizontal: width * 0.075),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              //logo
+              Icon(
+                Icons.lock,
+                size: 100,
+                color: MihColors.getSecondaryColor(
+                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              ),
+              //spacer
+              const SizedBox(height: 10),
+              //Heading
+              Text(
+                'Forgot Password',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                   color: MihColors.getSecondaryColor(
                       MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
                 ),
-                //spacer
-                const SizedBox(height: 10),
-                //Heading
-                Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: MihColors.getSecondaryColor(
+              ),
+              const SizedBox(height: 25),
+              MihForm(
+                formKey: _formKey,
+                formFields: [
+                  MihTextFormField(
+                    fillColor: MihColors.getSecondaryColor(
                         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    inputColor: MihColors.getPrimaryColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    controller: emailController,
+                    multiLineInput: false,
+                    requiredText: true,
+                    hintText: "Email",
+                    validator: (value) {
+                      return MihValidationServices().validateEmail(value);
+                    },
                   ),
-                ),
-                const SizedBox(height: 25),
-                MihForm(
-                  formKey: _formKey,
-                  formFields: [
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: emailController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Email",
-                      validator: (value) {
-                        return MihValidationServices().validateEmail(value);
+                  //spacer
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.center,
+                    child: MihButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          prePassResteWarning();
+                        } else {
+                          MihAlertServices().inputErrorAlert(context);
+                        }
                       },
-                    ),
-                    //spacer
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.center,
-                      child: MihButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            prePassResteWarning();
-                          } else {
-                            MihAlertServices().inputErrorAlert(context);
-                          }
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      buttonColor: MihColors.getGreenColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      width: 300,
+                      child: Text(
+                        "Reset Password",
+                        style: TextStyle(
+                          color: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

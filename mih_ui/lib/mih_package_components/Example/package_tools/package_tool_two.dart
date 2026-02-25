@@ -24,6 +24,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
 
   Widget getBody() {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,

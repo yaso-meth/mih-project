@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -82,6 +84,19 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
         fileExtension: "png",
         mimeType: MimeType.png,
       );
+    } else if (defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.windows) {
+      // Use File Picker to get a save path on Desktop
+      String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Please select where to save your QR Code:',
+        fileName: filename,
+      );
+
+      if (outputFile != null) {
+        final file = File(outputFile);
+        await file.writeAsBytes(imageBytes);
+        KenLogger.success("Saved to $outputFile");
+      }
     } else {
       await FileSaver.instance.saveAs(
         name: filename,
@@ -95,14 +110,14 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   Future<void> downloadQrCode() async {
     if (_isUserSignedIn) {
       await screenshotController.capture().then((image) {
-        KenLogger.success("Image Captured: $image");
+        // KenLogger.success("Image Captured: $image");
         setState(() {
           businessQRImageFile = image;
         });
       }).catchError((onError) {
         KenLogger.error(onError);
       });
-      KenLogger.success("QR Code Image Captured : $businessQRImageFile");
+      // KenLogger.success("QR Code Image Captured : $businessQRImageFile");
       saveImage(businessQRImageFile!);
     } else {
       showSignInRequiredAlert();
@@ -211,6 +226,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             imageFile: CachedNetworkImageProvider(
                                 asyncSnapshot.requireData),
                             width: profilePictureWidth,
+                            expandable: true,
                             editable: false,
                             fileNameController: TextEditingController(),
                             userSelectedfile: file,
@@ -298,7 +314,9 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     height: 300,
                     child: CachedNetworkImage(
                       imageUrl: getQrCodeData(qrSize.toInt()),
-                      placeholder: (context, url) => const Mihloadingcircle(),
+                      placeholder: (context, url) => FittedBox(
+                        child: const Mihloadingcircle(),
+                      ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
@@ -367,6 +385,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
       alignment: Alignment.topCenter,
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Padding(

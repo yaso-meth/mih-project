@@ -146,6 +146,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
           );
         } else {
           return MihSingleChildScroll(
+            scrollbarOn: true,
             child: Padding(
               padding:
                   MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
@@ -159,6 +160,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       MihCircleAvatar(
                         imageFile: mzansiProfileProvider.userProfilePicture,
                         width: 150,
+                        expandable: true,
                         editable: false,
                         fileNameController: proPicController,
                         userSelectedfile: newSelectedProPic,

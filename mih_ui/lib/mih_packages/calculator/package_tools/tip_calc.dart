@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
@@ -229,7 +231,11 @@ class _TipCalcState extends State<TipCalc> {
               ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              return MihBannerAd();
+              if (Platform.isAndroid || Platform.isIOS) {
+                return MihBannerAd();
+              } else {
+                return const SizedBox(height: 0);
+              }
             }),
             // if (splitBillController.text == "Yes") const Divider(),
           ],
@@ -259,6 +265,7 @@ class _TipCalcState extends State<TipCalc> {
 
   Widget getBody(double width) {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Padding(
         padding: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
             ? EdgeInsets.symmetric(horizontal: width * 0.2)

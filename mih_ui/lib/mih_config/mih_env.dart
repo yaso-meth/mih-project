@@ -20,13 +20,13 @@ abstract class AppEnviroment {
     switch (env) {
       case Enviroment.dev:
         {
-          if (kIsWeb) {
+          if (kIsWeb || Platform.isIOS || Platform.isLinux) {
             //================= Web Dev Urls =================
             baseAppUrl = "http://localhost:80";
             baseApiUrl = "http://localhost:8080";
             baseFileUrl = "http://localhost:9000";
             baseAiUrl = "http://localhost:11434";
-            bannerAdUnitId = 'ca-app-pub-3940256099942544/2435281174';
+            bannerAdUnitId = 'ca-app-pub-3940256099942544/2435281174'; // IOS ID
             break;
           } else if (Platform.isAndroid) {
             //================= Android Dev Urls =================
@@ -35,14 +35,6 @@ abstract class AppEnviroment {
             baseFileUrl = "http://10.0.2.2:9000";
             baseAiUrl = "http://10.0.2.2:11434";
             bannerAdUnitId = 'ca-app-pub-3940256099942544/9214589741';
-          } else {
-            //================= Web & iOS Dev Urls =================
-            baseAppUrl = "http://localhost:80";
-            baseApiUrl = "http://localhost:8080";
-            baseFileUrl = "http://localhost:9000";
-            baseAiUrl = "http://localhost:11434";
-            bannerAdUnitId = 'ca-app-pub-3940256099942544/2435281174';
-            break;
           }
         }
       case Enviroment.prod:

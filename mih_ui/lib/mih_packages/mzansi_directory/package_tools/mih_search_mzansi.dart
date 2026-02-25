@@ -330,6 +330,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     } else if (directoryProvider.searchedBusinesses.isEmpty &&
         directoryProvider.searchTerm.isNotEmpty) {
       return MihSingleChildScroll(
+        scrollbarOn: true,
         child: Column(
           children: [
             const SizedBox(height: 50),
@@ -357,6 +358,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     } else if (directoryProvider.searchedBusinesses.isEmpty &&
         directoryProvider.searchTerm.isEmpty) {
       return MihSingleChildScroll(
+        scrollbarOn: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
@@ -472,6 +474,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     } else if (directoryProvider.searchedUsers.isEmpty &&
         directoryProvider.searchTerm.isEmpty) {
       return MihSingleChildScroll(
+        scrollbarOn: true,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
@@ -533,6 +536,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     } else if (directoryProvider.searchedUsers.isEmpty &&
         directoryProvider.searchTerm.isNotEmpty) {
       return MihSingleChildScroll(
+        scrollbarOn: true,
         child: Column(
           children: [
             const SizedBox(height: 50),

@@ -306,6 +306,7 @@ class _PatientInfoState extends State<PatientInfo> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -313,6 +314,7 @@ class _PatientInfoState extends State<PatientInfo> {
                     imageFile:
                         patientManagerProvider.selectedPatientProfilePicture,
                     width: 160,
+                    expandable: true,
                     editable: false,
                     fileNameController: null,
                     userSelectedfile: null,

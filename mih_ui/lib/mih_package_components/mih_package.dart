@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_scack_bar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
@@ -100,7 +101,7 @@ class _MihPackageState extends State<MihPackage>
     //     _peakAnimation();
     //   });
     // }
-    if (!MzansiInnovationHub.of(context)!.theme.kIsWeb) {
+    if (Platform.isAndroid || Platform.isIOS) {
       // Trigger the peak animation only AFTER the route transition is complete
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final ModalRoute? currentRoute = ModalRoute.of(context);

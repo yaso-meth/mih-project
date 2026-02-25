@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
@@ -107,7 +108,7 @@ class _MihRegisterState extends State<MihRegister> {
               headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
-                "Authorization": "leatucczyixqwkqqdrhayiwzeofkltds"
+                "Authorization": dotenv.env['SUPERTOKENS_API_KEY'] ?? "",
               },
             );
             //print("response 2: ${response2.statusCode}");
@@ -204,6 +205,7 @@ class _MihRegisterState extends State<MihRegister> {
         }
       },
       child: MihSingleChildScroll(
+        scrollbarOn: true,
         child: Padding(
           padding:
               MzansiInnovationHub.of(context)!.theme.screenType == "desktop"

@@ -15,6 +15,7 @@ class MihPackageWindow extends StatefulWidget {
   final Color? foregroundColor;
   final bool? borderOn;
   final bool fullscreen;
+  final bool? scrollbarOn;
   const MihPackageWindow({
     super.key,
     required this.fullscreen,
@@ -23,6 +24,7 @@ class MihPackageWindow extends StatefulWidget {
     required this.onWindowTapClose,
     required this.windowBody,
     this.borderOn,
+    this.scrollbarOn,
     this.backgroundColor,
     this.foregroundColor,
   });
@@ -177,7 +179,13 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
                     getHeader(),
                     const SizedBox(height: 5),
                     Expanded(
-                        child: SingleChildScrollView(child: widget.windowBody)),
+                      child: widget.scrollbarOn != null || !widget.scrollbarOn!
+                          ? widget.windowBody
+                          : MihSingleChildScroll(
+                              scrollbarOn: true,
+                              child: widget.windowBody,
+                            ),
+                    ),
                   ],
                 )
               : Column(
@@ -197,7 +205,10 @@ class _MihPackageWindowState extends State<MihPackageWindow> {
                             maxHeight: windowHeight * 0.85,
                             maxWidth: windowWidth * 0.85,
                           ),
-                          child: MihSingleChildScroll(child: widget.windowBody),
+                          child: MihSingleChildScroll(
+                            scrollbarOn: true,
+                            child: widget.windowBody,
+                          ),
                         ),
                       ),
                     ),

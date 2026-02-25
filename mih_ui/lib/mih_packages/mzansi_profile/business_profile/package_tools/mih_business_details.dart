@@ -1,9 +1,10 @@
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card_v2.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_update_business_details_window.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
@@ -60,32 +61,63 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Padding(
                 padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                         "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+                    : EdgeInsets.symmetric(horizontal: width * 0),
                 child: Column(
                   children: [
                     Center(
-                      child: MihCircleAvatar(
-                        key: UniqueKey(),
-                        imageFile: mzansiProfileProvider.businessProfilePicture,
-                        width: 150,
-                        editable: false,
-                        fileNameController: fileNameController,
-                        userSelectedfile: newSelectedLogoPic,
-                        frameColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        onChange: (selectedfile) {
-                          setState(() {
-                            newSelectedLogoPic = selectedfile;
-                          });
-                        },
+                      child: Stack(
+                        children: [
+                          MihCircleAvatar(
+                            key: UniqueKey(),
+                            imageFile:
+                                mzansiProfileProvider.businessProfilePicture,
+                            width: 150,
+                            expandable: true,
+                            editable: false,
+                            fileNameController: fileNameController,
+                            userSelectedfile: newSelectedLogoPic,
+                            frameColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            backgroundColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            onChange: (selectedfile) {
+                              setState(() {
+                                newSelectedLogoPic = selectedfile;
+                              });
+                            },
+                          ),
+                          Positioned(
+                            bottom: 5,
+                            right: 5,
+                            child: MihButton(
+                              onPressed: () {
+                                // editProfileWindow(width);
+                                editBizProfileWindow(
+                                    mzansiProfileProvider, width);
+                              },
+                              buttonColor: MihColors.getGreenColor(
+                                  MzansiInnovationHub.of(context)!.theme.mode ==
+                                      "Dark"),
+                              width: 35,
+                              height: 35,
+                              child: Icon(
+                                Icons.edit,
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     FittedBox(
@@ -112,6 +144,30 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                         ),
                       ),
                     ),
+                    RatingBar.readOnly(
+                      size: 50,
+                      alignment: Alignment.center,
+                      filledIcon: Icons.star,
+                      emptyIcon: Icons.star_border,
+                      halfFilledIcon: Icons.star_half,
+                      filledColor: MihColors.getYellowColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                      emptyColor: MihColors.getSecondaryColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      halfFilledColor: MihColors.getYellowColor(
+                          MzansiInnovationHub.of(context)!.theme.mode ==
+                              "Dark"),
+                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                      isHalfAllowed: true,
+                      initialRating: mzansiProfileProvider
+                              .business!.rating.isNotEmpty
+                          ? double.parse(mzansiProfileProvider.business!.rating)
+                          : 0,
+                      maxRating: 5,
+                    ),
                     const SizedBox(height: 5),
                     Center(
                       child: SizedBox(
@@ -133,68 +189,16 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
-                      width: 700,
-                      child: MihBusinessCard(
-                        business: mzansiProfileProvider.business!,
-                        // startUpSearch: null,
-                        width: width,
-                      ),
+                    MihBusinessCardV2(
+                      business: mzansiProfileProvider.business!,
+                      // startUpSearch: null,
+                      width: width,
                     ),
                     const SizedBox(height: 30.0),
-                    Center(
-                      child: MihButton(
-                        onPressed: () {
-                          // Connect with the user
-                          editBizProfileWindow(mzansiProfileProvider, width);
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
-            // Positioned(
-            //   right: 5,
-            //   bottom: 10,
-            //   child: MihFloatingMenu(
-            //     animatedIcon: AnimatedIcons.menu_close,
-            //     children: [
-            //       SpeedDialChild(
-            //         child: Icon(
-            //           Icons.edit,
-            //           color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //         ),
-            //         label: "Edit Profile",
-            //         labelBackgroundColor:
-            //             MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //         labelStyle: TextStyle(
-            //           color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //         backgroundColor:
-            //             MihColors.getGreenColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-            //         onTap: () {
-            //           editBizProfileWindow(width);
-            //         },
-            //       )
-            //     ],
-            //   ),
-            // ),
           ],
         );
       },

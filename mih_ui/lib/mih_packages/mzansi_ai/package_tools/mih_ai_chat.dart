@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -112,15 +113,35 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   void speakLastMessage(MzansiAiProvider aiProvider) {
     final history = aiProvider.ollamaProvider.history;
-    if (history.isNotEmpty) {
-      final historyList = history.toList();
-      for (int i = historyList.length - 1; i >= 0; i--) {
-        if (historyList[i].origin == MessageOrigin.llm &&
-            historyList[i].text != null &&
-            historyList[i].text!.isNotEmpty) {
-          _flutterTts.speak(historyList[i].text!);
-          return;
-        }
+    if (history.isEmpty) return;
+
+    final historyList = history.toList();
+    String? textToSpeak;
+
+    // Find the last LLM message
+    for (int i = historyList.length - 1; i >= 0; i--) {
+      if (historyList[i].origin == MessageOrigin.llm &&
+          historyList[i].text != null &&
+          historyList[i].text!.isNotEmpty) {
+        textToSpeak = historyList[i].text!;
+        break;
+      }
+    }
+
+    if (textToSpeak != null) {
+      if (Platform.isLinux) {
+        // Linux Workaround: Use Speech Dispatcher (standard on most distros)
+        // '-t female1' is optional for voice variety
+        Process.run('spd-say', [textToSpeak]);
+
+        // Since spd-say doesn't have an easy "completion handler" via CLI,
+        // we manually toggle the UI state or just leave it off.
+        aiProvider.setTTSstate(true);
+        Future.delayed(
+            Duration(seconds: 5), () => aiProvider.setTTSstate(false));
+      } else {
+        // Your existing mobile/web logic
+        _flutterTts.speak(textToSpeak);
       }
     }
   }
@@ -183,11 +204,16 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   // }
 
   void stopTTS(MzansiAiProvider aiProvider) {
-    _flutterTts.stop();
+    if (Platform.isLinux) {
+      Process.run('spd-say', ['-S']); // The -S flag stops current speech
+    } else {
+      _flutterTts.stop();
+    }
     aiProvider.setTTSstate(false);
   }
 
   Future<void> initTts(MzansiAiProvider aiProvider) async {
+    if (Platform.isLinux) return;
     try {
       await _flutterTts.setSpeechRate(!kIsWeb ? 0.55 : 1);
       // await _flutterTts.setLanguage("en-US");
@@ -258,7 +284,9 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _flutterTts.stop();
+    if (!Platform.isLinux) {
+      _flutterTts.stop();
+    }
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

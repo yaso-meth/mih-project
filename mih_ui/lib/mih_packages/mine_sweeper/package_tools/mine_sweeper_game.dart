@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -626,6 +627,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 alignment: Alignment.topCenter,
                 children: [
                   MihSingleChildScroll(
+                    scrollbarOn: true,
                     child: board.isEmpty && squaresLeft < 0
                         // Start Up Message before setting up game
                         ? Padding(
@@ -850,7 +852,9 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 ],
               ),
             ),
-            _timer != null ? MihBannerAd() : SizedBox(),
+            _timer != null && (Platform.isAndroid || Platform.isIOS)
+                ? MihBannerAd()
+                : SizedBox(),
             SizedBox(height: 15),
           ],
         );

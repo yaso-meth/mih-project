@@ -49,6 +49,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                 : MihCircleAvatar(
                     imageFile: widget.imageFile,
                     width: profilePictureWidth,
+                    expandable: false,
                     editable: false,
                     fileNameController: TextEditingController(),
                     userSelectedfile: null,

@@ -5,5 +5,6 @@
         <item>@drawable/mzansi_wallet_sc</item>
         <item>@drawable/mzansi_ai_sc</item>
         <item>@drawable/mih_calculator_sc</item>
+        <item>@drawable/mzansi_directory_sc</item>
     </array>
 </resources>

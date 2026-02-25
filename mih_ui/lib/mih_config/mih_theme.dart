@@ -9,7 +9,7 @@ class MihTheme {
   late String loadingAssetText;
   late TargetPlatform platform;
   bool kIsWeb = const bool.fromEnvironment('dart.library.js_util');
-  String latestVersion = "1.2.5";
+  String latestVersion = "1.2.6";
   MihTheme() {
     mode = "Dark";
   }
@@ -98,6 +98,12 @@ class MihTheme {
         return "Android";
       } else if (platform == TargetPlatform.iOS) {
         return "iOS";
+      } else if (platform == TargetPlatform.linux) {
+        return "Linux";
+      } else if (platform == TargetPlatform.macOS) {
+        return "macOS";
+      } else if (platform == TargetPlatform.windows) {
+        return "Windows";
       }
     }
     return "Other";

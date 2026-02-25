@@ -87,6 +87,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                 child: MihCircleAvatar(
                   imageFile: profileProvider.userProfilePicture,
                   width: 150,
+                  expandable: true,
                   editable: false,
                   fileNameController: null,
                   userSelectedfile: null,

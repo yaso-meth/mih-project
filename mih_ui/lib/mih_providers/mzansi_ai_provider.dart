@@ -20,7 +20,7 @@ class MzansiAiProvider extends ChangeNotifier {
     ollamaProvider = OllamaProvider(
         baseUrl: "${AppEnviroment.baseAiUrl}/api",
         model: AppEnviroment.getEnv() == "Prod"
-            ? 'qwen3-vl:8b'
+            ? 'qwen3-vl:8b-instruct'
             : "qwen3-vl:2b-instruct",
         think: false,
         systemPrompt: "---INSTRUCTION START---\n"

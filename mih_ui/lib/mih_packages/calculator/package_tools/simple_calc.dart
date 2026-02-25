@@ -94,6 +94,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
       }
     }
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

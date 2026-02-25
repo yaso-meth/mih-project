@@ -111,6 +111,7 @@ class _PackageToolThreeState extends State<PackageToolThree> {
     return Stack(
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

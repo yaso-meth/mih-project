@@ -104,6 +104,7 @@ class _BuildMinesweeperLeaderboardListState
                                     key: UniqueKey(),
                                     imageFile: imageFile,
                                     width: 80,
+                                    expandable: true,
                                     editable: false,
                                     fileNameController: null,
                                     userSelectedfile: null,

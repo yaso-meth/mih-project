@@ -3,10 +3,10 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card_v2.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
@@ -58,11 +58,12 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
         return Stack(
           children: [
             MihSingleChildScroll(
+              scrollbarOn: true,
               child: Padding(
                 padding: MzansiInnovationHub.of(context)!.theme.screenType ==
                         "desktop"
                     ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+                    : EdgeInsets.symmetric(horizontal: width * 0),
                 child: Column(
                   children: [
                     FutureBuilder(
@@ -76,6 +77,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                                 imageFile: CachedNetworkImageProvider(
                                     asyncSnapshot.requireData),
                                 width: profilePictureWidth,
+                                expandable: true,
                                 editable: false,
                                 fileNameController: TextEditingController(),
                                 userSelectedfile: file,
@@ -154,40 +156,6 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    // FittedBox(
-                    //   child: Text(
-                    //     "Mission & Vision",
-                    //     style: TextStyle(
-                    //       fontSize: 15,
-                    //       fontWeight: FontWeight.bold,
-                    //       color: MzansiInnovationHub.of(context)!
-                    //           .theme
-                    //           .secondaryColor(),
-                    //     ),
-                    //   ),
-                    // ),
-                    Center(
-                      child: SizedBox(
-                        width: 700,
-                        child: Text(
-                          directoryProvider
-                                  .selectedBusiness!.mission_vision.isNotEmpty
-                              ? directoryProvider
-                                  .selectedBusiness!.mission_vision
-                              : "No Mission & Vision added yet",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                     RatingBar.readOnly(
                       size: 50,
                       alignment: Alignment.center,
@@ -213,13 +181,31 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                               : 0,
                       maxRating: 5,
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: 700,
-                      child: MihBusinessCard(
-                        business: directoryProvider.selectedBusiness!,
-                        width: width,
+                    const SizedBox(height: 5),
+                    Center(
+                      child: SizedBox(
+                        width: 700,
+                        child: Text(
+                          directoryProvider
+                                  .selectedBusiness!.mission_vision.isNotEmpty
+                              ? directoryProvider
+                                  .selectedBusiness!.mission_vision
+                              : "No Mission & Vision added yet",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                          ),
+                        ),
                       ),
+                    ),
+                    const SizedBox(height: 20),
+                    MihBusinessCardV2(
+                      business: directoryProvider.selectedBusiness!,
+                      width: width,
                     ),
                   ],
                 ),

@@ -25,6 +25,7 @@ class _PackageToolZeroState extends State<PackageToolZero> {
 
   Widget getBody() {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

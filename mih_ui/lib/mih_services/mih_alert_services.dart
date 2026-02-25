@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -32,6 +34,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -109,6 +112,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -132,7 +136,9 @@ class MihAlertServices {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    "To get the most out of MIH, we need your location. Please go to the site settings of the app and enable location services. Once you do that, we can start showing you relevant information based on your location.",
+                    Platform.isLinux
+                        ? "To get the most out of MIH, we need your location. Please go to your System Settings and enable location services. Once you do that, we can start showing you relevant information based on your location."
+                        : "To get the most out of MIH, we need your location. Please go to the site settings of the app and enable location services. Once you do that, we can start showing you relevant information based on your location.",
                     style: TextStyle(
                       color: MihColors.getSecondaryColor(
                           MzansiInnovationHub.of(context)!.theme.mode ==
@@ -186,6 +192,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -298,6 +305,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -416,6 +424,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -493,6 +502,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -594,6 +604,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -671,6 +682,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -748,6 +760,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -830,6 +843,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getSecondaryColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -900,6 +914,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1007,6 +1022,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1089,6 +1105,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getGreenColor(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1159,6 +1176,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(
@@ -1244,6 +1262,7 @@ class MihAlertServices {
             backgroundColor: MihColors.getRedColor(
                 MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
             windowBody: MihSingleChildScroll(
+              scrollbarOn: true,
               child: Column(
                 children: [
                   Icon(

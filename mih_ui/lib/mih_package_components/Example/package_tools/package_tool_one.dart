@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -161,6 +163,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
     return Stack(
       children: [
         MihSingleChildScroll(
+          scrollbarOn: true,
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
@@ -450,7 +453,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                   ],
                 ),
-                MihBannerAd(),
+                if (Platform.isAndroid || Platform.isIOS) MihBannerAd(),
                 const SizedBox(height: 10),
                 Divider(
                   color: MihColors.getSecondaryColor(
@@ -773,6 +776,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                 MihCircleAvatar(
                   imageFile: imagePreview,
                   width: 50,
+                  expandable: true,
                   editable: false,
                   fileNameController: _fileNameController,
                   userSelectedfile: file,

@@ -28,6 +28,7 @@ class _MihContactsState extends State<MihContacts> {
 
   Widget getBody(double width) {
     return MihSingleChildScroll(
+      scrollbarOn: true,
       child: Column(
         children: [
           Padding(

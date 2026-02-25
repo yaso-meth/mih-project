@@ -19,7 +19,6 @@ class _MihPrivacyPolicyState extends State<MihPrivacyPolicy> {
   Widget build(BuildContext context) {
     return MihPackageToolBody(
       borderOn: false,
-      innerHorizontalPadding: 10,
       bodyItem: getBody(context),
     );
   }
@@ -55,9 +54,13 @@ class _MihPrivacyPolicyState extends State<MihPrivacyPolicy> {
     children
         .addAll(PolicyAndTermsText().getPrivacyPolicyText(context, englishOn));
     return MihSingleChildScroll(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: children,
+      scrollbarOn: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: children,
+        ),
       ),
     );
   }

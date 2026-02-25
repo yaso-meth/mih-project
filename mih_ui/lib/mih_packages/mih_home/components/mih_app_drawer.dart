@@ -78,6 +78,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
             ? mzansiProfileProvider.userProfilePicture
             : mzansiProfileProvider.businessProfilePicture,
         width: 60,
+        expandable: false,
         editable: false,
         fileNameController: proPicController,
         onChange: (_) {},

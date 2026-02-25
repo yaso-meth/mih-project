@@ -329,194 +329,232 @@ class _MihEditPersonalProfileWindowState
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
                     ? EdgeInsets.symmetric(horizontal: screenWidth * 0.05)
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Stack(
               children: [
-                MihForm(
-                  formKey: _formKey,
-                  formFields: [
-                    Center(
-                      child: MihCircleAvatar(
-                        imageFile: newSelectedProPic != null
-                            ? MemoryImage(newSelectedProPic!.bytes!)
-                            : mzansiProfileProvider.userProfilePicture,
-                        width: 150,
-                        editable: true,
-                        fileNameController: proPicController,
-                        userSelectedfile: newSelectedProPic,
-                        frameColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        onChange: (selectedImage) {
-                          setState(() {
-                            newSelectedProPic = selectedImage;
-                          });
-                        },
-                      ),
-                    ),
-                    // const SizedBox(height: 25.0),
-                    Visibility(
-                      visible: false,
-                      child: MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        controller: proPicController,
-                        multiLineInput: false,
-                        requiredText: true,
-                        readOnly: true,
-                        hintText: "Selected File Name",
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: usernameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Username",
-                      validator: (value) {
-                        return MihValidationServices().validateUsername(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: fnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "First Name",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: lnameController,
-                      multiLineInput: false,
-                      requiredText: true,
-                      hintText: "Last Name",
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihTextFormField(
-                      height: 250,
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      controller: purposeController,
-                      multiLineInput: true,
-                      requiredText: true,
-                      hintText: "Your Personal Mission",
-                      validator: (value) {
-                        return MihValidationServices()
-                            .validateLength(purposeController.text, 256);
-                      },
-                    ),
-                    SizedBox(
-                      height: 15,
-                      child: ValueListenableBuilder(
-                        valueListenable: _counter,
-                        builder:
-                            (BuildContext context, int value, Widget? child) {
-                          return Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$value",
-                                style: TextStyle(
-                                  color: getPurposeLimitColor(256),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "/256",
-                                style: TextStyle(
-                                  color: getPurposeLimitColor(256),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    MihToggle(
-                      hintText: "Activate Business Account",
-                      initialPostion: businessUser,
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      secondaryFillColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      onChange: (value) {
-                        setState(() {
-                          businessUser = value;
-                        });
-                        KenLogger.success("Business User: $businessUser");
-                      },
-                    ),
-                    const SizedBox(height: 30.0),
-                    Center(
-                      child: MihButton(
-                        onPressed: () {
-                          //Add validation here
-                          if (_formKey.currentState!.validate()) {
-                            submitForm(mzansiProfileProvider);
-                          } else {
-                            MihAlertServices().inputErrorAlert(context);
-                          }
-                        },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        width: 300,
-                        child: Text(
-                          mzansiProfileProvider.user!.username.isEmpty
-                              ? "Setup Profile"
-                              : "Update",
-                          style: TextStyle(
-                            color: MihColors.getPrimaryColor(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    MihForm(
+                      formKey: _formKey,
+                      formFields: [
+                        Center(
+                          child: MihCircleAvatar(
+                            imageFile: newSelectedProPic != null
+                                ? MemoryImage(newSelectedProPic!.bytes!)
+                                : mzansiProfileProvider.userProfilePicture,
+                            width: 150,
+                            expandable: false,
+                            editable: true,
+                            fileNameController: proPicController,
+                            userSelectedfile: newSelectedProPic,
+                            frameColor: MihColors.getSecondaryColor(
                                 MzansiInnovationHub.of(context)!.theme.mode ==
                                     "Dark"),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            backgroundColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            onChange: (selectedImage) {
+                              setState(() {
+                                newSelectedProPic = selectedImage;
+                              });
+                            },
                           ),
                         ),
-                      ),
+                        // const SizedBox(height: 25.0),
+                        Visibility(
+                          visible: false,
+                          child: MihTextFormField(
+                            fillColor: MihColors.getSecondaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            inputColor: MihColors.getPrimaryColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            controller: proPicController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            readOnly: true,
+                            hintText: "Selected File Name",
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihTextFormField(
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          controller: usernameController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Username",
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validateUsername(value);
+                          },
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihTextFormField(
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          controller: fnameController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "First Name",
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihTextFormField(
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          controller: lnameController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Last Name",
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihTextFormField(
+                          height: 250,
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          inputColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          controller: purposeController,
+                          multiLineInput: true,
+                          requiredText: true,
+                          hintText: "Your Personal Mission",
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validateLength(purposeController.text, 256);
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                          child: ValueListenableBuilder(
+                            valueListenable: _counter,
+                            builder: (BuildContext context, int value,
+                                Widget? child) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "$value",
+                                    style: TextStyle(
+                                      color: getPurposeLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    "/256",
+                                    style: TextStyle(
+                                      color: getPurposeLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihToggle(
+                          hintText: "Activate Business Account",
+                          initialPostion: businessUser,
+                          fillColor: MihColors.getSecondaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          secondaryFillColor: MihColors.getPrimaryColor(
+                              MzansiInnovationHub.of(context)!.theme.mode ==
+                                  "Dark"),
+                          onChange: (value) {
+                            setState(() {
+                              businessUser = value;
+                            });
+                            KenLogger.success("Business User: $businessUser");
+                          },
+                        ),
+                        const SizedBox(height: 30.0),
+                        Center(
+                          child: MihButton(
+                            onPressed: () {
+                              //Add validation here
+                              if (_formKey.currentState!.validate()) {
+                                submitForm(mzansiProfileProvider);
+                              } else {
+                                MihAlertServices().inputErrorAlert(context);
+                              }
+                            },
+                            buttonColor: MihColors.getGreenColor(
+                                MzansiInnovationHub.of(context)!.theme.mode ==
+                                    "Dark"),
+                            width: 300,
+                            child: Text(
+                              mzansiProfileProvider.user!.username.isEmpty
+                                  ? "Setup Profile"
+                                  : "Update",
+                              style: TextStyle(
+                                color: MihColors.getPrimaryColor(
+                                    MzansiInnovationHub.of(context)!
+                                            .theme
+                                            .mode ==
+                                        "Dark"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: MihButton(
+                    onPressed: () {
+                      //Add validation here
+                      if (_formKey.currentState!.validate()) {
+                        submitForm(mzansiProfileProvider);
+                      } else {
+                        MihAlertServices().inputErrorAlert(context);
+                      }
+                    },
+                    buttonColor: MihColors.getGreenColor(
+                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    width: 100,
+                    height: 25,
+                    child: Text(
+                      mzansiProfileProvider.user!.username.isEmpty
+                          ? "Setup Profile"
+                          : "Update",
+                      style: TextStyle(
+                        color: MihColors.getPrimaryColor(
+                            MzansiInnovationHub.of(context)!.theme.mode ==
+                                "Dark"),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
