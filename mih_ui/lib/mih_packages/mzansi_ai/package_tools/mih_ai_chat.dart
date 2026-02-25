@@ -129,7 +129,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     }
 
     if (textToSpeak != null) {
-      if (Platform.isLinux) {
+      if (!kIsWeb && Platform.isLinux) {
         // Linux Workaround: Use Speech Dispatcher (standard on most distros)
         // '-t female1' is optional for voice variety
         Process.run('spd-say', [textToSpeak]);
@@ -204,7 +204,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   // }
 
   void stopTTS(MzansiAiProvider aiProvider) {
-    if (Platform.isLinux) {
+    if (!kIsWeb && Platform.isLinux) {
       Process.run('spd-say', ['-S']); // The -S flag stops current speech
     } else {
       _flutterTts.stop();
@@ -213,7 +213,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   }
 
   Future<void> initTts(MzansiAiProvider aiProvider) async {
-    if (Platform.isLinux) return;
+    if (!kIsWeb && Platform.isLinux) return;
     try {
       await _flutterTts.setSpeechRate(!kIsWeb ? 0.55 : 1);
       // await _flutterTts.setLanguage("en-US");
@@ -284,7 +284,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    if (!Platform.isLinux) {
+    if (!kIsWeb && !Platform.isLinux) {
       _flutterTts.stop();
     }
     WidgetsBinding.instance.removeObserver(this);

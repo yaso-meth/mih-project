@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
@@ -453,7 +454,8 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                   ],
                 ),
-                if (Platform.isAndroid || Platform.isIOS) MihBannerAd(),
+                if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                  MihBannerAd(),
                 const SizedBox(height: 10),
                 Divider(
                   color: MihColors.getSecondaryColor(

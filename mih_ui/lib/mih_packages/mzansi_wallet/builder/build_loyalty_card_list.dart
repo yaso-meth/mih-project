@@ -547,7 +547,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
               ),
             ),
             SizedBox(height: 10),
-            if (Platform.isAndroid || Platform.isIOS) MihBannerAd()
+            if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) MihBannerAd()
             // MihBannerAd(),
           ],
         ),

@@ -231,7 +231,7 @@ class _TipCalcState extends State<TipCalc> {
               ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              if (Platform.isAndroid || Platform.isIOS) {
+              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
                 return MihBannerAd();
               } else {
                 return const SizedBox(height: 0);

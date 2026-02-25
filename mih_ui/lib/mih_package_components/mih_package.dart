@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -101,7 +102,7 @@ class _MihPackageState extends State<MihPackage>
     //     _peakAnimation();
     //   });
     // }
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (!kIsWeb && Platform.isAndroid || Platform.isIOS) {
       // Trigger the peak animation only AFTER the route transition is complete
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final ModalRoute? currentRoute = ModalRoute.of(context);

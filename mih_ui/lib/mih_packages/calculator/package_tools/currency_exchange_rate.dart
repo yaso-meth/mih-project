@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -159,7 +160,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
             ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              if (Platform.isAndroid || Platform.isIOS) {
+              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
                 return MihBannerAd();
               } else {
                 return const SizedBox(height: 0);
