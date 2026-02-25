@@ -48,13 +48,15 @@ origins = [
     "http://MIH-API-Hub",
     "http://api.mzansi-innovation-hub.co.za",
     "http://app.mzansi-innovation-hub.co.za",
+    "https://api.mzansi-innovation-hub.co.za",
+    "https://app.mzansi-innovation-hub.co.za",
 ]
 
 init(
     app_info=InputAppInfo(
         app_name="Mzansi Innovation Hub",
         api_domain="http://localhost:8080/",
-        website_domain="http://app.mzansi-innovation-hub.co.za",
+        website_domain="https://app.mzansi-innovation-hub.co.za",
         api_base_path="/auth",
         website_base_path="/auth"
     ),
