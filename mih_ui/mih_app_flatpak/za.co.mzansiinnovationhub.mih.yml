@@ -1,6 +1,6 @@
 app-id: za.co.mzansiinnovationhub.mih
 runtime: org.gnome.Platform
-runtime-version: '45' # Matches a more modern GNOME stack
+runtime-version: '49' # Matches a more modern GNOME stack
 sdk: org.gnome.Sdk
 command: mzansi_innovation_hub
 
