@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -852,7 +853,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 ],
               ),
             ),
-            _timer != null && (Platform.isAndroid || Platform.isIOS)
+            _timer != null && !kIsWeb && (Platform.isAndroid || Platform.isIOS)
                 ? MihBannerAd()
                 : SizedBox(),
             SizedBox(height: 15),

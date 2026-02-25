@@ -30,7 +30,7 @@ class MihBannerAdProvider extends ChangeNotifier {
   }
 
   void loadBannerAd() {
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       if (bannerAd != null) {
         bannerAd!.dispose();
         bannerAd = null;
