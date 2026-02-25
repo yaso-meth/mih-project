@@ -102,7 +102,7 @@ class _MihPackageState extends State<MihPackage>
     //     _peakAnimation();
     //   });
     // }
-    if (!kIsWeb && Platform.isAndroid || Platform.isIOS) {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       // Trigger the peak animation only AFTER the route transition is complete
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final ModalRoute? currentRoute = ModalRoute.of(context);
