@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.2.6
+Type=Application
+Name=MIH App
+Comment=First Super App of Mzansi
+Exec=mzansi_innovation_hub
+Icon=za.co.mzansiinnovationhub.mih
+Terminal=false
+Categories=Utility;
