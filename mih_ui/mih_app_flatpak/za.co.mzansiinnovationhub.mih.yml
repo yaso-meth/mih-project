@@ -25,6 +25,7 @@ modules:
       
       # 2. Install the Flutter binary and its folders (lib/ and data/)
       - cp -r * /app/share/mih-app/
+      - chmod +x /app/share/mih-app/mzansi_innovation_hub
       - ln -s /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
       
       # 3. Install Integration Files
