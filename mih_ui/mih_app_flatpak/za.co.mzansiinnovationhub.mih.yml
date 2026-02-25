@@ -24,7 +24,7 @@ modules:
       
       # Install everything to the share folder
       - cp -r * /app/share/mih-app/
-      - chmod +x /app/share/mih-app/mzansi_innovation_hub
+      - find /app/share/mih-app -name "mzansi_innovation_hub" -exec chmod +x {} +
       
       # Link the binary to /app/bin so Flatpak can find it
       - ln -s /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
