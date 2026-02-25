@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>za.co.mzansiinnovationhub.mih</id>
+  
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  
+  <name>MIH App</name>
+  <summary>First Super App of Mzansi</summary>
+  
+  <description>
+    <p>
+      The Mzansi Innovation Hub (MIH) App is a multipurpose platform designed to 
+      empower users with integrated digital services.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">za.co.mzansiinnovationhub.mih.desktop</launchable>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="1.2.6" date="2026-02-25" />
+  </releases>
+</component>

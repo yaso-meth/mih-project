@@ -1,0 +1,47 @@
+app-id: za.co.mzansiinnovationhub.mih
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: mzansi_innovation_hub # Must match your binary name
+
+finish-args:
+  # Basic UI permissions
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  # Media and Network
+  - --socket=pulseaudio
+  - --share=network
+  # Filesystem (allows app to see its own data)
+  - --filesystem=xdg-documents:ro
+
+modules:
+  - name: mih-app
+    buildsystem: simple
+    build-commands:
+      # 1. Create directory structure
+      - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/256x256/apps
+      
+      # 2. Install the Flutter binary and its folders (lib/ and data/)
+      - cp -r * /app/share/mih-app/
+      - ln -s /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
+      
+      # 3. Install Integration Files
+      - install -Dm644 za.co.mzansiinnovationhub.mih.desktop /app/share/applications/za.co.mzansiinnovationhub.mih.desktop
+      - install -Dm644 za.co.mzansiinnovationhub.mih.metainfo.xml /app/share/metainfo/za.co.mzansiinnovationhub.mih.metainfo.xml
+      - install -Dm644 za.co.mzansiinnovationhub.mih.png /app/share/icons/hicolor/256x256/apps/za.co.mzansiinnovationhub.mih.png
+
+    sources:
+      # This is your Flutter Linux bundle (.tar.gz)
+      - type: archive
+        url: https://git.mzansi-innovation-hub.co.za/yaso_meth/mih-project/releases/download/V.1.2.6/mzansi_innovation_hub.tar.gz
+        sha256: cd610351f334fccce2d279f3112a5ac21bfa18b39d3c59e2cb0334fe2e8019b3
+      
+      # These refer to the local files in your folder
+      - type: file
+        path: za.co.mzansiinnovationhub.mih.desktop
+      - type: file
+        path: za.co.mzansiinnovationhub.mih.metainfo.xml
+      - type: file
+        path: za.co.mzansiinnovationhub.mih.png
