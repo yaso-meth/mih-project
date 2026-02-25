@@ -7,3 +7,5 @@ Exec=mzansi_innovation_hub
 Icon=za.co.mzansiinnovationhub.mih
 Terminal=false
 Categories=Utility;
+Keywords=Mzansi;Innovation;Hub;App;
+StartupWMClass=mzansi_innovation_hub
