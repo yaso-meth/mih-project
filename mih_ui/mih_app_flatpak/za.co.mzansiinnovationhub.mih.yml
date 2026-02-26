@@ -16,20 +16,17 @@ finish-args:
   - --env=FLUTTER_STORAGE_BASE_URL=https://storage.googleapis.com
   - --env=PUB_HOSTED_URL=https://pub.dev
 
+# Remove the flutter-deps module - we don't need it!
+# The GNOME runtime already includes most Flutter dependencies
+
 modules:
-  - name: flutter-deps
-    buildsystem: simple
-    build-commands:
-      - apt-get update && apt-get install -y libgtk-3-0 libblkid1 liblzma5 libgcrypt20 libstdc++6
-    sources: []
-  
   - name: mih-app
     buildsystem: simple
     build-commands:
       # Create directory structure
       - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/{16,32,48,64,128,256}x{16,32,48,64,128,256}/apps
       
-      # Extract and inspect first (debug step - can be removed after verification)
+      # Extract and inspect first
       - tar xzf mzansi_innovation_hub.tar.gz
       - ls -la  # See what was extracted
       
