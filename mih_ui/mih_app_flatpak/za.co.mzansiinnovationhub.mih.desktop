@@ -1,11 +1,12 @@
 [Desktop Entry]
-Version=1.2.6
+Version=1.0
 Type=Application
-Name=MIH App
-Comment=First Super App of Mzansi
+Name=MIH
+GenericName=Mzansi Innovation Hub
+Comment=Mzansi Innovation Hub official application
 Exec=mzansi_innovation_hub
 Icon=za.co.mzansiinnovationhub.mih
 Terminal=false
 Categories=Utility;
-Keywords=Mzansi;Innovation;Hub;App;
+Keywords=MIH;Mzansi;Innovation;Hub;
 StartupWMClass=mzansi_innovation_hub
