@@ -1,6 +1,6 @@
 app-id: za.co.mzansiinnovationhub.mih
 runtime: org.gnome.Platform
-runtime-version: '49' # Matches a more modern GNOME stack
+runtime-version: '49'
 sdk: org.gnome.Sdk
 command: mzansi_innovation_hub
 
@@ -12,27 +12,49 @@ finish-args:
   - --socket=pulseaudio
   - --share=network
   - --talk-name=org.freedesktop.Notifications
-  # Filesystem access for documents
-  - --filesystem=xdg-documents:ro
+  - --filesystem=xdg-documents:create
+  - --env=FLUTTER_STORAGE_BASE_URL=https://storage.googleapis.com
+  - --env=PUB_HOSTED_URL=https://pub.dev
 
 modules:
+  - name: flutter-deps
+    buildsystem: simple
+    build-commands:
+      - apt-get update && apt-get install -y libgtk-3-0 libblkid1 liblzma5 libgcrypt20 libstdc++6
+    sources: []
+  
   - name: mih-app
     buildsystem: simple
     build-commands:
       # Create directory structure
-      - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/256x256/apps
+      - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/{16,32,48,64,128,256}x{16,32,48,64,128,256}/apps
       
-      # Install everything to the share folder
+      # Extract and inspect first (debug step - can be removed after verification)
+      - tar xzf mzansi_innovation_hub.tar.gz
+      - ls -la  # See what was extracted
+      
+      # Copy everything to app directory
       - cp -r * /app/share/mih-app/
-      - find /app/share/mih-app -name "mzansi_innovation_hub" -exec chmod +x {} +
       
-      # Link the binary to /app/bin so Flatpak can find it
-      - ln -s /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
+      # Find the actual binary and link it
+      - find /app/share/mih-app -type f -executable -name "mzansi_innovation_hub*" -exec ln -sf {} /app/bin/mzansi_innovation_hub \;
+      
+      # Make all binaries executable
+      - find /app/share/mih-app -type f -executable -exec chmod +x {} \;
       
       # Install Integration Files
       - install -Dm644 za.co.mzansiinnovationhub.mih.desktop /app/share/applications/za.co.mzansiinnovationhub.mih.desktop
       - install -Dm644 za.co.mzansiinnovationhub.mih.metainfo.xml /app/share/metainfo/za.co.mzansiinnovationhub.mih.metainfo.xml
+      
+      # Install icons in multiple sizes
       - install -Dm644 za.co.mzansiinnovationhub.mih.png /app/share/icons/hicolor/256x256/apps/za.co.mzansiinnovationhub.mih.png
+      - for size in 16 32 48 64 128; do
+          mkdir -p /app/share/icons/hicolor/${size}x${size}/apps;
+          cp za.co.mzansiinnovationhub.mih.png /app/share/icons/hicolor/${size}x${size}/apps/za.co.mzansiinnovationhub.mih.png 2>/dev/null || true;
+        done
+      
+      # Validate metainfo
+      - appstream-util validate /app/share/metainfo/za.co.mzansiinnovationhub.mih.metainfo.xml
 
     sources:
       - type: archive
