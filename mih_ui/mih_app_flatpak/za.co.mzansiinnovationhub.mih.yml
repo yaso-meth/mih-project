@@ -28,7 +28,7 @@ modules:
 
     sources:
       - type: archive
-        url: https://git.mzansi-innovation-hub.co.za/yaso_meth/mih-project/releases/download/V.1.2.6/mzansi_innovation_hub.tar.gz
+        url: https://git.mzansi-innovation-hub.co.za/yaso_meth/mih-project/releases/download/linux/mzansi_innovation_hub.tar.gz
         sha256: cd610351f334fccce2d279f3112a5ac21bfa18b39d3c59e2cb0334fe2e8019b3
       - type: file
         path: za.co.mzansiinnovationhub.mih.desktop
