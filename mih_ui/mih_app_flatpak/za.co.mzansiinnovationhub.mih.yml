@@ -18,13 +18,13 @@ modules:
   - name: mih-app
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/256x256/apps
-      - tar xzf mzansi_innovation_hub.tar.gz -C /app/share/mih-app/
-      - chmod +x /app/share/mih-app/mzansi_innovation_hub
-      - ln -sf /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
-      - install -Dm644 za.co.mzansiinnovationhub.mih.desktop /app/share/applications/za.co.mzansiinnovationhub.mih.desktop
-      - install -Dm644 za.co.mzansiinnovationhub.mih.metainfo.xml /app/share/metainfo/za.co.mzansiinnovationhub.mih.metainfo.xml
-      - install -Dm644 za.co.mzansiinnovationhub.mih.png /app/share/icons/hicolor/256x256/apps/za.co.mzansiinnovationhub.mih.png
+  - mkdir -p /app/bin /app/share/mih-app /app/share/applications /app/share/metainfo /app/share/icons/hicolor/256x256/apps
+  - cp -r data lib mzansi_innovation_hub /app/share/mih-app/
+  - chmod +x /app/share/mih-app/mzansi_innovation_hub
+  - ln -sf /app/share/mih-app/mzansi_innovation_hub /app/bin/mzansi_innovation_hub
+  - install -Dm644 za.co.mzansiinnovationhub.mih.desktop /app/share/applications/za.co.mzansiinnovationhub.mih.desktop
+  - install -Dm644 za.co.mzansiinnovationhub.mih.metainfo.xml /app/share/metainfo/za.co.mzansiinnovationhub.mih.metainfo.xml
+  - install -Dm644 za.co.mzansiinnovationhub.mih.png /app/share/icons/hicolor/256x256/apps/za.co.mzansiinnovationhub.mih.png
 
     sources:
       - type: archive
