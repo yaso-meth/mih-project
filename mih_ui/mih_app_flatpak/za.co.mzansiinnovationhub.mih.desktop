@@ -1,5 +1,5 @@
 [Desktop Entry]
-Version=1.2.6
+Version=1.0
 Type=Application
 Name=MIH App
 Name[af]=MIH Toepassing
@@ -10,9 +10,8 @@ Comment[zu]=I-Super App yokuqala yaseMzansi
 Exec=mzansi_innovation_hub
 Icon=za.co.mzansiinnovationhub.mih
 Terminal=false
-Categories=GNOME;GTK;Utility;
+Categories=Network;Utility;
 Keywords=Mzansi;Innovation;Hub;App;
 StartupWMClass=mzansi_innovation_hub
-X-Flatpak-RenamedFrom=mzansi-innovation-hub.desktop;
 X-GNOME-UsesNotifications=true
 DBusActivatable=false
