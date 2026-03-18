@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_setup_form.dart';
 import 'package:provider/provider.dart';
@@ -26,11 +24,11 @@ class _PatientSetUpState extends State<PatientSetUp> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex:
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex:
           context.watch<PatientManagerProvider>().patientProfileIndex,
       onIndexChange: (newValue) {
         context.read<PatientManagerProvider>().setPatientProfileIndex(newValue);
@@ -60,7 +58,7 @@ class _PatientSetUpState extends State<PatientSetUp> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: patientManagerProvider.patientProfileIndex,
+      selectedIndex: patientManagerProvider.patientProfileIndex,
     );
   }
 

@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 
 class BuildFavouriteBusinessesList extends StatefulWidget {
@@ -44,8 +43,7 @@ class _BuildFavouriteBusinessesListState
               return const SizedBox(); // Or a placeholder if a business couldn't be loaded
             }
             return Material(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               child: InkWell(
                 onTap: () {
                   directoryProvider.setSelectedBusiness(
@@ -55,9 +53,7 @@ class _BuildFavouriteBusinessesListState
                     'businessProfileView',
                   );
                 },
-                splashColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-                    .withOpacity(0.2),
+                splashColor: MihColors.secondary().withOpacity(0.2),
                 borderRadius: BorderRadius.circular(15),
                 child: Padding(
                   padding: EdgeInsets.symmetric(

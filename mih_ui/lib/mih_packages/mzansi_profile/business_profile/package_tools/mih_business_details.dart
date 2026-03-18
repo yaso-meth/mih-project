@@ -1,14 +1,11 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card_v2.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_update_business_details_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +45,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(screenWidth, context),
@@ -81,12 +79,8 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                             editable: false,
                             fileNameController: fileNameController,
                             userSelectedfile: newSelectedLogoPic,
-                            frameColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            backgroundColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            frameColor: MihColors.secondary(),
+                            backgroundColor: MihColors.primary(),
                             onChange: (selectedfile) {
                               setState(() {
                                 newSelectedLogoPic = selectedfile;
@@ -102,18 +96,12 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                                 editBizProfileWindow(
                                     mzansiProfileProvider, width);
                               },
-                              buttonColor: MihColors.getGreenColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              buttonColor: MihColors.green(),
                               width: 35,
                               height: 35,
                               child: Icon(
                                 Icons.edit,
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                               ),
                             ),
                           ),
@@ -126,9 +114,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                         style: TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -138,9 +124,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -150,17 +134,11 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       filledIcon: Icons.star,
                       emptyIcon: Icons.star_border,
                       halfFilledIcon: Icons.star_half,
-                      filledColor: MihColors.getYellowColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                      emptyColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      halfFilledColor: MihColors.getYellowColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                      filledColor: MihColors.yellow(),
+                      // MihColors.primary(),
+                      emptyColor: MihColors.secondary(),
+                      halfFilledColor: MihColors.yellow(),
+                      // MihColors.primary(),
                       isHalfAllowed: true,
                       initialRating: mzansiProfileProvider
                               .business!.rating.isNotEmpty
@@ -181,9 +159,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                           ),
                         ),
                       ),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_register.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_sign_in.dart';
@@ -30,11 +27,11 @@ class _MihAuthenticationState extends State<MihAuthentication> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: context.watch<MihAuthenticationProvider>().toolIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex: context.watch<MihAuthenticationProvider>().toolIndex,
       onIndexChange: (newIndex) {
         context.read<MihAuthenticationProvider>().setToolIndex(newIndex);
       },
@@ -66,7 +63,7 @@ class _MihAuthenticationState extends State<MihAuthentication> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MihAuthenticationProvider>().toolIndex,
+      selectedIndex: context.watch<MihAuthenticationProvider>().toolIndex,
     );
   }
 

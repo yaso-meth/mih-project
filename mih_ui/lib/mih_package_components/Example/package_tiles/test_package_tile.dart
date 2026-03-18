@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class TestPackageTile extends StatefulWidget {
   final double packageSize;
@@ -31,15 +29,13 @@ class _TestPackageTileState extends State<TestPackageTile> {
         //   ),
         // );
       },
-      appName: "Test",
-      appIcon: Icon(
+      packageName: "Test",
+      packageIcon: Icon(
         Icons.warning_amber_rounded,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        color: MihColors.secondary(),
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 
 class BuildMyScoreBoardList extends StatefulWidget {
@@ -18,17 +17,13 @@ class _BuildMinesweeperLeaderboardListState
   Color getMedalColor(int index) {
     switch (index) {
       case (0):
-        return MihColors.getGoldColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+        return MihColors.gold();
       case (1):
-        return MihColors.getSilverColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+        return MihColors.silver();
       case (2):
-        return MihColors.getBronze(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+        return MihColors.bronze();
       default:
-        return MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+        return MihColors.secondary();
     }
   }
 
@@ -41,8 +36,7 @@ class _BuildMinesweeperLeaderboardListState
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
             return Divider(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             );
           },
           itemCount: mineSweeperProvider.myScoreboard!.length,

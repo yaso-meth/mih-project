@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
 
 class MihAlertServices {
   double getPadingBasedOnScreenWidth(BuildContext context) {
@@ -32,8 +29,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -41,17 +37,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Internet Connection Lost!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -61,9 +54,7 @@ class MihAlertServices {
                   Text(
                     "We seem to be having some trouble connecting you to the internet. This could be due to a temporary outage or an issue with your device's connection.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -73,16 +64,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -110,8 +98,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -119,17 +106,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Location Services Not Enabled",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -141,9 +125,7 @@ class MihAlertServices {
                         ? "To get the most out of MIH, we need your location. Please go to your System Settings and enable location services. Once you do that, we can start showing you relevant information based on your location."
                         : "To get the most out of MIH, we need your location. Please go to the site settings of the app and enable location services. Once you do that, we can start showing you relevant information based on your location.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -153,16 +135,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -190,8 +169,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -199,17 +177,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Oops! Looks like some fields are missing.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -219,9 +194,7 @@ class MihAlertServices {
                   Text(
                     "We noticed that some required fields are still empty. To ensure your request is processed smoothly, please fill out all the highlighted fields before submitting the form again.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -230,9 +203,7 @@ class MihAlertServices {
                   RichText(
                     text: TextSpan(
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
@@ -241,21 +212,12 @@ class MihAlertServices {
                             text: "Here's a quick tip: ",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"))),
+                                color: MihColors.secondary())),
                         const TextSpan(
                             text: "Look for fields with an asterisk ("),
                         TextSpan(
                             text: "*",
-                            style: TextStyle(
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"))),
+                            style: TextStyle(color: MihColors.secondary())),
                         const TextSpan(
                             text: ") next to them, as these are mandatory."),
                       ],
@@ -266,16 +228,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -303,8 +262,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -312,17 +270,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Password Doesn't Meet Requirements",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -332,9 +287,7 @@ class MihAlertServices {
                   Text(
                     "Oops! Your password doesn't quite meet our standards. To keep your account secure, please make sure your password meets the following requirements",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -343,9 +296,7 @@ class MihAlertServices {
                   RichText(
                     text: TextSpan(
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -355,11 +306,7 @@ class MihAlertServices {
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 fontSize: 20,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"))),
+                                color: MihColors.secondary())),
                         const TextSpan(
                           text: "1) Contailes at least 8 characters\n",
                         ),
@@ -385,16 +332,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -422,8 +366,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -431,17 +374,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Passwords Don't Match",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -451,9 +391,7 @@ class MihAlertServices {
                   Text(
                     "The password and confirm password fields do not match. Please make sure they are identical.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -463,16 +401,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -500,8 +435,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -509,17 +443,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Uh oh! Login attempt unsuccessful.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -529,9 +460,7 @@ class MihAlertServices {
                   Text(
                     "The email address or password you entered doesn't seem to match our records. Please double-check your information and try again.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -541,9 +470,7 @@ class MihAlertServices {
                     "Here are some things to keep in mind:",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -553,9 +480,7 @@ class MihAlertServices {
                     "1) Are you sure you're using the correct email address associated with your account?\n2) Is your caps lock key on? Passwords are case-sensitive.\n3) If you've forgotten your password, no worries! Click on \"Forgot Password?\" to reset it.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -565,16 +490,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -602,8 +524,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -611,17 +532,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Email Already Exists",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -631,9 +549,7 @@ class MihAlertServices {
                   Text(
                     "It looks like that email is already registered. Please sign in or try a different email.",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -643,16 +559,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -680,8 +593,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -689,17 +601,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Oops! Invalid Email",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -709,9 +618,7 @@ class MihAlertServices {
                   Text(
                     "Looks like there's a little hiccup with that email address. Please double-check that you've entered it correctly, including the \"@\" symbol and a domain (like example@email.com).",
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -721,16 +628,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -758,8 +662,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            backgroundColor: MihColors.secondary(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -767,17 +670,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   Center(
                     child: Text(
                       title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -787,9 +687,7 @@ class MihAlertServices {
                   Text(
                     message,
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -799,16 +697,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -841,8 +736,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            backgroundColor: MihColors.secondary(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -850,17 +744,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   Center(
                     child: Text(
                       title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -870,9 +761,7 @@ class MihAlertServices {
                   Text(
                     message,
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -912,8 +801,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -921,17 +809,14 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Center(
                     child: Text(
                       "Are You Sure?",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -941,9 +826,7 @@ class MihAlertServices {
                   Text(
                     message,
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -956,17 +839,13 @@ class MihAlertServices {
                     children: [
                       MihButton(
                         onPressed: onpressed,
-                        buttonColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.secondary(),
                         width: 300,
                         elevation: 10,
                         child: Text(
                           "Delete",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -976,17 +855,13 @@ class MihAlertServices {
                         onPressed: () {
                           context.pop();
                         },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.green(),
                         width: 300,
                         elevation: 10,
                         child: Text(
                           "Cancel",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -1020,8 +895,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            backgroundColor: MihColors.green(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -1029,16 +903,13 @@ class MihAlertServices {
                   Icon(
                     Icons.check_circle_outline_rounded,
                     size: 150,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1048,9 +919,7 @@ class MihAlertServices {
                     child: Text(
                       message,
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1061,16 +930,13 @@ class MihAlertServices {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1103,8 +969,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            backgroundColor: MihColors.green(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -1112,16 +977,13 @@ class MihAlertServices {
                   Icon(
                     Icons.check_circle_outline_rounded,
                     size: 150,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1131,9 +993,7 @@ class MihAlertServices {
                     child: Text(
                       message,
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1174,8 +1034,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -1183,16 +1042,13 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1202,9 +1058,7 @@ class MihAlertServices {
                     child: Text(
                       message,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1216,17 +1070,13 @@ class MihAlertServices {
                       onPressed: () {
                         context.pop();
                       },
-                      buttonColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.secondary(),
                       width: 300,
                       elevation: 10,
                       child: Text(
                         "Dismiss",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1260,8 +1110,7 @@ class MihAlertServices {
             fullscreen: false,
             windowTitle: null,
             onWindowTapClose: null,
-            backgroundColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            backgroundColor: MihColors.red(),
             windowBody: MihSingleChildScroll(
               scrollbarOn: true,
               child: Column(
@@ -1269,16 +1118,13 @@ class MihAlertServices {
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 150,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   Text(
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1288,9 +1134,7 @@ class MihAlertServices {
                     child: Text(
                       message,
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

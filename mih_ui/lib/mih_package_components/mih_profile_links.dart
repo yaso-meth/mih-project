@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,8 +76,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
         break;
       default:
         iconData = FontAwesomeIcons.link;
-        btnColor = MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+        btnColor = MihColors.primary();
     }
     return MihButton(
       width: 80,
@@ -97,15 +95,15 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
     //   onTap: () {
     //     launchSocialUrl(Uri.parse(link.web_link));
     //   },
-    //   appName: link.destination,
-    //   appIcon: Icon(
+    //   packageName: link.destination,
+    //   packageIcon: Icon(
     //     iconData,
     //     color: btnColor,
     //   ),
     //   iconSize: 200,
     //   textColor: Colors.black,
-    //   // MihColors.getPrimaryColor(
-    //   //     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+    //   // MihColors.primary(
+    //   //     ),
     // );
   }
 
@@ -136,9 +134,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                     ),
                   ),
                 )

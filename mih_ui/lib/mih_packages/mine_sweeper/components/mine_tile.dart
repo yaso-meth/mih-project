@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/board_square.dart';
 
 class MineTile extends StatelessWidget {
@@ -21,9 +19,7 @@ class MineTile extends StatelessWidget {
     if (square.isFlagged) {
       return Icon(
         Icons.flag,
-        color: MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        ),
+        color: MihColors.red(),
       );
     }
 
@@ -56,33 +52,23 @@ class MineTile extends StatelessWidget {
     // Choose colors based on standard Minesweeper appearance
     switch (bombsAround) {
       case 1:
-        return MihColors.getBluishPurpleColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.bluishPurple();
       // return Colors.blue;
       case 2:
-        return MihColors.getGreenColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.green();
       // return Colors.green;
       case 3:
-        return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.red();
       // return Colors.red;
       case 4:
-        return MihColors.getPurpleColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.purple();
       // return Colors.purple;
       case 5:
-        return MihColors.getOrangeColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.orange();
       // return Colors.brown;
       default:
-        // return MihColors.getBluishPurpleColor(
-        //   MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+        // return MihColors.bluishPurple(
+        //   ,
         // );
         return Colors.black;
     }
@@ -95,13 +81,7 @@ class MineTile extends StatelessWidget {
       child: MihButton(
         onPressed: onTap,
         onLongPressed: onLongPress,
-        buttonColor: square.isOpened
-            ? MihColors.getGreyColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-              )
-            : MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-              ),
+        buttonColor: square.isOpened ? MihColors.grey() : MihColors.secondary(),
         width: 50,
         height: 50,
         borderRadius: 3,

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
@@ -50,8 +46,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
   RedactedConfiguration getRedactedConfiguration() {
     return RedactedConfiguration(
       // redactedColor: Colors.pink,
-      redactedColor: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      redactedColor: MihColors.primary(),
     );
   }
 
@@ -159,13 +154,10 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
     Function()? ontap,
   ) {
     return Material(
-      color: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      color: MihColors.secondary(),
       child: InkWell(
         onTap: ontap,
-        splashColor: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-            .withOpacity(0.2),
+        splashColor: MihColors.primary().withOpacity(0.2),
         borderRadius: BorderRadius.circular(15),
         child: Padding(
           padding: EdgeInsetsGeometry.symmetric(
@@ -186,8 +178,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   child: Icon(
                     icon,
                     // size: 35,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                 ),
               ).redacted(
@@ -207,9 +198,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         height: 1.0,
                       ),
                     ).redacted(
@@ -222,9 +211,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                     ).redacted(
                       context: context,
@@ -278,16 +265,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MzansiDirectoryProvider directoryProvider, Widget? child) {
         return Material(
-          color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-              .withValues(alpha: 0.6),
+          color: MihColors.secondary().withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(25),
           elevation: 10,
           shadowColor: Colors.black,
           child: Container(
             decoration: BoxDecoration(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -297,8 +281,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   "Call",
                   "Give us a quick call.",
                   Icons.phone,
-                  MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  MihColors.green(),
                   false,
                   () {
                     // print("Calling ${widget.cellNumber}");
@@ -306,15 +289,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   },
                 ),
                 Divider(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                 ),
                 _buildContactInfo(
                   "Email",
                   "Send us an email.",
                   Icons.email,
-                  MihColors.getPinkColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  MihColors.pink(),
                   false,
                   () {
                     // print("Emailing ${widget.email}");
@@ -330,17 +311,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   child: Column(
                     children: [
                       Divider(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                       _buildContactInfo(
                         "Location",
                         "Come visit us.",
                         Icons.location_on,
-                        MihColors.getOrangeColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        MihColors.orange(),
                         false,
                         () {
                           final latitude = double.parse(
@@ -362,17 +339,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                   child: Column(
                     children: [
                       Divider(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                       _buildContactInfo(
                         "Website",
                         "Find out more about us.",
                         Icons.vpn_lock,
-                        MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        MihColors.red(),
                         false,
                         () {
                           _launchWebsite(widget.business.website);
@@ -393,9 +366,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Divider(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                           Container(
@@ -403,9 +374,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                               "Loading Rating",
                               "Loading your rating.",
                               Icons.star_rate_rounded,
-                              MihColors.getYellowColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              MihColors.yellow(),
                               true,
                               null,
                             ),
@@ -426,18 +395,14 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Divider(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                           _buildContactInfo(
                             ratingDisplayTitle,
                             "Let us know how we are doing.",
                             Icons.star_rate_rounded,
-                            MihColors.getYellowColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            MihColors.yellow(),
                             false,
                             () {
                               businessReviewRatingWindow(directoryProvider,
@@ -461,9 +426,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Divider(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                           Container(
@@ -471,9 +434,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                               "Loading Bookmark",
                               "Loading your bookmark.",
                               Icons.bookmark_add_rounded,
-                              MihColors.getBluishPurpleColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              MihColors.bluishPurple(),
                               true,
                               null,
                             ),
@@ -494,9 +455,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Divider(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                           _buildContactInfo(
@@ -505,9 +464,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                             bookmarkBusiness == null
                                 ? Icons.bookmark_add_rounded
                                 : Icons.bookmark_remove_rounded,
-                            MihColors.getBluishPurpleColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            MihColors.bluishPurple(),
                             false,
                             () {
                               // _launchWebsite(widget.website);
@@ -526,14 +483,14 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 //   child: Divider(
-                //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //     color: MihColors.primary(),
                 //   ),
                 // ),
                 // _buildContactInfo(
                 //   "Bookmark",
                 //   "Save us for later.",
                 //   Icons.bookmark_add_rounded,
-                //   MihColors.getBluishPurpleColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //   MihColors.bluishPurple(),
                 //   () {
                 //     // _launchWebsite(widget.website);
                 //     print("Saving ${widget.business.Name} to Directory");
@@ -544,7 +501,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 //   child: Divider(
-                //     color: MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //     color: MihColors.primary(),
                 //   ),
                 // ),
               ],
@@ -646,16 +603,14 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               Icon(
                 MihIcons.mihLogo,
                 size: 125,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
               const SizedBox(height: 10),
               Text(
                 "Let's Get Started",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -664,8 +619,7 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
               Text(
                 "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 15,
                 ),
               ),
@@ -678,16 +632,13 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
                       extra: true,
                     );
                   },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  buttonColor: MihColors.green(),
                   elevation: 10,
                   width: 300,
                   child: Text(
                     "Sign In/ Create Account",
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

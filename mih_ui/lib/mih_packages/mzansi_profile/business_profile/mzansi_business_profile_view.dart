@@ -1,10 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -27,7 +24,7 @@ class MzansiBusinessProfileView extends StatefulWidget {
 }
 
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
   late final MihBusinessDetailsView _businessDetailsView;
   late final MihBusinessReviews _businessReviews;
   late final MihBusinessQrCode _businessQrCode;
@@ -77,14 +74,14 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
           );
         } else {
           return MihPackage(
-            appActionButton: getAction(),
-            appTools: getTools(),
-            appBody: getToolBody(directoryProvider),
-            appToolTitles: getToolTitle(),
-            selectedbodyIndex: _selcetedIndex,
+            packageActionButton: getAction(),
+            packageTools: getTools(),
+            packageToolBodies: getToolBody(directoryProvider),
+            packageToolTitles: getToolTitle(),
+            selectedBodyIndex: _selectedIndex,
             onIndexChange: (newValue) {
               setState(() {
-                _selcetedIndex = newValue;
+                _selectedIndex = newValue;
               });
             },
           );
@@ -117,22 +114,22 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.business)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     temp[const Icon(Icons.star_rate_rounded)] = () {
       setState(() {
-        _selcetedIndex = 1;
+        _selectedIndex = 1;
       });
     };
     temp[const Icon(Icons.qr_code_rounded)] = () {
       setState(() {
-        _selcetedIndex = 2;
+        _selectedIndex = 2;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 

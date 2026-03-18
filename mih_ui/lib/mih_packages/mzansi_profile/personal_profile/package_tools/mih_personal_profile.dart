@@ -1,15 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-// import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/components/mih_edit_personal_profile_window.dart';
 import 'package:provider/provider.dart';
 
@@ -130,6 +125,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(screenWidth),
     );
@@ -164,12 +160,8 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                         editable: false,
                         fileNameController: proPicController,
                         userSelectedfile: newSelectedProPic,
-                        frameColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
                         onChange: (selectedImage) {
                           setState(() {
                             newSelectedProPic = selectedImage;
@@ -184,16 +176,12 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                           onPressed: () {
                             editProfileWindow(width);
                           },
-                          buttonColor: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          buttonColor: MihColors.green(),
                           width: 35,
                           height: 35,
                           child: Icon(
                             Icons.edit,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                           ),
                         ),
                       ),
@@ -208,9 +196,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ),
@@ -222,9 +208,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ),
@@ -236,9 +220,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ),
@@ -254,9 +236,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -277,14 +257,14 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   //         onPressed: () {
                   //           editProfileWindow(width);
                   //         },
-                  //         buttonColor: MihColors.getGreenColor(
+                  //         buttonColor: MihColors.green(
                   //             MzansiInnovationHub.of(context)!.theme.mode ==
                   //                 "Dark"),
                   //         width: 35,
                   //         height: 35,
                   //         child: Icon(
                   //           Icons.link,
-                  //           color: MihColors.getPrimaryColor(
+                  //           color: MihColors.primary(
                   //               MzansiInnovationHub.of(context)!.theme.mode ==
                   //                   "Dark"),
                   //         ),

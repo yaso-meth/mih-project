@@ -1,7 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile_view.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +13,7 @@ class MzansiProfileView extends StatefulWidget {
 }
 
 class _MzansiProfileViewState extends State<MzansiProfileView> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
   late final MihPersonalProfileView _personalProfileView;
 
   @override
@@ -27,14 +25,14 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: _selcetedIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex: _selectedIndex,
       onIndexChange: (newValue) {
         setState(() {
-          _selcetedIndex = newValue;
+          _selectedIndex = newValue;
         });
       },
     );
@@ -55,12 +53,12 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 

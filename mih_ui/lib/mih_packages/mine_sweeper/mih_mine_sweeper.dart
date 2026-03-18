@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -70,11 +67,11 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appToolTitles: getToolTitle(),
-          appBody: getToolBody(),
-          selectedbodyIndex: context.watch<MihMineSweeperProvider>().toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolTitles: getToolTitle(),
+          packageToolBodies: getToolBody(),
+          selectedBodyIndex: context.watch<MihMineSweeperProvider>().toolIndex,
           onIndexChange: (newIndex) {
             context.read<MihMineSweeperProvider>().setToolIndex(newIndex);
           },
@@ -116,7 +113,7 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MihMineSweeperProvider>().toolIndex,
+      selectedIndex: context.watch<MihMineSweeperProvider>().toolIndex,
     );
   }
 

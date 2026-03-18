@@ -8,12 +8,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:intl/intl.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +37,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
             Icon(
               MihIcons.mzansiAi,
               size: 165,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
             const SizedBox(height: 10),
             Text(
@@ -51,8 +47,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
             ),
             const SizedBox(height: 25),
@@ -63,8 +58,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   children: [
                     TextSpan(
@@ -81,8 +75,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   children: [
                     TextSpan(text: "Press "),
@@ -91,9 +84,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                       child: Icon(
                         Icons.menu,
                         size: 20,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                     TextSpan(text: " to start a new chat or read last message"),
@@ -338,13 +329,13 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
             //     onPressed: () {
             //       saveHistory(profileProvider, aiProvider);
             //     },
-            //     buttonColor: MihColors.getGreenColor(
-            //         MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            //     buttonColor: MihColors.green(
+            //         ),
             //     child: Text(
             //       "View History as json",
             //       style: TextStyle(
-            //         color: MihColors.getPrimaryColor(
-            //             MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            //         color: MihColors.primary(
+            //             ),
             //       ),
             //     ),
             //   ),
@@ -363,16 +354,11 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                       stopTTS(aiProvider);
                     }
                   },
-                  buttonColor: !aiProvider.ttsOn
-                      ? MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-                      : MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                  buttonColor:
+                      !aiProvider.ttsOn ? MihColors.green() : MihColors.red(),
                   child: Icon(
                     !aiProvider.ttsOn ? Icons.volume_up : Icons.volume_off,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                 ),
               ),
@@ -385,21 +371,15 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   SpeedDialChild(
                     child: Icon(
                       Icons.refresh,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                     ),
                     label: "New Chat",
-                    labelBackgroundColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    labelBackgroundColor: MihColors.green(),
                     labelStyle: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontWeight: FontWeight.bold,
                     ),
-                    backgroundColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    backgroundColor: MihColors.green(),
                     onTap: () {
                       resetChat(aiProvider);
                     },

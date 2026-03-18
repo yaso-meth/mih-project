@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:redacted/redacted.dart';
 
 class LeaderboardUserRanking extends StatelessWidget {
@@ -54,10 +53,8 @@ class LeaderboardUserRanking extends StatelessWidget {
                 editable: false,
                 fileNameController: null,
                 userSelectedfile: null,
-                frameColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                backgroundColor: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                frameColor: MihColors.secondary(),
+                backgroundColor: MihColors.primary(),
                 onChange: () {},
               ),
             ],
@@ -67,16 +64,14 @@ class LeaderboardUserRanking extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ).redacted(context: context, redact: isLoading),
           subtitle: Text(
             "Score: $gameScore\nTime: $gameTime",
             style: TextStyle(
               fontSize: 18,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ).redacted(context: context, redact: isLoading),
         );

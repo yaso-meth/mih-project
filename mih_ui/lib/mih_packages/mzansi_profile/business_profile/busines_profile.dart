@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -74,11 +71,11 @@ class _BusinesProfileState extends State<BusinesProfile> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appToolTitles: getToolTitle(),
-          appBody: getToolBody(),
-          selectedbodyIndex: mzansiProfileProvider.businessIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolTitles: getToolTitle(),
+          packageToolBodies: getToolBody(),
+          selectedBodyIndex: mzansiProfileProvider.businessIndex,
           onIndexChange: (newIndex) {
             mzansiProfileProvider.setBusinessIndex(newIndex);
           },
@@ -129,7 +126,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiProfileProvider>().businessIndex,
+      selectedIndex: context.watch<MzansiProfileProvider>().businessIndex,
     );
   }
 

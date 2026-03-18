@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_queue.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 
 class BuildQueueList extends StatefulWidget {
@@ -43,8 +42,7 @@ class _BuildQueueListState extends State<BuildQueueList> {
       title: Text(
         title,
         style: TextStyle(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
         ),
       ),
       subtitle: RichText(
@@ -85,8 +83,7 @@ class _BuildQueueListState extends State<BuildQueueList> {
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
         );
       },
       itemCount: widget.patientQueue.length,

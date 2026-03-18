@@ -143,8 +143,8 @@ class _MihHomeState extends State<MihHome> {
                 Icon(
                   Icons.policy,
                   size: 150,
-                  color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                  color: MihColors.secondary(
+                    ,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -152,8 +152,8 @@ class _MihHomeState extends State<MihHome> {
                   "Welcome to the MIH App",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                    color: MihColors.secondary(
+                      ,
                     ),
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -164,8 +164,8 @@ class _MihHomeState extends State<MihHome> {
                   "To keep using the MIH app, please take a moment to review and accept our Policies. Our agreements helps us keep things running smoothly and securely.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark",
+                    color: MihColors.secondary(
+                      ,
                     ),
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -189,17 +189,15 @@ class _MihHomeState extends State<MihHome> {
                           context.goNamed("aboutMih",
                               extra: mzansiProfileProvider.personalHome);
                         },
-                        buttonColor: MihColors.getOrangeColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.orange(
+                            ),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Privacy Policy",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(
+                                ),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -214,17 +212,15 @@ class _MihHomeState extends State<MihHome> {
                           context.goNamed("aboutMih",
                               extra: mzansiProfileProvider.personalHome);
                         },
-                        buttonColor: MihColors.getYellowColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.yellow(
+                            ),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Terms of Service",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(
+                                ),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -236,17 +232,15 @@ class _MihHomeState extends State<MihHome> {
                           KenLogger.success("Date Time Now: $now");
                           createOrUpdateAccpetance(mzansiProfileProvider);
                         },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.green(
+                            ),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Accept",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(
+                                ),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -308,13 +302,13 @@ class _MihHomeState extends State<MihHome> {
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: MihPackage(
-                    appActionButton: getAction(),
-                    appTools: getTools(mzansiProfileProvider,
+                    packageActionButton: getAction(),
+                    packageTools: getTools(mzansiProfileProvider,
                         mzansiProfileProvider.user!.type != "personal"),
-                    appBody: getToolBody(mzansiProfileProvider),
-                    appToolTitles: getToolTitle(),
+                    packageToolBodies: getToolBody(mzansiProfileProvider),
+                    packageToolTitles: getToolTitle(),
                     actionDrawer: getActionDrawer(),
-                    selectedbodyIndex:
+                    selectedBodyIndex:
                         mzansiProfileProvider.personalHome ? 0 : 1,
                     onIndexChange: (newValue) {
                       mzansiProfileProvider.setPersonalHome(newValue == 0);
@@ -358,10 +352,10 @@ class _MihHomeState extends State<MihHome> {
                 fileNameController: null,
                 userSelectedfile: null,
                 // frameColor: frameColor,
-                frameColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                backgroundColor: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                frameColor: MihColors.secondary(
+                    ),
+                backgroundColor: MihColors.primary(
+                    ),
                 onChange: (_) {},
               ),
             ),
@@ -395,7 +389,7 @@ class _MihHomeState extends State<MihHome> {
     }
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: mzansiProfileProvider.personalHome ? 0 : 1,
+      selectedIndex: mzansiProfileProvider.personalHome ? 0 : 1,
     );
   }
 

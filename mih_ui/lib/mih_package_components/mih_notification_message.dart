@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import '../main.dart';
 import '../mih_objects/arguments.dart';
 
@@ -131,10 +131,8 @@ class _MIHNotificationMessageState extends State<MIHNotificationMessage>
   void initState() {
     super.initState();
     setState(() {
-      primary = MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
-      secondary = MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      primary = MihColors.primary();
+      secondary = MihColors.red();
     });
     _animationController = AnimationController(
       vsync: this,

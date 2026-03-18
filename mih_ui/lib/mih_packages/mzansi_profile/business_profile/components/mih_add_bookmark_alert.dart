@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -94,15 +90,13 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
             context.pop();
             context.pop();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -122,22 +116,19 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
           fullscreen: false,
           windowTitle: null,
           onWindowTapClose: null,
-          backgroundColor: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          backgroundColor: MihColors.secondary(),
           windowBody: Column(
             children: [
               Icon(
                 Icons.warning_rounded,
                 size: 150,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               Text(
                 "Bookmark Business",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -146,8 +137,7 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
               Text(
                 "Are you sure you want to save ${widget.business.Name} to your Mzansi Directory?",
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 18,
                 ),
               ),
@@ -164,14 +154,11 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
                     onPressed: () async {
                       Navigator.of(context).pop();
                     },
-                    buttonColor: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.red(),
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -182,14 +169,11 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
                     onPressed: () {
                       addBookmark(profileProvider, widget.business.business_id);
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     child: Text(
                       "Bookmark Business",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_authentication/package_tools/mih_forgot_password.dart';
 
 class MihAuthForgotPassword extends StatefulWidget {
@@ -13,7 +11,7 @@ class MihAuthForgotPassword extends StatefulWidget {
 }
 
 class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
   late final MihForgotPassword _forgotPassword;
 
   @override
@@ -25,14 +23,14 @@ class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appToolTitles: ["Forgot Password"],
-      appBody: getToolBody(),
-      selectedbodyIndex: _selcetedIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolTitles: ["Forgot Password"],
+      packageToolBodies: getToolBody(),
+      selectedBodyIndex: _selectedIndex,
       onIndexChange: (newValue) {
         setState(() {
-          _selcetedIndex = newValue;
+          _selectedIndex = newValue;
         });
       },
     );
@@ -56,12 +54,12 @@ class _MihAuthForgotPasswordState extends State<MihAuthForgotPassword> {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.question_mark_rounded)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 

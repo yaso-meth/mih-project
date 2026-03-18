@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class MineSweeperQuickStartGuide extends StatefulWidget {
   const MineSweeperQuickStartGuide({super.key});
@@ -21,8 +18,7 @@ class _MineSweeperQuickStartGuideState
   Widget sectionOne() {
     return Container(
       decoration: BoxDecoration(
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        color: MihColors.secondary(),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
@@ -36,8 +32,7 @@ class _MineSweeperQuickStartGuideState
               style: TextStyle(
                 fontSize: titleSize,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
             ),
             const SizedBox(height: 8),
@@ -48,9 +43,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'Quick Tap (or Click): This is the Dig action.',
                     style: TextStyle(
-                      color: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode !=
-                              "Dark"),
+                      color: MihColors.green(),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -69,9 +62,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.green(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -79,9 +70,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' To uncover a square and see a number clue.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -102,9 +91,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Risk:',
                         style: TextStyle(
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.red(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -112,9 +99,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' If you click a mine, the game ends!',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -133,9 +118,7 @@ class _MineSweeperQuickStartGuideState
                     text:
                         'Tap and Hold (or Long Press): This is the Flag action (🚩).',
                     style: TextStyle(
-                      color: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode !=
-                              "Dark"),
+                      color: MihColors.red(),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -154,9 +137,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.green(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -164,9 +145,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' To safely mark a square that you are',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -174,9 +153,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' certain',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -184,9 +161,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' is a mine.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -207,9 +182,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Risk:',
                         style: TextStyle(
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.red(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -218,9 +191,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' Accidental placement of flags will cause confusion.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -241,9 +212,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Benefit:',
                         style: TextStyle(
-                          color: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.green(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -252,9 +221,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' You cannot accidentally click a square that is flagged.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -273,8 +240,7 @@ class _MineSweeperQuickStartGuideState
   Widget sectionTwo() {
     return Container(
       decoration: BoxDecoration(
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        color: MihColors.secondary(),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
@@ -288,8 +254,7 @@ class _MineSweeperQuickStartGuideState
               style: TextStyle(
                 fontSize: titleSize,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
             ),
             const SizedBox(height: 8),
@@ -301,9 +266,7 @@ class _MineSweeperQuickStartGuideState
                     text:
                         'The number tells you exactly how many mines are touching that square (including sides and corners).',
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontWeight: FontWeight.normal,
                       fontSize: subtitleSize,
                     ),
@@ -322,9 +285,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a Blank Space (a '0'):",
                         style: TextStyle(
-                          color: MihColors.getOrangeColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.orange(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -332,9 +293,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: " Zero (0) ",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -343,9 +302,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' mines are touching it. All surrounding squares are safe, and the game will open them for you automatically.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -366,9 +323,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a '1':",
                         style: TextStyle(
-                          color: MihColors.getOrangeColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.orange(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -376,9 +331,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' Only ',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -386,9 +339,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: 'one',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -397,9 +348,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' mine is touching this square. You must find and flag that single mine.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -420,9 +369,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a '3':",
                         style: TextStyle(
-                          color: MihColors.getOrangeColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.orange(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -430,9 +377,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: " Three ",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -441,9 +386,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             'mines are touching this square. You must find and flag all three.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -462,8 +405,7 @@ class _MineSweeperQuickStartGuideState
   Widget sectionThree() {
     return Container(
       decoration: BoxDecoration(
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        color: MihColors.secondary(),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
@@ -477,8 +419,7 @@ class _MineSweeperQuickStartGuideState
               style: TextStyle(
                 fontSize: titleSize,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
             ),
             const SizedBox(height: 8),
@@ -490,9 +431,7 @@ class _MineSweeperQuickStartGuideState
                     text:
                         'The game is won by uncovering every single safe square and correctly flagging all the mines. Use this two-step loop to clear the board:',
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontWeight: FontWeight.normal,
                       fontSize: subtitleSize,
                     ),
@@ -507,9 +446,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'A. Find the Mines (Where to Flag 🚩)',
                     style: TextStyle(
-                      color: MihColors.getPurpleColor(
-                          MzansiInnovationHub.of(context)!.theme.mode !=
-                              "Dark"),
+                      color: MihColors.purple(),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -528,9 +465,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.green(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -539,9 +474,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' Look for a number that only has one choice for a mine. e.g. If a \'1\' is touching only one hidden square, that hidden square',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -549,9 +482,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' must ',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -559,9 +490,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: 'be the mine.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -582,9 +511,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Action:',
                         style: TextStyle(
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.red(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -592,9 +519,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' Tap and Hold to place a',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -602,9 +527,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' Flag ',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -612,9 +535,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: 'on the square you are sure is a mine.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -632,9 +553,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'B. Find the Safe Squares (Where to Dig)',
                     style: TextStyle(
-                      color: MihColors.getPurpleColor(
-                          MzansiInnovationHub.of(context)!.theme.mode !=
-                              "Dark"),
+                      color: MihColors.purple(),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -653,9 +572,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.green(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -664,9 +581,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' Look for a number that has been \'satisfied\' by your flags. e.g. You see a \'2\' and you have already placed two 🚩 flags touching it. The \'2\' is satisfied.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -687,9 +602,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Action:',
                         style: TextStyle(
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode !=
-                                  "Dark"),
+                          color: MihColors.red(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -698,9 +611,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             ' Quick Tap any of the remaining hidden squares touching that \'satisfied\' number. They',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -708,9 +619,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: ' must be safe ',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -719,9 +628,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             'because the mine requirement has already been met.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -740,8 +647,7 @@ class _MineSweeperQuickStartGuideState
   Widget sectionFour() {
     return Container(
       decoration: BoxDecoration(
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode != "Darl"),
+        color: MihColors.secondary(),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
@@ -755,8 +661,7 @@ class _MineSweeperQuickStartGuideState
               style: TextStyle(
                 fontSize: titleSize,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
             ),
             const SizedBox(height: 8),
@@ -770,9 +675,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• Start on the Edges and Corners: ",
                         style: TextStyle(
-                          color: MihColors.getBronze(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.bronze(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -781,9 +684,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             'Numbers on the edge or corner of the board are easier to solve because they have fewer surrounding squares to check.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -804,9 +705,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• Don't Guess: ",
                         style: TextStyle(
-                          color: MihColors.getBronze(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.bronze(),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -815,9 +714,7 @@ class _MineSweeperQuickStartGuideState
                         text:
                             'If you are down to two squares and either one could be the mine, look somewhere else on the board for a guaranteed, safe move.',
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontWeight: FontWeight.normal,
                           fontSize: pointsSize,
                         ),
@@ -838,6 +735,7 @@ class _MineSweeperQuickStartGuideState
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width),
     );

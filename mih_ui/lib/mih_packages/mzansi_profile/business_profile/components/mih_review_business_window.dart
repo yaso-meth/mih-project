@@ -2,18 +2,12 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
@@ -90,13 +84,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
               }
             });
           },
-          buttonColor: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.secondary(),
           child: Text(
             "Delete",
             style: TextStyle(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -107,13 +99,11 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
           onPressed: () {
             context.pop();
           },
-          buttonColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.green(),
           child: Text(
             "Cancel",
             style: TextStyle(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -126,11 +116,9 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
 
   Color getMissionVisionLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.secondary();
     } else {
-      return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.red();
     }
   }
 
@@ -220,15 +208,13 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
             context.pop();
             widget.onSuccessDismissPressed!.call();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -294,21 +280,15 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                   SpeedDialChild(
                     child: Icon(
                       Icons.delete,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                     ),
                     label: "Delete Review",
-                    labelBackgroundColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    labelBackgroundColor: MihColors.green(),
                     labelStyle: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontWeight: FontWeight.bold,
                     ),
-                    backgroundColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    backgroundColor: MihColors.green(),
                     onTap: () {
                       showDeleteReviewAlert(directoryProvider);
                     },
@@ -337,9 +317,7 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                             "Business Rating",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -354,18 +332,12 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                               filledIcon: Icons.star,
                               emptyIcon: Icons.star_border,
                               halfFilledIcon: Icons.star_half,
-                              filledColor: MihColors.getYellowColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              filledColor: MihColors.yellow(),
                               // filledColor: MzansiInnovationHub.of(context)!
                               //     .theme
                               //     .secondaryColor(),
-                              emptyColor: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              halfFilledColor: MihColors.getYellowColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              emptyColor: MihColors.secondary(),
+                              halfFilledColor: MihColors.yellow(),
                               // MzansiInnovationHub.of(context)!
                               //     .theme
                               //     .secondaryColor(),
@@ -381,15 +353,9 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                               filledIcon: Icons.star,
                               emptyIcon: Icons.star_border,
                               halfFilledIcon: Icons.star_half,
-                              filledColor: MihColors.getYellowColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              emptyColor: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              halfFilledColor: MihColors.getYellowColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              filledColor: MihColors.yellow(),
+                              emptyColor: MihColors.secondary(),
+                              halfFilledColor: MihColors.yellow(),
                               isHalfAllowed: true,
                               initialRating: widget.businessReview != null
                                   ? double.parse(_reviewScoreController.text)
@@ -411,12 +377,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                         visible: widget.readOnly,
                         child: MihTextFormField(
                           // width: 200,
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: _reviewReviewerController,
                           multiLineInput: false,
                           requiredText: true,
@@ -430,12 +392,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       const SizedBox(height: 10),
                       MihTextFormField(
                         // width: 200,
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: _reviewTitleController,
                         multiLineInput: false,
                         requiredText: true,
@@ -449,12 +407,8 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                       const SizedBox(height: 10),
                       MihTextFormField(
                         height: 250,
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: _reviewDescriptionController,
                         multiLineInput: true,
                         requiredText: widget.readOnly,
@@ -517,20 +471,14 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                                 MihAlertServices().inputErrorAlert(context);
                               }
                             },
-                            buttonColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.green(),
                             width: 300,
                             child: Text(
                               widget.businessReview != null
                                   ? "Update Review"
                                   : "Add Review",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -1,7 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/currency_exchange_rate.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tools/simple_calc.dart';
@@ -42,11 +40,11 @@ class _MIHCalculatorState extends State<MIHCalculator> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: context.watch<MihCalculatorProvider>().toolIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex: context.watch<MihCalculatorProvider>().toolIndex,
       onIndexChange: (newIndex) {
         context.read<MihCalculatorProvider>().setToolIndex(newIndex);
       },
@@ -79,7 +77,7 @@ class _MIHCalculatorState extends State<MIHCalculator> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MihCalculatorProvider>().toolIndex,
+      selectedIndex: context.watch<MihCalculatorProvider>().toolIndex,
     );
   }
 

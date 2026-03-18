@@ -1,13 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_three.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_zero.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_one.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_two.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
@@ -23,7 +20,7 @@ class PackageTest extends StatefulWidget {
 }
 
 class _PackageTestState extends State<PackageTest> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
   bool _isLoadingInitialData = true;
 
   Future<void> _loadInitialData() async {
@@ -65,27 +62,27 @@ class _PackageTestState extends State<PackageTest> {
     Map<Widget, void Function()?> temp = Map();
     temp[const Icon(Icons.link)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     temp[const Icon(Icons.warning)] = () {
       setState(() {
-        _selcetedIndex = 1;
+        _selectedIndex = 1;
       });
     };
     temp[const Icon(Icons.inbox)] = () {
       setState(() {
-        _selcetedIndex = 2;
+        _selectedIndex = 2;
       });
     };
     temp[const Icon(Icons.outbond)] = () {
       setState(() {
-        _selcetedIndex = 3;
+        _selectedIndex = 3;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 
@@ -136,16 +133,16 @@ class _PackageTestState extends State<PackageTest> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: _selcetedIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: _selectedIndex,
           onIndexChange: (newValue) {
             setState(() {
-              _selcetedIndex = newValue;
+              _selectedIndex = newValue;
             });
-            print("Index: $_selcetedIndex");
+            print("Index: $_selectedIndex");
           },
         );
       },

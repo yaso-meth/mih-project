@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class MihRouteError extends StatefulWidget {
   const MihRouteError({
@@ -19,21 +12,21 @@ class MihRouteError extends StatefulWidget {
 }
 
 class _MihRouteErrorState extends State<MihRouteError> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getErrorAction(),
-      appTools: getErrorTools(),
-      appToolTitles: ["Invalid Path"],
-      appBody: getErrorToolBody(),
-      selectedbodyIndex: _selcetedIndex,
+      packageActionButton: getErrorAction(),
+      packageTools: getErrorTools(),
+      packageToolTitles: ["Invalid Path"],
+      packageToolBodies: getErrorToolBody(),
+      selectedBodyIndex: _selectedIndex,
       onIndexChange: (newValue) {
         setState(() {
-          _selcetedIndex = newValue;
+          _selectedIndex = newValue;
         });
-        //print("Index: $_selcetedIndex");
+        //print("Index: $_selectedIndex");
       },
     );
   }
@@ -55,18 +48,19 @@ class _MihRouteErrorState extends State<MihRouteError> {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.link_off_rounded)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 
   List<Widget> getErrorToolBody() {
     List<Widget> toolBodies = [
       MihPackageToolBody(
+        backgroundColor: MihColors.primary(),
         borderOn: true,
         bodyItem: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -75,8 +69,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
               "Oops! Wrong Turn.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -84,8 +77,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
             Icon(
               Icons.link_off_rounded,
               size: 150,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
             SizedBox(
               width: 700,
@@ -93,8 +85,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
                 "It looks like you've taken a wrong turn and ended up on a package that doesn't exist within the MIH App.\n\nDon't worry, getting back is easy. Just click the button below or the MIH Logo to return to the correct path.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
@@ -108,14 +99,12 @@ class _MihRouteErrorState extends State<MihRouteError> {
                   extra: true,
                 );
               },
-              buttonColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              buttonColor: MihColors.green(),
               width: 300,
               child: Text(
                 "Back to MIH",
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -131,7 +120,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
             //         "Error: $error",
             //         textAlign: TextAlign.left,
             //         style: TextStyle(
-            //           color: MihColors.getRedColor(
+            //           color: MihColors.red(
             //               MzansiInnovationHub.of(context)!.theme.mode ==
             //                   "Dark"),
             //           fontSize: 15,

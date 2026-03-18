@@ -31,16 +31,14 @@ class _MihAccessTileState extends State<MihAccessTile> {
         //   arguments: widget.signedInUser,
         // );
       },
-      appName: "Access Controls",
-      appIcon: Icon(
+      packageName: "Access Controls",
+      packageIcon: Icon(
         MihIcons.accessControl,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        color: MihColors.secondary(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

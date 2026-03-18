@@ -4,10 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 
 class MihCircleAvatar extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
@@ -126,9 +124,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                 child: IconButton.filled(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                      MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      MihColors.green(),
                     ),
                   ),
                   onPressed: () async {

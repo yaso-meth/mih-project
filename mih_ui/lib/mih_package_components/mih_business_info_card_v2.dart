@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_add_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_delete_bookmark_alert.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
@@ -50,8 +46,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
   RedactedConfiguration getRedactedConfiguration() {
     return RedactedConfiguration(
       // redactedColor: Colors.pink,
-      redactedColor: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      redactedColor: MihColors.primary(),
     );
   }
 
@@ -200,12 +195,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   onPressed: () {
                     _makePhoneCall(widget.business.contact_no);
                   },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  buttonColor: MihColors.green(),
                   child: Icon(
                     Icons.phone,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     size: iconSize,
                   ),
                 ),
@@ -215,9 +208,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                     "Call",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 20,
                     ),
                   ),
@@ -236,12 +227,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                       "Dear ${widget.business.Name},\n\nI would like to inquire about your services.\n\nBest regards,\n",
                     );
                   },
-                  buttonColor: MihColors.getPinkColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  buttonColor: MihColors.pink(),
                   child: Icon(
                     Icons.email,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     size: iconSize,
                   ),
                 ),
@@ -251,9 +240,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                     "Email",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       fontSize: 20,
                     ),
                   ),
@@ -276,13 +263,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                         longitude: longitude,
                       );
                     },
-                    buttonColor: MihColors.getOrangeColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.orange(),
                     child: Icon(
                       Icons.location_on,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       size: iconSize,
                     ),
                   ),
@@ -292,9 +276,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                       "Maps",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                       ),
                     ),
@@ -311,13 +293,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                     onPressed: () {
                       _launchWebsite(widget.business.website);
                     },
-                    buttonColor: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.red(),
                     child: Icon(
                       Icons.language,
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       size: iconSize,
                     ),
                   ),
@@ -327,9 +306,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                       "Website",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                       ),
                     ),
@@ -346,14 +323,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                         width: 80,
                         height: 80,
                         onPressed: () {},
-                        buttonColor: MihColors.getGreyColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.grey(),
                         child: Icon(
                           Icons.star_rate_rounded,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           size: iconSize,
                         ),
                       ).redacted(context: context, redact: true),
@@ -363,9 +336,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                           "Rate Us",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                             fontSize: 20,
                           ),
                         ).redacted(context: context, redact: true),
@@ -389,14 +360,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                           businessReviewRatingWindow(directoryProvider,
                               businessReview, true, widget.width);
                         },
-                        buttonColor: MihColors.getYellowColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.yellow(),
                         child: Icon(
                           Icons.star_rate_rounded,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           size: iconSize,
                         ),
                       ),
@@ -406,9 +373,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                           ratingTitle,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                             fontSize: 20,
                           ),
                         ),
@@ -428,14 +393,10 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                         width: 80,
                         height: 80,
                         onPressed: () {},
-                        buttonColor: MihColors.getGreyColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.grey(),
                         child: Icon(
                           Icons.bookmark_add_rounded,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           size: iconSize,
                         ),
                       ).redacted(context: context, redact: true),
@@ -445,9 +406,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                           "bookmark",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                             fontSize: 20,
                           ),
                         ).redacted(context: context, redact: true),
@@ -474,16 +433,12 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                             showDeleteBookmarkAlert(bookmarkBusiness);
                           }
                         },
-                        buttonColor: MihColors.getBluishPurpleColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.bluishPurple(),
                         child: Icon(
                           bookmarkBusiness == null
                               ? Icons.bookmark_add_rounded
                               : Icons.bookmark_remove_rounded,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           size: iconSize,
                         ),
                       ),
@@ -493,9 +448,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                           bookmarkDisplayTitle,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                             fontSize: 20,
                           ),
                         ),
@@ -602,16 +555,14 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               Icon(
                 MihIcons.mihLogo,
                 size: 125,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
               const SizedBox(height: 10),
               Text(
                 "Let's Get Started",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -620,8 +571,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               Text(
                 "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 15,
                 ),
               ),
@@ -634,16 +584,13 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                       extra: true,
                     );
                   },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  buttonColor: MihColors.green(),
                   elevation: 10,
                   width: 300,
                   child: Text(
                     "Sign In/ Create Account",
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

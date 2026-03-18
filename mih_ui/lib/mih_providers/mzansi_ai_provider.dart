@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/ollama_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 
 class MzansiAiProvider extends ChangeNotifier {
@@ -121,27 +119,24 @@ class MzansiAiProvider extends ChangeNotifier {
 
   MarkdownStyleSheet getLlmChatMarkdownStyle(BuildContext context) {
     TextStyle body = TextStyle(
-      color: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      color: MihColors.primary(),
       fontSize: 16,
       fontWeight: FontWeight.w400,
     );
     TextStyle heading1 = TextStyle(
-      color: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      color: MihColors.primary(),
       fontSize: 24,
       fontWeight: FontWeight.w400,
     );
     TextStyle heading2 = TextStyle(
-      color: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      color: MihColors.primary(),
       fontSize: 20,
       fontWeight: FontWeight.w400,
     );
     TextStyle code = TextStyle(
       color: Colors.black,
-      // MihColors.getBluishPurpleColor(
-      //     MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      // MihColors.bluishPurple(
+      //     ),
       fontSize: 16,
       fontWeight: FontWeight.w700,
     );
@@ -152,8 +147,7 @@ class MzansiAiProvider extends ChangeNotifier {
         bottomLeft: Radius.circular(10),
         bottomRight: Radius.circular(10),
       ),
-      color: MihColors.getSilverColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+      color: MihColors.silver(),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withAlpha(76),
@@ -187,73 +181,57 @@ class MzansiAiProvider extends ChangeNotifier {
 
   LlmChatViewStyle? getChatStyle(BuildContext context) {
     return LlmChatViewStyle(
-      backgroundColor: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-      progressIndicatorColor: MihColors.getPrimaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      backgroundColor: MihColors.primary(),
+      progressIndicatorColor: MihColors.primary(),
       disabledButtonStyle: ActionButtonStyle(
         icon: MihIcons.mzansiAi,
-        iconColor: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.secondary(),
         iconDecoration: BoxDecoration(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
           borderRadius: BorderRadius.circular(25),
         ),
       ),
       recordButtonStyle: ActionButtonStyle(
-        iconColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.primary(),
         iconDecoration: BoxDecoration(
-          color: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.green(),
           borderRadius: BorderRadius.circular(25),
         ),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       submitButtonStyle: ActionButtonStyle(
         icon: Icons.send,
-        iconColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.primary(),
         iconDecoration: BoxDecoration(
-          color: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.green(),
           borderRadius: BorderRadius.circular(25),
         ),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       stopButtonStyle: ActionButtonStyle(
-        iconColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.primary(),
         iconDecoration: BoxDecoration(
-          color: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.red(),
           borderRadius: BorderRadius.circular(25),
         ),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       actionButtonBarDecoration: BoxDecoration(
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        color: MihColors.secondary(),
         borderRadius: BorderRadius.circular(25),
       ),
       // Mzansi AI Chat Style
       llmMessageStyle: LlmMessageStyle(
         icon: MihIcons.mzansiAi,
-        iconColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.primary(),
         iconDecoration: BoxDecoration(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
           borderRadius: BorderRadius.circular(25),
         ),
         decoration: BoxDecoration(
@@ -262,8 +240,7 @@ class MzansiAiProvider extends ChangeNotifier {
             bottomLeft: Radius.circular(25),
             bottomRight: Radius.circular(25),
           ),
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(76),
@@ -282,8 +259,7 @@ class MzansiAiProvider extends ChangeNotifier {
             bottomLeft: Radius.circular(25),
             bottomRight: Radius.circular(25),
           ),
-          color: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.green(),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(76),
@@ -294,17 +270,14 @@ class MzansiAiProvider extends ChangeNotifier {
         ),
         textStyle: TextStyle(
           fontSize: 16,
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       // User Input Style
       chatInputStyle: ChatInputStyle(
-        backgroundColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        backgroundColor: MihColors.primary(),
         decoration: BoxDecoration(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
@@ -315,8 +288,7 @@ class MzansiAiProvider extends ChangeNotifier {
           ],
         ),
         hintStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
         hintText: "Ask Mzansi AI...",
       ),
@@ -328,8 +300,7 @@ class MzansiAiProvider extends ChangeNotifier {
             bottomLeft: Radius.circular(25),
             bottomRight: Radius.circular(25),
           ),
-          color: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.green(),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(76),
@@ -339,46 +310,36 @@ class MzansiAiProvider extends ChangeNotifier {
           ],
         ),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       copyButtonStyle: ActionButtonStyle(
-        iconColor: MihColors.getSecondaryInvertedColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.secondaryInverted(),
       ),
       editButtonStyle: ActionButtonStyle(
-        iconColor: MihColors.getSecondaryInvertedColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.secondaryInverted(),
       ),
       cancelButtonStyle: ActionButtonStyle(
         iconDecoration: BoxDecoration(
-          color: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.red(),
           borderRadius: BorderRadius.circular(25),
         ),
-        iconColor: MihColors.getSecondaryInvertedColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.secondaryInverted(),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
       addButtonStyle: ActionButtonStyle(
         iconDecoration: BoxDecoration(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
           borderRadius: BorderRadius.circular(25),
         ),
-        iconColor: MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        iconColor: MihColors.primary(),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
       ),
-      menuColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      menuColor: MihColors.secondary(),
     );
   }
 }

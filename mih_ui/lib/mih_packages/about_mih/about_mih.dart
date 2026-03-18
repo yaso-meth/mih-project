@@ -1,7 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_%20attributes.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tools/mih_info.dart';
@@ -37,11 +35,11 @@ class _AboutMihState extends State<AboutMih> {
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: context.watch<AboutMihProvider>().toolIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex: context.watch<AboutMihProvider>().toolIndex,
       onIndexChange: (newIndex) {
         context.read<AboutMihProvider>().setToolIndex(newIndex);
       },
@@ -77,7 +75,7 @@ class _AboutMihState extends State<AboutMih> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<AboutMihProvider>().toolIndex,
+      selectedIndex: context.watch<AboutMihProvider>().toolIndex,
     );
   }
 

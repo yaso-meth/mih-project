@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihHomeError extends StatefulWidget {
   final String errorMessage;
@@ -20,21 +15,21 @@ class MihHomeError extends StatefulWidget {
 }
 
 class _MihHomeErrorState extends State<MihHomeError> {
-  int _selcetedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getErrorAction(),
-      appTools: getErrorTools(),
-      appToolTitles: ["Connection Error"],
-      appBody: getErrorToolBody(widget.errorMessage),
-      selectedbodyIndex: _selcetedIndex,
+      packageActionButton: getErrorAction(),
+      packageTools: getErrorTools(),
+      packageToolTitles: ["Connection Error"],
+      packageToolBodies: getErrorToolBody(widget.errorMessage),
+      selectedBodyIndex: _selectedIndex,
       onIndexChange: (newValue) {
         setState(() {
-          _selcetedIndex = newValue;
+          _selectedIndex = newValue;
         });
-        //print("Index: $_selcetedIndex");
+        //print("Index: $_selectedIndex");
       },
     );
   }
@@ -56,18 +51,19 @@ class _MihHomeErrorState extends State<MihHomeError> {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.power_off_outlined)] = () {
       setState(() {
-        _selcetedIndex = 0;
+        _selectedIndex = 0;
       });
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: _selectedIndex,
     );
   }
 
   List<Widget> getErrorToolBody(String error) {
     List<Widget> toolBodies = [
       MihPackageToolBody(
+        backgroundColor: MihColors.primary(),
         borderOn: true,
         bodyItem: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -76,8 +72,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
               "Connection Error",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -85,8 +80,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
             Icon(
               Icons.power_off_outlined,
               size: 150,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
             SizedBox(
               width: 500,
@@ -94,8 +88,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
                 "Looks like we ran into an issue getting your data.\nPlease check you internet connection and try again.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -109,14 +102,12 @@ class _MihHomeErrorState extends State<MihHomeError> {
                   extra: true,
                 );
               },
-              buttonColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              buttonColor: MihColors.green(),
               width: 300,
               child: Text(
                 "Refresh",
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -132,9 +123,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
                     "Error: $error",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.red(),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

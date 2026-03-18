@@ -2,14 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card_v2.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +41,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(screenWidth, context),
@@ -81,36 +79,22 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                                 editable: false,
                                 fileNameController: TextEditingController(),
                                 userSelectedfile: file,
-                                frameColor: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                backgroundColor: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                frameColor: MihColors.secondary(),
+                                backgroundColor: MihColors.primary(),
                                 onChange: () {},
                               );
                             } else {
                               return Icon(
                                 MihIcons.iDontKnow,
                                 size: profilePictureWidth,
-                                color: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.secondary(),
                               );
                             }
                           } else {
                             return Icon(
                               MihIcons.mihRing,
                               size: profilePictureWidth,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                             );
                           }
                         }),
@@ -122,9 +106,9 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                     //     fileNameController: fileNameController,
                     //     userSelectedfile: imageFile,
                     //     frameColor:
-                    //         MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    //         MihColors.secondary(),
                     //     backgroundColor:
-                    //         MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    //         MihColors.primary(),
                     //     onChange: (selectedfile) {
                     //       setState(() {
                     //         imageFile = selectedfile;
@@ -138,9 +122,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                         style: TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -150,9 +132,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -162,17 +142,11 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                       filledIcon: Icons.star,
                       emptyIcon: Icons.star_border,
                       halfFilledIcon: Icons.star_half,
-                      filledColor: MihColors.getYellowColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                      emptyColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      halfFilledColor: MihColors.getYellowColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      // MihColors.getPrimaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                      filledColor: MihColors.yellow(),
+                      // MihColors.primary(),
+                      emptyColor: MihColors.secondary(),
+                      halfFilledColor: MihColors.yellow(),
+                      // MihColors.primary(),
                       isHalfAllowed: true,
                       initialRating:
                           directoryProvider.selectedBusiness!.rating.isNotEmpty
@@ -195,9 +169,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                           ),
                         ),
                       ),

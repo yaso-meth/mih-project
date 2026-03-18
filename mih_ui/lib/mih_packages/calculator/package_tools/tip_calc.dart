@@ -1,22 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_numeric_stepper.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
 import 'package:provider/provider.dart';
 
 class TipCalc extends StatefulWidget {
@@ -111,8 +103,7 @@ class _TipCalcState extends State<TipCalc> {
               children: [
                 FaIcon(
                   FontAwesomeIcons.coins,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   size: 35,
                 ),
                 const SizedBox(width: 15),
@@ -122,8 +113,7 @@ class _TipCalcState extends State<TipCalc> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                 ),
               ],
@@ -134,8 +124,7 @@ class _TipCalcState extends State<TipCalc> {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
             ),
             const Divider(),
@@ -145,8 +134,7 @@ class _TipCalcState extends State<TipCalc> {
               children: [
                 FaIcon(
                   FontAwesomeIcons.moneyBills,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   size: 35,
                 ),
                 const SizedBox(width: 15),
@@ -156,8 +144,7 @@ class _TipCalcState extends State<TipCalc> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                 ),
               ],
@@ -168,8 +155,7 @@ class _TipCalcState extends State<TipCalc> {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
             ),
             Text(
@@ -178,8 +164,7 @@ class _TipCalcState extends State<TipCalc> {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
             ),
             if (splitBillController.text == "Yes") const Divider(),
@@ -190,8 +175,7 @@ class _TipCalcState extends State<TipCalc> {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.peopleGroup,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                     size: 35,
                   ),
                   const SizedBox(width: 15),
@@ -201,9 +185,7 @@ class _TipCalcState extends State<TipCalc> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ],
@@ -215,8 +197,7 @@ class _TipCalcState extends State<TipCalc> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
             if (splitBillController.text == "Yes")
@@ -226,8 +207,7 @@ class _TipCalcState extends State<TipCalc> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
             SizedBox(height: 10),
@@ -258,6 +238,7 @@ class _TipCalcState extends State<TipCalc> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(screenWidth),
@@ -278,10 +259,8 @@ class _TipCalcState extends State<TipCalc> {
               formKey: _formKey,
               formFields: [
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: billAmountController,
                   multiLineInput: false,
                   requiredText: true,
@@ -293,10 +272,8 @@ class _TipCalcState extends State<TipCalc> {
                 ),
                 const SizedBox(height: 10),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: tipPercentageController,
                   multiLineInput: false,
                   requiredText: true,
@@ -310,10 +287,8 @@ class _TipCalcState extends State<TipCalc> {
                 MihToggle(
                   hintText: "Split Bill",
                   initialPostion: splitPosition,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  secondaryFillColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  secondaryFillColor: MihColors.primary(),
                   onChange: (value) {
                     setState(() {
                       splitBillController.text = value ? "Yes" : "No";
@@ -350,12 +325,8 @@ class _TipCalcState extends State<TipCalc> {
                         children: [
                           MihNumericStepper(
                             controller: noPeopleController,
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             hintText: "No. People",
                             requiredText: temp == "Yes",
                             minValue: 2,
@@ -406,16 +377,12 @@ class _TipCalcState extends State<TipCalc> {
                             MihAlertServices().inputErrorAlert(context);
                           }
                         },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.green(),
                         width: 300,
                         child: Text(
                           "Calculate",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -425,16 +392,12 @@ class _TipCalcState extends State<TipCalc> {
                         onPressed: () {
                           clearInput();
                         },
-                        buttonColor: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.red(),
                         width: 300,
                         child: Text(
                           "Clear",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),

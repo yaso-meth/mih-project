@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/builders/build_my_scoreboard_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_minesweeper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -64,6 +59,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
             refreshLeaderBoard(mineSweeperProvider, filterController.text);
           },
           child: MihPackageToolBody(
+            backgroundColor: MihColors.primary(),
             borderOn: false,
             bodyItem: getBody(width),
           ),
@@ -91,10 +87,8 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                   editable: false,
                   fileNameController: null,
                   userSelectedfile: null,
-                  frameColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  backgroundColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  frameColor: MihColors.secondary(),
+                  backgroundColor: MihColors.primary(),
                   onChange: (selectedImage) {},
                   key: ValueKey(profileProvider.userProfilePicUrl),
                 ),
@@ -142,9 +136,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                           Icon(
                             MihIcons.mineSweeper,
                             size: 165,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -154,9 +146,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                             ),
                           ),
                           const SizedBox(height: 25),
@@ -167,11 +157,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.normal,
-                                  color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
+                                  color: MihColors.secondary(),
                                 ),
                                 children: [
                                   TextSpan(text: "Press "),
@@ -180,11 +166,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                                     child: Icon(
                                       FontAwesomeIcons.bomb,
                                       size: 20,
-                                      color: MihColors.getSecondaryColor(
-                                          MzansiInnovationHub.of(context)!
-                                                  .theme
-                                                  .mode ==
-                                              "Dark"),
+                                      color: MihColors.secondary(),
                                     ),
                                   ),
                                   TextSpan(text: " and start a new game"),

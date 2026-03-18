@@ -1,9 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihWalletTile extends StatefulWidget {
   final double packageSize;
@@ -31,16 +28,14 @@ class _MihWalletTileState extends State<MihWalletTile> {
         //   arguments: WalletArguments(widget.signedInUser, 0),
         // );
       },
-      appName: "Mzansi Wallet",
-      appIcon: Icon(
+      packageName: "Mzansi Wallet",
+      packageIcon: Icon(
         MihIcons.mzansiWallet,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        color: MihColors.secondary(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

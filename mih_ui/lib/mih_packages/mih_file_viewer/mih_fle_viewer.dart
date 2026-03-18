@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/package_tools/mih_expanded_file_view.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +19,11 @@ class _MihFleViewerState extends State<MihFleViewer> {
       builder: (BuildContext context, MihFileViewerProvider fileViewerProvider,
           Widget? child) {
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: fileViewerProvider.toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: fileViewerProvider.toolIndex,
           onIndexChange: (newIndex) {
             fileViewerProvider.setToolIndex(newIndex);
           },
@@ -59,7 +57,7 @@ class _MihFleViewerState extends State<MihFleViewer> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MihFileViewerProvider>().toolIndex,
+      selectedIndex: context.watch<MihFileViewerProvider>().toolIndex,
     );
   }
 

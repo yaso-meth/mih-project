@@ -1,8 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
@@ -85,11 +82,11 @@ class _PatManagerState extends State<PatManager> {
           );
         }
         return MihPackage(
-          appActionButton: getActionButton(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex:
+          packageActionButton: getActionButton(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex:
               context.watch<PatientManagerProvider>().patientManagerIndex,
           onIndexChange: (newValue) {
             context
@@ -135,7 +132,7 @@ class _PatManagerState extends State<PatManager> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex:
+      selectedIndex:
           context.watch<PatientManagerProvider>().patientManagerIndex,
     );
   }

@@ -33,7 +33,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
-          color: MihColors.getSecondaryColor(
+          color: MihColors.secondary(
               MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
         );
       },
@@ -44,14 +44,14 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           title: Text(
             widget.medicines[index].name,
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.secondary(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
           subtitle: Text(
             "${widget.medicines[index].unit} - ${widget.medicines[index].form}",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
+              color: MihColors.secondary(
                   MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
             ),
           ),
@@ -64,7 +64,7 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           },
           trailing: Icon(
             Icons.arrow_forward,
-            color: MihColors.getSecondaryColor(
+            color: MihColors.secondary(
                 MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
           ),
         );

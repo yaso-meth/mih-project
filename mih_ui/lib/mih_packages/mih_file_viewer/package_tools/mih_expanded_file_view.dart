@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -56,6 +53,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
     double width = size.width;
     double height = size.height;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width, height),
     );
@@ -75,9 +73,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                     height: height - 70,
                     child: SfPdfViewerTheme(
                       data: SfPdfViewerThemeData(
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        backgroundColor: MihColors.primary(),
                       ),
                       child: SfPdfViewer.network(
                         fileViewerProvider.fileLink,
@@ -111,8 +107,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                 child: Material(
                   elevation: 10,
                   shadowColor: Colors.black,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   borderRadius: BorderRadius.circular(25.0),
                   child: Container(
                     decoration: BoxDecoration(
@@ -138,9 +133,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                             },
                             icon: Icon(
                               Icons.arrow_back,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                         if (isPDF)
@@ -149,9 +142,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                         if (isPDF)
@@ -169,9 +160,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                             },
                             icon: Icon(
                               Icons.arrow_forward,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                         if (isPDF)
@@ -194,9 +183,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                             },
                             icon: Icon(
                               Icons.zoom_in,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                         if (isPDF)
@@ -221,9 +208,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                             },
                             icon: Icon(
                               Icons.zoom_out,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                           ),
                         // IconButton(
@@ -234,7 +219,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                         //   },
                         //   icon: Icon(
                         //     Icons.print,
-                        //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                        //     color: MihColors.secondary(),
                         //   ),
                         // ),
                         IconButton(
@@ -252,9 +237,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                           },
                           icon: Icon(
                             Icons.download,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                           ),
                         ),
                       ],

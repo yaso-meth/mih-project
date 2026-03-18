@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import "package:universal_html/html.dart" as html;
 
 class MihTheme {
@@ -17,66 +17,63 @@ class MihTheme {
   ThemeData getData(bool bool) {
     return ThemeData(
       fontFamily: 'Segoe UI',
-      scaffoldBackgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+      scaffoldBackgroundColor: MihColors.primary(),
       colorScheme: ColorScheme(
         brightness: getBritness(),
-        primary: MihColors.getSecondaryColor(mode == "Dark"),
-        onPrimary: MihColors.getPrimaryColor(mode == "Dark"),
-        secondary: MihColors.getPrimaryColor(mode == "Dark"),
-        onSecondary: MihColors.getSecondaryColor(mode == "Dark"),
-        error: MihColors.getRedColor(mode == "Dark"),
-        onError: MihColors.getPrimaryColor(mode == "Dark"),
-        surface: MihColors.getPrimaryColor(mode == "Dark"),
-        onSurface: MihColors.getSecondaryColor(mode == "Dark"),
+        primary: MihColors.secondary(),
+        onPrimary: MihColors.primary(),
+        secondary: MihColors.primary(),
+        onSecondary: MihColors.secondary(),
+        error: MihColors.red(),
+        onError: MihColors.primary(),
+        surface: MihColors.primary(),
+        onSurface: MihColors.secondary(),
       ),
       datePickerTheme: DatePickerThemeData(
-        backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-        headerBackgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
-        headerForegroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        backgroundColor: MihColors.primary(),
+        headerBackgroundColor: MihColors.secondary(),
+        headerForegroundColor: MihColors.primary(),
       ),
       appBarTheme: AppBarTheme(
-        color: MihColors.getSecondaryColor(mode == "Dark"),
-        foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        color: MihColors.secondary(),
+        foregroundColor: MihColors.primary(),
         titleTextStyle: TextStyle(
-          color: MihColors.getPrimaryColor(mode == "Dark"),
+          color: MihColors.primary(),
           fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: MihColors.getSecondaryColor(mode == "Dark"),
-        foregroundColor: MihColors.getPrimaryColor(mode == "Dark"),
-        extendedTextStyle:
-            TextStyle(color: MihColors.getPrimaryColor(mode == "Dark")),
+        backgroundColor: MihColors.secondary(),
+        foregroundColor: MihColors.primary(),
+        extendedTextStyle: TextStyle(color: MihColors.primary()),
       ),
       drawerTheme: DrawerThemeData(
-        backgroundColor: MihColors.getPrimaryColor(mode == "Dark"),
+        backgroundColor: MihColors.primary(),
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: MihColors.getPrimaryColor(mode == "Dark"),
-        selectionColor:
-            MihColors.getPrimaryColor(mode == "Dark").withOpacity(0.25),
-        selectionHandleColor: MihColors.getPrimaryColor(mode == "Dark"),
+        cursorColor: MihColors.primary(),
+        selectionColor: MihColors.primary().withOpacity(0.25),
+        selectionHandleColor: MihColors.primary(),
       ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
-          color: MihColors.getSecondaryColor(mode == "Dark"),
+          color: MihColors.secondary(),
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
             width: 1.0,
-            color: MihColors.getPrimaryColor(mode == "Dark"),
+            color: MihColors.primary(),
           ),
           boxShadow: [
             BoxShadow(
-              color:
-                  MihColors.getPrimaryColor(mode == "Dark").withOpacity(0.18),
+              color: MihColors.primary().withOpacity(0.18),
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),
           ],
         ),
         textStyle: TextStyle(
-          color: MihColors.getPrimaryColor(mode == "Dark"),
+          color: MihColors.primary(),
           fontSize: 13,
           height: 1.2,
         ),

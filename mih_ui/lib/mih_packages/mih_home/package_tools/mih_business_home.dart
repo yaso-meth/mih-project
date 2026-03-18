@@ -1,12 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tiles/mzansi_calendar_tile.dart';
@@ -191,6 +188,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     final double width = size.width;
     final double height = size.height;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width, height),
     );
@@ -213,10 +211,8 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                   hintText: "Ask Mzansi",
                   prefixIcon: Icons.search,
                   prefixAltIcon: MihIcons.mzansiAi,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  hintColor: MihColors.primary(),
                   onPrefixIconTap: () {
                     mzansiAiProvider.ollamaProvider.resetChat();
                     if (searchController.text.isNotEmpty) {
@@ -262,9 +258,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                         Icon(
                           MihIcons.mzansiAi,
                           size: 165,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -274,9 +268,7 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                           ),
                         ),
                       ],

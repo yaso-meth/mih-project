@@ -6,18 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/board_square.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/mih_mine_sweeper_start_game_window.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/mine_tile.dart';
@@ -317,21 +309,13 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
     String mode = mihMineSweeperProvider.difficulty;
     switch (mode) {
       case "Very Easy":
-        return MihColors.getGreenColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-        );
+        return MihColors.green();
       case "Easy":
-        return MihColors.getGreenColor(
-          MzansiInnovationHub.of(context)!.theme.mode != "Dark",
-        );
+        return MihColors.green();
       case "Intermediate":
-        return MihColors.getOrangeColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-        );
+        return MihColors.orange();
       case "Hard":
-        return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark",
-        );
+        return MihColors.red();
       default:
         return null;
     }
@@ -346,15 +330,13 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
           fullscreen: false,
           windowTitle: null,
           onWindowTapClose: null,
-          backgroundColor: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+          backgroundColor: MihColors.red(),
           windowBody: Column(
             children: [
               const SizedBox(height: 10),
               Icon(
                 FontAwesomeIcons.bomb,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 size: 125,
               ),
               const SizedBox(height: 10),
@@ -362,8 +344,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 "Better Luck Next Time",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -374,8 +355,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   "Your lost this game of MIH Minesweeper!!!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -387,8 +367,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
               const SizedBox(height: 20),
@@ -404,15 +383,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       context.pop();
                       showStartGameWindow(mihMineSweeperProvider);
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     child: Text(
                       "New Game",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -422,15 +398,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     child: Text(
                       "View Board",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -441,15 +414,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       context.pop();
                       mihMineSweeperProvider.setToolIndex(1);
                     },
-                    buttonColor: MihColors.getGoldColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.gold(),
                     width: 300,
                     child: Text(
                       "Leader Board",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -473,15 +443,13 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
           fullscreen: false,
           windowTitle: null,
           onWindowTapClose: null,
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          backgroundColor: MihColors.green(),
           windowBody: Column(
             children: [
               const SizedBox(height: 10),
               Icon(
                 Icons.celebration,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 size: 150,
               ),
               const SizedBox(height: 10),
@@ -489,8 +457,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 "Congratulations",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -501,8 +468,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                 ),
               ),
               const SizedBox(height: 10),
@@ -510,8 +476,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 "Time Taken: ${_formatTime().replaceAll("00:", "")}",
                 style: TextStyle(
                   fontSize: 20,
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                 ),
               ),
               const SizedBox(height: 10),
@@ -519,8 +484,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 "Score: ${calculateGameScore(mihMineSweeperProvider)}",
                 style: TextStyle(
                   fontSize: 20,
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                 ),
               ),
               const SizedBox(height: 20),
@@ -536,15 +500,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       context.pop();
                       showStartGameWindow(mihMineSweeperProvider);
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     child: Text(
                       "New Game",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -554,15 +515,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     child: Text(
                       "View Board",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -574,15 +532,12 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                       context.pop();
                       mihMineSweeperProvider.setToolIndex(1);
                     },
-                    buttonColor: MihColors.getGoldColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.gold(),
                     width: 300,
                     child: Text(
                       "Leader Board",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -612,6 +567,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(),
     );
@@ -642,11 +598,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                 Icon(
                                   MihIcons.mineSweeper,
                                   size: 165,
-                                  color: MihColors.getSecondaryColor(
-                                      MzansiInnovationHub.of(context)!
-                                              .theme
-                                              .mode ==
-                                          "Dark"),
+                                  color: MihColors.secondary(),
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
@@ -656,11 +608,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
-                                    color: MihColors.getSecondaryColor(
-                                        MzansiInnovationHub.of(context)!
-                                                .theme
-                                                .mode ==
-                                            "Dark"),
+                                    color: MihColors.secondary(),
                                   ),
                                 ),
                                 const SizedBox(height: 25),
@@ -671,11 +619,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.normal,
-                                        color: MihColors.getSecondaryColor(
-                                            MzansiInnovationHub.of(context)!
-                                                    .theme
-                                                    .mode ==
-                                                "Dark"),
+                                        color: MihColors.secondary(),
                                       ),
                                       children: [
                                         TextSpan(text: "Press "),
@@ -685,11 +629,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                                           child: Icon(
                                             Icons.menu,
                                             size: 20,
-                                            color: MihColors.getSecondaryColor(
-                                                MzansiInnovationHub.of(context)!
-                                                        .theme
-                                                        .mode ==
-                                                    "Dark"),
+                                            color: MihColors.secondary(),
                                           ),
                                         ),
                                         TextSpan(
@@ -803,23 +743,15 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                           SpeedDialChild(
                             child: Icon(
                               Icons.rule_rounded,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                             label: "Learn how to play",
-                            labelBackgroundColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            labelBackgroundColor: MihColors.green(),
                             labelStyle: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                               fontWeight: FontWeight.bold,
                             ),
-                            backgroundColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            backgroundColor: MihColors.green(),
                             onTap: () {
                               mihMineSweeperProvider.setToolIndex(3);
                             },
@@ -827,23 +759,15 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                           SpeedDialChild(
                             child: Icon(
                               Icons.add,
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                             ),
                             label: "Start New Game",
-                            labelBackgroundColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            labelBackgroundColor: MihColors.green(),
                             labelStyle: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                               fontWeight: FontWeight.bold,
                             ),
-                            backgroundColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            backgroundColor: MihColors.green(),
                             onTap: () {
                               showStartGameWindow(mihMineSweeperProvider);
                             },

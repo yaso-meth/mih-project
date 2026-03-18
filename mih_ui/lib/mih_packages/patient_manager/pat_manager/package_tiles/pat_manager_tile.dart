@@ -1,10 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class PatManagerTile extends StatefulWidget {
   final PatManagerArguments arguments;
@@ -33,16 +30,14 @@ class _PatManagerTileState extends State<PatManagerTile> {
         //   arguments: widget.arguments,
         // );
       },
-      appName: "Patient Manager",
-      appIcon: Icon(
+      packageName: "Patient Manager",
+      packageIcon: Icon(
         MihIcons.patientManager,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        color: MihColors.secondary(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

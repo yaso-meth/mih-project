@@ -1,15 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -146,10 +141,10 @@ class _MihUpdateMyBusinessUserDetailsState
                         //     editable: false,
                         //     fileNameController: fileNameController,
                         //     userSelectedfile: userPicFile,
-                        //     frameColor: MihColors.getSecondaryColor(
+                        //     frameColor: MihColors.secondary(
                         //         MzansiInnovationHub.of(context)!.theme.mode ==
                         //             "Dark"),
-                        //     backgroundColor: MihColors.getPrimaryColor(
+                        //     backgroundColor: MihColors.primary(
                         //         MzansiInnovationHub.of(context)!.theme.mode ==
                         //             "Dark"),
                         //     onChange: (_) {},
@@ -158,12 +153,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         Visibility(
                           visible: false,
                           child: MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: fileNameController,
                             multiLineInput: false,
                             requiredText: true,
@@ -173,12 +164,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: titleTextController,
                           multiLineInput: false,
                           requiredText: true,
@@ -190,12 +177,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: fnameController,
                           multiLineInput: false,
                           requiredText: true,
@@ -207,12 +190,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: lnameController,
                           multiLineInput: false,
                           requiredText: true,
@@ -224,12 +203,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: accessController,
                           multiLineInput: false,
                           requiredText: true,
@@ -272,12 +247,8 @@ class _MihUpdateMyBusinessUserDetailsState
                         Visibility(
                           visible: false,
                           child: MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: fileNameController,
                             multiLineInput: false,
                             requiredText: true,
@@ -295,18 +266,12 @@ class _MihUpdateMyBusinessUserDetailsState
                                 MihAlertServices().inputErrorAlert(context);
                               }
                             },
-                            buttonColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.green(),
                             width: 300,
                             child: Text(
                               "Update",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -329,16 +294,13 @@ class _MihUpdateMyBusinessUserDetailsState
                         MihAlertServices().inputErrorAlert(context);
                       }
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     width: 100,
                     height: 25,
                     child: Text(
                       "Update",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
