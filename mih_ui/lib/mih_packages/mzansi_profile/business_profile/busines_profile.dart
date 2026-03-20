@@ -87,6 +87,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         MzansiProfileProvider mzansiProfileProvider =

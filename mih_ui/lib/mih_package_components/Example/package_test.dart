@@ -41,6 +41,7 @@ class _PackageTestState extends State<PackageTest> {
 
   MihPackageAction getAction() {
     return MihPackageAction(
+      iconColor: MihColors.secondary(),
       icon: const Icon(Icons.arrow_back),
       iconSize: 35,
       onTap: () {

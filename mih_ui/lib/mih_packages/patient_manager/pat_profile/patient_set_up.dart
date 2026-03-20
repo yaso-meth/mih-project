@@ -39,6 +39,7 @@ class _PatientSetUpState extends State<PatientSetUp> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.goNamed(

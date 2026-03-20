@@ -72,6 +72,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.read<MihCalendarProvider>().resetSelectedDay();

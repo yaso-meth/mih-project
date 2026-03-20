@@ -1,18 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_scack_bar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
@@ -143,18 +135,14 @@ class _MihHomeState extends State<MihHome> {
                 Icon(
                   Icons.policy,
                   size: 150,
-                  color: MihColors.secondary(
-                    ,
-                  ),
+                  color: MihColors.secondary(),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   "Welcome to the MIH App",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.secondary(
-                      ,
-                    ),
+                    color: MihColors.secondary(),
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -164,9 +152,7 @@ class _MihHomeState extends State<MihHome> {
                   "To keep using the MIH app, please take a moment to review and accept our Policies. Our agreements helps us keep things running smoothly and securely.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.secondary(
-                      ,
-                    ),
+                    color: MihColors.secondary(),
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                   ),
@@ -189,15 +175,13 @@ class _MihHomeState extends State<MihHome> {
                           context.goNamed("aboutMih",
                               extra: mzansiProfileProvider.personalHome);
                         },
-                        buttonColor: MihColors.orange(
-                            ),
+                        buttonColor: MihColors.orange(),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Privacy Policy",
                           style: TextStyle(
-                            color: MihColors.primary(
-                                ),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -212,15 +196,13 @@ class _MihHomeState extends State<MihHome> {
                           context.goNamed("aboutMih",
                               extra: mzansiProfileProvider.personalHome);
                         },
-                        buttonColor: MihColors.yellow(
-                            ),
+                        buttonColor: MihColors.yellow(),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Terms of Service",
                           style: TextStyle(
-                            color: MihColors.primary(
-                                ),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -232,15 +214,13 @@ class _MihHomeState extends State<MihHome> {
                           KenLogger.success("Date Time Now: $now");
                           createOrUpdateAccpetance(mzansiProfileProvider);
                         },
-                        buttonColor: MihColors.green(
-                            ),
+                        buttonColor: MihColors.green(),
                         elevation: 10,
                         width: 300,
                         child: Text(
                           "Accept",
                           style: TextStyle(
-                            color: MihColors.primary(
-                                ),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -341,6 +321,7 @@ class _MihHomeState extends State<MihHome> {
                 'business_${mzansiProfileProvider.businessProfilePicUrl}';
           }
           return MihPackageAction(
+            iconColor: MihColors.secondary(),
             icon: Padding(
               padding: const EdgeInsets.only(left: 5.0),
               child: MihCircleAvatar(
@@ -352,10 +333,8 @@ class _MihHomeState extends State<MihHome> {
                 fileNameController: null,
                 userSelectedfile: null,
                 // frameColor: frameColor,
-                frameColor: MihColors.secondary(
-                    ),
-                backgroundColor: MihColors.primary(
-                    ),
+                frameColor: MihColors.secondary(),
+                backgroundColor: MihColors.primary(),
                 onChange: (_) {},
               ),
             ),

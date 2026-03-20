@@ -35,6 +35,7 @@ class _MihFleViewerState extends State<MihFleViewer> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.fullscreen_exit),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.pop();

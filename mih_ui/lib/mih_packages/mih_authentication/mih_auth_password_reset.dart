@@ -45,6 +45,7 @@ class _MihAuthPasswordResetState extends State<MihAuthPasswordReset> {
       padding: const EdgeInsets.only(left: 5.0),
       child: MihPackageAction(
         icon: const Icon(MihIcons.mihLogo),
+        iconColor: MihColors.secondary(),
         iconSize: 45,
         onTap: () {
           context.goNamed(

@@ -125,6 +125,7 @@ class _PatientProfileState extends State<PatientProfile> {
         context.read<PatientManagerProvider>();
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         if (!patientManagerProvider.personalMode) {

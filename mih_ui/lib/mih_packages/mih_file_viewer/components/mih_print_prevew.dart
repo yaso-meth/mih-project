@@ -21,6 +21,7 @@ class _MIHPrintPreviewState extends State<MIHPrintPreview> {
       icon: const Icon(
         Icons.close,
       ),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         Navigator.pop(context);

@@ -34,6 +34,7 @@ class _MihRouteErrorState extends State<MihRouteError> {
   MihPackageAction getErrorAction() {
     return MihPackageAction(
       icon: const Icon(MihIcons.mihLogo),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.goNamed(

@@ -20,7 +20,7 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
   @override
   Widget build(BuildContext context) {
     return MihPackageTile(
-      // authenticateUser: true,
+      authenticateUser: true,
       onTap: () async {
         PatientManagerProvider patManProvider =
             context.read<PatientManagerProvider>();

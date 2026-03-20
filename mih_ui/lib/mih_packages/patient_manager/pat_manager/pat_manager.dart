@@ -103,6 +103,7 @@ class _PatManagerState extends State<PatManager> {
         context.read<PatientManagerProvider>();
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         patientManagerProvider.setPatientProfileIndex(0);

@@ -1220,10 +1220,10 @@ packages:
     dependency: "direct main"
     description:
       name: mih_package_toolkit
-      sha256: "24810eef0f6ac5f6a810493bead9ce2fb835c165b0a83fda26fd9f4b40f176fd"
+      sha256: "63e9ee80b0a3ca8b15a7172f924152e0528149cbe29c7751287a4d30b2d0671f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.2"
   mime:
     dependency: transitive
     description:

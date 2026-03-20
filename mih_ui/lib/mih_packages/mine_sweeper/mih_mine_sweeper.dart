@@ -83,6 +83,7 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         MihMineSweeperProvider mineSweeperProvider =

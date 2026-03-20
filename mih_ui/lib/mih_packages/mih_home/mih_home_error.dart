@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 
 class MihHomeError extends StatefulWidget {
   final String errorMessage;
@@ -37,6 +36,7 @@ class _MihHomeErrorState extends State<MihHomeError> {
   MihPackageAction getErrorAction() {
     return MihPackageAction(
       icon: const Icon(Icons.refresh),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.goNamed(
