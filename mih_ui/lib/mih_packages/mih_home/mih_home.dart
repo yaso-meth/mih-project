@@ -284,7 +284,7 @@ class _MihHomeState extends State<MihHome> {
                   child: MihPackage(
                     packageActionButton: getAction(),
                     packageTools: getTools(mzansiProfileProvider,
-                        mzansiProfileProvider.user!.type != "personal"),
+                        mzansiProfileProvider.business != null),
                     packageToolBodies: getToolBody(mzansiProfileProvider),
                     packageToolTitles: getToolTitle(),
                     actionDrawer: getActionDrawer(),

@@ -214,7 +214,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   ),
                   FittedBox(
                     child: Text(
-                      mzansiProfileProvider.user!.type == "business"
+                      mzansiProfileProvider.business != null
                           ? "Business".toUpperCase()
                           : "Personal".toUpperCase(),
                       style: TextStyle(

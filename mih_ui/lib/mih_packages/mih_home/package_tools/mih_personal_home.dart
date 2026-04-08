@@ -3,6 +3,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tiles/test_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tile/mih_access_tile.dart';
@@ -66,7 +67,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return temp;
   }
 
-  List<Map<String, Widget>> setPersonalPackagesMap() {
+  List<Map<String, Widget>> setPersonalPackagesMap(
+      MzansiProfileProvider profileProvider) {
     List<Map<String, Widget>> temp = [];
     //=============== Mzansi Profile ===============
     temp.add({
@@ -74,6 +76,14 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
         packageSize: packageSize,
       )
     });
+    //=============== Mzansi Profile ===============
+    if (profileProvider.business == null) {
+      temp.add({
+        "Create Business": MzansiSetupBusinessProfileTile(
+          packageSize: packageSize,
+        )
+      });
+    }
     //=============== Mzansi Wallet ===============
     temp.add({
       "Mzansi Wallet": MihWalletTile(
@@ -198,7 +208,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       personalPackagesMap = setNerUserPersonalPackage();
       autoNavToProfile();
     } else {
-      personalPackagesMap = setPersonalPackagesMap();
+      personalPackagesMap = setPersonalPackagesMap(profileProvider);
     }
     searchPackage();
   }

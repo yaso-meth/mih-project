@@ -174,8 +174,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   ),
                                 ),
                                 Text(
-                                  mzansiProfileProvider.user!.type
-                                      .toUpperCase(),
+                                  mzansiProfileProvider.business == null
+                                      ? "PERSONAL"
+                                      : "BUSINESS",
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,

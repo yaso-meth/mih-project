@@ -37,7 +37,7 @@ class _MihEditPersonalProfileWindowState
   bool businessUser = false;
 
   void initializeControllers(MzansiProfileProvider mzansiProfileProvider) {
-    businessUser = mzansiProfileProvider.user!.type == "business";
+    businessUser = mzansiProfileProvider.business != null;
     oldProPicName = mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
         ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
         : "";
@@ -51,7 +51,7 @@ class _MihEditPersonalProfileWindowState
           mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
               ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
               : "";
-      businessUser = mzansiProfileProvider.user!.type == "business";
+      businessUser = mzansiProfileProvider.business != null;
       _controllersInitialized = true;
     }
   }
@@ -135,7 +135,7 @@ class _MihEditPersonalProfileWindowState
   }
 
   void setProfileVariables(MzansiProfileProvider mzansiProfileProvider) {
-    businessUser = mzansiProfileProvider.user!.type == "business";
+    businessUser = mzansiProfileProvider.business != null;
     oldProPicName = mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
         ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
         : "";
@@ -160,13 +160,8 @@ class _MihEditPersonalProfileWindowState
       [
         MihButton(
           onPressed: () {
-            if (profileProvider.user!.type.toLowerCase() == "business" &&
-                profileProvider.business == null) {
-              setupBusinessPopUp(profileProvider);
-            } else {
-              context.pop();
-              context.pop();
-            }
+            context.pop();
+            context.pop();
           },
           buttonColor: MihColors.primary(),
           elevation: 10,
@@ -429,19 +424,19 @@ class _MihEditPersonalProfileWindowState
                             },
                           ),
                         ),
-                        const SizedBox(height: 10.0),
-                        MihToggle(
-                          hintText: "Activate Business Account",
-                          initialPostion: businessUser,
-                          fillColor: MihColors.secondary(),
-                          secondaryFillColor: MihColors.primary(),
-                          onChange: (value) {
-                            setState(() {
-                              businessUser = value;
-                            });
-                            KenLogger.success("Business User: $businessUser");
-                          },
-                        ),
+                        // const SizedBox(height: 10.0),
+                        // MihToggle(
+                        //   hintText: "Activate Business Account",
+                        //   initialPostion: businessUser,
+                        //   fillColor: MihColors.secondary(),
+                        //   secondaryFillColor: MihColors.primary(),
+                        //   onChange: (value) {
+                        //     setState(() {
+                        //       businessUser = value;
+                        //     });
+                        //     KenLogger.success("Business User: $businessUser");
+                        //   },
+                        // ),
                         const SizedBox(height: 30.0),
                         Center(
                           child: MihButton(
