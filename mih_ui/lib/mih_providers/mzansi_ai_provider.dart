@@ -17,11 +17,10 @@ class MzansiAiProvider extends ChangeNotifier {
   }) {
     ollamaProvider = OllamaProvider(
         baseUrl: "${AppEnviroment.baseAiUrl}/api",
-        model: AppEnviroment.getEnv() == "Prod"
-            ? 'qwen3-vl:8b-instruct'
-            : "qwen3-vl:2b-instruct",
+        model: AppEnviroment.getEnv() == "Prod" ? "qwen3.5:9b" : "qwen3.5:0.8b",
         think: false,
         systemPrompt: "---INSTRUCTION START---\n"
+            // "Respond concisely. Do not include any <think> tags or internal monologues./n"
             "You are Mzansi AI, a helpful and friendly AI assistant running on the 'MIH App'.\n"
             "The MIH App was created by 'Mzansi Innovation Hub', a South African-based startup company."
             "Your primary purpose is to assist users by answering general questions and helping with creative writing tasks or any other task a user might have for you.\n"
