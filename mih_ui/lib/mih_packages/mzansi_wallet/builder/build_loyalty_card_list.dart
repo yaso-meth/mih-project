@@ -343,6 +343,105 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
+  Color getCardColor(String shopName) {
+    switch (shopName.toLowerCase()) {
+      case "apple tree":
+        return const Color(0xFFffffff);
+      case "best before":
+        return const Color(0xFF000000);
+      case "checkers":
+        return const Color(0xFF00a6a3);
+      case "clicks":
+        return const Color(0xFF005caf);
+      case "cotton:on":
+        return const Color(0xFFffffff);
+      case "dis-chem":
+        return const Color(0xFF00a950);
+      case "pick n pay":
+        return const Color(0xFFffffff);
+      case "shoprite":
+        return const Color(0xFFc12514);
+      case "spar":
+        return const Color(0xFFffffff);
+      case "woolworths":
+        return const Color(0xFF000000);
+      case "makro":
+        return const Color(0xFFffffff);
+      case "fresh stop":
+        return const Color(0xFF50b849);
+      case "panarottis":
+        return const Color(0xFF3c3c3b);
+      case "shell":
+        return const Color(0xFF1d232a);
+      case "edgars":
+        return const Color(0xFFffffff);
+      case "jet":
+        return const Color(0xFFffffff);
+      case "spur":
+        return const Color(0xFF0a0157);
+      case "infinity":
+        return const Color(0xFFffffff);
+      case "eskom":
+        return const Color(0xFF003897);
+      case "+more":
+        return const Color(0xFFffffff);
+      case "bp":
+        return const Color(0xFF9dc600);
+      case "builders warehouse":
+        return const Color(0xFFffcb26);
+      case "exclusive books":
+        return const Color(0xFF2abdc5);
+      case "pna":
+        return const Color(0xFFcf3339);
+      case "pq clothing":
+        return const Color(0xFFed2223);
+      case "rage":
+        return const Color(0xFFffffff);
+      case "sasol":
+        return const Color(0xFFffffff);
+      case "tfg group":
+        return const Color(0xFF622775);
+      case "toys r us":
+        return const Color(0xFF0962ad);
+      case "leroy merlin":
+        return const Color(0xFFffffff);
+      case "signature cosmetics & fragrances":
+        return const Color(0xFFec028b);
+      case "ok foods":
+        return const Color(0xFFffffff);
+      case "choppies":
+        return const Color(0xFFffffff);
+      case "boxer":
+        return const Color(0xFFffffff);
+      case "carrefour":
+        return const Color(0xFFffffff);
+      case "sefalana":
+        return const Color(0xFFffffff);
+      case "big save":
+        return const Color(0xFF333333);
+      case "justrite":
+        return const Color(0xFF50b849);
+      case "naivas":
+        return const Color(0xFFf26535);
+      case "kero":
+        return const Color(0xFF004986);
+      case "auchan":
+        return const Color(0xFFffffff);
+      case "woermann brock":
+        return const Color(0xFFe31e2d);
+      case "continente":
+        return const Color(0xFFffffff);
+      case "fresmart":
+        return const Color(0xFF72ba2e);
+      case "total energies":
+        return const Color(0xFFffffff);
+      case "engen":
+        return const Color(0xFF002b8f);
+      default:
+        return const Color(0xFFffffff);
+    }
+  }
+
   void viewCardWindow(MzansiProfileProvider mzansiProfileProvider,
       MzansiWalletProvider walletProvider, int index, double width) {
     //print(widget.cardList[index].card_number);
@@ -357,8 +456,9 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       context: context,
       barrierDismissible: false,
       builder: (context) => MihPackageWindow(
+        backgroundColor: getCardColor(widget.cardList[index].shop_name),
         fullscreen: false,
-        windowTitle: widget.cardList[index].shop_name.toUpperCase(),
+        windowTitle: null,
         menuOptions: [
           SpeedDialChild(
             child: widget.cardList[index].favourite == ""
@@ -452,12 +552,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         windowBody: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
+            SizedBox(
+              height: 15,
+            ),
+            SizedBox(
               width: 500,
               child: MihCardDisplay(
                 shopName: widget.cardList[index].shop_name,
                 nickname: widget.cardList[index].nickname,
-                height: 250,
               ),
             ),
             const SizedBox(height: 20),
@@ -474,7 +576,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: SizedBox(
-                      height: 75,
+                      height: 150,
                       // width: 300,
                       child: BarcodeWidget(
                         //color: MihColors.secondary(),
@@ -625,16 +727,16 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             ),
             itemCount: widget.cardList.length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisSpacing: 0,
+              mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               maxCrossAxisExtent: 200,
+              // childAspectRatio: 0.80,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
                 child: MihCardDisplay(
                   shopName: widget.cardList[index].shop_name,
                   nickname: widget.cardList[index].nickname,
-                  height: 100,
                 ),
                 onTap: () {
                   setScreenBrightness(1.0);

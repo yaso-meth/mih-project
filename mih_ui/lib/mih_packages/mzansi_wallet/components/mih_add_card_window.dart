@@ -143,23 +143,31 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                         "Woolworths",
                       ],
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: _shopName,
-                      builder:
-                          (BuildContext context, String value, Widget? child) {
-                        return Visibility(
-                          visible: value != "",
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 10),
-                              MihCardDisplay(
-                                  shopName: _shopName.value,
-                                  nickname: "",
-                                  height: 200),
-                            ],
-                          ),
-                        );
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ValueListenableBuilder(
+                          valueListenable: _shopName,
+                          builder: (BuildContext context, String value,
+                              Widget? child) {
+                            return Visibility(
+                              visible: value != "",
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 10),
+                                  SizedBox(
+                                    height: 250,
+                                    child: MihCardDisplay(
+                                      shopName: _shopName.value,
+                                      nickname: "",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
