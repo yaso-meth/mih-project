@@ -27,7 +27,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }

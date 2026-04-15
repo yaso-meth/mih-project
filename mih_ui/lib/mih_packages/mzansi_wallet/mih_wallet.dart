@@ -31,7 +31,7 @@ class _MihWalletState extends State<MihWallet> {
         context.read<MzansiProfileProvider>();
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }

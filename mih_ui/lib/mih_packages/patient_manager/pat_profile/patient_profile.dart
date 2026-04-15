@@ -40,7 +40,7 @@ class _PatientProfileState extends State<PatientProfile> {
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
