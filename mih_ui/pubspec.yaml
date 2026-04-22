@@ -1,11 +1,11 @@
 name: mzansi_innovation_hub
 description: ""
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.2.6+130
 # version: 1.1.1+97 #--- Updated version for upgrader package testing
 
 environment:
-  sdk: '>=3.5.3 <4.0.0'
+  sdk: ">=3.5.3 <4.0.0"
   # flutter: ">=1.17.0"
 dependencies:
   flutter:
@@ -45,7 +45,7 @@ dependencies:
   flutter_chat_types: ^3.6.2
   uuid: ^4.5.1
   flutter_tts: ^4.2.3
-  flutter_speed_dial: ^7.0.0 
+  flutter_speed_dial: ^7.0.0
   share_plus: ^11.0.0
   #app_settings: ^6.1.1
   pwa_install: ^0.0.6
@@ -70,7 +70,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    
+
   build_runner: ^2.4.8
 
   build_web_compilers: ^4.1.5
@@ -91,7 +91,7 @@ flutter:
     - family: MihIcons
       fonts:
         - asset: lib/mih_package_components/assets/fonts/Mih_Icons.ttf
-        
+
 flutter_native_splash:
   color: "#3A4454"
   image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash.png
@@ -104,3 +104,4 @@ flutter_native_splash:
     color: "#3A4454"
     image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash_android.png
     branding: lib/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
+
