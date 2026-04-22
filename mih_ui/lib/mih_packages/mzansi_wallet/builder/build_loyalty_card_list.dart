@@ -7,6 +7,7 @@ import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display_slanted.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -727,14 +728,18 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             ),
             itemCount: widget.cardList.length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: 0,
+              // mainAxisSpacing: 15,
+              // crossAxisSpacing: 15,
+              crossAxisSpacing: 5,
               maxCrossAxisExtent: 200,
               // childAspectRatio: 0.80,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
-                child: MihCardDisplay(
+                child: MihCardDisplaySlanted(
+                  // child: MihCardDisplay(
+                  height: 100,
                   shopName: widget.cardList[index].shop_name,
                   nickname: widget.cardList[index].nickname,
                 ),
