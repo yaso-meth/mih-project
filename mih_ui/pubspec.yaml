@@ -67,6 +67,9 @@ dependencies:
   cross_file: ^0.3.5+1
   quick_actions: ^1.1.0
 
+dependency_overrides:
+  supertokens_flutter: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -104,4 +107,3 @@ flutter_native_splash:
     color: "#3A4454"
     image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash_android.png
     branding: lib/mih_package_components/assets/images/splash_screen/mih_branding_splash.png
-
